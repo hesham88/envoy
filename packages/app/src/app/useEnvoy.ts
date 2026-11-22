@@ -11,6 +11,7 @@ import {
   initEnvoy,
   loadRemoteSettings,
   runPrivate,
+  cancelPrivateSteps,
   type Deps,
   type FirebaseEnv,
   type DeviceStatus,
@@ -42,6 +43,8 @@ export interface EnvoyRuntime {
    * hold sessions at the same time.
    */
   warmUp?: () => Promise<void>;
+  /** Stops the on-device step that is running; the run then finishes in Basic protection. */
+  cancelPrivate?: () => void;
 }
 
 /** Where the Firebase settings come from: each app reads its own build environment. */
@@ -128,5 +131,6 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
     enablePrivateMode,
     refreshStatus,
     warmUp,
+    cancelPrivate: cancelPrivateSteps,
   };
 }

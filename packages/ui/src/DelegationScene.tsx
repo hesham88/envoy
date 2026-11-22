@@ -216,7 +216,7 @@ export function DelegationScene({ frame, className = '' }: { frame?: number; cla
           </div>
         </Plane>
 
-        <Plane z={135} shift={-10} tone="guard" label="GUARD · NOTHING RAW PASSES" />
+        <Plane z={135} shift={-10} tone="guard" label="GUARD · RAW DETAILS BLOCKED" />
 
         <Plane z={265} shift={-120} tone="cloud" label="CLOUD · SEES TAGS ONLY">
           <div className="envoy-arrive absolute top-[150px] left-[380px] w-[150px] rounded-[8px] border border-cloud/50 bg-surface p-2 font-mono text-[9px] leading-[1.5] text-ink">

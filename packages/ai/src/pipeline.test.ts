@@ -1,7 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { InferenceSource, type GenerativeModel } from 'firebase/ai';
 import { buildMinimizePrompt, chunkDocument, EN_LEASE, type Chunk, type Step } from '@envoy/core';
-import { analyze, answer, composeOutbound, OutboundBlockedError, selectClausesBatched, type Deps } from './pipeline';
+import {
+  analyze,
+  answer,
+  composeOutbound,
+  OutboundBlockedError,
+  selectClausesBatched,
+  type Deps,
+} from './pipeline';
+import { PrivateStepCancelledError } from './device-guard';
 import { networkLog } from './network-log';
 
 const QUESTION = 'Can my landlord raise the rent 20% this year?';
@@ -16,7 +24,10 @@ const DETECT_JSON = JSON.stringify({
   ],
 });
 
-function fakeDeps(status: 'available' | 'no-api', opts: { local?: boolean; reasonText?: string } = {}) {
+function fakeDeps(
+  status: 'available' | 'no-api',
+  opts: { local?: boolean; reasonText?: string } = {},
+) {
   const models = Object.fromEntries(
     (['detect', 'minimize', 'route', 'answerLocal', 'reason'] as Step[]).map((step) => [
       step,
@@ -24,7 +35,9 @@ function fakeDeps(status: 'available' | 'no-api', opts: { local?: boolean; reaso
         step,
         generateContent: vi.fn(async () => ({
           response: {
-            text: () => opts.reasonText ?? '[LANDLORD] may raise it by at most 10%, so to {{RENT * 1.10}}; 20% would be {{RENT * 1.2}}.',
+            text: () =>
+              opts.reasonText ??
+              '[LANDLORD] may raise it by at most 10%, so to {{RENT * 1.10}}; 20% would be {{RENT * 1.2}}.',
             inferenceSource: InferenceSource.IN_CLOUD,
           },
         })),
@@ -37,7 +50,10 @@ function fakeDeps(status: 'available' | 'no-api', opts: { local?: boolean; reaso
       step === 'detect'
         ? DETECT_JSON
         : step === 'minimize'
-          ? JSON.stringify({ clause_ids: [7], reason: 'Clause 7 sets the rent and the yearly increase cap.' })
+          ? JSON.stringify({
+              clause_ids: [7],
+              reason: 'Clause 7 sets the rent and the yearly increase cap.',
+            })
           : step === 'route'
             ? JSON.stringify({ answerable_locally: opts.local ?? false, reason: 'needs reasoning' })
             : 'Your contract ends on 31 August 2027 (Clause 2).';
@@ -53,6 +69,17 @@ function fakeDeps(status: 'available' | 'no-api', opts: { local?: boolean; reaso
 beforeEach(() => networkLog.clear());
 
 describe('analyze', () => {
+  it('when the person chooses not to wait, the run finishes in Basic protection and says why', async () => {
+    const { deps } = fakeDeps('available');
+    deps.runPrivate = vi.fn(async () => {
+      throw new PrivateStepCancelledError();
+    }) as unknown as Deps['runPrivate'];
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    expect(a.mode).toBe('basic');
+    expect(a.fallbackReason).toMatch(/You chose Basic protection/);
+    expect(a.guard.ok).toBe(true);
+  });
+
   it('makes zero model calls without the on-device model and switches to Basic protection', async () => {
     const { deps, runPrivate, models } = fakeDeps('no-api');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
@@ -64,19 +91,32 @@ describe('analyze', () => {
 
   it("masks the user's own rules in the document and the question, and the guard enforces them", async () => {
     const customRules = [{ label: 'UNIT', terms: ['apartment'] }];
-    const a = await analyze(EN_LEASE.text, 'Is the apartment rent capped?', fakeDeps('no-api').deps, { customRules });
+    const a = await analyze(
+      EN_LEASE.text,
+      'Is the apartment rent capped?',
+      fakeDeps('no-api').deps,
+      { customRules },
+    );
     expect(a.entities.some((e) => e.type === 'CUSTOM' && e.role === 'UNIT')).toBe(true);
     expect(a.outbound).not.toMatch(/apartment/i);
     expect(a.outbound).toContain('[UNIT]');
     expect(a.guard.ok).toBe(true);
-    const leaked = composeOutbound(a, { selectedIds: a.selectedIds, hiddenTags: new Set(), sharedTags: new Set() });
+    const leaked = composeOutbound(a, {
+      selectedIds: a.selectedIds,
+      hiddenTags: new Set(),
+      sharedTags: new Set(),
+    });
     expect(leaked.guard.ok).toBe(true);
-    await expect(answer(a, `${a.outbound}\nAlso: the apartment`, fakeDeps('no-api').deps)).rejects.toThrow();
+    await expect(
+      answer(a, `${a.outbound}\nAlso: the apartment`, fakeDeps('no-api').deps),
+    ).rejects.toThrow();
   });
 
   it('in Basic protection, flags and masks person-like names the rules cannot know', async () => {
     const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('no-api').deps);
-    expect(a.flaggedForReview.map((e) => e.value)).toEqual(expect.arrayContaining(['Karim Fathy', 'Mona Adel', 'Sara Nabil']));
+    expect(a.flaggedForReview.map((e) => e.value)).toEqual(
+      expect.arrayContaining(['Karim Fathy', 'Mona Adel', 'Sara Nabil']),
+    );
     expect(a.outbound).not.toContain('Karim Fathy');
     expect(a.guard.ok).toBe(true);
   });
@@ -127,10 +167,15 @@ describe('selectClausesBatched', () => {
       page: 1,
     }));
     const prompts: string[] = [];
-    const out = await selectClausesBatched(chunks, 'Q?', async (p) => {
-      prompts.push(p);
-      return JSON.stringify({ clause_ids: [3], reason: 'r' });
-    }, 500);
+    const out = await selectClausesBatched(
+      chunks,
+      'Q?',
+      async (p) => {
+        prompts.push(p);
+        return JSON.stringify({ clause_ids: [3], reason: 'r' });
+      },
+      500,
+    );
     expect(prompts.length).toBeGreaterThanOrEqual(2);
     for (const c of chunks) {
       expect(prompts.filter((p) => p.includes(`<clause id="${c.id}">`))).toHaveLength(1);
@@ -155,7 +200,9 @@ describe('answer', () => {
   it('refuses to send an excerpt the user edited to include a raw value', async () => {
     const { deps } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
-    await expect(answer(a, `${a.outbound}\nPay to EG38 0019 0005 0000 0000 2631 8000 2`, deps)).rejects.toBeInstanceOf(OutboundBlockedError);
+    await expect(
+      answer(a, `${a.outbound}\nPay to EG38 0019 0005 0000 0000 2631 8000 2`, deps),
+    ).rejects.toBeInstanceOf(OutboundBlockedError);
   });
 
   it('asks the cloud with the approved excerpt only, then restores real values and derived amounts', async () => {
@@ -163,11 +210,18 @@ describe('answer', () => {
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
     const out = await answer(a, a.outbound, deps);
     expect(out.source).toBe('in_cloud');
-    expect(out.text).toBe('Karim Fathy may raise it by at most 10%, so to EGP 9,350; 20% would be EGP 10,200.');
-    const sent = (models.reason.generateContent as ReturnType<typeof vi.fn>).mock.calls[0]![0] as string;
+    expect(out.text).toBe(
+      'Karim Fathy may raise it by at most 10%, so to EGP 9,350; 20% would be EGP 10,200.',
+    );
+    const sent = (models.reason.generateContent as ReturnType<typeof vi.fn>).mock
+      .calls[0]![0] as string;
     expect(sent).toContain(a.outbound);
     expect(sent).not.toMatch(/8,500|Karim Fathy|EG38/);
-    expect(networkLog.entries.at(-1)).toMatchObject({ step: 'reason', target: 'cloud', blocked: false });
+    expect(networkLog.entries.at(-1)).toMatchObject({
+      step: 'reason',
+      target: 'cloud',
+      blocked: false,
+    });
     expect(out.receipt.steps.at(-1)).toMatchObject({ step: 'reason', source: 'in_cloud' });
   });
 
@@ -196,43 +250,68 @@ describe('review fixes I3/I4', () => {
   it('treats a blocked cloud request during a private step as fatal, even if the SDK rewraps the error', async () => {
     const { deps } = fakeDeps('available');
     deps.runPrivate = vi.fn(async () => {
-      networkLog.record({ at: Date.now(), step: 'tripwire', target: 'cloud', blocked: true, payload: 'raw' });
+      networkLog.record({
+        at: Date.now(),
+        step: 'tripwire',
+        target: 'cloud',
+        blocked: true,
+        payload: 'raw',
+      });
       throw new Error('AIError: fetch failed');
     }) as unknown as Deps['runPrivate'];
-    await expect(analyze(EN_LEASE.text, QUESTION, deps)).rejects.toMatchObject({ name: 'PrivacyViolationError' });
+    await expect(analyze(EN_LEASE.text, QUESTION, deps)).rejects.toMatchObject({
+      name: 'PrivacyViolationError',
+    });
   });
 
   it('keeps every on-device prompt within the token budget, even for one giant paragraph', async () => {
     const { deps, runPrivate } = fakeDeps('available');
-    const giant = Array.from({ length: 3000 }, (_, i) => `Line ${i}: the tenant Mona Adel pays rent.`).join(' ');
+    const giant = Array.from(
+      { length: 3000 },
+      (_, i) => `Line ${i}: the tenant Mona Adel pays rent.`,
+    ).join(' ');
     await analyze(giant, QUESTION, deps);
-    for (const call of runPrivate.mock.calls) expect(Math.ceil((call[1] as string).length / 4)).toBeLessThanOrEqual(6000);
+    for (const call of runPrivate.mock.calls)
+      expect(Math.ceil((call[1] as string).length / 4)).toBeLessThanOrEqual(6000);
   });
 
   it('in Basic protection flags names in capitals, with particles or titles', async () => {
-    const doc = '1. Parties. AHMED HASSAN rents from Dr. Omar and Mohamed El Sayed, witnessed by Nour Al Din.';
+    const doc =
+      '1. Parties. AHMED HASSAN rents from Dr. Omar and Mohamed El Sayed, witnessed by Nour Al Din.';
     const a = await analyze(doc, QUESTION, fakeDeps('no-api').deps);
     const flagged = a.flaggedForReview.map((e) => e.value);
-    expect(flagged).toEqual(expect.arrayContaining(['AHMED HASSAN', 'Dr. Omar', 'Mohamed El Sayed', 'Nour Al Din']));
+    expect(flagged).toEqual(
+      expect.arrayContaining(['AHMED HASSAN', 'Dr. Omar', 'Mohamed El Sayed', 'Nour Al Din']),
+    );
     expect(a.outbound).not.toMatch(/AHMED|Omar|Sayed|Nour/);
   });
 
   it('passes the known tags to the guard so bracketed raw text is still caught', async () => {
     const { deps } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
-    await expect(answer(a, `${a.outbound}\nTenant: [MONA_ADEL]`, deps)).rejects.toBeInstanceOf(OutboundBlockedError);
+    await expect(answer(a, `${a.outbound}\nTenant: [MONA_ADEL]`, deps)).rejects.toBeInstanceOf(
+      OutboundBlockedError,
+    );
   });
 });
 
 describe('composeOutbound (review edits)', () => {
   it('composeOutbound honours hidden and shared tags', async () => {
     const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
-    const hidden = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(['[RENT]']), sharedTags: new Set() });
+    const hidden = composeOutbound(a, {
+      selectedIds: [7],
+      hiddenTags: new Set(['[RENT]']),
+      sharedTags: new Set(),
+    });
     expect(hidden.outbound).not.toContain('The monthly rent is');
     expect(hidden.outbound).toContain('[…]');
     expect(hidden.guard.ok).toBe(true);
 
-    const shared = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(), sharedTags: new Set(['[RENT]']) });
+    const shared = composeOutbound(a, {
+      selectedIds: [7],
+      hiddenTags: new Set(),
+      sharedTags: new Set(['[RENT]']),
+    });
     expect(shared.outbound).toContain('The monthly rent is EGP 8,500.');
     expect(shared.guard.ok).toBe(true);
     expect(shared.receipt.sharedByUser).toBe(1);
@@ -240,7 +319,11 @@ describe('composeOutbound (review edits)', () => {
 
   it('custom clause selection changes the outbound and receipt', async () => {
     const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
-    const two = composeOutbound(a, { selectedIds: [6, 7], hiddenTags: new Set(), sharedTags: new Set() });
+    const two = composeOutbound(a, {
+      selectedIds: [6, 7],
+      hiddenTags: new Set(),
+      sharedTags: new Set(),
+    });
     expect(two.outbound).toContain('Clause 6:');
     expect(two.outbound).toContain('Clause 7:');
     expect(two.receipt.clausesSent).toBe(2);
@@ -248,29 +331,47 @@ describe('composeOutbound (review edits)', () => {
 
   it('matches what analyze produced when nothing is changed', async () => {
     const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
-    expect(composeOutbound(a, { selectedIds: a.selectedIds, hiddenTags: new Set(), sharedTags: new Set() }).outbound).toBe(a.outbound);
+    expect(
+      composeOutbound(a, {
+        selectedIds: a.selectedIds,
+        hiddenTags: new Set(),
+        sharedTags: new Set(),
+      }).outbound,
+    ).toBe(a.outbound);
   });
 
   it('lets answer() send a value the user chose to share', async () => {
     const { deps } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
-    const shared = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(), sharedTags: new Set(['[RENT]']) });
-    await expect(answer(a, shared.outbound, deps, { sharedTags: ['[RENT]'] })).resolves.toMatchObject({ source: 'in_cloud' });
+    const shared = composeOutbound(a, {
+      selectedIds: [7],
+      hiddenTags: new Set(),
+      sharedTags: new Set(['[RENT]']),
+    });
+    await expect(
+      answer(a, shared.outbound, deps, { sharedTags: ['[RENT]'] }),
+    ).resolves.toMatchObject({ source: 'in_cloud' });
   });
 });
 
 describe('progress reporting', () => {
   it('reports each on-device step as it starts, with batch counts', async () => {
     const events: { step: string; part: number; parts: number }[] = [];
-    await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps, { onProgress: (p) => events.push(p) });
-    expect(events.map((e) => e.step)).toEqual(expect.arrayContaining(['rules', 'detect', 'minimize', 'route']));
+    await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps, {
+      onProgress: (p) => events.push(p),
+    });
+    expect(events.map((e) => e.step)).toEqual(
+      expect.arrayContaining(['rules', 'detect', 'minimize', 'route']),
+    );
     expect(events[0]!.step).toBe('rules');
     for (const e of events) expect(e.part).toBeLessThanOrEqual(e.parts);
   });
 
   it('reports only the rules step in Basic protection', async () => {
     const events: string[] = [];
-    await analyze(EN_LEASE.text, QUESTION, fakeDeps('no-api').deps, { onProgress: (p) => events.push(p.step) });
+    await analyze(EN_LEASE.text, QUESTION, fakeDeps('no-api').deps, {
+      onProgress: (p) => events.push(p.step),
+    });
     expect(events).toEqual(['rules']);
   });
 });

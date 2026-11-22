@@ -17,7 +17,10 @@ describe('loadRemoteSettings', () => {
     getValue.mockImplementation((key: string) => ({
       asString: () => (key === 'cloud_model' ? 'gemini-3.5-flash-lite' : 'v2'),
     }));
-    await expect(loadRemoteSettings(app)).resolves.toEqual({ cloudModel: 'gemini-3.5-flash-lite', promptVersion: 'v2' });
+    await expect(loadRemoteSettings(app)).resolves.toEqual({
+      cloudModel: 'gemini-3.5-flash-lite',
+      promptVersion: 'v2',
+    });
   });
 
   it('falls back to the defaults when the fetch fails (offline, blocked)', async () => {
