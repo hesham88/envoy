@@ -1,8 +1,8 @@
 import { useId, useState } from 'react';
 import { Receipt as ReceiptIcon } from 'lucide-react';
-import type { RestoredSpan, Step } from '@envoy/core';
+import type { Step } from '@envoy/core';
 import type { AnswerResult } from '../app/session';
-import { ModeChip } from '../components/ModeChip';
+import { ModeChip, RestoredText } from '@envoy/ui';
 import { ProgressSteps } from './Review';
 
 const STEP_LABEL: Record<Step, string> = {
@@ -12,28 +12,6 @@ const STEP_LABEL: Record<Step, string> = {
   answerLocal: 'Answered from your document',
   reason: 'Reasoned over the masked excerpt',
 };
-
-/** Text with restored values highlighted (they were put back on this device). */
-function RestoredText({ text, spans, from, to }: { text: string; spans: RestoredSpan[]; from: number; to: number }) {
-  const out: React.ReactNode[] = [];
-  let at = from;
-  for (const s of spans.filter((x) => x.start >= from && x.end <= to)) {
-    if (s.start > at) out.push(text.slice(at, s.start));
-    out.push(
-      <mark
-        key={s.start}
-        data-restored="true"
-        title={s.computed ? `Worked out on your device from ${s.tag}` : `Restored on your device from ${s.tag}`}
-        className="rounded bg-restored px-1 py-px text-inherit"
-      >
-        {s.value}
-      </mark>,
-    );
-    at = s.end;
-  }
-  if (at < to) out.push(text.slice(at, to));
-  return <>{out}</>;
-}
 
 interface Props {
   question: string;

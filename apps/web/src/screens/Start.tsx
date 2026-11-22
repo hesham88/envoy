@@ -3,7 +3,7 @@ import { SUGGESTED_QUESTIONS } from '@envoy/core';
 import type { SessionAction, SessionState } from '../app/session';
 import type { AnalyzeProgress } from '@envoy/ai';
 import type { EnvoyRuntime } from '../app/useEnvoy';
-import { AnalyzingPanel } from '../components/AnalyzingPanel';
+import { AnalyzingPanel } from '@envoy/ui';
 import { DocumentInput } from '../components/DocumentInput';
 import { HowItWorks, OnDeviceGuide } from '../components/SidePanels';
 

@@ -1,10 +1,12 @@
 import { Download, Loader2, ShieldAlert, ShieldCheck } from 'lucide-react';
-import type { EnvoyStatus } from '../app/useEnvoy';
+import type { DeviceStatus } from '@envoy/ai';
+
+export type DeviceState = DeviceStatus | 'checking';
 
 const ICON = { size: 16, strokeWidth: 1.75, 'aria-hidden': true } as const;
 
 /** Header pill: what kind of protection this browser can give right now. Always icon + words, never colour alone. */
-export function StatusPill({ status, progress }: { status: EnvoyStatus; progress: number | null }) {
+export function StatusPill({ status, progress }: { status: DeviceState; progress: number | null }) {
   const base = 'inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold';
   if (status === 'available') {
     return (

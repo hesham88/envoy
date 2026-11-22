@@ -1,6 +1,7 @@
 import { useId, useState, type Dispatch } from 'react';
 import { Cloud } from 'lucide-react';
 import type { Leak, Receipt } from '@envoy/core';
+import { TaggedText } from '@envoy/ui';
 import type { SessionAction } from '../../app/session';
 
 const LEAK_LABEL: Record<string, string> = {
@@ -15,23 +16,6 @@ const LEAK_LABEL: Record<string, string> = {
   ADDRESS: 'an address',
   ORG: 'an organisation',
 };
-
-/** Renders the excerpt with tags as dark chips, exactly as the cloud will receive it. */
-export function TaggedText({ text }: { text: string }) {
-  return (
-    <>
-      {text.split(/(\[[A-Z][A-Z0-9_]*\]|\[…\])/).map((part, i) =>
-        /^\[(?:[A-Z][A-Z0-9_]*|…)\]$/.test(part) ? (
-          <span key={i} className="mx-px rounded bg-ink px-1.5 py-px text-paper">
-            {part}
-          </span>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </>
-  );
-}
 
 interface Props {
   outbound: string;

@@ -1,9 +1,6 @@
 /** /studio — the Envoy visual system as plates: seal, bands, step emblems. Also the source for README stills. */
 import { useMemo } from 'react';
-import { Logo } from '../components/Logo';
-import { EnvoySeal } from './EnvoySeal';
-import { waveBand } from './guilloche';
-import { STEP_EMBLEMS, StepEmblem } from './StepEmblem';
+import { EnvoySeal, Logo, STEP_EMBLEMS, StepEmblem, waveBand } from '@envoy/ui';
 
 function Band({ tone, width = 1100 }: { tone: 'device' | 'cloud' | 'ink'; width?: number }) {
   const paths = useMemo(() => waveBand({ x: 0, y: 14, width, amplitude: 9, period: 26, strands: 6 }), [width]);

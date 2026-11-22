@@ -5,7 +5,7 @@
  */
 import { useMemo, useRef, type CSSProperties, type PointerEvent } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { LOGO_PATHS } from '../components/Logo';
+import { LOGO_PATHS } from './Logo';
 import { hypotrochoid, ringBand } from './guilloche';
 
 const MICROTEXT = 'READ ON THIS DEVICE · ONLY WHAT IS NEEDED · APPROVED BY YOU · RESTORED ON THIS DEVICE · NOTHING RAW LEAVES · ';
