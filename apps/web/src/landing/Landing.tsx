@@ -20,9 +20,9 @@ const summaries = import.meta.glob<{ default: EvalSummary }>(
   '../../../../tests/eval/summary.json',
   { eager: true },
 );
-const summary = Object.values(summaries)[0]?.default ?? null;
+const evalSummary = Object.values(summaries)[0]?.default ?? null;
 
-interface EvalSummary {
+export interface EvalSummary {
   generatedAt: string;
   arms: {
     id: string;
@@ -307,7 +307,7 @@ export function Landing() {
               </li>
             ))}
           </ul>
-          <Measured />
+          <Measured summary={evalSummary} />
         </Section>
 
         {/* ---------- extension ---------- */}
@@ -345,7 +345,9 @@ export function Landing() {
             >
               Get the extension
             </a>
-            <span className="text-[15px] text-uv-muted">Installs in a minute: load it unpacked in Chrome.</span>
+            <span className="text-[15px] text-uv-muted">
+              Installs in a minute: load it unpacked in Chrome.
+            </span>
           </div>
         </Section>
 
@@ -416,7 +418,7 @@ export function Landing() {
 }
 
 /** Measured results, read straight from tests/eval/summary.json. Nothing is shown that wasn't measured. */
-function Measured() {
+export function Measured({ summary }: { summary: EvalSummary | null }) {
   if (!summary) {
     return (
       <p className="mt-10 mb-0 max-w-[62ch] rounded-[16px] border border-dashed border-uv-line p-5 text-[15px] leading-relaxed text-uv-muted">
@@ -434,7 +436,12 @@ function Measured() {
     <div className="mt-10 overflow-x-auto rounded-[16px] border border-uv-line">
       <table className="w-full min-w-[640px] border-collapse text-left text-[15px]">
         <caption className="px-5 pt-4 pb-2 text-left text-[14px] text-uv-muted">
-          Measured {summary.generatedAt.slice(0, 10)}. n is the number of cases run.
+          Measured {summary.generatedAt.slice(0, 10)} through the real pipeline. n is the number of
+          cases run. Attacks and answer quality ran on smaller samples:{' '}
+          <a href={src('docs/EVAL.md')} className="text-uv-blue underline underline-offset-4">
+            full results
+          </a>
+          .
         </caption>
         <thead>
           <tr className="text-uv-muted">
@@ -444,7 +451,7 @@ function Measured() {
               'n',
               'Private details masked',
               'Leaks after the guard',
-              'Values an attacker recovered',
+              'Characters sent, vs the whole document',
             ].map((h) => (
               <th key={h} scope="col" className="border-b border-uv-line px-5 py-3 font-medium">
                 {h}
@@ -475,7 +482,7 @@ function Measured() {
                 {typeof a.metrics.outboundLeaks === 'number' ? a.metrics.outboundLeaks : '–'}
               </td>
               <td className="border-b border-uv-line/60 px-5 py-3 text-uv-text">
-                {pct(a.metrics.reidRecoveryExact)}
+                {pct(a.metrics.minimizationRatio)}
               </td>
             </tr>
           ))}

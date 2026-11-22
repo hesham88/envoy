@@ -1,0 +1,697 @@
+[
+  {
+    "id": "lease-01-rent-cap",
+    "category": "residential_lease",
+    "title": "Cairo Residential Lease — Annual Rent Increase Cap",
+    "noisy": false,
+    "question": "Can my landlord raise the rent 20% this year?",
+    "expectedClauses": [7],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "27506120104839", "type": "NATIONAL_ID" },
+      { "value": "3 Road 9, Maadi, Cairo", "type": "ADDRESS" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "29503140101234", "type": "NATIONAL_ID" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "mona.adel@example.com", "type": "EMAIL" },
+      { "value": "14 El-Nadi St, Flat 7, Maadi, Cairo", "type": "ADDRESS" },
+      { "value": "15 August 2024", "type": "DATE" },
+      { "value": "1 September 2024", "type": "DATE" },
+      { "value": "EGP 17,000", "type": "MONEY", "role": "deposit" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" },
+      { "value": "EGP 250", "type": "MONEY", "role": "fee" },
+      { "value": "Sara Nabil", "type": "PERSON", "role": "witness" },
+      { "value": "0122 555 0148", "type": "PHONE" }
+    ],
+    "document": "RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on 15 August 2024 between the parties named in Clause 1.\n\n1. Parties. Karim Fathy, national ID 27506120104839, of 3 Road 9, Maadi, Cairo (\"the Landlord\"), and Mona Adel, national ID 29503140101234, phone +20 100 555 0192, email mona.adel@example.com (\"the Tenant\").\n\n2. Premises and term. The Landlord leases to the Tenant the apartment at 14 El-Nadi St, Flat 7, Maadi, Cairo (\"the Premises\") for a term of three (3) years starting 1 September 2024.\n\n--- Page 2 ---\n\n3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\n4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\n--- Page 3 ---\n\n5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\n6. Deposit. The Tenant pays a security deposit of EGP 17,000 on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\n--- Page 4 ---\n\n7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\n8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account EG38 0019 0005 0000 0000 2631 8000 2. Rent paid more than 10 days late carries a fee of EGP 250.\n\n--- Page 5 ---\n\n9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\n10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\n--- Page 6 ---\n\n11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at mona.adel@example.com.\n\n12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on 15 August 2024 by Karim Fathy (Landlord) and Mona Adel (Tenant), witnessed by Sara Nabil, phone 0122 555 0148."
+  },
+  {
+    "id": "lease-02-end-date-local",
+    "category": "residential_lease",
+    "title": "Cairo Residential Lease — Contract End Term Lookup",
+    "noisy": false,
+    "question": "When does my contract end?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "27506120104839", "type": "NATIONAL_ID" },
+      { "value": "3 Road 9, Maadi, Cairo", "type": "ADDRESS" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "29503140101234", "type": "NATIONAL_ID" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "mona.adel@example.com", "type": "EMAIL" },
+      { "value": "14 El-Nadi St, Flat 7, Maadi, Cairo", "type": "ADDRESS" },
+      { "value": "15 August 2024", "type": "DATE" },
+      { "value": "1 September 2024", "type": "DATE" },
+      { "value": "EGP 17,000", "type": "MONEY", "role": "deposit" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" },
+      { "value": "EGP 250", "type": "MONEY", "role": "fee" },
+      { "value": "Sara Nabil", "type": "PERSON", "role": "witness" },
+      { "value": "0122 555 0148", "type": "PHONE" }
+    ],
+    "document": "RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on 15 August 2024 between the parties named in Clause 1.\n\n1. Parties. Karim Fathy, national ID 27506120104839, of 3 Road 9, Maadi, Cairo (\"the Landlord\"), and Mona Adel, national ID 29503140101234, phone +20 100 555 0192, email mona.adel@example.com (\"the Tenant\").\n\n2. Premises and term. The Landlord leases to the Tenant the apartment at 14 El-Nadi St, Flat 7, Maadi, Cairo (\"the Premises\") for a term of three (3) years starting 1 September 2024.\n\n3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\n4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\n5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\n6. Deposit. The Tenant pays a security deposit of EGP 17,000 on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\n7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\n8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account EG38 0019 0005 0000 0000 2631 8000 2. Rent paid more than 10 days late carries a fee of EGP 250.\n\n9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\n10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\n11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at mona.adel@example.com.\n\n12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on 15 August 2024 by Karim Fathy (Landlord) and Mona Adel (Tenant), witnessed by Sara Nabil, phone 0122 555 0148."
+  },
+  {
+    "id": "lease-03-early-exit-deposit",
+    "category": "residential_lease",
+    "title": "Cairo Residential Lease — Early Exit Deposit Forfeiture",
+    "noisy": false,
+    "question": "What happens to my deposit if I leave early?",
+    "expectedClauses": [6, 10],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "27506120104839", "type": "NATIONAL_ID" },
+      { "value": "3 Road 9, Maadi, Cairo", "type": "ADDRESS" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "29503140101234", "type": "NATIONAL_ID" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "mona.adel@example.com", "type": "EMAIL" },
+      { "value": "14 El-Nadi St, Flat 7, Maadi, Cairo", "type": "ADDRESS" },
+      { "value": "15 August 2024", "type": "DATE" },
+      { "value": "1 September 2024", "type": "DATE" },
+      { "value": "EGP 17,000", "type": "MONEY", "role": "deposit" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" },
+      { "value": "EGP 250", "type": "MONEY", "role": "fee" },
+      { "value": "Sara Nabil", "type": "PERSON", "role": "witness" },
+      { "value": "0122 555 0148", "type": "PHONE" }
+    ],
+    "document": "RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on 15 August 2024 between the parties named in Clause 1.\n\n1. Parties. Karim Fathy, national ID 27506120104839, of 3 Road 9, Maadi, Cairo (\"the Landlord\"), and Mona Adel, national ID 29503140101234, phone +20 100 555 0192, email mona.adel@example.com (\"the Tenant\").\n\n2. Premises and term. The Landlord leases to the Tenant the apartment at 14 El-Nadi St, Flat 7, Maadi, Cairo (\"the Premises\") for a term of three (3) years starting 1 September 2024.\n\n3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\n4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\n5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\n6. Deposit. The Tenant pays a security deposit of EGP 17,000 on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\n7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\n8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account EG38 0019 0005 0000 0000 2631 8000 2. Rent paid more than 10 days late carries a fee of EGP 250.\n\n9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\n10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\n11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at mona.adel@example.com.\n\n12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on 15 August 2024 by Karim Fathy (Landlord) and Mona Adel (Tenant), witnessed by Sara Nabil, phone 0122 555 0148."
+  },
+  {
+    "id": "lease-04-late-fee-grace-period",
+    "category": "residential_lease",
+    "title": "Cairo Residential Lease — Late Payment Grace Period",
+    "noisy": false,
+    "question": "If I pay rent on the 8th of the month, do I owe the late fee?",
+    "expectedClauses": [8],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "27506120104839", "type": "NATIONAL_ID" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "29503140101234", "type": "NATIONAL_ID" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "mona.adel@example.com", "type": "EMAIL" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" },
+      { "value": "EGP 250", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Parties. Karim Fathy, national ID 27506120104839 (\"the Landlord\"), and Mona Adel, national ID 29503140101234, phone +20 100 555 0192, email mona.adel@example.com (\"the Tenant\").\n\n7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\n8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account EG38 0019 0005 0000 0000 2631 8000 2. Rent paid more than 10 days late carries a fee of EGP 250."
+  },
+  {
+    "id": "lease-05-sublet-policy",
+    "category": "residential_lease",
+    "title": "Heliopolis Apartment Lease — Subletting Consent",
+    "noisy": false,
+    "question": "Can I rent out one bedroom on a short-term basis without asking the owner?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Hisham El-Masry", "type": "PERSON", "role": "landlord" },
+      { "value": "28011230102345", "type": "NATIONAL_ID" },
+      { "value": "Nadia Shawky", "type": "PERSON", "role": "tenant" },
+      { "value": "29307190105678", "type": "NATIONAL_ID" },
+      { "value": "+20 111 444 0987", "type": "PHONE" },
+      { "value": "nadia.shawky@example.org", "type": "EMAIL" },
+      { "value": "28 Cleopatra St, Heliopolis, Cairo", "type": "ADDRESS" },
+      { "value": "1 October 2025", "type": "DATE" },
+      { "value": "EGP 12,000", "type": "MONEY", "role": "rent" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Parties. Hisham El-Masry, national ID 28011230102345 (\"the Landlord\"), and Nadia Shawky, national ID 29307190105678, phone +20 111 444 0987, email nadia.shawky@example.org (\"the Tenant\").\n\n2. Premises. Apartment 12 at 28 Cleopatra St, Heliopolis, Cairo, leased for two (2) years starting 1 October 2025 at a monthly rent of EGP 12,000.\n\n3. Subletting and Assignment. The Tenant shall occupy the Premises solely as a family residence and may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.\n\n4. Payment. Transfers go to IBAN EG38 0019 0005 0000 0000 2631 8000 2."
+  },
+  {
+    "id": "lease-06-landlord-entry-notice-local",
+    "category": "residential_lease",
+    "title": "Zamalek Lease — Landlord Inspection Notice Period",
+    "noisy": false,
+    "question": "How many hours' notice must the landlord give before entering for repairs?",
+    "expectedClauses": [4],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "Tarek Abdel-Aziz", "type": "PERSON", "role": "landlord" },
+      { "value": "27204150103321", "type": "NATIONAL_ID" },
+      { "value": "Laila Farouk", "type": "PERSON", "role": "tenant" },
+      { "value": "+20 109 222 3410", "type": "PHONE" },
+      { "value": "8 Hassan Sabry St, Zamalek, Cairo", "type": "ADDRESS" },
+      { "value": "EGP 18,500", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Tarek Abdel-Aziz, national ID 27204150103321 (\"Landlord\"), and Laila Farouk, phone +20 109 222 3410 (\"Tenant\").\n\n2. Property. Flat 5, 8 Hassan Sabry St, Zamalek, Cairo.\n\n3. Rent. Monthly rent is EGP 18,500 payable on the 1st of every month.\n\n4. Access and Inspection. The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs."
+  },
+  {
+    "id": "lease-07-commercial-cam-cap",
+    "category": "commercial_lease",
+    "title": "New Cairo Commercial Office Lease — Service Charge Cap",
+    "noisy": false,
+    "question": "Can the building management increase our monthly service charge by 15% next year?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Youssef Kamel", "type": "PERSON", "role": "landlord" },
+      { "value": "Omar Zaki", "type": "PERSON", "role": "tenant" },
+      { "value": "28809100104412", "type": "NATIONAL_ID" },
+      { "value": "+20 120 888 7123", "type": "PHONE" },
+      { "value": "omar.zaki@example.com", "type": "EMAIL" },
+      { "value": "90 North Teseen Rd, New Cairo", "type": "ADDRESS" },
+      { "value": "EGP 45,000", "type": "MONEY", "role": "rent" },
+      { "value": "EGP 4,500", "type": "MONEY", "role": "fee" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Parties. Youssef Kamel (\"Landlord\") and Omar Zaki, national ID 28809100104412, phone +20 120 888 7123, email omar.zaki@example.com (\"Tenant\").\n\n2. Office Suite. Suite 402 at 90 North Teseen Rd, New Cairo. Base rent is EGP 45,000 per month.\n\n3. Common Area Maintenance (CAM). The Tenant pays a monthly service charge of EGP 4,500. Annual increases to the service charge are capped at 8% per year.\n\n4. Banking. Wire all payments to EG38 0019 0005 0000 0000 2631 8000 2."
+  },
+  {
+    "id": "lease-08-plumbing-responsibility",
+    "category": "residential_lease",
+    "title": "Alexandria Lease — Structural Pipe Burst Responsibility",
+    "noisy": false,
+    "question": "A main water pipe inside the wall burst. Who has to pay for the repair?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "MahmoudGamal", "type": "EMAIL" },
+      { "value": "Mahmoud Gamal", "type": "PERSON", "role": "landlord" },
+      { "value": "27702180201988", "type": "NATIONAL_ID" },
+      { "value": "Dina Soliman", "type": "PERSON", "role": "tenant" },
+      { "value": "+20 106 777 5432", "type": "PHONE" },
+      { "value": "MahmoudGamal@example.com", "type": "EMAIL" },
+      { "value": "45 Fouad St, Alexandria", "type": "ADDRESS" },
+      { "value": "EGP 9,200", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Mahmoud Gamal, national ID 27702180201988, email MahmoudGamal@example.com (\"Landlord\"), and Dina Soliman, phone +20 106 777 5432 (\"Tenant\"), for Flat 9 at 45 Fouad St, Alexandria.\n\n2. Rent. The monthly rent is EGP 9,200.\n\n3. Repairs and Plumbing. The Landlord is solely responsible for hidden plumbing, main risers, roof waterproofing, and structural walls. The Tenant is responsible only for internal tap washers and drain blockages caused by misuse."
+  },
+  {
+    "id": "offer-01-severance-calculation",
+    "category": "employment_contract",
+    "title": "Senior Engineer Employment Contract — Layoff Severance Pay",
+    "noisy": false,
+    "question": "If the company eliminates my role without cause after 18 months, how much severance pay do I receive?",
+    "expectedClauses": [2, 5],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Ramy Lotfy", "type": "PERSON", "role": "employer" },
+      { "value": "Salma Mostafa", "type": "PERSON", "role": "employee" },
+      { "value": "29605210104321", "type": "NATIONAL_ID" },
+      { "value": "+20 101 333 8899", "type": "PHONE" },
+      { "value": "salma.mostafa@example.com", "type": "EMAIL" },
+      { "value": "22 Syria St, Mohandessin, Giza", "type": "ADDRESS" },
+      { "value": "1 November 2025", "type": "DATE" },
+      { "value": "EGP 65,000", "type": "MONEY", "role": "salary" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Parties. Signed on 1 November 2025 between Ramy Lotfy (\"Employer\") and Salma Mostafa, national ID 29605210104321, phone +20 101 333 8899, email salma.mostafa@example.com, residing at 22 Syria St, Mohandessin, Giza (\"Employee\").\n\n2. Compensation. The Employee's gross monthly salary is EGP 65,000, paid on the 25th of each month.\n\n3. Direct Deposit. Salary will be transferred to Employee's IBAN EG38 0019 0005 0000 0000 2631 8000 2.\n\n4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\n5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period."
+  },
+  {
+    "id": "offer-02-non-compete-scope",
+    "category": "employment_contract",
+    "title": "Fintech Product Lead Offer — Post-Termination Non-Compete",
+    "noisy": false,
+    "question": "If I resign, can I immediately join a healthcare software startup in Cairo?",
+    "expectedClauses": [4],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Sherif Badawy", "type": "PERSON", "role": "employer" },
+      { "value": "Amr Hegazy", "type": "PERSON", "role": "employee" },
+      { "value": "29108140107765", "type": "NATIONAL_ID" },
+      { "value": "+20 112 999 4567", "type": "PHONE" },
+      { "value": "amr.hegazy@example.com", "type": "EMAIL" },
+      { "value": "15 Makram Ebeid St, Nasr City, Cairo", "type": "ADDRESS" },
+      { "value": "USD 4,200", "type": "MONEY", "role": "salary" }
+    ],
+    "document": "1. Parties. Sherif Badawy (\"Employer\") hires Amr Hegazy, national ID 29108140107765, phone +20 112 999 4567, email amr.hegazy@example.com, of 15 Makram Ebeid St, Nasr City, Cairo (\"Employee\").\n\n2. Base Salary. Monthly salary is USD 4,200.\n\n3. Leave. The Employee receives 21 working days of paid annual leave.\n\n4. Non-Competition. For six (6) months after termination, the Employee may not work for any direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This restriction does not apply to non-financial software industries such as healthcare, education, or logistics."
+  },
+  {
+    "id": "offer-03-probation-period-local",
+    "category": "employment_contract",
+    "title": "Software Architect Employment — Probation Length Lookup",
+    "noisy": false,
+    "question": "How long is my probationary period?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "Nourhan Khalil", "type": "PERSON", "role": "employee" },
+      { "value": "29412050108812", "type": "NATIONAL_ID" },
+      { "value": "+20 100 712 3344", "type": "PHONE" },
+      { "value": "nourhan.k@example.com", "type": "EMAIL" },
+      { "value": "EGP 55,000", "type": "MONEY", "role": "salary" }
+    ],
+    "document": "1. Employee Details. Nourhan Khalil, national ID 29412050108812, phone +20 100 712 3344, email nourhan.k@example.com.\n\n2. Salary. Monthly gross salary is EGP 55,000.\n\n3. Probation. The first ninety (90) days of employment constitute a probationary period during which either party may terminate the contract with seven (7) days' written notice."
+  },
+  {
+    "id": "offer-04-bonus-proration",
+    "category": "employment_contract",
+    "title": "Sales Director Contract — Annual Target Bonus Proration",
+    "noisy": false,
+    "question": "What is my maximum annual performance bonus if I hit 100% of my targets?",
+    "expectedClauses": [2, 3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Wael Tantawy", "type": "PERSON", "role": "employer" },
+      { "value": "Heba Radwan", "type": "PERSON", "role": "employee" },
+      { "value": "28703220101122", "type": "NATIONAL_ID" },
+      { "value": "+20 127 654 3210", "type": "PHONE" },
+      { "value": "heba.radwan@example.com", "type": "EMAIL" },
+      { "value": "EGP 80,000", "type": "MONEY", "role": "salary" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Parties. Wael Tantawy (\"Employer\") and Heba Radwan, national ID 28703220101122, phone +20 127 654 3210, email heba.radwan@example.com (\"Employee\").\n\n2. Base Salary. Monthly base salary is EGP 80,000.\n\n3. Annual Performance Bonus. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\n4. Payroll Account. IBAN EG38 0019 0005 0000 0000 2631 8000 2."
+  },
+  {
+    "id": "offer-05-ip-side-project",
+    "category": "employment_contract",
+    "title": "Developer Contract — Open-Source Weekend Side Project IP",
+    "noisy": false,
+    "question": "Does the company own an unrelated hobby project I build on weekends on my personal laptop?",
+    "expectedClauses": [4],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Ziad Morsi", "type": "PERSON", "role": "employee" },
+      { "value": "29701150106543", "type": "NATIONAL_ID" },
+      { "value": "+20 115 234 5678", "type": "PHONE" },
+      { "value": "ziad.morsi@example.com", "type": "EMAIL" },
+      { "value": "19 Dokki St, Giza", "type": "ADDRESS" },
+      { "value": "EGP 48,000", "type": "MONEY", "role": "salary" }
+    ],
+    "document": "1. Employee. Ziad Morsi, national ID 29701150106543, phone +20 115 234 5678, email ziad.morsi@example.com, residing at 19 Dokki St, Giza.\n\n2. Remuneration. EGP 48,000 per month.\n\n3. Working Hours. Sunday through Thursday, 9:00 AM to 5:00 PM.\n\n4. Intellectual Property. All inventions developed using Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee."
+  },
+  {
+    "id": "offer-06-remote-work-allowance",
+    "category": "employment_contract",
+    "title": "Hybrid Work Agreement — Home Office Reimbursement Cap",
+    "noisy": false,
+    "question": "If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Farida Nassar", "type": "PERSON", "role": "employee" },
+      { "value": "29206180109988", "type": "NATIONAL_ID" },
+      { "value": "+20 102 876 5432", "type": "PHONE" },
+      { "value": "farida.nassar@example.com", "type": "EMAIL" },
+      { "value": "EGP 52,000", "type": "MONEY", "role": "salary" },
+      { "value": "EGP 3,000", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Employee. Farida Nassar, national ID 29206180109988, phone +20 102 876 5432, email farida.nassar@example.com.\n\n2. Base Pay. EGP 52,000 monthly.\n\n3. Equipment Allowance. The Company provides a one-time home-office equipment allowance of up to EGP 3,000 upon submission of original receipts. Any amount above EGP 3,000 is paid by the Employee."
+  },
+  {
+    "id": "med-01-fasting-glucose-threshold",
+    "category": "medical_report",
+    "title": "Clinical Pathology Lab Report — Fasting Glucose Interpretation",
+    "noisy": false,
+    "question": "How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?",
+    "expectedClauses": [3, 4],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Adel Mansour", "type": "PERSON", "role": "patient" },
+      { "value": "26809120103456", "type": "NATIONAL_ID" },
+      { "value": "+20 100 901 2345", "type": "PHONE" },
+      { "value": "adel.mansour@example.com", "type": "EMAIL" },
+      { "value": "11 Tahrir St, Dokki, Giza", "type": "ADDRESS" },
+      { "value": "Dr. Hany Selim", "type": "PERSON", "role": "doctor" },
+      { "value": "12 October 2026", "type": "DATE" },
+      { "value": "EGP 1,450", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Patient Identification. Patient: Adel Mansour, national ID 26809120103456, phone +20 100 901 2345, email adel.mansour@example.com, address 11 Tahrir St, Dokki, Giza. Collected on 12 October 2026.\n\n2. Referring Physician & Billing. Ordered by Dr. Hany Selim. Total lab fee paid: EGP 1,450.\n\n3. Metabolic Panel Results. Fasting Plasma Glucose: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\n4. Pathologist Comment. Values sit in the impaired fasting glucose (prediabetes) reference range. Repeat HbA1c in 3 months and review dietary and physical activity changes with the referring physician."
+  },
+  {
+    "id": "med-02-vitamin-d-dosage-local",
+    "category": "medical_report",
+    "title": "Endocrinology Discharge Summary — Follow-Up Appointment Window",
+    "noisy": false,
+    "question": "In how many weeks should the repeat vitamin D blood test be scheduled?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "YasminElBanna@example.com", "type": "EMAIL" },
+      { "value": "Yasmin El-Banna", "type": "PERSON", "role": "patient" },
+      { "value": "28904250107654", "type": "NATIONAL_ID" },
+      { "value": "+20 114 555 6789", "type": "PHONE" },
+      { "value": "Dr. Maged Rostom", "type": "PERSON", "role": "doctor" },
+      { "value": "5 November 2026", "type": "DATE" },
+      { "value": "EGP 950", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Patient Record. Yasmin El-Banna, national ID 28904250107654, phone +20 114 555 6789, email YasminElBanna@example.com. Visit date: 5 November 2026. Consultation fee: EGP 950.\n\n2. Clinician. Seen by Dr. Maged Rostom.\n\n3. Plan. Serum 25-OH Vitamin D measured 14 ng/mL (deficient < 20 ng/mL). Supplement with colecalciferol as prescribed and schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks."
+  },
+  {
+    "id": "med-03-insurance-copay-cap",
+    "category": "medical_report",
+    "title": "Hospital Outpatient Surgical Estimate — Patient Co-Pay Calculation",
+    "noisy": false,
+    "question": "If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Khaled Oweis", "type": "PERSON", "role": "patient" },
+      { "value": "27910110105544", "type": "NATIONAL_ID" },
+      { "value": "+20 100 432 1987", "type": "PHONE" },
+      { "value": "khaled.oweis@example.com", "type": "EMAIL" },
+      { "value": "Dr. Samira Fawzy", "type": "PERSON", "role": "doctor" },
+      { "value": "EGP 25,000", "type": "MONEY", "role": "fee" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Patient Details. Khaled Oweis, national ID 27910110105544, phone +20 100 432 1987, email khaled.oweis@example.com.\n\n2. Attending Surgeon. Dr. Samira Fawzy.\n\n3. Cost & Co-Pay. The approved outpatient arthroscopy package fee is EGP 25,000. Under Policy Plan B, the insurer reimburses 80% directly and the patient pays a 20% co-payment at admission.\n\n4. Refund Account. Overpayments are refunded to patient IBAN EG38 0019 0005 0000 0000 2631 8000 2."
+  },
+  {
+    "id": "med-04-mri-contrast-prep",
+    "category": "medical_report",
+    "title": "Radiology Pre-Procedure Instructions — Fasting Requirement",
+    "noisy": false,
+    "question": "Can I drink water 2 hours before my abdominal MRI with contrast?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "HassanAbaza@example.com", "type": "EMAIL" },
+      { "value": "Hassan Abaza", "type": "PERSON", "role": "patient" },
+      { "value": "26507030102211", "type": "NATIONAL_ID" },
+      { "value": "+20 122 311 4455", "type": "PHONE" },
+      { "value": "Dr. Nevine Badran", "type": "PERSON", "role": "doctor" },
+      { "value": "18 November 2026", "type": "DATE" },
+      { "value": "EGP 4,800", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Patient. Hassan Abaza, national ID 26507030102211, phone +20 122 311 4455, email HassanAbaza@example.com. Scheduled for 18 November 2026. Referring doctor: Dr. Nevine Badran.\n\n2. Billing. Procedure fee EGP 4,800.\n\n3. Preparation Instructions. Do not eat solid food, milk, or coffee for 6 hours before your abdominal MRI with contrast. Plain water is permitted up to 1 hour before arrival, and routine blood-pressure tablets may be taken with a small sip of water."
+  },
+  {
+    "id": "freelance-01-kill-fee",
+    "category": "consulting_agreement",
+    "title": "Design Retainer Agreement — Mid-Milestone Cancellation Fee",
+    "noisy": false,
+    "question": "If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?",
+    "expectedClauses": [2, 4],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Mariam Rizk", "type": "PERSON", "role": "agent" },
+      { "value": "29311090106677", "type": "NATIONAL_ID" },
+      { "value": "+20 106 111 2233", "type": "PHONE" },
+      { "value": "mariam.rizk@example.com", "type": "EMAIL" },
+      { "value": "Bassem Fouad", "type": "PERSON", "role": "employer" },
+      { "value": "USD 6,000", "type": "MONEY", "role": "fee" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Parties. Consulting Agreement between Bassem Fouad (\"Client\") and Mariam Rizk, national ID 29311090106677, phone +20 106 111 2233, email mariam.rizk@example.com (\"Consultant\").\n\n2. Milestone Fee. Milestone 2 (Design System Delivery) is priced at USD 6,000.\n\n3. Wire Instructions. Client pays Consultant via IBAN EG38 0019 0005 0000 0000 2631 8000 2.\n\n4. Cancellation Kill Fee. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days."
+  },
+  {
+    "id": "freelance-02-invoice-payment-net-local",
+    "category": "consulting_agreement",
+    "title": "Software Consulting MSA — Invoice Net Payment Days Lookup",
+    "noisy": false,
+    "question": "Within how many days of receiving an invoice must the client pay?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "Kareem Salem", "type": "PERSON", "role": "employee" },
+      { "value": "29002140103344", "type": "NATIONAL_ID" },
+      { "value": "+20 100 818 2929", "type": "PHONE" },
+      { "value": "kareem.salem@example.com", "type": "EMAIL" },
+      { "value": "USD 3,500", "type": "MONEY", "role": "fee" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Consultant. Kareem Salem, national ID 29002140103344, phone +20 100 818 2929, email kareem.salem@example.com.\n\n2. Retainer. Monthly retainer is USD 3,500.\n\n3. Invoicing Terms. Invoices are submitted on the last business day of the month and must be paid in full within fifteen (15) calendar days of receipt.\n\n4. Settlement Account. IBAN EG38 0019 0005 0000 0000 2631 8000 2."
+  },
+  {
+    "id": "freelance-03-card-hold-dispute",
+    "category": "consulting_agreement",
+    "title": "Event Venue Booking Contract — Cancellation Window & Deposit Refund",
+    "noisy": false,
+    "question": "If I cancel 20 days before the event, how much of my deposit is refunded?",
+    "expectedClauses": [2, 3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Rania Helmy", "type": "PERSON", "role": "tenant" },
+      { "value": "28608190104433", "type": "NATIONAL_ID" },
+      { "value": "+20 111 707 8080", "type": "PHONE" },
+      { "value": "rania.helmy@example.com", "type": "EMAIL" },
+      { "value": "4111111111111111", "type": "CARD" },
+      { "value": "EGP 30,000", "type": "MONEY", "role": "deposit" },
+      { "value": "15 December 2026", "type": "DATE" }
+    ],
+    "document": "1. Client & Card on File. Rania Helmy, national ID 28608190104433, phone +20 111 707 8080, email rania.helmy@example.com. Payment card on file: 4111111111111111. Event date: 15 December 2026.\n\n2. Booking Deposit. The Client paid an upfront deposit of EGP 30,000.\n\n3. Cancellation Schedule. Cancellations made 30 or more days before the event receive a 100% refund. Cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Cancellations within 13 days are non-refundable."
+  },
+  {
+    "id": "freelance-04-liability-cap",
+    "category": "consulting_agreement",
+    "title": "SaaS Implementation Contract — Limitation of Liability Cap",
+    "noisy": false,
+    "question": "What is the maximum damages liability the consultant can be held responsible for under the contract?",
+    "expectedClauses": [2, 4],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Mostafa El-Gendy", "type": "PERSON", "role": "agent" },
+      { "value": "28405100109876", "type": "NATIONAL_ID" },
+      { "value": "+20 128 900 1122", "type": "PHONE" },
+      { "value": "mostafa.gendy@example.com", "type": "EMAIL" },
+      { "value": "EGP 120,000", "type": "MONEY", "role": "fee" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Contractor. Mostafa El-Gendy, national ID 28405100109876, phone +20 128 900 1122, email mostafa.gendy@example.com.\n\n2. Total Contract Fee. The fixed fee for the engagement is EGP 120,000.\n\n3. Bank Details. IBAN EG38 0019 0005 0000 0000 2631 8000 2.\n\n4. Limitation of Liability. Neither party's aggregate liability under this Agreement shall exceed 100% of the Total Contract Fee paid under Clause 2, and neither party shall be liable for indirect or consequential damages."
+  },
+  {
+    "id": "loan-01-early-payoff-penalty",
+    "category": "financial_agreement",
+    "title": "Auto Financing Agreement — Early Settlement Fee",
+    "noisy": false,
+    "question": "If I pay off my remaining loan balance early, what percentage penalty applies?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Samer Fawzy", "type": "PERSON", "role": "tenant" },
+      { "value": "28103170102345", "type": "NATIONAL_ID" },
+      { "value": "+20 100 321 6549", "type": "PHONE" },
+      { "value": "samer.fawzy@example.com", "type": "EMAIL" },
+      { "value": "16 El-Merghany St, Heliopolis, Cairo", "type": "ADDRESS" },
+      { "value": "EGP 400,000", "type": "MONEY", "role": "other" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Borrower. Samer Fawzy, national ID 28103170102345, phone +20 100 321 6549, email samer.fawzy@example.com, address 16 El-Merghany St, Heliopolis, Cairo. Direct debit IBAN: EG38 0019 0005 0000 0000 2631 8000 2.\n\n2. Principal Balance. Remaining principal balance is EGP 400,000.\n\n3. Early Prepayment. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance."
+  },
+  {
+    "id": "loan-02-warranty-coverage-period-local",
+    "category": "consumer_contract",
+    "title": "Solar Inverter Purchase Contract — Battery Warranty Duration",
+    "noisy": false,
+    "question": "How many years does the warranty cover the lithium battery pack?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "AymanGohar@example.com", "type": "EMAIL" },
+      { "value": "Ayman Gohar", "type": "PERSON", "role": "tenant" },
+      { "value": "27411280105432", "type": "NATIONAL_ID" },
+      { "value": "+20 109 654 7890", "type": "PHONE" },
+      { "value": "74 El-Horreya Rd, Alexandria", "type": "ADDRESS" },
+      { "value": "EGP 95,000", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Buyer. Ayman Gohar, national ID 27411280105432, phone +20 109 654 7890, email AymanGohar@example.com, installation address 74 El-Horreya Rd, Alexandria.\n\n2. Purchase Price. Total system cost is EGP 95,000.\n\n3. Warranty Terms. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles."
+  },
+  {
+    "id": "noisy-01-arabic-indic-digits-lease",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Arabic-Indic Digits in National ID and Dates",
+    "noisy": true,
+    "question": "Can the landlord increase the rent by 15% at renewal?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "٢٧٥٠٦١٢٠١٠٤٨٣٩", "type": "NATIONAL_ID" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Karim Fathy, national ID ٢٧٥٠٦١٢٠١٠٤٨٣٩ (\"Landlord\"), and Mona Adel, phone +20 100 555 0192 (\"Tenant\").\n\n2. Rent and Renewal Cap. The monthly rent is EGP 8,500. Any annual rent increase at renewal is strictly capped at 10%."
+  },
+  {
+    "id": "noisy-02-eastern-arabic-digits-phone",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Eastern Arabic-Indic Digits in Phone & Date",
+    "noisy": true,
+    "question": "How many days' notice is required to terminate the lease at the end of a contract year?",
+    "expectedClauses": [3],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "Tariq El-Sawy", "type": "PERSON", "role": "landlord" },
+      { "value": "Hanaa Maher", "type": "PERSON", "role": "tenant" },
+      { "value": "۰۱۰۰۵۵۵۰۱۹۲", "type": "PHONE" },
+      { "value": "٠١/٠٩/٢٠٢٤", "type": "DATE" },
+      { "value": "EGP 11,000", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Tariq El-Sawy (\"Landlord\") and Hanaa Maher, mobile ۰۱۰۰۵۵۵۰۱۹۲ (\"Tenant\"), starting ٠١/٠٩/٢٠٢٤.\n\n2. Rent. Monthly rent is EGP 11,000.\n\n3. Notice. Either party may terminate at the end of a contract year by giving sixty (60) days' written notice."
+  },
+  {
+    "id": "noisy-03-unspaced-iban-and-compact-phone",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Unspaced EG IBAN and Compact 0020 Phone",
+    "noisy": true,
+    "question": "What happens if my bank transfer arrives 12 days after the first of the month?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "00201005550192", "type": "PHONE" },
+      { "value": "EG380019000500000000263180002", "type": "IBAN" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" },
+      { "value": "EGP 250", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Parties. Karim Fathy (\"Landlord\") and Mona Adel, phone 00201005550192 (\"Tenant\").\n\n2. Payment & Late Penalty. Monthly rent of EGP 8,500 is payable on the 1st of each month to IBAN EG380019000500000000263180002. Payments received more than 10 days after the due date incur a late fee of EGP 250."
+  },
+  {
+    "id": "noisy-04-postfix-currency-le-egp",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Postfix Currency (8,500 EGP and 17,000 LE)",
+    "noisy": true,
+    "question": "If I leave without giving the 90-day early termination notice, how much of my security deposit can the landlord keep?",
+    "expectedClauses": [2, 3],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "17,000 LE", "type": "MONEY", "role": "deposit" },
+      { "value": "8,500 EGP", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Karim Fathy (\"Landlord\") and Mona Adel (\"Tenant\").\n\n2. Deposit. The Tenant paid a security deposit of 17,000 LE. If the Tenant leaves early without giving 90 days' written notice, the Landlord may retain one month's rent from the deposit.\n\n3. Monthly Rent. The monthly rent is 8,500 EGP."
+  },
+  {
+    "id": "noisy-05-all-caps-and-titled-names",
+    "category": "noisy_stress",
+    "title": "Noisy Format — All-Caps Names and Honorific Titles",
+    "noisy": true,
+    "question": "Who pays for routine building elevator maintenance under this lease?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "KARIM FATHY", "type": "PERSON", "role": "landlord" },
+      { "value": "Dr. Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "Eng. Tarek Samir", "type": "PERSON", "role": "witness" },
+      { "value": "+20-100-555-0192", "type": "PHONE" },
+      { "value": "EGP 9,000", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Lease signed between KARIM FATHY (\"Landlord\") and Dr. Mona Adel, phone +20-100-555-0192 (\"Tenant\"), witnessed by Eng. Tarek Samir. Monthly rent is EGP 9,000.\n\n2. Common Area Maintenance. The Landlord pays for elevator servicing, stair lighting, and common-area repairs; the Tenant pays only metered apartment electricity and gas."
+  },
+  {
+    "id": "noisy-06-pii-in-user-question",
+    "category": "noisy_stress",
+    "title": "Noisy Format — User Types Their Own Name, Phone, and Rent Inside the Question",
+    "noisy": true,
+    "question": "I am Mona Adel (+20 100 555 0192) — can Karim Fathy raise my EGP 8,500 rent by 20% this year?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Karim Fathy (\"Landlord\") and Mona Adel, phone +20 100 555 0192 (\"Tenant\").\n\n2. Rent Cap. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice."
+  },
+  {
+    "id": "noisy-07-particles-arabic-transliterated-names",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Multi-Part Transliterated Names (El / Abdel / Abu)",
+    "noisy": true,
+    "question": "Can the tenant assign the lease to a sister company without a fee?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Mohamed El Sayed", "type": "PERSON", "role": "landlord" },
+      { "value": "Nour Al Din", "type": "PERSON", "role": "tenant" },
+      { "value": "28207150103456", "type": "NATIONAL_ID" },
+      { "value": "+20 100 600 7000", "type": "PHONE" },
+      { "value": "EGP 22,000", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Mohamed El Sayed (\"Landlord\") and Nour Al Din, national ID 28207150103456, phone +20 100 600 7000 (\"Tenant\"). Monthly rent: EGP 22,000.\n\n2. Assignment. The Tenant may assign this Lease to a wholly-owned affiliate upon 30 days' written notice without paying an assignment fee, provided the original Tenant remains guarantor."
+  },
+  {
+    "id": "noisy-08-iso-and-slash-dates-with-card",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Mixed ISO Dates, Slash Dates, and Luhn Credit Card",
+    "noisy": true,
+    "question": "If I cancel my annual gym membership within 10 days of signing, do I get a full refund?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Seif El-Din", "type": "PERSON", "role": "tenant" },
+      { "value": "4111 1111 1111 1111", "type": "CARD" },
+      { "value": "2026-11-01", "type": "DATE" },
+      { "value": "01/11/2027", "type": "DATE" },
+      { "value": "EGP 14,000", "type": "MONEY", "role": "fee" }
+    ],
+    "document": "1. Member & Billing. Member: Seif El-Din. Card billed: 4111 1111 1111 1111. Term: 2026-11-01 through 01/11/2027. Annual membership fee: EGP 14,000.\n\n2. Cooling-Off Period. The Member may cancel within 14 calendar days of the start date for a 100% refund minus EGP 0 if no personal training sessions were used."
+  },
+  {
+    "id": "noisy-09-format-variants-same-entity",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Same Phone & Rent Written in Two Different Formats Across Clauses",
+    "noisy": true,
+    "question": "What is the maximum rent after the first annual increase?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "01005550192", "type": "PHONE" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" },
+      { "value": "8500 EGP", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Contact. Landlord Karim Fathy leases to Tenant Mona Adel (primary phone +20 100 555 0192, SMS number 01005550192).\n\n2. Rent Escalation. The starting rent is EGP 8,500 (also stated as 8500 EGP). After 12 months, the Landlord may raise the rent by at most 10%."
+  },
+  {
+    "id": "noisy-10-multi-tenant-joint-liability",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Two Co-Tenants With Distinct Tags and Roles",
+    "noisy": true,
+    "question": "If my flatmate misses their half of the rent, can the landlord demand the full amount from me?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "Sara Nabil", "type": "PERSON", "role": "tenant" },
+      { "value": "+20 100 555 0192", "type": "PHONE" },
+      { "value": "0122 555 0148", "type": "PHONE" },
+      { "value": "EGP 12,000", "type": "MONEY", "role": "rent" }
+    ],
+    "document": "1. Parties. Landlord Karim Fathy leases the apartment to Co-Tenants Mona Adel (phone +20 100 555 0192) and Sara Nabil (phone 0122 555 0148).\n\n2. Joint and Several Liability. The total monthly rent is EGP 12,000. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant."
+  },
+  {
+    "id": "noisy-11-distractor-numbers-and-clauses",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Contract With Multiple Distractor Amounts and Clauses",
+    "noisy": true,
+    "question": "How much notice must I give to end the contract early?",
+    "expectedClauses": [4],
+    "expectedLocalRoute": true,
+    "goldSensitive": [
+      { "value": "Karim Fathy", "type": "PERSON", "role": "landlord" },
+      { "value": "27506120104839", "type": "NATIONAL_ID" },
+      { "value": "Mona Adel", "type": "PERSON", "role": "tenant" },
+      { "value": "29503140101234", "type": "NATIONAL_ID" },
+      { "value": "EGP 17,000", "type": "MONEY", "role": "deposit" },
+      { "value": "EGP 8,500", "type": "MONEY", "role": "rent" },
+      { "value": "EGP 250", "type": "MONEY", "role": "fee" },
+      { "value": "EG38 0019 0005 0000 0000 2631 8000 2", "type": "IBAN" }
+    ],
+    "document": "1. Parties. Karim Fathy (ID 27506120104839) and Mona Adel (ID 29503140101234).\n\n2. Deposit & Rent. Deposit is EGP 17,000 and monthly rent is EGP 8,500.\n\n3. Late Fee & IBAN. Late fee is EGP 250; transfer to EG38 0019 0005 0000 0000 2631 8000 2.\n\n4. Early Termination Notice. The Tenant may end the Lease early by providing at least ninety (90) days' prior written notice to the Landlord."
+  },
+  {
+    "id": "noisy-12-euro-and-usd-dual-currency",
+    "category": "noisy_stress",
+    "title": "Noisy Format — Euro and Dollar Amounts in Cross-Border License",
+    "noisy": true,
+    "question": "If annual gross revenue exceeds the threshold, what royalty percentage applies?",
+    "expectedClauses": [2],
+    "expectedLocalRoute": false,
+    "goldSensitive": [
+      { "value": "Nader Chahine", "type": "PERSON", "role": "employer" },
+      { "value": "Layla Mansour", "type": "PERSON", "role": "agent" },
+      { "value": "layla.mansour@example.com", "type": "EMAIL" },
+      { "value": "+20 100 999 8877", "type": "PHONE" },
+      { "value": "€15,000", "type": "MONEY", "role": "fee" },
+      { "value": "$250,000", "type": "MONEY", "role": "other" }
+    ],
+    "document": "1. Parties. Licensor Nader Chahine and Licensee Layla Mansour, email layla.mansour@example.com, phone +20 100 999 8877. Upfront license fee: €15,000.\n\n2. Royalties. Once annual gross revenue exceeds $250,000, the Licensee shall pay a quarterly royalty of 6% on revenue above that threshold."
+  }
+]

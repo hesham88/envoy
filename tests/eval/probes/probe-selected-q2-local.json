@@ -1,0 +1,188 @@
+{
+  "variant": "selected",
+  "question": "When does my contract end?",
+  "at": "2026-11-22T13:25:20.398Z",
+  "results": [
+    {
+      "ok": true,
+      "ms": 88678,
+      "mode": "private",
+      "selectedIds": [
+        2,
+        10
+      ],
+      "route": {
+        "local": true,
+        "reason": "The clause 2 states the term starts on 1 September 2024, implying the end date is calculable based on that start date and the 3-year term, although the exact end date is not explicitly stated as a single fact. However, the question asks 'When does my contract end?', and the provided text contains the start date and term, allowing for a derived answer, which is often acceptable for simple date lookups concerning contract terms."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 33645
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 21644
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 33358
+        }
+      ],
+      "guardOk": true,
+      "fallbackReason": null,
+      "nanoEntities": [
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Landlord",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Tenant",
+          "tenant"
+        ]
+      ],
+      "outbound": "Question: When does my contract end?\n\nClause 2: 2. Premises and term. The [LANDLORD] leases to the [TENANT] the apartment at [ADDRESS_2] (\"the Premises\") for a term of three (3) years starting [DATE_2].\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The [TENANT] may end the Lease early with 90 days' written notice, subject to Clause 6.",
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 6
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 33651
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 55298
+        }
+      ]
+    }
+  ]
+}

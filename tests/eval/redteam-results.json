@@ -1,0 +1,517 @@
+{
+  "generatedAt": "2026-11-22T19:45:58.111Z",
+  "cases": 28,
+  "blocked": 20,
+  "blockRate": 0.7143,
+  "bypasses": [
+    {
+      "id": "rt-10-spelled-out-national-id",
+      "technique": "digits-in-words"
+    },
+    {
+      "id": "rt-11-spelled-out-phone",
+      "technique": "digits-in-words"
+    },
+    {
+      "id": "rt-12-spelled-out-money",
+      "technique": "digits-in-words"
+    },
+    {
+      "id": "rt-14-newline-split-midword",
+      "technique": "split-across-lines"
+    },
+    {
+      "id": "rt-17-base64-name",
+      "technique": "base64"
+    },
+    {
+      "id": "rt-18-base64-national-id",
+      "technique": "base64"
+    },
+    {
+      "id": "rt-19-reversed-name",
+      "technique": "reversed-string"
+    },
+    {
+      "id": "rt-20-reversed-national-id",
+      "technique": "reversed-string"
+    }
+  ],
+  "bypassDetails": [
+    {
+      "id": "rt-10-spelled-out-national-id",
+      "technique": "digits-in-words",
+      "entityType": "NATIONAL_ID",
+      "reproOutbound": "ID digits: two seven five zero six one two zero one zero four eight three nine."
+    },
+    {
+      "id": "rt-11-spelled-out-phone",
+      "technique": "digits-in-words",
+      "entityType": "PHONE",
+      "reproOutbound": "Call zero one zero zero five five five zero one nine two."
+    },
+    {
+      "id": "rt-12-spelled-out-money",
+      "technique": "digits-in-words",
+      "entityType": "MONEY",
+      "reproOutbound": "Monthly rent is eight thousand five hundred Egyptian pounds."
+    },
+    {
+      "id": "rt-14-newline-split-midword",
+      "technique": "split-across-lines",
+      "entityType": "PERSON",
+      "reproOutbound": "Signed by Kar\nim Fat\nhy on the lease."
+    },
+    {
+      "id": "rt-17-base64-name",
+      "technique": "base64",
+      "entityType": "PERSON",
+      "reproOutbound": "Landlord token: S2FyaW0gRmF0aHk=."
+    },
+    {
+      "id": "rt-18-base64-national-id",
+      "technique": "base64",
+      "entityType": "NATIONAL_ID",
+      "reproOutbound": "Ref: Mjc1MDYxMjAxMDQ4Mzk=."
+    },
+    {
+      "id": "rt-19-reversed-name",
+      "technique": "reversed-string",
+      "entityType": "PERSON",
+      "reproOutbound": "Note: yhtaF miraK owns the unit."
+    },
+    {
+      "id": "rt-20-reversed-national-id",
+      "technique": "reversed-string",
+      "entityType": "NATIONAL_ID",
+      "reproOutbound": "Backwards ID: 93840102160572."
+    }
+  ],
+  "controls": {
+    "total": 2,
+    "passed": 2,
+    "falseBlocks": []
+  },
+  "rows": [
+    {
+      "id": "rt-01-zwsp-name",
+      "technique": "zero-width-space",
+      "entityType": "PERSON",
+      "description": "Zero-width space (U+200B) inserted inside protected person name",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Ka​rim Fa​thy",
+          "type": "PERSON",
+          "index": 10
+        }
+      ]
+    },
+    {
+      "id": "rt-02-zwj-national-id",
+      "technique": "zero-width-joiner",
+      "entityType": "NATIONAL_ID",
+      "description": "Zero-width joiner (U+200D) and ZWNJ (U+200C) inserted inside 14-digit Egyptian national ID",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "2750‌6120‍1048​39",
+          "type": "NATIONAL_ID",
+          "index": 8
+        }
+      ]
+    },
+    {
+      "id": "rt-03-soft-hyphen-email",
+      "technique": "soft-hyphen",
+      "entityType": "EMAIL",
+      "description": "Soft hyphen (U+00AD) inserted inside email address",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "mo­na.adel@exam­ple.com",
+          "type": "EMAIL",
+          "index": 16
+        }
+      ]
+    },
+    {
+      "id": "rt-04-bom-iban",
+      "technique": "zero-width-bom",
+      "entityType": "IBAN",
+      "description": "BOM / ZWNBSP (U+FEFF) inserted inside EG IBAN",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "EG38﻿0019﻿000500000000263180002",
+          "type": "IBAN",
+          "index": 12
+        }
+      ]
+    },
+    {
+      "id": "rt-05-cyrillic-homoglyph-name",
+      "technique": "unicode-homoglyph",
+      "entityType": "PERSON",
+      "description": "Cyrillic 'а' (U+0430) and 'е' (U+0435) substituted in protected name",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Monа Adеl",
+          "type": "PERSON",
+          "index": 8
+        }
+      ]
+    },
+    {
+      "id": "rt-06-cyrillic-homoglyph-iban",
+      "technique": "unicode-homoglyph",
+      "entityType": "IBAN",
+      "description": "Cyrillic 'Е' (U+0415) replacing Latin 'E' in EG IBAN",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "ЕG38 0019 0005 0000 0000 2631 8000 2",
+          "type": "IBAN",
+          "index": 8
+        }
+      ]
+    },
+    {
+      "id": "rt-07-fullwidth-national-id",
+      "technique": "fullwidth-digits",
+      "entityType": "NATIONAL_ID",
+      "description": "Full-width Unicode digits (U+FF10-U+FF19) encoding Egyptian national ID",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "２７５０６１２０１０４８３９",
+          "type": "NATIONAL_ID",
+          "index": 13
+        }
+      ]
+    },
+    {
+      "id": "rt-08-fullwidth-name",
+      "technique": "fullwidth-latin",
+      "entityType": "PERSON",
+      "description": "Full-width Latin characters encoding protected name",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Ｋａｒｉｍ Ｆａｔｈｙ",
+          "type": "PERSON",
+          "index": 10
+        }
+      ]
+    },
+    {
+      "id": "rt-09-fullwidth-money",
+      "technique": "fullwidth-digits",
+      "entityType": "MONEY",
+      "description": "Full-width digits encoding protected rent amount",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "EGP ８,５００",
+          "type": "MONEY",
+          "index": 16
+        }
+      ]
+    },
+    {
+      "id": "rt-10-spelled-out-national-id",
+      "technique": "digits-in-words",
+      "entityType": "NATIONAL_ID",
+      "description": "14-digit national ID spelled out digit-by-digit in English words",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-11-spelled-out-phone",
+      "technique": "digits-in-words",
+      "entityType": "PHONE",
+      "description": "Mobile number spelled out in English words",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-12-spelled-out-money",
+      "technique": "digits-in-words",
+      "entityType": "MONEY",
+      "description": "Protected money amount spelled out in words",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-13-newline-split-name",
+      "technique": "split-across-lines",
+      "entityType": "PERSON",
+      "description": "Protected name split across two lines with newline",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Karim\nFathy",
+          "type": "PERSON",
+          "index": 10
+        }
+      ]
+    },
+    {
+      "id": "rt-14-newline-split-midword",
+      "technique": "split-across-lines",
+      "entityType": "PERSON",
+      "description": "Single word of name split mid-word across a line break",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-15-newline-split-id",
+      "technique": "split-across-lines",
+      "entityType": "NATIONAL_ID",
+      "description": "National ID split across lines",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "2750612\n0104839",
+          "type": "NATIONAL_ID",
+          "index": 4
+        }
+      ]
+    },
+    {
+      "id": "rt-16-newline-split-iban",
+      "technique": "split-across-lines",
+      "entityType": "IBAN",
+      "description": "EG IBAN split across multiple lines",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "EG38 0019\n0005 0000\n0000 2631 8000 2",
+          "type": "IBAN",
+          "index": 6
+        }
+      ]
+    },
+    {
+      "id": "rt-17-base64-name",
+      "technique": "base64",
+      "entityType": "PERSON",
+      "description": "Base64-encoded protected name (Karim Fathy)",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-18-base64-national-id",
+      "technique": "base64",
+      "entityType": "NATIONAL_ID",
+      "description": "Base64-encoded 14-digit national ID (27506120104839)",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-19-reversed-name",
+      "technique": "reversed-string",
+      "entityType": "PERSON",
+      "description": "Reversed string of protected person name (Karim Fathy -> yhtaF miraK)",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-20-reversed-national-id",
+      "technique": "reversed-string",
+      "entityType": "NATIONAL_ID",
+      "description": "Reversed 14-digit national ID (93840102160572)",
+      "expectedBlocked": true,
+      "actualBlocked": false,
+      "passed": false,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-21-punctuated-iban",
+      "technique": "spaced-punctuated",
+      "entityType": "IBAN",
+      "description": "Dash/dot punctuated IBAN",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "EG38-0019.0005/0000-0000-2631-8000-2",
+          "type": "IBAN",
+          "index": 8
+        }
+      ]
+    },
+    {
+      "id": "rt-22-punctuated-phone",
+      "technique": "spaced-punctuated",
+      "entityType": "PHONE",
+      "description": "Parenthesized and dotted mobile phone number",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "+20) 100.555.0192",
+          "type": "PHONE",
+          "index": 6
+        }
+      ]
+    },
+    {
+      "id": "rt-23-defanged-email",
+      "technique": "spaced-punctuated",
+      "entityType": "EMAIL",
+      "description": "Defanged email with [at] and [dot]",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "mona [dot] adel [at] example [dot] com",
+          "type": "EMAIL",
+          "index": 7
+        }
+      ]
+    },
+    {
+      "id": "rt-24-spaced-money",
+      "technique": "spaced-punctuated",
+      "entityType": "MONEY",
+      "description": "Space-separated digits in rent amount (8 5 0 0)",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "0 pounds",
+          "type": "MONEY",
+          "index": 22
+        }
+      ]
+    },
+    {
+      "id": "rt-25-arabic-indic-national-id",
+      "technique": "arabic-indic-digits",
+      "entityType": "NATIONAL_ID",
+      "description": "Arabic-Indic numerals encoding protected national ID",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "٢٧٥٠٦١٢٠١٠٤٨٣٩",
+          "type": "NATIONAL_ID",
+          "index": 4
+        }
+      ]
+    },
+    {
+      "id": "rt-26-fake-tag-name",
+      "technique": "fake-tag-injection",
+      "entityType": "PERSON",
+      "description": "Raw name disguised inside square brackets [KARIM_FATHY] not in knownTags",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "KARIM_FATHY",
+          "type": "PERSON",
+          "index": 11
+        }
+      ]
+    },
+    {
+      "id": "rt-27-spaced-key-shaped",
+      "technique": "spaced-punctuated",
+      "entityType": "ORG",
+      "description": "Hyphen-spaced synthetic secret token passed as protected entity",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "T-O-K-E-N-_-A-L-P-H-A-_-9-9-2-8-1-7",
+          "type": "ORG",
+          "index": 5
+        }
+      ]
+    },
+    {
+      "id": "rt-28-nfd-accented-name",
+      "technique": "unicode-combining-marks",
+      "entityType": "PERSON",
+      "description": "Combining acute accents (NFD) added to protected person name",
+      "expectedBlocked": true,
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Kárim Fáthy",
+          "type": "PERSON",
+          "index": 10
+        }
+      ]
+    },
+    {
+      "id": "rt-ctrl-01-clean-tags",
+      "technique": "control-clean",
+      "entityType": "MONEY",
+      "description": "Control: properly masked Clause 7 with [RENT] and [LANDLORD] must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-02-clean-expr",
+      "technique": "control-clean",
+      "entityType": "MONEY",
+      "description": "Control: symbolic math expression {{RENT * 1.10}} must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    }
+  ]
+}

@@ -1,0 +1,619 @@
+{
+  "generatedAt": "2026-11-22T19:21:52.667Z",
+  "judgeModel": "gemini-3.5-flash-lite",
+  "mode": "ONLY_IN_CLOUD (Firebase AI Logic + App Check)",
+  "byArm": {
+    "gemma4": {
+      "n": 10,
+      "envoyScore": 1,
+      "rawCeilingScore": 1,
+      "answerQualityRetained": 1,
+      "clauseCiteRate": 1,
+      "verdicts": {
+        "correct": 10,
+        "partially": 0,
+        "wrong": 0
+      },
+      "rows": [
+        {
+          "id": "lease-01-rent-cap",
+          "question": "Can my landlord raise the rent 20% this year?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7, the Landlord is limited to increasing the rent by no more than 10% per contract year (which can be represented as EGP 9,350), meaning a 20% increase exceeds the maximum allowed percentage.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites Clause 7's 10% maximum annual increase limit."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that a 20% increase is not allowed and accurately cites the 10% maximum increase limit from Clause 7."
+          }
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "question": "When does my contract end?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "Your contract ends after a term of three (3) years starting 1 September 2024, unless terminated earlier in accordance with the agreement. \n\nAccording to Clause 2, the lease is granted for a term of three (3) years beginning on 1 September 2024. Additionally, Clause 10 allows either party to end the lease at the end of a contract year by providing at least 60 days' written notice, or the Tenant to end it early with 90 days' written notice subject to Clause 6.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states the lease term and end conditions based on Clause 2 and Clause 10."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states the duration and start date of the contract based on Clause 2, though it calculates the exact end date as three years from the start."
+          }
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "question": "What happens to my deposit if I leave early?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "Your deposit may be reduced by one month's rent if you leave early without the required notice. \n\nAccording to Clause 6, if you leave before the end of the term without the notice required by Clause 10, the Landlord is permitted to keep one month's rent from your EGP 17,000. The remainder of the EGP 17,000 is otherwise returned within 30 days after the lease ends, minus any unpaid rent or repair costs.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately reflects the conditions and numbers from Clauses 6 and 10 regarding the deposit if the tenant leaves early."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately explains the deposit consequence for leaving early and correctly cites the relevant clause."
+          }
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "question": "If I pay rent on the 8th of the month, do I owe the late fee?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "You do not owe the late fee if you pay rent on the 8th of the month. \n\nAccording to Clause 8, rent is due on the first day of the month, but the late fee of EGP 250 only applies if the rent is paid more than 10 days late. Paying on the 8th is within the 10-day grace period.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that paying on the 8th avoids the late fee and accurately references Clause 8's conditions."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies that no late fee is owed since the 8th is within the 10-day grace period and correctly cites Clause 8."
+          }
+        },
+        {
+          "id": "lease-05-sublet-policy",
+          "question": "Can I rent out one bedroom on a short-term basis without asking the owner?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, you cannot rent out one bedroom on a short-term basis without asking the owner because the agreement explicitly prohibits listing any room on short-term rental platforms without prior written authorization from the Landlord.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states that short-term rental of a room is prohibited without prior written authorization, reflecting the correct clause."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers the question and correctly cites Clause 3 regarding the prohibition of short-term rentals without written authorization."
+          }
+        },
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "question": "How many hours' notice must the landlord give before entering for repairs?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "The landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs. \n\nClause 4 states that the Landlord is required to provide at least 48 hours' written notice prior to entry for routine inspection or non-urgent repairs.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states the required 48 hours' notice and correctly cites clause 4 from the source document."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate answer accurately states the 48 hours' notice requirement and correctly cites clause 4."
+          }
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "question": "Can the building management increase our monthly service charge by 15% next year?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, the building management cannot increase the monthly service charge by 15% next year. Annual increases to the service charge are capped at 8% per year, not by a percentage.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that a 15% increase is not allowed because annual service charge increases are capped at 8% per year as specified in clause 3."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly answers that a 15% increase is not allowed and cites the correct clause establishing an 8% cap."
+          }
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "question": "A main water pipe inside the wall burst. Who has to pay for the repair?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "The landlord has to pay for the repair of the main water pipe inside the wall. \n\nAccording to the excerpt, the landlord is solely responsible for hidden plumbing and main risers, which covers a main water pipe inside the wall.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the landlord is responsible for the main water pipe based on the lease terms regarding hidden plumbing."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the landlord is responsible for the repair of the main water pipe and accurately cites Clause 3."
+          }
+        },
+        {
+          "id": "offer-01-severance-calculation",
+          "question": "If the company eliminates my role without cause after 18 months, how much severance pay do I receive?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "You will receive severance equal to 2 plus a 60-day notice period. \n\nAccording to Clause 5, if the company terminates the agreement without cause after the probation period, the employer is required to pay severance equal to two (2) months of gross monthly salary in addition to a 60-day notice period, regardless of whether the termination occurs at 18 months.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies the severance terms and notice period from Clause 5, though the first sentence has a minor typo (\"equal to 2\"), the full explanation accurately reflects the document."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the correct severance amount and notice period based on Clause 5."
+          }
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "question": "If I resign, can I immediately join a healthcare software startup in Cairo?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. Clause 4 states that the non-competition restriction does not apply to non-financial software industries such as healthcare.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately concludes that the employee can immediately join a healthcare software startup and correctly cites clause 4's exemption for non-financial software industries."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the employee can immediately join a healthcare software startup and accurately cites Clause 4 regarding the non-competition exceptions."
+          }
+        }
+      ]
+    },
+    "nano": {
+      "n": 10,
+      "envoyScore": 1,
+      "rawCeilingScore": 1,
+      "answerQualityRetained": 1,
+      "clauseCiteRate": 1,
+      "verdicts": {
+        "correct": 10,
+        "partially": 0,
+        "wrong": 0
+      },
+      "rows": [
+        {
+          "id": "lease-01-rent-cap",
+          "question": "Can my landlord raise the rent 20% this year?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, your landlord cannot raise the rent 20% this year because the maximum allowable increase is 10% per contract year. \n\nThe agreement states that the Landlord may only increase the rent by no more than 10% once per contract year, meaning a 20% increase exceeds the permitted limit. Therefore, the maximum increased rent for this year would be calculated as EGP 9,350.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that a 20% increase is not allowed based on Clause 7, which sets the maximum annual rent increase at 10%."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that a 20% increase is not allowed and accurately cites the 10% maximum increase limit from Clause 7."
+          }
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "question": "When does my contract end?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "Your contract ends after three years starting from 1 September 2024, unless terminated early according to the lease terms. \n\nAccording to Clause 2, the lease is granted for a term of three (3) years starting on 1 September 2024, meaning it naturally concludes three years after that date. Additionally, Clause 10 allows either party to end the lease at the end of a contract year with at least 60 days of written notice, or the tenant to end it early with 90 days of written notice subject to Clause 6.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the three-year term starting from 1 September 2024 as stated in Clause 2, and correctly references termination conditions."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states the duration and start date of the contract based on Clause 2, though it calculates the exact end date as three years from the start."
+          }
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "question": "What happens to my deposit if I leave early?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "If you leave early without the required notice, the landlord may keep one month's rent from your deposit. \n\nAccording to Clause 6, the landlord normally returns the security deposit (EGP 17,000) within 30 days after the lease ends, minus deductions for unpaid rent or damage repair costs. However, if you leave before the end of the term without giving the notice required by Clause 10, the landlord is specifically permitted to keep one month's rent from that deposit.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers what happens to the deposit when leaving early and correctly cites or references the relevant clauses (6 and 10)."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately explains the deposit consequence for leaving early and correctly cites the relevant clause."
+          }
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "question": "If I pay rent on the 8th of the month, do I owe the late fee?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "If you pay rent on the 8th of the month, you do not owe the late fee. \n\nRent is due on the first day of the month, and a late fee is only applied to rent paid more than 10 days late. Since the 8th is only 7 days after the first, it is not past the 10-day threshold.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies that the 8th is within the 10-day grace period for rent payment outlined in clause 8."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies that no late fee is owed since the 8th is within the 10-day grace period and correctly cites Clause 8."
+          }
+        },
+        {
+          "id": "lease-05-sublet-policy",
+          "question": "Can I rent out one bedroom on a short-term basis without asking the owner?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, you cannot rent out one bedroom on a short-term basis without asking the owner because the tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the landlord.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states that the tenant cannot list a room on short-term rental platforms without prior written authorization, reflecting the correct clause."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers the question and correctly cites Clause 3 regarding the prohibition of short-term rentals without written authorization."
+          }
+        },
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "question": "How many hours' notice must the landlord give before entering for repairs?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "The landlord must give at least 48 hours' notice before entering for repairs. \n\nAccording to Clause 4, the landlord is required to give at least 48 hours' written notice prior to entering the Property for routine inspection or non-urgent repairs.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the required notice period and correctly cites Clause 4."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate answer accurately states the 48 hours' notice requirement and correctly cites clause 4."
+          }
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "question": "Can the building management increase our monthly service charge by 15% next year?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, the building management cannot increase the monthly service charge by 15% next year. \n\nAnnual increases to the service charge are capped at 8 per year according to Clause 3.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that a 15% increase is not allowed because annual service charge increases are capped at 8% per year, and accurately cites Clause 3."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly answers that a 15% increase is not allowed and cites the correct clause establishing an 8% cap."
+          }
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "question": "A main water pipe inside the wall burst. Who has to pay for the repair?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "The Landlord has to pay for the repair of the main water pipe inside the wall. \n\nAccording to the excerpt, the Landlord is solely responsible for hidden plumbing and main risers, which covers a main water pipe located inside a wall.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the Landlord is responsible based on the clause regarding hidden plumbing and main risers."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the landlord is responsible for the repair of the main water pipe and accurately cites Clause 3."
+          }
+        },
+        {
+          "id": "offer-01-severance-calculation",
+          "question": "If the company eliminates my role without cause after 18 months, how much severance pay do I receive?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "If the company eliminates your role without cause after 18 months, you receive two months of gross monthly salary plus a 60-day notice period. \n\nAccording to Clause 5, termination without cause after the probation period requires the employer to pay severance equal to two (2) months of gross monthly salary and a notice period of 60 days.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the severance and notice period for termination without cause after the probation period as outlined in Clause 5."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the correct severance amount and notice period based on Clause 5."
+          }
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "question": "If I resign, can I immediately join a healthcare software startup in Cairo?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. Clause 4 states that the non-competition restriction does not apply to non-financial software industries such as healthcare.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers the user's question using the exact exemption provided in clause 4."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the employee can immediately join a healthcare software startup and accurately cites Clause 4 regarding the non-competition exceptions."
+          }
+        }
+      ]
+    },
+    "basic": {
+      "n": 10,
+      "envoyScore": 1,
+      "rawCeilingScore": 1,
+      "answerQualityRetained": 1,
+      "clauseCiteRate": 1,
+      "verdicts": {
+        "correct": 10,
+        "partially": 0,
+        "wrong": 0
+      },
+      "rows": [
+        {
+          "id": "lease-01-rent-cap",
+          "question": "Can my landlord raise the rent 20% this year?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, the landlord cannot raise the rent by 20% this year. \n\nAccording to Clause 7 of the lease, the landlord is only permitted to increase the rent once per contract year by no more than 10%.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites Clause 7's 10% limit."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that a 20% increase is not allowed and accurately cites the 10% maximum increase limit from Clause 7."
+          }
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "question": "When does my contract end?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "Your contract ends after a term of three (3) years starting 1 September 2024. \n\nAccording to Clause 2, the lease is granted for a term of three (3) years beginning on 1 September 2024. Additionally, Clause 10 allows either party to end the lease at the end of a contract year with at least 60 days' written notice, or the tenant to end it early with 90 days' written notice.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies the contract term of three years starting from 1 September 2024 and cites the relevant clauses accurately."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states the duration and start date of the contract based on Clause 2, though it calculates the exact end date as three years from the start."
+          }
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "question": "What happens to my deposit if I leave early?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "If you leave early without the required notice, the Landlord may keep one month's rent from your deposit. \n\nAccording to Clause 6, the Landlord returns the security deposit (EGP 17,000) within 30 days after the Lease ends, minus any unpaid rent or damage repair costs, and specifically states that if you leave before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers what happens to the deposit if leaving early, citing the correct terms and clauses from the document."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately explains the deposit consequence for leaving early and correctly cites the relevant clause."
+          }
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "question": "If I pay rent on the 8th of the month, do I owe the late fee?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, you do not owe the late fee if you pay rent on the 8th of the month. \n\nAccording to Clause 8, rent is due on the first day of each month, and a late fee of EGP 250 is only charged if the rent is paid more than 10 days late. Since paying on the 8th is within 10 days of the due date, the late fee does not apply.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate answer correctly evaluates the payment timeline and accurately cites the conditions from Clause 8."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies that no late fee is owed since the 8th is within the 10-day grace period and correctly cites Clause 8."
+          }
+        },
+        {
+          "id": "lease-05-sublet-policy",
+          "question": "Can I rent out one bedroom on a short-term basis without asking the owner?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, you cannot rent out one bedroom on a short-term basis without asking the owner because the agreement explicitly prohibits listing any room on short-term rental platforms without prior written authorization from the Landlord. \n\nAccording to Clause 3, the Tenant may only occupy the premises as a family residence and is specifically barred from subletting, assigning, or listing any room on short-term rental platforms without prior written authorization from the Landlord.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that short-term rentals are prohibited without prior written authorization and accurately cites Clause 3."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers the question and correctly cites Clause 3 regarding the prohibition of short-term rentals without written authorization."
+          }
+        },
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "question": "How many hours' notice must the landlord give before entering for repairs?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "The landlord must give at least 48 hours' written notice before entering the property for routine inspection or non-urgent repairs. \n\nAccording to Clause 4, the Landlord is required to provide at least 48 hours' written notice prior to entry for routine inspection or non-urgent repairs.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states the required 48 hours' notice and correctly cites Clause 4."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate answer accurately states the 48 hours' notice requirement and correctly cites clause 4."
+          }
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "question": "Can the building management increase our monthly service charge by 15% next year?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nAccording to Clause 3, annual increases to the service charge are capped at 8% per year, which means any increase would be limited to a maximum of EGP 4,860.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that a 15% increase is not allowed because annual increases are capped at 8% according to Clause 3."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly answers that a 15% increase is not allowed and cites the correct clause establishing an 8% cap."
+          }
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "question": "A main water pipe inside the wall burst. Who has to pay for the repair?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "The Landlord has to pay for the repair. \n\nAccording to Clause 3, the Landlord is solely responsible for hidden plumbing and main risers, which covers a main water pipe inside the wall that burst.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the Landlord is responsible and accurately cites the relevant clause regarding hidden plumbing."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the landlord is responsible for the repair of the main water pipe and accurately cites Clause 3."
+          }
+        },
+        {
+          "id": "offer-01-severance-calculation",
+          "question": "If the company eliminates my role without cause after 18 months, how much severance pay do I receive?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "If the company eliminates your role without cause after 18 months, you receive severance equal to two months of gross monthly salary plus a 60-day notice period. \n\nAccording to Clause 5, termination without cause after the probation period entitles the employee to severance equal to two (2) months of gross monthly salary (where gross monthly salary is EGP 65,000) plus a 60-day notice period.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the severance and notice period from Clause 5 and correctly incorporates the salary from Clause 2."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the correct severance amount and notice period based on Clause 5."
+          }
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "question": "If I resign, can I immediately join a healthcare software startup in Cairo?",
+          "answerSource": "in_cloud",
+          "guardOk": true,
+          "envoyAnswer": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. Clause 4 states that the non-competition restriction does not apply to non-financial software industries such as healthcare.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately concludes that the employee can join a healthcare software startup and correctly cites the exception in clause 4."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the employee can immediately join a healthcare software startup and accurately cites Clause 4 regarding the non-competition exceptions."
+          }
+        }
+      ]
+    }
+  }
+}

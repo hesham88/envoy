@@ -134,3 +134,42 @@ describe('buildRows', () => {
     expect(rows.find((r) => r.key === 'reason')?.state).toBe('waiting');
   });
 });
+
+describe('explanations and before/after', () => {
+  it("shows the on-device model's own reasons for what it kept and where it answers", () => {
+    const analysis = {
+      mode: 'private',
+      steps: [
+        { step: 'detect', source: 'on_device', ms: 900 },
+        { step: 'minimize', source: 'on_device', ms: 700 },
+        { step: 'route', source: 'on_device', ms: 400 },
+      ],
+      selectionReason: 'Clause 7 sets the rent and the yearly cap.',
+      route: { local: false, reason: 'Working out the increase needs reasoning.' },
+    } as unknown as Parameters<typeof buildRows>[0]['analysis'];
+    const rows = buildRows({
+      phase: 'review',
+      progress: null,
+      analysis,
+      result: null,
+      cloudModel: 'm',
+      localOnly: false,
+    });
+    expect(rows.find((r) => r.key === 'minimize')?.detail).toBe(
+      'Clause 7 sets the rent and the yearly cap.',
+    );
+    expect(rows.find((r) => r.key === 'route')?.detail).toBe(
+      'Working out the increase needs reasoning.',
+    );
+  });
+
+  it('the approval card shows before and after at a glance', async () => {
+    const user = userEvent.setup();
+    const { runtime } = basicRuntime();
+    render(<ChatApp runtime={runtime} />);
+    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    const group = await screen.findByRole('group', { name: 'Before and after' });
+    expect(group.textContent).toMatch(/On this device.*characters, \d+ private details/);
+    expect(group.textContent).toMatch(/Would leave, after you approve.*0 raw details/);
+  });
+});

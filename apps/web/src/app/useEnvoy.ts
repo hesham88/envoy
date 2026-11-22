@@ -36,12 +36,21 @@ export interface EnvoyRuntime {
   /** Must be called from a click handler: Chrome needs a user gesture to download the model. */
   enablePrivateMode: () => void;
   refreshStatus: () => Promise<void>;
+  /**
+   * Loads the on-device model ahead of the first real step (the first call is the slow one). Safe to call
+   * often: it runs once, and only when the model is available. Await it before a run so the two never
+   * hold sessions at the same time.
+   */
+  warmUp?: () => Promise<void>;
 }
 
 export function useEnvoy(): EnvoyRuntime {
   const boot = useMemo(() => {
     try {
-      return { ...initEnvoy(readFirebaseEnv(), { dev: import.meta.env.DEV }), error: null as string | null };
+      return {
+        ...initEnvoy(readFirebaseEnv(), { dev: import.meta.env.DEV }),
+        error: null as string | null,
+      };
     } catch (e) {
       return { app: null, ai: null, error: (e as Error).message };
     }
@@ -56,7 +65,9 @@ export function useEnvoy(): EnvoyRuntime {
   useEffect(() => {
     void refreshStatus();
     if (boot.app) {
-      void loadRemoteSettings(boot.app).then((s) => setSettings({ ...s, cloudModel: cloudModelOverride() ?? s.cloudModel }));
+      void loadRemoteSettings(boot.app).then((s) =>
+        setSettings({ ...s, cloudModel: cloudModelOverride() ?? s.cloudModel }),
+      );
     }
     return () => {
       if (polling.current) window.clearInterval(polling.current);
@@ -65,7 +76,9 @@ export function useEnvoy(): EnvoyRuntime {
 
   const deps = useMemo<Deps | null>(() => {
     if (!boot.ai) return null;
-    const models = Object.fromEntries(STEPS.map((s) => [s, createStepModel(boot.ai!, s, settings, SCHEMAS[s])])) as Deps['models'];
+    const models = Object.fromEntries(
+      STEPS.map((s) => [s, createStepModel(boot.ai!, s, settings, SCHEMAS[s])]),
+    ) as Deps['models'];
     return { runPrivate, models, getDeviceStatus };
   }, [boot.ai, settings]);
 
@@ -85,5 +98,27 @@ export function useEnvoy(): EnvoyRuntime {
       });
   }, [deps, refreshStatus]);
 
-  return { status, progress, settings, deps, configError: boot.error, enablePrivateMode, refreshStatus };
+  const warm = useRef<Promise<void> | null>(null);
+  const warmUp = useCallback(() => {
+    if (!deps || status !== 'available') return Promise.resolve();
+    // A tiny guarded on-device call (it appears in the network ledger as a device call, like any other).
+    warm.current ??= deps
+      .runPrivate(deps.models.answerLocal, 'Reply with the single word: ready', 'answerLocal')
+      .then(
+        () => undefined,
+        () => undefined,
+      );
+    return warm.current;
+  }, [deps, status]);
+
+  return {
+    status,
+    progress,
+    settings,
+    deps,
+    configError: boot.error,
+    enablePrivateMode,
+    refreshStatus,
+    warmUp,
+  };
 }

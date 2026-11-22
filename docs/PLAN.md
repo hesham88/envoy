@@ -39,7 +39,7 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 | 10 | Polish gate | in progress: Lighthouse a11y 100, best practices 100, SEO 91; dark-theme toggle, 1024px check and perf trace pending |
 
 ## Next plans
-Motion polish → eval and Harness² tuning → Chrome extension → launch (assets, README, video, Devpost).
+Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 2026-11-22 on `lane/eval-harness`**: **full `36/36` live arms** for Default Gemini Nano `nano_v3_cpu_component 2025.8.21.1028` (`100%` recall, `0` leaks, `83.3%` clause acc, **`10.2%` min ratio / `89.8%` reduction**, `0%` Re-ID, `0%` attr inf, `100%` quality retained), Gemma 4 `gemma4_component 2026.11.3.1140` (`100%` recall, `0` leaks, `88.9%` clause acc, `21.9%` min ratio, `0%` Re-ID, `0%` attr inf, `100%` quality retained), and Basic `36/36`; Guard red-team `11/28 -> 17/28` post-PR #11; Secrets `100%` recall / `94.1%` precision + 6/6 CustomRule; `tests/eval/summary.json` stable contract; and `@envoy/cli` `envoy-guard` for Claude Code & Gemini CLI) → Chrome extension → launch (assets, README, video, Devpost).
 
 ## Chrome extension (Muse lane: lane/extension)
 - **Built and E2E verified (2026-11-22):** Vite + React package (@envoy/extension) on the shared @envoy/ui design system, reusing @envoy/core + @envoy/ai. F: profile E2E: Private mode, Clause 7 only, Guard clean, 235 chars sent, EGP 9,350 restored on-device.
