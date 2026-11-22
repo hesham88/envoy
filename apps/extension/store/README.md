@@ -1,18 +1,12 @@
-﻿# Store assets (rendered from the real UI, no mockups)
+# Chrome Web Store assets
 
-Rendered by `scripts/render-store.mjs` against the built extension in Chrome
-(--remote-debugging-port=9335 --enable-unsafe-extension-debugging).
+Rendered from the real built extension, no mockups: `node apps/extension/scripts/render-store.mjs` (after `npm run build -w @envoy/extension`). The built content script runs on `demo-page.html`, a stand-in chat site with fictional details; the built side panel and popup run with a stubbed `chrome.*` API. Basic protection is shown, because the renderer's Chrome has no on-device model.
 
-Present:
-- screenshot-1-sidepanel.png (1280x800): the side panel.
-- screenshot-2-popup.png (1280x800): the popup with per-site opt-in.
-- screenshot-3-field.png (1280x800): text box with the Envoy ring and findings card.
-- screenshot-4-upload.png (1280x800): the Upload with Envoy dialog.
-- screenshot-5-rules.png (1280x800): the side panel at Your rules.
-- promo-tile-440x280.png, marquee-1400x560.png: the side panel at those sizes.
-
-All five screenshots are present. screenshot-3-field.png and
-screenshot-4-upload.png were captured in the F: Chrome profile (Nano available)
-after the popup permission grant, on a local test page: the findings card shows
-rules findings plus a model-detected [ADDRESS], and the Upload with Envoy
-dialog is open.
+| File | Shows |
+| --- | --- |
+| `screenshot-1-text-box.png` (1280×800) | A text box with Envoy on: the amber ring and the findings card. |
+| `screenshot-2-replaced.png` (1280×800) | After Replace: tags only in the field, the ring green, the chip "Protected". |
+| `screenshot-3-side-panel.png` (1280×800) | The side panel next to the page, with selected text arriving as the document. |
+| `screenshot-4-approval.png` (1280×800) | A turn in the side panel: what the cloud will see, and the handoff to Envoy on the web. |
+| `screenshot-5-popup.png` (1280×800) | The popup: Envoy on this site, off by default. |
+| `promo-tile-440x280.png`, `marquee-1400x560.png` | The seal and the slogan. |

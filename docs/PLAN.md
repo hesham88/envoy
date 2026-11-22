@@ -81,6 +81,11 @@ Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 
   - OG image; demo video with Chatterbox narration;
   - security sweep.
 
+## Extension (Claude lane since 2026-11-22 22:22)
+- Side panel = the shared chat (`@envoy/app`, PR #18): selected text arrives as the document, rules shared with the in-page widget via chrome.storage.local, release builds hand cloud questions to the web app.
+- In-page widget and upload dialog revamped (PR #16); store assets re-rendered from the real build (`apps/extension/scripts/render-store.mjs`).
+- Not yet verified as an installed extension on real sites (needs the extension Chrome); do before submission.
+
 ## Stubbed / known issues
 - On-device prompts (v1) have now run on the real model (2026-11-22, see the Nano 4 item below): detect / minimize / route all behave as designed on the sample lease.
 - **Nano 4 (`gemma4_component`) downloaded and running on-device (resolved 2026-11-22):**
