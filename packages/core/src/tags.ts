@@ -89,7 +89,8 @@ export function assignTags(entities: Entity[]): TagMap {
     const base = e.role ? e.role.toUpperCase().replace(/[^A-Z0-9]+/g, '_') : TYPE_BASE[e.type];
     const n = (counts.get(base) ?? 0) + 1;
     counts.set(base, n);
-    const tag = e.type === 'DATE' && !e.role ? `[${base}_${n}]` : n === 1 ? `[${base}]` : `[${base}_${n}]`;
+    const tag =
+      e.type === 'DATE' && !e.role ? `[${base}_${n}]` : n === 1 ? `[${base}]` : `[${base}_${n}]`;
     byKey.set(k, tag);
     byTag.set(tag, { value: e.value, type: e.type });
   }

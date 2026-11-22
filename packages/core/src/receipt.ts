@@ -37,7 +37,9 @@ export function buildReceipt(args: {
   const found: Partial<Record<EntityType, number>> = {};
   for (const type of distinct.values()) found[type] = (found[type] ?? 0) + 1;
 
-  const sharedTags = args.outbound ? [...new Set(args.outbound.match(/\[[A-Z][A-Z0-9_]*\]/g) ?? [])] : [];
+  const sharedTags = args.outbound
+    ? [...new Set(args.outbound.match(/\[[A-Z][A-Z0-9_]*\]/g) ?? [])]
+    : [];
   return {
     found,
     foundTotal: distinct.size,

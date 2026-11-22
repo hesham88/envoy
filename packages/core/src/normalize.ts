@@ -11,7 +11,8 @@ export function normalizeDigits(text: string): { text: string; toOriginal: (i: n
   for (const ch of text) {
     const code = ch.charCodeAt(0);
     if (code >= ARABIC_INDIC && code <= ARABIC_INDIC + 9) out += String(code - ARABIC_INDIC);
-    else if (code >= EASTERN_ARABIC_INDIC && code <= EASTERN_ARABIC_INDIC + 9) out += String(code - EASTERN_ARABIC_INDIC);
+    else if (code >= EASTERN_ARABIC_INDIC && code <= EASTERN_ARABIC_INDIC + 9)
+      out += String(code - EASTERN_ARABIC_INDIC);
     else out += ch;
   }
   return { text: out, toOriginal: (i) => i };

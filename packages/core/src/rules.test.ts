@@ -3,8 +3,10 @@ import { detectWithRules, isEgyptianNationalId, isLuhn, isValidIban } from './ru
 import { EN_LEASE } from './samples/en-lease';
 import type { EntityType } from './types';
 
-const types = (text: string) => detectWithRules(text).map((e) => [e.type, e.value] as [EntityType, string]);
-const count = (text: string, type: EntityType) => detectWithRules(text).filter((e) => e.type === type).length;
+const types = (text: string) =>
+  detectWithRules(text).map((e) => [e.type, e.value] as [EntityType, string]);
+const count = (text: string, type: EntityType) =>
+  detectWithRules(text).filter((e) => e.type === type).length;
 
 describe('validators', () => {
   it('checks IBANs with mod-97', () => {
@@ -35,13 +37,23 @@ describe('validators', () => {
 
 describe('detectWithRules', () => {
   it('finds emails', () => {
-    expect(types('Write to mona.adel@example.com today.')).toEqual([['EMAIL', 'mona.adel@example.com']]);
+    expect(types('Write to mona.adel@example.com today.')).toEqual([
+      ['EMAIL', 'mona.adel@example.com'],
+    ]);
     expect(count('No email @ here.', 'EMAIL')).toBe(0);
   });
 
   it('finds Egyptian and international phone numbers in common formats', () => {
-    for (const p of ['+20 100 555 0192', '01005550192', '0020 100 555 0192', '0122 555 0148', '+44 20 7946 0958']) {
-      expect(detectWithRules(`Call ${p} now.`).map((e) => [e.type, e.value])).toEqual([['PHONE', p]]);
+    for (const p of [
+      '+20 100 555 0192',
+      '01005550192',
+      '0020 100 555 0192',
+      '0122 555 0148',
+      '+44 20 7946 0958',
+    ]) {
+      expect(detectWithRules(`Call ${p} now.`).map((e) => [e.type, e.value])).toEqual([
+        ['PHONE', p],
+      ]);
     }
   });
 
@@ -50,8 +62,12 @@ describe('detectWithRules', () => {
   });
 
   it('finds IBANs with or without spaces and rejects bad checksums', () => {
-    expect(types('Account EG38 0019 0005 0000 0000 2631 8000 2.')).toEqual([['IBAN', 'EG38 0019 0005 0000 0000 2631 8000 2']]);
-    expect(types('Account EG380019000500000000263180002')).toEqual([['IBAN', 'EG380019000500000000263180002']]);
+    expect(types('Account EG38 0019 0005 0000 0000 2631 8000 2.')).toEqual([
+      ['IBAN', 'EG38 0019 0005 0000 0000 2631 8000 2'],
+    ]);
+    expect(types('Account EG380019000500000000263180002')).toEqual([
+      ['IBAN', 'EG380019000500000000263180002'],
+    ]);
     expect(count('Account EG380019000500000000263180003', 'IBAN')).toBe(0);
   });
 
@@ -81,13 +97,16 @@ describe('detectWithRules', () => {
   });
 
   it('finds street addresses with a light heuristic', () => {
-    expect(types('Flat at 14 El-Nadi St, Flat 7, Maadi, Cairo.')).toEqual([['ADDRESS', '14 El-Nadi St, Flat 7, Maadi, Cairo']]);
+    expect(types('Flat at 14 El-Nadi St, Flat 7, Maadi, Cairo.')).toEqual([
+      ['ADDRESS', '14 El-Nadi St, Flat 7, Maadi, Cairo'],
+    ]);
     expect(count('Wait 10 days before paying.', 'ADDRESS')).toBe(0);
   });
 
   it('never returns overlapping entities', () => {
     const found = detectWithRules(EN_LEASE.text);
-    for (let i = 1; i < found.length; i++) expect(found[i]!.start).toBeGreaterThanOrEqual(found[i - 1]!.end);
+    for (let i = 1; i < found.length; i++)
+      expect(found[i]!.start).toBeGreaterThanOrEqual(found[i - 1]!.end);
   });
 
   it('reports exact source offsets', () => {
@@ -117,7 +136,10 @@ describe('review fix C1: separators', () => {
       ['Card 4111.1111.1111.1111 here.', 'CARD'],
       ['IBAN EG38-0019-0005-0000-0000-2631-8000-2 here.', 'IBAN'],
     ] as const) {
-      expect(detectWithRules(text).map((e) => e.type), text).toContain(type);
+      expect(
+        detectWithRules(text).map((e) => e.type),
+        text,
+      ).toContain(type);
     }
   });
 

@@ -9,3 +9,5 @@ export { EnvoySeal } from './EnvoySeal';
 export { StepEmblem, STEP_EMBLEMS } from './StepEmblem';
 export { hypotrochoid, ringBand, waveBand } from './guilloche';
 export { DelegationScene } from './DelegationScene';
+export { SecurityFibers, type SecurityFibersProps } from './SecurityFibers';
+export { UvRing, type UvRingProps } from './UvRing';

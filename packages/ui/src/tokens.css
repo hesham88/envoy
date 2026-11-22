@@ -85,3 +85,41 @@ body {
   outline: 2px solid var(--cloud);
   outline-offset: 2px;
 }
+
+/* ---------- UV night: the page under a UV lamp (landing, marketing, extension onboarding) ----------
+   Fluorescent inks keep their meaning: green = this device, blue = cloud, amber = a raw private value. */
+.envoy-uv {
+  color-scheme: dark;
+  --uv-dark: #0b0a1c;
+  --uv-deep: #070614;
+  --uv-panel: #131230;
+  --uv-line: #2a2852;
+  --uv-text: #ece9ff;
+  --uv-muted: #a9a6cc;
+  --uv-green: #3dffb0;
+  --uv-blue: #7d95ff;
+  --uv-amber: #ffb547;
+  --uv-violet: #7b5cff;
+  --uv-danger: #ff5d7a;
+  --font-display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  /* product tokens re-tuned for the UV night, so shared components (scene, seal, emblems) render in it */
+  --ink: #ece9ff;
+  --paper: #0b0a1c;
+  --surface: #131230;
+  --line: #2a2852;
+  --muted: #a9a6cc;
+  --muted-2: #9895bf;
+  --device: #3dffb0;
+  --device-tint: #0f2b2a;
+  --device-on-tint: #8dffd4;
+  --cloud: #7d95ff;
+  --cloud-tint: #171c45;
+  --cloud-on-tint: #b9c6ff;
+  --detected: #4a3417;
+  --detected-line: #ffb547;
+  --restored: #12332c;
+  --danger: #ff5d7a;
+  --danger-tint: #3a1424;
+  background: var(--uv-dark);
+  color: var(--uv-text);
+}
