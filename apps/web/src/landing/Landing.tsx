@@ -64,7 +64,7 @@ const STEPS: {
     where: 'You',
     mode: 'No model',
     body: 'You see the excerpt word for word, with every detail already a tag. Share a value, hide a sentence, or stop.',
-    code: ['apps/web/src/screens/Review.tsx'],
+    code: ['apps/web/src/chat/ChatApp.tsx'],
   },
   {
     key: 'reason',
@@ -338,18 +338,14 @@ export function Landing() {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <a
-              href={`${REPO}/releases/latest`}
-              className="rounded-full bg-uv-blue px-6 py-3 text-[16px] font-semibold text-uv-deep shadow-[0_0_32px_-8px_var(--uv-blue)] hover:brightness-110"
-            >
-              Download the extension
-            </a>
+            {/* Until a packaged release is published, this goes to the install guide (load unpacked). */}
             <a
               href={src('apps/extension/README.md')}
-              className="text-[15px] text-uv-muted underline underline-offset-4 hover:text-uv-text"
+              className="rounded-full bg-uv-blue px-6 py-3 text-[16px] font-semibold text-uv-deep shadow-[0_0_32px_-8px_var(--uv-blue)] hover:brightness-110"
             >
-              Install it in a minute (load unpacked)
+              Get the extension
             </a>
+            <span className="text-[15px] text-uv-muted">Installs in a minute: load it unpacked in Chrome.</span>
           </div>
         </Section>
 
@@ -427,7 +423,7 @@ function Measured() {
         Measured results (leaks after the guard, re-identification attacks, answer quality) publish
         here from the eval harness, each with the model, its version, the date and the number of
         cases.{' '}
-        <a href={src('docs/EVAL.md')} className="text-uv-blue underline underline-offset-4">
+        <a href={src('docs/MEASUREMENT.md')} className="text-uv-blue underline underline-offset-4">
           Method
         </a>
       </p>
