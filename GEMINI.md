@@ -32,5 +32,6 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 - `docs/skills/muse-image/SKILL.md`: generate images with Meta Muse Image. There's a **$8 total cap**, enforced by a ledger. Never commit the key.
 - Claude Code also has these installed globally in `~/.claude/skills/`.
 - **Working style:** don't fan out multiple subagents; do the work in-session or through scripts.
+- **Keep going, no stopping:** at a checkpoint, post a short status and continue with the next task. Stop only when truly blocked (you need the owner's input or credentials, or an action is destructive or irreversible).
 
 This file is mirrored to `CLAUDE.md` and `GEMINI.md`. Change all three together.
