@@ -8,6 +8,7 @@
 > - **Derived amounts:** the cloud writes `{{RENT * 1.10}}`, and restore evaluates it locally.
 > - **Firebase products:** AI Logic, App Check, Remote Config and Hosting. No Firestore or Auth.
 > - **Judge experience:** many judges' machines can't run the on-device model, so Basic protection must look polished too. Ship a short "turn on on-device AI" guide, and make the video show the full on-device flow.
+> - **Keep going, no stopping:** checkpoints are status posts, not pauses (owner, 2026-11-22). Stop only when truly blocked.
 > - Full design: `docs/superpowers/specs/2026-11-22-envoy-design.md`. Rules: `docs/HACKATHON_RULES.md`.
 
 You are the main builder of **Envoy**, a web app for the Firebase **#BuildHybridAI 2026** hackathon.
@@ -20,7 +21,7 @@ This file is the source of truth. Save it as `docs/BRIEF.md` and re-read it at t
 
 ## 0. How to work
 
-- Work in the **phases** in section 9. At every **CHECKPOINT**, stop, summarize what you did, what works, what is stubbed, and what I need to do. Then wait for me.
+- Work in the **phases** in section 9. **Keep going; don't stop at checkpoints.** At every **CHECKPOINT**, post a short status (what you did, what works, what is stubbed, and what I need to do) and continue straight into the next phase in the same session. Stop only when you're truly blocked: you need my input, credentials or a console step that the next work depends on, or an action is destructive or irreversible.
 - Use small commits with conventional messages (`feat:`, `fix:`, `chore:`, `docs:`, `test:`). Run `npm test` and `npm run build` before every commit. Never commit a red build.
 - Branching: one short-lived branch per phase (`phase-2-privacy-engine`, …). Open a PR with `gh` so the PR gets a Firebase preview URL. Merge when green. `main` must always deploy.
 - Never commit secrets or `.env`. Commit `.env.example`.
@@ -185,6 +186,8 @@ Use `motion`; wrap everything in a reduced-motion check (reduced = instant state
 ---
 
 ## 9. Phases and checkpoints
+
+Checkpoints are **status posts, not pauses**. Post the status, then keep building.
 
 **Phase 0 — Environment (15 min).** Check Node ≥ 20, npm, git remote, `gh` auth, `firebase-tools` (use `npx firebase-tools` if not installed). Ask me for the Firebase project ID and web config if `.env` is missing; create `.env.example`.
 
