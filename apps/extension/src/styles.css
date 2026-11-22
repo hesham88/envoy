@@ -1,0 +1,4 @@
+/* Panel-specific layout only. Design tokens, Tailwind theme and shared component
+   styles come from @envoy/ui/styles.css (imported in main.tsx). */
+body { background: var(--paper); }
+.panel-scroll { scrollbar-gutter: stable; }

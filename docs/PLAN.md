@@ -41,9 +41,11 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 ## Next plans
 Motion polish → eval and Harness² tuning → Chrome extension → launch (assets, README, video, Devpost).
 
-## Chrome extension (separate track, 2026-11-22)
-- Build-free MV3 side-panel scaffold in `apps/extension` (no `package.json`, so the web workspace, `tsc -b`, Vite and `npm run verify` never pick it up; web build and typecheck verified green with it present). It mirrors the web design tokens, adds a live Nano prerequisite gate and a selection context-menu intake (session storage only, no content script).
-- Not wired to Firebase/`@envoy/ai` yet. Integration path and the App Check on `chrome-extension://` question are assessed in `apps/extension/INTEGRATION.md`. Load via `chrome://extensions` → Developer mode → Load unpacked (branded Chrome ignores `--load-extension`).
+## Chrome extension (Muse lane: lane/extension)
+- **Built and E2E verified (2026-11-22):** Vite + React package (@envoy/extension) on the shared @envoy/ui design system, reusing @envoy/core + @envoy/ai. F: profile E2E: Private mode, Clause 7 only, Guard clean, 235 chars sent, EGP 9,350 restored on-device.
+- **Release safety (urgent fix done):** plain `npm run build` is the release build and is the only writer to dist/; dev builds (extensiondev, debug token) go to gitignored dist-dev/. `npm run check:dist` is the pre-zip canary gate (verified: canary in dist-dev only, never in dist/). Never commit dist/, dist-dev/, tokens or .env.local.
+- **Judges build:** release runs on-device only; cloud-routed questions hand off to the hosted web app (real reCAPTCHA App Check). Alternative (owner decision): a dedicated judging-only debug token, revoked after Dec 16, 2026.
+- Remaining: a packed-build App Check test is only needed if the owner picks the judging-token option.
 
 ## Cloud model
 `gemini-3.8-flash` through Remote Config key `cloud_model` (default in code). Override locally with `VITE_CLOUD_MODEL`.

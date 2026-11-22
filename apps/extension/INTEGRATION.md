@@ -1,32 +1,49 @@
-# Extension integration assessment (for the Claude/web track to pick up)
+# Extension integration — done, with one release blocker left
 
-## Verdict
+Status 2026-11-22: the side panel is a real Vite + React workspace package
+(`@envoy/extension`) on the shared `@envoy/ui` design system, wired to
+`@envoy/core` + `@envoy/ai`, now merged with origin/main. Release builds are
+token-free by construction: plain `npm run build` is the only writer to
+`dist/`, dev builds (extensiondev + App Check debug token) write to
+gitignored `dist-dev/`, and `npm run check:dist` is the pre-zip canary gate.
+Release builds also make no cloud calls (on-device only, with a handoff to
+the hosted web app for cloud-routed questions), so no App Check token ships
+to judges at all.
 
-Feasible and low-risk if kept as a **second surface on the same engine**, not a second product. The scaffold in this folder is deliberately build-free so it cannot collide with the web track. Integrate only after the web polish gate (PLAN Task 10) and the eval harness exist.
+## How it is wired
 
-## Why it does not collide today
+- `public/manifest.json` + `public/background.js` are copied verbatim into
+  `dist/`; `sidepanel.html` + `src/` build the React panel.
+- Firebase config comes from `apps/web/.env.local` at build time
+  (`envDir: '../web'`). Only the listed variables are inlined; the App Check
+  debug token is included **only** for `--mode extensiondev` builds, which
+  are for local unpacked use. `dist/` is gitignored and must never ship.
+- The panel builds the same `Deps` as the web `/dev` panel
+  (`createStepModel` per step with the core schemas, `runPrivate`,
+  `getDeviceStatus`) and calls the shared `analyze` (with `onProgress`) and
+  `answer`. Mode, clause selection, route, Guard result, receipt summary and
+  `fallbackReason` are all shown to the user.
+- Permissions stay minimal: `sidePanel`, `contextMenus`, `storage`
+  (session only). Text arrives from paste, the sample, or the context-menu
+  selection. No content script, no host permissions, per design §12.
 
-- No `package.json` → npm workspaces (`apps/*`) ignore it; root `tsc -b` references only `packages/core`, `packages/ai`, `apps/web`; Vite builds only `apps/web`.
-- Vanilla HTML/CSS/JS mirrors `apps/web/src/styles/tokens.css` values instead of importing them. One source of truth stays in the web app; copy token changes across at integration.
-- No changes to `firebase.json`, Hosting, CI, or `docs/PLAN.md` status lines for the web tasks.
+## Remaining blocker: App Check for a packed release
 
-## Integration steps (ordered)
+Unpacked development works with the App Check debug token. A Chrome Web
+Store build cannot ship that token, and reCAPTCHA Enterprise does not attest
+a `chrome-extension://` origin naturally. Options, in order: run the cloud
+reason step from a hosted Envoy page (one App Check setup, extra hop);
+ship the extension local-only (detect/minimize/route/local answers) with the
+web app as the cloud path. Do not ship a debug token. Decide after a real
+test against project `envoy-hybrid-ai` with a packed build.
 
-1. **Bundle, don't rewrite.** Add a Vite build for this folder with `@vitejs/plugin-react` (same versions as `apps/web`), entry = the side-panel page, output `dist/` loaded unpacked. Reuse the React screens/components from `apps/web/src` where the narrow panel allows, and import `@envoy/core` + `@envoy/ai` exactly as the web app does. Delete the vanilla `sidepanel.js` gate and replace it with the shared device-guard (`packages/ai/src/device-guard.ts`): pre-check `LanguageModel.availability()`, `ONLY_ON_DEVICE`, assert `inferenceSource === ON_DEVICE`, keep the fetch tripwire.
-2. **Expose one hook.** The scaffold expects `window.__envoyExtension.analyze(text, question)`. At integration, implement it from the existing `analyze`/`answer` pipeline in `packages/ai/src/pipeline.ts` (plus `composeOutbound` for Review edits), so detect → minimize → approve → reason → restore and the receipt are identical to the web flow.
-3. **Solve App Check for `chrome-extension://` — the one real blocker.** AI Logic requires App Check, and reCAPTCHA Enterprise expects a web domain; an extension origin may not attest cleanly. Options to test in order: (a) register the extension's web-accessible hosted page and run the cloud *reason* step from a hosted Envoy page in an iframe/tab (keeps one App Check setup, adds a hop); (b) an App Check debug token for unpacked dev only (never ship it); (c) local-only mode in the extension (detect/minimize/route/local-answer on-device, no cloud) with the web app as the cloud path. Do not ship (b). Decide from a real test against project `envoy-hybrid-ai` after owner steps 1–4 are done.
-4. **Permissions stay minimal.** Keep `sidePanel`, `contextMenus`, `storage` (session only). Add `activeTab`/`scripting` only if a future "grab selection" button needs it — the context-menu path already delivers `selectionText` with no host access. No `<all_urls>`, no content script, per design §12.
-5. **Package for judges.** Load-unpacked from `dist/` for the demo, plus a zipped release. `minimum_chrome_version: 138` is already set; state the Nano prerequisites in the listing/README exactly as the panel's gate reports them.
+## Verification done
 
-## Stunning side-panel UX (what "good" means here)
-
-- **Persistent companion, not a popup:** the panel survives tab switches, so Review can sit beside the source page. Open on toolbar click via `setPanelBehavior({ openPanelOnActionClick: true })`, and from the selection context menu.
-- **Narrow-first layout:** single column, sticky header with brand + status pill, cards at 16px radius, hairline borders, no gradients/emoji — the web tokens already in `sidepanel.css`.
-- **Trust choreography, cheap version:** status pill narrates Checking → Downloading % → Ready → Basic protection; detected items amber, restored values green flash once, cloud content in blue-tinted mono chips; every colour paired with an icon/label.
-- **Keyboard and screen readers:** real buttons/labels, visible focus ring, `aria-live` for step announcements, 44px targets, `prefers-reduced-motion` disables transitions.
-
-## Risks
-
-- App Check on extension origins (above) can force the hosted-iframe design; test before promising the cloud step in the panel.
-- Nano in extensions is stable since Chrome 138, but each profile still needs the one-time download and Settings → AI enabled; the gate must stay a first-class screen, not an error.
-- The extension is the same Web/Chrome platform for the contest, not a second platform; it strengthens Best Web/Chrome only.
+- `npm run build -w @envoy/extension`, `npm run typecheck -w @envoy/extension`,
+  ESLint and the `gate` unit tests pass; root workspace build still passes.
+- The built `dist/` was loaded unpacked in a separate Chrome profile via CDP
+  (`Extensions.loadUnpacked`): the service worker registered and the panel
+  rendered with its prerequisite gate live.
+- Not yet done: a full Nano pipeline run inside the extension panel (needs
+  the model downloaded in that test profile), and the packed/App Check test
+  above.
