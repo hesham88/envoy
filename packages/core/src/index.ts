@@ -8,3 +8,5 @@ export * from './rules';
 export * from './prompts';
 export * from './tags';
 export * from './guard';
+export * from './expr';
+export * from './restore';
