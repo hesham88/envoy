@@ -1,8 +1,61 @@
 {
-  "generatedAt": "2026-11-22T15:19:43.809Z",
+  "generatedAt": "2026-11-22T16:45:55.587Z",
   "attackerModel": "gemini-3.5-flash-lite",
   "mode": "ONLY_IN_CLOUD (Firebase AI Logic + App Check)",
   "byArm": {
+    "gemma4": {
+      "n": 12,
+      "totalGold": 118,
+      "reidRecoveryExact": 0,
+      "reidRecoveryPartial": 0,
+      "attributeInference": 0,
+      "exactHits": 0,
+      "partialHits": 0,
+      "attrHits": 0,
+      "attrApplicable": 31,
+      "byType": {
+        "PERSON": {
+          "total": 26,
+          "exact": 0,
+          "partial": 0
+        },
+        "NATIONAL_ID": {
+          "total": 17,
+          "exact": 0,
+          "partial": 0
+        },
+        "ADDRESS": {
+          "total": 12,
+          "exact": 0,
+          "partial": 0
+        },
+        "PHONE": {
+          "total": 15,
+          "exact": 0,
+          "partial": 0
+        },
+        "EMAIL": {
+          "total": 12,
+          "exact": 0,
+          "partial": 0
+        },
+        "DATE": {
+          "total": 8,
+          "exact": 0,
+          "partial": 0
+        },
+        "MONEY": {
+          "total": 20,
+          "exact": 0,
+          "partial": 0
+        },
+        "IBAN": {
+          "total": 8,
+          "exact": 0,
+          "partial": 0
+        }
+      }
+    },
     "basic": {
       "n": 12,
       "totalGold": 118,

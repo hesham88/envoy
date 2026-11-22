@@ -1,0 +1,6853 @@
+{
+  "arm": "gemma4",
+  "label": "Gemma 4 (on-device + cloud)",
+  "model": {
+    "component": "gemma4_component",
+    "version": "2026.11.3.1140",
+    "label": "Gemma 4"
+  },
+  "backend": "cpu (OnDeviceModelForceCpuBackend)",
+  "detectScope": "selected",
+  "withAnswer": false,
+  "updatedAt": "2026-11-22T16:44:11.589Z",
+  "nTotal": 36,
+  "nMeasured": 36,
+  "entries": {
+    "lease-01-rent-cap": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:09:38.755Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 124482,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          7
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks if the landlord *can* raise the rent by 20%. The clause states the rent may be increased by no more than 10% once per contract year. This requires judgment/comparison against the clause, not a direct fact lookup."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 79533
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 24038
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 20888
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "3 Road 9, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 September 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+        "receipt": {
+          "found": {
+            "DATE": 2,
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "ADDRESS": 2,
+            "PHONE": 2,
+            "EMAIL": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 16,
+          "sharedTags": [
+            "[RENT]"
+          ],
+          "keptTotal": 16,
+          "sharedByUser": 0,
+          "charsSent": 235,
+          "clausesSent": 1,
+          "pagesTotal": 6,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 79533
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 24038
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 20888
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 4
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 79538
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 103578
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 2972
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1056
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 546
+          }
+        ]
+      }
+    },
+    "lease-02-end-date-local": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:10:53.539Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 72223,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          10
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for when the contract ends. While Clause 2 states the term is three years starting 1 September 2024, it does not state the exact end date directly. Clause 10 describes termination procedures, not the end date itself, requiring an inference or calculation to determine the end date."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 25646
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 24359
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 22214
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "3 Road 9, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 September 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: When does my contract end?\n\nClause 1: 1. Parties. [LANDLORD], national ID [NATIONAL_ID], of [ADDRESS] (\"the Landlord\"), and [TENANT], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises and term. The Landlord leases to the Tenant the apartment at [ADDRESS_2] (\"the Premises\") for a term of three (3) years starting [DATE_2].\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.",
+        "receipt": {
+          "found": {
+            "DATE": 2,
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "ADDRESS": 2,
+            "PHONE": 2,
+            "EMAIL": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 16,
+          "sharedTags": [
+            "[LANDLORD]",
+            "[NATIONAL_ID]",
+            "[ADDRESS]",
+            "[TENANT]",
+            "[NATIONAL_ID_2]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS_2]",
+            "[DATE_2]"
+          ],
+          "keptTotal": 16,
+          "sharedByUser": 0,
+          "charsSent": 594,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 25646
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 24359
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 22214
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 25647
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 50007
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 2953
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1252
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 998
+          }
+        ]
+      }
+    },
+    "lease-03-early-exit-deposit": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:12:06.972Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 70916,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          6,
+          10
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks what 'happens' (a consequence or outcome) under a specific condition (leaving early), which requires interpretation and potential legal/contractual judgment rather than a direct fact lookup. Clause 6 mentions the possibility of losing one month's rent, which is dependent on the condition mentioned in the question."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 23252
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 24790
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 22872
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "3 Road 9, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 September 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": "deposit",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What happens to my deposit if I leave early?\n\nClause 6: 6. Deposit. The Tenant pays a security deposit of [DEPOSIT] on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.",
+        "receipt": {
+          "found": {
+            "DATE": 2,
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "ADDRESS": 2,
+            "PHONE": 2,
+            "EMAIL": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 16,
+          "sharedTags": [
+            "[DEPOSIT]"
+          ],
+          "keptTotal": 16,
+          "sharedByUser": 0,
+          "charsSent": 642,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 23252
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 24790
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 22872
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 23253
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 48044
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 2971
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1450
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 964
+          }
+        ]
+      }
+    },
+    "lease-04-late-fee-grace-period": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:13:21.557Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 72072,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          7,
+          8
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for advice or an assessment of a condition based on the clauses (whether a specific payment date exempts a late fee), which requires judgement or comparison, not a direct lookup of a fact like a specific date, name, or amount."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 18197
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 33351
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 20522
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": "fee",
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I pay rent on the 8th of the month, do I owe the late fee?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [FEE].",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 2,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[RENT]",
+            "[ACCOUNT]",
+            "[FEE]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 428,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 18197
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 33351
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 20522
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 18198
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 51550
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 830
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1241
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 781
+          }
+        ]
+      }
+    },
+    "lease-05-sublet-policy": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:14:10.847Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 46781,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks about a specific rule regarding subletting, which is directly addressed and answered by Clause 3. The answer is 'no' (implying asking is required), which is a direct statement based on the text."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 13764
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 15292
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 17716
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Hisham El-Masry",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28011230102345",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Nadia Shawky",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29307190105678",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 111 444 0987",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "nadia.shawky@example.org",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "28 Cleopatra St, Heliopolis, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 October 2025",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 12,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can I rent out one bedroom on a short-term basis without asking the owner?\n\nClause 3: 3. Subletting and Assignment. The Tenant shall occupy the Premises solely as a family residence and may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 2,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "DATE": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 10,
+          "sharedTags": [],
+          "keptTotal": 10,
+          "sharedByUser": 0,
+          "charsSent": 322,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 13764
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 15292
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 17716
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 13765
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 29058
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 955
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1123
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 630
+          }
+        ]
+      }
+    },
+    "lease-06-landlord-entry-notice-local": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:14:55.606Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 42249,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          4
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific piece of information (number of hours' notice) that is directly stated in Clause 4."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 11383
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 17299
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 13561
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Tarek Abdel-Aziz",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27204150103321",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Laila Farouk",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 109 222 3410",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "8 Hassan Sabry St, Zamalek, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 18,500",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How many hours' notice must the landlord give before entering for repairs?\n\nClause 4: 4. Access and Inspection. The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 253,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 11383
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 17299
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 13561
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 11383
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 28683
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 728
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 987
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 561
+          }
+        ]
+      }
+    },
+    "lease-07-commercial-cam-cap": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:16:05.970Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 63682,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks if the management *can* increase the charge by 15%, which requires judgment or analysis against the specified cap of 8% mentioned in clause 3. It is not a direct factual lookup."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 14715
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 31653
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 17301
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Youssef Kamel",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Omar Zaki",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28809100104412",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 120 888 7123",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "omar.zaki@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Office Suite",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "90 North Teseen Rd, New Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 45,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 4,500",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "8%",
+            "role": "rent",
+            "source": "nano"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can the building management increase our monthly service charge by 15% next year?\n\nClause 3: 3. Common Area Maintenance (CAM). The Tenant pays a monthly service charge of [RENT]. Annual increases to the service charge are capped at [RENT_2] per year.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 11,
+          "sharedTags": [
+            "[RENT]",
+            "[RENT_2]"
+          ],
+          "keptTotal": 11,
+          "sharedByUser": 0,
+          "charsSent": 260,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 14715
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 31653
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 17301
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 3
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 14719
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 46373
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 794
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1013
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 565
+          }
+        ]
+      }
+    },
+    "lease-08-plumbing-responsibility": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:16:57.824Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 49342,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks who has to pay for a repair, which requires judgment on the responsibility based on the provided clauses. The clause only assigns specific responsibilities to the Landlord and Tenant for different types of issues, but doesn't explicitly state who pays for a burst main water pipe repair."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12216
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 18410
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 18709
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Mahmoud Gamal",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27702180201988",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "MahmoudGamal@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dina Soliman",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 106 777 5432",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "45 Fouad St, Alexandria",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 9,200",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: A main water pipe inside the wall burst. Who has to pay for the repair?\n\nClause 3: 3. Repairs and Plumbing. The Landlord is solely responsible for hidden plumbing, main risers, roof waterproofing, and structural walls. The Tenant is responsible only for internal tap washers and drain blockages caused by misuse.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "EMAIL": 1,
+            "PHONE": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 7,
+          "sharedTags": [],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 322,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12216
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 18410
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 18709
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12218
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 30628
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 754
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1124
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 630
+          }
+        ]
+      }
+    },
+    "offer-01-severance-calculation": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:18:15.523Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 75183,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          5
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for a specific amount of severance pay under a hypothetical scenario (elimination without cause after 18 months), which requires judgment or calculation based on the clause, not a direct factual lookup of a stated date, name, amount, or period. The clause only defines severance for termination 'without cause' after a '3-month probation period'."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 14626
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 38665
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 21884
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "1 November 2025",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Ramy Lotfy",
+            "role": "employer",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Salma Mostafa",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29605210104321",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 101 333 8899",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "salma.mostafa@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "22 Syria St, Mohandessin, Giza",
+            "role": "tenant",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 65,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "two (2) months of gross monthly salary",
+            "role": "salary",
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 5: 5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to [SALARY] plus a 60-day notice period.",
+        "receipt": {
+          "found": {
+            "DATE": 1,
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 10,
+          "sharedTags": [
+            "[SALARY]"
+          ],
+          "keptTotal": 10,
+          "sharedByUser": 0,
+          "charsSent": 324,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 14626
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 38665
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 21884
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 14627
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 53292
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 1141
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1195
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 662
+          }
+        ]
+      }
+    },
+    "offer-02-non-compete-scope": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:19:20.200Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 62158,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          4
+        ],
+        "route": {
+          "local": true,
+          "reason": "The clause directly addresses the question by stating that the non-compete restriction does not apply to healthcare industries, suggesting that immediate joining of a healthcare software startup in Cairo might be permissible."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12176
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 34447
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 15528
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Sherif Badawy",
+            "role": "employer",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Amr Hegazy",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29108140107765",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 112 999 4567",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "amr.hegazy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "15 Makram Ebeid St, Nasr City, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Base Salary",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "USD 4,200",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I resign, can I immediately join a healthcare software startup in Cairo?\n\nClause 4: 4. Non-Competition. For six (6) months after termination, the Employee may not work for any direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 390,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12176
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 34447
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 15528
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12177
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 46624
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 922
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1193
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 698
+          }
+        ]
+      }
+    },
+    "offer-03-probation-period-local": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:20:06.923Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 44212,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2,
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "Clause 3 explicitly states the duration of the probationary period: 'The first ninety (90) days of employment constitute a probationary period'. This is a direct factual lookup."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 14101
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 15545
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 14561
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Employee Details",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Nourhan Khalil",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29412050108812",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 712 3344",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "nourhan.k@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 55,000",
+            "role": "salary",
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How long is my probationary period?\n\nClause 2: 2. Salary. Monthly gross salary is [SALARY].\n\nClause 3: 3. Probation. The first ninety (90) days of employment constitute a probationary period during which either party may terminate the contract with seven (7) days' written notice.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[SALARY]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 290,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 14101
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 15545
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 14561
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 14102
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 29648
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 599
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1010
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 613
+          }
+        ]
+      }
+    },
+    "offer-04-bonus-proration": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:21:27.803Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 78361,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific amount based on a condition (hitting 100% targets), and the clause provides a direct formula to calculate that amount (15% of one monthly base salary multiplied by 12 or 1.8x monthly base salary). This is a direct fact/formula provided in the clauses."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12607
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 44942
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 20806
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "annual performance bonus",
+            "type": "PERSON",
+            "index": 29
+          },
+          {
+            "value": "base salary",
+            "type": "PERSON",
+            "index": 205
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Wael Tantawy",
+            "role": "employer",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Heba Radwan",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28703220101122",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 127 654 3210",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "heba.radwan@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Base Salary",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 80,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Annual Performance Bonus",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "15%",
+            "role": "salary",
+            "source": "nano"
+          },
+          {
+            "type": "MONEY",
+            "value": "1.8x monthly base salary",
+            "role": "salary",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Payroll Account",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 3: 3. [PERSON_2]. At 100% target achievement, the Employee earns an annual bonus equal to [SALARY] of one monthly base salary multiplied by 12 (or [SALARY_2]).",
+        "receipt": {
+          "found": {
+            "PERSON": 5,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 12,
+          "sharedTags": [
+            "[PERSON_2]",
+            "[SALARY]",
+            "[SALARY_2]"
+          ],
+          "keptTotal": 12,
+          "sharedByUser": 0,
+          "charsSent": 250,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12607
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 44942
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 20806
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12607
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 57549
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 762
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1034
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 581
+          }
+        ]
+      }
+    },
+    "offer-05-ip-side-project": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:22:29.444Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 54951,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          4
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks about the ownership of a personal hobby project. Clause 4 addresses works created by the Employee on their own time, without Company equipment or data, and unrelated to the Company's current or planned products, stating they belong to the Employee. This directly relates to the topic of the question, making the answerable solely based on the provided clauses."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 16690
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 15062
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 23185
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Ziad Morsi",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29701150106543",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 115 234 5678",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "ziad.morsi@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "19 Dokki St, Giza",
+            "role": "tenant",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 48,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Working Hours",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Intellectual Property",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Does the company own an unrelated hobby project I build on weekends on my personal laptop?\n\nClause 4: 4. [PERSON_2]. All inventions developed using Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON_2]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 436,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 16690
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 15062
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 23185
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 3
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 16694
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 31757
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 911
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1195
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 755
+          }
+        ]
+      }
+    },
+    "offer-06-remote-work-allowance": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:23:26.693Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 54726,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question requires calculation (determining the cost of the chair after a 10% increase on the stipend) and comparison against a limit, which involves judgment/calculation rather than a direct fact lookup."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 15798
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 23693
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 15229
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "equipment allowance",
+            "type": "PERSON",
+            "index": 245
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Farida Nassar",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29206180109988",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 102 876 5432",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "farida.nassar@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Base Pay",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 52,000",
+            "role": "salary",
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Equipment Allowance",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 3,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 3,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 2: 2. [PERSON]. [SALARY] monthly.\n\nClause 3: 3. [PERSON_2]. The Company provides a one-time home-office equipment allowance of up to [AMOUNT] upon submission of original receipts. Any amount above [AMOUNT] is paid by the Employee.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 2
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[SALARY]",
+            "[PERSON_2]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 371,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 15798
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 23693
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 15229
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 15799
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 39493
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 686
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1097
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 705
+          }
+        ]
+      }
+    },
+    "med-01-fasting-glucose-threshold": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:24:35.366Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 66138,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for an interpretation of the report (how the result is classified and what follow-up is recommended), which requires judgment and synthesis of information from multiple clauses, not a direct lookup of a single fact like a date or name."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 18868
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 28853
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 18391
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "referring physician",
+            "type": "PERSON",
+            "index": 578
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Patient Identification",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Adel Mansour",
+            "role": "patient",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "26809120103456",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 901 2345",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "adel.mansour@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "11 Tahrir St, Dokki, Giza",
+            "role": "patient",
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "12 October 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Referring Physician",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Hany Selim",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 1,450",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Metabolic Panel Results",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Fasting Plasma Glucose",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "114 mg/dL",
+            "role": null,
+            "source": "nano"
+          },
+          {
+            "type": "MONEY",
+            "value": "5.9%",
+            "role": null,
+            "source": "nano"
+          },
+          {
+            "type": "MONEY",
+            "value": "5.7%–6.4%",
+            "role": null,
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Pathologist Comment",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How does the report classify a fasting blood glucose result of [AMOUNT_2], and what follow-up does the note recommend?\n\nClause 3: 3. [PERSON_4]. [PERSON_5]: [AMOUNT_2] (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: [AMOUNT_3] (Reference: Normal < 5.7%; Prediabetes [AMOUNT_4]).\n\nClause 4: 4. [PERSON_6]. Values sit in the impaired fasting glucose (prediabetes) reference range. Repeat HbA1c in 3 months and review dietary and physical activity changes with the referring physician.",
+        "receipt": {
+          "found": {
+            "PERSON": 7,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "DATE": 1,
+            "MONEY": 4
+          },
+          "foundTotal": 16,
+          "sharedTags": [
+            "[AMOUNT_2]",
+            "[PERSON_4]",
+            "[PERSON_5]",
+            "[AMOUNT_3]",
+            "[AMOUNT_4]",
+            "[PERSON_6]"
+          ],
+          "keptTotal": 16,
+          "sharedByUser": 0,
+          "charsSent": 598,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 18868
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 28853
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 18391
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 2
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 18870
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 47723
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 1127
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1422
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 944
+          }
+        ]
+      }
+    },
+    "med-02-vitamin-d-dosage-local": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:25:26.563Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 48687,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific scheduling period for a test, which is a factual piece of information directly stated in clause 3 ('schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks')."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 11659
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 20333
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 16685
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Patient Record",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Yasmin El-Banna",
+            "role": "patient",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28904250107654",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 114 555 6789",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "YasminElBanna@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "5 November 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 950",
+            "role": "fee",
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Maged Rostom",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "repeat serum 25-OH Vitamin D blood test",
+            "role": null,
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: In how many weeks should the repeat vitamin D blood test be scheduled?\n\nClause 3: 3. Plan. Serum 25-OH Vitamin D measured 14 ng/mL (deficient < 20 ng/mL). Supplement with colecalciferol as prescribed and schedule a [PERSON_3] in eight (8) weeks.",
+        "receipt": {
+          "found": {
+            "PERSON": 4,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[PERSON_3]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 255,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 11659
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 20333
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 16685
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 11660
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 31993
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 701
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1071
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 592
+          }
+        ]
+      }
+    },
+    "med-03-insurance-copay-cap": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:26:29.527Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 60442,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question requires calculation based on the provided clause. While the clause states the patient pays a 20% co-payment, the question asks for the '20% out-of-pocket co-pay' in the context of an '80% coverage' scenario, which requires a direct calculation (20% of EGP 25,000 or 20% of the amount the insurer reimburses). This involves calculation, not a simple lookup of directly stated facts like a name or a standalone date/amount."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 14739
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 15836
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 29852
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Patient Details",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Khaled Oweis",
+            "role": "patient",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27910110105544",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 432 1987",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "khaled.oweis@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Attending Surgeon",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Samira Fawzy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 25,000",
+            "role": "fee",
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Under Policy Plan",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Refund Account",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?\n\nClause 3: 3. Cost & Co-Pay. The approved outpatient arthroscopy package fee is [FEE]. [PERSON_4] B, the insurer reimburses 80% directly and the patient pays a 20% co-payment at admission.",
+        "receipt": {
+          "found": {
+            "PERSON": 6,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 11,
+          "sharedTags": [
+            "[FEE]",
+            "[PERSON_4]"
+          ],
+          "keptTotal": 11,
+          "sharedByUser": 0,
+          "charsSent": 283,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 14739
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 15836
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 29852
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 14740
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 30576
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 776
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1023
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 603
+          }
+        ]
+      }
+    },
+    "med-04-mri-contrast-prep": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:27:33.487Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 61451,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for specific advice regarding a timing (2 hours before) concerning a medical procedure. While the clause states when water is permitted, it does not directly answer whether drinking water 2 hours before is appropriate for this specific procedure, as this involves medical judgment."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 11401
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 24690
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 25353
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Hassan Abaza",
+            "role": "patient",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "26507030102211",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 122 311 4455",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "HassanAbaza@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "18 November 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Nevine Badran",
+            "role": "doctor",
+            "source": "nano"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 4,800",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Preparation Instructions",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can I drink water 2 hours before my abdominal MRI with contrast?\n\nClause 3: 3. [PERSON]. Do not eat solid food, milk, or coffee for 6 hours before your abdominal MRI with contrast. Plain water is permitted up to 1 hour before arrival, and routine blood-pressure tablets may be taken with a small sip of water.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 319,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 11401
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 24690
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 25353
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 11402
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 36092
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 750
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1123
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 643
+          }
+        ]
+      }
+    },
+    "freelance-01-kill-fee": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:28:39.188Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 58915,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2,
+          4
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks how much of the milestone fee the client must pay upon cancellation halfway through Milestone 2. Clause 4 addresses cancellation fees for an active milestone, stating the client pays 50% of that milestone's fee. Clause 2 specifies the fee for Milestone 2 is USD 6,000. Combining these makes the answer directly derivable from the clauses."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 13501
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 21421
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 23977
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "milestone fee",
+            "type": "PERSON",
+            "index": 89
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Bassem Fouad",
+            "role": "employer",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mariam Rizk",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29311090106677",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 106 111 2233",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mariam.rizk@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Milestone Fee",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Design System Delivery",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "USD 6,000",
+            "role": "fee",
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Wire Instructions",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Cancellation Kill Fee",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "50%",
+            "role": "fee",
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?\n\nClause 2: 2. [PERSON]. Milestone 2 ([PERSON_2]) is priced at [FEE].\n\nClause 4: 4. [PERSON_4]. If the Client cancels an active milestone after work has begun, the Client shall pay [FEE_2] of that milestone's fee within 14 days.",
+        "receipt": {
+          "found": {
+            "PERSON": 6,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 12,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[FEE]",
+            "[PERSON_4]",
+            "[FEE_2]"
+          ],
+          "keptTotal": 12,
+          "sharedByUser": 0,
+          "charsSent": 345,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 13501
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 21421
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 23977
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 3
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 13505
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 34928
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 858
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1153
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 694
+          }
+        ]
+      }
+    },
+    "freelance-02-invoice-payment-net-local": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:29:23.321Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 41589,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific time period (number of days) for payment, which is directly stated in clause 3."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12808
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 15417
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 13357
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Kareem Salem",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29002140103344",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 818 2929",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "kareem.salem@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "USD 3,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Invoicing Terms",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "fifteen (15)",
+            "role": "rent",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Settlement Account",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Within how many days of receiving an invoice must the client pay?\n\nClause 3: 3. [PERSON]. Invoices are submitted on the last business day of the month and must be paid in full within [RENT] calendar days of receipt.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[PERSON]",
+            "[RENT]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 225,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12808
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 15417
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 13357
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12809
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 28227
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 685
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 961
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 546
+          }
+        ]
+      }
+    },
+    "freelance-03-card-hold-dispute": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:30:09.928Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 44088,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific refund amount based on a cancellation window. This information can be calculated directly from the cancellation schedule clause."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 13226
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 17285
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 13570
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Rania Helmy",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28608190104433",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 111 707 8080",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "rania.helmy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "CARD",
+            "value": "4111111111111111",
+            "role": "deposit",
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 December 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 30,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Cancellation Schedule",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I cancel 20 days before the event, how much of my deposit is refunded?\n\nClause 3: 3. [PERSON]. Cancellations made 30 or more days before the event receive a 100% refund. Cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Cancellations within 13 days are non-refundable.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "CARD": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 327,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 13226
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 17285
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 13570
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 13227
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 30513
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 802
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1142
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 648
+          }
+        ]
+      }
+    },
+    "freelance-04-liability-cap": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:31:15.392Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 62945,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2,
+          4
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for the maximum damages liability. Clause 4 explicitly states that liability shall not exceed 100% of the Total Contract Fee paid under Clause 2. Clause 2 states the Total Contract Fee is EGP 120,000. Therefore, the maximum liability is 100% of EGP 120,000, which is a fact explicitly stated within the clauses."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 15088
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 21646
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 26207
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Mostafa El-Gendy",
+            "role": "employee",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28405100109876",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 128 900 1122",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mostafa.gendy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 120,000",
+            "role": "fee",
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Bank Details",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "100% of the Total Contract Fee paid under Clause 2",
+            "role": null,
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: What is the maximum damages liability the consultant can be held responsible for under the contract?\n\nClause 2: 2. Total Contract Fee. The fixed fee for the engagement is [FEE].\n\nClause 4: 4. Limitation of Liability. Neither party's aggregate liability under this Agreement shall exceed [AMOUNT], and neither party shall be liable for indirect or consequential damages.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[FEE]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 379,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 15088
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 21646
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 26207
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 15089
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 36735
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 818
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1145
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 748
+          }
+        ]
+      }
+    },
+    "loan-01-early-payoff-penalty": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:32:14.230Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 56296,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific percentage penalty. Clause 3 directly states that there is an early-settlement administrative charge of 3% of the prepaid principal balance."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12707
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 28706
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 14875
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "3",
+            "type": "MONEY",
+            "index": 97
+          },
+          {
+            "value": "3",
+            "type": "MONEY",
+            "index": 100
+          },
+          {
+            "value": "principal balance",
+            "type": "PERSON",
+            "index": 158
+          },
+          {
+            "value": "principal balance",
+            "type": "PERSON",
+            "index": 287
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Samer Fawzy",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28103170102345",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 321 6549",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "samer.fawzy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "16 El-Merghany St, Heliopolis, Cairo",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Principal Balance",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 400,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Early Prepayment",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "3%",
+            "role": "fee",
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 3: 3. [PERSON_2]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of [FEE] of the prepaid principal balance.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "IBAN": 1,
+            "MONEY": 2
+          },
+          "foundTotal": 10,
+          "sharedTags": [
+            "[PERSON_2]",
+            "[FEE]"
+          ],
+          "keptTotal": 10,
+          "sharedByUser": 0,
+          "charsSent": 305,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12707
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 28706
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 14875
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12707
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 41414
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 786
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1130
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 616
+          }
+        ]
+      }
+    },
+    "loan-02-warranty-coverage-period-local": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:32:59.694Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 42953,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The specific duration of coverage for the lithium battery pack is stated as 'ten (10) years' in clause 3."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12877
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 18037
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 12032
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Ayman Gohar",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27411280105432",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 109 654 7890",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "AymanGohar@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "74 El-Horreya Rd, Alexandria",
+            "role": "tenant",
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Purchase Price",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 95,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Warranty Terms",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 3: 3. [PERSON_2]. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON_2]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 236,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12877
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 18037
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 12032
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12878
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 30915
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 648
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1006
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 548
+          }
+        ]
+      }
+    },
+    "noisy-01-arabic-indic-digits-lease": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:33:56.936Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 50414,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks about a potential action (increasing rent by 15%) and compares it to a stated cap (10%). This requires judgment and comparison, not a direct factual lookup of a specific date, name, amount, or period found verbatim in the clauses."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 13821
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 18454
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 18127
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "٢٧٥٠٦١٢٠١٠٤٨٣٩",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Renewal Cap",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": "rent",
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can the landlord increase the rent by 15% at renewal?\n\nClause 2: 2. Rent and [PERSON]. The monthly rent is [RENT]. Any annual rent increase at renewal is strictly capped at 10%.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[PERSON]",
+            "[RENT]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 187,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 13821
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 18454
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 18127
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 3
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 13825
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 32280
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 485
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 919
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 501
+          }
+        ]
+      }
+    },
+    "noisy-02-eastern-arabic-digits-phone": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:34:41.623Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 42166,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          3
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific amount of notice required to terminate a lease at the end of a contract year. Clause 3 directly states that 'sixty (60) days' written notice' is required, which is a factual lookup."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 10505
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 13539
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 18114
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Tariq El-Sawy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Hanaa Maher",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "۰۱۰۰۵۵۵۰۱۹۲",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "٠١/٠٩/٢٠٢٤",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 11,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How many days' notice is required to terminate the lease at the end of a contract year?\n\nClause 3: 3. Notice. Either party may terminate at the end of a contract year by giving sixty (60) days' written notice.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "PHONE": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 5,
+          "sharedTags": [],
+          "keptTotal": 5,
+          "sharedByUser": 0,
+          "charsSent": 219,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 10505
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 13539
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 18114
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 10506
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 24046
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 564
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 937
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 527
+          }
+        ]
+      }
+    },
+    "noisy-03-unspaced-iban-and-compact-phone": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:35:38.115Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 53971,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks what happens under a specific condition (12 days after the 1st of the month) which requires interpretation of the clause's condition ('more than 10 days after the due date') to determine the outcome (incur late fee). This requires judgment, not a direct factual lookup."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 11916
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 22171
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 19879
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "00201005550192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Late Penalty",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG380019000500000000263180002",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": "fee",
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What happens if my bank transfer arrives 12 days after the first of the month?\n\nClause 2: 2. Payment & [PERSON]. Monthly rent of [RENT] is payable on the 1st of each month to IBAN [ACCOUNT]. Payments received more than 10 days after the due date incur a late fee of [FEE].",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "PHONE": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 7,
+          "sharedTags": [
+            "[PERSON]",
+            "[RENT]",
+            "[ACCOUNT]",
+            "[FEE]"
+          ],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 282,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 11916
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 22171
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 19879
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 11917
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 34089
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 572
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1006
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 619
+          }
+        ]
+      }
+    },
+    "noisy-04-postfix-currency-le-egp": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:36:27.450Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 46822,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific amount the landlord can keep based on a condition, which is a direct piece of information provided in clause 2. The clause specifies 'one month's rent from the deposit' can be retained under the stated condition."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 11847
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 16941
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 18033
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "MONEY",
+            "value": "17,000 LE",
+            "role": "deposit",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "8,500 EGP",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I leave without giving the 90-day early termination notice, how much of my security deposit can the landlord keep?\n\nClause 2: 2. Deposit. The Tenant paid a security deposit of [DEPOSIT]. If the Tenant leaves early without giving 90 days' written notice, the Landlord may retain one month's rent from the deposit.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "MONEY": 2
+          },
+          "foundTotal": 4,
+          "sharedTags": [
+            "[DEPOSIT]"
+          ],
+          "keptTotal": 4,
+          "sharedByUser": 0,
+          "charsSent": 325,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 11847
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 16941
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 18033
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 11847
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 28789
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 636
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 998
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 633
+          }
+        ]
+      }
+    },
+    "noisy-05-all-caps-and-titled-names": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:37:21.159Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 51193,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": true,
+          "reason": "Clause 2 directly states that 'The Landlord pays for elevator servicing', which answers the question about who pays."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 9948
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 29662
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 11576
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "KARIM FATHY",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "ORG",
+            "value": "Landlord",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20-100-555-0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ORG",
+            "value": "Tenant",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Eng. Tarek Samir",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 9,000",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "ORG",
+            "value": "Landlord",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "ORG",
+            "value": "Tenant",
+            "role": "tenant",
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: Who pays for routine building elevator maintenance under this lease?\n\nClause 2: 2. Common Area Maintenance. The [LANDLORD_2] pays for elevator servicing, stair lighting, and common-area repairs; the [TENANT_2] pays only metered apartment electricity and gas.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "ORG": 2,
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 7,
+          "sharedTags": [
+            "[LANDLORD_2]",
+            "[TENANT_2]"
+          ],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 268,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 9948
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 29662
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 11576
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 9948
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 39610
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 606
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1040
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 568
+          }
+        ]
+      }
+    },
+    "noisy-06-pii-in-user-question": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:38:23.527Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 59815,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for advice regarding the possibility of an increase (a judgment call based on rules) rather than asking for a direct fact (like a name, date, or existing amount) written directly in the clauses. This requires interpretation and judgment about the rules mentioned in the clauses."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 15566
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 24254
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 19992
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": "rent",
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: I am [TENANT] ([PHONE]) — can [LANDLORD] raise my [RENT] rent by 20% this year?\n\nClause 1: 1. Parties. [LANDLORD] (\"Landlord\") and [TENANT], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Rent Cap. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 4,
+          "sharedTags": [
+            "[TENANT]",
+            "[PHONE]",
+            "[LANDLORD]",
+            "[RENT]"
+          ],
+          "keptTotal": 4,
+          "sharedByUser": 0,
+          "charsSent": 346,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 15566
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 24254
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 19992
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 15567
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 39821
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 539
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 973
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 695
+          }
+        ]
+      }
+    },
+    "noisy-07-particles-arabic-transliterated-names": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:39:22.463Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 52032,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": true,
+          "reason": "The clause directly addresses the assignment of the lease to an affiliate without an assignment fee, which is a direct fact stated in the text."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 11987
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 27744
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 12290
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Mohamed El Sayed",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Nour Al Din",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28207150103456",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 600 7000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 22,000",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "assignment fee",
+            "role": "fee",
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: Can the tenant assign the lease to a sister company without a fee?\n\nClause 2: 2. Assignment. The Tenant may assign this Lease to a wholly-owned affiliate upon 30 days' written notice without paying an [FEE], provided the original Tenant remains guarantor.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "MONEY": 2
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[FEE]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 265,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 11987
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 27744
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 12290
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 3
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 11991
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 39736
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 598
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1032
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 582
+          }
+        ]
+      }
+    },
+    "noisy-08-iso-and-slash-dates-with-card": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:40:21.589Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 56584,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for advice/interpretation of the terms to determine a specific outcome (getting a full refund), which requires judgment based on the clause's conditions (10 days vs 14 days, refund amount conditions). It is not a direct fact lookup."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12510
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 25275
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 18790
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Seif El-Din",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "CARD",
+            "value": "4111 1111 1111 1111",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "2026-11-01",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "01/11/2027",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 14,000",
+            "role": "fee",
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Off Period",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "100% refund",
+            "role": null,
+            "source": "nano"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 0",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I cancel my annual gym membership within 10 days of signing, do I get a full refund?\n\nClause 2: 2. Cooling-[PERSON]. The Member may cancel within 14 calendar days of the start date for a [AMOUNT] minus [AMOUNT_2] if no personal training sessions were used.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "CARD": 1,
+            "DATE": 2,
+            "MONEY": 3
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[AMOUNT]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 269,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12510
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 25275
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 18790
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12512
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 37788
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 593
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1027
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 577
+          }
+        ]
+      }
+    },
+    "noisy-09-format-variants-same-entity": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:41:16.717Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 52619,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "The question asks for the maximum rent after an increase, which requires a calculation (8500 * 1.10) or judgment based on the clause, rather than a direct, simple lookup of a specific pre-stated fact like a name or a direct starting date."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 12784
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 21285
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 18545
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "01005550192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": "rent",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "8500 EGP",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "10%",
+            "role": "rent",
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: What is the maximum rent after the first annual increase?\n\nClause 2: 2. Rent Escalation. The starting rent is [RENT] (also stated as [RENT]). After 12 months, the Landlord may raise the rent by at most [RENT_2].",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "PHONE": 1,
+            "MONEY": 2
+          },
+          "foundTotal": 5,
+          "sharedTags": [
+            "[RENT]",
+            "[RENT_2]"
+          ],
+          "keptTotal": 5,
+          "sharedByUser": 0,
+          "charsSent": 221,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 12784
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 21285
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 18545
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 12785
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 34071
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 515
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 949
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 529
+          }
+        ]
+      }
+    },
+    "noisy-10-multi-tenant-joint-liability": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:42:26.115Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 66875,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks about a consequence based on the clauses (can the landlord demand the full amount), which is directly addressed and supported by the clause stating that 'All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.'"
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 13545
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 32718
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 20608
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Several Liability",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 12,000",
+            "role": "rent",
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 2: 2. Joint and [PERSON]. The total monthly rent is [RENT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
+        "receipt": {
+          "found": {
+            "PERSON": 4,
+            "PHONE": 2,
+            "MONEY": 1
+          },
+          "foundTotal": 7,
+          "sharedTags": [
+            "[PERSON]",
+            "[RENT]"
+          ],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 314,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 13545
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 32718
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 20608
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 13545
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 46264
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 644
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1078
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 635
+          }
+        ]
+      }
+    },
+    "noisy-11-distractor-numbers-and-clauses": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:43:11.049Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 42423,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          4
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific period of notice required to end a contract early, which is a piece of information directly stated in clause 4."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 11180
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 18022
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 13218
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Late Fee",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "ninety (90) days' prior written notice",
+            "role": "rent",
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: How much notice must I give to end the contract early?\n\nClause 4: 4. Early Termination Notice. The Tenant may end the Lease early by providing at least [RENT] to the Landlord.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "MONEY": 4,
+            "IBAN": 1
+          },
+          "foundTotal": 10,
+          "sharedTags": [
+            "[RENT]"
+          ],
+          "keptTotal": 10,
+          "sharedByUser": 0,
+          "charsSent": 185,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 11180
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 18022
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 13218
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 11181
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 29203
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 683
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 906
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 525
+          }
+        ]
+      }
+    },
+    "noisy-12-euro-and-usd-dual-currency": {
+      "source": "live",
+      "arm": "gemma4",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T16:44:11.566Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "available",
+        "ms": 57973,
+        "mode": "private",
+        "fallbackReason": null,
+        "selectedIds": [
+          2
+        ],
+        "route": {
+          "local": true,
+          "reason": "The question asks for a specific royalty percentage based on a condition. This information is directly stated in clause 2."
+        },
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 10485
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 35773
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 11709
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Nader Chahine",
+            "role": "landlord",
+            "source": "nano"
+          },
+          {
+            "type": "PERSON",
+            "value": "Layla Mansour",
+            "role": "tenant",
+            "source": "nano"
+          },
+          {
+            "type": "EMAIL",
+            "value": "layla.mansour@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 999 8877",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "€15,000",
+            "role": "fee",
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "$250,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "6%",
+            "role": null,
+            "source": "nano"
+          }
+        ],
+        "outbound": "Question: If annual gross revenue exceeds the threshold, what royalty percentage applies?\n\nClause 2: 2. Royalties. Once annual gross revenue exceeds [AMOUNT], the Licensee shall pay a quarterly royalty of [AMOUNT_2] on revenue above that threshold.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "EMAIL": 1,
+            "PHONE": 1,
+            "MONEY": 3
+          },
+          "foundTotal": 7,
+          "sharedTags": [
+            "[AMOUNT]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 248,
+          "clausesSent": 1,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "minimize",
+              "source": "on_device",
+              "ms": 10485
+            },
+            {
+              "step": "detect",
+              "source": "on_device",
+              "ms": 35773
+            },
+            {
+              "step": "route",
+              "source": "on_device",
+              "ms": 11709
+            }
+          ],
+          "mode": "private"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          },
+          {
+            "step": "minimize",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          },
+          {
+            "step": "detect",
+            "part": 1,
+            "parts": 1,
+            "at": 10486
+          },
+          {
+            "step": "route",
+            "part": 1,
+            "parts": 1,
+            "at": 46260
+          }
+        ],
+        "network": [
+          {
+            "step": "minimize",
+            "target": "device",
+            "blocked": false,
+            "chars": 566
+          },
+          {
+            "step": "detect",
+            "target": "device",
+            "blocked": false,
+            "chars": 1000
+          },
+          {
+            "step": "route",
+            "target": "device",
+            "blocked": false,
+            "chars": 548
+          }
+        ]
+      }
+    }
+  }
+}

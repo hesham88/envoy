@@ -1,8 +1,2067 @@
 {
-  "generatedAt": "2026-11-22T15:27:52.974Z",
-  "commit": "5dce993",
+  "generatedAt": "2026-11-22T16:48:27.000Z",
+  "commit": "7bfa113",
   "nTotal": 36,
   "arms": [
+    {
+      "id": "gemma4",
+      "label": "Gemma 4 (on-device + cloud)",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "dates": [
+        "2026-11-22"
+      ],
+      "n": 36,
+      "nTotal": 36,
+      "isPartial": false,
+      "missingCaseIds": [],
+      "privateRuns": 36,
+      "guardBlocks": 5,
+      "leakCaseIds": [],
+      "metrics": {
+        "maskRecall": 1,
+        "falseMaskRate": 0.1812,
+        "outboundLeaks": 0,
+        "clauseAccuracy": 0.8889,
+        "routeAccuracy": 0.6111,
+        "latencyMs": {
+          "p50": 54951,
+          "p95": 78361
+        },
+        "minimizationRatio": 0.2187,
+        "reidRecoveryExact": 0,
+        "reidRecoveryPartial": 0,
+        "attributeInference": 0,
+        "answerQualityRetained": 1
+      },
+      "counts": {
+        "totalGold": 263,
+        "totalMaskedGold": 263,
+        "totalFinalLeaks": 0,
+        "totalDetected": 320,
+        "totalFalseMasks": 58,
+        "totalDocChars": 21550,
+        "totalOutboundChars": 4712,
+        "clauseHits": 32,
+        "routeHits": 22
+      },
+      "cases": [
+        {
+          "id": "lease-01-rent-cap",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:09:38.755Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 124482,
+          "docChars": 2554,
+          "outboundChars": 235,
+          "clausesTotal": 6,
+          "selectedIds": [
+            7
+          ],
+          "expectedClauses": [
+            7
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 16,
+          "maskedGoldCount": 16,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 16,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 2972
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1056
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 546
+            }
+          ]
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:10:53.539Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 72223,
+          "docChars": 2474,
+          "outboundChars": 594,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            10
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 16,
+          "maskedGoldCount": 16,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 16,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 2953
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1252
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 998
+            }
+          ]
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:12:06.972Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 70916,
+          "docChars": 2474,
+          "outboundChars": 642,
+          "clausesTotal": 1,
+          "selectedIds": [
+            6,
+            10
+          ],
+          "expectedClauses": [
+            6,
+            10
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 16,
+          "maskedGoldCount": 16,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 16,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 2971
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1450
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 964
+            }
+          ]
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:13:21.557Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 72072,
+          "docChars": 549,
+          "outboundChars": 428,
+          "clausesTotal": 1,
+          "selectedIds": [
+            7,
+            8
+          ],
+          "expectedClauses": [
+            8
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 9,
+          "maskedGoldCount": 9,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 830
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1241
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 781
+            }
+          ]
+        },
+        {
+          "id": "lease-05-sublet-policy",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:14:10.847Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 46781,
+          "docChars": 638,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 10,
+          "maskedGoldCount": 10,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 10,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 955
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1123
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 630
+            }
+          ]
+        },
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:14:55.606Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 42249,
+          "docChars": 411,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            4
+          ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 728
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 987
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 561
+            }
+          ]
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "category": "commercial_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:16:05.970Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 63682,
+          "docChars": 470,
+          "outboundChars": 260,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 9,
+          "maskedGoldCount": 9,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 11,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Office Suite",
+            "MONEY:8%"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 794
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1013
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 565
+            }
+          ]
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:16:57.824Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 49342,
+          "docChars": 463,
+          "outboundChars": 322,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 8,
+          "maskedGoldCount": 8,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 754
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1124
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 630
+            }
+          ]
+        },
+        {
+          "id": "offer-01-severance-calculation",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:18:15.523Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 75183,
+          "docChars": 774,
+          "outboundChars": 324,
+          "clausesTotal": 1,
+          "selectedIds": [
+            5
+          ],
+          "expectedClauses": [
+            2,
+            5
+          ],
+          "clauseHit": false,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 9,
+          "maskedGoldCount": 9,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 10,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "MONEY:two (2) months of gross monthly salary"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 1141
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1195
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 662
+            }
+          ]
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:19:20.200Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 62158,
+          "docChars": 604,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            4
+          ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Base Salary"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 922
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1193
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 698
+            }
+          ]
+        },
+        {
+          "id": "offer-03-probation-period-local",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:20:06.923Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 44212,
+          "docChars": 344,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Employee Details"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 599
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1010
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 613
+            }
+          ]
+        },
+        {
+          "id": "offer-04-bonus-proration",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:21:27.803Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 78361,
+          "docChars": 447,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            2,
+            3
+          ],
+          "clauseHit": false,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": false,
+          "guardLeakCount": 2,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 12,
+          "falseMaskCount": 5,
+          "falseMasks": [
+            "PERSON:Base Salary",
+            "PERSON:Annual Performance Bonus",
+            "MONEY:15%",
+            "MONEY:1.8x monthly base salary",
+            "PERSON:Payroll Account"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 762
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1034
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 581
+            }
+          ]
+        },
+        {
+          "id": "offer-05-ip-side-project",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:22:29.444Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 54951,
+          "docChars": 578,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            4
+          ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Working Hours",
+            "PERSON:Intellectual Property"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 911
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1195
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 755
+            }
+          ]
+        },
+        {
+          "id": "offer-06-remote-work-allowance",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:23:26.693Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 54726,
+          "docChars": 344,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": false,
+          "guardLeakCount": 1,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Base Pay",
+            "PERSON:Equipment Allowance"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 686
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1097
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 705
+            }
+          ]
+        },
+        {
+          "id": "med-01-fasting-glucose-threshold",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:24:35.366Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 66138,
+          "docChars": 767,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3,
+            4
+          ],
+          "expectedClauses": [
+            3,
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": false,
+          "guardLeakCount": 1,
+          "goldCount": 8,
+          "maskedGoldCount": 8,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 16,
+          "falseMaskCount": 8,
+          "falseMasks": [
+            "PERSON:Patient Identification",
+            "PERSON:Referring Physician",
+            "PERSON:Metabolic Panel Results",
+            "PERSON:Fasting Plasma Glucose",
+            "MONEY:114 mg/dL",
+            "MONEY:5.9%",
+            "MONEY:5.7%–6.4%",
+            "PERSON:Pathologist Comment"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 1127
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1422
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 944
+            }
+          ]
+        },
+        {
+          "id": "med-02-vitamin-d-dosage-local",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:25:26.563Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 48687,
+          "docChars": 411,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Patient Record",
+            "PERSON:repeat serum 25-OH Vitamin D blood test"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 701
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1071
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 592
+            }
+          ]
+        },
+        {
+          "id": "med-03-insurance-copay-cap",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:26:29.527Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 60442,
+          "docChars": 449,
+          "outboundChars": 283,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 11,
+          "falseMaskCount": 4,
+          "falseMasks": [
+            "PERSON:Patient Details",
+            "PERSON:Attending Surgeon",
+            "PERSON:Under Policy Plan",
+            "PERSON:Refund Account"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 776
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1023
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 603
+            }
+          ]
+        },
+        {
+          "id": "med-04-mri-contrast-prep",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:27:33.487Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 61451,
+          "docChars": 466,
+          "outboundChars": 319,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Preparation Instructions"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 750
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1123
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 643
+            }
+          ]
+        },
+        {
+          "id": "freelance-01-kill-fee",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:28:39.188Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 58915,
+          "docChars": 508,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2,
+            4
+          ],
+          "expectedClauses": [
+            2,
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": false,
+          "guardLeakCount": 1,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 12,
+          "falseMaskCount": 5,
+          "falseMasks": [
+            "PERSON:Milestone Fee",
+            "PERSON:Design System Delivery",
+            "PERSON:Wire Instructions",
+            "PERSON:Cancellation Kill Fee",
+            "MONEY:50%"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 858
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1153
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 694
+            }
+          ]
+        },
+        {
+          "id": "freelance-02-invoice-payment-net-local",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:29:23.321Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 41589,
+          "docChars": 377,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 3,
+          "falseMasks": [
+            "PERSON:Invoicing Terms",
+            "MONEY:fifteen (15)",
+            "PERSON:Settlement Account"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 685
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 961
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 546
+            }
+          ]
+        },
+        {
+          "id": "freelance-03-card-hold-dispute",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:30:09.928Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 44088,
+          "docChars": 509,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            2,
+            3
+          ],
+          "clauseHit": false,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Cancellation Schedule"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 802
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1142
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 648
+            }
+          ]
+        },
+        {
+          "id": "freelance-04-liability-cap",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:31:15.392Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 62945,
+          "docChars": 475,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2,
+            4
+          ],
+          "expectedClauses": [
+            2,
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Bank Details",
+            "MONEY:100% of the Total Contract Fee paid under Clause 2"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 818
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1145
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 748
+            }
+          ]
+        },
+        {
+          "id": "loan-01-early-payoff-penalty",
+          "category": "financial_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:32:14.230Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 56296,
+          "docChars": 488,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": false,
+          "guardLeakCount": 4,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 10,
+          "falseMaskCount": 3,
+          "falseMasks": [
+            "PERSON:Principal Balance",
+            "PERSON:Early Prepayment",
+            "MONEY:3%"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 786
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1130
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 616
+            }
+          ]
+        },
+        {
+          "id": "loan-02-warranty-coverage-period-local",
+          "category": "consumer_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T16:32:59.694Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 42953,
+          "docChars": 364,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Purchase Price",
+            "PERSON:Warranty Terms"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 648
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1006
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 548
+            }
+          ]
+        },
+        {
+          "id": "noisy-01-arabic-indic-digits-lease",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:33:56.936Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 50414,
+          "docChars": 235,
+          "outboundChars": 187,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Renewal Cap"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 485
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 919
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 501
+            }
+          ]
+        },
+        {
+          "id": "noisy-02-eastern-arabic-digits-phone",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:34:41.623Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 42166,
+          "docChars": 257,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 5,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 564
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 937
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 527
+            }
+          ]
+        },
+        {
+          "id": "noisy-03-unspaced-iban-and-compact-phone",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:35:38.115Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 53971,
+          "docChars": 297,
+          "outboundChars": 282,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Late Penalty"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 572
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1006
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 619
+            }
+          ]
+        },
+        {
+          "id": "noisy-04-postfix-currency-le-egp",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:36:27.450Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 46822,
+          "docChars": 299,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2,
+            3
+          ],
+          "clauseHit": false,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 4,
+          "maskedGoldCount": 4,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 4,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 636
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 998
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 633
+            }
+          ]
+        },
+        {
+          "id": "noisy-05-all-caps-and-titled-names",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:37:21.159Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 51193,
+          "docChars": 341,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "ORG:Landlord",
+            "ORG:Tenant"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 606
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1040
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 568
+            }
+          ]
+        },
+        {
+          "id": "noisy-06-pii-in-user-question",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:38:23.527Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 59815,
+          "docChars": 249,
+          "outboundChars": 346,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 4,
+          "maskedGoldCount": 4,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 4,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 539
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 973
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 695
+            }
+          ]
+        },
+        {
+          "id": "noisy-07-particles-arabic-transliterated-names",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:39:22.463Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 52032,
+          "docChars": 335,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "MONEY:assignment fee"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 598
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1032
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 582
+            }
+          ]
+        },
+        {
+          "id": "noisy-08-iso-and-slash-dates-with-card",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:40:21.589Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 56584,
+          "docChars": 309,
+          "outboundChars": 269,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 3,
+          "falseMasks": [
+            "PERSON:Off Period",
+            "MONEY:100% refund",
+            "MONEY:EGP 0"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 593
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1027
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 577
+            }
+          ]
+        },
+        {
+          "id": "noisy-09-format-variants-same-entity",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:41:16.717Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 52619,
+          "docChars": 261,
+          "outboundChars": 221,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "MONEY:10%"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 515
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 949
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 529
+            }
+          ]
+        },
+        {
+          "id": "noisy-10-multi-tenant-joint-liability",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:42:26.115Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 66875,
+          "docChars": 353,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Several Liability"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 644
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1078
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 635
+            }
+          ]
+        },
+        {
+          "id": "noisy-11-distractor-numbers-and-clauses",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:43:11.049Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 42423,
+          "docChars": 386,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            4
+          ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 8,
+          "maskedGoldCount": 8,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 10,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Late Fee",
+            "MONEY:ninety (90) days' prior written notice"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 683
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 906
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 525
+            }
+          ]
+        },
+        {
+          "id": "noisy-12-euro-and-usd-dual-currency",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T16:44:11.566Z",
+          "mode": "private",
+          "deviceStatus": "available",
+          "fallbackReason": null,
+          "ms": 57973,
+          "docChars": 290,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": true,
+          "expectedLocalRoute": false,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "MONEY:6%"
+          ],
+          "networkSteps": [
+            {
+              "step": "minimize",
+              "target": "device",
+              "blocked": false,
+              "chars": 566
+            },
+            {
+              "step": "detect",
+              "target": "device",
+              "blocked": false,
+              "chars": 1000
+            },
+            {
+              "step": "route",
+              "target": "device",
+              "blocked": false,
+              "chars": 548
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "basic",
       "label": "Basic protection (rules + guard, no on-device model)",

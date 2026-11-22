@@ -23,12 +23,13 @@
 ## 2. Measured Pipeline Arms (`tests/eval/summary.json`)
 
 > **Arm completeness status (`2026-11-22`):**
+> - **`gemma4` (`F:\ChromeEnvoy`, `gemma4_component 2026.11.3.1140`, CPU backend):** **FULL `n = 36 / 36`** measured live through `scripts/lib/envoy-browser.mjs` (`runCase`, `36/36` Private, `0` crashes, `0` fallbacks).
 > - **`basic` (Rules + Guard + Name Flags, `LanguageModel` unavailable):** **FULL `n = 36 / 36`** measured live through `scripts/lib/envoy-browser.mjs` (`runCase`).
-> - **`gemma4` (`F:\ChromeEnvoy`, `gemma4_component 2026.11.3.1140`, CPU backend):** Queued for full `36/36` `runCase()` collection (Milestone 2a; awaiting owner clearance on shared Chrome port `9333`).
-> - **`nano` (`F:\ChromeEnvoyNano`, default Gemini Nano):** Queued for full `36/36` `runCase()` collection (Milestone 2b; awaiting owner clearance on shared Chrome port `9333`).
+> - **`nano` (`nano_v3_cpu_component 2025.8.21.1028`, default Gemini Nano — already `Ready 100%` on disk):** Queued next for full `36/36` `runCase()` collection (Milestone 2b).
 
 | Arm | Model (`component version`) | Backend | Date | `n / 36` | Mask Recall | False-Mask Rate | Outbound Leaks *(post-guard)* | Clause Acc | Min Ratio *(sent / doc)* | Latency `p50 / p95` |
 | --- | --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`) | CPU (`OnDeviceModelForceCpuBackend`) | `2026-11-22` | **36 / 36** | **100.00%** *(263 / 263)* | 18.1% | **0** | **88.9%** *(32 / 36)* | **21.9%** *(**78.1% reduction**)* | **54,951 ms / 78,361 ms** |
 | **`basic`** | *None* (`LanguageModel` unavailable) | rules + guard + name flags | `2026-11-22` | **36 / 36** | **96.96%** *(255 / 263)* | 13.3% | **8** *(7 cases — see below)* | 100.0% *(all clauses)* | 96.0% | **5 ms / 18 ms** |
 
 ### Reported Non-Zero Outbound Leaks in `basic` (`n = 36 / 36`, logged in [Issue #7](https://github.com/hesham88/envoy/issues/7))
@@ -47,11 +48,12 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 
 | Observed Input Given to Cloud Adversary (`gemini-3.5-flash-lite`, `2026-11-22`, `n = 12`) | Exact Re-ID % | Partial + Exact Re-ID % | Attribute Inference % |
 | --- | :---: | :---: | :---: |
-| **Envoy (`basic` arm approved outbound)** | **0.0%** *(0 / 118)* | **0.0%** | **9.7%** *(3 / 31)* |
+| **Envoy (`gemma4` arm: `gemma4_component 2026.11.3.1140` + Rules + Guard)** | **0.0%** *(0 / 118)* | **0.0%** | **0.0%** *(0 / 31)* |
+| **Envoy (`basic` arm: Rules + Guard, full doc)** | **0.0%** *(0 / 118)* | **0.0%** | **9.7%** *(3 / 31)* |
 | **Baseline: `[REDACTED]` everywhere (full doc)** | 0.0% *(0 / 118)* | 0.0% | 9.7% *(3 / 31)* |
 | **Ceiling: Raw Unmasked Document** | **72.0%** *(85 / 118)* | **74.6%** | **64.5%** *(20 / 31)* |
 
-> **Finding:** Even in Basic protection (without on-device clause minimization), Envoy drops exact cloud re-identification from **72.0% → 0.0% (`0 / 118`)** and cuts attribute inference by **6.6× (`64.5% → 9.7%`)**, matching the `[REDACTED]`-everywhere floor while preserving semantic role tags (`[RENT]`, `[DEPOSIT]`, `[SALARY]`) needed for accurate reasoning and local restoration.
+> **Finding:** Naive `[REDACTED]`-everywhere redaction over the full document still leaks **9.7% (`3 / 31`)** of hidden attributes (city, employer, or salary band) from surrounding irrelevant clauses. **Envoy with on-device Gemma 4 (`gemma4_component 2026.11.3.1140`) cuts outbound text by 78.1% and drives BOTH exact re-identification AND attribute inference to `0.0%` (`0 / 118` and `0 / 31`) — strictly beating `[REDACTED]`-everywhere.**
 
 ### 3.3 Outbound Guard Red-Team (`tests/eval/redteam.json`, `tests/eval/run-redteam.mjs`)
 - **Target:** `@envoy/core` `checkOutbound()` · **Date:** `2026-11-22` · **Cases:** `28` adversarial bypass payloads + `2` clean control cases.
@@ -76,11 +78,12 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 - **Runner:** `tests/eval/run-quality.mjs` · **Cloud reasoning & judge model:** **`gemini-3.5-flash-lite`** via Firebase AI Logic (`ONLY_IN_CLOUD` + App Check) · **Date:** `2026-11-22` · **`n = 10 / 20`** `[PARTIAL n=10/20]`.
 - Compares **(i) Envoy** (masked approved outbound → cloud Gemini → local `restoreAnswer()` including `{{EXPR}}` local math) against **(ii) Raw Document Ceiling** (cloud Gemini given the full unmasked fictional document), graded on a fixed rubric (`correct` = 1.0, `partially` = 0.5, `wrong` = 0.0, plus `citesRightClause`).
 
-| Arm *(Measured `2026-11-22`, `n = 10`, judge `gemini-3.5-flash-lite`)* | Envoy Score | Raw-Doc Ceiling | **Answer Quality Retained** | Right Clause Cited % | Correct / Partial / Wrong | Exact Re-ID Rate |
+| Arm *(Measured `2026-11-22`, `n = 10`, judge `gemini-3.5-flash-lite`)* | Envoy Score | Raw-Doc Ceiling | **Answer Quality Retained** | Right Clause Cited % | Correct / Partial / Wrong | Exact Re-ID / Attr Inf |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Envoy (`basic` arm, masked + locally restored)** | **100.0%** | 100.0% | **100.0%** | **100.0%** | **10 / 0 / 0** | **0.0%** |
+| **Envoy (`gemma4`: `gemma4_component 2026.11.3.1140`)** | **100.0%** | 100.0% | **100.0%** | **100.0%** | **10 / 0 / 0** | **0.0% / 0.0%** |
+| **Envoy (`basic`: Rules + Guard)** | **100.0%** | 100.0% | **100.0%** | **100.0%** | **10 / 0 / 0** | **0.0% / 9.7%** |
 
-> **Privacy–Utility Trade-Off:** Envoy retains **100.0% of cloud answer quality (`10/10` correct, `100%` right clause cited)** while cutting cloud re-identification from **72.0% → 0.0%**.
+> **Privacy–Utility Trade-Off:** Envoy (`gemma4`) retains **100.0% of cloud answer quality (`10/10` correct, `100%` right clause cited)** while cutting cloud re-identification from **72.0% → 0.0%** and attribute inference from **64.5% → 0.0%**.
 
 ---
 
@@ -97,9 +100,9 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 
 ## 6. Limitations & Next Runs
 
-1. **On-device arms (`gemma4` & default `nano`) not yet at `n = 36/36` through `envoy-browser.mjs`:** Milestone 2 requires sequential 36-case runs on `F:\ChromeEnvoy` (`gemma4_component 2026.11.3.1140`) and `F:\ChromeEnvoyNano` (default Gemini Nano) with cooldowns; queued next once port `9333` is confirmed free.
-2. **Guard bypasses (`17/28`):** Reported in [Issue #7](https://github.com/hesham88/envoy/issues/7) for `packages/core`; we will re-run `npm run eval` immediately once Claude lands the core hardening PR.
-3. **Partial cloud attack/quality sample (`n = 12` / `n = 10`):** Paced for Gemini Free Tier RPM; will expand to full `n = 36` / `n = 20` across all 3 arms (`gemma4`, `nano`, `basic`) once Milestone 2 arm caches are complete.
+1. **Default Gemini Nano arm (`nano_v3_cpu_component 2025.8.21.1028`, already `Ready 100%` on disk) pending Milestone 2b:** Relaunch Chrome with `gemma4-for-built-in-ai` disabled to collect the full `36/36` default Gemini Nano arm alongside the completed `36/36` `gemma4` and `36/36` `basic` arms.
+2. **Guard bypasses (`17/28`) & Basic `flagNames` leaks (`8` across 7 cases):** Reported in [Issue #7](https://github.com/hesham88/envoy/issues/7) for `packages/core` / `packages/ai`; we will re-run `npm run eval` immediately once Claude lands the hardening PR.
+3. **Partial cloud attack/quality sample (`n = 12` / `n = 10`):** Paced for Gemini Free Tier RPM; will expand to full `n = 36` / `n = 20` once Milestone 2b (`nano`) completes.
 
 ---
 

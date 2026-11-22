@@ -208,5 +208,47 @@
     "model": "gemini-3.5-flash-lite",
     "ms": 10812,
     "raw": "{\n  \"recovered_values\": [\n    \"Wael Tantawy\",\n    \"Heba Radwan\",\n    \"28703220101122\",\n    \"+20 127 654 3210\",\n    \"heba.radwan@example.com\",\n    \"EGP 80,000\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": \"female\",\n    \"employer_or_org\": \"Wael Tantawy\",\n    \"salary_or_amount_band\": \"EGP 960,000 - 1,440,000 annually\"\n  }\n}"
+  },
+  "arm:gemma4:lease-01-rent-cap": {
+    "recordedAt": "2026-11-22T16:45:10.945Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 5090,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:lease-02-end-date-local": {
+    "recordedAt": "2026-11-22T16:45:16.155Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 994,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:lease-03-early-exit-deposit": {
+    "recordedAt": "2026-11-22T16:45:29.158Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 8765,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:lease-04-late-fee-grace-period": {
+    "recordedAt": "2026-11-22T16:45:34.623Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1252,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-07-commercial-cam-cap": {
+    "recordedAt": "2026-11-22T16:45:39.700Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 856,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-08-plumbing-responsibility": {
+    "recordedAt": "2026-11-22T16:45:49.127Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 5213,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:offer-01-severance-calculation": {
+    "recordedAt": "2026-11-22T16:45:55.581Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 2218,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
   }
 }
