@@ -1,0 +1,281 @@
+{
+  "generatedAt": "2026-11-22T14:38:16.751Z",
+  "totalQuestions": 10,
+  "cloudRouted": 6,
+  "deviceRouted": 4,
+  "zeroCloudLeakRate": "9/10 (90%)",
+  "zeroUnresolvedTagsRate": "10/10",
+  "mathExpressionsVerified": "9/10",
+  "factMatchRate": "8/10",
+  "allGatesPassed": "7/10",
+  "avgCloudLatencyMs": 4549,
+  "rows": [
+    {
+      "id": "lease-01-rent-cap",
+      "category": "residential_lease",
+      "question": "Can my landlord raise the rent 20% this year?",
+      "route": "in_cloud",
+      "replySource": "live_cloud",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "gemini-3.5-flash-lite",
+      "clausesSent": 1,
+      "clausesTotal": 13,
+      "charsSent": 235,
+      "rawReply": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to the excerpt, the landlord is only permitted to increase the rent once per contract year by no more than {{RENT * 0.10}} (10%).",
+      "restoredText": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to the excerpt, the landlord is only permitted to increase the rent once per contract year by no more than EGP 850 (10%).",
+      "restoredSpans": [
+        {
+          "start": 174,
+          "end": 181,
+          "tag": "{{RENT * 0.10}}",
+          "value": "EGP 850",
+          "computed": true
+        }
+      ],
+      "computedValues": [
+        "EGP 850"
+      ],
+      "latencyMs": 1247,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": true
+      }
+    },
+    {
+      "id": "lease-02-end-date-local",
+      "category": "residential_lease",
+      "question": "When does my contract end?",
+      "route": "in_cloud",
+      "replySource": "live_cloud",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "gemma4_component (2B-IT on-device)",
+      "clausesSent": 2,
+      "clausesTotal": 13,
+      "charsSent": 413,
+      "rawReply": "Your lease runs for a term of three (3) years starting 1 September 2024 and ending on 31 August 2027 (Clause 2), unless ended at the end of a contract year with 60 days' written notice (Clause 10).",
+      "restoredText": "Your lease runs for a term of three (3) years starting 1 September 2024 and ending on 31 August 2027 (Clause 2), unless ended at the end of a contract year with 60 days' written notice (Clause 10).",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 6400,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": true
+      }
+    },
+    {
+      "id": "lease-03-early-exit-deposit",
+      "category": "residential_lease",
+      "question": "What happens to my deposit if I leave early?",
+      "route": "on_device",
+      "replySource": "live_on_device",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "clausesSent": 0,
+      "clausesTotal": 13,
+      "charsSent": 0,
+      "rawReply": "The Landlord may keep one month's rent from the deposit if the Tenant leaves before the end of the term without the notice required by Clause 10. Clause 6.",
+      "restoredText": "The Landlord may keep one month's rent from the deposit if the Tenant leaves before the end of the term without the notice required by Clause 10. Clause 6.",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 19993,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": false,
+        "allPassed": false
+      }
+    },
+    {
+      "id": "lease-04-late-fee-grace-period",
+      "category": "residential_lease",
+      "question": "If I pay rent on the 8th of the month, do I owe the late fee?",
+      "route": "in_cloud",
+      "replySource": "live_cloud",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "gemini-3.5-flash-lite",
+      "clausesSent": 1,
+      "clausesTotal": 3,
+      "charsSent": 248,
+      "rawReply": "No, you do not owe the late fee if you pay on the 8th of the month. \n\nAccording to Clause 8, rent is due on the first day of the month, but it only carries a fee if it is paid more than 10 days late. Since the 8th is within 10 days of the due date, no late fee applies.",
+      "restoredText": "No, you do not owe the late fee if you pay on the 8th of the month. \n\nAccording to Clause 8, rent is due on the first day of the month, but it only carries a fee if it is paid more than 10 days late. Since the 8th is within 10 days of the due date, no late fee applies.",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 1657,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": true
+      }
+    },
+    {
+      "id": "lease-05-sublet-policy",
+      "category": "residential_lease",
+      "question": "Can I rent out one bedroom on a short-term basis without asking the owner?",
+      "route": "on_device",
+      "replySource": "live_on_device",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "clausesSent": 0,
+      "clausesTotal": 4,
+      "charsSent": 0,
+      "rawReply": "The Tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord. (Clause 3)",
+      "restoredText": "The Tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord. (Clause 3)",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 12314,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": true
+      }
+    },
+    {
+      "id": "offer-01-severance-calculation",
+      "category": "employment_contract",
+      "question": "If the company eliminates my role without cause after 18 months, how much severance pay do I receive?",
+      "route": "in_cloud",
+      "replySource": "live_cloud",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "gemini-3.5-flash-lite",
+      "clausesSent": 3,
+      "clausesTotal": 5,
+      "charsSent": 646,
+      "rawReply": "You will receive a severance payment equal to two months of your gross monthly salary. \n\nAccording to Clause 5, if the employer terminates the agreement without cause after the 3-month probation period (which includes your 18-month timeline), the employer must pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period. Since the monthly salary is represented by [SALARY], the cash severance portion is {{SALARY * 2}}.",
+      "restoredText": "You will receive a severance payment equal to two months of your gross monthly salary. \n\nAccording to Clause 5, if the employer terminates the agreement without cause after the 3-month probation period (which includes your 18-month timeline), the employer must pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period. Since the monthly salary is represented by EGP 65,000, the cash severance portion is EGP 130,000.",
+      "restoredSpans": [
+        {
+          "start": 395,
+          "end": 405,
+          "tag": "[SALARY]",
+          "value": "EGP 65,000",
+          "computed": false
+        },
+        {
+          "start": 437,
+          "end": 448,
+          "tag": "{{SALARY * 2}}",
+          "value": "EGP 130,000",
+          "computed": true
+        }
+      ],
+      "computedValues": [
+        "EGP 130,000"
+      ],
+      "latencyMs": 7118,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": true
+      }
+    },
+    {
+      "id": "offer-03-probation-period-local",
+      "category": "employment_contract",
+      "question": "How long is my probationary period?",
+      "route": "in_cloud",
+      "replySource": "live_cloud",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "gemma4_component (2B-IT on-device)",
+      "clausesSent": 1,
+      "clausesTotal": 3,
+      "charsSent": 101,
+      "rawReply": "Your probationary period is the first ninety (90) days of employment (Clause 3).",
+      "restoredText": "Your probationary period is the first ninety (90) days of employment (Clause 3).",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 6400,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": true
+      }
+    },
+    {
+      "id": "med-01-fasting-glucose-threshold",
+      "category": "medical_report",
+      "question": "How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?",
+      "route": "in_cloud",
+      "replySource": "live_cloud",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "gemini-3.5-flash-lite",
+      "clausesSent": 2,
+      "clausesTotal": 4,
+      "charsSent": 633,
+      "rawReply": "The report classifies the fasting blood glucose result of 114 mg/dL as impaired fasting glucose (prediabetes) and recommends repeating the HbA1c in 3 months along with reviewing dietary and physical activity changes with the referring physician. \n\nThe excerpt classifies the value of 114 mg/dL within the impaired fasting glucose / prediabetes range of 100–125 mg/dL, and the pathologist's comment confirms that the values sit in the impaired fasting glucose (prediabetes) reference range, prompting a recommendation to repeat the HbA1c in 3 months and review dietary and physical activity changes with the referring physician.",
+      "restoredText": "The report classifies the fasting blood glucose result of 114 mg/dL as impaired fasting glucose (prediabetes) and recommends repeating the HbA1c in 3 months along with reviewing dietary and physical activity changes with the referring physician. \n\nThe excerpt classifies the value of 114 mg/dL within the impaired fasting glucose / prediabetes range of 100–125 mg/dL, and the pathologist's comment confirms that the values sit in the impaired fasting glucose (prediabetes) reference range, prompting a recommendation to repeat the HbA1c in 3 months and review dietary and physical activity changes with the referring physician.",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 4472,
+      "gates": {
+        "zeroCloudLeak": false,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": false
+      }
+    },
+    {
+      "id": "freelance-01-kill-fee",
+      "category": "consulting_agreement",
+      "question": "If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?",
+      "route": "on_device",
+      "replySource": "live_on_device",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "clausesSent": 0,
+      "clausesTotal": 4,
+      "charsSent": 0,
+      "rawReply": "If the client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days. (Clause 4)",
+      "restoredText": "If the client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days. (Clause 4)",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 10080,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": false,
+        "factMatch": false,
+        "allPassed": false
+      }
+    },
+    {
+      "id": "loan-01-early-payoff-penalty",
+      "category": "financial_agreement",
+      "question": "If I pay off my remaining loan balance early, what percentage penalty applies?",
+      "route": "on_device",
+      "replySource": "live_on_device",
+      "onDeviceModel": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "model": "Gemma 4 (gemma4_component 2026.11.3.1140)",
+      "clausesSent": 0,
+      "clausesTotal": 3,
+      "charsSent": 0,
+      "rawReply": "The early-settlement administrative charge is 3% of the prepaid principal balance. (Clause 3)",
+      "restoredText": "The early-settlement administrative charge is 3% of the prepaid principal balance. (Clause 3)",
+      "restoredSpans": [],
+      "computedValues": [],
+      "latencyMs": 10166,
+      "gates": {
+        "zeroCloudLeak": true,
+        "zeroUnresolvedTags": true,
+        "mathVerified": true,
+        "factMatch": true,
+        "allPassed": true
+      }
+    }
+  ]
+}

@@ -2,22 +2,40 @@
 /**
  * Envoy Evaluation Harness (Phase 5 — BRIEF §8, PAIR Ch. 2.3 & Harness²).
  *
- * Evaluates all 36 benchmark cases in `tests/eval/cases.json` across three ablation conditions:
- *   1. Rules Alone        — deterministic regex + checksums only (`detectWithRules`), all clauses sent.
- *   2. Gemini Nano Alone  — on-device LLM (`detect` + `minimize` + `route`) without deterministic rules.
- *   3. Envoy Layered      — Rules + Gemini Nano (`detect` + `minimize` + `route`) + Name fallback + Outbound Guard.
+ * Evaluates benchmark cases in `tests/eval/cases.json` strictly from verified REAL `--live`
+ * on-device model outputs stored in `tests/eval/probes/nano-cache.json` (`source === "live"`,
+ * recording `modelLabel`, `modelComponent`, `modelVersion`, `backend`, `recordedAt`).
  *
- * When Chrome with Gemini Nano 4 is reachable on CDP port 9333 (`--live`), live on-device probes
- * are executed and cached in `tests/eval/probes/nano-cache.json` for reproducible Harness² comparisons.
+ * Headline Table (Measured Live Results ONLY):
+ *   1. Rules Alone         — deterministic regex + checksums only (`detectWithRules`), all clauses sent.
+ *   2. On-Device LLM Alone — measured live on-device model (`detect` + `minimize` + `route`), no rules/guard.
+ *   3. Envoy Layered       — Rules + measured live on-device model + name fallback + Outbound Guard.
+ *
+ * Separate Appendix (NOT in headline table, NEVER called Nano):
+ *   - Oracle model (upper bound) — theoretical ceiling using gold labels purely in-memory.
+ *
+ * Usage:
+ *   npm run eval                # evaluates all live-cached cases + 20-question answer quality check
+ *   node tests/eval/run.mjs --live   # first runs collect-live.mjs against Chrome CDP, then evaluates
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-
 import { createServer } from 'vite';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = resolve(__dirname, '../..');
+const ROOT = pathResolve(__dirname, '../..');
+
+function pathResolve(...parts) {
+  return resolve(...parts);
+}
+
+if (process.argv.includes('--live')) {
+  execFileSync(process.execPath, [resolve(__dirname, 'collect-live.mjs'), ...process.argv.slice(2)], {
+    stdio: 'inherit',
+  });
+}
 
 const vite = await createServer({
   root: ROOT,
@@ -30,7 +48,6 @@ const core = await vite.ssrLoadModule('/packages/core/src/index.ts');
 const casesPath = resolve(__dirname, 'cases.json');
 const cachePath = resolve(__dirname, 'probes/nano-cache.json');
 const resultsPath = resolve(__dirname, 'results.json');
-const evalDocPath = resolve(ROOT, 'docs/EVAL.md');
 
 const cases = JSON.parse(readFileSync(casesPath, 'utf8'));
 
@@ -42,7 +59,6 @@ function isLeakedInOutbound(outbound, goldItem) {
   if (!outbound) return false;
   const raw = goldItem.value.trim();
   if (outbound.toLowerCase().includes(raw.toLowerCase())) return true;
-  // Also check canonical normalized form for formatted numbers/phones/IBANs
   const normOutbound = core.normalizeDigits(outbound).text;
   const normRaw = core.normalizeDigits(raw).text;
   if (normOutbound.toLowerCase().includes(normRaw.toLowerCase())) return true;
@@ -98,9 +114,9 @@ function maskQuestion(question, docEntities, tags) {
   return core.maskText(question, found, tags);
 }
 
-function maskQuestionNanoOnly(question, nanoEntities, tags) {
+function maskQuestionLlmOnly(question, llmEntities, tags) {
   const found = [];
-  for (const e of nanoEntities) {
+  for (const e of llmEntities) {
     for (let i = question.indexOf(e.value); i !== -1; i = question.indexOf(e.value, i + e.value.length)) {
       if (!found.some((f) => f.start < i + e.value.length && i < f.end)) {
         found.push({ ...e, start: i, end: i + e.value.length });
@@ -111,79 +127,25 @@ function maskQuestionNanoOnly(question, nanoEntities, tags) {
 }
 
 /**
- * Loads or generates the Nano 4 output cache for each case.
- * Uses real recorded Gemini Nano 4 traces from `tests/eval/probes/` and mirrors Nano 4's
- * verified schema behavior (`DETECT_SCHEMA`: PERSON, ORG, ADDRESS, MONEY; `MINIMIZE_SCHEMA`:
- * clause_ids; `ROUTE_SCHEMA`: answerable_locally).
+ * Loads ONLY verified live model responses (`source === 'live'`) from `nano-cache.json`.
+ * Never synthesizes fake model outputs into the cache.
  */
-function loadNanoResponses(casesList) {
-  const cache = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, 'utf8')) : {};
-  let updated = false;
-  for (const tc of casesList) {
-    if (!cache[tc.id]) {
-      // Build deterministic Nano-schema response matching Gemini Nano 4's verified capabilities:
-      // Nano's DETECT_SCHEMA covers PERSON, ORG, ADDRESS, MONEY (with semantic roles).
-      // Notice Nano's schema intentionally does NOT include NATIONAL_ID, IBAN, PHONE, EMAIL, CARD, or DATE.
-      // Furthermore, on noisy unspaced/Arabic-Indic or ALL-CAPS/postfix-currency edge cases, a 2B model
-      // alone has imperfect recall on non-standard money/name formats unless paired with rules.
-      const nanoEntities = [];
-      for (const g of tc.goldSensitive) {
-        if (['PERSON', 'ORG', 'ADDRESS', 'MONEY'].includes(g.type)) {
-          // Simulate documented 2B small-model failure modes on noisy formatting when running Nano alone:
-          // - postfix currency without prefix symbol ("17,000 LE") or ALL-CAPS names without title ("KARIM FATHY")
-          if (tc.noisy && g.value === 'KARIM FATHY') continue;
-          if (tc.noisy && g.value === '17,000 LE') continue;
-          if (tc.noisy && g.value === '8500 EGP') continue;
-          nanoEntities.push({
-            text: g.value,
-            kind: g.type,
-            role: g.role || (g.type === 'MONEY' ? 'fee' : 'other'),
-          });
-        }
-      }
-      cache[tc.id] = {
-        detectJson: JSON.stringify({ entities: nanoEntities }),
-        minimizeJson: JSON.stringify({
-          clause_ids: tc.expectedClauses,
-          reason: `Clause(s) ${tc.expectedClauses.join(', ')} directly address the question.`,
-        }),
-        routeJson: JSON.stringify({
-          answerable_locally: tc.expectedLocalRoute,
-          reason: tc.expectedLocalRoute
-            ? 'Direct factual lookup stated explicitly in the selected clause.'
-            : 'Requires policy interpretation, comparison, or derived calculation.',
-        }),
-        schemaValid: true,
-      };
-      updated = true;
+function loadLiveCache() {
+  if (!existsSync(cachePath)) return {};
+  const raw = JSON.parse(readFileSync(cachePath, 'utf8'));
+  const live = {};
+  for (const [id, entry] of Object.entries(raw)) {
+    if (entry && entry.source === 'live' && entry.modelComponent && entry.modelVersion) {
+      live[id] = entry;
     }
   }
-  if (updated) {
-    mkdirSync(dirname(cachePath), { recursive: true });
-    writeFileSync(cachePath, JSON.stringify(cache, null, 2));
-  }
-  return cache;
+  return live;
 }
 
-const nanoCache = loadNanoResponses(cases);
-
-const perCaseResults = [];
-
-for (const tc of cases) {
-  const doc = tc.document;
+function evaluateCase(tc, doc, chunks, rulesOnly, llmEntry) {
   const question = tc.question;
-  const chunks = core.chunkDocument(doc);
-  const rulesOnly = core.detectWithRules(doc);
-  const nanoEntry = nanoCache[tc.id];
 
-  const nanoDetected = core.parseDetectResponse(nanoEntry.detectJson, doc);
-  const nanoMin = core.parseMinimizeResponse(
-    nanoEntry.minimizeJson,
-    chunks.map((c) => c.id),
-  ) ?? { ids: chunks.map((c) => c.id), reason: 'fallback' };
-  const nanoRoute = core.parseRouteResponse(nanoEntry.routeJson) ?? { local: false, reason: 'fallback' };
-
-  // --- Condition 1: Rules Alone (deterministic regex/checksums only, no Nano, all clauses sent) ---
+  // Condition 1: Rules Alone (deterministic regex + checksums only, all clauses sent)
   const rulesTags = core.assignTags(rulesOnly);
   const rulesOutbound = [
     `Question: ${maskQuestion(question, rulesOnly, rulesTags)}`,
@@ -191,41 +153,50 @@ for (const tc of cases) {
   ].join('\n\n');
   const rulesLeaks = tc.goldSensitive.filter((g) => isLeakedInOutbound(rulesOutbound, g));
 
-  // --- Condition 2: Gemini Nano 4 Alone (on-device LLM only, no deterministic rules, minimized clauses) ---
-  const nanoTags = core.assignTags(nanoDetected);
-  const nanoSelectedChunks = chunks.filter((c) => nanoMin.ids.includes(c.id));
-  const nanoOutbound = nanoRoute.local
+  // Parse on-device LLM JSON outputs (either real live entry or in-memory oracle upper bound)
+  const llmDetected = core.parseDetectResponse(llmEntry.detectJson, doc);
+  const llmMin = core.parseMinimizeResponse(
+    llmEntry.minimizeJson,
+    chunks.map((c) => c.id),
+  );
+  const llmRoute = core.parseRouteResponse(llmEntry.routeJson);
+  const selectedIds = llmMin ? llmMin.ids : chunks.map((c) => c.id);
+  const selectedChunks = chunks.filter((c) => selectedIds.includes(c.id));
+  const localRoute = llmRoute ? llmRoute.local : false;
+
+  // Condition 2: On-Device LLM Alone (no deterministic rules, no name fallback, no outbound guard)
+  const llmTags = core.assignTags(llmDetected);
+  const llmOutbound = localRoute
     ? ''
     : [
-        `Question: ${maskQuestionNanoOnly(question, nanoDetected, nanoTags)}`,
-        ...nanoSelectedChunks.map((c) => `${c.label}: ${maskChunk(c, nanoDetected, nanoTags)}`),
+        `Question: ${maskQuestionLlmOnly(question, llmDetected, llmTags)}`,
+        ...selectedChunks.map((c) => `${c.label}: ${maskChunk(c, llmDetected, llmTags)}`),
       ].join('\n\n');
-  const nanoLeaks = tc.goldSensitive.filter((g) => isLeakedInOutbound(nanoOutbound, g));
+  const llmLeaks = localRoute ? [] : tc.goldSensitive.filter((g) => isLeakedInOutbound(llmOutbound, g));
 
-  // --- Condition 3: Envoy Layered (Rules + Nano 4 + Name Heuristic Fallback + Outbound Guard) ---
-  const mergedRulesNano = core.mergeEntities(rulesOnly, nanoDetected);
-  const flaggedExtra = flagNames(doc, mergedRulesNano);
-  const envoyEntities = core.mergeEntities(mergedRulesNano, flaggedExtra);
-  const envoyTags = core.assignTags(envoyEntities);
-  const envoySelectedChunks = chunks.filter((c) => nanoMin.ids.includes(c.id));
-  const envoyDraftOutbound = nanoRoute.local
+  // Condition 3: Envoy Layered (Rules + On-Device LLM + Name Fallback + Outbound Guard)
+  const merged = core.mergeEntities(rulesOnly, llmDetected);
+  const flaggedFallback = flagNames(doc, merged);
+  const layeredEntities = core.mergeEntities(merged, flaggedFallback);
+  const layeredTags = core.assignTags(layeredEntities);
+  const layeredOutbound = localRoute
     ? ''
     : [
-        `Question: ${maskQuestion(question, envoyEntities, envoyTags)}`,
-        ...envoySelectedChunks.map((c) => `${c.label}: ${maskChunk(c, envoyEntities, envoyTags)}`),
+        `Question: ${maskQuestion(question, layeredEntities, layeredTags)}`,
+        ...selectedChunks.map((c) => `${c.label}: ${maskChunk(c, layeredEntities, layeredTags)}`),
       ].join('\n\n');
-  const knownTags = envoyTags.entries().map((t) => t.tag);
-  const guardCheck = envoyDraftOutbound
-    ? core.checkOutbound(envoyDraftOutbound, envoyEntities, { knownTags })
-    : { ok: true, leaks: [] };
-  // If guard blocks any leak, nothing is sent to the cloud
-  const envoyFinalOutbound = guardCheck.ok ? envoyDraftOutbound : '';
-  const envoyLeaks = tc.goldSensitive.filter((g) => isLeakedInOutbound(envoyFinalOutbound, g));
+  const knownTags = layeredTags.entries().map((t) => t.tag);
+  const guardResult = localRoute
+    ? { ok: true, leaks: [] }
+    : core.checkOutbound(layeredOutbound, layeredEntities, { knownTags });
+  // Hard-blocking Outbound Guard prevents transmission if any leak is detected
+  const transmittedOutbound = guardResult.ok ? layeredOutbound : '';
+  const layeredLeaks =
+    localRoute || !guardResult.ok ? [] : tc.goldSensitive.filter((g) => isLeakedInOutbound(transmittedOutbound, g));
 
-  const clauseRecall =
-    tc.expectedClauses.filter((id) => nanoMin.ids.includes(id)).length / tc.expectedClauses.length;
+  const targetHit = tc.expectedClauses.every((id) => selectedIds.includes(id));
 
-  perCaseResults.push({
+  return {
     id: tc.id,
     category: tc.category,
     title: tc.title,
@@ -233,55 +204,72 @@ for (const tc of cases) {
     docChars: doc.length,
     totalClauses: chunks.length,
     goldCount: tc.goldSensitive.length,
+    expectedClauses: tc.expectedClauses,
     expectedLocalRoute: tc.expectedLocalRoute,
-    actualLocalRoute: nanoRoute.local,
-    clauseRecall,
+    modelComponent: llmEntry.modelComponent,
+    modelVersion: llmEntry.modelVersion,
+    modelLabel: llmEntry.modelLabel,
+    recordedAt: llmEntry.recordedAt,
+    ms: llmEntry.ms ?? null,
     rulesAlone: {
       leakedCount: rulesLeaks.length,
-      leakedItems: rulesLeaks.map((l) => `${l.type}:${l.value}`),
-      charsSent: rulesOutbound.length,
+      leakedValues: rulesLeaks.map((l) => `${l.type}:${l.value}`),
+      outboundChars: rulesOutbound.length,
       clausesSent: chunks.length,
     },
-    nanoAlone: {
-      leakedCount: nanoLeaks.length,
-      leakedItems: nanoLeaks.map((l) => `${l.type}:${l.value}`),
-      charsSent: nanoOutbound.length,
-      clausesSent: nanoRoute.local ? 0 : nanoSelectedChunks.length,
+    onDeviceLlmAlone: {
+      leakedCount: llmLeaks.length,
+      leakedValues: llmLeaks.map((l) => `${l.type}:${l.value}`),
+      outboundChars: llmOutbound.length,
+      clausesSent: localRoute ? 0 : selectedChunks.length,
+      selectedIds,
+      localRoute,
+      targetClauseRecall: targetHit,
+      routeAccurate: localRoute === tc.expectedLocalRoute,
     },
     envoyLayered: {
-      leakedCount: envoyLeaks.length,
-      leakedItems: envoyLeaks.map((l) => `${l.type}:${l.value}`),
-      guardOk: guardCheck.ok,
-      charsSent: envoyFinalOutbound.length,
-      clausesSent: nanoRoute.local ? 0 : envoySelectedChunks.length,
+      leakedCount: layeredLeaks.length,
+      leakedValues: layeredLeaks.map((l) => `${l.type}:${l.value}`),
+      outboundChars: transmittedOutbound.length,
+      clausesSent: localRoute || !guardResult.ok ? 0 : selectedChunks.length,
+      selectedIds,
+      localRoute,
+      guardOk: guardResult.ok,
+      guardLeaksBlocked: guardResult.leaks.length,
+      targetClauseRecall: targetHit,
+      routeAccurate: localRoute === tc.expectedLocalRoute,
     },
-  });
+  };
 }
 
-function summarizeSubset(subset) {
+function aggregate(subset) {
   const totalCases = subset.length;
   const totalGold = subset.reduce((s, r) => s + r.goldCount, 0);
   const totalDocChars = subset.reduce((s, r) => s + r.docChars, 0);
   const totalClauses = subset.reduce((s, r) => s + r.totalClauses, 0);
 
-  const agg = (key) => {
-    const leaked = subset.reduce((s, r) => s + r[key].leakedCount, 0);
+  const calc = (key) => {
+    const leakedEntities = subset.reduce((s, r) => s + r[key].leakedCount, 0);
     const zeroLeakCases = subset.filter((r) => r[key].leakedCount === 0).length;
-    const charsSent = subset.reduce((s, r) => s + r[key].charsSent, 0);
+    const outboundChars = subset.reduce((s, r) => s + r[key].outboundChars, 0);
     const clausesSent = subset.reduce((s, r) => s + r[key].clausesSent, 0);
+    const clauseRecallHits = subset.filter((r) => (key === 'rulesAlone' ? true : r[key].targetClauseRecall)).length;
+    const routeHits = subset.filter((r) => (key === 'rulesAlone' ? false : r[key].routeAccurate)).length;
+    const guardBlocks = subset.filter((r) => key === 'envoyLayered' && !r[key].guardOk).length;
     return {
-      leakedEntities: leaked,
-      totalGoldEntities: totalGold,
-      leakagePct: Number(((leaked / totalGold) * 100).toFixed(2)),
-      privacyRecallPct: Number((((totalGold - leaked) / totalGold) * 100).toFixed(2)),
-      zeroLeakCasePct: Number(((zeroLeakCases / totalCases) * 100).toFixed(1)),
-      charsSent,
-      totalDocChars,
-      excerptRatioPct: Number(((charsSent / totalDocChars) * 100).toFixed(1)),
-      contextReductionPct: Number((((totalDocChars - charsSent) / totalDocChars) * 100).toFixed(1)),
+      leakedEntities,
+      leakagePct: totalGold ? Number(((leakedEntities / totalGold) * 100).toFixed(2)) : 0,
+      privacyRecallPct: totalGold ? Number((((totalGold - leakedEntities) / totalGold) * 100).toFixed(2)) : 100,
+      zeroLeakCases,
+      zeroLeakCasePct: totalCases ? Number(((zeroLeakCases / totalCases) * 100).toFixed(1)) : 0,
+      outboundChars,
+      excerptRatioPct: totalDocChars ? Number(((outboundChars / totalDocChars) * 100).toFixed(1)) : 0,
+      contextReductionPct: totalDocChars ? Number((((totalDocChars - outboundChars) / totalDocChars) * 100).toFixed(1)) : 0,
       clausesSent,
-      totalClauses,
-      clauseRatioPct: Number(((clausesSent / totalClauses) * 100).toFixed(1)),
+      clauseRatioPct: totalClauses ? Number(((clausesSent / totalClauses) * 100).toFixed(1)) : 0,
+      clauseRecallPct: totalCases ? Number(((clauseRecallHits / totalCases) * 100).toFixed(1)) : 0,
+      routeAccuracyPct: totalCases && key !== 'rulesAlone' ? Number(((routeHits / totalCases) * 100).toFixed(1)) : null,
+      guardBlocks,
     };
   };
 
@@ -290,61 +278,131 @@ function summarizeSubset(subset) {
     totalGold,
     totalDocChars,
     totalClauses,
-    clauseRecallPct: Number(
-      ((subset.reduce((s, r) => s + r.clauseRecall, 0) / totalCases) * 100).toFixed(1),
-    ),
-    routeAccuracyPct: Number(
-      ((subset.filter((r) => r.actualLocalRoute === r.expectedLocalRoute).length / totalCases) * 100).toFixed(1),
-    ),
-    rulesAlone: agg('rulesAlone'),
-    nanoAlone: agg('nanoAlone'),
-    envoyLayered: agg('envoyLayered'),
+    rulesAlone: calc('rulesAlone'),
+    onDeviceLlmAlone: calc('onDeviceLlmAlone'),
+    envoyLayered: calc('envoyLayered'),
   };
 }
 
-const overall = summarizeSubset(perCaseResults);
-const cleanSummary = summarizeSubset(perCaseResults.filter((r) => !r.noisy));
-const noisySummary = summarizeSubset(perCaseResults.filter((r) => r.noisy));
+const liveCache = loadLiveCache();
+const liveCaseResults = [];
+const oracleUpperBoundResults = [];
+const missingLiveIds = [];
+
+for (const tc of cases) {
+  const doc = tc.document;
+  const chunks = core.chunkDocument(doc);
+  const rulesOnly = core.detectWithRules(doc);
+
+  // 1. Measured LIVE model evaluation (only when a verified real live entry exists)
+  const liveEntry = liveCache[tc.id];
+  if (liveEntry) {
+    liveCaseResults.push(evaluateCase(tc, doc, chunks, rulesOnly, liveEntry));
+  } else {
+    missingLiveIds.push(tc.id);
+  }
+
+  // 2. Separate in-memory Oracle model (upper bound) — NEVER written to nano-cache.json, NEVER called Nano
+  const oracleEntities = tc.goldSensitive
+    .filter((g) => ['PERSON', 'ORG', 'ADDRESS', 'MONEY'].includes(g.type))
+    .map((g) => ({ text: g.value, kind: g.type, role: g.role || (g.type === 'MONEY' ? 'fee' : 'other') }));
+  const oracleEntry = {
+    modelLabel: 'Oracle model (upper bound)',
+    modelComponent: 'synthetic_gold_oracle',
+    modelVersion: 'n/a',
+    recordedAt: null,
+    detectJson: JSON.stringify({ entities: oracleEntities }),
+    minimizeJson: JSON.stringify({ clause_ids: tc.expectedClauses, reason: 'Gold clauses.' }),
+    routeJson: JSON.stringify({ answerable_locally: tc.expectedLocalRoute, reason: 'Gold route.' }),
+  };
+  oracleUpperBoundResults.push(evaluateCase(tc, doc, chunks, rulesOnly, oracleEntry));
+}
+
+const modelsObserved = [
+  ...new Set(liveCaseResults.map((r) => `${r.modelLabel} (${r.modelComponent} ${r.modelVersion})`)),
+];
+const measuredDates = [...new Set(liveCaseResults.map((r) => (r.recordedAt ? r.recordedAt.slice(0, 10) : null)).filter(Boolean))];
+
+const measuredOverall = aggregate(liveCaseResults);
+const measuredClean = aggregate(liveCaseResults.filter((r) => !r.noisy));
+const measuredNoisy = aggregate(liveCaseResults.filter((r) => r.noisy));
+const oracleOverall = aggregate(oracleUpperBoundResults);
 
 const summaryPayload = {
   generatedAt: new Date().toISOString(),
-  model: 'gemma4_component (2026.11.3.1140 / Gemini Nano 4) + gemini-3.5-flash-lite',
-  promptVersion: core.PROMPT_VERSION,
-  overall,
-  clean: cleanSummary,
-  noisy: noisySummary,
-  cases: perCaseResults,
+  totalBenchmarkCases: cases.length,
+  liveMeasuredCases: liveCaseResults.length,
+  missingLiveCaseIds: missingLiveIds,
+  modelsObserved,
+  measuredDates,
+  measured: {
+    overall: measuredOverall,
+    clean: measuredClean,
+    noisy: measuredNoisy,
+    cases: liveCaseResults,
+  },
+  oracleUpperBound: {
+    note: 'Synthetic gold ceiling computed in-memory only; NOT a real model and NOT included in headline tables.',
+    overall: oracleOverall,
+  },
 };
 
-writeFileSync(resultsPath, JSON.stringify(summaryPayload, null, 2));
+writeFileSync(resultsPath, JSON.stringify(summaryPayload, null, 2) + '\n', 'utf8');
 
-console.log('=== ENVOY EVALUATION HARNESS SUMMARY (36 cases, 266 gold sensitive items) ===');
-console.table({
-  'Rules Alone (deterministic only)': {
-    'PII Leakage %': `${overall.rulesAlone.leakagePct}% (${overall.rulesAlone.leakedEntities}/${overall.totalGold})`,
-    'Privacy Recall %': `${overall.rulesAlone.privacyRecallPct}%`,
-    'Zero-Leak Cases %': `${overall.rulesAlone.zeroLeakCasePct}%`,
-    'Outbound Size vs Doc %': `${overall.rulesAlone.excerptRatioPct}%`,
-    'Context Reduction %': `${overall.rulesAlone.contextReductionPct}%`,
-    'Clauses Sent %': `${overall.rulesAlone.clauseRatioPct}%`,
-  },
-  'Gemini Nano 4 Alone (LLM only)': {
-    'PII Leakage %': `${overall.nanoAlone.leakagePct}% (${overall.nanoAlone.leakedEntities}/${overall.totalGold})`,
-    'Privacy Recall %': `${overall.nanoAlone.privacyRecallPct}%`,
-    'Zero-Leak Cases %': `${overall.nanoAlone.zeroLeakCasePct}%`,
-    'Outbound Size vs Doc %': `${overall.nanoAlone.excerptRatioPct}%`,
-    'Context Reduction %': `${overall.nanoAlone.contextReductionPct}%`,
-    'Clauses Sent %': `${overall.nanoAlone.clauseRatioPct}%`,
-  },
-  'Envoy Layered (Rules + Nano 4 + Guard)': {
-    'PII Leakage %': `${overall.envoyLayered.leakagePct}% (${overall.envoyLayered.leakedEntities}/${overall.totalGold})`,
-    'Privacy Recall %': `${overall.envoyLayered.privacyRecallPct}%`,
-    'Zero-Leak Cases %': `${overall.envoyLayered.zeroLeakCasePct}%`,
-    'Outbound Size vs Doc %': `${overall.envoyLayered.excerptRatioPct}%`,
-    'Context Reduction %': `${overall.envoyLayered.contextReductionPct}%`,
-    'Clauses Sent %': `${overall.envoyLayered.clauseRatioPct}%`,
-  },
-});
+if (liveCaseResults.length === 0) {
+  console.warn(
+    `WARNING: 0/${cases.length} cases have verified live model entries in tests/eval/probes/nano-cache.json.\n` +
+      `Run \`node tests/eval/collect-live.mjs\` against Chrome CDP (port 9333) to record real on-device model outputs.`,
+  );
+} else {
+  const modelHeader = modelsObserved.join(', ');
+  console.log(
+    `\n=== ENVOY MEASURED EVALUATION (${liveCaseResults.length}/${cases.length} LIVE CASES · ${measuredOverall.totalGold} GOLD ITEMS) ===\n` +
+      `Model(s): ${modelHeader} · Date(s): ${measuredDates.join(', ')}`,
+  );
+  console.table({
+    'Rules Alone (deterministic only)': {
+      'PII Leakage %': `${measuredOverall.rulesAlone.leakagePct}% (${measuredOverall.rulesAlone.leakedEntities}/${measuredOverall.totalGold})`,
+      'Privacy Recall %': `${measuredOverall.rulesAlone.privacyRecallPct}%`,
+      'Zero-Leak Cases %': `${measuredOverall.rulesAlone.zeroLeakCasePct}%`,
+      'Context Reduction %': `${measuredOverall.rulesAlone.contextReductionPct}%`,
+      'Clauses Sent %': `${measuredOverall.rulesAlone.clauseRatioPct}%`,
+      'Clause Recall %': `${measuredOverall.rulesAlone.clauseRecallPct}%`,
+      'Route Acc %': 'n/a',
+    },
+    [`On-Device LLM Alone (${modelHeader})`]: {
+      'PII Leakage %': `${measuredOverall.onDeviceLlmAlone.leakagePct}% (${measuredOverall.onDeviceLlmAlone.leakedEntities}/${measuredOverall.totalGold})`,
+      'Privacy Recall %': `${measuredOverall.onDeviceLlmAlone.privacyRecallPct}%`,
+      'Zero-Leak Cases %': `${measuredOverall.onDeviceLlmAlone.zeroLeakCasePct}%`,
+      'Context Reduction %': `${measuredOverall.onDeviceLlmAlone.contextReductionPct}%`,
+      'Clauses Sent %': `${measuredOverall.onDeviceLlmAlone.clauseRatioPct}%`,
+      'Clause Recall %': `${measuredOverall.onDeviceLlmAlone.clauseRecallPct}%`,
+      'Route Acc %': `${measuredOverall.onDeviceLlmAlone.routeAccuracyPct}%`,
+    },
+    [`Envoy Layered (Rules + ${modelHeader} + Guard)`]: {
+      'PII Leakage %': `${measuredOverall.envoyLayered.leakagePct}% (${measuredOverall.envoyLayered.leakedEntities}/${measuredOverall.totalGold})`,
+      'Privacy Recall %': `${measuredOverall.envoyLayered.privacyRecallPct}%`,
+      'Zero-Leak Cases %': `${measuredOverall.envoyLayered.zeroLeakCasePct}%`,
+      'Context Reduction %': `${measuredOverall.envoyLayered.contextReductionPct}%`,
+      'Clauses Sent %': `${measuredOverall.envoyLayered.clauseRatioPct}%`,
+      'Clause Recall %': `${measuredOverall.envoyLayered.clauseRecallPct}%`,
+      'Route Acc %': `${measuredOverall.envoyLayered.routeAccuracyPct}%`,
+    },
+  });
+}
+
+console.log(
+  `\n--- Separate Appendix: Oracle model (upper bound, synthetic gold ceiling across all ${cases.length} cases — NOT a real model) ---\n` +
+    `Oracle + Envoy Layered upper bound: leakage=${oracleOverall.envoyLayered.leakagePct}% (${oracleOverall.envoyLayered.leakedEntities}/${oracleOverall.totalGold}), contextReduction=${oracleOverall.envoyLayered.contextReductionPct}%, clausesSent=${oracleOverall.envoyLayered.clauseRatioPct}%`,
+);
 console.log(`Saved full results to ${resultsPath}`);
+
 await vite.close();
-export { summaryPayload, evalDocPath };
+
+// Also run the 20-question answer quality & restoration verification on live-cached cases
+if (liveCaseResults.length > 0) {
+  const { runAnswerQualityEval } = await import('./run-answers.mjs');
+  await runAnswerQualityEval({ live: false });
+}
+
+export { summaryPayload };
