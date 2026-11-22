@@ -21,12 +21,17 @@ export function splitChunk(chunk: Chunk, maxChars: number): Chunk[] {
     let to = Math.min(from + maxChars, t.length);
     if (to < t.length) {
       const window = t.slice(from, to);
-      const cut = Math.max(window.lastIndexOf('. '), window.lastIndexOf('\n'), window.lastIndexOf('; '));
+      const cut = Math.max(
+        window.lastIndexOf('. '),
+        window.lastIndexOf('\n'),
+        window.lastIndexOf('; '),
+      );
       if (cut > maxChars * 0.3) to = from + cut + 1;
     }
     let s = from;
     while (s < to && /\s/.test(t[s]!)) s++;
-    if (s < to) parts.push({ ...chunk, text: t.slice(s, to), start: chunk.start + s, end: chunk.start + to });
+    if (s < to)
+      parts.push({ ...chunk, text: t.slice(s, to), start: chunk.start + s, end: chunk.start + to });
     from = to;
   }
   return parts;
@@ -39,14 +44,18 @@ interface Marker {
 }
 
 function pageMarkers(text: string): Marker[] {
-  return [...text.matchAll(PAGE_MARKER)].map((m) => ({ start: m.index, end: m.index + m[0].length, page: Number(m[1]) }));
+  return [...text.matchAll(PAGE_MARKER)].map((m) => ({
+    start: m.index,
+    end: m.index + m[0].length,
+    page: Number(m[1]),
+  }));
 }
 
 /** Shrinks [start, end) past surrounding whitespace and page markers. */
 function trim(text: string, start: number, end: number, markers: Marker[]): [number, number] {
   let s = start;
   let e = end;
-  for (let changed = true; changed; ) {
+  for (let changed = true; changed;) {
     changed = false;
     while (s < e && /\s/.test(text[s]!)) s++;
     while (e > s && /\s/.test(text[e - 1]!)) e--;
@@ -79,7 +88,11 @@ export function chunkDocument(text: string): Chunk[] {
   if (clauseStarts.length > 0) {
     spans.push({ start: 0, end: clauseStarts[0]!.at, label: 'Preamble' });
     clauseStarts.forEach((c, i) => {
-      spans.push({ start: c.at, end: clauseStarts[i + 1]?.at ?? text.length, label: `Clause ${c.n}` });
+      spans.push({
+        start: c.at,
+        end: clauseStarts[i + 1]?.at ?? text.length,
+        label: `Clause ${c.n}`,
+      });
     });
   } else {
     const breaks = [...text.matchAll(/\n[ \t]*\n/g)];
@@ -95,12 +108,23 @@ export function chunkDocument(text: string): Chunk[] {
   for (const span of spans) {
     const [s, e] = trim(text, span.start, span.end, markers);
     if (s >= e) continue;
-    const label = span.label.startsWith('Paragraph') ? `Paragraph ${chunks.length + 1}` : span.label;
-    chunks.push({ id: chunks.length + 1, label, text: text.slice(s, e), start: s, end: e, page: pageAt(s, markers) });
+    const label = span.label.startsWith('Paragraph')
+      ? `Paragraph ${chunks.length + 1}`
+      : span.label;
+    chunks.push({
+      id: chunks.length + 1,
+      label,
+      text: text.slice(s, e),
+      start: s,
+      end: e,
+      page: pageAt(s, markers),
+    });
   }
 
   // Ids match clause numbers (preamble 0) so prompts and labels agree; fall back to sequence on duplicates.
-  const numbers = chunks.map((c) => (c.label === 'Preamble' ? 0 : Number(c.label.match(/^Clause (\d+)$/)?.[1] ?? NaN)));
+  const numbers = chunks.map((c) =>
+    c.label === 'Preamble' ? 0 : Number(c.label.match(/^Clause (\d+)$/)?.[1] ?? NaN),
+  );
   if (numbers.every((n) => Number.isInteger(n)) && new Set(numbers).size === numbers.length) {
     chunks.forEach((c, i) => (c.id = numbers[i]!));
   }

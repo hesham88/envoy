@@ -7,6 +7,7 @@ import { OfflineBanner } from '../components/OfflineBanner';
 import { Logo, StatusPill } from '@envoy/ui';
 import { DevPage } from '../dev/DevPage';
 import { Banners } from '../art/Banners';
+import { Landing } from '../landing/Landing';
 import { SceneFrame } from '../art/SceneFrame';
 import { SidePanelMockup } from '../art/SidePanelMockup';
 import { Studio } from '../art/Studio';
@@ -141,5 +142,6 @@ export function App() {
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/banners')) return <Banners />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/scene')) return <SceneFrame />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio')) return <Studio />;
-  return <ProductApp />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/app')) return <ProductApp />;
+  return <Landing />;
 }

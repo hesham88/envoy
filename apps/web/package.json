@@ -13,6 +13,7 @@
     "@envoy/ai": "0.1.0",
     "@envoy/core": "0.1.0",
     "@envoy/ui": "0.1.0",
+    "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "@tailwindcss/vite": "^4.3.5",

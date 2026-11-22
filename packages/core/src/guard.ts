@@ -3,7 +3,7 @@
  * 1. Re-runs every rule detector on the outbound text (anything structured that isn't a tag is a leak).
  * 2. Looks for every protected value again, tolerant of reformatting (spacing, case, prefixes, currency).
  */
-import { detectWithRules , type CustomRule } from './rules';
+import { detectWithRules, type CustomRule } from './rules';
 import { canonical } from './tags';
 import type { Entity, EntityType } from './types';
 
@@ -42,7 +42,10 @@ function compact(text: string, keep: RegExp): { out: string; map: number[] } {
 function findWords(text: string, value: string, type: EntityType): Leak[] {
   const words = canonical(value, type).split(' ').filter(Boolean);
   if (words.join('').length < 3) return [];
-  const re = new RegExp(`(?<![\\p{L}\\p{N}])${words.map(escape).join('[^\\p{L}\\p{N}]+')}(?![\\p{L}\\p{N}])`, 'giu');
+  const re = new RegExp(
+    `(?<![\\p{L}\\p{N}])${words.map(escape).join('[^\\p{L}\\p{N}]+')}(?![\\p{L}\\p{N}])`,
+    'giu',
+  );
   return [...text.matchAll(re)].map((m) => ({ value: m[0], type, index: m.index }));
 }
 
@@ -66,7 +69,8 @@ function findAmount(text: string, value: string): Leak[] {
   if (!Number.isFinite(amount) || amount === 0) return [];
   const out: Leak[] = [];
   for (const m of text.matchAll(/(?<![\d.,])\d[\d,]*(?:\.\d+)?(?![\d%])/g)) {
-    if (Number(m[0].replace(/,/g, '')) === amount) out.push({ value: m[0], type: 'MONEY', index: m.index });
+    if (Number(m[0].replace(/,/g, '')) === amount)
+      out.push({ value: m[0], type: 'MONEY', index: m.index });
   }
   return out;
 }
@@ -85,8 +89,17 @@ export function checkOutbound(
         ? amountOf(a.value) === amountOf(l.value)
         : a.type === l.type && canonical(a.value, a.type) === canonical(l.value, l.type),
     );
-  protectedEntities = protectedEntities.filter((p) => !allowed.some((a) => a.type === p.type && canonical(a.value, a.type) === canonical(p.value, p.type)));
-  const found: Leak[] = detectWithRules(text, { custom: opts.custom }).map((e) => ({ value: e.value, type: e.type, index: e.start }));
+  protectedEntities = protectedEntities.filter(
+    (p) =>
+      !allowed.some(
+        (a) => a.type === p.type && canonical(a.value, a.type) === canonical(p.value, p.type),
+      ),
+  );
+  const found: Leak[] = detectWithRules(text, { custom: opts.custom }).map((e) => ({
+    value: e.value,
+    type: e.type,
+    index: e.start,
+  }));
 
   for (const p of protectedEntities) {
     switch (p.type) {
@@ -107,7 +120,9 @@ export function checkOutbound(
 
   const leaks: Leak[] = [];
   for (const l of found.sort((a, b) => a.index - b.index || b.value.length - a.value.length)) {
-    const covered = leaks.some((k) => l.index >= k.index && l.index + l.value.length <= k.index + k.value.length);
+    const covered = leaks.some(
+      (k) => l.index >= k.index && l.index + l.value.length <= k.index + k.value.length,
+    );
     if (!covered && !isAllowed(l)) leaks.push(l);
   }
   return { ok: leaks.length === 0, leaks };

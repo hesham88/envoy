@@ -28,7 +28,11 @@ describe('prompt builders', () => {
   });
 
   it('list clause ids for minimize, route and local answers', () => {
-    for (const p of [buildMinimizePrompt(chunks, 'Q?'), buildRoutePrompt('Q?', chunks), buildLocalAnswerPrompt('Q?', chunks)]) {
+    for (const p of [
+      buildMinimizePrompt(chunks, 'Q?'),
+      buildRoutePrompt('Q?', chunks),
+      buildLocalAnswerPrompt('Q?', chunks),
+    ]) {
       expect(p).toContain('<clause id="7">');
       expect(p).toContain('The monthly rent is [RENT].');
     }
@@ -56,12 +60,22 @@ describe('parseDetectResponse', () => {
     });
     const out = parseDetectResponse(json, SOURCE);
     expect(out).toHaveLength(1);
-    expect(out[0]).toMatchObject({ type: 'PERSON', value: 'Karim Fathy', role: 'landlord', source: 'nano', start: 0, end: 11 });
+    expect(out[0]).toMatchObject({
+      type: 'PERSON',
+      value: 'Karim Fathy',
+      role: 'landlord',
+      source: 'nano',
+      start: 0,
+      end: 11,
+    });
   });
 
   it('returns every occurrence of a found entity', () => {
     const src = 'Mona Adel signs. Later, Mona Adel pays.';
-    const out = parseDetectResponse(JSON.stringify({ entities: [{ text: 'Mona Adel', kind: 'PERSON', role: 'tenant' }] }), src);
+    const out = parseDetectResponse(
+      JSON.stringify({ entities: [{ text: 'Mona Adel', kind: 'PERSON', role: 'tenant' }] }),
+      src,
+    );
     expect(out.map((e) => e.start)).toEqual([0, 24]);
   });
 
@@ -69,30 +83,48 @@ describe('parseDetectResponse', () => {
     expect(parseDetectResponse('not json', SOURCE)).toEqual([]);
     expect(parseDetectResponse('{"entities": "nope"}', SOURCE)).toEqual([]);
     const out = parseDetectResponse(
-      JSON.stringify({ entities: [{ text: 'Mona Adel', kind: 'ALIEN', role: 'tenant' }, { text: 'Mona Adel', kind: 'PERSON', role: 'wizard' }] }),
+      JSON.stringify({
+        entities: [
+          { text: 'Mona Adel', kind: 'ALIEN', role: 'tenant' },
+          { text: 'Mona Adel', kind: 'PERSON', role: 'wizard' },
+        ],
+      }),
       SOURCE,
     );
     expect(out).toEqual([]);
   });
 
   it('accepts JSON wrapped in a code fence', () => {
-    const out = parseDetectResponse('```json\n{"entities":[{"text":"Mona Adel","kind":"PERSON","role":"tenant"}]}\n```', SOURCE);
+    const out = parseDetectResponse(
+      '```json\n{"entities":[{"text":"Mona Adel","kind":"PERSON","role":"tenant"}]}\n```',
+      SOURCE,
+    );
     expect(out).toHaveLength(1);
   });
 
   it("drops the 'other' role but keeps the entity", () => {
-    const out = parseDetectResponse(JSON.stringify({ entities: [{ text: 'Mona Adel', kind: 'PERSON', role: 'other' }] }), SOURCE);
+    const out = parseDetectResponse(
+      JSON.stringify({ entities: [{ text: 'Mona Adel', kind: 'PERSON', role: 'other' }] }),
+      SOURCE,
+    );
     expect(out[0]!.role).toBeUndefined();
   });
 
   it('ignores one-character fragments', () => {
-    expect(parseDetectResponse(JSON.stringify({ entities: [{ text: 'K', kind: 'PERSON', role: 'other' }] }), SOURCE)).toEqual([]);
+    expect(
+      parseDetectResponse(
+        JSON.stringify({ entities: [{ text: 'K', kind: 'PERSON', role: 'other' }] }),
+        SOURCE,
+      ),
+    ).toEqual([]);
   });
 });
 
 describe('parseMinimizeResponse', () => {
   it('keeps only valid clause ids, deduplicated and sorted', () => {
-    expect(parseMinimizeResponse('{"clause_ids":[7,7,99,1],"reason":"rent rules"}', [1, 7])).toEqual({ ids: [1, 7], reason: 'rent rules' });
+    expect(
+      parseMinimizeResponse('{"clause_ids":[7,7,99,1],"reason":"rent rules"}', [1, 7]),
+    ).toEqual({ ids: [1, 7], reason: 'rent rules' });
   });
 
   it('returns null for invalid output or no usable ids', () => {
@@ -103,7 +135,9 @@ describe('parseMinimizeResponse', () => {
 
 describe('parseRouteResponse', () => {
   it('reads the routing decision', () => {
-    expect(parseRouteResponse('{"answerable_locally":true,"reason":"a date in clause 2"}')).toEqual({ local: true, reason: 'a date in clause 2' });
+    expect(parseRouteResponse('{"answerable_locally":true,"reason":"a date in clause 2"}')).toEqual(
+      { local: true, reason: 'a date in clause 2' },
+    );
   });
 
   it('returns null when the decision is missing', () => {
