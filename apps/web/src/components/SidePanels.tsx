@@ -51,7 +51,7 @@ export function OnDeviceGuide({ runtime }: { runtime: EnvoyRuntime }) {
         Until then Envoy runs in <strong className="text-ink">Basic protection</strong>: local rules hide IDs, phones, emails, IBANs and amounts, and names
         are flagged for you to check.
       </p>
-      <ol className="m-0 flex flex-col gap-1.5 pl-5 text-sm leading-normal">
+      <ol className="m-0 flex list-decimal flex-col gap-1.5 pl-5 text-sm leading-normal marker:font-semibold">
         <li>Use Chrome on a desktop computer (version 148 or newer).</li>
         <li>
           Open Chrome Settings → <strong>AI</strong> and switch on <strong>On-device AI</strong>.
