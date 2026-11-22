@@ -13,7 +13,7 @@
 ## Store listing
 
 - **Name:** Envoy: private AI agent to the cloud
-- **Summary (132 characters max):** Ask cloud AI about private text. Envoy masks your details on your device, and you approve exactly what's sent.
+- **Summary (132 characters max):** Ask cloud AI about private text. Envoy masks your details on your device, and you approve exactly what is sent.
 - **Category:** Productivity (or Privacy & Security)
 - **Language:** English
 - **Description:**
