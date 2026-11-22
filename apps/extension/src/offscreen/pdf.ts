@@ -13,13 +13,16 @@ export async function extractPdfText(base64: string): Promise<string> {
   for (let p = 1; p <= pdf.numPages; p++) {
     const page = await pdf.getPage(p);
     const content = await page.getTextContent();
-    pages.push(content.items.map((it) => ('str' in it ? (it as { str: string }).str : '')).join(' '));
+    pages.push(
+      content.items.map((it) => ('str' in it ? (it as { str: string }).str : '')).join(' '),
+    );
   }
   return pages.join('\n\n');
 }
 
 export function bytesToBase64(bytes: Uint8Array): string {
   let s = '';
-  for (let i = 0; i < bytes.length; i += 8192) s += String.fromCharCode(...bytes.subarray(i, i + 8192));
+  for (let i = 0; i < bytes.length; i += 8192)
+    s += String.fromCharCode(...bytes.subarray(i, i + 8192));
   return btoa(s);
 }

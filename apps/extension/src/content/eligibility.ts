@@ -15,7 +15,8 @@ export interface FieldLike {
 
 const TEXT_INPUT_TYPES = new Set(['text', 'search', 'email', 'url', 'tel', '']);
 const NEVER_AUTOCOMPLETE = /^(cc-|one-time-code)/i;
-const NEVER_NAME = /(card|cvc|cvv|iban|account|otp|one[-_]?time|verification|security[-_]?code|pin)/i;
+const NEVER_NAME =
+  /(card|cvc|cvv|iban|account|otp|one[-_]?time|verification|security[-_]?code|pin)/i;
 
 export function isEnvoyField(el: FieldLike): boolean {
   const ac = (el.autocomplete ?? '').trim().toLowerCase();

@@ -11,12 +11,27 @@ export interface GateState {
 export function gateState(status: DeviceStatus | 'checking'): GateState {
   switch (status) {
     case 'available':
-      return { pill: 'Private mode on · Gemini Nano ready', ready: true, showEnable: false, showFixHints: false };
+      return {
+        pill: "Private mode: Chrome's built-in model is ready",
+        ready: true,
+        showEnable: false,
+        showFixHints: false,
+      };
     case 'downloadable':
     case 'downloading':
-      return { pill: 'On-device model downloading…', ready: false, showEnable: true, showFixHints: true };
+      return {
+        pill: 'On-device model downloading…',
+        ready: false,
+        showEnable: true,
+        showFixHints: true,
+      };
     case 'no-api':
-      return { pill: 'Basic protection · no on-device model', ready: false, showEnable: false, showFixHints: true };
+      return {
+        pill: 'Basic protection · no on-device model',
+        ready: false,
+        showEnable: false,
+        showFixHints: true,
+      };
     case 'unavailable':
       return { pill: 'Basic protection', ready: false, showEnable: false, showFixHints: true };
     default:
@@ -25,4 +40,4 @@ export function gateState(status: DeviceStatus | 'checking'): GateState {
 }
 
 export const FIX_HINTS =
-  'If the download fails instantly ("Update error"): enable chrome://flags/#gemma4-for-built-in-ai, keep ~5 GB free in %TEMP% (Chrome checks twice the package size there), relaunch Chrome with TEMP/TMP on a roomy drive, and on older GPUs add the CPU-backend flags OnDeviceModelForceCpuBackend,OnDeviceModelCpuBackend.';
+  'Chrome downloads its built-in model the first time you turn on private mode. It needs a desktop computer and several gigabytes of free disk space; chrome://on-device-internals shows its status. Until then, Envoy uses Basic protection: local rules that hide IDs, numbers, emails and accounts.';

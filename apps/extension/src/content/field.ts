@@ -7,7 +7,8 @@ export function getFieldText(el: HTMLElement): string {
 
 /** React/Vue-controlled inputs ignore direct .value writes; the native setter + events are the contract. */
 export function setNativeValue(el: HTMLInputElement | HTMLTextAreaElement, value: string): void {
-  const proto = el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+  const proto =
+    el instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
   const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
   if (setter) setter.call(el, value);
   else el.value = value;
@@ -26,11 +27,14 @@ export function setEditableText(el: HTMLElement, value: string): void {
   const ok = document.execCommand('insertText', false, value);
   if (!ok) {
     el.innerText = value;
-    el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: value }));
+    el.dispatchEvent(
+      new InputEvent('input', { bubbles: true, inputType: 'insertText', data: value }),
+    );
   }
 }
 
 export function setFieldText(el: HTMLElement, value: string): void {
-  if (el instanceof HTMLTextAreaElement || el instanceof HTMLInputElement) setNativeValue(el, value);
+  if (el instanceof HTMLTextAreaElement || el instanceof HTMLInputElement)
+    setNativeValue(el, value);
   else setEditableText(el, value);
 }

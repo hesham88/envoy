@@ -14,7 +14,8 @@ describe('isEnvoyField never-list', () => {
   });
 
   it('accepts the text field kinds Envoy targets', () => {
-    for (const type of ['text', 'search', 'email', 'url', 'tel']) expect(isEnvoyField({ ...base, type })).toBe(true);
+    for (const type of ['text', 'search', 'email', 'url', 'tel'])
+      expect(isEnvoyField({ ...base, type })).toBe(true);
     expect(isEnvoyField({ tagName: 'TEXTAREA' })).toBe(true);
     expect(isEnvoyField({ tagName: 'DIV', isContentEditable: true })).toBe(true);
   });

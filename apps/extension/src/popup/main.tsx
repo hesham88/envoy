@@ -6,6 +6,8 @@ import '@fontsource/ibm-plex-sans/700.css';
 import '@envoy/ui/styles.css';
 import { PopupApp } from './PopupApp';
 
+document.documentElement.classList.add('envoy-uv');
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <PopupApp />

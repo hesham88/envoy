@@ -10,12 +10,15 @@ const BUILD_ENV = {
   VITE_FIREBASE_AUTH_DOMAIN: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string | undefined,
   VITE_FIREBASE_PROJECT_ID: import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined,
   VITE_FIREBASE_APP_ID: import.meta.env.VITE_FIREBASE_APP_ID as string | undefined,
-  VITE_FIREBASE_MESSAGING_SENDER_ID: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string | undefined,
+  VITE_FIREBASE_MESSAGING_SENDER_ID: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as
+    string | undefined,
   VITE_FIREBASE_STORAGE_BUCKET: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string | undefined,
   VITE_RECAPTCHA_SITE_KEY: import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined,
   VITE_CLOUD_MODEL: import.meta.env.VITE_CLOUD_MODEL as string | undefined,
   VITE_APPCHECK_DEBUG_TOKEN:
-    import.meta.env.MODE === 'extensiondev' ? (import.meta.env.VITE_APPCHECK_DEBUG_TOKEN as string | undefined) : undefined,
+    import.meta.env.MODE === 'extensiondev'
+      ? (import.meta.env.VITE_APPCHECK_DEBUG_TOKEN as string | undefined)
+      : undefined,
 };
 
 const REQUIRED: [keyof FirebaseEnv, string][] = [
@@ -28,11 +31,17 @@ const REQUIRED: [keyof FirebaseEnv, string][] = [
 ];
 
 export function readFirebaseEnv(): FirebaseEnv {
-  const missing = REQUIRED.filter(([, name]) => !str(BUILD_ENV[name as keyof typeof BUILD_ENV])).map(([, name]) => name);
+  const missing = REQUIRED.filter(
+    ([, name]) => !str(BUILD_ENV[name as keyof typeof BUILD_ENV]),
+  ).map(([, name]) => name);
   if (missing.length) {
-    throw new Error(`Missing Firebase settings: ${missing.join(', ')}. They are read from apps/web/.env.local at build time.`);
+    throw new Error(
+      `Missing Firebase settings: ${missing.join(', ')}. They are read from apps/web/.env.local at build time.`,
+    );
   }
-  const cfg = Object.fromEntries(REQUIRED.map(([key, name]) => [key, str(BUILD_ENV[name as keyof typeof BUILD_ENV])])) as unknown as FirebaseEnv;
+  const cfg = Object.fromEntries(
+    REQUIRED.map(([key, name]) => [key, str(BUILD_ENV[name as keyof typeof BUILD_ENV])]),
+  ) as unknown as FirebaseEnv;
   cfg.recaptchaSiteKey = str(BUILD_ENV.VITE_RECAPTCHA_SITE_KEY);
   const debug = str(BUILD_ENV.VITE_APPCHECK_DEBUG_TOKEN);
   if (debug) cfg.appCheckDebugToken = debug;

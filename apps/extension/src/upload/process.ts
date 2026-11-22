@@ -23,7 +23,11 @@ export function kindOf(file: { name: string; type: string }): UploadReceipt['kin
 }
 
 /** Text-like uploads: scan, mask (honouring keep), rebuild a clean file. */
-export async function processTextUpload(file: File, custom: readonly CustomRule[], keep: ReadonlySet<string>): Promise<{ file: File; receipt: UploadReceipt }> {
+export async function processTextUpload(
+  file: File,
+  custom: readonly CustomRule[],
+  keep: ReadonlySet<string>,
+): Promise<{ file: File; receipt: UploadReceipt }> {
   const kind = kindOf(file);
   const raw = kind === 'docx' ? await docxToText(await file.arrayBuffer()) : await file.text();
   const scan = scanText(raw, { custom });
@@ -40,17 +44,33 @@ export async function processTextUpload(file: File, custom: readonly CustomRule[
       inBytes: file.size,
       outBytes: out.size,
       outType: out.type,
-      note: kind === 'docx' ? 'DOCX rebuilt as plain text with masked values.' : 'Text rebuilt with masked values.',
+      note:
+        kind === 'docx'
+          ? 'DOCX rebuilt as plain text with masked values.'
+          : 'Text rebuilt with masked values.',
     },
   };
 }
 
 /** PDF: rebuild a NEW text-only PDF from already-masked text. Never boxes over live text. */
-export function processPdfFromMaskedText(maskedText: string, original: File, removed: number, findings: UploadReceipt['findings']): { file: File; receipt: UploadReceipt } {
+export function processPdfFromMaskedText(
+  maskedText: string,
+  original: File,
+  removed: number,
+  findings: UploadReceipt['findings'],
+): { file: File; receipt: UploadReceipt } {
   const blob = buildTextPdf(maskedText);
   const out = new File([blob], original.name, { type: 'application/pdf' });
   return {
     file: out,
-    receipt: { kind: 'pdf', removed, findings, inBytes: original.size, outBytes: out.size, outType: out.type, note: 'New text-only PDF rebuilt from masked text. Layout simplified; no original PDF text remains.' },
+    receipt: {
+      kind: 'pdf',
+      removed,
+      findings,
+      inBytes: original.size,
+      outBytes: out.size,
+      outType: out.type,
+      note: 'New text-only PDF rebuilt from masked text. Layout simplified; no original PDF text remains.',
+    },
   };
 }

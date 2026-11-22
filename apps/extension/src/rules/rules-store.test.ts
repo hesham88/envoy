@@ -16,7 +16,10 @@ describe('rules import/export', () => {
 
   it('tester masks custom terms and pattern matches', () => {
     const found = testRules(
-      [{ label: 'PROJECT', terms: ['Falcon'] }, { label: 'INVOICE', pattern: 'INV-\\d{4}-\\d{3}' }],
+      [
+        { label: 'PROJECT', terms: ['Falcon'] },
+        { label: 'INVOICE', pattern: 'INV-\\d{4}-\\d{3}' },
+      ],
       'Falcon review for INV-2026-441, mail a@b.com',
     );
     const values = found.map((f) => f.value);

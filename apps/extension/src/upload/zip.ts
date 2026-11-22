@@ -1,11 +1,21 @@
 ﻿// Minimal ZIP reading for DOCX-as-text (no dependency): central directory + deflate via DecompressionStream.
-export interface ZipEntry { name: string; method: number; compressed: Uint8Array; size: number }
+export interface ZipEntry {
+  name: string;
+  method: number;
+  compressed: Uint8Array;
+  size: number;
+}
 
 export function readZipEntries(buf: ArrayBuffer): ZipEntry[] {
   const b = new Uint8Array(buf);
   const dv = new DataView(buf);
   let eocd = -1;
-  for (let i = b.length - 22; i >= 0; i--) { if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; } }
+  for (let i = b.length - 22; i >= 0; i--) {
+    if (dv.getUint32(i, true) === 0x06054b50) {
+      eocd = i;
+      break;
+    }
+  }
   if (eocd < 0) throw new Error('Not a ZIP file.');
   const count = dv.getUint16(eocd + 10, true);
   let off = dv.getUint32(eocd + 16, true);
@@ -32,7 +42,9 @@ export function readZipEntries(buf: ArrayBuffer): ZipEntry[] {
 export async function inflate(entry: ZipEntry): Promise<string> {
   if (entry.method === 0) return new TextDecoder().decode(entry.compressed);
   if (entry.method !== 8) throw new Error(`Unsupported ZIP method ${entry.method}.`);
-  const stream = new Blob([entry.compressed as BlobPart]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+  const stream = new Blob([entry.compressed as BlobPart])
+    .stream()
+    .pipeThrough(new DecompressionStream('deflate-raw'));
   return new Response(stream).text();
 }
 
@@ -45,7 +57,11 @@ export async function docxToText(buf: ArrayBuffer): Promise<string> {
   return xml
     .replace(/<w:p[ >]/g, '\n<w:p ')
     .replace(/<[^>]+>/g, '')
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }

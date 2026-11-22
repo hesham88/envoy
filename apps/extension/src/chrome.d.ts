@@ -3,7 +3,11 @@ declare namespace chrome {
   namespace runtime {
     function getManifest(): { update_url?: string };
     function sendMessage(msg: unknown): Promise<unknown>;
-    const onMessage: { addListener(fn: (msg: never, sender: unknown, sendResponse: (r: unknown) => void) => boolean | void): void };
+    const onMessage: {
+      addListener(
+        fn: (msg: never, sender: unknown, sendResponse: (r: unknown) => void) => boolean | void,
+      ): void;
+    };
   }
   namespace storage {
     interface StorageArea {
@@ -19,7 +23,10 @@ declare namespace chrome {
     function request(p: { origins: string[] }, cb?: (granted: boolean) => void): void;
   }
   namespace tabs {
-    function query(q: { active: boolean; currentWindow: boolean }): Promise<{ id?: number; windowId?: number; url?: string }[]>;
+    function query(q: {
+      active: boolean;
+      currentWindow: boolean;
+    }): Promise<{ id?: number; windowId?: number; url?: string }[]>;
   }
   namespace sidePanel {
     function open(o: { windowId: number }): Promise<void>;

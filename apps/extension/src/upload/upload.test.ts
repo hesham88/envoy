@@ -10,22 +10,34 @@ async function makeDocx(text: string): Promise<File> {
   const name = enc.encode('word/document.xml');
   const local = new Uint8Array(30 + name.length + data.length);
   const dv = new DataView(local.buffer);
-  dv.setUint32(0, 0x04034b50, true); dv.setUint16(8, 0, true);
-  dv.setUint32(18, data.length, true); dv.setUint32(22, data.length, true);
+  dv.setUint32(0, 0x04034b50, true);
+  dv.setUint16(8, 0, true);
+  dv.setUint32(18, data.length, true);
+  dv.setUint32(22, data.length, true);
   dv.setUint16(26, name.length, true);
-  local.set(name, 30); local.set(data, 30 + name.length);
+  local.set(name, 30);
+  local.set(data, 30 + name.length);
   const central = new Uint8Array(46 + name.length);
   const cd = new DataView(central.buffer);
-  cd.setUint32(0, 0x02014b50, true); cd.setUint32(20, data.length, true); cd.setUint32(24, data.length, true);
+  cd.setUint32(0, 0x02014b50, true);
+  cd.setUint32(20, data.length, true);
+  cd.setUint32(24, data.length, true);
   cd.setUint16(28, name.length, true);
   central.set(name, 46);
   const eocd = new Uint8Array(22);
   const ed = new DataView(eocd.buffer);
-  ed.setUint32(0, 0x06054b50, true); ed.setUint16(8, 1, true); ed.setUint16(10, 1, true);
-  ed.setUint32(12, central.length, true); ed.setUint32(16, local.length, true);
+  ed.setUint32(0, 0x06054b50, true);
+  ed.setUint16(8, 1, true);
+  ed.setUint16(10, 1, true);
+  ed.setUint32(12, central.length, true);
+  ed.setUint32(16, local.length, true);
   const all = new Uint8Array(local.length + central.length + eocd.length);
-  all.set(local, 0); all.set(central, local.length); all.set(eocd, local.length + central.length);
-  return new File([all], 'lease.docx', { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+  all.set(local, 0);
+  all.set(central, local.length);
+  all.set(eocd, local.length + central.length);
+  return new File([all], 'lease.docx', {
+    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  });
 }
 
 describe('upload processing privacy', () => {

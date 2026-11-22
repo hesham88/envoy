@@ -11,8 +11,12 @@ const CHARS_PER_LINE = 92;
 export function wrapText(text: string): string[] {
   const out: string[] = [];
   for (const para of text.split('\n')) {
-    if (!para) { out.push(''); continue; }
-    for (let i = 0; i < para.length; i += CHARS_PER_LINE) out.push(para.slice(i, i + CHARS_PER_LINE));
+    if (!para) {
+      out.push('');
+      continue;
+    }
+    for (let i = 0; i < para.length; i += CHARS_PER_LINE)
+      out.push(para.slice(i, i + CHARS_PER_LINE));
   }
   return out;
 }
@@ -21,7 +25,8 @@ export function wrapText(text: string): string[] {
 export function buildTextPdf(text: string): Blob {
   const lines = wrapText(text);
   const pages: string[][] = [];
-  for (let i = 0; i < lines.length; i += LINES_PER_PAGE) pages.push(lines.slice(i, i + LINES_PER_PAGE));
+  for (let i = 0; i < lines.length; i += LINES_PER_PAGE)
+    pages.push(lines.slice(i, i + LINES_PER_PAGE));
   if (pages.length === 0) pages.push(['']);
   const objects: string[] = [];
   const pageIds = pages.map((_, i) => 5 + i * 2);
@@ -32,8 +37,16 @@ export function buildTextPdf(text: string): Blob {
   pages.forEach((pageLines, i) => {
     const pageId = pageIds[i] ?? 5;
     const contentId = pageId + 1;
-    const content = ['BT', '/F1 10 Tf', '48 792 Td', '14 TL', ...pageLines.map((l) => `(${esc(l)}) Tj T*`), 'ET'].join('\n');
-    objects[pageId] = `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents ${contentId} 0 R >>`;
+    const content = [
+      'BT',
+      '/F1 10 Tf',
+      '48 792 Td',
+      '14 TL',
+      ...pageLines.map((l) => `(${esc(l)}) Tj T*`),
+      'ET',
+    ].join('\n');
+    objects[pageId] =
+      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents ${contentId} 0 R >>`;
     objects[contentId] = `<< /Length ${content.length} >> stream\n${content}\nendstream`;
   });
   let pdf = '%PDF-1.4\n';
