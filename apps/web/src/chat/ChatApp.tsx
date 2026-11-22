@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { analyze, answer, composeOutbound, type AnalyzeProgress } from '@envoy/ai';
 import { checkOutbound, EN_LEASE, validateCustomRule, type CustomRule } from '@envoy/core';
-import { Logo, ModeChip, RestoredText, StatusPill } from '@envoy/ui';
+import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill } from '@envoy/ui';
 import { NOTICES } from '../app/actions';
 import {
   initialSession,
@@ -317,7 +317,13 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
         <OfflineBanner />
         <main className="mx-auto flex w-full max-w-[860px] flex-1 flex-col gap-8 px-4 pt-8 pb-48 sm:px-6">
           {turns.length === 0 ? (
-            <div className="my-auto flex flex-col items-start gap-6 py-10">
+            <div className="relative isolate my-auto flex flex-col items-start gap-6 py-10">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-x-16 -inset-y-12 -z-10 opacity-50 [mask-image:radial-gradient(closest-side,#000,transparent)]"
+              >
+                <SecurityFibers guard={null} density={0.55} />
+              </div>
               <h1
                 tabIndex={-1}
                 className="m-0 font-display text-[clamp(2.2rem,1.5rem+2.6vw,3.4rem)] leading-[1.02] font-[560] text-ink"
