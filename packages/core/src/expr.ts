@@ -5,7 +5,8 @@
  */
 import { canonical } from './tags';
 
-type Token = { kind: 'num'; value: number } | { kind: 'id'; name: string } | { kind: 'op'; op: string };
+type Token =
+  { kind: 'num'; value: number } | { kind: 'id'; name: string } | { kind: 'op'; op: string };
 
 function tokenize(src: string): Token[] | null {
   const tokens: Token[] = [];

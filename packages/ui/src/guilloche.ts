@@ -28,7 +28,9 @@ export function ringBand(o: {
       const t = (i / samples) * 2 * Math.PI;
       const r =
         o.radius +
-        o.amplitude * ((1 - (o.harmonic ?? 0)) * Math.sin(o.waves * t + phase) + (o.harmonic ?? 0) * Math.sin(o.waves * 2 * t - phase));
+        o.amplitude *
+          ((1 - (o.harmonic ?? 0)) * Math.sin(o.waves * t + phase) +
+            (o.harmonic ?? 0) * Math.sin(o.waves * 2 * t - phase));
       d += `${i === 0 ? 'M' : 'L'}${f(o.cx + r * Math.cos(t))},${f(o.cy + r * Math.sin(t))}`;
     }
     out.push(d + 'Z');
@@ -37,7 +39,14 @@ export function ringBand(o: {
 }
 
 /** Hypotrochoid rosette (the spirograph of security printing); closes after r/gcd(R,r) turns. */
-export function hypotrochoid(o: { cx: number; cy: number; R: number; r: number; d: number; samplesPerTurn?: number }): string {
+export function hypotrochoid(o: {
+  cx: number;
+  cy: number;
+  R: number;
+  r: number;
+  d: number;
+  samplesPerTurn?: number;
+}): string {
   const turns = o.r / gcd(Math.round(o.R), Math.round(o.r));
   const total = Math.ceil(turns * (o.samplesPerTurn ?? 240));
   const k = (o.R - o.r) / o.r;
@@ -52,7 +61,15 @@ export function hypotrochoid(o: { cx: number; cy: number; R: number; r: number; 
 }
 
 /** Horizontal woven band (border/divider): strands y = A·sin(2π x / period + phase). */
-export function waveBand(o: { x: number; y: number; width: number; amplitude: number; period: number; strands: number; samples?: number }): string[] {
+export function waveBand(o: {
+  x: number;
+  y: number;
+  width: number;
+  amplitude: number;
+  period: number;
+  strands: number;
+  samples?: number;
+}): string[] {
   const samples = o.samples ?? Math.max(100, Math.round((o.width / o.period) * 32));
   const out: string[] = [];
   for (let k = 0; k < o.strands; k++) {

@@ -4,8 +4,20 @@ import { detectWithRules } from './rules';
 import { EN_LEASE } from './samples/en-lease';
 import type { Entity } from './types';
 
-const person = (value: string, role: string): Entity => ({ type: 'PERSON', value, start: 0, end: value.length, confidence: 0.8, source: 'nano', role });
-const PROTECTED: Entity[] = [...detectWithRules(EN_LEASE.text), person('Karim Fathy', 'landlord'), person('Mona Adel', 'tenant')];
+const person = (value: string, role: string): Entity => ({
+  type: 'PERSON',
+  value,
+  start: 0,
+  end: value.length,
+  confidence: 0.8,
+  source: 'nano',
+  role,
+});
+const PROTECTED: Entity[] = [
+  ...detectWithRules(EN_LEASE.text),
+  person('Karim Fathy', 'landlord'),
+  person('Mona Adel', 'tenant'),
+];
 
 const CLEAN =
   "Question: Can [LANDLORD] raise the rent 20% this year?\n\nClause 7: The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.";
@@ -28,7 +40,10 @@ describe('checkOutbound', () => {
     for (const [text, type] of cases) {
       const result = checkOutbound(text, PROTECTED);
       expect(result.ok, text).toBe(false);
-      expect(result.leaks.map((l) => l.type), text).toContain(type);
+      expect(
+        result.leaks.map((l) => l.type),
+        text,
+      ).toContain(type);
     }
   });
 
@@ -63,10 +78,14 @@ describe('review fix C1: guard', () => {
 
   it('does not treat bracketed raw values as tags', () => {
     expect(checkOutbound('ID [29503140101234]', PROTECTED).ok).toBe(false);
-    expect(checkOutbound('Tenant [MONA_ADEL]', PROTECTED, { knownTags: ['[RENT]'] }).ok).toBe(false);
+    expect(checkOutbound('Tenant [MONA_ADEL]', PROTECTED, { knownTags: ['[RENT]'] }).ok).toBe(
+      false,
+    );
   });
 
   it('still lets real tags through when they are known', () => {
-    expect(checkOutbound('[RENT] and [LANDLORD]', PROTECTED, { knownTags: ['[RENT]', '[LANDLORD]'] }).ok).toBe(true);
+    expect(
+      checkOutbound('[RENT] and [LANDLORD]', PROTECTED, { knownTags: ['[RENT]', '[LANDLORD]'] }).ok,
+    ).toBe(true);
   });
 });

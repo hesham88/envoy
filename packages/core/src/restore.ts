@@ -18,7 +18,10 @@ export interface RestoredSpan {
 
 const fmt = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 2 });
 
-export function restoreAnswer(answer: string, tags: TagMap): { text: string; spans: RestoredSpan[] } {
+export function restoreAnswer(
+  answer: string,
+  tags: TagMap,
+): { text: string; spans: RestoredSpan[] } {
   const amounts: Record<string, number> = {};
   const currencies: Record<string, string> = {};
   for (const e of tags.entries()) {
@@ -41,8 +44,11 @@ export function restoreAnswer(answer: string, tags: TagMap): { text: string; spa
     } else {
       const result = evaluate(m[1]!, amounts);
       if (result !== null) {
-        const currency = Object.keys(currencies).find((name) => new RegExp(`\\b${name}\\b`).test(m[1]!));
-        replacement = currency && currencies[currency] ? `${currencies[currency]} ${fmt(result)}` : fmt(result);
+        const currency = Object.keys(currencies).find((name) =>
+          new RegExp(`\\b${name}\\b`).test(m[1]!),
+        );
+        replacement =
+          currency && currencies[currency] ? `${currencies[currency]} ${fmt(result)}` : fmt(result);
         computed = true;
       }
     }
@@ -50,7 +56,13 @@ export function restoreAnswer(answer: string, tags: TagMap): { text: string; spa
     if (replacement === null) {
       text += m[0];
     } else {
-      spans.push({ start: text.length, end: text.length + replacement.length, tag: m[0], value: replacement, computed });
+      spans.push({
+        start: text.length,
+        end: text.length + replacement.length,
+        tag: m[0],
+        value: replacement,
+        computed,
+      });
       text += replacement;
     }
     last = m.index + m[0].length;

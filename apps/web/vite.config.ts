@@ -16,10 +16,10 @@ export default defineConfig({
         name: 'Envoy — your private AI agent to the cloud',
         short_name: 'Envoy',
         description: 'On-device AI shares only what the cloud needs, and you approve it.',
-        theme_color: '#16181D',
-        background_color: '#F7F7F5',
+        theme_color: '#0B0A1C',
+        background_color: '#0B0A1C',
         display: 'standalone',
-        start_url: '/',
+        start_url: '/app',
         icons: [{ src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
       },
       workbox: {
