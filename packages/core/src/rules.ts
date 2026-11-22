@@ -62,6 +62,10 @@ interface Detector {
   pattern: RegExp;
   /** Return the accepted value (possibly shortened) or null. */
   accept?: (value: string) => string | null;
+  /** Use this capture group as the value instead of the whole match. */
+  group?: number;
+  /** Tag label for a user rule (becomes the entity's role). */
+  label?: string;
 }
 
 const MONTHS =
@@ -70,7 +74,30 @@ const NUMBER = '(?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d+)?';
 const CURRENCY_BEFORE = '(?:EGP|USD|EUR|GBP|LE|L\\.E\\.|US\\$|\\$|€|£)';
 const CURRENCY_AFTER = '(?:EGP|USD|EUR|GBP|LE|L\\.E\\.|pounds|dollars|euros|ج\\.م|جنيه)';
 
+// Secrets: provider key formats with fixed prefixes (low false-positive rate), PEM private keys,
+// JWTs, and the value of an explicit `password=` / `api_key:` style assignment.
+const SECRET_DETECTORS: Detector[] = [
+  { type: 'SECRET', priority: -1, confidence: 0.99, pattern: /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g },
+  {
+    type: 'SECRET',
+    priority: -1,
+    confidence: 0.98,
+    pattern:
+      /\b(?:AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{40,}|xox[abprs]-[A-Za-z0-9-]{10,}|(?:sk|rk)_(?:live|test)_[0-9A-Za-z]{16,}|sk-(?:ant-|proj-)?[A-Za-z0-9_-]{20,}|glpat-[A-Za-z0-9_-]{20,})/g,
+  },
+  { type: 'SECRET', priority: -1, confidence: 0.95, pattern: /\beyJ[A-Za-z0-9_-]{8,}\.eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}/g },
+  {
+    type: 'SECRET',
+    priority: -1,
+    confidence: 0.85,
+    // (?<![A-Za-z0-9]) rather than \b so DB_PASSWORD and MY_API_KEY count.
+    pattern: /(?<![A-Za-z0-9])(?:password|passwd|pwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)\b["']?\s*[:=]\s*["']?([^\s"',;]{6,})/gi,
+    group: 1,
+  },
+];
+
 const DETECTORS: Detector[] = [
+  ...SECRET_DETECTORS,
   {
     type: 'IBAN',
     priority: 0,
@@ -134,18 +161,88 @@ const DETECTORS: Detector[] = [
 
 const overlaps = (a: Entity, b: Entity) => a.start < b.end && b.start < a.end;
 
+// ---------- the user's own rules ----------
+
+/**
+ * A rule the user adds ("Project Falcon" → [PROJECT]). `terms` match whole words, ignoring case;
+ * `pattern` is a regular expression. Rules are stored on the device and never sent anywhere.
+ */
+export interface CustomRule {
+  /** Tag label: A–Z, 0–9 and _, e.g. PROJECT → [PROJECT], [PROJECT_2]. */
+  label: string;
+  terms?: string[];
+  pattern?: string;
+}
+
+const LABEL_RE = /^[A-Z][A-Z0-9_]{0,23}$/;
+const MAX_PATTERN = 200;
+const cleanTerms = (r: CustomRule) => (r.terms ?? []).map((t) => t.trim()).filter(Boolean);
+
+/** Checks one rule. Returns why it can't be used, or null when it's fine. */
+export function validateCustomRule(rule: CustomRule): string | null {
+  if (!LABEL_RE.test(rule.label)) return 'The label must start with a letter and use only A–Z, 0–9 and _ (up to 24).';
+  const terms = cleanTerms(rule);
+  if (!terms.length && !rule.pattern) return 'Add at least one word or a pattern.';
+  if (terms.some((t) => t.length < 2)) return 'Words must be at least 2 characters.';
+  if (rule.pattern) {
+    if (rule.pattern.length > MAX_PATTERN) return `The pattern is longer than ${MAX_PATTERN} characters.`;
+    let re: RegExp;
+    try {
+      re = new RegExp(rule.pattern, 'u');
+    } catch {
+      return 'The pattern is not a valid regular expression.';
+    }
+    if (re.test('')) return 'The pattern matches empty text.';
+  }
+  return null;
+}
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function customDetectors(rules: readonly CustomRule[]): Detector[] {
+  const out: Detector[] = [];
+  for (const r of rules) {
+    if (validateCustomRule(r)) continue; // invalid rules are skipped, never thrown on while the user types
+    const terms = cleanTerms(r).sort((a, b) => b.length - a.length);
+    if (terms.length) {
+      const alt = terms.map(escapeRe).join('|');
+      out.push({ type: 'CUSTOM', label: r.label, priority: 10, confidence: 1, pattern: new RegExp(`(?<![\\p{L}\\p{N}])(?:${alt})(?![\\p{L}\\p{N}])`, 'giu') });
+    }
+    if (r.pattern) out.push({ type: 'CUSTOM', label: r.label, priority: 10, confidence: 1, pattern: new RegExp(r.pattern, 'gu') });
+  }
+  return out;
+}
+
+export interface RuleOptions {
+  /** The user's own rules. Built-in detectors win on overlap, so a term inside a detected address or
+   *  account is masked as part of it instead of splitting it (which would expose the rest). */
+  custom?: readonly CustomRule[];
+}
+
 /** Runs every detector; on overlap the higher-priority (then longer) match wins. */
-export function detectWithRules(text: string): Entity[] {
+export function detectWithRules(text: string, opts: RuleOptions = {}): Entity[] {
   const norm = normalizeDigits(text);
   const candidates: (Entity & { priority: number })[] = [];
-  for (const d of DETECTORS) {
+  for (const d of [...DETECTORS, ...customDetectors(opts.custom ?? [])]) {
     d.pattern.lastIndex = 0;
     for (const m of norm.text.matchAll(d.pattern)) {
-      const accepted = d.accept ? d.accept(m[0]) : m[0];
+      const whole = d.group ? m[d.group] : m[0];
+      if (!whole) continue;
+      const offset = d.group ? m.index + m[0].lastIndexOf(whole) : m.index;
+      const accepted = d.accept ? d.accept(whole) : whole;
       if (!accepted) continue;
-      const start = norm.toOriginal(m.index);
-      const end = norm.toOriginal(m.index + accepted.length);
-      candidates.push({ type: d.type, value: text.slice(start, end), start, end, confidence: d.confidence, source: 'rules', priority: d.priority });
+      const start = norm.toOriginal(offset);
+      const end = norm.toOriginal(offset + accepted.length);
+      candidates.push({
+        type: d.type,
+        value: text.slice(start, end),
+        start,
+        end,
+        confidence: d.confidence,
+        source: 'rules',
+        priority: d.priority,
+        ...(d.label ? { role: d.label } : {}),
+      });
     }
   }
   candidates.sort((a, b) => a.priority - b.priority || b.end - b.start - (a.end - a.start));

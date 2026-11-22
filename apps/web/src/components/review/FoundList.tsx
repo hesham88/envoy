@@ -13,6 +13,8 @@ const LABELS: Record<EntityType, [string, string]> = {
   CARD: ['Card numbers', 'masked'],
   MONEY: ['Amounts', 'masked; maths done on this device'],
   DATE: ['Dates', 'masked'],
+  SECRET: ['Secrets and keys', 'masked; never sent'],
+  CUSTOM: ['Your own rules', 'masked'],
 };
 
 export function FoundList({ analysis, receipt }: { analysis: Analysis; receipt: Receipt }) {

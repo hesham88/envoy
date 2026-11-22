@@ -28,6 +28,7 @@ export function canonical(value: string, type: EntityType): string {
     case 'IBAN':
     case 'NATIONAL_ID':
     case 'CARD':
+    case 'SECRET':
       return value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
     case 'EMAIL':
       return value.trim().toLowerCase();
@@ -71,6 +72,8 @@ const TYPE_BASE: Record<EntityType, string> = {
   CARD: 'CARD',
   MONEY: 'AMOUNT',
   DATE: 'DATE',
+  SECRET: 'SECRET',
+  CUSTOM: 'PRIVATE',
 };
 
 /** The same canonical value always gets the same tag; distinct values sharing a base get _2, _3… */
