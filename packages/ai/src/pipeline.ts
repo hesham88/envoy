@@ -228,7 +228,8 @@ export async function analyze(
   } = {},
 ): Promise<Analysis> {
   const progress = opts.onProgress ?? (() => undefined);
-  const detectScope = opts.detectScope ?? 'all';
+  // 'selected' (the measured configuration): detect only in the clauses the question needs, plus the parties.
+  const detectScope = opts.detectScope ?? 'selected';
   progress({ step: 'rules', part: 1, parts: 1 });
   const chunks = chunkDocument(doc);
   const customRules = opts.customRules?.length ? opts.customRules : undefined;
@@ -418,6 +419,8 @@ export async function answer(
 ): Promise<{
   text: string;
   spans: RestoredSpan[];
+  /** Tags left masked because they appeared inside a link in the answer. */
+  withheld?: string[];
   source: 'on_device' | 'in_cloud';
   lighter: boolean;
   receipt: Receipt;
@@ -482,6 +485,7 @@ export async function answer(
   return {
     text: restored.text,
     spans: restored.spans,
+    ...(restored.withheld.length ? { withheld: restored.withheld } : {}),
     source,
     lighter: source === 'on_device',
     receipt,

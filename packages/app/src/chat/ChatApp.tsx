@@ -871,6 +871,15 @@ function AnswerBubble({ session }: { session: SessionState }) {
       <p className="m-0 text-[16.5px] leading-[1.75] whitespace-pre-wrap text-ink">
         <RestoredText text={result.text} spans={result.spans} />
       </p>
+      {result.withheld && result.withheld.length > 0 && (
+        <p
+          role="note"
+          className="m-0 rounded-[12px] border border-detected-line/50 bg-detected/30 px-4 py-3 text-[13.5px] text-ink"
+        >
+          Envoy kept {result.withheld.join(', ')} masked inside a link in this answer. A link can
+          carry your details off this device, so they are only restored in plain text.
+        </p>
+      )}
       <div className="flex flex-wrap items-center gap-3 border-t border-line pt-3 text-[13px] text-muted">
         <span>
           {local
