@@ -76,8 +76,10 @@ const FORMAT = /\p{Cf}/u; // zero-width spaces and joiners, soft hyphen, BOM, bi
 const ARABIC_INDIC = 0x0660;
 const EASTERN_ARABIC_INDIC = 0x06f0;
 
+const MARK = /\p{M}/u; // combining marks: accents added to a name, Arabic diacritics
+
 function foldChar(ch: string): string {
-  const n = ch.normalize('NFKC');
+  const n = ch.normalize('NFD').replace(/\p{M}/gu, '').normalize('NFKC');
   let out = '';
   for (const c of n) {
     const code = c.codePointAt(0)!;
@@ -99,7 +101,7 @@ export function guardView(text: string): { text: string; toOriginal: (i: number)
   const map: number[] = [];
   let i = 0;
   for (const ch of text) {
-    if (!FORMAT.test(ch)) {
+    if (!FORMAT.test(ch) && !MARK.test(ch)) {
       const folded = foldChar(ch);
       for (let k = 0; k < folded.length; k++) map.push(i);
       out += folded;
@@ -139,6 +141,30 @@ function findCodes(text: string, value: string, type: EntityType): Leak[] {
   if (type === 'PHONE') needle = needle.replace(/^0/, '');
   if (needle.length < 6) return [];
   const { out, map } = compact(text, type === 'PHONE' ? /\d/ : /[A-Za-z0-9]/);
+  const leaks: Leak[] = [];
+  for (let i = out.indexOf(needle); i !== -1; i = out.indexOf(needle, i + needle.length)) {
+    const start = map[i]!;
+    const end = map[i + needle.length - 1]! + 1;
+    leaks.push({ value: text.slice(start, end), type, index: start });
+  }
+  return leaks;
+}
+
+/** An email written defanged: "mona [dot] adel [at] example [dot] com". */
+function findDefanged(text: string, value: string): Leak[] {
+  // Blank the bracketed words without changing lengths, then search the letters and digits only.
+  const blanked = text.replace(/[[({]\s*(?:at|dot)\s*[\])}]/gi, (m) => ' '.repeat(m.length));
+  return findCompact(blanked, value, 'EMAIL').map((l) => ({
+    ...l,
+    value: text.slice(l.index, l.index + l.value.length),
+  }));
+}
+
+/** Searches the letters and digits of a value in the letters and digits of the text. */
+function findCompact(text: string, value: string, type: EntityType): Leak[] {
+  const needle = value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  if (needle.length < 6) return [];
+  const { out, map } = compact(text, /[A-Za-z0-9]/);
   const leaks: Leak[] = [];
   for (let i = out.indexOf(needle); i !== -1; i = out.indexOf(needle, i + needle.length)) {
     const start = map[i]!;
@@ -199,8 +225,13 @@ export function checkOutbound(
       case 'MONEY':
         found.push(...findAmount(text, p.value));
         break;
+      case 'EMAIL':
+        found.push(...findWords(text, p.value, p.type), ...findDefanged(text, p.value));
+        break;
       default:
         found.push(...findWords(text, p.value, p.type));
+        // A value with digits in it (a token, a reference) is searched compacted too, so T-O-K-E-N-9-9 is caught.
+        if (/\d/.test(p.value)) found.push(...findCompact(text, p.value, p.type));
     }
   }
 

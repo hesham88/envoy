@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { Landing } from './Landing';
+import { Landing, Measured } from './Landing';
 import { UvDemo } from './UvDemo';
 
 describe('UvDemo', () => {
@@ -50,9 +50,37 @@ describe('Landing', () => {
     );
   });
 
-  it('never shows measured numbers unless the eval summary exists', () => {
-    render(<Landing />);
+  it('never shows measured numbers without an eval summary', () => {
+    render(<Measured summary={null} />);
     expect(screen.queryByRole('table')).toBeNull();
     expect(screen.getByText(/publish here from the eval harness/)).toBeInTheDocument();
+  });
+
+  it('shows each arm with its model, version and n, straight from the summary', () => {
+    render(
+      <Measured
+        summary={{
+          generatedAt: '2026-11-22T19:29:04.598Z',
+          arms: [
+            {
+              id: 'nano',
+              label: 'Default Gemini Nano',
+              model: {
+                label: 'Gemini Nano (default)',
+                component: 'nano_v3_cpu_component',
+                version: '2025.8.21.1028',
+              },
+              n: 30,
+              nTotal: 36,
+              metrics: { maskRecall: 1, outboundLeaks: 0, minimizationRatio: 0.1017 },
+            },
+          ],
+        }}
+      />,
+    );
+    const row = screen.getByRole('row', { name: /Default Gemini Nano/ });
+    expect(row.textContent).toContain('2025.8.21.1028');
+    expect(row.textContent).toContain('30 of 36');
+    expect(row.textContent).toContain('10%');
   });
 });
