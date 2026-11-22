@@ -24,6 +24,7 @@ import {
   restoreAnswer,
   splitChunk,
   type Chunk,
+  type CustomRule,
   type Entity,
   type Leak,
   type Receipt,
@@ -57,6 +58,8 @@ export interface Analysis {
   steps: ReceiptStep[];
   /** Why a run that wanted private mode fell back to Basic protection, if it did. */
   fallbackReason: string | null;
+  /** The user's own rules this run used (kept so re-composing and the guard apply them too). */
+  customRules?: readonly CustomRule[];
 }
 
 export class OutboundBlockedError extends Error {
@@ -143,8 +146,8 @@ function maskChunk(c: Chunk, entities: Entity[], tags: TagMap): string {
   return maskText(c.text, inside, tags);
 }
 
-function maskQuestion(question: string, docEntities: Entity[], tags: TagMap): string {
-  const found = detectWithRules(question);
+function maskQuestion(question: string, docEntities: Entity[], tags: TagMap, custom?: readonly CustomRule[]): string {
+  const found = detectWithRules(question, { custom });
   for (const e of docEntities) {
     for (let i = question.indexOf(e.value); i !== -1; i = question.indexOf(e.value, i + e.value.length)) {
       if (!found.some((f) => f.start < i + e.value.length && i < f.end)) found.push({ ...e, start: i, end: i + e.value.length });
@@ -161,7 +164,7 @@ export interface ReviewChoices {
   sharedTags: Set<string>;
 }
 
-type ComposeInput = Pick<Analysis, 'question' | 'chunks' | 'entities' | 'tags' | 'steps' | 'mode'>;
+type ComposeInput = Pick<Analysis, 'question' | 'chunks' | 'entities' | 'tags' | 'steps' | 'mode' | 'customRules'>;
 
 /** Replaces every sentence that mentions a hidden tag with "[…]". */
 function dropHiddenSentences(text: string, hidden: Set<string>): string {
@@ -182,11 +185,11 @@ export function composeOutbound(a: ComposeInput, choices: ReviewChoices): { outb
   const allowed = a.entities.filter(isShared);
   const selected = a.chunks.filter((c) => choices.selectedIds.includes(c.id));
   const outbound = [
-    `Question: ${maskQuestion(a.question, masked, a.tags)}`,
+    `Question: ${maskQuestion(a.question, masked, a.tags, a.customRules)}`,
     ...selected.map((c) => `${c.label}: ${dropHiddenSentences(maskChunk(c, masked, a.tags), choices.hiddenTags)}`),
   ].join('\n\n');
   const knownTags = a.tags.entries().map((t) => t.tag);
-  const guard = checkOutbound(outbound, a.entities, { knownTags, allowed });
+  const guard = checkOutbound(outbound, a.entities, { knownTags, allowed, custom: a.customRules });
   const sharedByUser = knownTags.filter((t) => choices.sharedTags.has(t)).length;
   const receipt = buildReceipt({ entities: a.entities, outbound, chunksSent: selected, chunksAll: a.chunks, steps: [...a.steps], mode: a.mode, sharedByUser });
   return { outbound, guard, receipt };
@@ -203,13 +206,14 @@ export async function analyze(
   doc: string,
   question: string,
   deps: Deps,
-  opts: { onProgress?: (p: AnalyzeProgress) => void; detectScope?: 'all' | 'selected' } = {},
+  opts: { onProgress?: (p: AnalyzeProgress) => void; detectScope?: 'all' | 'selected'; customRules?: readonly CustomRule[] } = {},
 ): Promise<Analysis> {
   const progress = opts.onProgress ?? (() => undefined);
   const detectScope = opts.detectScope ?? 'all';
   progress({ step: 'rules', part: 1, parts: 1 });
   const chunks = chunkDocument(doc);
-  const rules = detectWithRules(doc);
+  const customRules = opts.customRules?.length ? opts.customRules : undefined;
+  const rules = detectWithRules(doc, { custom: customRules });
   const steps: ReceiptStep[] = [];
   let mode: 'private' | 'basic' = (await deps.getDeviceStatus()) === 'available' ? 'private' : 'basic';
   let entities = rules;
@@ -292,7 +296,7 @@ export async function analyze(
 
   const tags = assignTags(entities);
   const { outbound, guard, receipt } = composeOutbound(
-    { question, chunks, entities, tags, steps, mode },
+    { question, chunks, entities, tags, steps, mode, customRules },
     { selectedIds: selection.ids, hiddenTags: new Set(), sharedTags: new Set() },
   );
 
@@ -311,6 +315,7 @@ export async function analyze(
     flaggedForReview: flagged,
     steps,
     fallbackReason,
+    ...(customRules ? { customRules } : {}),
   };
 }
 
@@ -334,7 +339,7 @@ export async function answer(
   const allowed = analysis.entities.filter((e) => shared.has(analysis.tags.tagOf(e)));
   const knownTags = analysis.tags.entries().map((t) => t.tag);
   const sharedByUser = knownTags.filter((t) => shared.has(t)).length;
-  const check = checkOutbound(approvedOutbound, analysis.entities, { knownTags, allowed });
+  const check = checkOutbound(approvedOutbound, analysis.entities, { knownTags, allowed, custom: analysis.customRules });
   if (!check.ok) throw new OutboundBlockedError(check.leaks);
 
   const selected = analysis.chunks.filter((c) => analysis.selectedIds.includes(c.id));
