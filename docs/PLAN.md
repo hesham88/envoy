@@ -47,6 +47,11 @@ Motion polish → eval and Harness² tuning → Chrome extension → launch (ass
 - **Judges build:** release runs on-device only; cloud-routed questions hand off to the hosted web app (real reCAPTCHA App Check). Alternative (owner decision): a dedicated judging-only debug token, revoked after Dec 16, 2026.
 - Remaining: a packed-build App Check test is only needed if the owner picks the judging-token option.
 
+## Model under test (rule, 2026-11-22)
+- Every on-device result so far ran on **Gemma 4** (`gemma4_component`), enabled only by the developer-trial flag `gemma4-for-built-in-ai` plus CPU-backend launch options. Judges on ordinary Chrome will most likely get the **default Gemini Nano**, and neither Firebase AI Logic nor the Prompt API can choose or report which model ran.
+- **Rule:** every eval number, timing or quality claim names the model (component name and version from `chrome://on-device-internals`). The README and video quote results from the **default model**, or label Gemma 4 results as such.
+- **Plan:** a second test profile `F:ChromeEnvoyNano` (flag off, TEMP on F:) so the eval and the prompt probes run on both models; the prompts are tuned to pass on the default model first.
+
 ## Cloud model
 `gemini-3.8-flash` through Remote Config key `cloud_model` (default in code). Override locally with `VITE_CLOUD_MODEL`.
 
@@ -80,8 +85,6 @@ Motion polish → eval and Harness² tuning → Chrome extension → launch (ass
 3. **Register App Check:** Completed (`recaptchaEnterpriseConfig` patched on `1:1019681797334:web:ea96219034883bfc164577`).
 4. **Debug token for localhost:** Completed (registered in Firebase App Check and saved as `VITE_APPCHECK_DEBUG_TOKEN` in `apps/web/.env.local`; verified `200 OK` on `:exchangeDebugToken` and `source: in_cloud` on `/dev`). Note: `gemini-3.8-flash` has a 20 req/day Free Tier limit (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`), so `VITE_CLOUD_MODEL=gemini-3.5-flash-lite` (the SDK's `DEFAULT_HYBRID_IN_CLOUD_MODEL`) is set in `.env.local` while on Free Tier.
 5. **Chrome test profile** (`F:\ChromeEnvoy`): Completed (`gemma4_component` `2026.11.3.1140` installed and verified `available` + `source: on_device` on `/dev` with `--enable-features=OnDeviceModelForceCpuBackend,OnDeviceModelCpuBackend`).
-6. **GitHub secrets for CI deploys** (workflows are in `.github/workflows/`). From the repo root in Git Bash:
-   - `while IFS='=' read -r k v; do case "$k" in VITE_FIREBASE_*|VITE_RECAPTCHA_SITE_KEY) [ -n "$v" ] && printf '%s' "$v" | gh secret set "$k" -R hesham88/envoy;; esac; done < apps/web/.env.local`
-   - Service account: `firebase init hosting:github` (interactive). It creates `FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI`. When it offers to write workflow files, answer **No** (ours already exist).
+6. **Automatic deploys from `main`** (one time): run `! bash scripts/setup-ci.sh` from the repo, then `! firebase init hosting:github --project envoy-hybrid-ai` and answer **No** to both workflow questions. Until then CI builds and tests but skips the deploy with a notice.
 
 **Live:** https://envoy-hybrid-ai.web.app (`/dev` for the feasibility tests).

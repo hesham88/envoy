@@ -11,7 +11,11 @@ export type EntityType =
   | 'IBAN'
   | 'CARD'
   | 'MONEY'
-  | 'DATE';
+  | 'DATE'
+  /** API keys, tokens, private keys and password assignments. */
+  | 'SECRET'
+  /** Matched by one of the user's own rules; `role` holds the rule's label. */
+  | 'CUSTOM';
 
 /** A personal detail found in the document. `start`/`end` are offsets into the source text. */
 export interface Entity {

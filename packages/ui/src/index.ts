@@ -8,3 +8,4 @@ export { RestoredText } from './RestoredText';
 export { EnvoySeal } from './EnvoySeal';
 export { StepEmblem, STEP_EMBLEMS } from './StepEmblem';
 export { hypotrochoid, ringBand, waveBand } from './guilloche';
+export { DelegationScene } from './DelegationScene';

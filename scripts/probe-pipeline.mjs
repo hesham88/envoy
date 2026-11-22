@@ -1,77 +1,51 @@
 #!/usr/bin/env node
 /**
- * Real-model probe (Harness² Probe step): runs the Envoy pipeline inside the owner's Chrome that
- * has the on-device model, through the Vite dev server, and records per-step timings and results.
+ * Real-model probe (Harness² Probe step): runs the real pipeline on the sample lease through
+ * Firebase AI Logic hybrid inference in the model Chrome, and saves the measured result.
  *
- * Prereqs: Chrome started with --remote-debugging-port=9333 (see docs/PLAN.md launch recipe)
- * and `npm run dev` serving http://localhost:5173.
- *
- * Usage: node scripts/probe-pipeline.mjs --variant all|selected [--question "..."] [--runs 1] [--out file.json]
+ * Usage: node scripts/probe-pipeline.mjs --model gemma4_component@2026.11.3.1140 [--variant selected|all]
+ *        [--question "..."] [--runs 1] [--answer] [--app http://localhost:5173/] [--out file.json]
+ * `--model` is required: name the on-device model you are measuring (chrome://on-device-internals).
  */
-import { chromium } from 'playwright-core';
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { connectEnvoyPage, runCase } from './lib/envoy-browser.mjs';
 
-const args = Object.fromEntries(
-  process.argv.slice(2).reduce((acc, a, i, all) => (a.startsWith('--') ? [...acc, [a.slice(2), all[i + 1]]] : acc), []),
-);
-const variant = args.variant ?? 'all';
-const question = args.question ?? 'Can my landlord raise the rent 20% this year?';
-const runs = Number(args.runs ?? 1);
-const out = args.out ?? `tests/eval/probes/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}-${variant}.json`;
+const argv = process.argv.slice(2);
+const flag = (name) => argv.includes(`--${name}`);
+const opt = (name, fallback) => {
+  const i = argv.indexOf(`--${name}`);
+  return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : fallback;
+};
 
-const browser = await chromium.connectOverCDP('http://127.0.0.1:9333');
-const context = browser.contexts()[0];
-const page = await context.newPage();
-await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+const model = opt('model');
+if (!model) {
+  console.error('Name the model under test: --model <component@version> (see chrome://on-device-internals).');
+  process.exit(2);
+}
+const variant = opt('variant', 'selected');
+const question = opt('question', 'Can my landlord raise the rent 20% this year?');
+const runs = Number(opt('runs', 1));
+const out = opt('out', `tests/eval/probes/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}-${variant}.json`);
+
+const { page, close } = await connectEnvoyPage({ appUrl: opt('app', 'http://localhost:5173/') });
+const corePath = `/@fs/${resolve('packages/core/src/index.ts').replace(/\\/g, '/')}`;
+const document = await page.evaluate(async (p) => (await import(p)).EN_LEASE.text, corePath);
 
 const results = [];
 for (let i = 0; i < runs; i++) {
-  const r = await page.evaluate(
-    async ({ variant, question }) => {
-      const ai = await import('/@fs/F:/Projects/Envoy/packages/ai/src/index.ts');
-      const core = await import('/@fs/F:/Projects/Envoy/packages/core/src/index.ts');
-      const env = await import('/src/env.ts');
-      const { ai: fbAi } = ai.initEnvoy(env.readFirebaseEnv(), { dev: true });
-      const settings = ai.DEFAULT_SETTINGS;
-      const schemas = { detect: core.DETECT_SCHEMA, minimize: core.MINIMIZE_SCHEMA, route: core.ROUTE_SCHEMA };
-      const models = Object.fromEntries(
-        ['detect', 'minimize', 'route', 'answerLocal', 'reason'].map((s) => [s, ai.createStepModel(fbAi, s, settings, schemas[s])]),
-      );
-      const deps = { runPrivate: ai.runPrivate, models, getDeviceStatus: ai.getDeviceStatus };
-      const events = [];
-      const t0 = performance.now();
-      try {
-        const a = await ai.analyze(core.EN_LEASE.text, question, deps, {
-          detectScope: variant,
-          onProgress: (p) => events.push({ ...p, at: Math.round(performance.now() - t0) }),
-        });
-        return {
-          ok: true,
-          ms: Math.round(performance.now() - t0),
-          mode: a.mode,
-          selectedIds: a.selectedIds,
-          route: a.route,
-          steps: a.steps,
-          guardOk: a.guard.ok,
-          fallbackReason: a.fallbackReason,
-          nanoEntities: a.entities.filter((e) => e.source === 'nano').map((e) => [e.type, e.value, e.role ?? null]),
-          outbound: a.outbound,
-          events,
-        };
-      } catch (e) {
-        return { ok: false, ms: Math.round(performance.now() - t0), error: `${e.name}: ${e.message}`, events };
-      }
-    },
-    { variant, question },
-  );
+  const r = await runCase(page, { document, question, detectScope: variant, withAnswer: flag('answer') });
   results.push(r);
-  console.log(`run ${i + 1}/${runs} [${variant}] ok=${r.ok} ${r.ms} ms`, r.ok ? `selected=${r.selectedIds} guard=${r.guardOk} steps=${JSON.stringify(r.steps)}` : r.error);
+  console.log(
+    `run ${i + 1}/${runs} [${variant}] ok=${r.ok} mode=${r.mode} ${r.ms} ms`,
+    r.ok ? `selected=${r.selectedIds} guard=${r.guardOk} steps=${JSON.stringify(r.steps)}` : r.error,
+  );
 }
-
-await page.close();
-// Do not close: this is the owner's Chrome. Exiting the process just drops the CDP connection.
+await close();
 mkdirSync(dirname(out), { recursive: true });
-writeFileSync(out, JSON.stringify({ variant, question, at: new Date().toISOString(), results }, null, 2));
+writeFileSync(
+  out,
+  JSON.stringify({ model, variant, question, at: new Date().toISOString(), via: 'Firebase AI Logic hybrid inference (@envoy/ai analyze)', results }, null, 2),
+);
 console.log(`saved ${out}`);
 process.exit(0);

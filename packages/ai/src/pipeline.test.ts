@@ -62,6 +62,18 @@ describe('analyze', () => {
     expect(a.selectedIds).toEqual(a.chunks.map((c) => c.id));
   });
 
+  it("masks the user's own rules in the document and the question, and the guard enforces them", async () => {
+    const customRules = [{ label: 'UNIT', terms: ['apartment'] }];
+    const a = await analyze(EN_LEASE.text, 'Is the apartment rent capped?', fakeDeps('no-api').deps, { customRules });
+    expect(a.entities.some((e) => e.type === 'CUSTOM' && e.role === 'UNIT')).toBe(true);
+    expect(a.outbound).not.toMatch(/apartment/i);
+    expect(a.outbound).toContain('[UNIT]');
+    expect(a.guard.ok).toBe(true);
+    const leaked = composeOutbound(a, { selectedIds: a.selectedIds, hiddenTags: new Set(), sharedTags: new Set() });
+    expect(leaked.guard.ok).toBe(true);
+    await expect(answer(a, `${a.outbound}\nAlso: the apartment`, fakeDeps('no-api').deps)).rejects.toThrow();
+  });
+
   it('in Basic protection, flags and masks person-like names the rules cannot know', async () => {
     const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('no-api').deps);
     expect(a.flaggedForReview.map((e) => e.value)).toEqual(expect.arrayContaining(['Karim Fathy', 'Mona Adel', 'Sara Nabil']));
