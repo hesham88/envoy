@@ -38,5 +38,14 @@ Product UI (screens, logo, motion, a11y, PWA) → eval and Harness² tuning → 
 ## Stubbed / known issues
 - firebase-js-sdk #10635 (`ONLY_ON_DEVICE` falls back to the cloud when `LanguageModel` is missing): mitigated by our device guard. Re-check before submission.
 
-## Owner steps
-_(filled in by Task 2: reCAPTCHA key, App Check registration, debug token, GitHub secrets)_
+## Firebase project
+- Project ID `envoy-hybrid-ai` (owner account), web app `Envoy Web` (`1:1019681797334:web:ea96219034883bfc164577`). Console: https://console.firebase.google.com/project/envoy-hybrid-ai/overview
+- Local config: `apps/web/.env.local` (gitignored; template `apps/web/.env.example`).
+
+## Owner steps (one-time, about 10 minutes)
+1. **Enable AI Logic** (interactive; pick "Envoy Web" when asked): `npx -y firebase-tools@latest init ailogic --project envoy-hybrid-ai`. This enables the Gemini Developer API. It doesn't change `firebase.json`; if it does, keep our hosting block.
+2. **Create the reCAPTCHA Enterprise key:** Google Cloud console → Security → reCAPTCHA (project `envoy-hybrid-ai`) → Create key → Website, score-based, no checkbox challenge. Domains: `envoy-hybrid-ai.web.app` and `envoy-hybrid-ai.firebaseapp.com` (don't add localhost). Put the site key in `apps/web/.env.local` as `VITE_RECAPTCHA_SITE_KEY`.
+3. **Register App Check:** Firebase console → Security → App Check → Apps → Envoy Web → reCAPTCHA Enterprise, paste the site key, Save. AI Logic enforcement is on by default.
+4. **Debug token for localhost:** run `npm run dev`, open `http://localhost:5173/dev`, copy the `App Check debug token: …` line from the browser console, then Firebase console → App Check → Apps → ⋮ → Manage debug tokens → Add. Optionally save it as `VITE_APPCHECK_DEBUG_TOKEN` in `.env.local` so it stays stable. Never commit it.
+5. **Chrome test profile** (already created on F:): in that window, Settings → AI → turn on **On-device AI**, then check `chrome://on-device-internals`.
+6. **GitHub secrets for CI** (after Task 5 creates the workflows): `gh secret set VITE_FIREBASE_API_KEY -R hesham88/envoy` and the same for each `VITE_*` value. `firebase init hosting:github` creates the `FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI` secret.
