@@ -66,7 +66,7 @@ export function Banner({ b }: { b: (typeof BANNERS)[number] }) {
       </svg>
       <div className="flex flex-1 flex-col gap-3 pl-[72px]">
         <span className={`font-mono text-[15px] tracking-[0.28em] uppercase ${b.tone === 'cloud' ? 'text-cloud-on-tint' : 'text-device-on-tint'}`}>{b.eyebrow}</span>
-        <span className="text-[56px] leading-[1.02] font-bold tracking-tight text-ink">{b.title}</span>
+        <span className="font-display text-[60px] leading-[1.02] font-[600] tracking-[-0.01em] text-ink">{b.title}</span>
         <span className="text-[22px] text-muted">{b.sub}</span>
       </div>
       <div className="flex h-full w-[640px] flex-none items-center justify-center">
@@ -87,7 +87,7 @@ export function Banner({ b }: { b: (typeof BANNERS)[number] }) {
 
 export function Banners() {
   return (
-    <div className="flex min-h-screen flex-col gap-10 bg-paper p-10">
+    <div className="envoy-uv flex min-h-screen flex-col gap-10 bg-paper p-10">
       {BANNERS.map((b) => (
         <Banner key={b.slug} b={b} />
       ))}

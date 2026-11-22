@@ -33,6 +33,7 @@ if (ONLY === 'all' || ONLY === 'banners') {
 
 if (ONLY === 'all' || ONLY === 'emblems') {
   await page.goto(`${APP}/studio`, { waitUntil: 'networkidle' });
+  await page.evaluate(() => document.querySelector('div')?.classList.add('envoy-uv'));
   await page.waitForTimeout(2500);
   const emblems = page.locator('[data-plate=emblems] figure');
   const keys = ['detect', 'minimize', 'approve', 'reason', 'restore'];
