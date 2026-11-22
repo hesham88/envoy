@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import globals from 'globals';
 
 export default tseslint.config(
   {
@@ -23,5 +24,9 @@ export default tseslint.config(
       'no-eval': 'error',
       'no-new-func': 'error',
     },
+  },
+  {
+    files: ['scripts/**/*.{js,mjs}', 'tests/**/*.{js,mjs}'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
 );
