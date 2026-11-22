@@ -64,7 +64,7 @@ function detectAgent(payload: HookPayload, hint?: SupportedAgent): SupportedAgen
 
 export function evaluateHook(
   payload: HookPayload,
-  opts: { agent?: SupportedAgent; customRules?: readonly CustomRule[] } = {},
+  opts: { agent?: SupportedAgent; customRules?: readonly CustomRule[]; flagNames?: boolean } = {},
 ): HookDecision {
   const agent = detectAgent(payload, opts.agent);
   const event = payload.hook_event_name ?? (agent === 'gemini' ? 'BeforeAgent' : 'UserPromptSubmit');
@@ -105,7 +105,8 @@ export function evaluateHook(
     };
   }
 
-  const scan = scanText(textToScan, { custom });
+  // Default names: false for coding-agent prompts so technical terms like "Firebase AI Logic" aren't false-flagged.
+  const scan = scanText(textToScan, { custom, names: opts.flagNames ?? false });
   if (scan.findings.length === 0) {
     return {
       agent,
