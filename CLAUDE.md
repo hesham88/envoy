@@ -31,10 +31,10 @@ Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused 
 ## Worktrees: one folder and one branch per agent (owner decision, 2026-11-22 15:27)
 | Agent | Work ONLY in this folder | Branch |
 | --- | --- | --- |
-| Claude Code | `F:ProjectsEnvoy-wtclaude` | `lane/core-web` |
-| Argon (Antigravity) | `F:ProjectsEnvoy-wtargon` | `lane/eval-harness` |
-| Muse | `F:ProjectsEnvoy-wtmuse` | `lane/extension` |
-- `F:ProjectsEnvoy` is the **integration checkout only**. Don't edit, build or commit there.
+| Claude Code | `F:/Projects/Envoy-wt/claude` | `lane/core-web` |
+| Argon (Antigravity) | `F:/Projects/Envoy-wt/argon` | `lane/eval-harness` |
+| Muse | `F:/Projects/Envoy-wt/muse` | `lane/extension` |
+- `F:/Projects/Envoy` is the **integration checkout only**. Don't edit, build or commit there.
 - Commit only your own lane's files, never `git add -A` across lanes. Run `npm run verify` before every commit; push your lane branch and open a PR into `main`. Merges into `main` are deliberate (Claude or the owner), after CI is green.
 - To pick up others' merged work: `git fetch origin && git merge origin/main` in your own worktree.
 - Each worktree has its own `node_modules` (run `npm install` once) and its own `apps/web/.env.local` (already copied; never commit it).
