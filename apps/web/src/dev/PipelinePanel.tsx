@@ -1,7 +1,14 @@
 /** /dev panel: runs the full privacy pipeline on the sample lease and prints every intermediate result. */
 import { useState, type CSSProperties } from 'react';
 import type { AI } from 'firebase/ai';
-import { DETECT_SCHEMA, EN_LEASE, MINIMIZE_SCHEMA, ROUTE_SCHEMA, SUGGESTED_QUESTIONS, type Step } from '@envoy/core';
+import {
+  DETECT_SCHEMA,
+  EN_LEASE,
+  MINIMIZE_SCHEMA,
+  ROUTE_SCHEMA,
+  SUGGESTED_QUESTIONS,
+  type Step,
+} from '@envoy/core';
 import {
   analyze,
   answer,
@@ -14,8 +21,18 @@ import {
   type RemoteSettings,
 } from '@envoy/ai';
 
-const card: CSSProperties = { background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--radius-card)', padding: 20 };
-const mono: CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 13, whiteSpace: 'pre-wrap', margin: 0 };
+const card: CSSProperties = {
+  background: 'var(--surface)',
+  border: '1px solid var(--line)',
+  borderRadius: 'var(--radius-card)',
+  padding: 20,
+};
+const mono: CSSProperties = {
+  fontFamily: 'var(--font-mono)',
+  fontSize: 13,
+  whiteSpace: 'pre-wrap',
+  margin: 0,
+};
 const button: CSSProperties = {
   font: 'inherit',
   fontWeight: 600,
@@ -36,7 +53,9 @@ const SCHEMAS: Partial<Record<Step, JsonSchema>> = {
 
 function makeDeps(ai: AI, settings: RemoteSettings): Deps {
   const steps: Step[] = ['detect', 'minimize', 'route', 'answerLocal', 'reason'];
-  const models = Object.fromEntries(steps.map((s) => [s, createStepModel(ai, s, settings, SCHEMAS[s])])) as Deps['models'];
+  const models = Object.fromEntries(
+    steps.map((s) => [s, createStepModel(ai, s, settings, SCHEMAS[s])]),
+  ) as Deps['models'];
   return { runPrivate, models, getDeviceStatus };
 }
 
@@ -67,7 +86,9 @@ export function PipelinePanel({ ai, settings }: { ai: AI | null; settings: Remot
     setBusy(true);
     try {
       const out = await answer(analysis, outbound, makeDeps(ai, settings));
-      setResult(`[${out.source}${out.lighter ? ', lighter on-device answer' : ''}]\n${out.text}\n\nReceipt: ${JSON.stringify(out.receipt, null, 2)}`);
+      setResult(
+        `[${out.source}${out.lighter ? ', lighter on-device answer' : ''}]\n${out.text}\n\nReceipt: ${JSON.stringify(out.receipt, null, 2)}`,
+      );
     } catch (e) {
       setResult(`${(e as Error).name}: ${(e as Error).message}`);
     } finally {
@@ -81,17 +102,34 @@ export function PipelinePanel({ ai, settings }: { ai: AI | null; settings: Remot
       <p style={{ margin: 0, color: 'var(--muted)' }}>{EN_LEASE.notice}</p>
       <label style={{ display: 'grid', gap: 6, fontWeight: 600 }}>
         Question
-        <input value={question} onChange={(e) => setQuestion(e.target.value)} style={{ font: 'inherit', padding: 10, borderRadius: 10, border: '1px solid var(--line)' }} />
+        <input
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          style={{
+            font: 'inherit',
+            padding: 10,
+            borderRadius: 10,
+            border: '1px solid var(--line)',
+          }}
+        />
       </label>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {SUGGESTED_QUESTIONS.map((q) => (
-          <button key={q} style={{ ...button, minHeight: 36, padding: '6px 12px', fontWeight: 500 }} onClick={() => setQuestion(q)}>
+          <button
+            key={q}
+            style={{ ...button, minHeight: 36, padding: '6px 12px', fontWeight: 500 }}
+            onClick={() => setQuestion(q)}
+          >
             {q}
           </button>
         ))}
       </div>
       <div style={{ display: 'flex', gap: 10 }}>
-        <button style={{ ...button, background: 'var(--ink)', color: 'var(--paper)' }} onClick={run} disabled={busy || !ai}>
+        <button
+          style={{ ...button, background: 'var(--ink)', color: 'var(--paper)' }}
+          onClick={run}
+          disabled={busy || !ai}
+        >
           Run pipeline
         </button>
         <button style={button} onClick={send} disabled={busy || !analysis}>
@@ -102,27 +140,57 @@ export function PipelinePanel({ ai, settings }: { ai: AI | null; settings: Remot
       {analysis && (
         <div style={{ display: 'grid', gap: 12 }}>
           <p style={{ margin: 0 }}>
-            Mode: <strong>{analysis.mode === 'private' ? 'Private (on-device)' : 'Basic protection (rules only)'}</strong> · selected clauses:{' '}
-            {analysis.selectedIds.join(', ')} · route: {analysis.route.local ? 'answer on device' : 'reason in cloud'} ({analysis.route.reason})
+            Mode:{' '}
+            <strong>
+              {analysis.mode === 'private'
+                ? 'Private (on-device)'
+                : 'Basic protection (rules only)'}
+            </strong>{' '}
+            · selected clauses: {analysis.selectedIds.join(', ')} · route:{' '}
+            {analysis.route.local ? 'answer on device' : 'reason in cloud'} ({analysis.route.reason}
+            )
           </p>
           {analysis.fallbackReason && (
-            <p style={{ margin: 0, color: 'var(--danger)' }}>Fallback reason: {analysis.fallbackReason}</p>
+            <p style={{ margin: 0, color: 'var(--danger)' }}>
+              Fallback reason: {analysis.fallbackReason}
+            </p>
           )}
           <details>
             <summary>Entities ({analysis.entities.length})</summary>
             <pre style={mono}>
-              {analysis.entities.map((e) => `${e.type.padEnd(12)} ${analysis.tags.tagOf(e).padEnd(14)} ${e.source.padEnd(6)} ${e.value}`).join('\n')}
+              {analysis.entities
+                .map(
+                  (e) =>
+                    `${e.type.padEnd(12)} ${analysis.tags.tagOf(e).padEnd(14)} ${e.source.padEnd(6)} ${e.value}`,
+                )
+                .join('\n')}
             </pre>
           </details>
           {analysis.flaggedForReview.length > 0 && (
-            <p style={{ margin: 0 }}>Flagged for review (masked by default): {analysis.flaggedForReview.map((e) => e.value).join(', ')}</p>
+            <p style={{ margin: 0 }}>
+              Flagged for review (masked by default):{' '}
+              {analysis.flaggedForReview.map((e) => e.value).join(', ')}
+            </p>
           )}
           <label style={{ display: 'grid', gap: 6, fontWeight: 600 }}>
             What the cloud will see (editable; re-checked before sending)
-            <textarea value={outbound} onChange={(e) => setOutbound(e.target.value)} rows={8} style={{ ...mono, padding: 12, borderRadius: 10, border: '1px solid var(--line)' }} />
+            <textarea
+              value={outbound}
+              onChange={(e) => setOutbound(e.target.value)}
+              rows={8}
+              style={{ ...mono, padding: 12, borderRadius: 10, border: '1px solid var(--line)' }}
+            />
           </label>
-          <p style={{ margin: 0, color: analysis.guard.ok ? 'var(--device-on-tint)' : 'var(--danger)' }}>
-            Guard: {analysis.guard.ok ? 'clean' : `${analysis.guard.leaks.length} leak(s): ${analysis.guard.leaks.map((l) => l.value).join(', ')}`}
+          <p
+            style={{
+              margin: 0,
+              color: analysis.guard.ok ? 'var(--device-on-tint)' : 'var(--danger)',
+            }}
+          >
+            Guard:{' '}
+            {analysis.guard.ok
+              ? 'clean'
+              : `${analysis.guard.leaks.length} leak(s): ${analysis.guard.leaks.map((l) => l.value).join(', ')}`}
           </p>
           <details>
             <summary>Receipt</summary>
@@ -130,7 +198,9 @@ export function PipelinePanel({ ai, settings }: { ai: AI | null; settings: Remot
           </details>
         </div>
       )}
-      {result && <pre style={{ ...mono, borderTop: '1px solid var(--line)', paddingTop: 12 }}>{result}</pre>}
+      {result && (
+        <pre style={{ ...mono, borderTop: '1px solid var(--line)', paddingTop: 12 }}>{result}</pre>
+      )}
     </section>
   );
 }

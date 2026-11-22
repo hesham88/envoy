@@ -17,7 +17,10 @@ declare namespace chrome {
     }
     const session: StorageArea;
     const local: StorageArea;
-    const onChanged: { addListener(fn: () => void): void };
+    const onChanged: {
+      addListener(fn: (changes: Record<string, unknown>, area: string) => void): void;
+      removeListener(fn: (changes: Record<string, unknown>, area: string) => void): void;
+    };
   }
   namespace permissions {
     function request(p: { origins: string[] }, cb?: (granted: boolean) => void): void;

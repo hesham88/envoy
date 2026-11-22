@@ -14,11 +14,18 @@ export function NetworkInspector({ open, onClose }: { open: boolean; onClose: ()
     >
       <div className="flex items-center justify-between">
         <h2 className="m-0 text-lg font-bold">Network inspector</h2>
-        <button onClick={onClose} aria-label="Close the network inspector" className="flex size-11 items-center justify-center rounded-control border border-line">
+        <button
+          onClick={onClose}
+          aria-label="Close the network inspector"
+          className="flex size-11 items-center justify-center rounded-control border border-line"
+        >
           <X size={18} strokeWidth={1.75} aria-hidden="true" />
         </button>
       </div>
-      <p className="m-0 text-sm text-muted">Every AI request this tab made, with the exact text. Device requests never leave this computer.</p>
+      <p className="m-0 text-sm text-muted">
+        Every AI request this tab made, with the exact text. Device requests never leave this
+        computer.
+      </p>
       {entries.length === 0 && <p className="m-0 text-sm text-muted-2">No requests yet.</p>}
       <ol className="m-0 flex list-none flex-col gap-3 p-0">
         {entries.map((e, i) => (
@@ -26,12 +33,26 @@ export function NetworkInspector({ open, onClose }: { open: boolean; onClose: ()
             <div className="flex flex-wrap items-center gap-2 text-[13px]">
               <span className="font-mono text-muted-2">{new Date(e.at).toLocaleTimeString()}</span>
               <span className="font-semibold">{e.step}</span>
-              <span className={e.target === 'cloud' ? 'font-semibold text-cloud-on-tint' : 'font-semibold text-device-on-tint'}>
+              <span
+                className={
+                  e.target === 'cloud'
+                    ? 'font-semibold text-cloud-on-tint'
+                    : 'font-semibold text-device-on-tint'
+                }
+              >
                 {e.target === 'cloud' ? '→ Cloud' : '→ Device'}
               </span>
-              {e.blocked && <span className="rounded bg-danger-tint px-1.5 font-semibold text-danger">Blocked by Envoy</span>}
+              {e.blocked && (
+                <span className="rounded bg-danger-tint px-1.5 font-semibold text-danger">
+                  Blocked by Envoy
+                </span>
+              )}
             </div>
-            {e.payload && <pre className="m-0 max-h-60 overflow-auto rounded bg-paper p-2 font-mono text-xs whitespace-pre-wrap">{e.payload}</pre>}
+            {e.payload && (
+              <pre className="m-0 max-h-60 overflow-auto rounded bg-paper p-2 font-mono text-xs whitespace-pre-wrap">
+                {e.payload}
+              </pre>
+            )}
           </li>
         ))}
       </ol>

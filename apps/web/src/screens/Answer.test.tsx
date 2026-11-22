@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import type { Receipt } from '@envoy/core';
-import type { AnswerResult } from '../app/session';
+import type { AnswerResult } from '@envoy/app';
 import { Answer } from './Answer';
 
 const receipt = (over: Partial<Receipt> = {}): Receipt => ({
@@ -27,8 +27,20 @@ const cloudText = 'Not by 20%. Karim Fathy may raise the rent by at most 10%, so
 const cloud: AnswerResult = {
   text: cloudText,
   spans: [
-    { start: cloudText.indexOf('Karim'), end: cloudText.indexOf('Karim') + 11, tag: '[LANDLORD]', value: 'Karim Fathy', computed: false },
-    { start: cloudText.indexOf('EGP'), end: cloudText.length - 1, tag: '{{RENT * 1.10}}', value: 'EGP 9,350', computed: true },
+    {
+      start: cloudText.indexOf('Karim'),
+      end: cloudText.indexOf('Karim') + 11,
+      tag: '[LANDLORD]',
+      value: 'Karim Fathy',
+      computed: false,
+    },
+    {
+      start: cloudText.indexOf('EGP'),
+      end: cloudText.length - 1,
+      tag: '{{RENT * 1.10}}',
+      value: 'EGP 9,350',
+      computed: true,
+    },
   ],
   source: 'in_cloud',
   lighter: false,
@@ -37,7 +49,14 @@ const cloud: AnswerResult = {
 
 describe('Answer screen', () => {
   it('answer shows restored values and receipt numbers from the receipt', () => {
-    render(<Answer question="Can my landlord raise the rent 20% this year?" result={cloud} onFollowUp={vi.fn()} onNew={vi.fn()} />);
+    render(
+      <Answer
+        question="Can my landlord raise the rent 20% this year?"
+        result={cloud}
+        onFollowUp={vi.fn()}
+        onNew={vi.fn()}
+      />,
+    );
     expect(screen.getByText('Not by 20%.')).toBeInTheDocument();
     expect(screen.getByText('Karim Fathy')).toHaveAttribute('data-restored', 'true');
     expect(screen.getByText('EGP 9,350')).toHaveAttribute('data-restored', 'true');
@@ -54,16 +73,36 @@ describe('Answer screen', () => {
       spans: [],
       source: 'on_device',
       lighter: false,
-      receipt: receipt({ charsSent: 0, clausesSent: 0, pagesSent: 0, sharedTags: [], steps: [{ step: 'answerLocal', source: 'on_device', ms: 1600 }] }),
+      receipt: receipt({
+        charsSent: 0,
+        clausesSent: 0,
+        pagesSent: 0,
+        sharedTags: [],
+        steps: [{ step: 'answerLocal', source: 'on_device', ms: 1600 }],
+      }),
     };
-    render(<Answer question="When does my contract end?" result={local} onFollowUp={vi.fn()} onNew={vi.fn()} />);
+    render(
+      <Answer
+        question="When does my contract end?"
+        result={local}
+        onFollowUp={vi.fn()}
+        onNew={vi.fn()}
+      />,
+    );
     expect(screen.getByText(/Answered on device/)).toBeInTheDocument();
     expect(screen.getByText('0 bytes')).toBeInTheDocument();
     expect(screen.queryByText(/Reasoned in the cloud/)).not.toBeInTheDocument();
   });
 
   it('labels a lighter on-device answer when the cloud was unreachable', () => {
-    render(<Answer question="Q?" result={{ ...cloud, source: 'on_device', lighter: true }} onFollowUp={vi.fn()} onNew={vi.fn()} />);
+    render(
+      <Answer
+        question="Q?"
+        result={{ ...cloud, source: 'on_device', lighter: true }}
+        onFollowUp={vi.fn()}
+        onNew={vi.fn()}
+      />,
+    );
     expect(screen.getByText(/Lighter on-device answer/)).toBeInTheDocument();
   });
 });

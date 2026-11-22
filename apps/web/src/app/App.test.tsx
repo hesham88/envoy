@@ -6,6 +6,8 @@ describe('App shell', () => {
   it('renders the app shell with a banner landmark and the hero heading', () => {
     render(<App />);
     expect(screen.getByRole('banner')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 1, name: /Ask the cloud\. Keep your secrets\./ })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 1, name: /Ask the cloud\. Keep your secrets\./ }),
+    ).toBeInTheDocument();
   });
 });

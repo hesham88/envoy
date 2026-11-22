@@ -25,14 +25,28 @@ interface Props {
   sending: boolean;
   dispatch: Dispatch<SessionAction>;
   onApprove: () => void;
+  /** Label of the main action (default "Approve and send"). */
+  approveLabel?: string;
 }
 
-export function CloudPreview({ outbound, guard, receipt, edited, sending, dispatch, onApprove }: Props) {
+export function CloudPreview({
+  outbound,
+  guard,
+  receipt,
+  edited,
+  sending,
+  dispatch,
+  onApprove,
+  approveLabel = 'Approve and send',
+}: Props) {
   const [editing, setEditing] = useState(false);
   const titleId = useId();
   const boxId = useId();
   return (
-    <section aria-labelledby={titleId} className="flex flex-col gap-3.5 rounded-card border-2 border-cloud bg-surface p-5">
+    <section
+      aria-labelledby={titleId}
+      className="flex flex-col gap-3.5 rounded-card border-2 border-cloud bg-surface p-5"
+    >
       <div className="flex flex-wrap items-center justify-between gap-2.5">
         <h2 id={titleId} className="m-0 text-lg font-bold">
           What the cloud will see
@@ -68,7 +82,8 @@ export function CloudPreview({ outbound, guard, receipt, edited, sending, dispat
           {guard.leaks.map((l, i) => (
             <span key={i}>
               {i > 0 ? ', ' : ''}
-              {LEAK_LABEL[l.type] ?? 'a personal detail'} (<code className="font-mono">{l.value}</code>)
+              {LEAK_LABEL[l.type] ?? 'a personal detail'} (
+              <code className="font-mono">{l.value}</code>)
             </span>
           ))}
           . Remove it or mask it to continue.
@@ -96,7 +111,7 @@ export function CloudPreview({ outbound, guard, receipt, edited, sending, dispat
           disabled={!guard.ok || sending}
           className="min-h-12 flex-[1_1_160px] rounded-control bg-ink px-4 py-3 font-semibold text-paper disabled:cursor-not-allowed disabled:opacity-40"
         >
-          Approve and send
+          {approveLabel}
         </button>
         <button
           onClick={() => setEditing(!editing)}
@@ -106,7 +121,11 @@ export function CloudPreview({ outbound, guard, receipt, edited, sending, dispat
           {editing ? 'Done editing' : 'Edit excerpt'}
         </button>
       </div>
-      {edited && !editing && <p className="m-0 text-[13px] text-muted-2">You edited this excerpt by hand. Changing a highlight resets it.</p>}
+      {edited && !editing && (
+        <p className="m-0 text-[13px] text-muted-2">
+          You edited this excerpt by hand. Changing a highlight resets it.
+        </p>
+      )}
     </section>
   );
 }

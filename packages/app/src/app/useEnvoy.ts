@@ -12,11 +12,11 @@ import {
   loadRemoteSettings,
   runPrivate,
   type Deps,
+  type FirebaseEnv,
   type DeviceStatus,
   type JsonSchema,
   type RemoteSettings,
 } from '@envoy/ai';
-import { cloudModelOverride, readFirebaseEnv } from '../env';
 
 const SCHEMAS: Partial<Record<Step, JsonSchema>> = {
   detect: DETECT_SCHEMA as unknown as JsonSchema,
@@ -44,11 +44,19 @@ export interface EnvoyRuntime {
   warmUp?: () => Promise<void>;
 }
 
-export function useEnvoy(): EnvoyRuntime {
+/** Where the Firebase settings come from: each app reads its own build environment. */
+export interface EnvoyConfig {
+  readEnv: () => FirebaseEnv;
+  cloudModelOverride?: () => string | undefined;
+  /** Development build: allows the App Check debug token. */
+  dev: boolean;
+}
+
+export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
   const boot = useMemo(() => {
     try {
       return {
-        ...initEnvoy(readFirebaseEnv(), { dev: import.meta.env.DEV }),
+        ...initEnvoy(config.readEnv(), { dev: config.dev }),
         error: null as string | null,
       };
     } catch (e) {
@@ -66,7 +74,7 @@ export function useEnvoy(): EnvoyRuntime {
     void refreshStatus();
     if (boot.app) {
       void loadRemoteSettings(boot.app).then((s) =>
-        setSettings({ ...s, cloudModel: cloudModelOverride() ?? s.cloudModel }),
+        setSettings({ ...s, cloudModel: config.cloudModelOverride?.() ?? s.cloudModel }),
       );
     }
     return () => {

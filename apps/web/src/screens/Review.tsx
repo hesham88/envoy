@@ -2,10 +2,13 @@ import { useMemo, type Dispatch } from 'react';
 import { Info } from 'lucide-react';
 import { composeOutbound } from '@envoy/ai';
 import { checkOutbound } from '@envoy/core';
-import type { SessionAction, SessionState } from '../app/session';
-import { CloudPreview } from '../components/review/CloudPreview';
-import { DocumentViewer } from '../components/review/DocumentViewer';
-import { FoundList } from '../components/review/FoundList';
+import {
+  type SessionAction,
+  type SessionState,
+  CloudPreview,
+  DocumentViewer,
+  FoundList,
+} from '@envoy/app';
 
 export function ProgressSteps({ current }: { current: 1 | 2 | 3 }) {
   const steps = ['Detect', 'Review', 'Answer'];
@@ -17,9 +20,25 @@ export function ProgressSteps({ current }: { current: 1 | 2 | 3 }) {
           const done = n < current;
           const here = n === current;
           return (
-            <li key={s} className="flex items-center gap-2" aria-current={here ? 'step' : undefined}>
-              {i > 0 && <span aria-hidden="true" className="text-muted-2">—</span>}
-              <span className={here ? 'rounded-full bg-ink px-2.5 py-1 font-semibold text-paper' : done ? 'font-semibold text-device-on-tint' : 'text-muted-2'}>
+            <li
+              key={s}
+              className="flex items-center gap-2"
+              aria-current={here ? 'step' : undefined}
+            >
+              {i > 0 && (
+                <span aria-hidden="true" className="text-muted-2">
+                  —
+                </span>
+              )}
+              <span
+                className={
+                  here
+                    ? 'rounded-full bg-ink px-2.5 py-1 font-semibold text-paper'
+                    : done
+                      ? 'font-semibold text-device-on-tint'
+                      : 'text-muted-2'
+                }
+              >
                 {n} {s}
                 {done ? ' ✓' : ''}
               </span>
@@ -74,16 +93,25 @@ export function Review({ state, dispatch, onApprove }: Props) {
         </p>
       )}
       <div className="flex flex-wrap items-start gap-6">
-        <section aria-label="Your document" className="min-w-0 flex-[999_1_560px] overflow-hidden rounded-card border border-line bg-surface">
+        <section
+          aria-label="Your document"
+          className="min-w-0 flex-[999_1_560px] overflow-hidden rounded-card border border-line bg-surface"
+        >
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-paper px-5 py-3.5">
             <span className="text-[15px] font-semibold">{state.doc?.title}</span>
             <div className="flex flex-wrap gap-3.5 text-[13px] text-muted">
               <span className="inline-flex items-center gap-1.5">
-                <span aria-hidden="true" className="size-3 rounded-[3px] border-b-2 border-detected-line bg-detected" />
+                <span
+                  aria-hidden="true"
+                  className="size-3 rounded-[3px] border-b-2 border-detected-line bg-detected"
+                />
                 Personal detail, kept on device
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <span aria-hidden="true" className="size-3 rounded-[3px] border-2 border-dashed border-cloud" />
+                <span
+                  aria-hidden="true"
+                  className="size-3 rounded-[3px] border-2 border-dashed border-cloud"
+                />
                 Shared with the cloud (masked)
               </span>
             </div>

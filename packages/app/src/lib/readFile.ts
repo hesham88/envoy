@@ -27,7 +27,12 @@ async function extractWithPdfJs(file: File): Promise<string[]> {
       if (!('str' in item)) continue;
       text += item.str + (item.hasEOL ? '\n' : ' ');
     }
-    pages.push(text.replace(/[ \t]+\n/g, '\n').replace(/[ \t]{2,}/g, ' ').trim());
+    pages.push(
+      text
+        .replace(/[ \t]+\n/g, '\n')
+        .replace(/[ \t]{2,}/g, ' ')
+        .trim(),
+    );
   }
   await task.destroy();
   return pages;
@@ -37,7 +42,8 @@ export async function readDocumentFile(
   file: File,
   opts: { extractPdfPages?: (file: File) => Promise<string[]> } = {},
 ): Promise<ReadDocument> {
-  if (file.size > MAX_BYTES) throw new FileReadError('This file is larger than 10 MB. Try a shorter document.');
+  if (file.size > MAX_BYTES)
+    throw new FileReadError('This file is larger than 10 MB. Try a shorter document.');
   const name = file.name.toLowerCase();
   const isPdf = file.type === 'application/pdf' || name.endsWith('.pdf');
   const isText = file.type.startsWith('text/') || /\.(txt|md|text)$/.test(name);
@@ -51,7 +57,9 @@ export async function readDocumentFile(
   if (isPdf) {
     const pages = await (opts.extractPdfPages ?? extractWithPdfJs)(file);
     if (pages.join('').trim().length < 20) {
-      throw new FileReadError('This PDF has no selectable text (it may be a scan). Envoy reads text PDFs only; try pasting the text instead.');
+      throw new FileReadError(
+        'This PDF has no selectable text (it may be a scan). Envoy reads text PDFs only; try pasting the text instead.',
+      );
     }
     const text = pages.map((p, i) => `--- Page ${i + 1} ---\n${p.trim()}`).join('\n\n');
     return { title: file.name, text, pages: pages.length };

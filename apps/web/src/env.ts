@@ -27,14 +27,21 @@ const BUILD_ENV: RawEnv = {
   VITE_RECAPTCHA_SITE_KEY: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
   VITE_CLOUD_MODEL: import.meta.env.VITE_CLOUD_MODEL,
   // Dead-code-eliminated in production builds, so the token can never ship.
-  VITE_APPCHECK_DEBUG_TOKEN: import.meta.env.DEV ? import.meta.env.VITE_APPCHECK_DEBUG_TOKEN : undefined,
+  VITE_APPCHECK_DEBUG_TOKEN: import.meta.env.DEV
+    ? import.meta.env.VITE_APPCHECK_DEBUG_TOKEN
+    : undefined,
 };
 
 /** Reads the Firebase config from Vite env vars; throws one error listing everything missing. */
-export function readFirebaseEnv(env: RawEnv = BUILD_ENV, opts: { dev: boolean } = { dev: import.meta.env.DEV }): FirebaseEnv {
+export function readFirebaseEnv(
+  env: RawEnv = BUILD_ENV,
+  opts: { dev: boolean } = { dev: import.meta.env.DEV },
+): FirebaseEnv {
   const missing = Object.values(REQUIRED).filter((name) => !str(env[name]));
   if (missing.length) {
-    throw new Error(`Missing Firebase settings: ${missing.join(', ')}. Copy apps/web/.env.example to .env.local.`);
+    throw new Error(
+      `Missing Firebase settings: ${missing.join(', ')}. Copy apps/web/.env.example to .env.local.`,
+    );
   }
   const cfg: FirebaseEnv = {
     apiKey: str(env[REQUIRED.apiKey]),

@@ -1,7 +1,7 @@
 import { useId, useState } from 'react';
 import { Receipt as ReceiptIcon } from 'lucide-react';
 import type { Step } from '@envoy/core';
-import type { AnswerResult } from '../app/session';
+import type { AnswerResult } from '@envoy/app';
 import { ModeChip, RestoredText } from '@envoy/ui';
 import { ProgressSteps } from './Review';
 
@@ -38,7 +38,10 @@ export function Answer({ question, result, onFollowUp, onNew }: Props) {
     <main className="mx-auto flex max-w-[1200px] flex-col gap-5 px-8 py-7">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <ProgressSteps current={3} />
-        <button onClick={onNew} className="min-h-11 rounded-control border border-line bg-surface px-4 text-sm font-semibold">
+        <button
+          onClick={onNew}
+          className="min-h-11 rounded-control border border-line bg-surface px-4 text-sm font-semibold"
+        >
           New question
         </button>
       </div>
@@ -54,7 +57,9 @@ export function Answer({ question, result, onFollowUp, onNew }: Props) {
             <div className="flex flex-wrap gap-2">
               {!local && <ModeChip kind="cloud">Reasoned in the cloud</ModeChip>}
               {local && !result.lighter && <ModeChip kind="device">Answered on device</ModeChip>}
-              {result.lighter && <ModeChip kind="device">Lighter on-device answer (cloud unreachable)</ModeChip>}
+              {result.lighter && (
+                <ModeChip kind="device">Lighter on-device answer (cloud unreachable)</ModeChip>
+              )}
               <ModeChip kind="device">Personalized on device</ModeChip>
             </div>
             <p className="m-0 text-2xl leading-snug font-bold">
@@ -62,7 +67,12 @@ export function Answer({ question, result, onFollowUp, onNew }: Props) {
             </p>
             {verdictEnd < result.text.length && (
               <p className="m-0 text-[17px] leading-relaxed whitespace-pre-wrap text-ink">
-                <RestoredText text={result.text} spans={result.spans} from={verdictEnd} to={result.text.length} />
+                <RestoredText
+                  text={result.text}
+                  spans={result.spans}
+                  from={verdictEnd}
+                  to={result.text.length}
+                />
               </p>
             )}
             {local && (
@@ -80,12 +90,15 @@ export function Answer({ question, result, onFollowUp, onNew }: Props) {
               </div>
             )}
             <p className="m-0 border-t border-line pt-3.5 text-[13px] text-muted-2">
-              Values highlighted in green were restored on your device{!local && `; the cloud only saw ${r.sharedTags.join(', ') || 'tags'}`}. This explains your
-              document; it isn't legal advice.
+              Values highlighted in green were restored on your device
+              {!local && `; the cloud only saw ${r.sharedTags.join(', ') || 'tags'}`}. This explains
+              your document; it isn't legal advice.
             </p>
             <div className="flex flex-wrap gap-2.5">
               <button
-                onClick={() => onFollowUp('Draft a short, polite reply to the other party based on this answer.')}
+                onClick={() =>
+                  onFollowUp('Draft a short, polite reply to the other party based on this answer.')
+                }
                 className="min-h-11 rounded-control bg-ink px-4 text-[15px] font-semibold text-paper"
               >
                 Draft a reply
@@ -120,7 +133,11 @@ export function Answer({ question, result, onFollowUp, onNew }: Props) {
           </form>
         </section>
 
-        <aside aria-labelledby={receiptId} role="region" className="flex min-w-0 flex-[1_1_360px] flex-col gap-4 rounded-card border border-line bg-surface p-6">
+        <aside
+          aria-labelledby={receiptId}
+          role="region"
+          className="flex min-w-0 flex-[1_1_360px] flex-col gap-4 rounded-card border border-line bg-surface p-6"
+        >
           <div className="flex items-center gap-2.5">
             <ReceiptIcon size={22} strokeWidth={1.75} aria-hidden="true" />
             <h2 id={receiptId} className="m-0 text-lg font-bold">
@@ -128,20 +145,30 @@ export function Answer({ question, result, onFollowUp, onNew }: Props) {
             </h2>
           </div>
           <div className="rounded-[10px] bg-cloud-tint/60 p-3.5">
-            <div className="text-[13px] font-semibold tracking-wider text-cloud-on-tint uppercase">Left your device</div>
+            <div className="text-[13px] font-semibold tracking-wider text-cloud-on-tint uppercase">
+              Left your device
+            </div>
             <div className="mt-1 text-xl font-bold">
-              {r.clausesSent} {r.clausesSent === 1 ? 'clause' : 'clauses'} · {r.charsSent} characters
+              {r.clausesSent} {r.clausesSent === 1 ? 'clause' : 'clauses'} · {r.charsSent}{' '}
+              characters
             </div>
             <div className="text-sm text-muted">
-              {r.sharedTags.length} masked placeholders{r.sharedByUser > 0 ? ` · ${r.sharedByUser} detail(s) you chose to share` : ''}
+              {r.sharedTags.length} masked placeholders
+              {r.sharedByUser > 0 ? ` · ${r.sharedByUser} detail(s) you chose to share` : ''}
             </div>
           </div>
           <div className="rounded-[10px] bg-device-tint p-3.5">
-            <div className="text-[13px] font-semibold tracking-wider text-device-on-tint uppercase">Stayed on device</div>
+            <div className="text-[13px] font-semibold tracking-wider text-device-on-tint uppercase">
+              Stayed on device
+            </div>
             <div className="mt-1 text-xl font-bold">
               {r.keptTotal} personal items · {r.pagesTotal} pages
             </div>
-            <div className="text-sm text-muted">{r.mode === 'private' ? 'Private mode (on-device model)' : 'Basic protection (local rules)'}</div>
+            <div className="text-sm text-muted">
+              {r.mode === 'private'
+                ? 'Private mode (on-device model)'
+                : 'Basic protection (local rules)'}
+            </div>
           </div>
           <div>
             <h3 className="m-0 mb-2 text-sm font-semibold">What happened</h3>
@@ -150,16 +177,28 @@ export function Answer({ question, result, onFollowUp, onNew }: Props) {
                 elapsed += s.ms;
                 const cloud = s.source === 'in_cloud';
                 return (
-                  <li key={i} className="flex gap-3 border-b border-line py-2.5 text-sm last:border-b-0">
-                    <span className="w-12 flex-none font-mono text-muted-2">{(elapsed / 1000).toFixed(1)}s</span>
+                  <li
+                    key={i}
+                    className="flex gap-3 border-b border-line py-2.5 text-sm last:border-b-0"
+                  >
+                    <span className="w-12 flex-none font-mono text-muted-2">
+                      {(elapsed / 1000).toFixed(1)}s
+                    </span>
                     <span className="flex-1">{STEP_LABEL[s.step]}</span>
-                    <span className={`flex-none font-semibold ${cloud ? 'text-cloud-on-tint' : 'text-device-on-tint'}`}>{cloud ? 'Cloud' : s.source === 'rules' ? 'Rules' : 'Device'}</span>
+                    <span
+                      className={`flex-none font-semibold ${cloud ? 'text-cloud-on-tint' : 'text-device-on-tint'}`}
+                    >
+                      {cloud ? 'Cloud' : s.source === 'rules' ? 'Rules' : 'Device'}
+                    </span>
                   </li>
                 );
               })}
             </ol>
           </div>
-          <p className="m-0 text-[13px] leading-normal text-muted-2">The link between placeholders and your real data lives only in this tab. It's erased when you close it.</p>
+          <p className="m-0 text-[13px] leading-normal text-muted-2">
+            The link between placeholders and your real data lives only in this tab. It's erased
+            when you close it.
+          </p>
         </aside>
       </div>
     </main>

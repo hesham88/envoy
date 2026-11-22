@@ -1,8 +1,7 @@
 import { useId, type Dispatch } from 'react';
 import { SUGGESTED_QUESTIONS } from '@envoy/core';
-import type { SessionAction, SessionState } from '../app/session';
+import { type SessionAction, type SessionState, type EnvoyRuntime } from '@envoy/app';
 import type { AnalyzeProgress } from '@envoy/ai';
-import type { EnvoyRuntime } from '../app/useEnvoy';
 import { AnalyzingPanel } from '@envoy/ui';
 import { DocumentInput } from '../components/DocumentInput';
 import { HowItWorks, OnDeviceGuide } from '../components/SidePanels';
@@ -16,7 +15,14 @@ interface Props {
   startedAt?: number;
 }
 
-export function Start({ state, dispatch, runtime, onAnalyze, progress = null, startedAt = 0 }: Props) {
+export function Start({
+  state,
+  dispatch,
+  runtime,
+  onAnalyze,
+  progress = null,
+  startedAt = 0,
+}: Props) {
   const qId = useId();
   const busy = state.phase === 'analyzing';
   const ready = Boolean(state.doc && state.question.trim()) && !busy;
@@ -26,13 +32,12 @@ export function Start({ state, dispatch, runtime, onAnalyze, progress = null, st
       <section className="flex min-w-0 flex-[999_1_560px] flex-col gap-6">
         <div className="flex flex-col gap-3">
           <h1 className="m-0 text-[44px] leading-[1.1] font-bold tracking-tight">
-            Ask the cloud.{' '}
-            <br />
+            Ask the cloud. <br />
             Keep your secrets.
           </h1>
           <p className="m-0 max-w-[600px] text-lg leading-relaxed text-muted">
-            Envoy's on-device AI reads your document and question first, then shares only what the cloud needs to answer. Your names, IDs and numbers stay
-            on this computer.
+            Envoy's on-device AI reads your document and question first, then shares only what the
+            cloud needs to answer. Your names, IDs and numbers stay on this computer.
           </p>
         </div>
 
@@ -63,16 +68,27 @@ export function Start({ state, dispatch, runtime, onAnalyze, progress = null, st
             </div>
           </div>
 
-          {busy && <AnalyzingPanel progress={progress} mode={runtime.status === 'available' ? 'private' : 'basic'} startedAt={startedAt || Date.now()} />}
+          {busy && (
+            <AnalyzingPanel
+              progress={progress}
+              mode={runtime.status === 'available' ? 'private' : 'basic'}
+              startedAt={startedAt || Date.now()}
+            />
+          )}
 
           {state.phase === 'error' && state.error && (
-            <p role="alert" className="m-0 rounded-control bg-danger-tint px-4 py-3 text-sm text-danger">
+            <p
+              role="alert"
+              className="m-0 rounded-control bg-danger-tint px-4 py-3 text-sm text-danger"
+            >
               {state.error}
             </p>
           )}
 
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <span className="text-sm text-muted-2">You'll review exactly what's shared before anything is sent.</span>
+            <span className="text-sm text-muted-2">
+              You'll review exactly what's shared before anything is sent.
+            </span>
             <button
               onClick={onAnalyze}
               disabled={!ready}
@@ -86,7 +102,9 @@ export function Start({ state, dispatch, runtime, onAnalyze, progress = null, st
       </section>
 
       <aside className="flex min-w-0 flex-[1_1_340px] flex-col gap-4">
-        {runtime.status !== 'available' && runtime.status !== 'checking' && <OnDeviceGuide runtime={runtime} />}
+        {runtime.status !== 'available' && runtime.status !== 'checking' && (
+          <OnDeviceGuide runtime={runtime} />
+        )}
         <HowItWorks />
       </aside>
     </main>

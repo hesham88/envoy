@@ -2,8 +2,15 @@ import { describe, expect, it } from 'vitest';
 import type { Analysis } from '@envoy/ai';
 import { initialSession, sessionReducer, type SessionState } from './session';
 
-const analysis = { selectedIds: [7], outbound: 'Question: Q\n\nClause 7: …' } as unknown as Analysis;
-const doc = { title: 'Residential lease, Cairo', text: '1. Rent. EGP 8,500.', source: 'sample' as const };
+const analysis = {
+  selectedIds: [7],
+  outbound: 'Question: Q\n\nClause 7: …',
+} as unknown as Analysis;
+const doc = {
+  title: 'Residential lease, Cairo',
+  text: '1. Rent. EGP 8,500.',
+  source: 'sample' as const,
+};
 
 function reviewState(): SessionState {
   let s = sessionReducer(initialSession, { type: 'LOAD_DOC', doc });
@@ -55,7 +62,9 @@ describe('sessionReducer', () => {
 
   it('ignores review actions outside review', () => {
     const loaded = sessionReducer(initialSession, { type: 'LOAD_DOC', doc });
-    expect(sessionReducer(loaded, { type: 'TOGGLE_TAG', tag: '[RENT]', mode: 'hide' })).toBe(loaded);
+    expect(sessionReducer(loaded, { type: 'TOGGLE_TAG', tag: '[RENT]', mode: 'hide' })).toBe(
+      loaded,
+    );
     expect(sessionReducer(loaded, { type: 'SEND_START' })).toBe(loaded);
   });
 
@@ -65,7 +74,9 @@ describe('sessionReducer', () => {
   });
 
   it('CLEAR wipes the document, analysis and outbound from memory', () => {
-    const s = sessionReducer(sessionReducer(reviewState(), { type: 'EDIT_OUTBOUND', text: 'x' }), { type: 'CLEAR' });
+    const s = sessionReducer(sessionReducer(reviewState(), { type: 'EDIT_OUTBOUND', text: 'x' }), {
+      type: 'CLEAR',
+    });
     expect(s).toEqual(initialSession);
   });
 });

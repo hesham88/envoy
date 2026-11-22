@@ -11,20 +11,33 @@ describe('readDocumentFile', () => {
 
   it('reads PDFs page by page with page markers', async () => {
     const out = await readDocumentFile(file('%PDF', 'lease.pdf', 'application/pdf'), {
-      extractPdfPages: async () => ['1. Parties. Mona Adel is the tenant.', '2. Term. Three years from 1 September 2024.'],
+      extractPdfPages: async () => [
+        '1. Parties. Mona Adel is the tenant.',
+        '2. Term. Three years from 1 September 2024.',
+      ],
     });
     expect(out.pages).toBe(2);
-    expect(out.text).toBe('--- Page 1 ---\n1. Parties. Mona Adel is the tenant.\n\n--- Page 2 ---\n2. Term. Three years from 1 September 2024.');
+    expect(out.text).toBe(
+      '--- Page 1 ---\n1. Parties. Mona Adel is the tenant.\n\n--- Page 2 ---\n2. Term. Three years from 1 September 2024.',
+    );
   });
 
   it('scanned pdf shows no-text message', async () => {
     await expect(
-      readDocumentFile(file('%PDF', 'scan.pdf', 'application/pdf'), { extractPdfPages: async () => ['', '  '] }),
+      readDocumentFile(file('%PDF', 'scan.pdf', 'application/pdf'), {
+        extractPdfPages: async () => ['', '  '],
+      }),
     ).rejects.toThrow(/no selectable text/i);
   });
 
   it('rejects DOCX and other formats with a helpful message', async () => {
-    const err = await readDocumentFile(file('x', 'lease.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')).catch((e) => e);
+    const err = await readDocumentFile(
+      file(
+        'x',
+        'lease.docx',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      ),
+    ).catch((e) => e);
     expect(err).toBeInstanceOf(FileReadError);
     expect(err.message).toMatch(/PDF or TXT/);
   });
@@ -35,6 +48,8 @@ describe('readDocumentFile', () => {
   });
 
   it('rejects empty text files', async () => {
-    await expect(readDocumentFile(file('   ', 'empty.txt', 'text/plain'))).rejects.toThrow(/empty/i);
+    await expect(readDocumentFile(file('   ', 'empty.txt', 'text/plain'))).rejects.toThrow(
+      /empty/i,
+    );
   });
 });

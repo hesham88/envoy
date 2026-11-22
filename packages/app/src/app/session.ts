@@ -55,7 +55,16 @@ export const initialSession: SessionState = {
   error: null,
 };
 
-const resetReview = { analysis: null, notice: null, hiddenTags: [], sharedTags: [], selectedIds: null, editedOutbound: null, result: null, error: null };
+const resetReview = {
+  analysis: null,
+  notice: null,
+  hiddenTags: [],
+  sharedTags: [],
+  selectedIds: null,
+  editedOutbound: null,
+  result: null,
+  error: null,
+};
 
 export function sessionReducer(state: SessionState, action: SessionAction): SessionState {
   switch (action.type) {
@@ -65,15 +74,31 @@ export function sessionReducer(state: SessionState, action: SessionAction): Sess
     case 'SET_QUESTION':
       if (state.phase === 'analyzing' || state.phase === 'sending') return state;
       if (state.phase === 'review' || state.phase === 'answered' || state.phase === 'error') {
-        return { ...state, ...resetReview, phase: state.doc ? 'loaded' : 'idle', question: action.question };
+        return {
+          ...state,
+          ...resetReview,
+          phase: state.doc ? 'loaded' : 'idle',
+          question: action.question,
+        };
       }
       return { ...state, question: action.question };
     case 'ANALYZE_START':
-      if (!state.doc || !state.question.trim() || (state.phase !== 'loaded' && state.phase !== 'error')) return state;
+      if (
+        !state.doc ||
+        !state.question.trim() ||
+        (state.phase !== 'loaded' && state.phase !== 'error')
+      )
+        return state;
       return { ...state, ...resetReview, phase: 'analyzing' };
     case 'ANALYZE_DONE':
       if (state.phase !== 'analyzing') return state;
-      return { ...state, phase: 'review', analysis: action.analysis, notice: action.notice ?? null, selectedIds: action.analysis.selectedIds };
+      return {
+        ...state,
+        phase: 'review',
+        analysis: action.analysis,
+        notice: action.notice ?? null,
+        selectedIds: action.analysis.selectedIds,
+      };
     case 'TOGGLE_TAG': {
       if (state.phase !== 'review') return state;
       const hidden = state.hiddenTags.filter((t) => t !== action.tag);
