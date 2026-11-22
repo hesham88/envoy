@@ -31,13 +31,14 @@ All three arms were measured live on **`2026-11-22`** across all **36 benchmark 
 | --- | --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **`nano`** | **Gemini Nano (default)** (`nano_v3_cpu_component 2025.8.21.1028`) | CPU (`OnDeviceModelForceCpuBackend`) | `2026-11-22` | **36 / 36** | **100.00%** *(263 / 263)* | 22.7% | **0** | **83.3%** *(30 / 36)* | **10.2%** *(**89.8% reduction**)* | **67,471 ms / 110,878 ms** |
 | **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`) | CPU (`OnDeviceModelForceCpuBackend`) | `2026-11-22` | **36 / 36** | **100.00%** *(263 / 263)* | 18.1% | **0** | **88.9%** *(32 / 36)* | **21.9%** *(**78.1% reduction**)* | **54,951 ms / 78,361 ms** |
-| **`basic`** | *None* (`LanguageModel` unavailable) | rules + guard + name flags | `2026-11-22` | **36 / 36** | **96.96%** *(255 / 263)* | 13.3% | **8** *(7 cases — see below)* | 100.0% *(all clauses)* | 96.0% | **6 ms / 28 ms** |
+| **`basic`** | *None* (`LanguageModel` unavailable) | rules + guard + name flags | `2026-11-22` (re-run after PR #17) | **36 / 36** | **100.00%** *(263 / 263)* | 10.9% | **0** *(was 8, see below)* | 100.0% *(all clauses)* | 90.2% | **5 ms / 22 ms** |
 
-### Reported Non-Zero Outbound Leaks in `basic` (`n = 36 / 36`, tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7))
-In Basic protection (no on-device model), `flagNames()` missed **8 unstructured person names across 7 cases**:
+### Basic protection leaks: found, fixed, re-measured ([Issue #7](https://github.com/hesham88/envoy/issues/7))
+The first Basic run (no on-device model) let **8 person names across 7 cases** reach the outbound text. `flagNames()` missed two shapes of name:
 - **5 hyphenated Arabic surnames:** `lease-05-sublet-policy` (`Hisham El-Masry`), `med-02-vitamin-d-dosage-local` (`Yasmin El-Banna`), `freelance-04-liability-cap` (`Mostafa El-Gendy`), `noisy-02-eastern-arabic-digits-phone` (`Tariq El-Sawy`), `noisy-08-iso-and-slash-dates-with-card` (`Seif El-Din`).
-- **3 stopword-preceded names:** `noisy-09-format-variants-same-entity` (`Karim Fathy`, `Mona Adel`), `noisy-10-multi-tenant-joint-liability` (`Karim Fathy`).
-- Structured secrets (`NATIONAL_ID`, `IBAN`, `PHONE`, `EMAIL`, `CARD`, `MONEY`, `DATE`, Arabic-Indic digits) had **0 leaks** across all 36 cases, and both on-device arms (**`nano`** and **`gemma4`**) eliminated all 8 leaks (**`0 / 263` outbound leaks**).
+- **3 names after a role word:** `noisy-09-format-variants-same-entity` (`Karim Fathy`, `Mona Adel`), `noisy-10-multi-tenant-joint-liability` (`Karim Fathy`). "Landlord Karim Fathy" was discarded whole because "Landlord" is a stopword.
+
+**Fix (PR #17):** the name pattern accepts hyphenated particles, and a match is split at stopwords so the name in "Landlord Karim Fathy" is kept. Each case is a regression test in `packages/core/src/names.test.ts`. **Re-run of all 36 Basic cases through the real pipeline (`collect-live.mjs --arm basic`, `2026-11-22`): 0 leaks, 263 / 263 masked**, and false masks fell from 13.3% to 10.9%. Structured details (IDs, IBANs, phones, emails, cards, amounts, dates) never leaked in any arm, and both on-device arms had 0 leaks from the start.
 
 ---
 
@@ -97,7 +98,7 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 ## 6. Limitations
 
 1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`) / `67.5s` (`nano`); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
-2. **Remaining 8 guard obfuscation bypasses & 8 Basic `flagNames` leaks:** digits spelled out in words, Base64, reversed strings and a name split mid-word across lines. Each would need the guard to block ordinary text to catch it. Tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7); 9 of 17 original bypasses are closed (PR #11, PR #14).
+2. **Remaining 8 guard obfuscation bypasses** (the 8 Basic `flagNames` leaks are fixed; see section 2): digits spelled out in words, Base64, reversed strings and a name split mid-word across lines. Each would need the guard to block ordinary text to catch it. Tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7); 9 of 17 original bypasses are closed (PR #11, PR #14).
 3. **Cloud attack & quality sample size (`n = 12` / `n = 10`):** Paced for Gemini Developer API Free Tier RPM limits; clearly labeled partial alongside the full `36/36` pipeline matrix.
 
 ---

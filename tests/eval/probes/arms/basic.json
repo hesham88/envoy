@@ -5,7 +5,7 @@
   "backend": "rules-only (LanguageModel unavailable)",
   "detectScope": "selected",
   "withAnswer": false,
-  "updatedAt": "2026-11-22T19:25:14.879Z",
+  "updatedAt": "2026-11-22T20:20:35.630Z",
   "nTotal": 36,
   "nMeasured": 36,
   "entries": {
@@ -15,11 +15,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:09.991Z",
+      "recordedAt": "2026-11-22T20:20:30.940Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 42,
+        "ms": 35,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -235,11 +235,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:10.130Z",
+      "recordedAt": "2026-11-22T20:20:31.080Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -455,11 +455,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:10.329Z",
+      "recordedAt": "2026-11-22T20:20:31.214Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -675,7 +675,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:10.452Z",
+      "recordedAt": "2026-11-22T20:20:31.333Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -810,11 +810,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:10.594Z",
+      "recordedAt": "2026-11-22T20:20:31.465Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 12,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -837,6 +837,12 @@
         "guardOk": true,
         "leaks": [],
         "entities": [
+          {
+            "type": "PERSON",
+            "value": "Hisham El-Masry",
+            "role": null,
+            "source": "rules"
+          },
           {
             "type": "NATIONAL_ID",
             "value": "28011230102345",
@@ -892,11 +898,11 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: Can I rent out one bedroom on a short-term basis without asking the owner?\n\nClause 1: 1. Parties. Hisham El-Masry, national ID [NATIONAL_ID] (\"the Landlord\"), and [PERSON], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises. Apartment 12 at [ADDRESS], leased for two (2) years starting [DATE_1] at a monthly rent of [AMOUNT].\n\nClause 3: 3. Subletting and Assignment. The Tenant shall occupy the Premises solely as a family residence and may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.\n\nClause 4: 4. Payment. Transfers go to IBAN [ACCOUNT].",
+        "outbound": "Question: Can I rent out one bedroom on a short-term basis without asking the owner?\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID] (\"the Landlord\"), and [PERSON_2], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises. Apartment 12 at [ADDRESS], leased for two (2) years starting [DATE_1] at a monthly rent of [AMOUNT].\n\nClause 3: 3. Subletting and Assignment. The Tenant shall occupy the Premises solely as a family residence and may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.\n\nClause 4: 4. Payment. Transfers go to IBAN [ACCOUNT].",
         "receipt": {
           "found": {
+            "PERSON": 2,
             "NATIONAL_ID": 2,
-            "PERSON": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
@@ -904,10 +910,11 @@
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 9,
+          "foundTotal": 10,
           "sharedTags": [
-            "[NATIONAL_ID]",
             "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PERSON_2]",
             "[NATIONAL_ID_2]",
             "[PHONE]",
             "[EMAIL]",
@@ -916,9 +923,9 @@
             "[AMOUNT]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 9,
+          "keptTotal": 10,
           "sharedByUser": 0,
-          "charsSent": 674,
+          "charsSent": 669,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -948,11 +955,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:10.728Z",
+      "recordedAt": "2026-11-22T20:20:31.586Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 11,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -977,7 +984,7 @@
         "entities": [
           {
             "type": "PERSON",
-            "value": "Tarek Abdel",
+            "value": "Tarek Abdel-Aziz",
             "role": null,
             "source": "rules"
           },
@@ -1012,7 +1019,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How many hours' notice must the landlord give before entering for repairs?\n\nClause 1: 1. Parties. [PERSON]-Aziz, national ID [NATIONAL_ID] (\"Landlord\"), and [PERSON_2], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Property. Flat 5, [ADDRESS].\n\nClause 3: 3. Rent. Monthly rent is [AMOUNT] payable on the 1st of every month.\n\nClause 4: 4. Access and Inspection. The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs.",
+        "outbound": "Question: How many hours' notice must the landlord give before entering for repairs?\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID] (\"Landlord\"), and [PERSON_2], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Property. Flat 5, [ADDRESS].\n\nClause 3: 3. Rent. Monthly rent is [AMOUNT] payable on the 1st of every month.\n\nClause 4: 4. Access and Inspection. The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -1032,7 +1039,7 @@
           ],
           "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 496,
+          "charsSent": 491,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1062,7 +1069,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:10.863Z",
+      "recordedAt": "2026-11-22T20:20:31.718Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -1138,6 +1145,12 @@
             "source": "rules"
           },
           {
+            "type": "PERSON",
+            "value": "Common Area",
+            "role": null,
+            "source": "rules"
+          },
+          {
             "type": "MONEY",
             "value": "EGP 4,500",
             "role": null,
@@ -1150,10 +1163,10 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: Can the building management increase our monthly service charge by 15% next year?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Tenant\").\n\nClause 2: 2. [PERSON_3]. Suite 402 at [ADDRESS]. Base rent is [AMOUNT] per month.\n\nClause 3: 3. Common Area Maintenance (CAM). The Tenant pays a monthly service charge of [AMOUNT_2]. Annual increases to the service charge are capped at 8% per year.\n\nClause 4: 4. Banking. Wire all payments to [ACCOUNT].",
+        "outbound": "Question: Can the building management increase our monthly service charge by 15% next year?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Tenant\").\n\nClause 2: 2. [PERSON_3]. Suite 402 at [ADDRESS]. Base rent is [AMOUNT] per month.\n\nClause 3: 3. [PERSON_4] Maintenance (CAM). The Tenant pays a monthly service charge of [AMOUNT_2]. Annual increases to the service charge are capped at 8% per year.\n\nClause 4: 4. Banking. Wire all payments to [ACCOUNT].",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 4,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -1161,7 +1174,7 @@
             "MONEY": 2,
             "IBAN": 1
           },
-          "foundTotal": 10,
+          "foundTotal": 11,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
@@ -1171,12 +1184,13 @@
             "[PERSON_3]",
             "[ADDRESS]",
             "[AMOUNT]",
+            "[PERSON_4]",
             "[AMOUNT_2]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 10,
+          "keptTotal": 11,
           "sharedByUser": 0,
-          "charsSent": 525,
+          "charsSent": 524,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1206,11 +1220,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:10.984Z",
+      "recordedAt": "2026-11-22T20:20:31.834Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1327,11 +1341,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:11.111Z",
+      "recordedAt": "2026-11-22T20:20:31.964Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 11,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1352,8 +1366,19 @@
             "ms": 0
           }
         ],
-        "guardOk": true,
-        "leaks": [],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "without cause",
+            "type": "PERSON",
+            "index": 44
+          },
+          {
+            "value": "without cause",
+            "type": "PERSON",
+            "index": 685
+          }
+        ],
         "entities": [
           {
             "type": "DATE",
@@ -1408,13 +1433,19 @@
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
             "role": null,
             "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Without Cause",
+            "role": null,
+            "source": "rules"
           }
         ],
-        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 1: 1. Parties. Signed on [DATE_1] between [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\").\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month.\n\nClause 3: 3. Direct Deposit. Salary will be transferred to Employee's IBAN [ACCOUNT].\n\nClause 4: 4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\nClause 5: 5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
+        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 1: 1. Parties. Signed on [DATE_1] between [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\").\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month.\n\nClause 3: 3. Direct Deposit. Salary will be transferred to Employee's IBAN [ACCOUNT].\n\nClause 4: 4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\nClause 5: 5. Termination [PERSON_3]. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
         "receipt": {
           "found": {
             "DATE": 1,
-            "PERSON": 2,
+            "PERSON": 3,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -1422,7 +1453,7 @@
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 9,
+          "foundTotal": 10,
           "sharedTags": [
             "[DATE_1]",
             "[PERSON]",
@@ -1432,11 +1463,12 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[AMOUNT]",
-            "[ACCOUNT]"
+            "[ACCOUNT]",
+            "[PERSON_3]"
           ],
-          "keptTotal": 9,
+          "keptTotal": 10,
           "sharedByUser": 0,
-          "charsSent": 847,
+          "charsSent": 844,
           "clausesSent": 5,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1466,11 +1498,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:11.233Z",
+      "recordedAt": "2026-11-22T20:20:32.082Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 10,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1595,11 +1627,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:11.356Z",
+      "recordedAt": "2026-11-22T20:20:32.206Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1621,12 +1653,6 @@
         "guardOk": true,
         "leaks": [],
         "entities": [
-          {
-            "type": "PERSON",
-            "value": "Employee Details",
-            "role": null,
-            "source": "rules"
-          },
           {
             "type": "PERSON",
             "value": "Nourhan Khalil",
@@ -1658,27 +1684,26 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How long is my probationary period?\n\nClause 1: 1. [PERSON]. [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Salary. Monthly gross salary is [AMOUNT].\n\nClause 3: 3. Probation. The first ninety (90) days of employment constitute a probationary period during which either party may terminate the contract with seven (7) days' written notice.",
+        "outbound": "Question: How long is my probationary period?\n\nClause 1: 1. Employee Details. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Salary. Monthly gross salary is [AMOUNT].\n\nClause 3: 3. Probation. The first ninety (90) days of employment constitute a probationary period during which either party may terminate the contract with seven (7) days' written notice.",
         "receipt": {
           "found": {
-            "PERSON": 2,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1
           },
-          "foundTotal": 6,
+          "foundTotal": 5,
           "sharedTags": [
             "[PERSON]",
-            "[PERSON_2]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
             "[AMOUNT]"
           ],
-          "keptTotal": 6,
+          "keptTotal": 5,
           "sharedByUser": 0,
-          "charsSent": 383,
+          "charsSent": 389,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1708,11 +1733,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:11.478Z",
+      "recordedAt": "2026-11-22T20:20:32.331Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 8,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1805,29 +1830,23 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Payroll Account",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "IBAN",
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Employee\").\n\nClause 2: 2. [PERSON_3]. Monthly base salary is [AMOUNT].\n\nClause 3: 3. [PERSON_4]. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\nClause 4: 4. [PERSON_5]. IBAN [ACCOUNT].",
+        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Employee\").\n\nClause 2: 2. [PERSON_3]. Monthly base salary is [AMOUNT].\n\nClause 3: 3. [PERSON_4]. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\nClause 4: 4. Payroll Account. IBAN [ACCOUNT].",
         "receipt": {
           "found": {
-            "PERSON": 5,
+            "PERSON": 4,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 10,
+          "foundTotal": 9,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
@@ -1837,12 +1856,11 @@
             "[PERSON_3]",
             "[AMOUNT]",
             "[PERSON_4]",
-            "[PERSON_5]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 10,
+          "keptTotal": 9,
           "sharedByUser": 0,
-          "charsSent": 491,
+          "charsSent": 496,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1872,11 +1890,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:11.603Z",
+      "recordedAt": "2026-11-22T20:20:32.456Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2001,7 +2019,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:11.725Z",
+      "recordedAt": "2026-11-22T20:20:32.579Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -2140,11 +2158,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:11.876Z",
+      "recordedAt": "2026-11-22T20:20:32.721Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 28,
+        "ms": 22,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2169,16 +2187,10 @@
           {
             "value": "referring physician",
             "type": "PERSON",
-            "index": 802
+            "index": 815
           }
         ],
         "entities": [
-          {
-            "type": "PERSON",
-            "value": "Patient Identification",
-            "role": null,
-            "source": "rules"
-          },
           {
             "type": "PERSON",
             "value": "Adel Mansour",
@@ -2250,9 +2262,15 @@
             "value": "Pathologist Comment",
             "role": null,
             "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Repeat Hb",
+            "role": null,
+            "source": "rules"
           }
         ],
-        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. [PERSON]. Patient: [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 2: 2. [PERSON_3] & Billing. Ordered by [PERSON_4]. Total lab fee paid: [AMOUNT].\n\nClause 3: 3. [PERSON_5]. [PERSON_6]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_7]. Values sit in the impaired fasting glucose (prediabetes) reference range. Repeat HbA1c in 3 months and review dietary and physical activity changes with the referring physician.",
+        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. Patient Identification. Patient: [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 2: 2. [PERSON_2] & Billing. Ordered by [PERSON_3]. Total lab fee paid: [AMOUNT].\n\nClause 3: 3. [PERSON_4]. [PERSON_5]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_6]. Values sit in the impaired fasting glucose (prediabetes) reference range. [PERSON_7]A1c in 3 months and review dietary and physical activity changes with the referring physician.",
         "receipt": {
           "found": {
             "PERSON": 7,
@@ -2266,22 +2284,22 @@
           "foundTotal": 13,
           "sharedTags": [
             "[PERSON]",
-            "[PERSON_2]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
             "[ADDRESS]",
             "[DATE_1]",
+            "[PERSON_2]",
             "[PERSON_3]",
-            "[PERSON_4]",
             "[AMOUNT]",
+            "[PERSON_4]",
             "[PERSON_5]",
             "[PERSON_6]",
             "[PERSON_7]"
           ],
           "keptTotal": 13,
           "sharedByUser": 0,
-          "charsSent": 822,
+          "charsSent": 835,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2311,11 +2329,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.008Z",
+      "recordedAt": "2026-11-22T20:20:32.848Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2339,7 +2357,7 @@
         "entities": [
           {
             "type": "PERSON",
-            "value": "Patient Record",
+            "value": "Yasmin El-Banna",
             "role": null,
             "source": "rules"
           },
@@ -2380,7 +2398,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: In how many weeks should the repeat vitamin D blood test be scheduled?\n\nClause 1: 1. [PERSON]. Yasmin El-Banna, national ID [NATIONAL_ID], phone [PHONE], email [EMAIL]. Visit date: [DATE_1]. Consultation fee: [AMOUNT].\n\nClause 2: 2. Clinician. Seen by [PERSON_2].\n\nClause 3: 3. Plan. Serum 25-OH Vitamin D measured 14 ng/mL (deficient < 20 ng/mL). Supplement with colecalciferol as prescribed and schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.",
+        "outbound": "Question: In how many weeks should the repeat vitamin D blood test be scheduled?\n\nClause 1: 1. Patient Record. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL]. Visit date: [DATE_1]. Consultation fee: [AMOUNT].\n\nClause 2: 2. Clinician. Seen by [PERSON_2].\n\nClause 3: 3. Plan. Serum 25-OH Vitamin D measured 14 ng/mL (deficient < 20 ng/mL). Supplement with colecalciferol as prescribed and schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -2402,7 +2420,7 @@
           ],
           "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 477,
+          "charsSent": 476,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2432,11 +2450,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.139Z",
+      "recordedAt": "2026-11-22T20:20:32.966Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2459,12 +2477,6 @@
         "guardOk": true,
         "leaks": [],
         "entities": [
-          {
-            "type": "PERSON",
-            "value": "Patient Details",
-            "role": null,
-            "source": "rules"
-          },
           {
             "type": "PERSON",
             "value": "Khaled Oweis",
@@ -2508,51 +2520,36 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Under Policy Plan",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Refund Account",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "IBAN",
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?\n\nClause 1: 1. [PERSON]. [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. [PERSON_3]. [PERSON_4].\n\nClause 3: 3. Cost & Co-Pay. The approved outpatient arthroscopy package fee is [AMOUNT]. [PERSON_5] B, the insurer reimburses 80% directly and the patient pays a 20% co-payment at admission.\n\nClause 4: 4. [PERSON_6]. Overpayments are refunded to patient IBAN [ACCOUNT].",
+        "outbound": "Question: If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?\n\nClause 1: 1. Patient Details. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. [PERSON_2]. [PERSON_3].\n\nClause 3: 3. Cost & Co-Pay. The approved outpatient arthroscopy package fee is [AMOUNT]. Under Policy Plan B, the insurer reimburses 80% directly and the patient pays a 20% co-payment at admission.\n\nClause 4: 4. Refund Account. Overpayments are refunded to patient IBAN [ACCOUNT].",
         "receipt": {
           "found": {
-            "PERSON": 6,
+            "PERSON": 3,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 11,
+          "foundTotal": 8,
           "sharedTags": [
             "[PERSON]",
-            "[PERSON_2]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
+            "[PERSON_2]",
             "[PERSON_3]",
-            "[PERSON_4]",
             "[AMOUNT]",
-            "[PERSON_5]",
-            "[PERSON_6]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 11,
+          "keptTotal": 8,
           "sharedByUser": 0,
-          "charsSent": 496,
+          "charsSent": 512,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2582,11 +2579,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.278Z",
+      "recordedAt": "2026-11-22T20:20:33.091Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 11,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2710,11 +2707,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.418Z",
+      "recordedAt": "2026-11-22T20:20:33.219Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 13,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2866,11 +2863,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.536Z",
+      "recordedAt": "2026-11-22T20:20:33.337Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2924,48 +2921,34 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Invoicing Terms",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Settlement Account",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "IBAN",
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: Within how many days of receiving an invoice must the client pay?\n\nClause 1: 1. Consultant. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Retainer. Monthly retainer is [AMOUNT].\n\nClause 3: 3. [PERSON_2]. Invoices are submitted on the last business day of the month and must be paid in full within fifteen (15) calendar days of receipt.\n\nClause 4: 4. [PERSON_3]. IBAN [ACCOUNT].",
+        "outbound": "Question: Within how many days of receiving an invoice must the client pay?\n\nClause 1: 1. Consultant. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Retainer. Monthly retainer is [AMOUNT].\n\nClause 3: 3. Invoicing Terms. Invoices are submitted on the last business day of the month and must be paid in full within fifteen (15) calendar days of receipt.\n\nClause 4: 4. Settlement Account. IBAN [ACCOUNT].",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
             "[AMOUNT]",
-            "[PERSON_2]",
-            "[PERSON_3]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 422,
+          "charsSent": 435,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2995,11 +2978,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.664Z",
+      "recordedAt": "2026-11-22T20:20:33.463Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 8,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3062,18 +3045,12 @@
             "value": "EGP 30,000",
             "role": null,
             "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Cancellation Schedule",
-            "role": null,
-            "source": "rules"
           }
         ],
-        "outbound": "Question: If I cancel 20 days before the event, how much of my deposit is refunded?\n\nClause 1: 1. Client & Card on File. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL]. Payment card on file: [CARD]. Event date: [DATE_1].\n\nClause 2: 2. Booking Deposit. The Client paid an upfront deposit of [AMOUNT].\n\nClause 3: 3. [PERSON_2]. Cancellations made 30 or more days before the event receive a 100% refund. Cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Cancellations within 13 days are non-refundable.",
+        "outbound": "Question: If I cancel 20 days before the event, how much of my deposit is refunded?\n\nClause 1: 1. Client & Card on File. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL]. Payment card on file: [CARD]. Event date: [DATE_1].\n\nClause 2: 2. Booking Deposit. The Client paid an upfront deposit of [AMOUNT].\n\nClause 3: 3. Cancellation Schedule. Cancellations made 30 or more days before the event receive a 100% refund. Cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Cancellations within 13 days are non-refundable.",
         "receipt": {
           "found": {
-            "PERSON": 2,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -3081,7 +3058,7 @@
             "DATE": 1,
             "MONEY": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -3089,12 +3066,11 @@
             "[EMAIL]",
             "[CARD]",
             "[DATE_1]",
-            "[AMOUNT]",
-            "[PERSON_2]"
+            "[AMOUNT]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 564,
+          "charsSent": 575,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3124,11 +3100,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.783Z",
+      "recordedAt": "2026-11-22T20:20:33.586Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3151,6 +3127,12 @@
         "guardOk": true,
         "leaks": [],
         "entities": [
+          {
+            "type": "PERSON",
+            "value": "Mostafa El-Gendy",
+            "role": null,
+            "source": "rules"
+          },
           {
             "type": "NATIONAL_ID",
             "value": "28405100109876",
@@ -3188,28 +3170,29 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: What is the maximum damages liability the consultant can be held responsible for under the contract?\n\nClause 1: 1. Contractor. Mostafa El-Gendy, national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Total Contract Fee. The fixed fee for the engagement is [AMOUNT].\n\nClause 3: 3. [PERSON]. IBAN [ACCOUNT].\n\nClause 4: 4. Limitation of Liability. Neither party's aggregate liability under this Agreement shall exceed 100% of the Total Contract Fee paid under Clause 2, and neither party shall be liable for indirect or consequential damages.",
+        "outbound": "Question: What is the maximum damages liability the consultant can be held responsible for under the contract?\n\nClause 1: 1. Contractor. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Total Contract Fee. The fixed fee for the engagement is [AMOUNT].\n\nClause 3: 3. [PERSON_2]. IBAN [ACCOUNT].\n\nClause 4: 4. Limitation of Liability. Neither party's aggregate liability under this Agreement shall exceed 100% of the Total Contract Fee paid under Clause 2, and neither party shall be liable for indirect or consequential damages.",
         "receipt": {
           "found": {
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
-            "PERSON": 1,
             "IBAN": 1
           },
-          "foundTotal": 6,
+          "foundTotal": 7,
           "sharedTags": [
+            "[PERSON]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
             "[AMOUNT]",
-            "[PERSON]",
+            "[PERSON_2]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 6,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 565,
+          "charsSent": 559,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3239,11 +3222,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:12.918Z",
+      "recordedAt": "2026-11-22T20:20:33.715Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 12,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3391,11 +3374,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.048Z",
+      "recordedAt": "2026-11-22T20:20:33.836Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3458,25 +3441,19 @@
             "value": "EGP 95,000",
             "role": null,
             "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Warranty Terms",
-            "role": null,
-            "source": "rules"
           }
         ],
-        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 1: 1. Buyer. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], installation address [ADDRESS].\n\nClause 2: 2. [PERSON_2]. Total system cost is [AMOUNT].\n\nClause 3: 3. [PERSON_3]. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
+        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 1: 1. Buyer. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], installation address [ADDRESS].\n\nClause 2: 2. [PERSON_2]. Total system cost is [AMOUNT].\n\nClause 3: 3. Warranty Terms. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -3484,12 +3461,11 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[PERSON_2]",
-            "[AMOUNT]",
-            "[PERSON_3]"
+            "[AMOUNT]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 413,
+          "charsSent": 417,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3519,11 +3495,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.171Z",
+      "recordedAt": "2026-11-22T20:20:33.959Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 2,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3630,7 +3606,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.292Z",
+      "recordedAt": "2026-11-22T20:20:34.083Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3658,6 +3634,12 @@
         "entities": [
           {
             "type": "PERSON",
+            "value": "Tariq El-Sawy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
             "value": "Hanaa Maher",
             "role": null,
             "source": "rules"
@@ -3681,24 +3663,25 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How many days' notice is required to terminate the lease at the end of a contract year?\n\nClause 1: 1. Parties. Tariq El-Sawy (\"Landlord\") and [PERSON], mobile [PHONE] (\"Tenant\"), starting [DATE_1].\n\nClause 2: 2. Rent. Monthly rent is [AMOUNT].\n\nClause 3: 3. Notice. Either party may terminate at the end of a contract year by giving sixty (60) days' written notice.",
+        "outbound": "Question: How many days' notice is required to terminate the lease at the end of a contract year?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2], mobile [PHONE] (\"Tenant\"), starting [DATE_1].\n\nClause 2: 2. Rent. Monthly rent is [AMOUNT].\n\nClause 3: 3. Notice. Either party may terminate at the end of a contract year by giving sixty (60) days' written notice.",
         "receipt": {
           "found": {
-            "PERSON": 1,
+            "PERSON": 2,
             "PHONE": 1,
             "DATE": 1,
             "MONEY": 1
           },
-          "foundTotal": 4,
+          "foundTotal": 5,
           "sharedTags": [
             "[PERSON]",
+            "[PERSON_2]",
             "[PHONE]",
             "[DATE_1]",
             "[AMOUNT]"
           ],
-          "keptTotal": 4,
+          "keptTotal": 5,
           "sharedByUser": 0,
-          "charsSent": 375,
+          "charsSent": 372,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3728,11 +3711,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.420Z",
+      "recordedAt": "2026-11-22T20:20:34.210Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 2,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3846,7 +3829,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.538Z",
+      "recordedAt": "2026-11-22T20:20:34.329Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3942,11 +3925,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.667Z",
+      "recordedAt": "2026-11-22T20:20:34.446Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3964,8 +3947,14 @@
             "ms": 0
           }
         ],
-        "guardOk": true,
-        "leaks": [],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "common-area",
+            "type": "PERSON",
+            "index": 338
+          }
+        ],
         "entities": [
           {
             "type": "PERSON",
@@ -3996,26 +3985,33 @@
             "value": "EGP 9,000",
             "role": null,
             "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Common Area",
+            "role": null,
+            "source": "rules"
           }
         ],
-        "outbound": "Question: Who pays for routine building elevator maintenance under this lease?\n\nClause 1: 1. Parties. Lease signed between [PERSON] (\"Landlord\") and [PERSON_2], phone [PHONE] (\"Tenant\"), witnessed by [PERSON_3]. Monthly rent is [AMOUNT].\n\nClause 2: 2. Common Area Maintenance. The Landlord pays for elevator servicing, stair lighting, and common-area repairs; the Tenant pays only metered apartment electricity and gas.",
+        "outbound": "Question: Who pays for routine building elevator maintenance under this lease?\n\nClause 1: 1. Parties. Lease signed between [PERSON] (\"Landlord\") and [PERSON_2], phone [PHONE] (\"Tenant\"), witnessed by [PERSON_3]. Monthly rent is [AMOUNT].\n\nClause 2: 2. [PERSON_4] Maintenance. The Landlord pays for elevator servicing, stair lighting, and common-area repairs; the Tenant pays only metered apartment electricity and gas.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 4,
             "PHONE": 1,
             "MONEY": 1
           },
-          "foundTotal": 5,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
             "[PHONE]",
             "[PERSON_3]",
-            "[AMOUNT]"
+            "[AMOUNT]",
+            "[PERSON_4]"
           ],
-          "keptTotal": 5,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 419,
+          "charsSent": 418,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4045,7 +4041,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.793Z",
+      "recordedAt": "2026-11-22T20:20:34.569Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4141,11 +4137,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:13.918Z",
+      "recordedAt": "2026-11-22T20:20:34.694Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4245,11 +4241,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:14.042Z",
+      "recordedAt": "2026-11-22T20:20:34.817Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4270,6 +4266,12 @@
         "guardOk": true,
         "leaks": [],
         "entities": [
+          {
+            "type": "PERSON",
+            "value": "Seif El-Din",
+            "role": null,
+            "source": "rules"
+          },
           {
             "type": "CARD",
             "value": "4111 1111 1111 1111",
@@ -4296,7 +4298,7 @@
           },
           {
             "type": "PERSON",
-            "value": "Off Period",
+            "value": "Cooling-Off Period",
             "role": null,
             "source": "rules"
           },
@@ -4307,26 +4309,27 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I cancel my annual gym membership within 10 days of signing, do I get a full refund?\n\nClause 1: 1. Member & Billing. Member: Seif El-Din. Card billed: [CARD]. Term: [DATE_1] through [DATE_2]. Annual membership fee: [AMOUNT].\n\nClause 2: 2. Cooling-[PERSON]. The Member may cancel within 14 calendar days of the start date for a 100% refund minus [AMOUNT_2] if no personal training sessions were used.",
+        "outbound": "Question: If I cancel my annual gym membership within 10 days of signing, do I get a full refund?\n\nClause 1: 1. Member & Billing. Member: [PERSON]. Card billed: [CARD]. Term: [DATE_1] through [DATE_2]. Annual membership fee: [AMOUNT].\n\nClause 2: 2. [PERSON_2]. The Member may cancel within 14 calendar days of the start date for a 100% refund minus [AMOUNT_2] if no personal training sessions were used.",
         "receipt": {
           "found": {
+            "PERSON": 2,
             "CARD": 1,
             "DATE": 2,
-            "MONEY": 2,
-            "PERSON": 1
+            "MONEY": 2
           },
-          "foundTotal": 6,
+          "foundTotal": 7,
           "sharedTags": [
+            "[PERSON]",
             "[CARD]",
             "[DATE_1]",
             "[DATE_2]",
             "[AMOUNT]",
-            "[PERSON]",
+            "[PERSON_2]",
             "[AMOUNT_2]"
           ],
-          "keptTotal": 6,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 412,
+          "charsSent": 403,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4356,7 +4359,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:14.163Z",
+      "recordedAt": "2026-11-22T20:20:34.936Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4382,6 +4385,18 @@
         "leaks": [],
         "entities": [
           {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
             "type": "PHONE",
             "value": "+20 100 555 0192",
             "role": null,
@@ -4406,20 +4421,23 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: What is the maximum rent after the first annual increase?\n\nClause 1: 1. Contact. Landlord Karim Fathy leases to Tenant Mona Adel (primary phone [PHONE], SMS number [PHONE]).\n\nClause 2: 2. Rent Escalation. The starting rent is [AMOUNT] (also stated as [AMOUNT]). After 12 months, the Landlord may raise the rent by at most 10%.",
+        "outbound": "Question: What is the maximum rent after the first annual increase?\n\nClause 1: 1. Contact. Landlord [PERSON] leases to Tenant [PERSON_2] (primary phone [PHONE], SMS number [PHONE]).\n\nClause 2: 2. Rent Escalation. The starting rent is [AMOUNT] (also stated as [AMOUNT]). After 12 months, the Landlord may raise the rent by at most 10%.",
         "receipt": {
           "found": {
+            "PERSON": 2,
             "PHONE": 1,
             "MONEY": 1
           },
-          "foundTotal": 2,
+          "foundTotal": 4,
           "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
             "[PHONE]",
             "[AMOUNT]"
           ],
-          "keptTotal": 2,
+          "keptTotal": 4,
           "sharedByUser": 0,
-          "charsSent": 336,
+          "charsSent": 334,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4449,11 +4467,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:14.287Z",
+      "recordedAt": "2026-11-22T20:20:35.047Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4474,6 +4492,12 @@
         "guardOk": true,
         "leaks": [],
         "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
           {
             "type": "PERSON",
             "value": "Tenants Mona Adel",
@@ -4511,25 +4535,26 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 1: 1. Parties. Landlord Karim Fathy leases the apartment to Co-[PERSON] (phone [PHONE]) and [PERSON_2] (phone [PHONE_2]).\n\nClause 2: 2. Joint and [PERSON_3]. The total monthly rent is [AMOUNT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
+        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 1: 1. Parties. Landlord [PERSON] leases the apartment to Co-[PERSON_2] (phone [PHONE]) and [PERSON_3] (phone [PHONE_2]).\n\nClause 2: 2. Joint and [PERSON_4]. The total monthly rent is [AMOUNT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 4,
             "PHONE": 2,
             "MONEY": 1
           },
-          "foundTotal": 6,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
-            "[PHONE]",
             "[PERSON_2]",
-            "[PHONE_2]",
+            "[PHONE]",
             "[PERSON_3]",
+            "[PHONE_2]",
+            "[PERSON_4]",
             "[AMOUNT]"
           ],
-          "keptTotal": 6,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 448,
+          "charsSent": 447,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4559,11 +4584,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:14.411Z",
+      "recordedAt": "2026-11-22T20:20:35.171Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 2,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4699,11 +4724,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T19:25:14.538Z",
+      "recordedAt": "2026-11-22T20:20:35.298Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
