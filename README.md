@@ -7,7 +7,7 @@
   <a href="https://envoy-hybrid-ai.web.app/app?sample=lease">Two-minute test for judges</a> &nbsp;·&nbsp;
   <a href="#how-envoy-uses-firebase-ai-logic">Hybrid inference</a> &nbsp;·&nbsp;
   <a href="#the-guard">The guard</a> &nbsp;·&nbsp;
-  <a href="docs/EVAL.md">Measured results</a>
+  <a href="docs/MEASUREMENT.md">How it's measured</a>
 </p>
 
 # Envoy
@@ -111,7 +111,7 @@ Then, before anything is sent, the **outbound guard** ([`packages/core/src/guard
 
 ## Measured
 
-Every number names the model, its version, the date and the number of cases, and comes from real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic). The eval harness measures masking, leaks after the guard, a re-identification attack on what actually leaves the device, and answer quality compared with sending the whole document. Method and results: [docs/EVAL.md](docs/EVAL.md).
+Every number names the model, its version, the date and the number of cases, and comes from real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic). The eval harness measures masking, leaks after the guard, a re-identification attack on what actually leaves the device, and answer quality compared with sending the whole document. What every commit checks, and how the real-model evaluation works: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
 
 A note on models: neither Firebase AI Logic nor the Prompt API reports which on-device model Chrome used. Our development runs used Gemma 4 (`gemma4_component`, behind a developer-trial flag). Ordinary Chrome uses its default Gemini Nano, and the results are reported for each.
 
