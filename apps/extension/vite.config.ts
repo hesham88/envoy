@@ -13,6 +13,6 @@ export default defineConfig({
     emptyOutDir: true,
     target: 'es2022',
     sourcemap: true,
-    rollupOptions: { input: { sidepanel: 'sidepanel.html' } },
+    rollupOptions: { input: { sidepanel: 'sidepanel.html', popup: 'popup.html', offscreen: 'offscreen.html' } },
   },
 });

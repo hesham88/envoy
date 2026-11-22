@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite build --watch --mode extensiondev --outDir dist-dev",
-    "build": "vite build",
-    "build:dev": "vite build --mode extensiondev --outDir dist-dev",
+    "build": "vite build && vite build --config vite.content.config.ts",
+    "build:dev": "vite build --mode extensiondev --outDir dist-dev && vite build --mode extensiondev --outDir dist-dev --config vite.content.config.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "check:dist": "node ./scripts/verify-dist.mjs"
   },
