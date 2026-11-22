@@ -106,6 +106,15 @@ export function buildRows({
       analyzing && current === s && progress && progress.parts > 1
         ? `part ${progress.part} of ${progress.parts}`
         : undefined;
+    // The on-device model's own one-line reason, so its decisions are explained (PAIR: explain for understanding).
+    const why =
+      state === 'done' && analysis
+        ? s === 'minimize'
+          ? analysis.selectionReason
+          : s === 'route'
+            ? analysis.route.reason
+            : undefined
+        : undefined;
     rows.push({
       key: s,
       label: LABEL[s]!,
@@ -117,6 +126,7 @@ export function buildRows({
         ? { detail: basic ? 'No on-device model: Basic protection' : 'Not needed' }
         : {}),
       ...(parts ? { detail: parts } : {}),
+      ...(why ? { detail: why } : {}),
     });
   }
 
