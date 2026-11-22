@@ -157,3 +157,45 @@ describe('answer', () => {
     expect(out.receipt.charsSent).toBe(0);
   });
 });
+
+describe('review fixes I3/I4', () => {
+  it('falls back to Basic protection when the device step fails for another reason', async () => {
+    const { deps } = fakeDeps('available');
+    deps.runPrivate = vi.fn(async () => {
+      throw new Error('QuotaExceededError: input too large');
+    }) as unknown as Deps['runPrivate'];
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    expect(a.mode).toBe('basic');
+    expect(a.guard.ok).toBe(true);
+  });
+
+  it('treats a blocked cloud request during a private step as fatal, even if the SDK rewraps the error', async () => {
+    const { deps } = fakeDeps('available');
+    deps.runPrivate = vi.fn(async () => {
+      networkLog.record({ at: Date.now(), step: 'tripwire', target: 'cloud', blocked: true, payload: 'raw' });
+      throw new Error('AIError: fetch failed');
+    }) as unknown as Deps['runPrivate'];
+    await expect(analyze(EN_LEASE.text, QUESTION, deps)).rejects.toMatchObject({ name: 'PrivacyViolationError' });
+  });
+
+  it('keeps every on-device prompt within the token budget, even for one giant paragraph', async () => {
+    const { deps, runPrivate } = fakeDeps('available');
+    const giant = Array.from({ length: 3000 }, (_, i) => `Line ${i}: the tenant Mona Adel pays rent.`).join(' ');
+    await analyze(giant, QUESTION, deps);
+    for (const call of runPrivate.mock.calls) expect(Math.ceil((call[1] as string).length / 4)).toBeLessThanOrEqual(6000);
+  });
+
+  it('in Basic protection flags names in capitals, with particles or titles', async () => {
+    const doc = '1. Parties. AHMED HASSAN rents from Dr. Omar and Mohamed El Sayed, witnessed by Nour Al Din.';
+    const a = await analyze(doc, QUESTION, fakeDeps('no-api').deps);
+    const flagged = a.flaggedForReview.map((e) => e.value);
+    expect(flagged).toEqual(expect.arrayContaining(['AHMED HASSAN', 'Dr. Omar', 'Mohamed El Sayed', 'Nour Al Din']));
+    expect(a.outbound).not.toMatch(/AHMED|Omar|Sayed|Nour/);
+  });
+
+  it('passes the known tags to the guard so bracketed raw text is still caught', async () => {
+    const { deps } = fakeDeps('available');
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    await expect(answer(a, `${a.outbound}\nTenant: [MONA_ADEL]`, deps)).rejects.toBeInstanceOf(OutboundBlockedError);
+  });
+});

@@ -104,3 +104,11 @@ describe('maskText', () => {
     expect(maskText(text, entities, assignTags(entities))).toBe('Call [PHONE] or [PHONE].');
   });
 });
+
+describe('review fix I1: L.E. amounts', () => {
+  it('reads amounts written with L.E.', () => {
+    expect(canonical('L.E. 12,000', 'MONEY')).toBe('EGP:12000');
+    expect(canonical('8,500.00 L.E.', 'MONEY')).toBe(canonical('EGP 8,500', 'MONEY'));
+    expect(canonical('L.E. 500', 'MONEY')).not.toBe(canonical('L.E. 12,000', 'MONEY'));
+  });
+});

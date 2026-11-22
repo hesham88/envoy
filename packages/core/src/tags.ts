@@ -22,13 +22,13 @@ export function canonical(value: string, type: EntityType): string {
     }
     case 'MONEY': {
       const currency = CURRENCY_CODES.find(([re]) => re.test(value))?.[1] ?? '';
-      const num = value.replace(/[^\d.]/g, '').replace(/\.$/, '');
-      return `${currency}:${Number(num)}`;
+      const num = value.match(/(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?/)?.[0] ?? '';
+      return `${currency}:${Number(num.replace(/,/g, ''))}`;
     }
     case 'IBAN':
     case 'NATIONAL_ID':
     case 'CARD':
-      return value.replace(/[\s-]/g, '').toUpperCase();
+      return value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
     case 'EMAIL':
       return value.trim().toLowerCase();
     default:

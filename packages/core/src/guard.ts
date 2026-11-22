@@ -13,11 +13,31 @@ export interface Leak {
   index: number;
 }
 
-const TAG = /\[[A-Z0-9_]+\]/g;
+const TAG = /\[[A-Z][A-Z0-9_]*\]/g;
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-/** Tags are replaced by spaces of the same length, so offsets stay true and tags never count as leaks. */
-const withoutTags = (text: string) => text.replace(TAG, (t) => ' '.repeat(t.length));
+/**
+ * Tags are replaced by spaces of the same length, so offsets stay true and tags never count as leaks.
+ * With `knownTags`, only tags that really exist are blanked: `[MONA_ADEL]` typed by hand is still checked.
+ */
+const withoutTags = (text: string, knownTags?: Iterable<string>) => {
+  const known = knownTags ? new Set(knownTags) : null;
+  return text.replace(TAG, (t) => (!known || known.has(t) ? ' '.repeat(t.length) : t));
+};
+
+/** Keeps only the characters `keep` accepts, with a map back to their original offsets. */
+function compact(text: string, keep: RegExp): { out: string; map: number[] } {
+  let out = '';
+  const map: number[] = [];
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i]!;
+    if (keep.test(ch)) {
+      out += ch.toUpperCase();
+      map.push(i);
+    }
+  }
+  return { out, map };
+}
 
 function findWords(text: string, value: string, type: EntityType): Leak[] {
   const words = canonical(value, type).split(' ').filter(Boolean);
@@ -26,16 +46,19 @@ function findWords(text: string, value: string, type: EntityType): Leak[] {
   return [...text.matchAll(re)].map((m) => ({ value: m[0], type, index: m.index }));
 }
 
+/** Finds a protected number however it's punctuated, by searching a digits-only (or alphanumeric) copy. */
 function findCodes(text: string, value: string, type: EntityType): Leak[] {
   let needle = canonical(value, type);
   if (type === 'PHONE') needle = needle.replace(/^0/, '');
   if (needle.length < 6) return [];
-  const out: Leak[] = [];
-  for (const m of text.matchAll(/[+\dA-Za-z][\dA-Za-z -]{4,}[\dA-Za-z]/g)) {
-    const run = type === 'PHONE' ? m[0].replace(/\D/g, '') : m[0].replace(/[\s-]/g, '').toUpperCase();
-    if (run.includes(needle)) out.push({ value: m[0].trim(), type, index: m.index });
+  const { out, map } = compact(text, type === 'PHONE' ? /\d/ : /[A-Za-z0-9]/);
+  const leaks: Leak[] = [];
+  for (let i = out.indexOf(needle); i !== -1; i = out.indexOf(needle, i + needle.length)) {
+    const start = map[i]!;
+    const end = map[i + needle.length - 1]! + 1;
+    leaks.push({ value: text.slice(start, end), type, index: start });
   }
-  return out;
+  return leaks;
 }
 
 function findAmount(text: string, value: string): Leak[] {
@@ -48,8 +71,12 @@ function findAmount(text: string, value: string): Leak[] {
   return out;
 }
 
-export function checkOutbound(outbound: string, protectedEntities: Entity[]): { ok: boolean; leaks: Leak[] } {
-  const text = withoutTags(outbound);
+export function checkOutbound(
+  outbound: string,
+  protectedEntities: Entity[],
+  opts: { knownTags?: Iterable<string> } = {},
+): { ok: boolean; leaks: Leak[] } {
+  const text = withoutTags(outbound, opts.knownTags);
   const found: Leak[] = detectWithRules(text).map((e) => ({ value: e.value, type: e.type, index: e.start }));
 
   for (const p of protectedEntities) {

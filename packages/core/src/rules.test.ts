@@ -106,3 +106,22 @@ describe('detectWithRules', () => {
     expect(count(t, 'ADDRESS')).toBeGreaterThanOrEqual(1);
   });
 });
+
+describe('review fix C1: separators', () => {
+  it('finds numbers written with dots, brackets or slashes', () => {
+    for (const [text, type] of [
+      ['Call (010) 1234 5678 today.', 'PHONE'],
+      ['Call 010.1234.5678 today.', 'PHONE'],
+      ['Call +20 (100) 555-0192 today.', 'PHONE'],
+      ['ID 2950.3140.1012.34 here.', 'NATIONAL_ID'],
+      ['Card 4111.1111.1111.1111 here.', 'CARD'],
+      ['IBAN EG38-0019-0005-0000-0000-2631-8000-2 here.', 'IBAN'],
+    ] as const) {
+      expect(detectWithRules(text).map((e) => e.type), text).toContain(type);
+    }
+  });
+
+  it('still does not read dates as phone numbers', () => {
+    expect(count('Starts 01/09/2024 and 2024-09-01.', 'PHONE')).toBe(0);
+  });
+});

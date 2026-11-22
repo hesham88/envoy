@@ -27,3 +27,10 @@ describe('readFirebaseEnv', () => {
     expect(readFirebaseEnv(rest).recaptchaSiteKey).toBe('');
   });
 });
+
+describe('review fix I2: debug token', () => {
+  it('never returns the App Check debug token outside development', () => {
+    expect(readFirebaseEnv({ ...full, VITE_APPCHECK_DEBUG_TOKEN: 'secret' }, { dev: false }).appCheckDebugToken).toBeUndefined();
+    expect(readFirebaseEnv({ ...full, VITE_APPCHECK_DEBUG_TOKEN: 'secret' }, { dev: true }).appCheckDebugToken).toBe('secret');
+  });
+});

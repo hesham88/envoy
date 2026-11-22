@@ -8,6 +8,30 @@ export function estimateTokens(s: string): number {
   return Math.ceil(s.length / 4);
 }
 
+/**
+ * Splits one chunk into pieces of at most `maxChars`, preferring sentence or line breaks,
+ * keeping the chunk's id/label/page and exact source offsets. Used to fit the on-device budget.
+ */
+export function splitChunk(chunk: Chunk, maxChars: number): Chunk[] {
+  if (chunk.text.length <= maxChars) return [chunk];
+  const parts: Chunk[] = [];
+  let from = 0;
+  const t = chunk.text;
+  while (from < t.length) {
+    let to = Math.min(from + maxChars, t.length);
+    if (to < t.length) {
+      const window = t.slice(from, to);
+      const cut = Math.max(window.lastIndexOf('. '), window.lastIndexOf('\n'), window.lastIndexOf('; '));
+      if (cut > maxChars * 0.3) to = from + cut + 1;
+    }
+    let s = from;
+    while (s < to && /\s/.test(t[s]!)) s++;
+    if (s < to) parts.push({ ...chunk, text: t.slice(s, to), start: chunk.start + s, end: chunk.start + to });
+    from = to;
+  }
+  return parts;
+}
+
 interface Marker {
   start: number;
   end: number;

@@ -22,6 +22,7 @@ import {
   parseMinimizeResponse,
   parseRouteResponse,
   restoreAnswer,
+  splitChunk,
   type Chunk,
   type Entity,
   type Leak,
@@ -31,7 +32,7 @@ import {
   type Step,
   type TagMap,
 } from '@envoy/core';
-import { DeviceUnavailableError, type DeviceStatus, type runPrivate as RunPrivate } from './device-guard';
+import { PrivacyViolationError, type DeviceStatus, type runPrivate as RunPrivate } from './device-guard';
 import { networkLog } from './network-log';
 
 export interface Deps {
@@ -54,6 +55,8 @@ export interface Analysis {
   mode: 'private' | 'basic';
   flaggedForReview: Entity[];
   steps: ReceiptStep[];
+  /** Why a run that wanted private mode fell back to Basic protection, if it did. */
+  fallbackReason: string | null;
 }
 
 export class OutboundBlockedError extends Error {
@@ -67,9 +70,12 @@ const MAX_TOKENS = 6000;
 
 /** Greedy batches of chunks whose prompt stays within the token budget. */
 function batchChunks(chunks: Chunk[], build: (batch: Chunk[]) => string, maxTokens: number): Chunk[][] {
+  const overhead = estimateTokens(build([]));
+  const maxChars = Math.max(200, (maxTokens - overhead - 64) * 4);
+  const fitted = chunks.flatMap((c) => splitChunk(c, maxChars));
   const batches: Chunk[][] = [];
   let current: Chunk[] = [];
-  for (const c of chunks) {
+  for (const c of fitted) {
     const next = [...current, c];
     if (current.length > 0 && estimateTokens(build(next)) > maxTokens) {
       batches.push(current);
@@ -102,20 +108,32 @@ export async function selectClausesBatched(
 }
 
 const NAME_STOPWORDS = new Set(
-  'The This That These Those Either Each Any Both All Residential Lease Agreement Landlord Tenant Premises Arab Republic Egypt Cairo Maadi Road Street Clause Clauses Rent Deposit Utilities Maintenance Payment Entry Termination Notices Governing Signed Building Flat Use Parties Term January February March April May June July August September October November December'.split(
+  'the this that these those either each any both all residential lease agreement landlord tenant premises arab republic egypt cairo maadi road street clause clauses rent deposit utilities maintenance payment entry termination notices governing signed building flat use parties term contract notice page january february march april may june july august september october november december monday tuesday wednesday thursday friday saturday sunday'.split(
     ' ',
   ),
 );
 
-/** Basic protection: person-like name pairs the rules can't know about, flagged and masked by default. */
+/** Person-like names the rules can't know about (Basic protection): flagged, and masked by default. */
+const NAME_PATTERNS: RegExp[] = [
+  // Title + name: "Dr. Omar", "Mrs Hala Samir"
+  /\b(?:Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g,
+  // Capitalised names, allowing Arabic-name particles: "Mohamed El Sayed", "Nour Al Din", "Karim Fathy"
+  /\b[A-Z][a-z]{2,}(?:\s+(?:El|Al|Abdel|Abd|Abu|Bin|Ibn|de|van|von))?(?:\s+[A-Z][a-z]{2,})+/g,
+  // Names in capitals: "AHMED HASSAN"
+  /\b[A-Z]{3,}(?:\s+[A-Z]{3,})+\b/g,
+];
+
 function flagNames(text: string, taken: Entity[]): Entity[] {
   const out: Entity[] = [];
-  for (const m of text.matchAll(/\b([A-Z][a-z]{2,})\s+([A-Z][a-z]{2,})\b/g)) {
-    if (NAME_STOPWORDS.has(m[1]!) || NAME_STOPWORDS.has(m[2]!)) continue;
-    const e: Entity = { type: 'PERSON', value: m[0], start: m.index, end: m.index + m[0].length, confidence: 0.4, source: 'rules' };
-    if (!taken.some((t) => t.start < e.end && e.start < t.end)) out.push(e);
+  for (const [i, re] of NAME_PATTERNS.entries()) {
+    for (const m of text.matchAll(re)) {
+      const words = m[0].split(/\s+/).filter((w) => !/^(Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?$/.test(w));
+      if (i > 0 && words.some((w) => NAME_STOPWORDS.has(w.toLowerCase()))) continue;
+      const e: Entity = { type: 'PERSON', value: m[0], start: m.index, end: m.index + m[0].length, confidence: 0.4, source: 'rules' };
+      if (![...taken, ...out].some((t) => t.start < e.end && e.start < t.end)) out.push(e);
+    }
   }
-  return out;
+  return out.sort((a, b) => a.start - b.start);
 }
 
 function maskChunk(c: Chunk, entities: Entity[], tags: TagMap): string {
@@ -145,7 +163,9 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
   let selection = { ids: chunks.map((c) => c.id), reason: 'Basic protection: every clause is included, masked.' };
   let route = { local: false, reason: 'Basic protection: questions go to the reasoning step, masked.' };
 
+  let fallbackReason: string | null = null;
   if (mode === 'private') {
+    const blockedBefore = networkLog.entries.filter((x) => x.blocked).length;
     try {
       const run = async (step: Step, prompt: string) => {
         const r = await deps.runPrivate(deps.models[step], prompt, step);
@@ -163,9 +183,18 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
       entities = mergeEntities(rules, nano);
       selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
       const selected = chunks.filter((c) => selection.ids.includes(c.id));
-      route = parseRouteResponse(await run('route', buildRoutePrompt(question, selected))) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' };
+      const routePrompt = buildRoutePrompt(question, selected);
+      route =
+        estimateTokens(routePrompt) > MAX_TOKENS
+          ? { local: false, reason: 'Too much text for an on-device check, so it goes to the reasoning step, masked.' }
+          : (parseRouteResponse(await run('route', routePrompt)) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' });
     } catch (e) {
-      if (!(e instanceof DeviceUnavailableError)) throw e;
+      // A blocked cloud request is fatal however the SDK wraps the error (it rewraps fetch failures).
+      const blockedNow = networkLog.entries.filter((x) => x.blocked).length;
+      if (e instanceof PrivacyViolationError || blockedNow > blockedBefore) {
+        throw new PrivacyViolationError('A private step tried to reach the cloud. Nothing was sent; the analysis stopped.');
+      }
+      fallbackReason = `The on-device model stopped (${(e as Error).message}), so this run uses Basic protection.`;
       mode = 'basic';
       steps.length = 0;
       entities = rules;
@@ -185,7 +214,7 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
   const outbound = [`Question: ${maskQuestion(question, entities, tags)}`, ...selected.map((c) => `${c.label}: ${maskChunk(c, entities, tags)}`)].join(
     '\n\n',
   );
-  const guard = checkOutbound(outbound, entities);
+  const guard = checkOutbound(outbound, entities, { knownTags: tags.entries().map((t) => t.tag) });
   const receipt = buildReceipt({ entities, outbound, chunksSent: selected, chunksAll: chunks, steps: [...steps], mode });
 
   return {
@@ -202,6 +231,7 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
     mode,
     flaggedForReview: flagged,
     steps,
+    fallbackReason,
   };
 }
 
@@ -220,7 +250,7 @@ export async function answer(
   approvedOutbound: string,
   deps: Deps,
 ): Promise<{ text: string; spans: RestoredSpan[]; source: 'on_device' | 'in_cloud'; lighter: boolean; receipt: Receipt }> {
-  const check = checkOutbound(approvedOutbound, analysis.entities);
+  const check = checkOutbound(approvedOutbound, analysis.entities, { knownTags: analysis.tags.entries().map((t) => t.tag) });
   if (!check.ok) throw new OutboundBlockedError(check.leaks);
 
   const selected = analysis.chunks.filter((c) => analysis.selectedIds.includes(c.id));

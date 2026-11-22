@@ -10,7 +10,7 @@ import type { Entity, EntityType } from './types';
 const IBAN_LENGTHS: Record<string, number> = { EG: 29, GB: 22, DE: 22, FR: 27, AE: 23, SA: 24, NL: 18, ES: 24, IT: 27 };
 
 export function isValidIban(raw: string): boolean {
-  const s = raw.replace(/\s+/g, '').toUpperCase();
+  const s = raw.replace(/[\s.-]+/g, '').toUpperCase();
   if (!/^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(s)) return false;
   const expected = IBAN_LENGTHS[s.slice(0, 2)];
   if (expected !== undefined && s.length !== expected) return false;
@@ -24,7 +24,7 @@ export function isValidIban(raw: string): boolean {
 }
 
 export function isLuhn(raw: string): boolean {
-  const digits = raw.replace(/[\s-]/g, '');
+  const digits = raw.replace(/[\s.-]/g, '');
   if (!/^\d{13,19}$/.test(digits)) return false;
   let sum = 0;
   for (let i = 0; i < digits.length; i++) {
@@ -42,7 +42,7 @@ const GOVERNORATES = new Set(['01', '02', '03', '04', '88', ...Array.from({ leng
 
 /** Structure check only (century, birth date, governorate); the final check digit is not verified. */
 export function isEgyptianNationalId(raw: string): boolean {
-  const s = raw.replace(/\s+/g, '');
+  const s = raw.replace(/[\s.-]+/g, '');
   if (!/^[23]\d{13}$/.test(s)) return false;
   const century = s[0] === '2' ? 1900 : 2000;
   const year = century + Number(s.slice(1, 3));
@@ -75,10 +75,10 @@ const DETECTORS: Detector[] = [
     type: 'IBAN',
     priority: 0,
     confidence: 0.99,
-    pattern: /\b[A-Z]{2}\d{2}(?: ?[A-Z0-9]{4}){2,7}(?: ?[A-Z0-9]{1,4})?\b/g,
+    pattern: /\b[A-Z]{2}\d{2}(?:[ .-]?[A-Z0-9]{4}){2,7}(?:[ .-]?[A-Z0-9]{1,4})?\b/g,
     accept: (v) => {
       if (isValidIban(v)) return v;
-      const shorter = v.replace(/ ?[A-Z0-9]{1,4}$/, '');
+      const shorter = v.replace(/[ .-]?[A-Z0-9]{1,4}$/, '');
       return shorter !== v && isValidIban(shorter) ? shorter : null;
     },
   },
@@ -86,7 +86,7 @@ const DETECTORS: Detector[] = [
     type: 'NATIONAL_ID',
     priority: 1,
     confidence: 0.97,
-    pattern: /(?<!\d)[23]\d{3} ?\d{4} ?\d{4} ?\d{2}(?!\d)/g,
+    pattern: /(?<!\d)[23]\d{3}[ .-]?\d{4}[ .-]?\d{4}[ .-]?\d{2}(?!\d)/g,
     accept: (v) => (isEgyptianNationalId(v) ? v : null),
   },
   {
@@ -95,15 +95,16 @@ const DETECTORS: Detector[] = [
     confidence: 0.95,
     pattern: /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g,
   },
-  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /\+[1-9]\d{0,2}(?:[ -]?\d){6,13}(?!\d)/g },
-  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /(?<!\d)00[1-9]\d{0,2}(?:[ -]?\d){6,13}(?!\d)/g },
-  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /(?<!\d)01[0125](?:[ -]?\d){8}(?!\d)/g },
-  { type: 'PHONE', priority: 3, confidence: 0.85, pattern: /(?<!\d)0[23](?:[ -]?\d){8}(?!\d)/g },
+  // Separators people use in numbers: space . - / ( ) — at most two between digits.
+  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /\+[1-9]\d{0,2}(?:[ .\-/()]{0,2}\d){6,13}(?!\d)/g },
+  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /(?<!\d)00[1-9]\d{0,2}(?:[ .\-/()]{0,2}\d){6,13}(?!\d)/g },
+  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /(?<![\d(])\(?01[0125]\)?(?:[ .\-/]{0,2}\d){8}(?!\d)/g },
+  { type: 'PHONE', priority: 3, confidence: 0.85, pattern: /(?<![\d(])\(?0[23]\)?(?:[ .\-/]{0,2}\d){8}(?!\d)/g },
   {
     type: 'CARD',
     priority: 4,
     confidence: 0.97,
-    pattern: /(?<!\d)(?:\d[ -]?){12,18}\d(?!\d)/g,
+    pattern: /(?<!\d)(?:\d[ .-]?){12,18}\d(?!\d)/g,
     accept: (v) => (isLuhn(v) ? v : null),
   },
   {

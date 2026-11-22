@@ -53,3 +53,20 @@ describe('checkOutbound', () => {
     expect(checkOutbound('Clause 7 allows 10% after 60 days.', PROTECTED).ok).toBe(true);
   });
 });
+
+describe('review fix C1: guard', () => {
+  it('catches a protected phone retyped with dots or brackets', () => {
+    for (const t of ['Call 0100.555.0192', 'Call (0100) 555 0192', 'Call 0100/555/0192']) {
+      expect(checkOutbound(t, PROTECTED).ok, t).toBe(false);
+    }
+  });
+
+  it('does not treat bracketed raw values as tags', () => {
+    expect(checkOutbound('ID [29503140101234]', PROTECTED).ok).toBe(false);
+    expect(checkOutbound('Tenant [MONA_ADEL]', PROTECTED, { knownTags: ['[RENT]'] }).ok).toBe(false);
+  });
+
+  it('still lets real tags through when they are known', () => {
+    expect(checkOutbound('[RENT] and [LANDLORD]', PROTECTED, { knownTags: ['[RENT]', '[LANDLORD]'] }).ok).toBe(true);
+  });
+});

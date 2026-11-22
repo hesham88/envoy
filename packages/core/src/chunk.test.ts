@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { chunkDocument, estimateTokens } from './chunk';
+import { chunkDocument, estimateTokens, splitChunk } from './chunk';
 
 const DOC = `RESIDENTIAL LEASE
 This lease is made between the parties below.
@@ -73,5 +73,24 @@ describe('estimateTokens', () => {
   it('uses about four characters per token', () => {
     expect(estimateTokens('abcd')).toBe(1);
     expect(estimateTokens('abcde')).toBe(2);
+  });
+});
+
+describe('review fix I3: oversized chunks', () => {
+  it('splits a chunk longer than the limit at sentence boundaries, keeping offsets and the id', () => {
+    const text = Array.from({ length: 400 }, (_, i) => `Sentence number ${i} talks about the lease.`).join(' ');
+    const [only] = chunkDocument(text);
+    const parts = splitChunk(only!, 1000);
+    expect(parts.length).toBeGreaterThan(1);
+    for (const p of parts) {
+      expect(p.text.length).toBeLessThanOrEqual(1000);
+      expect(text.slice(p.start, p.end)).toBe(p.text);
+      expect(p.id).toBe(only!.id);
+    }
+  });
+
+  it('hard-splits a run with no sentence breaks', () => {
+    const [only] = chunkDocument('x'.repeat(5000));
+    expect(splitChunk(only!, 1000).every((p) => p.text.length <= 1000)).toBe(true);
   });
 });
