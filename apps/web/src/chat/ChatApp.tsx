@@ -43,6 +43,7 @@ interface Turn {
   session: SessionState;
   progress: AnalyzeProgress | null;
   localOnly: boolean;
+  startedAt: number;
   /** The message itself was the document (no attachment). */
   inline: boolean;
 }
@@ -166,11 +167,19 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
     );
     setTurns((ts) => [
       ...ts,
-      { id, session: { ...start, question: message }, progress: null, localOnly, inline },
+      {
+        id,
+        session: { ...start, question: message },
+        progress: null,
+        localOnly,
+        inline,
+        startedAt: Date.now(),
+      },
     ]);
     setDraft('');
     const dispatch = dispatchTo(id);
     try {
+      await runtime.warmUp?.(); // never two on-device sessions at once
       const analysis = await analyze(turnDoc.text, question, runtime.deps, {
         onProgress: (p) => update(id, (t) => ({ ...t, progress: p })),
         customRules: rules,
@@ -415,6 +424,7 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
             </label>
             <textarea
               id="envoy-composer"
+              onFocus={() => void runtime.warmUp?.()}
               value={draft}
               rows={1}
               placeholder={
@@ -547,6 +557,7 @@ function TurnView({
       </div>
       <div className="flex flex-col gap-3">
         <FlightRecorder
+          startedAt={turn.startedAt}
           phase={s.phase}
           progress={turn.progress}
           analysis={s.analysis}

@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   SkipForward,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import type { AnalyzeProgress, Analysis } from '@envoy/ai';
 import type { ReceiptStep, Step } from '@envoy/core';
 import type { AnswerResult, Phase } from '../app/session';
@@ -211,8 +212,16 @@ function StateIcon({ state }: { state: RowState }) {
   );
 }
 
-export function FlightRecorder(props: FlightInput & { open?: boolean }) {
+export function FlightRecorder(props: FlightInput & { open?: boolean; startedAt?: number }) {
   const rows = buildRows(props);
+  const running = props.phase === 'analyzing' || props.phase === 'sending';
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!running) return;
+    const t = window.setInterval(() => setNow(Date.now()), 200);
+    return () => window.clearInterval(t);
+  }, [running]);
+  const elapsed = running && props.startedAt ? Math.max(0, now - props.startedAt) : null;
   const total = rows.reduce((a, r) => a + (r.ms ?? 0), 0);
   const cloudRow = rows.find((r) => r.key === 'reason');
   return (
@@ -228,7 +237,11 @@ export function FlightRecorder(props: FlightInput & { open?: boolean }) {
             : props.result
               ? 'No cloud calls'
               : 'Recording'}
-          {total > 0 ? `, ${(total / 1000).toFixed(1)} s` : ''}
+          {elapsed !== null
+            ? `, ${(elapsed / 1000).toFixed(1)} s`
+            : total > 0
+              ? `, ${(total / 1000).toFixed(1)} s`
+              : ''}
         </span>
       </summary>
       <ol className="m-0 list-none border-t border-line p-0">

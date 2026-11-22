@@ -94,6 +94,28 @@ export function createStepModel(ai: AI, step: Step, settings: RemoteSettings, sc
 - **The on-device model download** starts from a click (`initializeDeviceModel` needs a user gesture), with progress in the app.
 - **Every result names its source:** `response.inferenceSource` is checked on every call and shown in the flight recorder.
 
+Five models, four on the device and one for the cloud, and where each piece lives:
+
+| What | Code |
+| --- | --- |
+| `getAI` with App Check limited-use tokens | [`firebase.ts:44`](packages/ai/src/firebase.ts#L44) |
+| The mode per step: `detect`, `minimize`, `route`, `answerLocal` use `ONLY_ON_DEVICE`; `reason` uses `PREFER_IN_CLOUD` | [`models.ts:22`](packages/ai/src/models.ts#L22), [`models.ts:27`](packages/ai/src/models.ts#L27) |
+| Remote Config: `cloud_model`, `prompt_version` | [`remote.ts:20`](packages/ai/src/remote.ts#L20) |
+| On-device model download from a click (`initializeDeviceModel`) | [`useEnvoy.ts:78`](apps/web/src/app/useEnvoy.ts#L78) |
+| The device guard: availability check, network tripwire, `inferenceSource` assertion | [`device-guard.ts:78`](packages/ai/src/device-guard.ts#L78), [`:104`](packages/ai/src/device-guard.ts#L104), [`:131`](packages/ai/src/device-guard.ts#L131), [`:140`](packages/ai/src/device-guard.ts#L140) |
+| The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags) | [`pipeline.ts:177`](packages/ai/src/pipeline.ts#L177), [`:304`](packages/ai/src/pipeline.ts#L304), [`:329`](packages/ai/src/pipeline.ts#L329) |
+
+To see the guard catch firebase-js-sdk #10635 yourself, open [`/dev`](https://envoy-hybrid-ai.web.app/dev) and press **Simulate missing LanguageModel**: the private step is blocked instead of silently going to the cloud.
+
+### Why not just redact?
+
+A typical scrubber replaces everything with `[REDACTED]` and still sends the whole document. The cloud loses who is who, and gets far more than it needs. Envoy delegates instead:
+
+- **Tags keep meaning.** Karim Fathy becomes `[LANDLORD]` and EGP 8,500 becomes `[RENT]`, so the cloud can still reason about who owes what.
+- **Only what the question needs is sent.** For the rent question, the on-device model keeps the rent clause; the clause with the bank account never leaves.
+- **The cloud never sees the result either.** It writes `{{RENT * 1.10}}` and Envoy works out EGP 9,350 on your device ([`expr.ts`](packages/core/src/expr.ts)).
+- **Some questions never go to the cloud.** "When does my lease end?" is answered on the device, with 0 bytes sent.
+
 <img src="docs/img/brand/section-guard.png" alt="We don't trust the default." width="100%">
 
 ## The guard
