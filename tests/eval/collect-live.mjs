@@ -1,24 +1,32 @@
 #!/usr/bin/env node
 /**
- * Live on-device model collector for `tests/eval/probes/nano-cache.json`.
+ * Live evaluation collector — runs the REAL Envoy product pipeline (`@envoy/ai` `analyze()` and
+ * optionally `answer()`) through Firebase AI Logic hybrid inference via `scripts/lib/envoy-browser.mjs`
+ * (`connectEnvoyPage`, `runCase`, `runCases`).
  *
- * Connects to Chrome over CDP (port 9333), runs the REAL on-device model via Firebase AI Logic
- * (`InferenceMode.ONLY_ON_DEVICE` through `@envoy/ai`'s `runPrivate` + `withSessionCleanup`),
- * and records the raw, unaltered JSON responses + timings + exact model component & version
- * from `chrome://on-device-internals` for every case in `tests/eval/cases.json`.
+ * Never recomposes anything outside `analyze()`. Every cached entry stores the verbatim `runCase()`
+ * result object under `source: 'live'` alongside exact model metadata (`component`, `version`, `label`),
+ * `backend`, and `recordedAt`.
+ *
+ * Arms:
+ *   --arm gemma4  -> F:\ChromeEnvoy on CDP 9333 (`gemma4_component` `2026.11.3.1140`, CPU backend)
+ *   --arm nano    -> F:\ChromeEnvoyNano on CDP 9333 (default Gemini Nano component + version)
+ *   --arm basic   -> Headless Chromium on an isolated CDP port (LanguageModel unavailable -> Basic protection)
  *
  * Usage:
- *   node tests/eval/collect-live.mjs --component gemma4_component --version 2026.11.3.1140 --label "Gemma 4" [--limit 36] [--offset 0] [--force]
+ *   node tests/eval/collect-live.mjs --arm basic --port 5174
+ *   node tests/eval/collect-live.mjs --arm gemma4 --component gemma4_component --version 2026.11.3.1140 --label "Gemma 4" --port 5174 [--with-answer] [--cooldown 2000]
+ *   node tests/eval/collect-live.mjs --arm nano --component <comp> --version <ver> --label "Gemini Nano (default)" --port 5174
  */
 import { chromium } from 'playwright-core';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { connectEnvoyPage, runCase } from '../../scripts/lib/envoy-browser.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = resolve(__dirname, '../..').replace(/\\/g, '/');
 const CASES_PATH = resolve(__dirname, 'cases.json');
-const CACHE_PATH = resolve(__dirname, 'probes/nano-cache.json');
+const ARMS_DIR = resolve(__dirname, 'probes/arms');
 
 const argv = process.argv.slice(2);
 const args = {};
@@ -35,273 +43,174 @@ for (let i = 0; i < argv.length; i++) {
   }
 }
 
-const modelComponent = args.component ?? 'gemma4_component';
-const modelVersion = args.version ?? '2026.11.3.1140';
-const modelLabel = args.label ?? (modelComponent === 'gemma4_component' ? 'Gemma 4' : 'Gemini Nano (default)');
-const backend = args.backend ?? 'cpu (OnDeviceModelForceCpuBackend)';
+const arm = args.arm ?? 'gemma4';
+const port = Number(args.port ?? 5174);
+const appUrl = args.url ?? `http://localhost:${port}/`;
 const detectScope = args.scope ?? 'selected';
-const cdpUrl = args.cdp ?? 'http://127.0.0.1:9333';
+const withAnswer = args['with-answer'] === 'true';
+const cooldownMs = Number(args.cooldown ?? (arm === 'basic' ? 100 : 2000));
 const force = args.force === 'true';
 const offset = Number(args.offset ?? 0);
 const limit = Number(args.limit ?? 999);
 const onlyIds = args.ids ? new Set(args.ids.split(',').map((s) => s.trim()).filter(Boolean)) : null;
 
-async function resolveTargetUrl() {
-  if (args.url) return args.url.endsWith('/') ? args.url : `${args.url}/`;
-  if (args.port) return `http://localhost:${args.port}/`;
-  for (const port of [5174, 5173, 5175]) {
-    try {
-      const r = await fetch(`http://localhost:${port}/src/app/useEnvoy.ts`);
-      if (r.ok) return `http://localhost:${port}/`;
-    } catch {
-      // try next port
-    }
-  }
-  throw new Error('No running Vite dev server found on ports 5174, 5173, or 5175.');
-}
+const ARM_DEFAULTS = {
+  gemma4: {
+    label: 'Gemma 4 (on-device + cloud)',
+    model: {
+      component: args.component ?? 'gemma4_component',
+      version: args.version ?? '2026.11.3.1140',
+      label: args.label ?? 'Gemma 4',
+    },
+    backend: args.backend ?? 'cpu (OnDeviceModelForceCpuBackend)',
+  },
+  nano: {
+    label: 'Default Gemini Nano (on-device + cloud)',
+    model: {
+      component: args.component ?? 'optimization_guide_on_device_model',
+      version: args.version ?? 'unknown',
+      label: args.label ?? 'Gemini Nano (default)',
+    },
+    backend: args.backend ?? 'chrome-default',
+  },
+  basic: {
+    label: 'Basic protection (rules + guard, no on-device model)',
+    model: null,
+    backend: 'rules-only (LanguageModel unavailable)',
+  },
+};
 
-async function resolveViteModulePaths(baseUrl) {
-  const res = await fetch(`${baseUrl}src/app/useEnvoy.ts`);
-  if (!res.ok) throw new Error(`Failed to fetch ${baseUrl}src/app/useEnvoy.ts (HTTP ${res.status})`);
-  const src = await res.text();
-  const aiMatch = /from\s+["']([^"']*packages\/ai\/src\/index\.ts[^"']*)["']/.exec(src);
-  const coreMatch = /from\s+["']([^"']*packages\/core\/src\/index\.ts[^"']*)["']/.exec(src);
-  return {
-    aiPath: aiMatch ? aiMatch[1] : `/@fs/${ROOT}/packages/ai/src/index.ts`,
-    corePath: coreMatch ? coreMatch[1] : `/@fs/${ROOT}/packages/core/src/index.ts`,
-  };
-}
+const armMeta = ARM_DEFAULTS[arm] ?? {
+  label: args.label ?? arm,
+  model: args.component ? { component: args.component, version: args.version ?? 'unknown', label: args.label ?? arm } : null,
+  backend: args.backend ?? 'unknown',
+};
+
+const cachePath = resolve(ARMS_DIR, `${arm}.json`);
+mkdirSync(dirname(cachePath), { recursive: true });
 
 const cases = JSON.parse(readFileSync(CASES_PATH, 'utf8'));
-const cache = existsSync(CACHE_PATH) ? JSON.parse(readFileSync(CACHE_PATH, 'utf8')) : {};
-mkdirSync(dirname(CACHE_PATH), { recursive: true });
+const existingFile = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, 'utf8')) : null;
+const entries = existingFile && existingFile.entries && typeof existingFile.entries === 'object' ? { ...existingFile.entries } : {};
 
-// Purge any legacy entry that does not explicitly have source === 'live'
-for (const [k, v] of Object.entries(cache)) {
-  if (!v || v.source !== 'live') {
-    delete cache[k];
-  }
+// Purge any entry that isn't a verified live runCase output
+for (const [k, v] of Object.entries(entries)) {
+  if (!v || v.source !== 'live' || !v.result) delete entries[k];
 }
 
-const targetUrl = await resolveTargetUrl();
-const { aiPath, corePath } = await resolveViteModulePaths(targetUrl);
-console.log(`Collector target: ${targetUrl}`);
-console.log(`Model under test: ${modelLabel} (${modelComponent} ${modelVersion}, ${backend})`);
-console.log(`Modules: ai=${aiPath} | core=${corePath}`);
+function saveCache() {
+  const payload = {
+    arm,
+    label: armMeta.label,
+    model: armMeta.model,
+    backend: armMeta.backend,
+    detectScope,
+    withAnswer,
+    updatedAt: new Date().toISOString(),
+    nTotal: cases.length,
+    nMeasured: Object.keys(entries).length,
+    entries,
+  };
+  writeFileSync(cachePath, JSON.stringify(payload, null, 2) + '\n', 'utf8');
+}
 
-const browser = await chromium.connectOverCDP(cdpUrl);
-const context = browser.contexts()[0];
+// Verify Argon's dev server is reachable before connecting Chrome
+try {
+  const ping = await fetch(appUrl);
+  if (!ping.ok) throw new Error(`HTTP ${ping.status}`);
+} catch (err) {
+  throw new Error(`Dev server not reachable at ${appUrl} (${err.message}). Start Vite in F:/Projects/Envoy-wt/argon on port ${port} first.`, {
+    cause: err,
+  });
+}
+
+let ownedBrowser = null;
+let cdpUrl = args.cdp ?? 'http://127.0.0.1:9333';
+
+if (arm === 'basic' && !args.cdp) {
+  const basicPort = Number(args['basic-cdp-port'] ?? 9334);
+  const chromePaths = [
+    'C:/Program Files/Google/Chrome/Application/chrome.exe',
+    'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
+  ];
+  const executablePath = chromePaths.find((p) => existsSync(p));
+  ownedBrowser = await chromium.launch({
+    headless: true,
+    ...(executablePath ? { executablePath } : {}),
+    args: [`--remote-debugging-port=${basicPort}`, '--disable-features=OptimizationGuideOnDeviceModel,PromptAPIForGeminiNano'],
+  });
+  // Ensure a browser context exists for connectEnvoyPage
+  await ownedBrowser.newContext();
+  cdpUrl = `http://127.0.0.1:${basicPort}`;
+}
 
 const slice = onlyIds ? cases.filter((c) => onlyIds.has(c.id)) : cases.slice(offset, offset + limit);
+console.log(`Arm: ${arm} (${armMeta.label})`);
+console.log(`Model: ${armMeta.model ? `${armMeta.model.label} (${armMeta.model.component} ${armMeta.model.version})` : 'none (Basic protection)'}`);
+console.log(`Backend: ${armMeta.backend} · App URL: ${appUrl} · CDP: ${cdpUrl} · withAnswer=${withAnswer}`);
+
 let collected = 0;
 let skipped = 0;
 let failed = 0;
 
-for (let idx = 0; idx < slice.length; idx++) {
-  const tc = slice[idx];
-  const existing = cache[tc.id];
-  if (!force && existing && existing.source === 'live' && existing.modelComponent === modelComponent && existing.modelVersion === modelVersion) {
-    skipped++;
-    console.log(`[${idx + 1}/${slice.length}] ${tc.id} — cached live (${existing.modelComponent} ${existing.modelVersion}), skipping`);
-    continue;
-  }
-
-  const page = await context.newPage();
-  await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
-
-  const tStart = Date.now();
-  const res = await page.evaluate(
-    async ({ doc, question, aiPath, corePath, detectScope }) => {
-      const ai = await import(aiPath);
-      const core = await import(corePath);
-      const env = await import('/src/env.ts');
-
-      const availBefore = 'LanguageModel' in self ? await self.LanguageModel.availability() : 'missing';
-      if (availBefore !== 'available') {
-        return { ok: false, availBefore, error: `LanguageModel availability is '${availBefore}'` };
+try {
+  const session = await connectEnvoyPage({ cdp: cdpUrl, appUrl });
+  try {
+    for (let i = 0; i < slice.length; i++) {
+      const tc = slice[i];
+      const prev = entries[tc.id];
+      const sameModel =
+        (prev?.model?.component ?? null) === (armMeta.model?.component ?? null) &&
+        (prev?.model?.version ?? null) === (armMeta.model?.version ?? null);
+      const hasAnswerIfWanted = !withAnswer || Boolean(prev?.result?.answer);
+      if (!force && prev && prev.source === 'live' && sameModel && hasAnswerIfWanted) {
+        skipped++;
+        console.log(`[${i + 1}/${slice.length}] ${tc.id} — already cached live, skipping`);
+        continue;
       }
 
-      // Ensure every LanguageModel session created during a step is destroyed immediately afterward
-      // (mirrors withSessionCleanup on lane/core-web so Argon's own port 5174 never leaks KV caches).
-      async function runStepClean(model, prompt, step) {
-        const lm = self.LanguageModel;
-        const origCreate = lm.create.bind(lm);
-        const created = [];
-        lm.create = async (...a) => {
-          const s = await origCreate(...a);
-          created.push(s);
-          return s;
+      const result = await runCase(session.page, {
+        document: tc.document,
+        question: tc.question,
+        detectScope,
+        withAnswer,
+      });
+
+      if (result.ok) {
+        entries[tc.id] = {
+          source: 'live',
+          arm,
+          model: armMeta.model,
+          backend: armMeta.backend,
+          detectScope,
+          recordedAt: new Date().toISOString(),
+          result,
         };
-        try {
-          return await ai.runPrivate(model, prompt, step);
-        } finally {
-          lm.create = origCreate;
-          for (const s of created) {
-            try {
-              s.destroy?.();
-            } catch {
-              // ignore idempotent destroy
-            }
-          }
-        }
-      }
-
-      const { ai: fbAi } = ai.initEnvoy(env.readFirebaseEnv(), { dev: true });
-      const settings = ai.DEFAULT_SETTINGS;
-      const schemas = { detect: core.DETECT_SCHEMA, minimize: core.MINIMIZE_SCHEMA, route: core.ROUTE_SCHEMA };
-      const models = Object.fromEntries(
-        ['detect', 'minimize', 'route', 'answerLocal'].map((s) => [s, ai.createStepModel(fbAi, s, settings, schemas[s])]),
-      );
-
-      const chunks = core.chunkDocument(doc);
-      const steps = [];
-      const MAX_TOKENS = 2600;
-      const estimateTokens = (s) => Math.ceil(s.length / 4);
-      const batchChunks = (list, build) => {
-        const batches = [];
-        let cur = [];
-        for (const c of list) {
-          const next = [...cur, c];
-          if (cur.length > 0 && estimateTokens(build(next)) > MAX_TOKENS) {
-            batches.push(cur);
-            cur = [c];
-          } else {
-            cur = next;
-          }
-        }
-        if (cur.length) batches.push(cur);
-        return batches;
-      };
-
-      try {
-        // 1. Minimize (on-device ONLY_ON_DEVICE)
-        const minBatches = batchChunks(chunks, (b) => core.buildMinimizePrompt(b, question));
-        const selectedSet = new Set();
-        const minReasons = [];
-        let minimizeRaw = '';
-        let minMs = 0;
-        for (const b of minBatches) {
-          const r = await runStepClean(models.minimize, core.buildMinimizePrompt(b, question), 'minimize');
-          minMs += r.ms;
-          minimizeRaw = r.text;
-          const parsed = core.parseMinimizeResponse(
-            r.text,
-            b.map((c) => c.id),
-          );
-          if (parsed) {
-            parsed.ids.forEach((id) => selectedSet.add(id));
-            if (parsed.reason) minReasons.push(parsed.reason);
-          }
-        }
-        steps.push({ step: 'minimize', source: 'on_device', ms: minMs });
-        const selectedIds = selectedSet.size > 0 ? [...selectedSet].sort((a, b) => a - b) : chunks.map((c) => c.id);
-        const minimizeJson =
-          minBatches.length === 1
-            ? minimizeRaw
-            : JSON.stringify({ clause_ids: selectedIds, reason: minReasons.join(' ') });
-
-        // 2. Detect (on-device ONLY_ON_DEVICE)
-        const detectChunks =
-          detectScope === 'selected'
-            ? chunks.filter((c) => selectedIds.includes(c.id) || c.id === 1)
-            : chunks;
-        const detectBatches = batchChunks(detectChunks, (b) =>
-          core.buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question),
+        saveCache();
+        collected++;
+        console.log(
+          `[${i + 1}/${slice.length}] ${tc.id} — LIVE OK mode=${result.mode} device=${result.deviceStatus} ${result.ms}ms selected=${JSON.stringify(result.selectedIds)} local=${result.route?.local} guard=${result.guardOk}${result.answer ? ` answer=${result.answer.source}(${result.answer.ms}ms)` : ''}${result.fallbackReason ? ` fallback=${result.fallbackReason}` : ''}`,
         );
-        const combinedEntities = [];
-        let detectRaw = '';
-        let detMs = 0;
-        for (const b of detectBatches) {
-          const prompt = core.buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question);
-          const r = await runStepClean(models.detect, prompt, 'detect');
-          detMs += r.ms;
-          detectRaw = r.text;
-          try {
-            const parsed = JSON.parse(r.text.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, ''));
-            if (Array.isArray(parsed?.entities)) {
-              combinedEntities.push(...parsed.entities);
-            }
-          } catch {
-            // keep raw for transparency
-          }
-        }
-        steps.push({ step: 'detect', source: 'on_device', ms: detMs });
-        const detectJson = detectBatches.length === 1 ? detectRaw : JSON.stringify({ entities: combinedEntities });
-
-        // 3. Route (on-device ONLY_ON_DEVICE)
-        const selected = chunks.filter((c) => selectedIds.includes(c.id));
-        const routePrompt = core.buildRoutePrompt(question, selected);
-        let routeJson;
-        if (estimateTokens(routePrompt) > MAX_TOKENS) {
-          routeJson = JSON.stringify({
-            answerable_locally: false,
-            reason: 'Selected excerpt exceeds on-device route token budget.',
-          });
-        } else {
-          const r = await runStepClean(models.route, routePrompt, 'route');
-          steps.push({ step: 'route', source: 'on_device', ms: r.ms });
-          routeJson = r.text;
-        }
-        const routeParsed = core.parseRouteResponse(routeJson);
-
-        // 4. Local answer if routed locally (on-device ONLY_ON_DEVICE)
-        let localAnswerText = null;
-        if (routeParsed?.local) {
-          const r = await runStepClean(models.answerLocal, core.buildLocalAnswerPrompt(question, selected), 'answerLocal');
-          steps.push({ step: 'answerLocal', source: 'on_device', ms: r.ms });
-          localAnswerText = r.text;
-        }
-
-        const availAfter = 'LanguageModel' in self ? await self.LanguageModel.availability() : 'missing';
-        return {
-          ok: true,
-          availBefore,
-          availAfter,
-          detectJson,
-          minimizeJson,
-          routeJson,
-          localAnswerText,
-          steps,
-          selectedIds,
-          schemaValid: Boolean(core.parseMinimizeResponse(minimizeJson, chunks.map((c) => c.id)) && routeParsed),
-        };
-      } catch (e) {
-        return { ok: false, availBefore, error: `${e.name}: ${e.message}`, steps };
+      } else {
+        failed++;
+        console.error(`[${i + 1}/${slice.length}] ${tc.id} — FAILED (${result.ms}ms): ${result.error}`);
       }
-    },
-    { doc: tc.document, question: tc.question, aiPath, corePath, detectScope },
-  );
 
-  await page.close();
-  const totalMs = Date.now() - tStart;
-
-  if (res.ok) {
-    cache[tc.id] = {
-      source: 'live',
-      modelLabel,
-      modelComponent,
-      modelVersion,
-      backend,
-      detectScope,
-      recordedAt: new Date().toISOString(),
-      ms: totalMs,
-      steps: res.steps,
-      detectJson: res.detectJson,
-      minimizeJson: res.minimizeJson,
-      routeJson: res.routeJson,
-      ...(res.localAnswerText !== null ? { localAnswerText: res.localAnswerText } : {}),
-      schemaValid: res.schemaValid,
-    };
-    writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2) + '\n', 'utf8');
-    collected++;
-    console.log(
-      `[${idx + 1}/${slice.length}] ${tc.id} — LIVE OK (${totalMs} ms) selected=${JSON.stringify(res.selectedIds)} steps=${JSON.stringify(res.steps)}`,
-    );
-  } else {
-    failed++;
-    console.error(`[${idx + 1}/${slice.length}] ${tc.id} — FAILED (${totalMs} ms): ${res.error}`);
+      if (i < slice.length - 1 && cooldownMs > 0) {
+        await session.page.waitForTimeout(cooldownMs);
+      }
+    }
+  } finally {
+    await session.close().catch(() => undefined);
+  }
+} finally {
+  if (ownedBrowser) {
+    await ownedBrowser.close().catch(() => undefined);
   }
 }
 
-console.log(`\nLive collection complete: collected=${collected}, skipped=${skipped}, failed=${failed}, totalLiveInCache=${Object.keys(cache).length}/${cases.length}`);
+saveCache();
+console.log(
+  `\nLive collection complete [${arm}]: collected=${collected}, skipped=${skipped}, failed=${failed}, totalMeasured=${Object.keys(entries).length}/${cases.length} -> ${cachePath}`,
+);
 process.exit(failed > 0 ? 1 : 0);

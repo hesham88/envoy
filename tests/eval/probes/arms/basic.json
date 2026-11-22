@@ -1,0 +1,4808 @@
+{
+  "arm": "basic",
+  "label": "Basic protection (rules + guard, no on-device model)",
+  "model": null,
+  "backend": "rules-only (LanguageModel unavailable)",
+  "detectScope": "selected",
+  "withAnswer": false,
+  "updatedAt": "2026-11-22T15:09:12.652Z",
+  "nTotal": 36,
+  "nMeasured": 36,
+  "entries": {
+    "lease-01-rent-cap": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:01.700Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 34,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "3 Road 9, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 September 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nPreamble: RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on [DATE_1] between the parties named in Clause 1.\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID], of [ADDRESS] (\"the Landlord\"), and [PERSON_2], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises and term. The Landlord leases to the Tenant the apartment at [ADDRESS_2] (\"the Premises\") for a term of three (3) years starting [DATE_2].\n\nClause 3: 3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\nClause 4: 4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\nClause 5: 5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\nClause 6: 6. Deposit. The Tenant pays a security deposit of [AMOUNT] on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\nClause 7: 7. Rent. The monthly rent is [AMOUNT_2]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [AMOUNT_3].\n\nClause 9: 9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\nClause 11: 11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at [EMAIL].\n\nClause 12: 12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on [DATE_1] by [PERSON] (Landlord) and [PERSON_2] (Tenant), witnessed by [PERSON_3], phone [PHONE_2].",
+        "receipt": {
+          "found": {
+            "DATE": 2,
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "ADDRESS": 2,
+            "PHONE": 2,
+            "EMAIL": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 16,
+          "sharedTags": [
+            "[DATE_1]",
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[ADDRESS]",
+            "[PERSON_2]",
+            "[NATIONAL_ID_2]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS_2]",
+            "[DATE_2]",
+            "[AMOUNT]",
+            "[AMOUNT_2]",
+            "[ACCOUNT]",
+            "[AMOUNT_3]",
+            "[PERSON_3]",
+            "[PHONE_2]"
+          ],
+          "keptTotal": 16,
+          "sharedByUser": 0,
+          "charsSent": 2537,
+          "clausesSent": 13,
+          "pagesTotal": 6,
+          "pagesSent": 6,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 1
+          }
+        ],
+        "network": []
+      }
+    },
+    "lease-02-end-date-local": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:02.190Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 3,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "3 Road 9, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 September 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: When does my contract end?\n\nPreamble: RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on [DATE_1] between the parties named in Clause 1.\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID], of [ADDRESS] (\"the Landlord\"), and [PERSON_2], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises and term. The Landlord leases to the Tenant the apartment at [ADDRESS_2] (\"the Premises\") for a term of three (3) years starting [DATE_2].\n\nClause 3: 3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\nClause 4: 4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\nClause 5: 5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\nClause 6: 6. Deposit. The Tenant pays a security deposit of [AMOUNT] on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\nClause 7: 7. Rent. The monthly rent is [AMOUNT_2]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [AMOUNT_3].\n\nClause 9: 9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\nClause 11: 11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at [EMAIL].\n\nClause 12: 12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on [DATE_1] by [PERSON] (Landlord) and [PERSON_2] (Tenant), witnessed by [PERSON_3], phone [PHONE_2].",
+        "receipt": {
+          "found": {
+            "DATE": 2,
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "ADDRESS": 2,
+            "PHONE": 2,
+            "EMAIL": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 16,
+          "sharedTags": [
+            "[DATE_1]",
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[ADDRESS]",
+            "[PERSON_2]",
+            "[NATIONAL_ID_2]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS_2]",
+            "[DATE_2]",
+            "[AMOUNT]",
+            "[AMOUNT_2]",
+            "[ACCOUNT]",
+            "[AMOUNT_3]",
+            "[PERSON_3]",
+            "[PHONE_2]"
+          ],
+          "keptTotal": 16,
+          "sharedByUser": 0,
+          "charsSent": 2518,
+          "clausesSent": 13,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "lease-03-early-exit-deposit": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:02.770Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 2,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "3 Road 9, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 September 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 August 2024",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What happens to my deposit if I leave early?\n\nPreamble: RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on [DATE_1] between the parties named in Clause 1.\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID], of [ADDRESS] (\"the Landlord\"), and [PERSON_2], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises and term. The Landlord leases to the Tenant the apartment at [ADDRESS_2] (\"the Premises\") for a term of three (3) years starting [DATE_2].\n\nClause 3: 3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\nClause 4: 4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\nClause 5: 5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\nClause 6: 6. Deposit. The Tenant pays a security deposit of [AMOUNT] on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\nClause 7: 7. Rent. The monthly rent is [AMOUNT_2]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [AMOUNT_3].\n\nClause 9: 9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\nClause 11: 11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at [EMAIL].\n\nClause 12: 12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on [DATE_1] by [PERSON] (Landlord) and [PERSON_2] (Tenant), witnessed by [PERSON_3], phone [PHONE_2].",
+        "receipt": {
+          "found": {
+            "DATE": 2,
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "ADDRESS": 2,
+            "PHONE": 2,
+            "EMAIL": 1,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 16,
+          "sharedTags": [
+            "[DATE_1]",
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[ADDRESS]",
+            "[PERSON_2]",
+            "[NATIONAL_ID_2]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS_2]",
+            "[DATE_2]",
+            "[AMOUNT]",
+            "[AMOUNT_2]",
+            "[ACCOUNT]",
+            "[AMOUNT_3]",
+            "[PERSON_3]",
+            "[PHONE_2]"
+          ],
+          "keptTotal": 16,
+          "sharedByUser": 0,
+          "charsSent": 2536,
+          "clausesSent": 13,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "lease-04-late-fee-grace-period": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:03.285Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 1,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          7,
+          8
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mona.adel@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I pay rent on the 8th of the month, do I owe the late fee?\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID] (\"the Landlord\"), and [PERSON_2], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 7: 7. Rent. The monthly rent is [AMOUNT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [AMOUNT_2].",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 2,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PERSON_2]",
+            "[NATIONAL_ID_2]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[AMOUNT]",
+            "[ACCOUNT]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 602,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "lease-05-sublet-policy": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:03.601Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "NATIONAL_ID",
+            "value": "28011230102345",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Nadia Shawky",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29307190105678",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 111 444 0987",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "nadia.shawky@example.org",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "28 Cleopatra St, Heliopolis, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "1 October 2025",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 12,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can I rent out one bedroom on a short-term basis without asking the owner?\n\nClause 1: 1. Parties. Hisham El-Masry, national ID [NATIONAL_ID] (\"the Landlord\"), and [PERSON], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises. Apartment 12 at [ADDRESS], leased for two (2) years starting [DATE_1] at a monthly rent of [AMOUNT].\n\nClause 3: 3. Subletting and Assignment. The Tenant shall occupy the Premises solely as a family residence and may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.\n\nClause 4: 4. Payment. Transfers go to IBAN [ACCOUNT].",
+        "receipt": {
+          "found": {
+            "NATIONAL_ID": 2,
+            "PERSON": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "DATE": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[NATIONAL_ID]",
+            "[PERSON]",
+            "[NATIONAL_ID_2]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS]",
+            "[DATE_1]",
+            "[AMOUNT]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 674,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "lease-06-landlord-entry-notice-local": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:03.774Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Tarek Abdel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27204150103321",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Laila Farouk",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 109 222 3410",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "8 Hassan Sabry St, Zamalek, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 18,500",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How many hours' notice must the landlord give before entering for repairs?\n\nClause 1: 1. Parties. [PERSON]-Aziz, national ID [NATIONAL_ID] (\"Landlord\"), and [PERSON_2], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Property. Flat 5, [ADDRESS].\n\nClause 3: 3. Rent. Monthly rent is [AMOUNT] payable on the 1st of every month.\n\nClause 4: 4. Access and Inspection. The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PERSON_2]",
+            "[PHONE]",
+            "[ADDRESS]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 496,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "lease-07-commercial-cam-cap": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:04.011Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 8,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Youssef Kamel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Omar Zaki",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28809100104412",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 120 888 7123",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "omar.zaki@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Office Suite",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "90 North Teseen Rd, New Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 45,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 4,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can the building management increase our monthly service charge by 15% next year?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Tenant\").\n\nClause 2: 2. [PERSON_3]. Suite 402 at [ADDRESS]. Base rent is [AMOUNT] per month.\n\nClause 3: 3. Common Area Maintenance (CAM). The Tenant pays a monthly service charge of [AMOUNT_2]. Annual increases to the service charge are capped at 8% per year.\n\nClause 4: 4. Banking. Wire all payments to [ACCOUNT].",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 10,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[PERSON_3]",
+            "[ADDRESS]",
+            "[AMOUNT]",
+            "[AMOUNT_2]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 10,
+          "sharedByUser": 0,
+          "charsSent": 525,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "lease-08-plumbing-responsibility": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:04.225Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Mahmoud Gamal",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27702180201988",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "MahmoudGamal@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dina Soliman",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 106 777 5432",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "45 Fouad St, Alexandria",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 9,200",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: A main water pipe inside the wall burst. Who has to pay for the repair?\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID], email [EMAIL] (\"Landlord\"), and [PERSON_2], phone [PHONE] (\"Tenant\"), for Flat 9 at [ADDRESS].\n\nClause 2: 2. Rent. The monthly rent is [AMOUNT].\n\nClause 3: 3. Repairs and Plumbing. The Landlord is solely responsible for hidden plumbing, main risers, roof waterproofing, and structural walls. The Tenant is responsible only for internal tap washers and drain blockages caused by misuse.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "EMAIL": 1,
+            "PHONE": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 7,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[EMAIL]",
+            "[PERSON_2]",
+            "[PHONE]",
+            "[ADDRESS]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 527,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "offer-01-severance-calculation": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:04.401Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 6,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "DATE",
+            "value": "1 November 2025",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Ramy Lotfy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Salma Mostafa",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29605210104321",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 101 333 8899",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "salma.mostafa@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "22 Syria St, Mohandessin, Giza",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 65,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 1: 1. Parties. Signed on [DATE_1] between [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\").\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month.\n\nClause 3: 3. Direct Deposit. Salary will be transferred to Employee's IBAN [ACCOUNT].\n\nClause 4: 4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\nClause 5: 5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
+        "receipt": {
+          "found": {
+            "DATE": 1,
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[DATE_1]",
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS]",
+            "[AMOUNT]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 847,
+          "clausesSent": 5,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "offer-02-non-compete-scope": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:04.656Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 7,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Sherif Badawy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Amr Hegazy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29108140107765",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 112 999 4567",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "amr.hegazy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "15 Makram Ebeid St, Nasr City, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Base Salary",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "USD 4,200",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I resign, can I immediately join a healthcare software startup in Cairo?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") hires [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], of [ADDRESS] (\"Employee\").\n\nClause 2: 2. [PERSON_3]. Monthly salary is [AMOUNT].\n\nClause 3: 3. Leave. The Employee receives 21 working days of paid annual leave.\n\nClause 4: 4. Non-Competition. For six (6) months after termination, the Employee may not work for any direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS]",
+            "[PERSON_3]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 672,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "offer-03-probation-period-local": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:04.870Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 3,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Employee Details",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Nourhan Khalil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29412050108812",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 712 3344",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "nourhan.k@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 55,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How long is my probationary period?\n\nClause 1: 1. [PERSON]. [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Salary. Monthly gross salary is [AMOUNT].\n\nClause 3: 3. Probation. The first ninety (90) days of employment constitute a probationary period during which either party may terminate the contract with seven (7) days' written notice.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 383,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "offer-04-bonus-proration": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:05.125Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "annual performance bonus",
+            "type": "PERSON",
+            "index": 29
+          },
+          {
+            "value": "base salary",
+            "type": "PERSON",
+            "index": 248
+          },
+          {
+            "value": "base salary",
+            "type": "PERSON",
+            "index": 390
+          },
+          {
+            "value": "base salary",
+            "type": "PERSON",
+            "index": 436
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Wael Tantawy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Heba Radwan",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28703220101122",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 127 654 3210",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "heba.radwan@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Base Salary",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 80,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Annual Performance Bonus",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Payroll Account",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Employee\").\n\nClause 2: 2. [PERSON_3]. Monthly base salary is [AMOUNT].\n\nClause 3: 3. [PERSON_4]. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\nClause 4: 4. [PERSON_5]. IBAN [ACCOUNT].",
+        "receipt": {
+          "found": {
+            "PERSON": 5,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 10,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[PERSON_3]",
+            "[AMOUNT]",
+            "[PERSON_4]",
+            "[PERSON_5]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 10,
+          "sharedByUser": 0,
+          "charsSent": 491,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "offer-05-ip-side-project": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:05.314Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Ziad Morsi",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29701150106543",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 115 234 5678",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "ziad.morsi@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "19 Dokki St, Giza",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 48,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Working Hours",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Intellectual Property",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Does the company own an unrelated hobby project I build on weekends on my personal laptop?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS].\n\nClause 2: 2. Remuneration. [AMOUNT] per month.\n\nClause 3: 3. [PERSON_2]. Sunday through Thursday, 9:00 AM to 5:00 PM.\n\nClause 4: 4. [PERSON_3]. All inventions developed using Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS]",
+            "[AMOUNT]",
+            "[PERSON_2]",
+            "[PERSON_3]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 669,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "offer-06-remote-work-allowance": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:05.583Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 4,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "equipment allowance",
+            "type": "PERSON",
+            "index": 338
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Farida Nassar",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29206180109988",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 102 876 5432",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "farida.nassar@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Base Pay",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 52,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Equipment Allowance",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 3,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 3,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. [PERSON_2]. [AMOUNT] monthly.\n\nClause 3: 3. [PERSON_3]. The Company provides a one-time home-office equipment allowance of up to [AMOUNT_2] upon submission of original receipts. Any amount above [AMOUNT_2] is paid by the Employee.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 2
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[PERSON_2]",
+            "[AMOUNT]",
+            "[PERSON_3]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 468,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "med-01-fasting-glucose-threshold": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:05.944Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 18,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "referring physician",
+            "type": "PERSON",
+            "index": 802
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Patient Identification",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Adel Mansour",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "26809120103456",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 901 2345",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "adel.mansour@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "11 Tahrir St, Dokki, Giza",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "12 October 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Referring Physician",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Hany Selim",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 1,450",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Metabolic Panel Results",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Fasting Plasma Glucose",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Pathologist Comment",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. [PERSON]. Patient: [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 2: 2. [PERSON_3] & Billing. Ordered by [PERSON_4]. Total lab fee paid: [AMOUNT].\n\nClause 3: 3. [PERSON_5]. [PERSON_6]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_7]. Values sit in the impaired fasting glucose (prediabetes) reference range. Repeat HbA1c in 3 months and review dietary and physical activity changes with the referring physician.",
+        "receipt": {
+          "found": {
+            "PERSON": 7,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 13,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS]",
+            "[DATE_1]",
+            "[PERSON_3]",
+            "[PERSON_4]",
+            "[AMOUNT]",
+            "[PERSON_5]",
+            "[PERSON_6]",
+            "[PERSON_7]"
+          ],
+          "keptTotal": 13,
+          "sharedByUser": 0,
+          "charsSent": 822,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "med-02-vitamin-d-dosage-local": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:06.386Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 6,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Patient Record",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28904250107654",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 114 555 6789",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "YasminElBanna@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "5 November 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 950",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Maged Rostom",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: In how many weeks should the repeat vitamin D blood test be scheduled?\n\nClause 1: 1. [PERSON]. Yasmin El-Banna, national ID [NATIONAL_ID], phone [PHONE], email [EMAIL]. Visit date: [DATE_1]. Consultation fee: [AMOUNT].\n\nClause 2: 2. Clinician. Seen by [PERSON_2].\n\nClause 3: 3. Plan. Serum 25-OH Vitamin D measured 14 ng/mL (deficient < 20 ng/mL). Supplement with colecalciferol as prescribed and schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 7,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[DATE_1]",
+            "[AMOUNT]",
+            "[PERSON_2]"
+          ],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 477,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "med-03-insurance-copay-cap": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:06.829Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 7,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Patient Details",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Khaled Oweis",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27910110105544",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 432 1987",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "khaled.oweis@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Attending Surgeon",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Samira Fawzy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 25,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Under Policy Plan",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Refund Account",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?\n\nClause 1: 1. [PERSON]. [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. [PERSON_3]. [PERSON_4].\n\nClause 3: 3. Cost & Co-Pay. The approved outpatient arthroscopy package fee is [AMOUNT]. [PERSON_5] B, the insurer reimburses 80% directly and the patient pays a 20% co-payment at admission.\n\nClause 4: 4. [PERSON_6]. Overpayments are refunded to patient IBAN [ACCOUNT].",
+        "receipt": {
+          "found": {
+            "PERSON": 6,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 11,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[PERSON_3]",
+            "[PERSON_4]",
+            "[AMOUNT]",
+            "[PERSON_5]",
+            "[PERSON_6]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 11,
+          "sharedByUser": 0,
+          "charsSent": 496,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "med-04-mri-contrast-prep": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:07.114Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 8,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Hassan Abaza",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "26507030102211",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 122 311 4455",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "HassanAbaza@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "18 November 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Nevine Badran",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 4,800",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Preparation Instructions",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can I drink water 2 hours before my abdominal MRI with contrast?\n\nClause 1: 1. Patient. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL]. Scheduled for [DATE_1]. Referring doctor: [PERSON_2].\n\nClause 2: 2. Billing. Procedure fee [AMOUNT].\n\nClause 3: 3. [PERSON_3]. Do not eat solid food, milk, or coffee for 6 hours before your abdominal MRI with contrast. Plain water is permitted up to 1 hour before arrival, and routine blood-pressure tablets may be taken with a small sip of water.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[DATE_1]",
+            "[PERSON_2]",
+            "[AMOUNT]",
+            "[PERSON_3]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 512,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "freelance-01-kill-fee": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:07.301Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 7,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "milestone fee",
+            "type": "PERSON",
+            "index": 89
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Bassem Fouad",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mariam Rizk",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29311090106677",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 106 111 2233",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mariam.rizk@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Milestone Fee",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Design System Delivery",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "USD 6,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Wire Instructions",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Cancellation Kill Fee",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?\n\nClause 1: 1. Parties. Consulting Agreement between [PERSON] (\"Client\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Consultant\").\n\nClause 2: 2. [PERSON_3]. Milestone 2 ([PERSON_4]) is priced at [AMOUNT].\n\nClause 3: 3. [PERSON_5]. Client pays Consultant via IBAN [ACCOUNT].\n\nClause 4: 4. [PERSON_6]. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days.",
+        "receipt": {
+          "found": {
+            "PERSON": 6,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 11,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[PERSON_3]",
+            "[PERSON_4]",
+            "[AMOUNT]",
+            "[PERSON_5]",
+            "[ACCOUNT]",
+            "[PERSON_6]"
+          ],
+          "keptTotal": 11,
+          "sharedByUser": 0,
+          "charsSent": 575,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "freelance-02-invoice-payment-net-local": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:07.467Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Kareem Salem",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29002140103344",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 818 2929",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "kareem.salem@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "USD 3,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Invoicing Terms",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Settlement Account",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Within how many days of receiving an invoice must the client pay?\n\nClause 1: 1. Consultant. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Retainer. Monthly retainer is [AMOUNT].\n\nClause 3: 3. [PERSON_2]. Invoices are submitted on the last business day of the month and must be paid in full within fifteen (15) calendar days of receipt.\n\nClause 4: 4. [PERSON_3]. IBAN [ACCOUNT].",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[AMOUNT]",
+            "[PERSON_2]",
+            "[PERSON_3]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 422,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "freelance-03-card-hold-dispute": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:07.651Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Rania Helmy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28608190104433",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 111 707 8080",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "rania.helmy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "CARD",
+            "value": "4111111111111111",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "15 December 2026",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 30,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Cancellation Schedule",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I cancel 20 days before the event, how much of my deposit is refunded?\n\nClause 1: 1. Client & Card on File. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL]. Payment card on file: [CARD]. Event date: [DATE_1].\n\nClause 2: 2. Booking Deposit. The Client paid an upfront deposit of [AMOUNT].\n\nClause 3: 3. [PERSON_2]. Cancellations made 30 or more days before the event receive a 100% refund. Cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Cancellations within 13 days are non-refundable.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "CARD": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[CARD]",
+            "[DATE_1]",
+            "[AMOUNT]",
+            "[PERSON_2]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 564,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "freelance-04-liability-cap": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:07.865Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 2,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "NATIONAL_ID",
+            "value": "28405100109876",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 128 900 1122",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "mostafa.gendy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 120,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Bank Details",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What is the maximum damages liability the consultant can be held responsible for under the contract?\n\nClause 1: 1. Contractor. Mostafa El-Gendy, national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Total Contract Fee. The fixed fee for the engagement is [AMOUNT].\n\nClause 3: 3. [PERSON]. IBAN [ACCOUNT].\n\nClause 4: 4. Limitation of Liability. Neither party's aggregate liability under this Agreement shall exceed 100% of the Total Contract Fee paid under Clause 2, and neither party shall be liable for indirect or consequential damages.",
+        "receipt": {
+          "found": {
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "MONEY": 1,
+            "PERSON": 1,
+            "IBAN": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[AMOUNT]",
+            "[PERSON]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 565,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "loan-01-early-payoff-penalty": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:08.201Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 6,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "principal balance",
+            "type": "PERSON",
+            "index": 265
+          },
+          {
+            "value": "principal balance",
+            "type": "PERSON",
+            "index": 365
+          },
+          {
+            "value": "principal balance",
+            "type": "PERSON",
+            "index": 491
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Samer Fawzy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28103170102345",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 321 6549",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "samer.fawzy@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "16 El-Merghany St, Heliopolis, Cairo",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Principal Balance",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 400,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Early Prepayment",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 1: 1. Borrower. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Direct debit IBAN: [ACCOUNT].\n\nClause 2: 2. [PERSON_2]. Remaining principal balance is [AMOUNT].\n\nClause 3: 3. [PERSON_3]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "IBAN": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS]",
+            "[ACCOUNT]",
+            "[PERSON_2]",
+            "[AMOUNT]",
+            "[PERSON_3]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 509,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "loan-02-warranty-coverage-period-local": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:08.466Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 6,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Ayman Gohar",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27411280105432",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 109 654 7890",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "AymanGohar@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "ADDRESS",
+            "value": "74 El-Horreya Rd, Alexandria",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Purchase Price",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 95,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Warranty Terms",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 1: 1. Buyer. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], installation address [ADDRESS].\n\nClause 2: 2. [PERSON_2]. Total system cost is [AMOUNT].\n\nClause 3: 3. [PERSON_3]. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "EMAIL": 1,
+            "ADDRESS": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 8,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[EMAIL]",
+            "[ADDRESS]",
+            "[PERSON_2]",
+            "[AMOUNT]",
+            "[PERSON_3]"
+          ],
+          "keptTotal": 8,
+          "sharedByUser": 0,
+          "charsSent": 413,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-01-arabic-indic-digits-lease": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:09.065Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 6,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "٢٧٥٠٦١٢٠١٠٤٨٣٩",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Renewal Cap",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can the landlord increase the rent by 15% at renewal?\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID] (\"Landlord\"), and [PERSON_2], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Rent and [PERSON_3]. The monthly rent is [AMOUNT]. Any annual rent increase at renewal is strictly capped at 10%.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PERSON_2]",
+            "[PHONE]",
+            "[PERSON_3]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 306,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-02-eastern-arabic-digits-phone": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:09.406Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 4,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Hanaa Maher",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "۰۱۰۰۵۵۵۰۱۹۲",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "٠١/٠٩/٢٠٢٤",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 11,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How many days' notice is required to terminate the lease at the end of a contract year?\n\nClause 1: 1. Parties. Tariq El-Sawy (\"Landlord\") and [PERSON], mobile [PHONE] (\"Tenant\"), starting [DATE_1].\n\nClause 2: 2. Rent. Monthly rent is [AMOUNT].\n\nClause 3: 3. Notice. Either party may terminate at the end of a contract year by giving sixty (60) days' written notice.",
+        "receipt": {
+          "found": {
+            "PERSON": 1,
+            "PHONE": 1,
+            "DATE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 4,
+          "sharedTags": [
+            "[PERSON]",
+            "[PHONE]",
+            "[DATE_1]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 4,
+          "sharedByUser": 0,
+          "charsSent": 375,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-03-unspaced-iban-and-compact-phone": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:09.561Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 2,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "00201005550192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Late Penalty",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG380019000500000000263180002",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What happens if my bank transfer arrives 12 days after the first of the month?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Payment & [PERSON_3]. Monthly rent of [AMOUNT] is payable on the 1st of each month to IBAN [ACCOUNT]. Payments received more than 10 days after the due date incur a late fee of [AMOUNT_2].",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "PHONE": 1,
+            "MONEY": 2,
+            "IBAN": 1
+          },
+          "foundTotal": 7,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[PHONE]",
+            "[PERSON_3]",
+            "[AMOUNT]",
+            "[ACCOUNT]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 7,
+          "sharedByUser": 0,
+          "charsSent": 378,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-04-postfix-currency-le-egp": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:09.968Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 1,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "17,000 LE",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "8,500 EGP",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I leave without giving the 90-day early termination notice, how much of my security deposit can the landlord keep?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2] (\"Tenant\").\n\nClause 2: 2. Deposit. The Tenant paid a security deposit of [AMOUNT]. If the Tenant leaves early without giving 90 days' written notice, the Landlord may retain one month's rent from the deposit.\n\nClause 3: 3. Monthly Rent. The monthly rent is [AMOUNT_2].",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "MONEY": 2
+          },
+          "foundTotal": 4,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[AMOUNT]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 4,
+          "sharedByUser": 0,
+          "charsSent": 456,
+          "clausesSent": 3,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-05-all-caps-and-titled-names": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:10.742Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 3,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "KARIM FATHY",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Dr. Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20-100-555-0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Eng. Tarek Samir",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 9,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Who pays for routine building elevator maintenance under this lease?\n\nClause 1: 1. Parties. Lease signed between [PERSON] (\"Landlord\") and [PERSON_2], phone [PHONE] (\"Tenant\"), witnessed by [PERSON_3]. Monthly rent is [AMOUNT].\n\nClause 2: 2. Common Area Maintenance. The Landlord pays for elevator servicing, stair lighting, and common-area repairs; the Tenant pays only metered apartment electricity and gas.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 5,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[PHONE]",
+            "[PERSON_3]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 5,
+          "sharedByUser": 0,
+          "charsSent": 419,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-06-pii-in-user-question": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:11.139Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 1,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: I am [PERSON_2] ([PHONE]) — can [PERSON] raise my [AMOUNT] rent by 20% this year?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Rent Cap. The monthly rent is [AMOUNT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 4,
+          "sharedTags": [
+            "[PERSON_2]",
+            "[PHONE]",
+            "[PERSON]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 4,
+          "sharedByUser": 0,
+          "charsSent": 350,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-07-particles-arabic-transliterated-names": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:11.314Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 3,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Mohamed El Sayed",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Nour Al Din",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "28207150103456",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 600 7000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 22,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: Can the tenant assign the lease to a sister company without a fee?\n\nClause 1: 1. Parties. [PERSON] (\"Landlord\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE] (\"Tenant\"). Monthly rent: [AMOUNT].\n\nClause 2: 2. Assignment. The Tenant may assign this Lease to a wholly-owned affiliate upon 30 days' written notice without paying an assignment fee, provided the original Tenant remains guarantor.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "NATIONAL_ID": 1,
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 5,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[NATIONAL_ID]",
+            "[PHONE]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 5,
+          "sharedByUser": 0,
+          "charsSent": 412,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-08-iso-and-slash-dates-with-card": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:11.518Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 4,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "CARD",
+            "value": "4111 1111 1111 1111",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "2026-11-01",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "DATE",
+            "value": "01/11/2027",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 14,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Off Period",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 0",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If I cancel my annual gym membership within 10 days of signing, do I get a full refund?\n\nClause 1: 1. Member & Billing. Member: Seif El-Din. Card billed: [CARD]. Term: [DATE_1] through [DATE_2]. Annual membership fee: [AMOUNT].\n\nClause 2: 2. Cooling-[PERSON]. The Member may cancel within 14 calendar days of the start date for a 100% refund minus [AMOUNT_2] if no personal training sessions were used.",
+        "receipt": {
+          "found": {
+            "CARD": 1,
+            "DATE": 2,
+            "MONEY": 2,
+            "PERSON": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[CARD]",
+            "[DATE_1]",
+            "[DATE_2]",
+            "[AMOUNT]",
+            "[PERSON]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 412,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-09-format-variants-same-entity": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:11.684Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 1,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "01005550192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "8500 EGP",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: What is the maximum rent after the first annual increase?\n\nClause 1: 1. Contact. Landlord Karim Fathy leases to Tenant Mona Adel (primary phone [PHONE], SMS number [PHONE]).\n\nClause 2: 2. Rent Escalation. The starting rent is [AMOUNT] (also stated as [AMOUNT]). After 12 months, the Landlord may raise the rent by at most 10%.",
+        "receipt": {
+          "found": {
+            "PHONE": 1,
+            "MONEY": 1
+          },
+          "foundTotal": 2,
+          "sharedTags": [
+            "[PHONE]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 2,
+          "sharedByUser": 0,
+          "charsSent": 336,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-10-multi-tenant-joint-liability": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:11.886Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 3,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Tenants Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 555 0192",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Sara Nabil",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "0122 555 0148",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Several Liability",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 12,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 1: 1. Parties. Landlord Karim Fathy leases the apartment to Co-[PERSON] (phone [PHONE]) and [PERSON_2] (phone [PHONE_2]).\n\nClause 2: 2. Joint and [PERSON_3]. The total monthly rent is [AMOUNT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "PHONE": 2,
+            "MONEY": 1
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[PERSON]",
+            "[PHONE]",
+            "[PERSON_2]",
+            "[PHONE_2]",
+            "[PERSON_3]",
+            "[AMOUNT]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 448,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-11-distractor-numbers-and-clauses": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:12.071Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 2,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": false,
+        "leaks": [
+          {
+            "value": "Late fee",
+            "type": "PERSON",
+            "index": 268
+          }
+        ],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Karim Fathy",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "27506120104839",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Mona Adel",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "NATIONAL_ID",
+            "value": "29503140101234",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 17,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 8,500",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Late Fee",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "EGP 250",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "IBAN",
+            "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: How much notice must I give to end the contract early?\n\nClause 1: 1. Parties. [PERSON] (ID [NATIONAL_ID]) and [PERSON_2] (ID [NATIONAL_ID_2]).\n\nClause 2: 2. Deposit & Rent. Deposit is [AMOUNT] and monthly rent is [AMOUNT_2].\n\nClause 3: 3. [PERSON_3] & IBAN. Late fee is [AMOUNT_3]; transfer to [ACCOUNT].\n\nClause 4: 4. Early Termination Notice. The Tenant may end the Lease early by providing at least ninety (90) days' prior written notice to the Landlord.",
+        "receipt": {
+          "found": {
+            "PERSON": 3,
+            "NATIONAL_ID": 2,
+            "MONEY": 3,
+            "IBAN": 1
+          },
+          "foundTotal": 9,
+          "sharedTags": [
+            "[PERSON]",
+            "[NATIONAL_ID]",
+            "[PERSON_2]",
+            "[NATIONAL_ID_2]",
+            "[AMOUNT]",
+            "[AMOUNT_2]",
+            "[PERSON_3]",
+            "[AMOUNT_3]",
+            "[ACCOUNT]"
+          ],
+          "keptTotal": 9,
+          "sharedByUser": 0,
+          "charsSent": 467,
+          "clausesSent": 4,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    },
+    "noisy-12-euro-and-usd-dual-currency": {
+      "source": "live",
+      "arm": "basic",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "detectScope": "selected",
+      "recordedAt": "2026-11-22T15:09:12.293Z",
+      "result": {
+        "ok": true,
+        "deviceStatus": "unavailable",
+        "ms": 5,
+        "mode": "basic",
+        "fallbackReason": null,
+        "selectedIds": [
+          1,
+          2
+        ],
+        "route": {
+          "local": false,
+          "reason": "Basic protection: questions go to the reasoning step, masked."
+        },
+        "steps": [
+          {
+            "step": "detect",
+            "source": "rules",
+            "ms": 0
+          }
+        ],
+        "guardOk": true,
+        "leaks": [],
+        "entities": [
+          {
+            "type": "PERSON",
+            "value": "Licensor Nader Chahine",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PERSON",
+            "value": "Licensee Layla Mansour",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "EMAIL",
+            "value": "layla.mansour@example.com",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "PHONE",
+            "value": "+20 100 999 8877",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "€15,000",
+            "role": null,
+            "source": "rules"
+          },
+          {
+            "type": "MONEY",
+            "value": "$250,000",
+            "role": null,
+            "source": "rules"
+          }
+        ],
+        "outbound": "Question: If annual gross revenue exceeds the threshold, what royalty percentage applies?\n\nClause 1: 1. Parties. [PERSON] and [PERSON_2], email [EMAIL], phone [PHONE]. Upfront license fee: [AMOUNT].\n\nClause 2: 2. Royalties. Once annual gross revenue exceeds [AMOUNT_2], the Licensee shall pay a quarterly royalty of 6% on revenue above that threshold.",
+        "receipt": {
+          "found": {
+            "PERSON": 2,
+            "EMAIL": 1,
+            "PHONE": 1,
+            "MONEY": 2
+          },
+          "foundTotal": 6,
+          "sharedTags": [
+            "[PERSON]",
+            "[PERSON_2]",
+            "[EMAIL]",
+            "[PHONE]",
+            "[AMOUNT]",
+            "[AMOUNT_2]"
+          ],
+          "keptTotal": 6,
+          "sharedByUser": 0,
+          "charsSent": 351,
+          "clausesSent": 2,
+          "pagesTotal": 1,
+          "pagesSent": 1,
+          "steps": [
+            {
+              "step": "detect",
+              "source": "rules",
+              "ms": 0
+            }
+          ],
+          "mode": "basic"
+        },
+        "events": [
+          {
+            "step": "rules",
+            "part": 1,
+            "parts": 1,
+            "at": 0
+          }
+        ],
+        "network": []
+      }
+    }
+  }
+}

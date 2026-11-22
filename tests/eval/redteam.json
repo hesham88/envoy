@@ -1,0 +1,305 @@
+[
+  {
+    "id": "rt-01-zwsp-name",
+    "technique": "zero-width-space",
+    "entityType": "PERSON",
+    "description": "Zero-width space (U+200B) inserted inside protected person name",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Clause 7: Ka\u200Brim Fa\u200Bthy may raise the rent by 10%.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-02-zwj-national-id",
+    "technique": "zero-width-joiner",
+    "entityType": "NATIONAL_ID",
+    "description": "Zero-width joiner (U+200D) and ZWNJ (U+200C) inserted inside 14-digit Egyptian national ID",
+    "protectedEntities": [{ "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[NATIONAL_ID]"],
+    "outbound": "ID ref: 2750\u200C6120\u200D1048\u200B39.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-03-soft-hyphen-email",
+    "technique": "soft-hyphen",
+    "entityType": "EMAIL",
+    "description": "Soft hyphen (U+00AD) inserted inside email address",
+    "protectedEntities": [{ "type": "EMAIL", "value": "mona.adel@example.com", "start": 0, "end": 21, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[EMAIL]"],
+    "outbound": "Send notices to mo\u00ADna.adel@exam\u00ADple.com.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-04-bom-iban",
+    "technique": "zero-width-bom",
+    "entityType": "IBAN",
+    "description": "BOM / ZWNBSP (U+FEFF) inserted inside EG IBAN",
+    "protectedEntities": [{ "type": "IBAN", "value": "EG38 0019 0005 0000 0000 2631 8000 2", "start": 0, "end": 36, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[ACCOUNT]"],
+    "outbound": "Transfer to EG38\uFEFF0019\uFEFF000500000000263180002.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-05-cyrillic-homoglyph-name",
+    "technique": "unicode-homoglyph",
+    "entityType": "PERSON",
+    "description": "Cyrillic 'а' (U+0430) and 'е' (U+0435) substituted in protected name",
+    "protectedEntities": [{ "type": "PERSON", "value": "Mona Adel", "start": 0, "end": 9, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[TENANT]"],
+    "outbound": "Tenant: Mon\u0430 Ad\u0435l signed the lease.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-06-cyrillic-homoglyph-iban",
+    "technique": "unicode-homoglyph",
+    "entityType": "IBAN",
+    "description": "Cyrillic 'Е' (U+0415) replacing Latin 'E' in EG IBAN",
+    "protectedEntities": [{ "type": "IBAN", "value": "EG38 0019 0005 0000 0000 2631 8000 2", "start": 0, "end": 36, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[ACCOUNT]"],
+    "outbound": "Account \u0415G38 0019 0005 0000 0000 2631 8000 2.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-07-fullwidth-national-id",
+    "technique": "fullwidth-digits",
+    "entityType": "NATIONAL_ID",
+    "description": "Full-width Unicode digits (U+FF10-U+FF19) encoding Egyptian national ID",
+    "protectedEntities": [{ "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[NATIONAL_ID]"],
+    "outbound": "National ID: \uFF12\uFF17\uFF15\uFF10\uFF16\uFF11\uFF12\uFF10\uFF11\uFF10\uFF14\uFF18\uFF13\uFF19.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-08-fullwidth-name",
+    "technique": "fullwidth-latin",
+    "entityType": "PERSON",
+    "description": "Full-width Latin characters encoding protected name",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Landlord: \uFF2B\uFF41\uFF52\uFF49\uFF4D \uFF26\uFF41\uFF54\uFF48\uFF59.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-09-fullwidth-money",
+    "technique": "fullwidth-digits",
+    "entityType": "MONEY",
+    "description": "Full-width digits encoding protected rent amount",
+    "protectedEntities": [{ "type": "MONEY", "value": "EGP 8,500", "start": 0, "end": 9, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[RENT]"],
+    "outbound": "Monthly rent is EGP \uFF18,\uFF15\uFF10\uFF10.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-10-spelled-out-national-id",
+    "technique": "digits-in-words",
+    "entityType": "NATIONAL_ID",
+    "description": "14-digit national ID spelled out digit-by-digit in English words",
+    "protectedEntities": [{ "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[NATIONAL_ID]"],
+    "outbound": "ID digits: two seven five zero six one two zero one zero four eight three nine.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-11-spelled-out-phone",
+    "technique": "digits-in-words",
+    "entityType": "PHONE",
+    "description": "Mobile number spelled out in English words",
+    "protectedEntities": [{ "type": "PHONE", "value": "+20 100 555 0192", "start": 0, "end": 16, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[PHONE]"],
+    "outbound": "Call zero one zero zero five five five zero one nine two.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-12-spelled-out-money",
+    "technique": "digits-in-words",
+    "entityType": "MONEY",
+    "description": "Protected money amount spelled out in words",
+    "protectedEntities": [{ "type": "MONEY", "value": "EGP 8,500", "start": 0, "end": 9, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[RENT]"],
+    "outbound": "Monthly rent is eight thousand five hundred Egyptian pounds.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-13-newline-split-name",
+    "technique": "split-across-lines",
+    "entityType": "PERSON",
+    "description": "Protected name split across two lines with newline",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Signed by Karim\nFathy on the lease.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-14-newline-split-midword",
+    "technique": "split-across-lines",
+    "entityType": "PERSON",
+    "description": "Single word of name split mid-word across a line break",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Signed by Kar\nim Fat\nhy on the lease.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-15-newline-split-id",
+    "technique": "split-across-lines",
+    "entityType": "NATIONAL_ID",
+    "description": "National ID split across lines",
+    "protectedEntities": [{ "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[NATIONAL_ID]"],
+    "outbound": "ID:\n2750612\n0104839",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-16-newline-split-iban",
+    "technique": "split-across-lines",
+    "entityType": "IBAN",
+    "description": "EG IBAN split across multiple lines",
+    "protectedEntities": [{ "type": "IBAN", "value": "EG38 0019 0005 0000 0000 2631 8000 2", "start": 0, "end": 36, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[ACCOUNT]"],
+    "outbound": "Bank:\nEG38 0019\n0005 0000\n0000 2631 8000 2",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-17-base64-name",
+    "technique": "base64",
+    "entityType": "PERSON",
+    "description": "Base64-encoded protected name (Karim Fathy)",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Landlord token: S2FyaW0gRmF0aHk=.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-18-base64-national-id",
+    "technique": "base64",
+    "entityType": "NATIONAL_ID",
+    "description": "Base64-encoded 14-digit national ID (27506120104839)",
+    "protectedEntities": [{ "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[NATIONAL_ID]"],
+    "outbound": "Ref: Mjc1MDYxMjAxMDQ4Mzk=.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-19-reversed-name",
+    "technique": "reversed-string",
+    "entityType": "PERSON",
+    "description": "Reversed string of protected person name (Karim Fathy -> yhtaF miraK)",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Note: yhtaF miraK owns the unit.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-20-reversed-national-id",
+    "technique": "reversed-string",
+    "entityType": "NATIONAL_ID",
+    "description": "Reversed 14-digit national ID (93840102160572)",
+    "protectedEntities": [{ "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[NATIONAL_ID]"],
+    "outbound": "Backwards ID: 93840102160572.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-21-punctuated-iban",
+    "technique": "spaced-punctuated",
+    "entityType": "IBAN",
+    "description": "Dash/dot punctuated IBAN",
+    "protectedEntities": [{ "type": "IBAN", "value": "EG38 0019 0005 0000 0000 2631 8000 2", "start": 0, "end": 36, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[ACCOUNT]"],
+    "outbound": "Send to EG38-0019.0005/0000-0000-2631-8000-2.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-22-punctuated-phone",
+    "technique": "spaced-punctuated",
+    "entityType": "PHONE",
+    "description": "Parenthesized and dotted mobile phone number",
+    "protectedEntities": [{ "type": "PHONE", "value": "+20 100 555 0192", "start": 0, "end": 16, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[PHONE]"],
+    "outbound": "Call (+20) 100.555.0192.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-23-defanged-email",
+    "technique": "spaced-punctuated",
+    "entityType": "EMAIL",
+    "description": "Defanged email with [at] and [dot]",
+    "protectedEntities": [{ "type": "EMAIL", "value": "mona.adel@example.com", "start": 0, "end": 21, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[EMAIL]"],
+    "outbound": "Email: mona [dot] adel [at] example [dot] com.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-24-spaced-money",
+    "technique": "spaced-punctuated",
+    "entityType": "MONEY",
+    "description": "Space-separated digits in rent amount (8 5 0 0)",
+    "protectedEntities": [{ "type": "MONEY", "value": "EGP 8,500", "start": 0, "end": 9, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[RENT]"],
+    "outbound": "Monthly rent is 8 5 0 0 pounds.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-25-arabic-indic-national-id",
+    "technique": "arabic-indic-digits",
+    "entityType": "NATIONAL_ID",
+    "description": "Arabic-Indic numerals encoding protected national ID",
+    "protectedEntities": [{ "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[NATIONAL_ID]"],
+    "outbound": "ID: \u0662\u0667\u0665\u0660\u0666\u0661\u0662\u0660\u0661\u0660\u0664\u0668\u0663\u0669.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-26-fake-tag-name",
+    "technique": "fake-tag-injection",
+    "entityType": "PERSON",
+    "description": "Raw name disguised inside square brackets [KARIM_FATHY] not in knownTags",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Clause 7: [KARIM_FATHY] may increase rent by 10%.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-27-spaced-key-shaped",
+    "technique": "spaced-punctuated",
+    "entityType": "ORG",
+    "description": "Hyphen-spaced synthetic secret token passed as protected entity",
+    "protectedEntities": [{ "type": "ORG", "value": "TOKEN_ALPHA_992817", "start": 0, "end": 18, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[SECRET]"],
+    "outbound": "Key: T-O-K-E-N-_-A-L-P-H-A-_-9-9-2-8-1-7.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-28-nfd-accented-name",
+    "technique": "unicode-combining-marks",
+    "entityType": "PERSON",
+    "description": "Combining acute accents (NFD) added to protected person name",
+    "protectedEntities": [{ "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "Signed by Ka\u0301rim Fa\u0301thy.",
+    "expectedBlocked": true
+  },
+  {
+    "id": "rt-ctrl-01-clean-tags",
+    "technique": "control-clean",
+    "entityType": "MONEY",
+    "description": "Control: properly masked Clause 7 with [RENT] and [LANDLORD] must NOT be blocked",
+    "protectedEntities": [
+      { "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" },
+      { "type": "MONEY", "value": "EGP 8,500", "start": 12, "end": 21, "confidence": 1, "source": "rules" }
+    ],
+    "knownTags": ["[LANDLORD]", "[RENT]"],
+    "outbound": "Clause 7: The monthly rent is [RENT]. [LANDLORD] may increase rent once per year by 10%.",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-02-clean-expr",
+    "technique": "control-clean",
+    "entityType": "MONEY",
+    "description": "Control: symbolic math expression {{RENT * 1.10}} must NOT be blocked",
+    "protectedEntities": [{ "type": "MONEY", "value": "EGP 8,500", "start": 0, "end": 9, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[RENT]"],
+    "outbound": "Question: Can rent rise from [RENT] by 20% or only to {{RENT * 1.10}}?",
+    "expectedBlocked": false
+  }
+]

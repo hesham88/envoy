@@ -1,22 +1,19 @@
 #!/usr/bin/env node
 /**
- * Envoy Evaluation Harness (Phase 5 — BRIEF §8, PAIR Ch. 2.3 & Harness²).
+ * Envoy Evaluation Harness (`npm run eval`) — Milestone 1–5
  *
- * Evaluates benchmark cases in `tests/eval/cases.json` strictly from verified REAL `--live`
- * on-device model outputs stored in `tests/eval/probes/nano-cache.json` (`source === "live"`,
- * recording `modelLabel`, `modelComponent`, `modelVersion`, `backend`, `recordedAt`).
+ * Scores ONLY verified live `runCase()` results collected via `scripts/lib/envoy-browser.mjs`
+ * (stored in `tests/eval/probes/arms/<arm>.json` with `source: 'live'`, exact model component &
+ * version, backend, and recordedAt). Never recomposes analyze() outputs outside `analyze()` and
+ * never synthesizes fake model outputs.
  *
- * Headline Table (Measured Live Results ONLY):
- *   1. Rules Alone         — deterministic regex + checksums only (`detectWithRules`), all clauses sent.
- *   2. On-Device LLM Alone — measured live on-device model (`detect` + `minimize` + `route`), no rules/guard.
- *   3. Envoy Layered       — Rules + measured live on-device model + name fallback + Outbound Guard.
- *
- * Separate Appendix (NOT in headline table, NEVER called Nano):
- *   - Oracle model (upper bound) — theoretical ceiling using gold labels purely in-memory.
+ * Outputs:
+ *   - `tests/eval/results.json` — detailed per-arm, clean/noisy, and per-case audit output
+ *   - `tests/eval/summary.json` — stable contract consumed by the landing page & README
  *
  * Usage:
- *   npm run eval                # evaluates all live-cached cases + 20-question answer quality check
- *   node tests/eval/run.mjs --live   # first runs collect-live.mjs against Chrome CDP, then evaluates
+ *   npm run eval                   # score from committed live caches (no Chrome needed)
+ *   npm run eval -- --live --arm basic   # re-collect an arm first, then score
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -25,17 +22,26 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = pathResolve(__dirname, '../..');
-
-function pathResolve(...parts) {
-  return resolve(...parts);
-}
+const ROOT = resolve(__dirname, '../..');
+const CASES_PATH = resolve(__dirname, 'cases.json');
+const ARMS_DIR = resolve(__dirname, 'probes/arms');
+const RESULTS_PATH = resolve(__dirname, 'results.json');
+const SUMMARY_PATH = resolve(__dirname, 'summary.json');
+const REDTEAM_RESULTS_PATH = resolve(__dirname, 'redteam-results.json');
+const SECRETS_RESULTS_PATH = resolve(__dirname, 'secrets-results.json');
+const ATTACK_RESULTS_PATH = resolve(__dirname, 'attack-results.json');
+const QUALITY_RESULTS_PATH = resolve(__dirname, 'quality-results.json');
 
 if (process.argv.includes('--live')) {
-  execFileSync(process.execPath, [resolve(__dirname, 'collect-live.mjs'), ...process.argv.slice(2)], {
+  const passArgs = process.argv.slice(2).filter((a) => a !== '--live');
+  execFileSync(process.execPath, [resolve(__dirname, 'collect-live.mjs'), ...passArgs], {
     stdio: 'inherit',
   });
 }
+
+// Always refresh deterministic local evaluations (guard red-team & secrets/custom-rules; no Chrome needed)
+execFileSync(process.execPath, [resolve(__dirname, 'run-redteam.mjs')], { stdio: 'inherit' });
+execFileSync(process.execPath, [resolve(__dirname, 'run-secrets.mjs')], { stdio: 'inherit' });
 
 const vite = await createServer({
   root: ROOT,
@@ -45,16 +51,18 @@ const vite = await createServer({
 });
 const core = await vite.ssrLoadModule('/packages/core/src/index.ts');
 
-const casesPath = resolve(__dirname, 'cases.json');
-const cachePath = resolve(__dirname, 'probes/nano-cache.json');
-const resultsPath = resolve(__dirname, 'results.json');
+const cases = JSON.parse(readFileSync(CASES_PATH, 'utf8'));
+const caseById = new Map(cases.map((c) => [c.id, c]));
 
-const cases = JSON.parse(readFileSync(casesPath, 'utf8'));
+function gitShortCommit() {
+  try {
+    return execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
+  } catch {
+    return 'unknown';
+  }
+}
 
-/**
- * Checks whether a gold sensitive value (or its canonical normalized form) appears unmasked
- * in the outbound excerpt.
- */
+/** Checks whether a gold sensitive value (or its canonical/digit-normalized form) appears unmasked in text. */
 function isLeakedInOutbound(outbound, goldItem) {
   if (!outbound) return false;
   const raw = goldItem.value.trim();
@@ -70,339 +78,314 @@ function isLeakedInOutbound(outbound, goldItem) {
   return false;
 }
 
-const NAME_STOPWORDS = new Set(
-  'the this that these those either each any both all residential lease agreement landlord tenant premises arab republic egypt cairo maadi road street clause clauses rent deposit utilities maintenance payment entry termination notices governing signed building flat use parties term contract notice page january february march april may june july august september october november december monday tuesday wednesday thursday friday saturday sunday'.split(
-    ' ',
-  ),
-);
-
-const NAME_PATTERNS = [
-  /\b(?:Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g,
-  /\b[A-Z][a-z]{2,}(?:\s+(?:El|Al|Abdel|Abd|Abu|Bin|Ibn|de|van|von))?(?:\s+[A-Z][a-z]{2,})+/g,
-  /\b[A-Z]{3,}(?:\s+[A-Z]{3,})+\b/g,
-];
-
-function flagNames(text, taken) {
-  const out = [];
-  for (const [i, re] of NAME_PATTERNS.entries()) {
-    for (const m of text.matchAll(re)) {
-      const words = m[0].split(/\s+/).filter((w) => !/^(Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?$/.test(w));
-      if (i > 0 && words.some((w) => NAME_STOPWORDS.has(w.toLowerCase()))) continue;
-      const e = { type: 'PERSON', value: m[0], start: m.index, end: m.index + m[0].length, confidence: 0.4, source: 'rules' };
-      if (![...taken, ...out].some((t) => t.start < e.end && e.start < t.end)) out.push(e);
+/** Checks whether a detected entity corresponds to any gold sensitive value in the case. */
+function matchesGold(entity, goldSensitive) {
+  const ev = core.normalizeDigits(entity.value.trim()).text.toLowerCase();
+  for (const g of goldSensitive) {
+    const gv = core.normalizeDigits(g.value.trim()).text.toLowerCase();
+    if (ev === gv || gv.includes(ev) || ev.includes(gv)) return true;
+    if (['PHONE', 'IBAN', 'CARD', 'NATIONAL_ID'].includes(g.type)) {
+      const canE = core.canonical(entity.value, g.type).toLowerCase();
+      const canG = core.canonical(g.value, g.type).toLowerCase();
+      if (canE && canG && canE === canG) return true;
     }
   }
-  return out.sort((a, b) => a.start - b.start);
+  return false;
 }
 
-function maskChunk(c, entities, tags) {
-  const inside = entities
-    .filter((e) => e.start >= c.start && e.end <= c.end)
-    .map((e) => ({ ...e, start: e.start - c.start, end: e.end - c.start }));
-  return core.maskText(c.text, inside, tags);
+function percentile(values, p) {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const idx = Math.min(sorted.length - 1, Math.max(0, Math.ceil((p / 100) * sorted.length) - 1));
+  return Math.round(sorted[idx]);
 }
 
-function maskQuestion(question, docEntities, tags) {
-  const found = core.detectWithRules(question);
-  for (const e of docEntities) {
-    for (let i = question.indexOf(e.value); i !== -1; i = question.indexOf(e.value, i + e.value.length)) {
-      if (!found.some((f) => f.start < i + e.value.length && i < f.end)) {
-        found.push({ ...e, start: i, end: i + e.value.length });
+function round4(n) {
+  return Number(n.toFixed(4));
+}
+
+function scoreArmFile(armId, filePath) {
+  if (!existsSync(filePath)) return null;
+  const raw = JSON.parse(readFileSync(filePath, 'utf8'));
+  const entries = raw.entries ?? {};
+
+  const scoredCases = [];
+  const missingIds = [];
+
+  for (const tc of cases) {
+    const entry = entries[tc.id];
+    if (!entry || entry.source !== 'live' || !entry.result || !entry.result.ok) {
+      missingIds.push(tc.id);
+      continue;
+    }
+
+    const r = entry.result;
+    const isLocal = r.mode === 'private' && Boolean(r.route?.local);
+    // Final transmitted outbound: empty if answered locally OR hard-blocked by the outbound guard.
+    const transmittedOutbound = isLocal || !r.guardOk ? '' : (r.outbound ?? '');
+    // Pre-guard outbound (what analyze() composed before guard verdict)
+    const preGuardOutbound = isLocal ? '' : (r.outbound ?? '');
+
+    const finalLeaks = tc.goldSensitive.filter((g) => isLeakedInOutbound(transmittedOutbound, g));
+    const preGuardLeaks = tc.goldSensitive.filter((g) => isLeakedInOutbound(preGuardOutbound, g));
+
+    // Sensitive recall: fraction of gold items NOT leaked in transmitted outbound
+    const goldCount = tc.goldSensitive.length;
+    const maskedGoldCount = goldCount - finalLeaks.length;
+
+    // False-mask rate: fraction of unique detected entities that do not match any gold item
+    const uniqueDetected = [];
+    const seenVal = new Set();
+    for (const e of r.entities ?? []) {
+      const key = `${e.type}:${e.value.trim().toLowerCase()}`;
+      if (!seenVal.has(key)) {
+        seenVal.add(key);
+        uniqueDetected.push(e);
       }
     }
-  }
-  return core.maskText(question, found, tags);
-}
+    const falseMasks = uniqueDetected.filter((e) => !matchesGold(e, tc.goldSensitive));
 
-function maskQuestionLlmOnly(question, llmEntities, tags) {
-  const found = [];
-  for (const e of llmEntities) {
-    for (let i = question.indexOf(e.value); i !== -1; i = question.indexOf(e.value, i + e.value.length)) {
-      if (!found.some((f) => f.start < i + e.value.length && i < f.end)) {
-        found.push({ ...e, start: i, end: i + e.value.length });
-      }
-    }
-  }
-  return core.maskText(question, found, tags);
-}
+    const selectedIds = r.selectedIds ?? [];
+    const clauseHit = tc.expectedClauses.every((id) => selectedIds.includes(id));
+    const routeAccurate = Boolean(r.route?.local) === tc.expectedLocalRoute;
 
-/**
- * Loads ONLY verified live model responses (`source === 'live'`) from `nano-cache.json`.
- * Never synthesizes fake model outputs into the cache.
- */
-function loadLiveCache() {
-  if (!existsSync(cachePath)) return {};
-  const raw = JSON.parse(readFileSync(cachePath, 'utf8'));
-  const live = {};
-  for (const [id, entry] of Object.entries(raw)) {
-    if (entry && entry.source === 'live' && entry.modelComponent && entry.modelVersion) {
-      live[id] = entry;
-    }
-  }
-  return live;
-}
-
-function evaluateCase(tc, doc, chunks, rulesOnly, llmEntry) {
-  const question = tc.question;
-
-  // Condition 1: Rules Alone (deterministic regex + checksums only, all clauses sent)
-  const rulesTags = core.assignTags(rulesOnly);
-  const rulesOutbound = [
-    `Question: ${maskQuestion(question, rulesOnly, rulesTags)}`,
-    ...chunks.map((c) => `${c.label}: ${maskChunk(c, rulesOnly, rulesTags)}`),
-  ].join('\n\n');
-  const rulesLeaks = tc.goldSensitive.filter((g) => isLeakedInOutbound(rulesOutbound, g));
-
-  // Parse on-device LLM JSON outputs (either real live entry or in-memory oracle upper bound)
-  const llmDetected = core.parseDetectResponse(llmEntry.detectJson, doc);
-  const llmMin = core.parseMinimizeResponse(
-    llmEntry.minimizeJson,
-    chunks.map((c) => c.id),
-  );
-  const llmRoute = core.parseRouteResponse(llmEntry.routeJson);
-  const selectedIds = llmMin ? llmMin.ids : chunks.map((c) => c.id);
-  const selectedChunks = chunks.filter((c) => selectedIds.includes(c.id));
-  const localRoute = llmRoute ? llmRoute.local : false;
-
-  // Condition 2: On-Device LLM Alone (no deterministic rules, no name fallback, no outbound guard)
-  const llmTags = core.assignTags(llmDetected);
-  const llmOutbound = localRoute
-    ? ''
-    : [
-        `Question: ${maskQuestionLlmOnly(question, llmDetected, llmTags)}`,
-        ...selectedChunks.map((c) => `${c.label}: ${maskChunk(c, llmDetected, llmTags)}`),
-      ].join('\n\n');
-  const llmLeaks = localRoute ? [] : tc.goldSensitive.filter((g) => isLeakedInOutbound(llmOutbound, g));
-
-  // Condition 3: Envoy Layered (Rules + On-Device LLM + Name Fallback + Outbound Guard)
-  const merged = core.mergeEntities(rulesOnly, llmDetected);
-  const flaggedFallback = flagNames(doc, merged);
-  const layeredEntities = core.mergeEntities(merged, flaggedFallback);
-  const layeredTags = core.assignTags(layeredEntities);
-  const layeredOutbound = localRoute
-    ? ''
-    : [
-        `Question: ${maskQuestion(question, layeredEntities, layeredTags)}`,
-        ...selectedChunks.map((c) => `${c.label}: ${maskChunk(c, layeredEntities, layeredTags)}`),
-      ].join('\n\n');
-  const knownTags = layeredTags.entries().map((t) => t.tag);
-  const guardResult = localRoute
-    ? { ok: true, leaks: [] }
-    : core.checkOutbound(layeredOutbound, layeredEntities, { knownTags });
-  // Hard-blocking Outbound Guard prevents transmission if any leak is detected
-  const transmittedOutbound = guardResult.ok ? layeredOutbound : '';
-  const layeredLeaks =
-    localRoute || !guardResult.ok ? [] : tc.goldSensitive.filter((g) => isLeakedInOutbound(transmittedOutbound, g));
-
-  const targetHit = tc.expectedClauses.every((id) => selectedIds.includes(id));
-
-  return {
-    id: tc.id,
-    category: tc.category,
-    title: tc.title,
-    noisy: tc.noisy,
-    docChars: doc.length,
-    totalClauses: chunks.length,
-    goldCount: tc.goldSensitive.length,
-    expectedClauses: tc.expectedClauses,
-    expectedLocalRoute: tc.expectedLocalRoute,
-    modelComponent: llmEntry.modelComponent,
-    modelVersion: llmEntry.modelVersion,
-    modelLabel: llmEntry.modelLabel,
-    recordedAt: llmEntry.recordedAt,
-    ms: llmEntry.ms ?? null,
-    rulesAlone: {
-      leakedCount: rulesLeaks.length,
-      leakedValues: rulesLeaks.map((l) => `${l.type}:${l.value}`),
-      outboundChars: rulesOutbound.length,
-      clausesSent: chunks.length,
-    },
-    onDeviceLlmAlone: {
-      leakedCount: llmLeaks.length,
-      leakedValues: llmLeaks.map((l) => `${l.type}:${l.value}`),
-      outboundChars: llmOutbound.length,
-      clausesSent: localRoute ? 0 : selectedChunks.length,
-      selectedIds,
-      localRoute,
-      targetClauseRecall: targetHit,
-      routeAccurate: localRoute === tc.expectedLocalRoute,
-    },
-    envoyLayered: {
-      leakedCount: layeredLeaks.length,
-      leakedValues: layeredLeaks.map((l) => `${l.type}:${l.value}`),
+    scoredCases.push({
+      id: tc.id,
+      category: tc.category,
+      noisy: tc.noisy,
+      recordedAt: entry.recordedAt,
+      mode: r.mode,
+      deviceStatus: r.deviceStatus,
+      fallbackReason: r.fallbackReason ?? null,
+      ms: r.ms,
+      docChars: tc.document.length,
       outboundChars: transmittedOutbound.length,
-      clausesSent: localRoute || !guardResult.ok ? 0 : selectedChunks.length,
+      clausesTotal: r.receipt?.pagesTotal ?? null,
       selectedIds,
-      localRoute,
-      guardOk: guardResult.ok,
-      guardLeaksBlocked: guardResult.leaks.length,
-      targetClauseRecall: targetHit,
-      routeAccurate: localRoute === tc.expectedLocalRoute,
-    },
-  };
-}
-
-function aggregate(subset) {
-  const totalCases = subset.length;
-  const totalGold = subset.reduce((s, r) => s + r.goldCount, 0);
-  const totalDocChars = subset.reduce((s, r) => s + r.docChars, 0);
-  const totalClauses = subset.reduce((s, r) => s + r.totalClauses, 0);
-
-  const calc = (key) => {
-    const leakedEntities = subset.reduce((s, r) => s + r[key].leakedCount, 0);
-    const zeroLeakCases = subset.filter((r) => r[key].leakedCount === 0).length;
-    const outboundChars = subset.reduce((s, r) => s + r[key].outboundChars, 0);
-    const clausesSent = subset.reduce((s, r) => s + r[key].clausesSent, 0);
-    const clauseRecallHits = subset.filter((r) => (key === 'rulesAlone' ? true : r[key].targetClauseRecall)).length;
-    const routeHits = subset.filter((r) => (key === 'rulesAlone' ? false : r[key].routeAccurate)).length;
-    const guardBlocks = subset.filter((r) => key === 'envoyLayered' && !r[key].guardOk).length;
-    return {
-      leakedEntities,
-      leakagePct: totalGold ? Number(((leakedEntities / totalGold) * 100).toFixed(2)) : 0,
-      privacyRecallPct: totalGold ? Number((((totalGold - leakedEntities) / totalGold) * 100).toFixed(2)) : 100,
-      zeroLeakCases,
-      zeroLeakCasePct: totalCases ? Number(((zeroLeakCases / totalCases) * 100).toFixed(1)) : 0,
-      outboundChars,
-      excerptRatioPct: totalDocChars ? Number(((outboundChars / totalDocChars) * 100).toFixed(1)) : 0,
-      contextReductionPct: totalDocChars ? Number((((totalDocChars - outboundChars) / totalDocChars) * 100).toFixed(1)) : 0,
-      clausesSent,
-      clauseRatioPct: totalClauses ? Number(((clausesSent / totalClauses) * 100).toFixed(1)) : 0,
-      clauseRecallPct: totalCases ? Number(((clauseRecallHits / totalCases) * 100).toFixed(1)) : 0,
-      routeAccuracyPct: totalCases && key !== 'rulesAlone' ? Number(((routeHits / totalCases) * 100).toFixed(1)) : null,
-      guardBlocks,
-    };
-  };
-
-  return {
-    totalCases,
-    totalGold,
-    totalDocChars,
-    totalClauses,
-    rulesAlone: calc('rulesAlone'),
-    onDeviceLlmAlone: calc('onDeviceLlmAlone'),
-    envoyLayered: calc('envoyLayered'),
-  };
-}
-
-const liveCache = loadLiveCache();
-const liveCaseResults = [];
-const oracleUpperBoundResults = [];
-const missingLiveIds = [];
-
-for (const tc of cases) {
-  const doc = tc.document;
-  const chunks = core.chunkDocument(doc);
-  const rulesOnly = core.detectWithRules(doc);
-
-  // 1. Measured LIVE model evaluation (only when a verified real live entry exists)
-  const liveEntry = liveCache[tc.id];
-  if (liveEntry) {
-    liveCaseResults.push(evaluateCase(tc, doc, chunks, rulesOnly, liveEntry));
-  } else {
-    missingLiveIds.push(tc.id);
+      expectedClauses: tc.expectedClauses,
+      clauseHit,
+      localRoute: Boolean(r.route?.local),
+      expectedLocalRoute: tc.expectedLocalRoute,
+      routeAccurate,
+      guardOk: Boolean(r.guardOk),
+      guardLeakCount: (r.leaks ?? []).length,
+      goldCount,
+      maskedGoldCount,
+      finalLeakCount: finalLeaks.length,
+      finalLeaks: finalLeaks.map((l) => `${l.type}:${l.value}`),
+      preGuardLeakCount: preGuardLeaks.length,
+      uniqueDetectedCount: uniqueDetected.length,
+      falseMaskCount: falseMasks.length,
+      falseMasks: falseMasks.map((e) => `${e.type}:${e.value}`),
+      networkSteps: r.network ?? [],
+    });
   }
 
-  // 2. Separate in-memory Oracle model (upper bound) — NEVER written to nano-cache.json, NEVER called Nano
+  const n = scoredCases.length;
+  const totalGold = scoredCases.reduce((s, c) => s + c.goldCount, 0);
+  const totalMaskedGold = scoredCases.reduce((s, c) => s + c.maskedGoldCount, 0);
+  const totalFinalLeaks = scoredCases.reduce((s, c) => s + c.finalLeakCount, 0);
+  const totalDetected = scoredCases.reduce((s, c) => s + c.uniqueDetectedCount, 0);
+  const totalFalseMasks = scoredCases.reduce((s, c) => s + c.falseMaskCount, 0);
+  const totalDocChars = scoredCases.reduce((s, c) => s + c.docChars, 0);
+  const totalOutboundChars = scoredCases.reduce((s, c) => s + c.outboundChars, 0);
+  const clauseHits = scoredCases.filter((c) => c.clauseHit).length;
+  const routeHits = scoredCases.filter((c) => c.routeAccurate).length;
+  const privateRuns = scoredCases.filter((c) => c.mode === 'private').length;
+  const guardBlocks = scoredCases.filter((c) => !c.guardOk).length;
+  const leakCaseIds = scoredCases.filter((c) => c.finalLeakCount > 0).map((c) => ({ id: c.id, leaks: c.finalLeaks }));
+  const latencies = scoredCases.map((c) => c.ms);
+  const dates = [...new Set(scoredCases.map((c) => (c.recordedAt ? c.recordedAt.slice(0, 10) : null)).filter(Boolean))];
+
+  return {
+    id: armId,
+    label: raw.label ?? armId,
+    model: raw.model ?? null,
+    backend: raw.backend ?? 'unknown',
+    dates,
+    n,
+    nTotal: cases.length,
+    isPartial: n < cases.length,
+    missingCaseIds: missingIds,
+    privateRuns,
+    guardBlocks,
+    leakCaseIds,
+    metrics: {
+      maskRecall: totalGold ? round4(totalMaskedGold / totalGold) : 1,
+      falseMaskRate: totalDetected ? round4(totalFalseMasks / totalDetected) : 0,
+      outboundLeaks: totalFinalLeaks,
+      clauseAccuracy: n ? round4(clauseHits / n) : 0,
+      routeAccuracy: n ? round4(routeHits / n) : 0,
+      latencyMs: { p50: percentile(latencies, 50), p95: percentile(latencies, 95) },
+      minimizationRatio: totalDocChars ? round4(totalOutboundChars / totalDocChars) : 0,
+      reidRecoveryExact: null,
+      reidRecoveryPartial: null,
+      attributeInference: null,
+      answerQualityRetained: null,
+    },
+    counts: {
+      totalGold,
+      totalMaskedGold,
+      totalFinalLeaks,
+      totalDetected,
+      totalFalseMasks,
+      totalDocChars,
+      totalOutboundChars,
+      clauseHits,
+      routeHits,
+    },
+    cases: scoredCases,
+  };
+}
+
+// Merge optional Milestone 3 & 4 measured artifacts when present
+const attackData = existsSync(ATTACK_RESULTS_PATH) ? JSON.parse(readFileSync(ATTACK_RESULTS_PATH, 'utf8')) : null;
+const qualityData = existsSync(QUALITY_RESULTS_PATH) ? JSON.parse(readFileSync(QUALITY_RESULTS_PATH, 'utf8')) : null;
+const redteamData = existsSync(REDTEAM_RESULTS_PATH) ? JSON.parse(readFileSync(REDTEAM_RESULTS_PATH, 'utf8')) : null;
+const secretsData = existsSync(SECRETS_RESULTS_PATH) ? JSON.parse(readFileSync(SECRETS_RESULTS_PATH, 'utf8')) : null;
+
+const ARM_ORDER = ['gemma4', 'nano', 'basic'];
+const arms = [];
+for (const armId of ARM_ORDER) {
+  const scored = scoreArmFile(armId, resolve(ARMS_DIR, `${armId}.json`));
+  if (!scored) continue;
+  if (attackData?.byArm?.[armId]) {
+    scored.metrics.reidRecoveryExact = attackData.byArm[armId].reidRecoveryExact ?? null;
+    scored.metrics.reidRecoveryPartial = attackData.byArm[armId].reidRecoveryPartial ?? null;
+    scored.metrics.attributeInference = attackData.byArm[armId].attributeInference ?? null;
+  }
+  if (qualityData?.byArm?.[armId]) {
+    scored.metrics.answerQualityRetained = qualityData.byArm[armId].answerQualityRetained ?? null;
+  }
+  arms.push(scored);
+}
+
+// Separate in-memory Oracle model (upper bound) — NEVER labeled Nano, NEVER in headline summary.arms
+let oracleTotalGold = 0;
+let oracleTotalLeaks = 0;
+let oracleDocChars = 0;
+let oracleOutChars = 0;
+for (const tc of cases) {
+  const chunks = core.chunkDocument(tc.document);
+  const rules = core.detectWithRules(tc.document);
   const oracleEntities = tc.goldSensitive
     .filter((g) => ['PERSON', 'ORG', 'ADDRESS', 'MONEY'].includes(g.type))
     .map((g) => ({ text: g.value, kind: g.type, role: g.role || (g.type === 'MONEY' ? 'fee' : 'other') }));
-  const oracleEntry = {
-    modelLabel: 'Oracle model (upper bound)',
-    modelComponent: 'synthetic_gold_oracle',
-    modelVersion: 'n/a',
-    recordedAt: null,
-    detectJson: JSON.stringify({ entities: oracleEntities }),
-    minimizeJson: JSON.stringify({ clause_ids: tc.expectedClauses, reason: 'Gold clauses.' }),
-    routeJson: JSON.stringify({ answerable_locally: tc.expectedLocalRoute, reason: 'Gold route.' }),
-  };
-  oracleUpperBoundResults.push(evaluateCase(tc, doc, chunks, rulesOnly, oracleEntry));
+  const parsed = core.parseDetectResponse(JSON.stringify({ entities: oracleEntities }), tc.document);
+  const merged = core.mergeEntities(rules, parsed);
+  const tags = core.assignTags(merged);
+  const selected = chunks.filter((c) => tc.expectedClauses.includes(c.id));
+  const out = tc.expectedLocalRoute
+    ? ''
+    : [
+        `Question: ${core.maskText(tc.question, core.detectWithRules(tc.question), tags)}`,
+        ...selected.map((c) => {
+          const inside = merged
+            .filter((e) => e.start >= c.start && e.end <= c.end)
+            .map((e) => ({ ...e, start: e.start - c.start, end: e.end - c.start }));
+          return `${c.label}: ${core.maskText(c.text, inside, tags)}`;
+        }),
+      ].join('\n\n');
+  const guard = tc.expectedLocalRoute
+    ? { ok: true, leaks: [] }
+    : core.checkOutbound(out, merged, { knownTags: tags.entries().map((t) => t.tag) });
+  const sent = guard.ok ? out : '';
+  oracleTotalGold += tc.goldSensitive.length;
+  oracleTotalLeaks += tc.goldSensitive.filter((g) => isLeakedInOutbound(sent, g)).length;
+  oracleDocChars += tc.document.length;
+  oracleOutChars += sent.length;
 }
 
-const modelsObserved = [
-  ...new Set(liveCaseResults.map((r) => `${r.modelLabel} (${r.modelComponent} ${r.modelVersion})`)),
-];
-const measuredDates = [...new Set(liveCaseResults.map((r) => (r.recordedAt ? r.recordedAt.slice(0, 10) : null)).filter(Boolean))];
+const generatedAt = new Date().toISOString();
+const commit = gitShortCommit();
 
-const measuredOverall = aggregate(liveCaseResults);
-const measuredClean = aggregate(liveCaseResults.filter((r) => !r.noisy));
-const measuredNoisy = aggregate(liveCaseResults.filter((r) => r.noisy));
-const oracleOverall = aggregate(oracleUpperBoundResults);
+// Stable Milestone 5 summary.json contract
+const summaryJson = {
+  generatedAt,
+  commit,
+  arms: arms.map((a) => ({
+    id: a.id,
+    label: a.label,
+    model: a.model,
+    backend: a.backend,
+    n: a.n,
+    nTotal: a.nTotal,
+    metrics: {
+      maskRecall: a.metrics.maskRecall,
+      falseMaskRate: a.metrics.falseMaskRate,
+      outboundLeaks: a.metrics.outboundLeaks,
+      clauseAccuracy: a.metrics.clauseAccuracy,
+      latencyMs: a.metrics.latencyMs,
+      minimizationRatio: a.metrics.minimizationRatio,
+      reidRecoveryExact: a.metrics.reidRecoveryExact,
+      reidRecoveryPartial: a.metrics.reidRecoveryPartial,
+      attributeInference: a.metrics.attributeInference,
+      answerQualityRetained: a.metrics.answerQualityRetained,
+    },
+  })),
+  redteam: redteamData
+    ? {
+        cases: redteamData.cases,
+        blocked: redteamData.blocked,
+        bypasses: redteamData.bypasses,
+      }
+    : { cases: 0, blocked: 0, bypasses: [] },
+  secrets: secretsData
+    ? {
+        recall: secretsData.recall,
+        precision: secretsData.precision,
+        n: secretsData.n,
+      }
+    : { recall: null, precision: null, n: 0 },
+};
 
-const summaryPayload = {
-  generatedAt: new Date().toISOString(),
-  totalBenchmarkCases: cases.length,
-  liveMeasuredCases: liveCaseResults.length,
-  missingLiveCaseIds: missingLiveIds,
-  modelsObserved,
-  measuredDates,
-  measured: {
-    overall: measuredOverall,
-    clean: measuredClean,
-    noisy: measuredNoisy,
-    cases: liveCaseResults,
-  },
+const resultsJson = {
+  generatedAt,
+  commit,
+  nTotal: cases.length,
+  arms,
   oracleUpperBound: {
-    note: 'Synthetic gold ceiling computed in-memory only; NOT a real model and NOT included in headline tables.',
-    overall: oracleOverall,
+    note: 'Oracle model (upper bound) — synthetic gold ceiling computed in-memory only; NOT a real model and NOT included in summary.json arms.',
+    n: cases.length,
+    totalGold: oracleTotalGold,
+    outboundLeaks: oracleTotalLeaks,
+    minimizationRatio: oracleDocChars ? round4(oracleOutChars / oracleDocChars) : 0,
   },
 };
 
-writeFileSync(resultsPath, JSON.stringify(summaryPayload, null, 2) + '\n', 'utf8');
+writeFileSync(SUMMARY_PATH, JSON.stringify(summaryJson, null, 2) + '\n', 'utf8');
+writeFileSync(RESULTS_PATH, JSON.stringify(resultsJson, null, 2) + '\n', 'utf8');
 
-if (liveCaseResults.length === 0) {
-  console.warn(
-    `WARNING: 0/${cases.length} cases have verified live model entries in tests/eval/probes/nano-cache.json.\n` +
-      `Run \`node tests/eval/collect-live.mjs\` against Chrome CDP (port 9333) to record real on-device model outputs.`,
-  );
+console.log(`\n=== ENVOY LIVE EVALUATION SUMMARY (commit ${commit}) ===`);
+if (arms.length === 0) {
+  console.warn('No live arm caches found in tests/eval/probes/arms/*.json. Run `node tests/eval/collect-live.mjs --arm basic|gemma4|nano`.');
 } else {
-  const modelHeader = modelsObserved.join(', ');
-  console.log(
-    `\n=== ENVOY MEASURED EVALUATION (${liveCaseResults.length}/${cases.length} LIVE CASES · ${measuredOverall.totalGold} GOLD ITEMS) ===\n` +
-      `Model(s): ${modelHeader} · Date(s): ${measuredDates.join(', ')}`,
-  );
-  console.table({
-    'Rules Alone (deterministic only)': {
-      'PII Leakage %': `${measuredOverall.rulesAlone.leakagePct}% (${measuredOverall.rulesAlone.leakedEntities}/${measuredOverall.totalGold})`,
-      'Privacy Recall %': `${measuredOverall.rulesAlone.privacyRecallPct}%`,
-      'Zero-Leak Cases %': `${measuredOverall.rulesAlone.zeroLeakCasePct}%`,
-      'Context Reduction %': `${measuredOverall.rulesAlone.contextReductionPct}%`,
-      'Clauses Sent %': `${measuredOverall.rulesAlone.clauseRatioPct}%`,
-      'Clause Recall %': `${measuredOverall.rulesAlone.clauseRecallPct}%`,
-      'Route Acc %': 'n/a',
-    },
-    [`On-Device LLM Alone (${modelHeader})`]: {
-      'PII Leakage %': `${measuredOverall.onDeviceLlmAlone.leakagePct}% (${measuredOverall.onDeviceLlmAlone.leakedEntities}/${measuredOverall.totalGold})`,
-      'Privacy Recall %': `${measuredOverall.onDeviceLlmAlone.privacyRecallPct}%`,
-      'Zero-Leak Cases %': `${measuredOverall.onDeviceLlmAlone.zeroLeakCasePct}%`,
-      'Context Reduction %': `${measuredOverall.onDeviceLlmAlone.contextReductionPct}%`,
-      'Clauses Sent %': `${measuredOverall.onDeviceLlmAlone.clauseRatioPct}%`,
-      'Clause Recall %': `${measuredOverall.onDeviceLlmAlone.clauseRecallPct}%`,
-      'Route Acc %': `${measuredOverall.onDeviceLlmAlone.routeAccuracyPct}%`,
-    },
-    [`Envoy Layered (Rules + ${modelHeader} + Guard)`]: {
-      'PII Leakage %': `${measuredOverall.envoyLayered.leakagePct}% (${measuredOverall.envoyLayered.leakedEntities}/${measuredOverall.totalGold})`,
-      'Privacy Recall %': `${measuredOverall.envoyLayered.privacyRecallPct}%`,
-      'Zero-Leak Cases %': `${measuredOverall.envoyLayered.zeroLeakCasePct}%`,
-      'Context Reduction %': `${measuredOverall.envoyLayered.contextReductionPct}%`,
-      'Clauses Sent %': `${measuredOverall.envoyLayered.clauseRatioPct}%`,
-      'Clause Recall %': `${measuredOverall.envoyLayered.clauseRecallPct}%`,
-      'Route Acc %': `${measuredOverall.envoyLayered.routeAccuracyPct}%`,
-    },
-  });
+  const table = {};
+  for (const a of arms) {
+    const modelStr = a.model ? `${a.model.label} (${a.model.component} ${a.model.version})` : 'Rules + Guard only';
+    const partialTag = a.isPartial ? ` [PARTIAL n=${a.n}/${a.nTotal}]` : ` [FULL n=${a.n}/${a.nTotal}]`;
+    table[`${a.id}: ${modelStr}${partialTag}`] = {
+      'n / 36': `${a.n}/${a.nTotal}`,
+      'Mask Recall': `${(a.metrics.maskRecall * 100).toFixed(2)}%`,
+      'False-Mask Rate': `${(a.metrics.falseMaskRate * 100).toFixed(1)}%`,
+      'Outbound Leaks': a.metrics.outboundLeaks,
+      'Clause Acc': `${(a.metrics.clauseAccuracy * 100).toFixed(1)}%`,
+      'Min Ratio (sent/doc)': `${(a.metrics.minimizationRatio * 100).toFixed(1)}%`,
+      'p50 / p95 ms': `${a.metrics.latencyMs.p50} / ${a.metrics.latencyMs.p95}`,
+      'Date(s)': a.dates.join(', '),
+    };
+  }
+  console.table(table);
+  for (const a of arms) {
+    if (a.leakCaseIds.length > 0) {
+      console.warn(`! NON-ZERO OUTBOUND LEAKS in arm '${a.id}':`, JSON.stringify(a.leakCaseIds));
+    }
+  }
 }
-
 console.log(
-  `\n--- Separate Appendix: Oracle model (upper bound, synthetic gold ceiling across all ${cases.length} cases — NOT a real model) ---\n` +
-    `Oracle + Envoy Layered upper bound: leakage=${oracleOverall.envoyLayered.leakagePct}% (${oracleOverall.envoyLayered.leakedEntities}/${oracleOverall.totalGold}), contextReduction=${oracleOverall.envoyLayered.contextReductionPct}%, clausesSent=${oracleOverall.envoyLayered.clauseRatioPct}%`,
+  `Appendix — Oracle model (upper bound, synthetic gold ceiling, NOT a real model): leaks=${oracleTotalLeaks}/${oracleTotalGold}, minimizationRatio=${(resultsJson.oracleUpperBound.minimizationRatio * 100).toFixed(1)}%`,
 );
-console.log(`Saved full results to ${resultsPath}`);
+console.log(`Saved ${SUMMARY_PATH} and ${RESULTS_PATH}`);
 
 await vite.close();
-
-// Also run the 20-question answer quality & restoration verification on live-cached cases
-if (liveCaseResults.length > 0) {
-  const { runAnswerQualityEval } = await import('./run-answers.mjs');
-  await runAnswerQualityEval({ live: false });
-}
-
-export { summaryPayload };
+export { summaryJson, resultsJson, caseById };

@@ -1,0 +1,108 @@
+{
+  "generatedAt": "2026-11-22T15:27:52.974Z",
+  "commit": "5dce993",
+  "arms": [
+    {
+      "id": "basic",
+      "label": "Basic protection (rules + guard, no on-device model)",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "n": 36,
+      "nTotal": 36,
+      "metrics": {
+        "maskRecall": 0.9696,
+        "falseMaskRate": 0.1331,
+        "outboundLeaks": 8,
+        "clauseAccuracy": 1,
+        "latencyMs": {
+          "p50": 5,
+          "p95": 18
+        },
+        "minimizationRatio": 0.9595,
+        "reidRecoveryExact": 0,
+        "reidRecoveryPartial": 0,
+        "attributeInference": 0.0968,
+        "answerQualityRetained": 1
+      }
+    }
+  ],
+  "redteam": {
+    "cases": 28,
+    "blocked": 11,
+    "bypasses": [
+      {
+        "id": "rt-01-zwsp-name",
+        "technique": "zero-width-space"
+      },
+      {
+        "id": "rt-03-soft-hyphen-email",
+        "technique": "soft-hyphen"
+      },
+      {
+        "id": "rt-05-cyrillic-homoglyph-name",
+        "technique": "unicode-homoglyph"
+      },
+      {
+        "id": "rt-07-fullwidth-national-id",
+        "technique": "fullwidth-digits"
+      },
+      {
+        "id": "rt-08-fullwidth-name",
+        "technique": "fullwidth-latin"
+      },
+      {
+        "id": "rt-09-fullwidth-money",
+        "technique": "fullwidth-digits"
+      },
+      {
+        "id": "rt-10-spelled-out-national-id",
+        "technique": "digits-in-words"
+      },
+      {
+        "id": "rt-11-spelled-out-phone",
+        "technique": "digits-in-words"
+      },
+      {
+        "id": "rt-12-spelled-out-money",
+        "technique": "digits-in-words"
+      },
+      {
+        "id": "rt-14-newline-split-midword",
+        "technique": "split-across-lines"
+      },
+      {
+        "id": "rt-17-base64-name",
+        "technique": "base64"
+      },
+      {
+        "id": "rt-18-base64-national-id",
+        "technique": "base64"
+      },
+      {
+        "id": "rt-19-reversed-name",
+        "technique": "reversed-string"
+      },
+      {
+        "id": "rt-20-reversed-national-id",
+        "technique": "reversed-string"
+      },
+      {
+        "id": "rt-23-defanged-email",
+        "technique": "spaced-punctuated"
+      },
+      {
+        "id": "rt-27-spaced-key-shaped",
+        "technique": "spaced-punctuated"
+      },
+      {
+        "id": "rt-28-nfd-accented-name",
+        "technique": "unicode-combining-marks"
+      }
+    ]
+  },
+  "secrets": {
+    "recall": 1,
+    "precision": 0.9412,
+    "n": 24
+  }
+}

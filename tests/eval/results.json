@@ -1,1014 +1,1517 @@
 {
-  "generatedAt": "2026-11-22T14:38:16.267Z",
-  "totalBenchmarkCases": 36,
-  "liveMeasuredCases": 14,
-  "missingLiveCaseIds": [
-    "lease-06-landlord-entry-notice-local",
-    "lease-07-commercial-cam-cap",
-    "lease-08-plumbing-responsibility",
-    "offer-02-non-compete-scope",
-    "offer-04-bonus-proration",
-    "offer-05-ip-side-project",
-    "offer-06-remote-work-allowance",
-    "med-02-vitamin-d-dosage-local",
-    "med-03-insurance-copay-cap",
-    "med-04-mri-contrast-prep",
-    "freelance-02-invoice-payment-net-local",
-    "freelance-03-card-hold-dispute",
-    "freelance-04-liability-cap",
-    "loan-02-warranty-coverage-period-local",
-    "noisy-02-eastern-arabic-digits-phone",
-    "noisy-03-unspaced-iban-and-compact-phone",
-    "noisy-07-particles-arabic-transliterated-names",
-    "noisy-08-iso-and-slash-dates-with-card",
-    "noisy-09-format-variants-same-entity",
-    "noisy-10-multi-tenant-joint-liability",
-    "noisy-11-distractor-numbers-and-clauses",
-    "noisy-12-euro-and-usd-dual-currency"
-  ],
-  "modelsObserved": [
-    "Gemma 4 (gemma4_component 2026.11.3.1140)"
-  ],
-  "measuredDates": [
-    "2026-11-22"
-  ],
-  "measured": {
-    "overall": {
-      "totalCases": 14,
-      "totalGold": 121,
-      "totalDocChars": 12694,
-      "totalClauses": 74,
-      "rulesAlone": {
-        "leakedEntities": 30,
-        "leakagePct": 24.79,
-        "privacyRecallPct": 75.21,
-        "zeroLeakCases": 0,
-        "zeroLeakCasePct": 0,
-        "outboundChars": 13707,
-        "excerptRatioPct": 108,
-        "contextReductionPct": -8,
-        "clausesSent": 74,
-        "clauseRatioPct": 100,
-        "clauseRecallPct": 100,
-        "routeAccuracyPct": null,
-        "guardBlocks": 0
-      },
-      "onDeviceLlmAlone": {
-        "leakedEntities": 5,
-        "leakagePct": 4.13,
-        "privacyRecallPct": 95.87,
-        "zeroLeakCases": 12,
-        "zeroLeakCasePct": 85.7,
-        "outboundChars": 2576,
-        "excerptRatioPct": 20.3,
-        "contextReductionPct": 79.7,
-        "clausesSent": 11,
-        "clauseRatioPct": 14.9,
-        "clauseRecallPct": 78.6,
-        "routeAccuracyPct": 35.7,
-        "guardBlocks": 0
-      },
-      "envoyLayered": {
-        "leakedEntities": 0,
-        "leakagePct": 0,
-        "privacyRecallPct": 100,
-        "zeroLeakCases": 14,
-        "zeroLeakCasePct": 100,
-        "outboundChars": 1902,
-        "excerptRatioPct": 15,
-        "contextReductionPct": 85,
-        "clausesSent": 9,
-        "clauseRatioPct": 12.2,
-        "clauseRecallPct": 78.6,
-        "routeAccuracyPct": 35.7,
-        "guardBlocks": 1
-      }
-    },
-    "clean": {
-      "totalCases": 10,
-      "totalGold": 103,
-      "totalDocChars": 11570,
-      "totalClauses": 65,
-      "rulesAlone": {
-        "leakedEntities": 21,
-        "leakagePct": 20.39,
-        "privacyRecallPct": 79.61,
-        "zeroLeakCases": 0,
-        "zeroLeakCasePct": 0,
-        "outboundChars": 12155,
-        "excerptRatioPct": 105.1,
-        "contextReductionPct": -5.1,
-        "clausesSent": 65,
-        "clauseRatioPct": 100,
-        "clauseRecallPct": 100,
-        "routeAccuracyPct": null,
-        "guardBlocks": 0
-      },
-      "onDeviceLlmAlone": {
-        "leakedEntities": 5,
-        "leakagePct": 4.85,
-        "privacyRecallPct": 95.15,
-        "zeroLeakCases": 8,
-        "zeroLeakCasePct": 80,
-        "outboundChars": 2315,
-        "excerptRatioPct": 20,
-        "contextReductionPct": 80,
-        "clausesSent": 10,
-        "clauseRatioPct": 15.4,
-        "clauseRecallPct": 80,
-        "routeAccuracyPct": 40,
-        "guardBlocks": 0
-      },
-      "envoyLayered": {
-        "leakedEntities": 0,
-        "leakagePct": 0,
-        "privacyRecallPct": 100,
-        "zeroLeakCases": 10,
-        "zeroLeakCasePct": 100,
-        "outboundChars": 1643,
-        "excerptRatioPct": 14.2,
-        "contextReductionPct": 85.8,
-        "clausesSent": 8,
-        "clauseRatioPct": 12.3,
-        "clauseRecallPct": 80,
-        "routeAccuracyPct": 40,
-        "guardBlocks": 1
-      }
-    },
-    "noisy": {
-      "totalCases": 4,
-      "totalGold": 18,
-      "totalDocChars": 1124,
-      "totalClauses": 9,
-      "rulesAlone": {
-        "leakedEntities": 9,
-        "leakagePct": 50,
-        "privacyRecallPct": 50,
-        "zeroLeakCases": 0,
-        "zeroLeakCasePct": 0,
-        "outboundChars": 1552,
-        "excerptRatioPct": 138.1,
-        "contextReductionPct": -38.1,
-        "clausesSent": 9,
-        "clauseRatioPct": 100,
-        "clauseRecallPct": 100,
-        "routeAccuracyPct": null,
-        "guardBlocks": 0
-      },
-      "onDeviceLlmAlone": {
-        "leakedEntities": 0,
-        "leakagePct": 0,
-        "privacyRecallPct": 100,
-        "zeroLeakCases": 4,
-        "zeroLeakCasePct": 100,
-        "outboundChars": 261,
-        "excerptRatioPct": 23.2,
-        "contextReductionPct": 76.8,
-        "clausesSent": 1,
-        "clauseRatioPct": 11.1,
-        "clauseRecallPct": 75,
-        "routeAccuracyPct": 25,
-        "guardBlocks": 0
-      },
-      "envoyLayered": {
-        "leakedEntities": 0,
-        "leakagePct": 0,
-        "privacyRecallPct": 100,
-        "zeroLeakCases": 4,
-        "zeroLeakCasePct": 100,
-        "outboundChars": 259,
-        "excerptRatioPct": 23,
-        "contextReductionPct": 77,
-        "clausesSent": 1,
-        "clauseRatioPct": 11.1,
-        "clauseRecallPct": 75,
-        "routeAccuracyPct": 25,
-        "guardBlocks": 0
-      }
-    },
-    "cases": [
-      {
-        "id": "lease-01-rent-cap",
-        "category": "residential_lease",
-        "title": "Cairo Residential Lease — Annual Rent Increase Cap",
-        "noisy": false,
-        "docChars": 2554,
-        "totalClauses": 13,
-        "goldCount": 16,
-        "expectedClauses": [
-          7
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:08:51.671Z",
-        "ms": 81186,
-        "rulesAlone": {
-          "leakedCount": 3,
-          "leakedValues": [
-            "PERSON:Karim Fathy",
-            "PERSON:Mona Adel",
-            "PERSON:Sara Nabil"
-          ],
-          "outboundChars": 2541,
-          "clausesSent": 13
+  "generatedAt": "2026-11-22T15:27:52.974Z",
+  "commit": "5dce993",
+  "nTotal": 36,
+  "arms": [
+    {
+      "id": "basic",
+      "label": "Basic protection (rules + guard, no on-device model)",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "dates": [
+        "2026-11-22"
+      ],
+      "n": 36,
+      "nTotal": 36,
+      "isPartial": false,
+      "missingCaseIds": [],
+      "privateRuns": 0,
+      "guardBlocks": 6,
+      "leakCaseIds": [
+        {
+          "id": "lease-05-sublet-policy",
+          "leaks": [
+            "PERSON:Hisham El-Masry"
+          ]
         },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 235,
-          "clausesSent": 1,
-          "selectedIds": [
-            7
-          ],
-          "localRoute": false,
-          "targetClauseRecall": true,
-          "routeAccurate": true
+        {
+          "id": "med-02-vitamin-d-dosage-local",
+          "leaks": [
+            "PERSON:Yasmin El-Banna"
+          ]
         },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 235,
-          "clausesSent": 1,
-          "selectedIds": [
-            7
-          ],
-          "localRoute": false,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": true
-        }
-      },
-      {
-        "id": "lease-02-end-date-local",
-        "category": "residential_lease",
-        "title": "Cairo Residential Lease — Contract End Term Lookup",
-        "noisy": false,
-        "docChars": 2474,
-        "totalClauses": 13,
-        "goldCount": 16,
-        "expectedClauses": [
-          2
-        ],
-        "expectedLocalRoute": true,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:10:19.024Z",
-        "ms": 85697,
-        "rulesAlone": {
-          "leakedCount": 3,
-          "leakedValues": [
-            "PERSON:Karim Fathy",
-            "PERSON:Mona Adel",
-            "PERSON:Sara Nabil"
-          ],
-          "outboundChars": 2522,
-          "clausesSent": 13
+        {
+          "id": "freelance-04-liability-cap",
+          "leaks": [
+            "PERSON:Mostafa El-Gendy"
+          ]
         },
-        "onDeviceLlmAlone": {
-          "leakedCount": 1,
-          "leakedValues": [
-            "DATE:1 September 2024"
-          ],
-          "outboundChars": 421,
-          "clausesSent": 2,
-          "selectedIds": [
-            2,
-            10
-          ],
-          "localRoute": false,
-          "targetClauseRecall": true,
-          "routeAccurate": false
+        {
+          "id": "noisy-02-eastern-arabic-digits-phone",
+          "leaks": [
+            "PERSON:Tariq El-Sawy"
+          ]
         },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 413,
-          "clausesSent": 2,
-          "selectedIds": [
-            2,
-            10
-          ],
-          "localRoute": false,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "lease-03-early-exit-deposit",
-        "category": "residential_lease",
-        "title": "Cairo Residential Lease — Early Exit Deposit Forfeiture",
-        "noisy": false,
-        "docChars": 2474,
-        "totalClauses": 13,
-        "goldCount": 16,
-        "expectedClauses": [
-          6,
-          10
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:12:20.652Z",
-        "ms": 119710,
-        "rulesAlone": {
-          "leakedCount": 3,
-          "leakedValues": [
-            "PERSON:Karim Fathy",
-            "PERSON:Mona Adel",
-            "PERSON:Sara Nabil"
-          ],
-          "outboundChars": 2540,
-          "clausesSent": 13
+        {
+          "id": "noisy-08-iso-and-slash-dates-with-card",
+          "leaks": [
+            "PERSON:Seif El-Din"
+          ]
         },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            6,
-            10
-          ],
-          "localRoute": true,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            6,
-            10
-          ],
-          "localRoute": true,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "lease-04-late-fee-grace-period",
-        "category": "residential_lease",
-        "title": "Cairo Residential Lease — Late Payment Grace Period",
-        "noisy": false,
-        "docChars": 549,
-        "totalClauses": 3,
-        "goldCount": 9,
-        "expectedClauses": [
-          8
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:13:50.236Z",
-        "ms": 82879,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
+        {
+          "id": "noisy-09-format-variants-same-entity",
+          "leaks": [
             "PERSON:Karim Fathy",
             "PERSON:Mona Adel"
-          ],
-          "outboundChars": 604,
-          "clausesSent": 3
+          ]
         },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 248,
-          "clausesSent": 1,
+        {
+          "id": "noisy-10-multi-tenant-joint-liability",
+          "leaks": [
+            "PERSON:Karim Fathy"
+          ]
+        }
+      ],
+      "metrics": {
+        "maskRecall": 0.9696,
+        "falseMaskRate": 0.1331,
+        "outboundLeaks": 8,
+        "clauseAccuracy": 1,
+        "routeAccuracy": 0.7778,
+        "latencyMs": {
+          "p50": 5,
+          "p95": 18
+        },
+        "minimizationRatio": 0.9595,
+        "reidRecoveryExact": 0,
+        "reidRecoveryPartial": 0,
+        "attributeInference": 0.0968,
+        "answerQualityRetained": 1
+      },
+      "counts": {
+        "totalGold": 263,
+        "totalMaskedGold": 255,
+        "totalFinalLeaks": 8,
+        "totalDetected": 293,
+        "totalFalseMasks": 39,
+        "totalDocChars": 21550,
+        "totalOutboundChars": 20678,
+        "clauseHits": 36,
+        "routeHits": 28
+      },
+      "cases": [
+        {
+          "id": "lease-01-rent-cap",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:01.700Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 34,
+          "docChars": 2554,
+          "outboundChars": 2537,
+          "clausesTotal": 6,
           "selectedIds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "expectedClauses": [
+            7
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 16,
+          "maskedGoldCount": 16,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 16,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:02.190Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 3,
+          "docChars": 2474,
+          "outboundChars": 2518,
+          "clausesTotal": 1,
+          "selectedIds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 16,
+          "maskedGoldCount": 16,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 16,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:02.770Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 2,
+          "docChars": 2474,
+          "outboundChars": 2536,
+          "clausesTotal": 1,
+          "selectedIds": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "expectedClauses": [
+            6,
+            10
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 16,
+          "maskedGoldCount": 16,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 16,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:03.285Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 1,
+          "docChars": 549,
+          "outboundChars": 602,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            7,
             8
           ],
-          "localRoute": false,
-          "targetClauseRecall": true,
-          "routeAccurate": true
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 248,
-          "clausesSent": 1,
-          "selectedIds": [
+          "expectedClauses": [
             8
           ],
+          "clauseHit": true,
           "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
           "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": true
-        }
-      },
-      {
-        "id": "lease-05-sublet-policy",
-        "category": "residential_lease",
-        "title": "Heliopolis Apartment Lease — Subletting Consent",
-        "noisy": false,
-        "docChars": 638,
-        "totalClauses": 4,
-        "goldCount": 10,
-        "expectedClauses": [
-          3
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:15:17.967Z",
-        "ms": 85900,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
-            "PERSON:Hisham El-Masry",
-            "PERSON:Nadia Shawky"
-          ],
-          "outboundChars": 678,
-          "clausesSent": 4
+          "guardLeakCount": 0,
+          "goldCount": 9,
+          "maskedGoldCount": 9,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
         },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            3
-          ],
-          "localRoute": true,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            3
-          ],
-          "localRoute": true,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "offer-01-severance-calculation",
-        "category": "employment_contract",
-        "title": "Senior Engineer Employment Contract — Layoff Severance Pay",
-        "noisy": false,
-        "docChars": 774,
-        "totalClauses": 5,
-        "goldCount": 9,
-        "expectedClauses": [
-          2,
-          5
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:23:04.468Z",
-        "ms": 154453,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
-            "PERSON:Ramy Lotfy",
-            "PERSON:Salma Mostafa"
-          ],
-          "outboundChars": 852,
-          "clausesSent": 5
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 4,
-          "leakedValues": [
-            "NATIONAL_ID:29605210104321",
-            "PHONE:+20 101 333 8899",
-            "EMAIL:salma.mostafa@example.com",
-            "DATE:1 November 2025"
-          ],
-          "outboundChars": 681,
-          "clausesSent": 3,
+        {
+          "id": "lease-05-sublet-policy",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:03.601Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 638,
+          "outboundChars": 674,
+          "clausesTotal": 1,
           "selectedIds": [
             1,
             2,
-            5
+            3,
+            4
           ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
           "localRoute": false,
-          "targetClauseRecall": true,
-          "routeAccurate": true
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 10,
+          "maskedGoldCount": 9,
+          "finalLeakCount": 1,
+          "finalLeaks": [
+            "PERSON:Hisham El-Masry"
+          ],
+          "preGuardLeakCount": 1,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
         },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 646,
-          "clausesSent": 3,
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:03.774Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 411,
+          "outboundChars": 496,
+          "clausesTotal": 1,
           "selectedIds": [
             1,
             2,
-            5
-          ],
-          "localRoute": false,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": true
-        }
-      },
-      {
-        "id": "offer-03-probation-period-local",
-        "category": "employment_contract",
-        "title": "Software Architect Employment — Probation Length Lookup",
-        "noisy": false,
-        "docChars": 344,
-        "totalClauses": 3,
-        "goldCount": 5,
-        "expectedClauses": [
-          3
-        ],
-        "expectedLocalRoute": true,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:23:58.363Z",
-        "ms": 53194,
-        "rulesAlone": {
-          "leakedCount": 1,
-          "leakedValues": [
-            "PERSON:Nourhan Khalil"
-          ],
-          "outboundChars": 395,
-          "clausesSent": 3
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 101,
-          "clausesSent": 1,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": false,
-          "targetClauseRecall": false,
-          "routeAccurate": false
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 101,
-          "clausesSent": 1,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": false,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": false,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "med-01-fasting-glucose-threshold",
-        "category": "medical_report",
-        "title": "Clinical Pathology Lab Report — Fasting Glucose Interpretation",
-        "noisy": false,
-        "docChars": 767,
-        "totalClauses": 4,
-        "goldCount": 8,
-        "expectedClauses": [
-          3,
-          4
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:25:07.169Z",
-        "ms": 68394,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
-            "PERSON:Adel Mansour",
-            "PERSON:Dr. Hany Selim"
-          ],
-          "outboundChars": 885,
-          "clausesSent": 4
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 629,
-          "clausesSent": 2,
-          "selectedIds": [
             3,
             4
           ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
           "localRoute": false,
-          "targetClauseRecall": true,
-          "routeAccurate": true
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            3,
-            4
-          ],
-          "localRoute": false,
-          "guardOk": false,
-          "guardLeaksBlocked": 3,
-          "targetClauseRecall": true,
-          "routeAccurate": true
-        }
-      },
-      {
-        "id": "freelance-01-kill-fee",
-        "category": "consulting_agreement",
-        "title": "Design Retainer Agreement — Mid-Milestone Cancellation Fee",
-        "noisy": false,
-        "docChars": 508,
-        "totalClauses": 4,
-        "goldCount": 7,
-        "expectedClauses": [
-          2,
-          4
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:26:12.375Z",
-        "ms": 64808,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
-            "PERSON:Mariam Rizk",
-            "PERSON:Bassem Fouad"
-          ],
-          "outboundChars": 613,
-          "clausesSent": 4
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            4
-          ],
-          "localRoute": true,
-          "targetClauseRecall": false,
-          "routeAccurate": false
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            4
-          ],
-          "localRoute": true,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
           "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": false,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "loan-01-early-payoff-penalty",
-        "category": "financial_agreement",
-        "title": "Auto Financing Agreement — Early Settlement Fee",
-        "noisy": false,
-        "docChars": 488,
-        "totalClauses": 3,
-        "goldCount": 7,
-        "expectedClauses": [
-          3
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:27:15.831Z",
-        "ms": 63037,
-        "rulesAlone": {
-          "leakedCount": 1,
-          "leakedValues": [
-            "PERSON:Samer Fawzy"
-          ],
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "category": "commercial_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:04.011Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 8,
+          "docChars": 470,
           "outboundChars": 525,
-          "clausesSent": 3
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
+          "clausesTotal": 1,
           "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 9,
+          "maskedGoldCount": 9,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 10,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Office Suite"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "category": "residential_lease",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:04.225Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 463,
+          "outboundChars": 527,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
             2,
             3
           ],
-          "localRoute": true,
-          "targetClauseRecall": true,
-          "routeAccurate": false
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 8,
+          "maskedGoldCount": 8,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
         },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
+        {
+          "id": "offer-01-severance-calculation",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:04.401Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 6,
+          "docChars": 774,
+          "outboundChars": 847,
+          "clausesTotal": 1,
           "selectedIds": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "expectedClauses": [
+            2,
+            5
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 9,
+          "maskedGoldCount": 9,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:04.656Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 7,
+          "docChars": 604,
+          "outboundChars": 672,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Base Salary"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "offer-03-probation-period-local",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:04.870Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 3,
+          "docChars": 344,
+          "outboundChars": 383,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
             2,
             3
           ],
-          "localRoute": true,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "noisy-01-arabic-indic-digits-lease",
-        "category": "noisy_stress",
-        "title": "Noisy Format — Arabic-Indic Digits in National ID and Dates",
-        "noisy": true,
-        "docChars": 235,
-        "totalClauses": 2,
-        "goldCount": 5,
-        "expectedClauses": [
-          2
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:28:20.519Z",
-        "ms": 64196,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
-            "PERSON:Karim Fathy",
-            "PERSON:Mona Adel"
+          "expectedClauses": [
+            3
           ],
-          "outboundChars": 309,
-          "clausesSent": 2
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": true,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": true,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "noisy-04-postfix-currency-le-egp",
-        "category": "noisy_stress",
-        "title": "Noisy Format — Postfix Currency (8,500 EGP and 17,000 LE)",
-        "noisy": true,
-        "docChars": 299,
-        "totalClauses": 3,
-        "goldCount": 4,
-        "expectedClauses": [
-          2,
-          3
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:29:24.200Z",
-        "ms": 63234,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
-            "PERSON:Karim Fathy",
-            "PERSON:Mona Adel"
-          ],
-          "outboundChars": 458,
-          "clausesSent": 3
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": true,
-          "targetClauseRecall": false,
-          "routeAccurate": false
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": true,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": false,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "noisy-05-all-caps-and-titled-names",
-        "category": "noisy_stress",
-        "title": "Noisy Format — All-Caps Names and Honorific Titles",
-        "noisy": true,
-        "docChars": 341,
-        "totalClauses": 2,
-        "goldCount": 5,
-        "expectedClauses": [
-          2
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:30:30.537Z",
-        "ms": 65894,
-        "rulesAlone": {
-          "leakedCount": 3,
-          "leakedValues": [
-            "PERSON:KARIM FATHY",
-            "PERSON:Dr. Mona Adel",
-            "PERSON:Eng. Tarek Samir"
-          ],
-          "outboundChars": 431,
-          "clausesSent": 2
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": true,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 0,
-          "clausesSent": 0,
-          "selectedIds": [
-            2
-          ],
-          "localRoute": true,
-          "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": false
-        }
-      },
-      {
-        "id": "noisy-06-pii-in-user-question",
-        "category": "noisy_stress",
-        "title": "Noisy Format — User Types Their Own Name, Phone, and Rent Inside the Question",
-        "noisy": true,
-        "docChars": 249,
-        "totalClauses": 2,
-        "goldCount": 4,
-        "expectedClauses": [
-          2
-        ],
-        "expectedLocalRoute": false,
-        "modelComponent": "gemma4_component",
-        "modelVersion": "2026.11.3.1140",
-        "modelLabel": "Gemma 4",
-        "recordedAt": "2026-11-22T14:31:25.903Z",
-        "ms": 55002,
-        "rulesAlone": {
-          "leakedCount": 2,
-          "leakedValues": [
-            "PERSON:Karim Fathy",
-            "PERSON:Mona Adel"
-          ],
-          "outboundChars": 354,
-          "clausesSent": 2
-        },
-        "onDeviceLlmAlone": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 261,
-          "clausesSent": 1,
-          "selectedIds": [
-            2
-          ],
+          "clauseHit": true,
           "localRoute": false,
-          "targetClauseRecall": true,
-          "routeAccurate": true
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Employee Details"
+          ],
+          "networkSteps": []
         },
-        "envoyLayered": {
-          "leakedCount": 0,
-          "leakedValues": [],
-          "outboundChars": 259,
-          "clausesSent": 1,
+        {
+          "id": "offer-04-bonus-proration",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:05.125Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 447,
+          "outboundChars": 0,
+          "clausesTotal": 1,
           "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            2,
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": false,
+          "guardLeakCount": 4,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 10,
+          "falseMaskCount": 3,
+          "falseMasks": [
+            "PERSON:Base Salary",
+            "PERSON:Annual Performance Bonus",
+            "PERSON:Payroll Account"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "offer-05-ip-side-project",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:05.314Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 578,
+          "outboundChars": 669,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Working Hours",
+            "PERSON:Intellectual Property"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "offer-06-remote-work-allowance",
+          "category": "employment_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:05.583Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 4,
+          "docChars": 344,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": false,
+          "guardLeakCount": 1,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Base Pay",
+            "PERSON:Equipment Allowance"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "med-01-fasting-glucose-threshold",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:05.944Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 18,
+          "docChars": 767,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            3,
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": false,
+          "guardLeakCount": 1,
+          "goldCount": 8,
+          "maskedGoldCount": 8,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 13,
+          "falseMaskCount": 5,
+          "falseMasks": [
+            "PERSON:Patient Identification",
+            "PERSON:Referring Physician",
+            "PERSON:Metabolic Panel Results",
+            "PERSON:Fasting Plasma Glucose",
+            "PERSON:Pathologist Comment"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "med-02-vitamin-d-dosage-local",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:06.386Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 6,
+          "docChars": 411,
+          "outboundChars": 477,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 1,
+          "finalLeaks": [
+            "PERSON:Yasmin El-Banna"
+          ],
+          "preGuardLeakCount": 1,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Patient Record"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "med-03-insurance-copay-cap",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:06.829Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 7,
+          "docChars": 449,
+          "outboundChars": 496,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 11,
+          "falseMaskCount": 4,
+          "falseMasks": [
+            "PERSON:Patient Details",
+            "PERSON:Attending Surgeon",
+            "PERSON:Under Policy Plan",
+            "PERSON:Refund Account"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "med-04-mri-contrast-prep",
+          "category": "medical_report",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:07.114Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 8,
+          "docChars": 466,
+          "outboundChars": 512,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Preparation Instructions"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "freelance-01-kill-fee",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:07.301Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 7,
+          "docChars": 508,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            2,
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": false,
+          "guardLeakCount": 1,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 11,
+          "falseMaskCount": 4,
+          "falseMasks": [
+            "PERSON:Milestone Fee",
+            "PERSON:Design System Delivery",
+            "PERSON:Wire Instructions",
+            "PERSON:Cancellation Kill Fee"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "freelance-02-invoice-payment-net-local",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:07.467Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 377,
+          "outboundChars": 422,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Invoicing Terms",
+            "PERSON:Settlement Account"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "freelance-03-card-hold-dispute",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:07.651Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 509,
+          "outboundChars": 564,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            2,
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Cancellation Schedule"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "freelance-04-liability-cap",
+          "category": "consulting_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:07.865Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 2,
+          "docChars": 475,
+          "outboundChars": 565,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            2,
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 1,
+          "finalLeaks": [
+            "PERSON:Mostafa El-Gendy"
+          ],
+          "preGuardLeakCount": 1,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Bank Details"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "loan-01-early-payoff-penalty",
+          "category": "financial_agreement",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:08.201Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 6,
+          "docChars": 488,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": false,
+          "guardLeakCount": 3,
+          "goldCount": 7,
+          "maskedGoldCount": 7,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Principal Balance",
+            "PERSON:Early Prepayment"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "loan-02-warranty-coverage-period-local",
+          "category": "consumer_contract",
+          "noisy": false,
+          "recordedAt": "2026-11-22T15:09:08.466Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 6,
+          "docChars": 364,
+          "outboundChars": 413,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 8,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Purchase Price",
+            "PERSON:Warranty Terms"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-01-arabic-indic-digits-lease",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:09.065Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 6,
+          "docChars": 235,
+          "outboundChars": 306,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
             2
           ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
           "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
           "guardOk": true,
-          "guardLeaksBlocked": 0,
-          "targetClauseRecall": true,
-          "routeAccurate": true
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Renewal Cap"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-02-eastern-arabic-digits-phone",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:09.406Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 4,
+          "docChars": 257,
+          "outboundChars": 375,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 4,
+          "finalLeakCount": 1,
+          "finalLeaks": [
+            "PERSON:Tariq El-Sawy"
+          ],
+          "preGuardLeakCount": 1,
+          "uniqueDetectedCount": 4,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-03-unspaced-iban-and-compact-phone",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:09.561Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 2,
+          "docChars": 297,
+          "outboundChars": 378,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 7,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Late Penalty"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-04-postfix-currency-le-egp",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:09.968Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 1,
+          "docChars": 299,
+          "outboundChars": 456,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3
+          ],
+          "expectedClauses": [
+            2,
+            3
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 4,
+          "maskedGoldCount": 4,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 4,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-05-all-caps-and-titled-names",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:10.742Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 3,
+          "docChars": 341,
+          "outboundChars": 419,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 5,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-06-pii-in-user-question",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:11.139Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 1,
+          "docChars": 249,
+          "outboundChars": 350,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 4,
+          "maskedGoldCount": 4,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 4,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-07-particles-arabic-transliterated-names",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:11.314Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 3,
+          "docChars": 335,
+          "outboundChars": 412,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 5,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-08-iso-and-slash-dates-with-card",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:11.518Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 4,
+          "docChars": 309,
+          "outboundChars": 412,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 5,
+          "maskedGoldCount": 4,
+          "finalLeakCount": 1,
+          "finalLeaks": [
+            "PERSON:Seif El-Din"
+          ],
+          "preGuardLeakCount": 1,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 2,
+          "falseMasks": [
+            "PERSON:Off Period",
+            "MONEY:EGP 0"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-09-format-variants-same-entity",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:11.684Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 1,
+          "docChars": 261,
+          "outboundChars": 336,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 4,
+          "finalLeakCount": 2,
+          "finalLeaks": [
+            "PERSON:Karim Fathy",
+            "PERSON:Mona Adel"
+          ],
+          "preGuardLeakCount": 2,
+          "uniqueDetectedCount": 4,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-10-multi-tenant-joint-liability",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:11.886Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 3,
+          "docChars": 353,
+          "outboundChars": 448,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 5,
+          "finalLeakCount": 1,
+          "finalLeaks": [
+            "PERSON:Karim Fathy"
+          ],
+          "preGuardLeakCount": 1,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Several Liability"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-11-distractor-numbers-and-clauses",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:12.071Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 2,
+          "docChars": 386,
+          "outboundChars": 0,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "expectedClauses": [
+            4
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": true,
+          "routeAccurate": false,
+          "guardOk": false,
+          "guardLeakCount": 1,
+          "goldCount": 8,
+          "maskedGoldCount": 8,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 9,
+          "falseMaskCount": 1,
+          "falseMasks": [
+            "PERSON:Late Fee"
+          ],
+          "networkSteps": []
+        },
+        {
+          "id": "noisy-12-euro-and-usd-dual-currency",
+          "category": "noisy_stress",
+          "noisy": true,
+          "recordedAt": "2026-11-22T15:09:12.293Z",
+          "mode": "basic",
+          "deviceStatus": "unavailable",
+          "fallbackReason": null,
+          "ms": 5,
+          "docChars": 290,
+          "outboundChars": 351,
+          "clausesTotal": 1,
+          "selectedIds": [
+            1,
+            2
+          ],
+          "expectedClauses": [
+            2
+          ],
+          "clauseHit": true,
+          "localRoute": false,
+          "expectedLocalRoute": false,
+          "routeAccurate": true,
+          "guardOk": true,
+          "guardLeakCount": 0,
+          "goldCount": 6,
+          "maskedGoldCount": 6,
+          "finalLeakCount": 0,
+          "finalLeaks": [],
+          "preGuardLeakCount": 0,
+          "uniqueDetectedCount": 6,
+          "falseMaskCount": 0,
+          "falseMasks": [],
+          "networkSteps": []
         }
-      }
-    ]
-  },
-  "oracleUpperBound": {
-    "note": "Synthetic gold ceiling computed in-memory only; NOT a real model and NOT included in headline tables.",
-    "overall": {
-      "totalCases": 36,
-      "totalGold": 263,
-      "totalDocChars": 21550,
-      "totalClauses": 143,
-      "rulesAlone": {
-        "leakedEntities": 68,
-        "leakagePct": 25.86,
-        "privacyRecallPct": 74.14,
-        "zeroLeakCases": 0,
-        "zeroLeakCasePct": 0,
-        "outboundChars": 24436,
-        "excerptRatioPct": 113.4,
-        "contextReductionPct": -13.4,
-        "clausesSent": 143,
-        "clauseRatioPct": 100,
-        "clauseRecallPct": 100,
-        "routeAccuracyPct": null,
-        "guardBlocks": 0
-      },
-      "onDeviceLlmAlone": {
-        "leakedEntities": 3,
-        "leakagePct": 1.14,
-        "privacyRecallPct": 98.86,
-        "zeroLeakCases": 33,
-        "zeroLeakCasePct": 91.7,
-        "outboundChars": 9507,
-        "excerptRatioPct": 44.1,
-        "contextReductionPct": 55.9,
-        "clausesSent": 36,
-        "clauseRatioPct": 25.2,
-        "clauseRecallPct": 100,
-        "routeAccuracyPct": 100,
-        "guardBlocks": 0
-      },
-      "envoyLayered": {
-        "leakedEntities": 0,
-        "leakagePct": 0,
-        "privacyRecallPct": 100,
-        "zeroLeakCases": 36,
-        "zeroLeakCasePct": 100,
-        "outboundChars": 7424,
-        "excerptRatioPct": 34.5,
-        "contextReductionPct": 65.5,
-        "clausesSent": 28,
-        "clauseRatioPct": 19.6,
-        "clauseRecallPct": 100,
-        "routeAccuracyPct": 100,
-        "guardBlocks": 5
-      }
+      ]
     }
+  ],
+  "oracleUpperBound": {
+    "note": "Oracle model (upper bound) — synthetic gold ceiling computed in-memory only; NOT a real model and NOT included in summary.json arms.",
+    "n": 36,
+    "totalGold": 263,
+    "outboundLeaks": 0,
+    "minimizationRatio": 0.4267
   }
 }

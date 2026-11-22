@@ -1,0 +1,168 @@
+{
+  "generatedAt": "2026-11-22T15:19:43.809Z",
+  "attackerModel": "gemini-3.5-flash-lite",
+  "mode": "ONLY_IN_CLOUD (Firebase AI Logic + App Check)",
+  "byArm": {
+    "basic": {
+      "n": 12,
+      "totalGold": 118,
+      "reidRecoveryExact": 0,
+      "reidRecoveryPartial": 0,
+      "attributeInference": 0.0968,
+      "exactHits": 0,
+      "partialHits": 0,
+      "attrHits": 3,
+      "attrApplicable": 31,
+      "byType": {
+        "PERSON": {
+          "total": 26,
+          "exact": 0,
+          "partial": 0
+        },
+        "NATIONAL_ID": {
+          "total": 17,
+          "exact": 0,
+          "partial": 0
+        },
+        "ADDRESS": {
+          "total": 12,
+          "exact": 0,
+          "partial": 0
+        },
+        "PHONE": {
+          "total": 15,
+          "exact": 0,
+          "partial": 0
+        },
+        "EMAIL": {
+          "total": 12,
+          "exact": 0,
+          "partial": 0
+        },
+        "DATE": {
+          "total": 8,
+          "exact": 0,
+          "partial": 0
+        },
+        "MONEY": {
+          "total": 20,
+          "exact": 0,
+          "partial": 0
+        },
+        "IBAN": {
+          "total": 8,
+          "exact": 0,
+          "partial": 0
+        }
+      }
+    }
+  },
+  "baselines": {
+    "naiveRedacted": {
+      "n": 12,
+      "totalGold": 118,
+      "reidRecoveryExact": 0,
+      "reidRecoveryPartial": 0,
+      "attributeInference": 0.0968,
+      "exactHits": 0,
+      "partialHits": 0,
+      "attrHits": 3,
+      "attrApplicable": 31,
+      "byType": {
+        "PERSON": {
+          "total": 26,
+          "exact": 0,
+          "partial": 0
+        },
+        "NATIONAL_ID": {
+          "total": 17,
+          "exact": 0,
+          "partial": 0
+        },
+        "ADDRESS": {
+          "total": 12,
+          "exact": 0,
+          "partial": 0
+        },
+        "PHONE": {
+          "total": 15,
+          "exact": 0,
+          "partial": 0
+        },
+        "EMAIL": {
+          "total": 12,
+          "exact": 0,
+          "partial": 0
+        },
+        "DATE": {
+          "total": 8,
+          "exact": 0,
+          "partial": 0
+        },
+        "MONEY": {
+          "total": 20,
+          "exact": 0,
+          "partial": 0
+        },
+        "IBAN": {
+          "total": 8,
+          "exact": 0,
+          "partial": 0
+        }
+      }
+    },
+    "rawDocument": {
+      "n": 12,
+      "totalGold": 118,
+      "reidRecoveryExact": 0.7203,
+      "reidRecoveryPartial": 0.7458,
+      "attributeInference": 0.6452,
+      "exactHits": 85,
+      "partialHits": 3,
+      "attrHits": 20,
+      "attrApplicable": 31,
+      "byType": {
+        "PERSON": {
+          "total": 26,
+          "exact": 21,
+          "partial": 0
+        },
+        "NATIONAL_ID": {
+          "total": 17,
+          "exact": 14,
+          "partial": 0
+        },
+        "ADDRESS": {
+          "total": 12,
+          "exact": 6,
+          "partial": 3
+        },
+        "PHONE": {
+          "total": 15,
+          "exact": 12,
+          "partial": 0
+        },
+        "EMAIL": {
+          "total": 12,
+          "exact": 9,
+          "partial": 0
+        },
+        "DATE": {
+          "total": 8,
+          "exact": 0,
+          "partial": 0
+        },
+        "MONEY": {
+          "total": 20,
+          "exact": 16,
+          "partial": 0
+        },
+        "IBAN": {
+          "total": 8,
+          "exact": 7,
+          "partial": 0
+        }
+      }
+    }
+  }
+}
