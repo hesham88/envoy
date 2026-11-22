@@ -30,7 +30,11 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 ## Shared skills (every agent)
 - `docs/skills/harness2/SKILL.md`: improve prompts and workflows with Propose–Probe–Compose, and log lessons in `docs/harness/LESSONS.md`.
 - `docs/skills/muse-image/SKILL.md`: generate images with Meta Muse Image. There's a **$8 total cap**, enforced by a ledger. Never commit the key.
-- Claude Code also has these installed globally in `~/.claude/skills/`.
+- `docs/skills/pair-ai-ux/SKILL.md`: design and audit AI UX, calibrated trust, explainability, human-in-the-loop control and graceful fallbacks with Google PAIR's People + AI Guidebook (Ch. 3–6 & 23 patterns).
+- `docs/skills/pair-ai-eval/SKILL.md`: apply PAIR Guidebook Ch. 1–2 to AI value-fit, interaction design policies, precision/recall trade-offs, noisy-data evaluation (`tests/eval`) and hackathon judge framing. See `docs/PAIR_GUIDEBOOK_STRATEGY.md`.
+- `docs/skills/chrome-built-in-ai/SKILL.md`: build, debug and test with Chrome's Built-in AI APIs (`LanguageModel` Prompt API, `Summarizer`, `Translator`, `LanguageDetector`, `Writer`, `Rewriter`, `Proofreader`, WebMCP, hardware/disk/`%TEMP%`/CPU-flag requirements and `chrome://on-device-internals`).
+- `docs/skills/firebase-ai-logic-hybrid/SKILL.md`: configure Firebase AI Logic (`firebase/ai` in `firebase@13.x`) hybrid on-device + cloud inference (`HybridParams`, `InferenceMode`, `InferenceSource`, dual structured output, App Check debug/production setup, CSP headers, and the 4-layer device guard for SDK bug #10635).
+- Claude Code, Antigravity and other agents also have these installed globally (`~/.claude/skills/`, `~/.agents/skills/`, `~/.gemini/config/skills/`) and via `.agents/skills.json`.
 - **Working style:** don't fan out multiple subagents; do the work in-session or through scripts.
 - **Keep going, no stopping:** at a checkpoint, post a short status and continue with the next task. Stop only when truly blocked (you need the owner's input or credentials, or an action is destructive or irreversible).
 
