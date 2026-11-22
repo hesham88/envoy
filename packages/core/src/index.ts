@@ -7,3 +7,4 @@ export * from './samples/questions';
 export * from './rules';
 export * from './prompts';
 export * from './tags';
+export * from './guard';
