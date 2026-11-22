@@ -250,5 +250,29 @@
     "model": "gemini-3.5-flash-lite",
     "ms": 2218,
     "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:nano:lease-01-rent-cap": {
+    "recordedAt": "2026-11-22T19:19:22.929Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 2273,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:nano:lease-05-sublet-policy": {
+    "recordedAt": "2026-11-22T19:19:28.268Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1118,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:nano:lease-07-commercial-cam-cap": {
+    "recordedAt": "2026-11-22T19:19:33.747Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1262,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:nano:offer-02-non-compete-scope": {
+    "recordedAt": "2026-11-22T19:19:39.890Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1881,
+    "raw": "{\"recovered_values\": [\"Cairo\", \"Egypt\"], \"attributes\": {\"city\": \"Cairo\", \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
   }
 }

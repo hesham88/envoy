@@ -5,7 +5,7 @@
   "backend": "rules-only (LanguageModel unavailable)",
   "detectScope": "selected",
   "withAnswer": false,
-  "updatedAt": "2026-11-22T15:09:12.652Z",
+  "updatedAt": "2026-11-22T19:25:14.879Z",
   "nTotal": 36,
   "nMeasured": 36,
   "entries": {
@@ -15,11 +15,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:01.700Z",
+      "recordedAt": "2026-11-22T19:25:09.991Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 34,
+        "ms": 42,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -235,11 +235,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:02.190Z",
+      "recordedAt": "2026-11-22T19:25:10.130Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -455,11 +455,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:02.770Z",
+      "recordedAt": "2026-11-22T19:25:10.329Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -675,11 +675,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:03.285Z",
+      "recordedAt": "2026-11-22T19:25:10.452Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 1,
+        "ms": 2,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -810,11 +810,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:03.601Z",
+      "recordedAt": "2026-11-22T19:25:10.594Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 12,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -948,11 +948,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:03.774Z",
+      "recordedAt": "2026-11-22T19:25:10.728Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 11,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1062,11 +1062,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:04.011Z",
+      "recordedAt": "2026-11-22T19:25:10.863Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 8,
+        "ms": 11,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1206,11 +1206,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:04.225Z",
+      "recordedAt": "2026-11-22T19:25:10.984Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1327,11 +1327,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:04.401Z",
+      "recordedAt": "2026-11-22T19:25:11.111Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 11,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1466,11 +1466,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:04.656Z",
+      "recordedAt": "2026-11-22T19:25:11.233Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 10,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1595,11 +1595,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:04.870Z",
+      "recordedAt": "2026-11-22T19:25:11.356Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1708,11 +1708,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:05.125Z",
+      "recordedAt": "2026-11-22T19:25:11.478Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1872,11 +1872,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:05.314Z",
+      "recordedAt": "2026-11-22T19:25:11.603Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2001,11 +2001,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:05.583Z",
+      "recordedAt": "2026-11-22T19:25:11.725Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2140,11 +2140,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:05.944Z",
+      "recordedAt": "2026-11-22T19:25:11.876Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 18,
+        "ms": 28,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2311,7 +2311,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:06.386Z",
+      "recordedAt": "2026-11-22T19:25:12.008Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -2432,11 +2432,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:06.829Z",
+      "recordedAt": "2026-11-22T19:25:12.139Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2582,11 +2582,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:07.114Z",
+      "recordedAt": "2026-11-22T19:25:12.278Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 8,
+        "ms": 11,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2710,11 +2710,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:07.301Z",
+      "recordedAt": "2026-11-22T19:25:12.418Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 13,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2866,11 +2866,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:07.467Z",
+      "recordedAt": "2026-11-22T19:25:12.536Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2995,11 +2995,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:07.651Z",
+      "recordedAt": "2026-11-22T19:25:12.664Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3124,11 +3124,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:07.865Z",
+      "recordedAt": "2026-11-22T19:25:12.783Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3239,11 +3239,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:08.201Z",
+      "recordedAt": "2026-11-22T19:25:12.918Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 12,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3391,11 +3391,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:08.466Z",
+      "recordedAt": "2026-11-22T19:25:13.048Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3519,11 +3519,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:09.065Z",
+      "recordedAt": "2026-11-22T19:25:13.171Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3630,11 +3630,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:09.406Z",
+      "recordedAt": "2026-11-22T19:25:13.292Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3728,11 +3728,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:09.561Z",
+      "recordedAt": "2026-11-22T19:25:13.420Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3846,7 +3846,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:09.968Z",
+      "recordedAt": "2026-11-22T19:25:13.538Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3942,11 +3942,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:10.742Z",
+      "recordedAt": "2026-11-22T19:25:13.667Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4045,11 +4045,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:11.139Z",
+      "recordedAt": "2026-11-22T19:25:13.793Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 1,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4141,11 +4141,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:11.314Z",
+      "recordedAt": "2026-11-22T19:25:13.918Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4245,11 +4245,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:11.518Z",
+      "recordedAt": "2026-11-22T19:25:14.042Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4356,7 +4356,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:11.684Z",
+      "recordedAt": "2026-11-22T19:25:14.163Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4449,11 +4449,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:11.886Z",
+      "recordedAt": "2026-11-22T19:25:14.287Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4559,11 +4559,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:12.071Z",
+      "recordedAt": "2026-11-22T19:25:14.411Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4699,11 +4699,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T15:09:12.293Z",
+      "recordedAt": "2026-11-22T19:25:14.538Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [

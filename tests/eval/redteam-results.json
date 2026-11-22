@@ -1,33 +1,9 @@
 {
-  "generatedAt": "2026-11-22T15:27:51.455Z",
+  "generatedAt": "2026-11-22T19:29:02.936Z",
   "cases": 28,
-  "blocked": 11,
-  "blockRate": 0.3929,
+  "blocked": 17,
+  "blockRate": 0.6071,
   "bypasses": [
-    {
-      "id": "rt-01-zwsp-name",
-      "technique": "zero-width-space"
-    },
-    {
-      "id": "rt-03-soft-hyphen-email",
-      "technique": "soft-hyphen"
-    },
-    {
-      "id": "rt-05-cyrillic-homoglyph-name",
-      "technique": "unicode-homoglyph"
-    },
-    {
-      "id": "rt-07-fullwidth-national-id",
-      "technique": "fullwidth-digits"
-    },
-    {
-      "id": "rt-08-fullwidth-name",
-      "technique": "fullwidth-latin"
-    },
-    {
-      "id": "rt-09-fullwidth-money",
-      "technique": "fullwidth-digits"
-    },
     {
       "id": "rt-10-spelled-out-national-id",
       "technique": "digits-in-words"
@@ -74,42 +50,6 @@
     }
   ],
   "bypassDetails": [
-    {
-      "id": "rt-01-zwsp-name",
-      "technique": "zero-width-space",
-      "entityType": "PERSON",
-      "reproOutbound": "Clause 7: Ka​rim Fa​thy may raise the rent by 10%."
-    },
-    {
-      "id": "rt-03-soft-hyphen-email",
-      "technique": "soft-hyphen",
-      "entityType": "EMAIL",
-      "reproOutbound": "Send notices to mo­na.adel@exam­ple.com."
-    },
-    {
-      "id": "rt-05-cyrillic-homoglyph-name",
-      "technique": "unicode-homoglyph",
-      "entityType": "PERSON",
-      "reproOutbound": "Tenant: Monа Adеl signed the lease."
-    },
-    {
-      "id": "rt-07-fullwidth-national-id",
-      "technique": "fullwidth-digits",
-      "entityType": "NATIONAL_ID",
-      "reproOutbound": "National ID: ２７５０６１２０１０４８３９."
-    },
-    {
-      "id": "rt-08-fullwidth-name",
-      "technique": "fullwidth-latin",
-      "entityType": "PERSON",
-      "reproOutbound": "Landlord: Ｋａｒｉｍ Ｆａｔｈｙ."
-    },
-    {
-      "id": "rt-09-fullwidth-money",
-      "technique": "fullwidth-digits",
-      "entityType": "MONEY",
-      "reproOutbound": "Monthly rent is EGP ８,５００."
-    },
     {
       "id": "rt-10-spelled-out-national-id",
       "technique": "digits-in-words",
@@ -189,9 +129,15 @@
       "entityType": "PERSON",
       "description": "Zero-width space (U+200B) inserted inside protected person name",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Ka​rim Fa​thy",
+          "type": "PERSON",
+          "index": 10
+        }
+      ]
     },
     {
       "id": "rt-02-zwj-national-id",
@@ -215,9 +161,15 @@
       "entityType": "EMAIL",
       "description": "Soft hyphen (U+00AD) inserted inside email address",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "mo­na.adel@exam­ple.com",
+          "type": "EMAIL",
+          "index": 16
+        }
+      ]
     },
     {
       "id": "rt-04-bom-iban",
@@ -241,9 +193,15 @@
       "entityType": "PERSON",
       "description": "Cyrillic 'а' (U+0430) and 'е' (U+0435) substituted in protected name",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Monа Adеl",
+          "type": "PERSON",
+          "index": 8
+        }
+      ]
     },
     {
       "id": "rt-06-cyrillic-homoglyph-iban",
@@ -255,9 +213,9 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "0019 0005 0000 0000",
-          "type": "PHONE",
-          "index": 13
+          "value": "ЕG38 0019 0005 0000 0000 2631 8000 2",
+          "type": "IBAN",
+          "index": 8
         }
       ]
     },
@@ -267,9 +225,15 @@
       "entityType": "NATIONAL_ID",
       "description": "Full-width Unicode digits (U+FF10-U+FF19) encoding Egyptian national ID",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "２７５０６１２０１０４８３９",
+          "type": "NATIONAL_ID",
+          "index": 13
+        }
+      ]
     },
     {
       "id": "rt-08-fullwidth-name",
@@ -277,9 +241,15 @@
       "entityType": "PERSON",
       "description": "Full-width Latin characters encoding protected name",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Ｋａｒｉｍ Ｆａｔｈｙ",
+          "type": "PERSON",
+          "index": 10
+        }
+      ]
     },
     {
       "id": "rt-09-fullwidth-money",
@@ -287,9 +257,15 @@
       "entityType": "MONEY",
       "description": "Full-width digits encoding protected rent amount",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "EGP ８,５００",
+          "type": "MONEY",
+          "index": 16
+        }
+      ]
     },
     {
       "id": "rt-10-spelled-out-national-id",

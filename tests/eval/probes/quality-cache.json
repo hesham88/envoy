@@ -358,5 +358,125 @@
     "ms": 890,
     "model": "gemini-3.5-flash-lite",
     "recordedAt": "2026-11-22T16:48:23.752Z"
+  },
+  "envoy:nano:ans:lease-01-rent-cap": {
+    "text": "No, your landlord cannot raise the rent 20% this year because the maximum allowable increase is 10% per contract year. \n\nThe agreement states that the Landlord may only increase the rent by no more than 10% once per contract year, meaning a 20% increase exceeds the permitted limit. Therefore, the maximum increased rent for this year would be calculated as {{RENT * 1.10}}.",
+    "ms": 1794,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:19:50.647Z"
+  },
+  "envoy:nano:judge:lease-01-rent-cap": {
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly identifies that a 20% increase is not allowed based on Clause 7, which sets the maximum annual rent increase at 10%.\"\n}",
+    "ms": 4476,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:19:59.330Z"
+  },
+  "envoy:nano:ans:lease-02-end-date-local": {
+    "text": "Your contract ends after three years starting from [DATE_2], unless terminated early according to the lease terms. \n\nAccording to Clause 2, the lease is granted for a term of three (3) years starting on [DATE_2], meaning it naturally concludes three years after that date. Additionally, Clause 10 allows either party to end the lease at the end of a contract year with at least [AMOUNT_3] of written notice, or the tenant to end it early with [AMOUNT_5] of written notice subject to [AMOUNT_6].",
+    "ms": 1021,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:04.566Z"
+  },
+  "envoy:nano:judge:lease-02-end-date-local": {
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately identifies the three-year term starting from 1 September 2024 as stated in Clause 2, and correctly references termination conditions.\"\n}",
+    "ms": 880,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:09.662Z"
+  },
+  "envoy:nano:ans:lease-03-early-exit-deposit": {
+    "text": "If you leave early without the required notice, the landlord may keep one month's rent from your deposit. \n\nAccording to Clause 6, the landlord normally returns the security deposit ([DEPOSIT]) within 30 days after the lease ends, minus deductions for unpaid rent or damage repair costs. However, if you leave before the end of the term without giving the notice required by Clause 10, the landlord is specifically permitted to keep one month's rent from that deposit.",
+    "ms": 1037,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:14.910Z"
+  },
+  "envoy:nano:judge:lease-03-early-exit-deposit": {
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately answers what happens to the deposit when leaving early and correctly cites or references the relevant clauses (6 and 10).\"\n}",
+    "ms": 1106,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:20.223Z"
+  },
+  "envoy:nano:ans:lease-04-late-fee-grace-period": {
+    "text": "If you pay rent on the 8th of the month, you do not owe the late fee. \n\nRent is due on the first day of the month, and a late fee is only applied to rent paid more than 10 days late. Since the 8th is only 7 days after the first, it is not past the 10-day threshold.",
+    "ms": 1023,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:25.449Z"
+  },
+  "envoy:nano:judge:lease-04-late-fee-grace-period": {
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies that the 8th is within the 10-day grace period for rent payment outlined in clause 8.\"}",
+    "ms": 4704,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:34.365Z"
+  },
+  "envoy:nano:ans:lease-05-sublet-policy": {
+    "text": "No, you cannot rent out one bedroom on a short-term basis without asking the owner because the tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the landlord.",
+    "ms": 877,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:39.480Z"
+  },
+  "envoy:nano:judge:lease-05-sublet-policy": {
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states that the tenant cannot list a room on short-term rental platforms without prior written authorization, reflecting the correct clause.\"}",
+    "ms": 5730,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:49.414Z"
+  },
+  "envoy:nano:ans:lease-06-landlord-entry-notice-local": {
+    "text": "The landlord must give at least {{[AMOUNT_2] * 1}} hours' notice before entering for repairs. \n\nAccording to Clause 4, the landlord is required to give at least [AMOUNT_2] hours' written notice prior to entering the [ADDRESS] for routine inspection or non-urgent repairs.",
+    "ms": 2759,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:20:56.384Z"
+  },
+  "envoy:nano:judge:lease-06-landlord-entry-notice-local": {
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the required notice period and correctly cites Clause 4.\"}",
+    "ms": 2033,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:02.626Z"
+  },
+  "envoy:nano:ans:lease-07-commercial-cam-cap": {
+    "text": "No, the building management cannot increase the monthly service charge by 15% next year. \n\nAnnual increases to the service charge are capped at {{FEE * 1}} per year according to Clause 3.",
+    "ms": 879,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:07.739Z"
+  },
+  "envoy:nano:judge:lease-07-commercial-cam-cap": {
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states that a 15% increase is not allowed because annual service charge increases are capped at 8% per year, and accurately cites Clause 3.\"}",
+    "ms": 917,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:12.864Z"
+  },
+  "envoy:nano:ans:lease-08-plumbing-responsibility": {
+    "text": "The Landlord has to pay for the repair of the main water pipe inside the wall. \n\nAccording to the excerpt, the Landlord is solely responsible for hidden plumbing and main risers, which covers a main water pipe located inside a wall.",
+    "ms": 1305,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:18.394Z"
+  },
+  "envoy:nano:judge:lease-08-plumbing-responsibility": {
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly identifies that the Landlord is responsible based on the clause regarding hidden plumbing and main risers.\"}",
+    "ms": 889,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:23.527Z"
+  },
+  "envoy:nano:ans:offer-01-severance-calculation": {
+    "text": "If the company eliminates your role without cause after 18 months, you receive two months of gross monthly salary plus a [AMOUNT_2]-day notice period. \n\nAccording to Clause 5, termination without cause after the probation period requires the employer to pay severance equal to two (2) months of gross monthly salary and a notice period of [AMOUNT_2] days.",
+    "ms": 3779,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:31.510Z"
+  },
+  "envoy:nano:judge:offer-01-severance-calculation": {
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the severance and notice period for termination without cause after the probation period as outlined in Clause 5.\"}",
+    "ms": 801,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:36.522Z"
+  },
+  "envoy:nano:ans:offer-02-non-compete-scope": {
+    "text": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. Clause 4 states that the non-competition restriction does not apply to non-financial software industries such as healthcare.",
+    "ms": 1311,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:42.069Z"
+  },
+  "envoy:nano:judge:offer-02-non-compete-scope": {
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately answers the user's question using the exact exemption provided in clause 4.\"\n}",
+    "ms": 6348,
+    "model": "gemini-3.5-flash-lite",
+    "recordedAt": "2026-11-22T19:21:52.657Z"
   }
 }
