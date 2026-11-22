@@ -31,7 +31,7 @@ function findCodes(text: string, value: string, type: EntityType): Leak[] {
   if (type === 'PHONE') needle = needle.replace(/^0/, '');
   if (needle.length < 6) return [];
   const out: Leak[] = [];
-  for (const m of text.matchAll(/[+\dA-Za-z][\dA-Za-z \-]{4,}[\dA-Za-z]/g)) {
+  for (const m of text.matchAll(/[+\dA-Za-z][\dA-Za-z -]{4,}[\dA-Za-z]/g)) {
     const run = type === 'PHONE' ? m[0].replace(/\D/g, '') : m[0].replace(/[\s-]/g, '').toUpperCase();
     if (run.includes(needle)) out.push({ value: m[0].trim(), type, index: m.index });
   }
