@@ -1,0 +1,36 @@
+{
+  "name": "envoy",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Your private AI agent to the cloud — Privacy-Conscious Delegation with Firebase AI Logic hybrid inference.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run build --workspaces --if-present",
+    "preview": "npm run preview -w apps/web --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "format": "prettier --write .",
+    "verify": "npm run lint && npm run typecheck && npm test && npm run build",
+    "eval": "node tests/eval/run.mjs",
+    "deploy": "firebase deploy --only hosting"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "prettier": "^3.10.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vitest": "^5.1.1"
+  }
+}

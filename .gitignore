@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.local
+firebase-debug.log*
+.firebase/
+.playwright-mcp/
+.superpowers/
+research_notes/**/devpost_*_raw.txt
+test-results/
+playwright-report/
+.DS_Store
+.remember/
+*.tsbuildinfo
