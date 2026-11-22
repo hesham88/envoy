@@ -18,3 +18,6 @@ playwright-report/
 dist-types/
 assets/incoming/
 dist-dev/
+
+# Private keys (the extension signing key lives outside the repo)
+*.pem

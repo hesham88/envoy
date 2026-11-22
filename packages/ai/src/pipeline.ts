@@ -228,7 +228,8 @@ export async function analyze(
   } = {},
 ): Promise<Analysis> {
   const progress = opts.onProgress ?? (() => undefined);
-  const detectScope = opts.detectScope ?? 'all';
+  // 'selected' (the measured configuration): detect only in the clauses the question needs, plus the parties.
+  const detectScope = opts.detectScope ?? 'selected';
   progress({ step: 'rules', part: 1, parts: 1 });
   const chunks = chunkDocument(doc);
   const customRules = opts.customRules?.length ? opts.customRules : undefined;

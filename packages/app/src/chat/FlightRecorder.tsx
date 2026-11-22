@@ -40,7 +40,8 @@ const WHERE: Record<Where, { text: string; cls: string; Icon: typeof Cpu }> = {
   cloud: { text: 'Cloud', cls: 'border-cloud/60 text-cloud-on-tint', Icon: Cloud },
 };
 
-const ORDER: Step[] = ['detect', 'minimize', 'route'];
+// The order the pipeline runs them in (selected scope): choose the clauses, find details in them, route.
+const ORDER: Step[] = ['minimize', 'detect', 'route'];
 const LABEL: Record<string, string> = {
   rules: 'Checked with local rules',
   detect: 'Found private details',

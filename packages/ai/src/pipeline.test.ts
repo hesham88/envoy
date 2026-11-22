@@ -139,7 +139,7 @@ describe('analyze', () => {
     expect(a.receipt.clausesSent).toBe(1);
     expect(a.receipt.pagesTotal).toBe(6);
     expect(a.receipt.foundTotal).toBeGreaterThanOrEqual(8);
-    expect(a.receipt.steps.map((s) => s.step)).toEqual(['detect', 'minimize', 'route']);
+    expect(a.receipt.steps.map((s) => s.step)).toEqual(['minimize', 'detect', 'route']);
     expect(a.receipt.steps.every((s) => s.source === 'on_device')).toBe(true);
   });
 

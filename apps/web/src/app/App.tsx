@@ -17,6 +17,7 @@ import { Logo, StatusPill } from '@envoy/ui';
 import { DevPage } from '../dev/DevPage';
 import { Banners } from '../art/Banners';
 import { Landing } from '../landing/Landing';
+import { Privacy } from '../landing/Privacy';
 import { SceneFrame } from '../art/SceneFrame';
 import { SidePanelMockup } from '../art/SidePanelMockup';
 import { Studio } from '../art/Studio';
@@ -215,6 +216,8 @@ export function App() {
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/scene'))
     return <SceneFrame />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio')) return <Studio />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/privacy'))
+    return <Privacy />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/app'))
     return <ChatProduct />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/classic'))
