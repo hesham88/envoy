@@ -7,6 +7,7 @@ import {
   getDeviceStatus,
   initEnvoy,
   loadRemoteSettings,
+  networkLog,
   runPrivate,
   type Analysis,
   type AnalyzeProgress,
@@ -15,7 +16,9 @@ import {
   type JsonSchema,
   type RemoteSettings,
 } from '@envoy/ai';
-import { DETECT_SCHEMA, EN_LEASE, MINIMIZE_SCHEMA, ROUTE_SCHEMA, SUGGESTED_QUESTIONS, type RestoredSpan, type Step } from '@envoy/core';
+import { DETECT_SCHEMA, EN_LEASE, MINIMIZE_SCHEMA, ROUTE_SCHEMA, SUGGESTED_QUESTIONS, type CustomRule, type RestoredSpan, type Step } from '@envoy/core';
+import { FlightRecorder } from './recorder/FlightRecorder';
+import { RulesPanel } from './rules/RulesPanel';
 import { AnalyzingPanel, EnvoySeal, Logo, ModeChip, RestoredText, StatusPill, STEP_EMBLEMS, StepEmblem, TaggedText } from '@envoy/ui';
 import { CLOUD_ENABLED, HOSTED_APP_URL, cloudModelOverride, isUnpacked, readFirebaseEnv } from './env';
 import { FIX_HINTS, gateState } from './gate';
@@ -65,6 +68,9 @@ export function App() {
   const [outbound, setOutbound] = useState('');
   const [editing, setEditing] = useState(false);
   const [result, setResult] = useState<AnswerState | null>(null);
+  const [customRules, setCustomRules] = useState<CustomRule[]>([]);
+  const [answerMs, setAnswerMs] = useState<{ source: string; ms: number } | undefined>(undefined);
+  const [payloadTick, setPayloadTick] = useState(0);
   const [error, setError] = useState('');
   const startedAt = useRef(0);
   const gate = gateState(status);
@@ -118,7 +124,7 @@ export function App() {
     setEditing(false);
     startedAt.current = Date.now();
     try {
-      const a = await analyze(doc, question, deps, { onProgress: setProgress });
+      const a = await analyze(doc, question, deps, { onProgress: setProgress, ...(customRules.length ? { customRules } : {}) });
       setAnalysis(a);
       setOutbound(a.outbound);
       setPhase('review');
@@ -145,6 +151,9 @@ export function App() {
         charsSent: out.receipt.charsSent,
         keptTotal: out.receipt.keptTotal,
       });
+      const last = out.receipt.steps[out.receipt.steps.length - 1];
+      setAnswerMs({ source: out.source, ms: last?.ms ?? 0 });
+      setPayloadTick((n) => n + 1);
       setPhase('answered');
     } catch (e) {
       setError(`${(e as Error).name}: ${(e as Error).message}`);
@@ -267,6 +276,12 @@ export function App() {
             )}
           </section>
         )}
+
+        {analysis && phase !== 'analyzing' && (
+          <FlightRecorder key={payloadTick} analysis={analysis} cloudModel={settings.cloudModel} payloads={networkLog.entries.map((e) => ({ step: e.step, payload: e.payload }))} {...(answerMs ? { answerMs } : {})} />
+        )}
+
+        <RulesPanel onChange={setCustomRules} />
 
         {result && phase === 'answered' && (
           <section className={card} aria-labelledby="ans-h">
