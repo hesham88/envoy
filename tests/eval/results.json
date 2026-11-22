@@ -1,0 +1,1387 @@
+{
+  "generatedAt": "2026-11-22T13:35:51.735Z",
+  "model": "gemma4_component (2026.11.3.1140 / Gemini Nano 4) + gemini-3.5-flash-lite",
+  "promptVersion": "v1",
+  "overall": {
+    "totalCases": 36,
+    "totalGold": 263,
+    "totalDocChars": 21550,
+    "totalClauses": 143,
+    "clauseRecallPct": 100,
+    "routeAccuracyPct": 100,
+    "rulesAlone": {
+      "leakedEntities": 68,
+      "totalGoldEntities": 263,
+      "leakagePct": 25.86,
+      "privacyRecallPct": 74.14,
+      "zeroLeakCasePct": 0,
+      "charsSent": 24436,
+      "totalDocChars": 21550,
+      "excerptRatioPct": 113.4,
+      "contextReductionPct": -13.4,
+      "clausesSent": 143,
+      "totalClauses": 143,
+      "clauseRatioPct": 100
+    },
+    "nanoAlone": {
+      "leakedEntities": 5,
+      "totalGoldEntities": 263,
+      "leakagePct": 1.9,
+      "privacyRecallPct": 98.1,
+      "zeroLeakCasePct": 86.1,
+      "charsSent": 9509,
+      "totalDocChars": 21550,
+      "excerptRatioPct": 44.1,
+      "contextReductionPct": 55.9,
+      "clausesSent": 36,
+      "totalClauses": 143,
+      "clauseRatioPct": 25.2
+    },
+    "envoyLayered": {
+      "leakedEntities": 0,
+      "totalGoldEntities": 263,
+      "leakagePct": 0,
+      "privacyRecallPct": 100,
+      "zeroLeakCasePct": 100,
+      "charsSent": 7423,
+      "totalDocChars": 21550,
+      "excerptRatioPct": 34.4,
+      "contextReductionPct": 65.6,
+      "clausesSent": 36,
+      "totalClauses": 143,
+      "clauseRatioPct": 25.2
+    }
+  },
+  "clean": {
+    "totalCases": 24,
+    "totalGold": 198,
+    "totalDocChars": 17938,
+    "totalClauses": 115,
+    "clauseRecallPct": 100,
+    "routeAccuracyPct": 100,
+    "rulesAlone": {
+      "leakedEntities": 43,
+      "totalGoldEntities": 198,
+      "leakagePct": 21.72,
+      "privacyRecallPct": 78.28,
+      "zeroLeakCasePct": 0,
+      "charsSent": 19645,
+      "totalDocChars": 17938,
+      "excerptRatioPct": 109.5,
+      "contextReductionPct": -9.5,
+      "clausesSent": 115,
+      "totalClauses": 115,
+      "clauseRatioPct": 100
+    },
+    "nanoAlone": {
+      "leakedEntities": 1,
+      "totalGoldEntities": 198,
+      "leakagePct": 0.51,
+      "privacyRecallPct": 99.49,
+      "zeroLeakCasePct": 95.8,
+      "charsSent": 6780,
+      "totalDocChars": 17938,
+      "excerptRatioPct": 37.8,
+      "contextReductionPct": 62.2,
+      "clausesSent": 25,
+      "totalClauses": 115,
+      "clauseRatioPct": 21.7
+    },
+    "envoyLayered": {
+      "leakedEntities": 0,
+      "totalGoldEntities": 198,
+      "leakagePct": 0,
+      "privacyRecallPct": 100,
+      "zeroLeakCasePct": 100,
+      "charsSent": 4741,
+      "totalDocChars": 17938,
+      "excerptRatioPct": 26.4,
+      "contextReductionPct": 73.6,
+      "clausesSent": 25,
+      "totalClauses": 115,
+      "clauseRatioPct": 21.7
+    }
+  },
+  "noisy": {
+    "totalCases": 12,
+    "totalGold": 65,
+    "totalDocChars": 3612,
+    "totalClauses": 28,
+    "clauseRecallPct": 100,
+    "routeAccuracyPct": 100,
+    "rulesAlone": {
+      "leakedEntities": 25,
+      "totalGoldEntities": 65,
+      "leakagePct": 38.46,
+      "privacyRecallPct": 61.54,
+      "zeroLeakCasePct": 0,
+      "charsSent": 4791,
+      "totalDocChars": 3612,
+      "excerptRatioPct": 132.6,
+      "contextReductionPct": -32.6,
+      "clausesSent": 28,
+      "totalClauses": 28,
+      "clauseRatioPct": 100
+    },
+    "nanoAlone": {
+      "leakedEntities": 4,
+      "totalGoldEntities": 65,
+      "leakagePct": 6.15,
+      "privacyRecallPct": 93.85,
+      "zeroLeakCasePct": 66.7,
+      "charsSent": 2729,
+      "totalDocChars": 3612,
+      "excerptRatioPct": 75.6,
+      "contextReductionPct": 24.4,
+      "clausesSent": 11,
+      "totalClauses": 28,
+      "clauseRatioPct": 39.3
+    },
+    "envoyLayered": {
+      "leakedEntities": 0,
+      "totalGoldEntities": 65,
+      "leakagePct": 0,
+      "privacyRecallPct": 100,
+      "zeroLeakCasePct": 100,
+      "charsSent": 2682,
+      "totalDocChars": 3612,
+      "excerptRatioPct": 74.3,
+      "contextReductionPct": 25.7,
+      "clausesSent": 11,
+      "totalClauses": 28,
+      "clauseRatioPct": 39.3
+    }
+  },
+  "cases": [
+    {
+      "id": "lease-01-rent-cap",
+      "category": "residential_lease",
+      "title": "Cairo Residential Lease — Annual Rent Increase Cap",
+      "noisy": false,
+      "docChars": 2554,
+      "totalClauses": 13,
+      "goldCount": 16,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 3,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel",
+          "PERSON:Sara Nabil"
+        ],
+        "charsSent": 2541,
+        "clausesSent": 13
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 235,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 235,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "lease-02-end-date-local",
+      "category": "residential_lease",
+      "title": "Cairo Residential Lease — Contract End Term Lookup",
+      "noisy": false,
+      "docChars": 2474,
+      "totalClauses": 13,
+      "goldCount": 16,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 3,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel",
+          "PERSON:Sara Nabil"
+        ],
+        "charsSent": 2522,
+        "clausesSent": 13
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "lease-03-early-exit-deposit",
+      "category": "residential_lease",
+      "title": "Cairo Residential Lease — Early Exit Deposit Forfeiture",
+      "noisy": false,
+      "docChars": 2474,
+      "totalClauses": 13,
+      "goldCount": 16,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 3,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel",
+          "PERSON:Sara Nabil"
+        ],
+        "charsSent": 2540,
+        "clausesSent": 13
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 642,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 642,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "lease-04-late-fee-grace-period",
+      "category": "residential_lease",
+      "title": "Cairo Residential Lease — Late Payment Grace Period",
+      "noisy": false,
+      "docChars": 549,
+      "totalClauses": 3,
+      "goldCount": 9,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel"
+        ],
+        "charsSent": 604,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "IBAN:EG38 0019 0005 0000 0000 2631 8000 2"
+        ],
+        "charsSent": 275,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 248,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "lease-05-sublet-policy",
+      "category": "residential_lease",
+      "title": "Heliopolis Apartment Lease — Subletting Consent",
+      "noisy": false,
+      "docChars": 638,
+      "totalClauses": 4,
+      "goldCount": 10,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Hisham El-Masry",
+          "PERSON:Nadia Shawky"
+        ],
+        "charsSent": 678,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 322,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 322,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "lease-06-landlord-entry-notice-local",
+      "category": "residential_lease",
+      "title": "Zamalek Lease — Landlord Inspection Notice Period",
+      "noisy": false,
+      "docChars": 411,
+      "totalClauses": 4,
+      "goldCount": 6,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Tarek Abdel-Aziz",
+          "PERSON:Laila Farouk"
+        ],
+        "charsSent": 501,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "lease-07-commercial-cam-cap",
+      "category": "commercial_lease",
+      "title": "New Cairo Commercial Office Lease — Service Charge Cap",
+      "noisy": false,
+      "docChars": 470,
+      "totalClauses": 4,
+      "goldCount": 9,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Youssef Kamel",
+          "PERSON:Omar Zaki"
+        ],
+        "charsSent": 531,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 253,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 253,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "lease-08-plumbing-responsibility",
+      "category": "residential_lease",
+      "title": "Alexandria Lease — Structural Pipe Burst Responsibility",
+      "noisy": false,
+      "docChars": 463,
+      "totalClauses": 3,
+      "goldCount": 8,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Mahmoud Gamal",
+          "PERSON:Dina Soliman"
+        ],
+        "charsSent": 534,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 322,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 322,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "offer-01-severance-calculation",
+      "category": "employment_contract",
+      "title": "Senior Engineer Employment Contract — Layoff Severance Pay",
+      "noisy": false,
+      "docChars": 774,
+      "totalClauses": 5,
+      "goldCount": 9,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Ramy Lotfy",
+          "PERSON:Salma Mostafa"
+        ],
+        "charsSent": 852,
+        "clausesSent": 5
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 463,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 463,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "offer-02-non-compete-scope",
+      "category": "employment_contract",
+      "title": "Fintech Product Lead Offer — Post-Termination Non-Compete",
+      "noisy": false,
+      "docChars": 604,
+      "totalClauses": 4,
+      "goldCount": 7,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Sherif Badawy",
+          "PERSON:Amr Hegazy"
+        ],
+        "charsSent": 678,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 390,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 390,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "offer-03-probation-period-local",
+      "category": "employment_contract",
+      "title": "Software Architect Employment — Probation Length Lookup",
+      "noisy": false,
+      "docChars": 344,
+      "totalClauses": 3,
+      "goldCount": 5,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Nourhan Khalil"
+        ],
+        "charsSent": 395,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "offer-04-bonus-proration",
+      "category": "employment_contract",
+      "title": "Sales Director Contract — Annual Target Bonus Proration",
+      "noisy": false,
+      "docChars": 447,
+      "totalClauses": 4,
+      "goldCount": 7,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Wael Tantawy",
+          "PERSON:Heba Radwan"
+        ],
+        "charsSent": 516,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 333,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": false,
+        "charsSent": 0,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "offer-05-ip-side-project",
+      "category": "employment_contract",
+      "title": "Developer Contract — Open-Source Weekend Side Project IP",
+      "noisy": false,
+      "docChars": 578,
+      "totalClauses": 4,
+      "goldCount": 6,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Ziad Morsi"
+        ],
+        "charsSent": 685,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 447,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 436,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "offer-06-remote-work-allowance",
+      "category": "employment_contract",
+      "title": "Hybrid Work Agreement — Home Office Reimbursement Cap",
+      "noisy": false,
+      "docChars": 344,
+      "totalClauses": 3,
+      "goldCount": 6,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Farida Nassar"
+        ],
+        "charsSent": 480,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 332,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": false,
+        "charsSent": 0,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "med-01-fasting-glucose-threshold",
+      "category": "medical_report",
+      "title": "Clinical Pathology Lab Report — Fasting Glucose Interpretation",
+      "noisy": false,
+      "docChars": 767,
+      "totalClauses": 4,
+      "goldCount": 8,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Adel Mansour",
+          "PERSON:Dr. Hany Selim"
+        ],
+        "charsSent": 885,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 623,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": false,
+        "charsSent": 0,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "med-02-vitamin-d-dosage-local",
+      "category": "medical_report",
+      "title": "Endocrinology Discharge Summary — Follow-Up Appointment Window",
+      "noisy": false,
+      "docChars": 411,
+      "totalClauses": 3,
+      "goldCount": 7,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Yasmin El-Banna",
+          "PERSON:Dr. Maged Rostom"
+        ],
+        "charsSent": 489,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "med-03-insurance-copay-cap",
+      "category": "medical_report",
+      "title": "Hospital Outpatient Surgical Estimate — Patient Co-Pay Calculation",
+      "noisy": false,
+      "docChars": 449,
+      "totalClauses": 4,
+      "goldCount": 7,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Khaled Oweis",
+          "PERSON:Dr. Samira Fawzy"
+        ],
+        "charsSent": 529,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 290,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 283,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "med-04-mri-contrast-prep",
+      "category": "medical_report",
+      "title": "Radiology Pre-Procedure Instructions — Fasting Requirement",
+      "noisy": false,
+      "docChars": 466,
+      "totalClauses": 3,
+      "goldCount": 7,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Hassan Abaza",
+          "PERSON:Dr. Nevine Badran"
+        ],
+        "charsSent": 537,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 335,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 319,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "freelance-01-kill-fee",
+      "category": "consulting_agreement",
+      "title": "Design Retainer Agreement — Mid-Milestone Cancellation Fee",
+      "noisy": false,
+      "docChars": 508,
+      "totalClauses": 4,
+      "goldCount": 7,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Mariam Rizk",
+          "PERSON:Bassem Fouad"
+        ],
+        "charsSent": 613,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 369,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": false,
+        "charsSent": 0,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "freelance-02-invoice-payment-net-local",
+      "category": "consulting_agreement",
+      "title": "Software Consulting MSA — Invoice Net Payment Days Lookup",
+      "noisy": false,
+      "docChars": 377,
+      "totalClauses": 4,
+      "goldCount": 6,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Kareem Salem"
+        ],
+        "charsSent": 439,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "freelance-03-card-hold-dispute",
+      "category": "consulting_agreement",
+      "title": "Event Venue Booking Contract — Cancellation Window & Deposit Refund",
+      "noisy": false,
+      "docChars": 509,
+      "totalClauses": 3,
+      "goldCount": 7,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Rania Helmy"
+        ],
+        "charsSent": 578,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 420,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 407,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "freelance-04-liability-cap",
+      "category": "consulting_agreement",
+      "title": "SaaS Implementation Contract — Limitation of Liability Cap",
+      "noisy": false,
+      "docChars": 475,
+      "totalClauses": 4,
+      "goldCount": 6,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Mostafa El-Gendy"
+        ],
+        "charsSent": 569,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 421,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 421,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "loan-01-early-payoff-penalty",
+      "category": "financial_agreement",
+      "title": "Auto Financing Agreement — Early Settlement Fee",
+      "noisy": false,
+      "docChars": 488,
+      "totalClauses": 3,
+      "goldCount": 7,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Samer Fawzy"
+        ],
+        "charsSent": 525,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 308,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": false,
+        "charsSent": 0,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "loan-02-warranty-coverage-period-local",
+      "category": "consumer_contract",
+      "title": "Solar Inverter Purchase Contract — Battery Warranty Duration",
+      "noisy": false,
+      "docChars": 364,
+      "totalClauses": 3,
+      "goldCount": 6,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Ayman Gohar"
+        ],
+        "charsSent": 424,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "noisy-01-arabic-indic-digits-lease",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Arabic-Indic Digits in National ID and Dates",
+      "noisy": true,
+      "docChars": 235,
+      "totalClauses": 2,
+      "goldCount": 5,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel"
+        ],
+        "charsSent": 309,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 190,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 187,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-02-eastern-arabic-digits-phone",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Eastern Arabic-Indic Digits in Phone & Date",
+      "noisy": true,
+      "docChars": 257,
+      "totalClauses": 3,
+      "goldCount": 5,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Tariq El-Sawy",
+          "PERSON:Hanaa Maher"
+        ],
+        "charsSent": 378,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "noisy-03-unspaced-iban-and-compact-phone",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Unspaced EG IBAN and Compact 0020 Phone",
+      "noisy": true,
+      "docChars": 297,
+      "totalClauses": 2,
+      "goldCount": 6,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel"
+        ],
+        "charsSent": 382,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "IBAN:EG380019000500000000263180002"
+        ],
+        "charsSent": 306,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 282,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-04-postfix-currency-le-egp",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Postfix Currency (8,500 EGP and 17,000 LE)",
+      "noisy": true,
+      "docChars": 299,
+      "totalClauses": 3,
+      "goldCount": 4,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel"
+        ],
+        "charsSent": 458,
+        "clausesSent": 3
+      },
+      "nanoAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "MONEY:17,000 LE"
+        ],
+        "charsSent": 381,
+        "clausesSent": 2
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 380,
+        "clausesSent": 2
+      }
+    },
+    {
+      "id": "noisy-05-all-caps-and-titled-names",
+      "category": "noisy_stress",
+      "title": "Noisy Format — All-Caps Names and Honorific Titles",
+      "noisy": true,
+      "docChars": 341,
+      "totalClauses": 2,
+      "goldCount": 5,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 3,
+        "leakedItems": [
+          "PERSON:KARIM FATHY",
+          "PERSON:Dr. Mona Adel",
+          "PERSON:Eng. Tarek Samir"
+        ],
+        "charsSent": 431,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 260,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 260,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-06-pii-in-user-question",
+      "category": "noisy_stress",
+      "title": "Noisy Format — User Types Their Own Name, Phone, and Rent Inside the Question",
+      "noisy": true,
+      "docChars": 249,
+      "totalClauses": 2,
+      "goldCount": 4,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel"
+        ],
+        "charsSent": 354,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PHONE:+20 100 555 0192"
+        ],
+        "charsSent": 268,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 259,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-07-particles-arabic-transliterated-names",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Multi-Part Transliterated Names (El / Abdel / Abu)",
+      "noisy": true,
+      "docChars": 335,
+      "totalClauses": 2,
+      "goldCount": 5,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Mohamed El Sayed",
+          "PERSON:Nour Al Din"
+        ],
+        "charsSent": 421,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 274,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 274,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-08-iso-and-slash-dates-with-card",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Mixed ISO Dates, Slash Dates, and Luhn Credit Card",
+      "noisy": true,
+      "docChars": 309,
+      "totalClauses": 2,
+      "goldCount": 5,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "PERSON:Seif El-Din"
+        ],
+        "charsSent": 414,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 269,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 270,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-09-format-variants-same-entity",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Same Phone & Rent Written in Two Different Formats Across Clauses",
+      "noisy": true,
+      "docChars": 261,
+      "totalClauses": 2,
+      "goldCount": 6,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel"
+        ],
+        "charsSent": 336,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 1,
+        "leakedItems": [
+          "MONEY:8500 EGP"
+        ],
+        "charsSent": 218,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 216,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-10-multi-tenant-joint-liability",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Two Co-Tenants With Distinct Tags and Roles",
+      "noisy": true,
+      "docChars": 353,
+      "totalClauses": 2,
+      "goldCount": 6,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 3,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel",
+          "PERSON:Sara Nabil"
+        ],
+        "charsSent": 464,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 323,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 314,
+        "clausesSent": 1
+      }
+    },
+    {
+      "id": "noisy-11-distractor-numbers-and-clauses",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Contract With Multiple Distractor Amounts and Clauses",
+      "noisy": true,
+      "docChars": 386,
+      "totalClauses": 4,
+      "goldCount": 8,
+      "expectedLocalRoute": true,
+      "actualLocalRoute": true,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Karim Fathy",
+          "PERSON:Mona Adel"
+        ],
+        "charsSent": 467,
+        "clausesSent": 4
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 0,
+        "clausesSent": 0
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 0,
+        "clausesSent": 0
+      }
+    },
+    {
+      "id": "noisy-12-euro-and-usd-dual-currency",
+      "category": "noisy_stress",
+      "title": "Noisy Format — Euro and Dollar Amounts in Cross-Border License",
+      "noisy": true,
+      "docChars": 290,
+      "totalClauses": 2,
+      "goldCount": 6,
+      "expectedLocalRoute": false,
+      "actualLocalRoute": false,
+      "clauseRecall": 1,
+      "rulesAlone": {
+        "leakedCount": 2,
+        "leakedItems": [
+          "PERSON:Nader Chahine",
+          "PERSON:Layla Mansour"
+        ],
+        "charsSent": 377,
+        "clausesSent": 2
+      },
+      "nanoAlone": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "charsSent": 240,
+        "clausesSent": 1
+      },
+      "envoyLayered": {
+        "leakedCount": 0,
+        "leakedItems": [],
+        "guardOk": true,
+        "charsSent": 240,
+        "clausesSent": 1
+      }
+    }
+  ]
+}

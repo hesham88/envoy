@@ -1,0 +1,218 @@
+{
+  "lease-01-rent-cap": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"3 Road 9, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"14 El-Nadi St, Flat 7, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 17,000\",\"kind\":\"MONEY\",\"role\":\"deposit\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"EGP 250\",\"kind\":\"MONEY\",\"role\":\"fee\"},{\"text\":\"Sara Nabil\",\"kind\":\"PERSON\",\"role\":\"witness\"}]}",
+    "minimizeJson": "{\"clause_ids\":[7],\"reason\":\"Clause(s) 7 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "lease-02-end-date-local": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"3 Road 9, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"14 El-Nadi St, Flat 7, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 17,000\",\"kind\":\"MONEY\",\"role\":\"deposit\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"EGP 250\",\"kind\":\"MONEY\",\"role\":\"fee\"},{\"text\":\"Sara Nabil\",\"kind\":\"PERSON\",\"role\":\"witness\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "lease-03-early-exit-deposit": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"3 Road 9, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"14 El-Nadi St, Flat 7, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 17,000\",\"kind\":\"MONEY\",\"role\":\"deposit\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"EGP 250\",\"kind\":\"MONEY\",\"role\":\"fee\"},{\"text\":\"Sara Nabil\",\"kind\":\"PERSON\",\"role\":\"witness\"}]}",
+    "minimizeJson": "{\"clause_ids\":[6,10],\"reason\":\"Clause(s) 6, 10 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "lease-04-late-fee-grace-period": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"EGP 250\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[8],\"reason\":\"Clause(s) 8 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "lease-05-sublet-policy": {
+    "detectJson": "{\"entities\":[{\"text\":\"Hisham El-Masry\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Nadia Shawky\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"28 Cleopatra St, Heliopolis, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 12,000\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "lease-06-landlord-entry-notice-local": {
+    "detectJson": "{\"entities\":[{\"text\":\"Tarek Abdel-Aziz\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Laila Farouk\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"8 Hassan Sabry St, Zamalek, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 18,500\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[4],\"reason\":\"Clause(s) 4 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "lease-07-commercial-cam-cap": {
+    "detectJson": "{\"entities\":[{\"text\":\"Youssef Kamel\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Omar Zaki\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"90 North Teseen Rd, New Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 45,000\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"EGP 4,500\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "lease-08-plumbing-responsibility": {
+    "detectJson": "{\"entities\":[{\"text\":\"Mahmoud Gamal\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Dina Soliman\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"45 Fouad St, Alexandria\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 9,200\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "offer-01-severance-calculation": {
+    "detectJson": "{\"entities\":[{\"text\":\"Ramy Lotfy\",\"kind\":\"PERSON\",\"role\":\"employer\"},{\"text\":\"Salma Mostafa\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"22 Syria St, Mohandessin, Giza\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 65,000\",\"kind\":\"MONEY\",\"role\":\"salary\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2,5],\"reason\":\"Clause(s) 2, 5 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "offer-02-non-compete-scope": {
+    "detectJson": "{\"entities\":[{\"text\":\"Sherif Badawy\",\"kind\":\"PERSON\",\"role\":\"employer\"},{\"text\":\"Amr Hegazy\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"15 Makram Ebeid St, Nasr City, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"USD 4,200\",\"kind\":\"MONEY\",\"role\":\"salary\"}]}",
+    "minimizeJson": "{\"clause_ids\":[4],\"reason\":\"Clause(s) 4 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "offer-03-probation-period-local": {
+    "detectJson": "{\"entities\":[{\"text\":\"Nourhan Khalil\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"EGP 55,000\",\"kind\":\"MONEY\",\"role\":\"salary\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "offer-04-bonus-proration": {
+    "detectJson": "{\"entities\":[{\"text\":\"Wael Tantawy\",\"kind\":\"PERSON\",\"role\":\"employer\"},{\"text\":\"Heba Radwan\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"EGP 80,000\",\"kind\":\"MONEY\",\"role\":\"salary\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2,3],\"reason\":\"Clause(s) 2, 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "offer-05-ip-side-project": {
+    "detectJson": "{\"entities\":[{\"text\":\"Ziad Morsi\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"19 Dokki St, Giza\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 48,000\",\"kind\":\"MONEY\",\"role\":\"salary\"}]}",
+    "minimizeJson": "{\"clause_ids\":[4],\"reason\":\"Clause(s) 4 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "offer-06-remote-work-allowance": {
+    "detectJson": "{\"entities\":[{\"text\":\"Farida Nassar\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"EGP 52,000\",\"kind\":\"MONEY\",\"role\":\"salary\"},{\"text\":\"EGP 3,000\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "med-01-fasting-glucose-threshold": {
+    "detectJson": "{\"entities\":[{\"text\":\"Adel Mansour\",\"kind\":\"PERSON\",\"role\":\"patient\"},{\"text\":\"11 Tahrir St, Dokki, Giza\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"Dr. Hany Selim\",\"kind\":\"PERSON\",\"role\":\"doctor\"},{\"text\":\"EGP 1,450\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3,4],\"reason\":\"Clause(s) 3, 4 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "med-02-vitamin-d-dosage-local": {
+    "detectJson": "{\"entities\":[{\"text\":\"Yasmin El-Banna\",\"kind\":\"PERSON\",\"role\":\"patient\"},{\"text\":\"Dr. Maged Rostom\",\"kind\":\"PERSON\",\"role\":\"doctor\"},{\"text\":\"EGP 950\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "med-03-insurance-copay-cap": {
+    "detectJson": "{\"entities\":[{\"text\":\"Khaled Oweis\",\"kind\":\"PERSON\",\"role\":\"patient\"},{\"text\":\"Dr. Samira Fawzy\",\"kind\":\"PERSON\",\"role\":\"doctor\"},{\"text\":\"EGP 25,000\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "med-04-mri-contrast-prep": {
+    "detectJson": "{\"entities\":[{\"text\":\"Hassan Abaza\",\"kind\":\"PERSON\",\"role\":\"patient\"},{\"text\":\"Dr. Nevine Badran\",\"kind\":\"PERSON\",\"role\":\"doctor\"},{\"text\":\"EGP 4,800\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "freelance-01-kill-fee": {
+    "detectJson": "{\"entities\":[{\"text\":\"Mariam Rizk\",\"kind\":\"PERSON\",\"role\":\"agent\"},{\"text\":\"Bassem Fouad\",\"kind\":\"PERSON\",\"role\":\"employer\"},{\"text\":\"USD 6,000\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2,4],\"reason\":\"Clause(s) 2, 4 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "freelance-02-invoice-payment-net-local": {
+    "detectJson": "{\"entities\":[{\"text\":\"Kareem Salem\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"USD 3,500\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "freelance-03-card-hold-dispute": {
+    "detectJson": "{\"entities\":[{\"text\":\"Rania Helmy\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 30,000\",\"kind\":\"MONEY\",\"role\":\"deposit\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2,3],\"reason\":\"Clause(s) 2, 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "freelance-04-liability-cap": {
+    "detectJson": "{\"entities\":[{\"text\":\"Mostafa El-Gendy\",\"kind\":\"PERSON\",\"role\":\"agent\"},{\"text\":\"EGP 120,000\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2,4],\"reason\":\"Clause(s) 2, 4 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "loan-01-early-payoff-penalty": {
+    "detectJson": "{\"entities\":[{\"text\":\"Samer Fawzy\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"16 El-Merghany St, Heliopolis, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 400,000\",\"kind\":\"MONEY\",\"role\":\"other\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "loan-02-warranty-coverage-period-local": {
+    "detectJson": "{\"entities\":[{\"text\":\"Ayman Gohar\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"74 El-Horreya Rd, Alexandria\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 95,000\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "noisy-01-arabic-indic-digits-lease": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-02-eastern-arabic-digits-phone": {
+    "detectJson": "{\"entities\":[{\"text\":\"Tariq El-Sawy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Hanaa Maher\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 11,000\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause(s) 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "noisy-03-unspaced-iban-and-compact-phone": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"EGP 250\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-04-postfix-currency-le-egp": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"8,500 EGP\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2,3],\"reason\":\"Clause(s) 2, 3 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-05-all-caps-and-titled-names": {
+    "detectJson": "{\"entities\":[{\"text\":\"Dr. Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"Eng. Tarek Samir\",\"kind\":\"PERSON\",\"role\":\"witness\"},{\"text\":\"EGP 9,000\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-06-pii-in-user-question": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-07-particles-arabic-transliterated-names": {
+    "detectJson": "{\"entities\":[{\"text\":\"Mohamed El Sayed\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Nour Al Din\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 22,000\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-08-iso-and-slash-dates-with-card": {
+    "detectJson": "{\"entities\":[{\"text\":\"Seif El-Din\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 14,000\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-09-format-variants-same-entity": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-10-multi-tenant-joint-liability": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"Sara Nabil\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 12,000\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  },
+  "noisy-11-distractor-numbers-and-clauses": {
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 17,000\",\"kind\":\"MONEY\",\"role\":\"deposit\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"EGP 250\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\":[4],\"reason\":\"Clause(s) 4 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Direct factual lookup stated explicitly in the selected clause.\"}",
+    "schemaValid": true
+  },
+  "noisy-12-euro-and-usd-dual-currency": {
+    "detectJson": "{\"entities\":[{\"text\":\"Nader Chahine\",\"kind\":\"PERSON\",\"role\":\"employer\"},{\"text\":\"Layla Mansour\",\"kind\":\"PERSON\",\"role\":\"agent\"},{\"text\":\"€15,000\",\"kind\":\"MONEY\",\"role\":\"fee\"},{\"text\":\"$250,000\",\"kind\":\"MONEY\",\"role\":\"other\"}]}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause(s) 2 directly address the question.\"}",
+    "routeJson": "{\"answerable_locally\":false,\"reason\":\"Requires policy interpretation, comparison, or derived calculation.\"}",
+    "schemaValid": true
+  }
+}
