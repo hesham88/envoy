@@ -1,0 +1,87 @@
+/* Envoy design tokens (BRIEF §5). Green always means on-device, blue always means cloud. */
+:root {
+  color-scheme: light;
+  --ink: #16181d;
+  --paper: #f7f7f5;
+  --surface: #ffffff;
+  --line: #e2e2dd;
+  --muted: #4e5461;
+  --muted-2: #5b616e;
+  --device: #0f7b5f;
+  --device-tint: #e3f1ec;
+  --device-on-tint: #0b5e48;
+  --cloud: #2557d6;
+  --cloud-tint: #e6ecfb;
+  --cloud-on-tint: #1f45ad;
+  --detected: #ffe3bf;
+  --detected-line: #b4540a;
+  --restored: #ddf0e8;
+  --danger: #b42318;
+  --danger-tint: #fdecea;
+  --radius-control: 10px;
+  --radius-card: 16px;
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --ink: #eceee9;
+    --paper: #121418;
+    --surface: #1a1d22;
+    --line: #2c3038;
+    --muted: #b3b8c2;
+    --muted-2: #a3a9b4;
+    --device: #4cc79f;
+    --device-tint: #12352b;
+    --device-on-tint: #8fe3c5;
+    --cloud: #7c9cf0;
+    --cloud-tint: #1a2547;
+    --cloud-on-tint: #b9c9f7;
+    --detected: #4a3215;
+    --detected-line: #f0a35e;
+    --restored: #173b2f;
+    --danger: #ff8a80;
+    --danger-tint: #3b1714;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ink: #eceee9;
+  --paper: #121418;
+  --surface: #1a1d22;
+  --line: #2c3038;
+  --muted: #b3b8c2;
+  --muted-2: #a3a9b4;
+  --device: #4cc79f;
+  --device-tint: #12352b;
+  --device-on-tint: #8fe3c5;
+  --cloud: #7c9cf0;
+  --cloud-tint: #1a2547;
+  --cloud-on-tint: #b9c9f7;
+  --detected: #4a3215;
+  --detected-line: #f0a35e;
+  --restored: #173b2f;
+  --danger: #ff8a80;
+  --danger-tint: #3b1714;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cloud);
+  outline-offset: 2px;
+}

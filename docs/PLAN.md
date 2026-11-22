@@ -48,4 +48,8 @@ Product UI (screens, logo, motion, a11y, PWA) → eval and Harness² tuning → 
 3. **Register App Check:** Firebase console → Security → App Check → Apps → Envoy Web → reCAPTCHA Enterprise, paste the site key, Save. AI Logic enforcement is on by default.
 4. **Debug token for localhost:** run `npm run dev`, open `http://localhost:5173/dev`, copy the `App Check debug token: …` line from the browser console, then Firebase console → App Check → Apps → ⋮ → Manage debug tokens → Add. Optionally save it as `VITE_APPCHECK_DEBUG_TOKEN` in `.env.local` so it stays stable. Never commit it.
 5. **Chrome test profile** (already created on F:): in that window, Settings → AI → turn on **On-device AI**, then check `chrome://on-device-internals`.
-6. **GitHub secrets for CI** (after Task 5 creates the workflows): `gh secret set VITE_FIREBASE_API_KEY -R hesham88/envoy` and the same for each `VITE_*` value. `firebase init hosting:github` creates the `FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI` secret.
+6. **GitHub secrets for CI deploys** (workflows are in `.github/workflows/`). From the repo root in Git Bash:
+   - `while IFS='=' read -r k v; do case "$k" in VITE_FIREBASE_*|VITE_RECAPTCHA_SITE_KEY) [ -n "$v" ] && printf '%s' "$v" | gh secret set "$k" -R hesham88/envoy;; esac; done < apps/web/.env.local`
+   - Service account: `firebase init hosting:github` (interactive). It creates `FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI`. When it offers to write workflow files, answer **No** (ours already exist).
+
+**Live:** https://envoy-hybrid-ai.web.app (`/dev` for the feasibility tests). Until steps 2–4 are done, `/dev` shows "Missing VITE_RECAPTCHA_SITE_KEY" in production; that's expected.
