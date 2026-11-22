@@ -83,8 +83,6 @@ Motion polish → eval and Harness² tuning → Chrome extension → launch (ass
 3. **Register App Check:** Completed (`recaptchaEnterpriseConfig` patched on `1:1019681797334:web:ea96219034883bfc164577`).
 4. **Debug token for localhost:** Completed (registered in Firebase App Check and saved as `VITE_APPCHECK_DEBUG_TOKEN` in `apps/web/.env.local`; verified `200 OK` on `:exchangeDebugToken` and `source: in_cloud` on `/dev`). Note: `gemini-3.8-flash` has a 20 req/day Free Tier limit (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`), so `VITE_CLOUD_MODEL=gemini-3.5-flash-lite` (the SDK's `DEFAULT_HYBRID_IN_CLOUD_MODEL`) is set in `.env.local` while on Free Tier.
 5. **Chrome test profile** (`F:\ChromeEnvoy`): Completed (`gemma4_component` `2026.11.3.1140` installed and verified `available` + `source: on_device` on `/dev` with `--enable-features=OnDeviceModelForceCpuBackend,OnDeviceModelCpuBackend`).
-6. **GitHub secrets for CI deploys** (workflows are in `.github/workflows/`). From the repo root in Git Bash:
-   - `while IFS='=' read -r k v; do case "$k" in VITE_FIREBASE_*|VITE_RECAPTCHA_SITE_KEY) [ -n "$v" ] && printf '%s' "$v" | gh secret set "$k" -R hesham88/envoy;; esac; done < apps/web/.env.local`
-   - Service account: `firebase init hosting:github` (interactive). It creates `FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI`. When it offers to write workflow files, answer **No** (ours already exist).
+6. **Automatic deploys from `main`** (one time): run `! bash scripts/setup-ci.sh` from the repo, then `! firebase init hosting:github --project envoy-hybrid-ai` and answer **No** to both workflow questions. Until then CI builds and tests but skips the deploy with a notice.
 
 **Live:** https://envoy-hybrid-ai.web.app (`/dev` for the feasibility tests).

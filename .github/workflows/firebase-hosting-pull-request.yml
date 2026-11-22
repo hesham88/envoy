@@ -8,6 +8,8 @@ jobs:
   build_and_preview:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
+    env:
+      HAS_DEPLOY_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI != '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
@@ -23,7 +25,11 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_RECAPTCHA_SITE_KEY }}
-      - uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a  # v0.11.0
+      - name: Deploy skipped (deploy key not configured)
+        if: env.HAS_DEPLOY_KEY != 'true'
+        run: echo "::notice title=Deploy skipped::FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI is not set. Owner step 6 in docs/PLAN.md (firebase init hosting:github) enables automatic deploys."
+      - if: env.HAS_DEPLOY_KEY == 'true'
+        uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a  # v0.11.0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ENVOY_HYBRID_AI }}
