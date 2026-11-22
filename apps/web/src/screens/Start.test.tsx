@@ -1,14 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import type { EnvoyRuntime } from '../app/useEnvoy';
+import type { EnvoyRuntime } from '@envoy/app';
 
-vi.mock('../lib/readFile', async (orig) => {
-  const real = await orig<typeof import('../lib/readFile')>();
+vi.mock('@envoy/app', async (orig) => {
+  const real = await orig<typeof import('@envoy/app')>();
   return {
     ...real,
     readDocumentFile: vi.fn(async (f: File) => {
-      if (f.name === 'scan.pdf') throw new real.FileReadError('This PDF has no selectable text (it may be a scan).');
+      if (f.name === 'scan.pdf')
+        throw new real.FileReadError('This PDF has no selectable text (it may be a scan).');
       return { title: f.name, text: '1. Rent. The rent is EGP 100.', pages: 1 };
     }),
   };
@@ -37,7 +38,10 @@ describe('Start screen', () => {
     expect(analyze).toBeDisabled();
     await user.click(screen.getByRole('button', { name: /Try a sample contract/ }));
     expect(analyze).toBeDisabled();
-    await user.type(screen.getByLabelText(/What do you want to know/), 'When does my contract end?');
+    await user.type(
+      screen.getByLabelText(/What do you want to know/),
+      'When does my contract end?',
+    );
     expect(analyze).toBeEnabled();
   });
 
@@ -53,13 +57,18 @@ describe('Start screen', () => {
     const user = userEvent.setup();
     render(<AppShell runtime={runtime()} />);
     await user.click(screen.getByRole('button', { name: 'When does my contract end?' }));
-    expect(screen.getByLabelText(/What do you want to know/)).toHaveValue('When does my contract end?');
+    expect(screen.getByLabelText(/What do you want to know/)).toHaveValue(
+      'When does my contract end?',
+    );
   });
 
   it('scanned pdf shows no-text message', async () => {
     const user = userEvent.setup();
     render(<AppShell runtime={runtime()} />);
-    await user.upload(screen.getByLabelText(/Choose file/), new File(['%PDF'], 'scan.pdf', { type: 'application/pdf' }));
+    await user.upload(
+      screen.getByLabelText(/Choose file/),
+      new File(['%PDF'], 'scan.pdf', { type: 'application/pdf' }),
+    );
     await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(/no selectable text/));
   });
 

@@ -1,8 +1,15 @@
-import { analyze, type Analysis, type AnalyzeProgress, type DeviceStatus, type Deps } from '@envoy/ai';
+import {
+  analyze,
+  type Analysis,
+  type AnalyzeProgress,
+  type DeviceStatus,
+  type Deps,
+} from '@envoy/ai';
 
 export const NOTICES = {
   downloading: 'Your on-device model is still downloading, so this run uses Basic protection.',
-  noModel: 'No on-device model is ready in this browser, so Envoy uses Basic protection: built-in local rules hide IDs, phones, emails, IBANs and amounts. Check the names it flagged before you approve.',
+  noModel:
+    'No on-device model is ready in this browser, so Envoy uses Basic protection: built-in local rules hide IDs, phones, emails, IBANs and amounts. Check the names it flagged before you approve.',
 } as const;
 
 /** Runs the pipeline and explains, in one sentence, why a run used Basic protection (if it did). */

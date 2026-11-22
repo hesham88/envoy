@@ -13,13 +13,17 @@ const full = {
 
 describe('readFirebaseEnv', () => {
   it('maps VITE_* values to the Firebase config', () => {
-    expect(readFirebaseEnv(full)).toMatchObject({ apiKey: 'k', projectId: 'p', recaptchaSiteKey: 'r' });
+    expect(readFirebaseEnv(full)).toMatchObject({
+      apiKey: 'k',
+      projectId: 'p',
+      recaptchaSiteKey: 'r',
+    });
   });
 
   it('names every missing required variable in one readable error', () => {
-    expect(() => readFirebaseEnv({ ...full, VITE_FIREBASE_API_KEY: '', VITE_FIREBASE_APP_ID: undefined })).toThrow(
-      /VITE_FIREBASE_API_KEY.*VITE_FIREBASE_APP_ID/,
-    );
+    expect(() =>
+      readFirebaseEnv({ ...full, VITE_FIREBASE_API_KEY: '', VITE_FIREBASE_APP_ID: undefined }),
+    ).toThrow(/VITE_FIREBASE_API_KEY.*VITE_FIREBASE_APP_ID/);
   });
 
   it('treats the reCAPTCHA key and debug token as optional here (initEnvoy enforces the key in production)', () => {
@@ -30,7 +34,13 @@ describe('readFirebaseEnv', () => {
 
 describe('review fix I2: debug token', () => {
   it('never returns the App Check debug token outside development', () => {
-    expect(readFirebaseEnv({ ...full, VITE_APPCHECK_DEBUG_TOKEN: 'secret' }, { dev: false }).appCheckDebugToken).toBeUndefined();
-    expect(readFirebaseEnv({ ...full, VITE_APPCHECK_DEBUG_TOKEN: 'secret' }, { dev: true }).appCheckDebugToken).toBe('secret');
+    expect(
+      readFirebaseEnv({ ...full, VITE_APPCHECK_DEBUG_TOKEN: 'secret' }, { dev: false })
+        .appCheckDebugToken,
+    ).toBeUndefined();
+    expect(
+      readFirebaseEnv({ ...full, VITE_APPCHECK_DEBUG_TOKEN: 'secret' }, { dev: true })
+        .appCheckDebugToken,
+    ).toBe('secret');
   });
 });

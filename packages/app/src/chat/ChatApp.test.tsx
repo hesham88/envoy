@@ -91,7 +91,7 @@ describe('ChatApp', () => {
     const user = userEvent.setup();
     const { runtime, generateContent } = basicRuntime();
     render(<ChatApp runtime={runtime} />);
-    await user.click(screen.getByRole('button', { name: /Your rules/ }));
+    await user.click(screen.getAllByRole('button', { name: /Your rules/ })[0]!);
     await user.type(screen.getByLabelText(/Words to protect/), 'Bluebird');
     await user.click(screen.getByRole('button', { name: 'Add rule' }));
     expect(JSON.parse(localStorage.getItem('envoy.rules.v1')!)).toEqual([
@@ -171,5 +171,33 @@ describe('explanations and before/after', () => {
     const group = await screen.findByRole('group', { name: 'Before and after' });
     expect(group.textContent).toMatch(/On this device.*characters, \d+ private details/);
     expect(group.textContent).toMatch(/Would leave, after you approve.*0 raw details/);
+  });
+});
+
+describe('ChatApp in the extension side panel', () => {
+  it('hands a cloud question to the web app instead of calling the cloud, and uses text handed in', async () => {
+    const user = userEvent.setup();
+    const { runtime, generateContent } = basicRuntime();
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null);
+    render(
+      <ChatApp
+        runtime={runtime}
+        layout="panel"
+        incomingDoc={{
+          title: 'Selected text',
+          text: 'Mona Adel pays EGP 8,500 a month.',
+          source: 'paste',
+        }}
+        cloudHandoff={{ url: 'https://envoy-hybrid-ai.web.app/app' }}
+      />,
+    );
+    expect(await screen.findByText('Selected text')).toBeInTheDocument();
+    await user.type(screen.getByLabelText('Message Envoy'), 'Can the rent rise?{Enter}');
+    const go = await screen.findByRole('button', { name: 'Continue in Envoy on the web' });
+    expect(screen.getByText(/doesn't call/)).toBeInTheDocument();
+    await user.click(go);
+    expect(open).toHaveBeenCalledWith('https://envoy-hybrid-ai.web.app/app', '_blank', 'noopener');
+    expect(generateContent).not.toHaveBeenCalled();
+    open.mockRestore();
   });
 });

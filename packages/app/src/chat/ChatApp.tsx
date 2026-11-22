@@ -82,14 +82,54 @@ function saveRules(rules: CustomRule[]) {
   }
 }
 
-export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
+/** Where the user's own rules are kept. Default: this browser's localStorage. */
+export interface RulesStore {
+  load(): Promise<CustomRule[]>;
+  save(rules: CustomRule[]): Promise<void>;
+}
+
+export interface ChatAppProps {
+  runtime: EnvoyRuntime;
+  /** A document handed in from outside, such as text selected on a page (the extension). */
+  incomingDoc?: SessionDoc | null;
+  rulesStore?: RulesStore;
+  /**
+   * Set when this surface can't make the cloud call (the extension's release build): approved
+   * questions continue in the web app instead, where the same check runs again before sending.
+   */
+  cloudHandoff?: { url: string } | null;
+  /** 'panel': a narrow side panel with a compact toolbar instead of the rail. */
+  layout?: 'page' | 'panel';
+}
+
+export function ChatApp({
+  runtime,
+  incomingDoc = null,
+  rulesStore,
+  cloudHandoff = null,
+  layout = 'page',
+}: ChatAppProps) {
+  const panel = layout === 'panel';
   const [turns, setTurns] = useState<Turn[]>([]);
   const [doc, setDoc] = useState<SessionDoc | null>(null);
   const [draft, setDraft] = useState('');
   const [attachError, setAttachError] = useState<string | null>(null);
   const [imageNote, setImageNote] = useState<string | null>(null);
   const [localOnly, setLocalOnly] = useState(false);
-  const [rules, setRules] = useState<CustomRule[]>(loadRules);
+  const [rules, setRules] = useState<CustomRule[]>(() => (rulesStore ? [] : loadRules()));
+  useEffect(() => {
+    if (!rulesStore) return;
+    let live = true;
+    void rulesStore.load().then((r) => {
+      if (live) setRules(r.filter((x) => !validateCustomRule(x)));
+    });
+    return () => {
+      live = false;
+    };
+  }, [rulesStore]);
+  useEffect(() => {
+    if (incomingDoc) setDoc(incomingDoc);
+  }, [incomingDoc]);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [ledgerOpen, setLedgerOpen] = useState(
     () => typeof location !== 'undefined' && new URLSearchParams(location.search).has('inspect'),
@@ -265,7 +305,7 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
       {/* ---------- rail ---------- */}
       <aside
         aria-label="Envoy"
-        className="sticky top-0 hidden h-screen w-[264px] flex-none flex-col gap-4 border-r border-line bg-uv-deep px-4 py-5 md:flex"
+        className={`sticky top-0 hidden h-screen w-[264px] flex-none flex-col gap-4 border-r border-line bg-uv-deep px-4 py-5 ${panel ? '' : 'md:flex'}`}
       >
         <a href="/" aria-label="Envoy home" className="px-1 text-ink">
           <Logo withWordmark />
@@ -317,11 +357,66 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
 
       {/* ---------- thread ---------- */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between gap-3 border-b border-line px-4 py-3 md:hidden">
-          <a href="/" aria-label="Envoy home" className="text-ink">
-            <Logo withWordmark />
-          </a>
-          <StatusPill status={runtime.status} progress={runtime.progress} compact />
+        {/* Compact toolbar: the side panel always, the web app on narrow screens. */}
+        <header
+          className={`sticky top-0 z-20 flex flex-col gap-2 border-b border-line bg-uv-dark/85 px-3 py-2.5 backdrop-blur-md ${panel ? '' : 'md:hidden'}`}
+        >
+          <div className="flex items-center justify-between gap-2">
+            <a
+              href={panel ? 'https://envoy-hybrid-ai.web.app' : '/'}
+              target={panel ? '_blank' : undefined}
+              rel="noopener"
+              aria-label="Envoy home"
+              className="text-ink"
+            >
+              <Logo withWordmark size={22} />
+            </a>
+            <div className="flex items-center gap-0.5">
+              {[
+                { label: 'New chat', Icon: Plus, onClick: newChat, disabled: busy },
+                {
+                  label: `Your rules${rules.length ? ` (${rules.length})` : ''}`,
+                  Icon: Lock,
+                  onClick: () => setRulesOpen(true),
+                },
+                {
+                  label: 'Network ledger',
+                  Icon: ScrollText,
+                  onClick: () => setLedgerOpen((v) => !v),
+                  pressed: ledgerOpen,
+                },
+                {
+                  label: 'How Envoy protects you',
+                  Icon: ShieldCheck,
+                  onClick: () => setAboutOpen(true),
+                },
+              ].map(({ label, Icon, onClick, disabled, pressed }) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={onClick}
+                  disabled={disabled}
+                  aria-label={label}
+                  aria-pressed={pressed}
+                  title={label}
+                  className="grid size-9 place-items-center rounded-[10px] text-muted hover:bg-surface hover:text-ink disabled:opacity-40"
+                >
+                  <Icon size={17} aria-hidden="true" />
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <StatusPill status={runtime.status} progress={runtime.progress} compact />
+            {runtime.status !== 'available' && runtime.status !== 'checking' && (
+              <button
+                onClick={runtime.enablePrivateMode}
+                className="text-[12.5px] text-device-on-tint underline underline-offset-4"
+              >
+                Turn on private mode
+              </button>
+            )}
+          </div>
         </header>
         <OfflineBanner />
         <main className="mx-auto flex w-full max-w-[860px] flex-1 flex-col gap-8 px-4 pt-8 pb-48 sm:px-6">
@@ -335,7 +430,7 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
               </div>
               <h1
                 tabIndex={-1}
-                className="m-0 font-display text-[clamp(2.2rem,1.5rem+2.6vw,3.4rem)] leading-[1.02] font-[560] text-ink"
+                className={`m-0 font-display leading-[1.02] font-[560] text-ink ${panel ? 'text-[2.1rem]' : 'text-[clamp(2.2rem,1.5rem+2.6vw,3.4rem)]'}`}
               >
                 Ask the cloud. Keep your secrets.
               </h1>
@@ -375,6 +470,7 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
                 runtime={runtime}
                 dispatch={dispatchTo(t.id)}
                 onApprove={(a, o, s) => void approve(t.id, a, o, s)}
+                handoff={cloudHandoff}
               />
             ))
           )}
@@ -396,7 +492,7 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
                   <span className="inline-flex max-w-full items-center gap-2 rounded-[10px] border border-line bg-paper px-2.5 py-1.5 text-[13px] text-ink">
                     <FileText size={14} aria-hidden="true" className="flex-none text-device" />
                     <span className="truncate">{doc.title}</span>
-                    <span className="text-muted">stays on this device</span>
+                    <span className="hidden text-muted sm:inline">stays on this device</span>
                     <button
                       type="button"
                       onClick={() => setDoc(null)}
@@ -514,7 +610,8 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
           onClose={() => setRulesOpen(false)}
           onChange={(r) => {
             setRules(r);
-            saveRules(r);
+            if (rulesStore) void rulesStore.save(r);
+            else saveRules(r);
           }}
         />
       )}
@@ -532,7 +629,9 @@ function TurnView({
   runtime,
   dispatch,
   onApprove,
+  handoff,
 }: {
+  handoff: { url: string } | null;
   turn: Turn;
   runtime: EnvoyRuntime;
   dispatch: (a: SessionAction) => void;
@@ -579,6 +678,7 @@ function TurnView({
               dispatch={dispatch}
               onApprove={onApprove}
               localOnly={turn.localOnly}
+              handoff={handoff}
             />
           )}
         {s.phase === 'answered' && s.result && <AnswerBubble session={s} />}
@@ -600,7 +700,9 @@ function Approval({
   dispatch,
   onApprove,
   localOnly,
+  handoff,
 }: {
+  handoff: { url: string } | null;
   session: SessionState;
   dispatch: (a: SessionAction) => void;
   onApprove: (
@@ -647,7 +749,7 @@ function Approval({
       <div
         aria-label="Before and after"
         role="group"
-        className="grid grid-cols-[1fr_auto_1fr] items-stretch gap-2 text-[13.5px]"
+        className="grid grid-cols-1 items-stretch gap-2 text-[13.5px] sm:grid-cols-[1fr_auto_1fr]"
       >
         <div className="rounded-[12px] border border-detected-line/40 bg-detected/25 px-3.5 py-2.5">
           <div className="text-muted">On this device</div>
@@ -656,7 +758,7 @@ function Approval({
             {r.foundTotal === 1 ? 'detail' : 'details'}
           </div>
         </div>
-        <span aria-hidden="true" className="self-center text-muted">
+        <span aria-hidden="true" className="hidden self-center text-muted sm:inline">
           →
         </span>
         <div className="rounded-[12px] border border-cloud/50 bg-cloud-tint/50 px-3.5 py-2.5">
@@ -670,6 +772,13 @@ function Approval({
           </div>
         </div>
       </div>
+      {handoff && (
+        <p className="m-0 rounded-[12px] border border-cloud/50 bg-cloud-tint/40 px-4 py-3 text-[14px] leading-relaxed text-ink">
+          This question needs cloud reasoning, which this build of the extension doesn't call.
+          Continue in Envoy on the web: paste the same text there, and it runs the same on-device
+          check and shows you this excerpt again before anything is sent.
+        </p>
+      )}
       <CloudPreview
         outbound={outbound}
         guard={guard}
@@ -677,7 +786,12 @@ function Approval({
         edited={session.editedOutbound !== null}
         sending={session.phase === 'sending'}
         dispatch={dispatch}
-        onApprove={() => onApprove(analysis, outbound, session.sharedTags)}
+        onApprove={() =>
+          handoff
+            ? void window.open(handoff.url, '_blank', 'noopener')
+            : onApprove(analysis, outbound, session.sharedTags)
+        }
+        approveLabel={handoff ? 'Continue in Envoy on the web' : 'Approve and send'}
       />
       <details className="rounded-[16px] border border-line bg-surface/60">
         <summary className="cursor-pointer px-4 py-3 text-[14px] font-semibold text-ink">

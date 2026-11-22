@@ -2,15 +2,18 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { networkLog, type Deps } from '@envoy/ai';
-import { NetworkInspector } from '../components/NetworkInspector';
+import { NetworkInspector, type EnvoyRuntime } from '@envoy/app';
 import { AppShell } from './App';
-import type { EnvoyRuntime } from './useEnvoy';
 
 const basicRuntime = (): EnvoyRuntime => ({
   status: 'no-api',
   progress: null,
   settings: { cloudModel: 'gemini-3.8-flash', promptVersion: 'v1' },
-  deps: { runPrivate: vi.fn(), models: {}, getDeviceStatus: async () => 'no-api' } as unknown as Deps,
+  deps: {
+    runPrivate: vi.fn(),
+    models: {},
+    getDeviceStatus: async () => 'no-api',
+  } as unknown as Deps,
   configError: null,
   enablePrivateMode: vi.fn(),
   refreshStatus: vi.fn(async () => undefined),
@@ -24,16 +27,38 @@ describe('accessibility and proof', () => {
     await user.click(screen.getByRole('button', { name: 'When does my contract end?' }));
     screen.getByRole('button', { name: /Analyze privately/ }).focus();
     await user.keyboard('{Enter}');
-    await waitFor(() => expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('When does my contract end?'));
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+        'When does my contract end?',
+      ),
+    );
     expect(screen.getByRole('heading', { level: 1 })).toHaveFocus();
-    expect(screen.getByTestId('live-region')).toHaveTextContent(/Found \d+ personal items on your device/);
+    expect(screen.getByTestId('live-region')).toHaveTextContent(
+      /Found \d+ personal items on your device/,
+    );
   });
 
   it('inspector lists the exact payload sent', () => {
     networkLog.clear();
     render(<NetworkInspector open onClose={vi.fn()} />);
-    act(() => networkLog.record({ at: Date.now(), step: 'reason', target: 'cloud', blocked: false, payload: 'Question: Can [LANDLORD] raise [RENT]?' }));
-    act(() => networkLog.record({ at: Date.now(), step: 'tripwire', target: 'cloud', blocked: true, payload: 'raw text' }));
+    act(() =>
+      networkLog.record({
+        at: Date.now(),
+        step: 'reason',
+        target: 'cloud',
+        blocked: false,
+        payload: 'Question: Can [LANDLORD] raise [RENT]?',
+      }),
+    );
+    act(() =>
+      networkLog.record({
+        at: Date.now(),
+        step: 'tripwire',
+        target: 'cloud',
+        blocked: true,
+        payload: 'raw text',
+      }),
+    );
     expect(screen.getByText('Question: Can [LANDLORD] raise [RENT]?')).toBeInTheDocument();
     expect(screen.getByText(/Blocked/)).toBeInTheDocument();
   });

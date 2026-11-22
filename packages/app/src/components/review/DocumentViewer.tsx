@@ -11,7 +11,8 @@ const NEXT: Record<TagState, { mode: 'hide' | 'share' | 'default'; label: string
 };
 const STYLE: Record<TagState, string> = {
   masked: 'bg-detected border-b-2 border-detected-line',
-  hidden: 'bg-transparent line-through decoration-2 text-muted-2 border-b-2 border-dashed border-muted-2',
+  hidden:
+    'bg-transparent line-through decoration-2 text-muted-2 border-b-2 border-dashed border-muted-2',
   shared: 'bg-cloud-tint text-cloud-on-tint border-b-2 border-cloud',
 };
 
@@ -23,8 +24,22 @@ interface Props {
   dispatch: Dispatch<SessionAction>;
 }
 
-function ChunkText({ chunk, entities, tagState, analysis, dispatch }: { chunk: Chunk; entities: Entity[]; tagState: (t: string) => TagState; analysis: Analysis; dispatch: Dispatch<SessionAction> }) {
-  const inside = entities.filter((e) => e.start >= chunk.start && e.end <= chunk.end).sort((a, b) => a.start - b.start);
+function ChunkText({
+  chunk,
+  entities,
+  tagState,
+  analysis,
+  dispatch,
+}: {
+  chunk: Chunk;
+  entities: Entity[];
+  tagState: (t: string) => TagState;
+  analysis: Analysis;
+  dispatch: Dispatch<SessionAction>;
+}) {
+  const inside = entities
+    .filter((e) => e.start >= chunk.start && e.end <= chunk.end)
+    .sort((a, b) => a.start - b.start);
   const parts: React.ReactNode[] = [];
   let at = chunk.start;
   for (const e of inside) {
@@ -51,10 +66,14 @@ function ChunkText({ chunk, entities, tagState, analysis, dispatch }: { chunk: C
 /** The document, read on the device: details highlighted, the shared clauses outlined, the rest collapsed. */
 export function DocumentViewer({ analysis, selectedIds, hiddenTags, sharedTags, dispatch }: Props) {
   const [expanded, setExpanded] = useState<Set<number>>(new Set());
-  const tagState = (t: string): TagState => (hiddenTags.includes(t) ? 'hidden' : sharedTags.includes(t) ? 'shared' : 'masked');
+  const tagState = (t: string): TagState =>
+    hiddenTags.includes(t) ? 'hidden' : sharedTags.includes(t) ? 'shared' : 'masked';
   const selected = new Set(selectedIds);
   const toggleClause = (id: number) =>
-    dispatch({ type: 'SET_CLAUSES', ids: selected.has(id) ? selectedIds.filter((x) => x !== id) : [...selectedIds, id] });
+    dispatch({
+      type: 'SET_CLAUSES',
+      ids: selected.has(id) ? selectedIds.filter((x) => x !== id) : [...selectedIds, id],
+    });
 
   // Group runs of unselected chunks so they collapse into one line.
   const groups: { selected: boolean; chunks: Chunk[] }[] = [];
@@ -72,7 +91,8 @@ export function DocumentViewer({ analysis, selectedIds, hiddenTags, sharedTags, 
         if (!g.selected && !g.chunks.some((c) => expanded.has(c.id))) {
           const first = g.chunks[0]!;
           const last = g.chunks.at(-1)!;
-          const name = first === last ? first.label : `${first.label} – ${last.label.replace('Clause ', '')}`;
+          const name =
+            first === last ? first.label : `${first.label} – ${last.label.replace('Clause ', '')}`;
           return (
             <button
               key={gi}
@@ -92,10 +112,27 @@ export function DocumentViewer({ analysis, selectedIds, hiddenTags, sharedTags, 
               className={`flex flex-col gap-2 rounded-[10px] px-4 py-3.5 ${isSel ? 'border-2 border-dashed border-cloud bg-cloud-tint/40' : 'border border-line opacity-80'}`}
             >
               <label className="flex items-center gap-2 text-xs font-semibold tracking-wider text-cloud-on-tint uppercase">
-                <input type="checkbox" checked={isSel} onChange={() => toggleClause(c.id)} className="size-4 accent-[var(--cloud)]" />
-                {c.label} · {isSel ? (viaDevice ? 'selected by on-device AI' : 'included by Basic protection') : 'not shared'} · page {c.page}
+                <input
+                  type="checkbox"
+                  checked={isSel}
+                  onChange={() => toggleClause(c.id)}
+                  className="size-4 accent-[var(--cloud)]"
+                />
+                {c.label} ·{' '}
+                {isSel
+                  ? viaDevice
+                    ? 'selected by on-device AI'
+                    : 'included by Basic protection'
+                  : 'not shared'}{' '}
+                · page {c.page}
               </label>
-              <ChunkText chunk={c} entities={analysis.entities} tagState={tagState} analysis={analysis} dispatch={dispatch} />
+              <ChunkText
+                chunk={c}
+                entities={analysis.entities}
+                tagState={tagState}
+                analysis={analysis}
+                dispatch={dispatch}
+              />
             </div>
           );
         });

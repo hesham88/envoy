@@ -2,21 +2,55 @@
  * /studio/sidepanel — the Chrome extension side panel, designed at real width (400 px) for every state,
  * from the shared @envoy/ui components. Reference implementation for the extension lane: copy the layout.
  */
-import { AnalyzingPanel, EnvoySeal, Logo, ModeChip, RestoredText, StatusPill, TaggedText, type DeviceState } from '@envoy/ui';
+import {
+  AnalyzingPanel,
+  EnvoySeal,
+  Logo,
+  ModeChip,
+  RestoredText,
+  StatusPill,
+  TaggedText,
+  type DeviceState,
+} from '@envoy/ui';
 import type { RestoredSpan } from '@envoy/core';
 
 const EXCERPT =
   "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.";
-const ANSWER = 'Not by 20%. Your contract caps yearly increases at 10%, so Karim Fathy can raise it to EGP 9,350 at most, with 60 days’ written notice.';
+const ANSWER =
+  'Not by 20%. Your contract caps yearly increases at 10%, so Karim Fathy can raise it to EGP 9,350 at most, with 60 days’ written notice.';
 const spans: RestoredSpan[] = [
-  { start: ANSWER.indexOf('Karim'), end: ANSWER.indexOf('Karim') + 11, tag: '[LANDLORD]', value: 'Karim Fathy', computed: false },
-  { start: ANSWER.indexOf('EGP'), end: ANSWER.indexOf('EGP') + 9, tag: '{{RENT * 1.10}}', value: 'EGP 9,350', computed: true },
+  {
+    start: ANSWER.indexOf('Karim'),
+    end: ANSWER.indexOf('Karim') + 11,
+    tag: '[LANDLORD]',
+    value: 'Karim Fathy',
+    computed: false,
+  },
+  {
+    start: ANSWER.indexOf('EGP'),
+    end: ANSWER.indexOf('EGP') + 9,
+    tag: '{{RENT * 1.10}}',
+    value: 'EGP 9,350',
+    computed: true,
+  },
 ];
 
-function Panel({ title, status, progress = null, children }: { title: string; status: DeviceState; progress?: number | null; children: React.ReactNode }) {
+function Panel({
+  title,
+  status,
+  progress = null,
+  children,
+}: {
+  title: string;
+  status: DeviceState;
+  progress?: number | null;
+  children: React.ReactNode;
+}) {
   return (
     <figure className="m-0 flex flex-col gap-2">
-      <figcaption className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">{title}</figcaption>
+      <figcaption className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+        {title}
+      </figcaption>
       <div className="flex h-[760px] w-[400px] flex-none flex-col overflow-hidden rounded-[14px] border border-line bg-paper shadow-[0_1px_0_var(--line)]">
         <div className="sticky top-0 flex items-center justify-between gap-2 border-b border-line bg-surface px-4 py-3">
           <Logo withWordmark size={22} />
@@ -37,7 +71,9 @@ export function SidePanelMockup() {
     <div className="min-h-screen bg-paper text-ink">
       <header className="flex items-center justify-between border-b border-line bg-surface px-8 py-5">
         <Logo withWordmark />
-        <span className="font-mono text-xs tracking-widest text-muted uppercase">Chrome side panel · 400 px · every state</span>
+        <span className="font-mono text-xs tracking-widest text-muted uppercase">
+          Chrome side panel · 400 px · every state
+        </span>
       </header>
       <main className="flex gap-8 overflow-x-auto px-8 py-10">
         <Panel title="1 · Empty" status="available">
@@ -45,7 +81,8 @@ export function SidePanelMockup() {
             <EnvoySeal size={200} interactive={false} title="Envoy seal" />
             <h1 className="m-0 text-xl font-bold">Ask the cloud. Keep your secrets.</h1>
             <p className="m-0 text-sm leading-relaxed text-muted">
-              Select text on any page, right-click, and choose <strong className="text-ink">Ask Envoy privately</strong>. Or paste a document below.
+              Select text on any page, right-click, and choose{' '}
+              <strong className="text-ink">Ask Envoy privately</strong>. Or paste a document below.
             </p>
             <button className={secondary}>Paste text</button>
           </div>
@@ -53,19 +90,30 @@ export function SidePanelMockup() {
 
         <Panel title="2 · Start" status="available">
           <div className={card}>
-            <p className="m-0 mb-1 text-xs font-semibold tracking-wider text-muted uppercase">From the page</p>
+            <p className="m-0 mb-1 text-xs font-semibold tracking-wider text-muted uppercase">
+              From the page
+            </p>
             <p className="m-0 line-clamp-4 text-sm text-muted">
-              7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%…
+              7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per
+              contract year by no more than 10%…
             </p>
             <p className="m-0 mt-2 text-xs text-muted-2">412 words · read on this device</p>
           </div>
           <label className="text-sm font-semibold" htmlFor="m-q">
             What do you want to know?
           </label>
-          <textarea id="m-q" rows={2} defaultValue="Can my landlord raise the rent 20% this year?" className="rounded-control border border-line bg-surface p-3 text-[15px]" />
+          <textarea
+            id="m-q"
+            rows={2}
+            defaultValue="Can my landlord raise the rent 20% this year?"
+            className="rounded-control border border-line bg-surface p-3 text-[15px]"
+          />
           <div className="flex flex-wrap gap-1.5">
             {['When does my contract end?', 'What about my deposit?'].map((q) => (
-              <span key={q} className="rounded-full border border-line bg-paper px-2.5 py-1 text-xs">
+              <span
+                key={q}
+                className="rounded-full border border-line bg-paper px-2.5 py-1 text-xs"
+              >
                 {q}
               </span>
             ))}
@@ -77,12 +125,21 @@ export function SidePanelMockup() {
         </Panel>
 
         <Panel title="3 · Analyzing" status="available">
-          <AnalyzingPanel progress={{ step: 'minimize', part: 1, parts: 1 }} mode="private" startedAt={Date.now() - 23_000} />
-          <p className="m-0 text-[13px] text-muted">You'll see exactly what the cloud would receive before anything is sent.</p>
+          <AnalyzingPanel
+            progress={{ step: 'minimize', part: 1, parts: 1 }}
+            mode="private"
+            startedAt={Date.now() - 23_000}
+          />
+          <p className="m-0 text-[13px] text-muted">
+            You'll see exactly what the cloud would receive before anything is sent.
+          </p>
         </Panel>
 
         <Panel title="4 · Review" status="available">
-          <section aria-label="What the cloud will see" className="flex flex-col gap-3 rounded-card border-2 border-cloud bg-surface p-4">
+          <section
+            aria-label="What the cloud will see"
+            className="flex flex-col gap-3 rounded-card border-2 border-cloud bg-surface p-4"
+          >
             <div className="flex items-center justify-between">
               <h2 className="m-0 text-base font-bold">What the cloud will see</h2>
               <ModeChip kind="cloud">Waiting</ModeChip>
@@ -100,13 +157,17 @@ export function SidePanelMockup() {
                 <div className="text-xs text-muted">leave the device</div>
               </div>
             </div>
-            <p className="m-0 text-xs text-device-on-tint">Guard: no raw personal detail in this excerpt.</p>
+            <p className="m-0 text-xs text-device-on-tint">
+              Guard: no raw personal detail in this excerpt.
+            </p>
             <div className="flex gap-2">
               <button className={`${primary} flex-1`}>Approve and send</button>
               <button className={secondary}>Edit</button>
             </div>
           </section>
-          <p className="m-0 text-xs text-muted-2">20 details found on this device · 18 masked · names flagged: none</p>
+          <p className="m-0 text-xs text-muted-2">
+            20 details found on this device · 18 masked · names flagged: none
+          </p>
         </Panel>
 
         <Panel title="5 · Answer" status="available">
@@ -121,20 +182,27 @@ export function SidePanelMockup() {
               </strong>
               <RestoredText text={ANSWER} spans={spans} from={11} />
             </p>
-            <p className="m-0 text-xs text-muted-2">Green values were restored on your device. Not legal advice.</p>
+            <p className="m-0 text-xs text-muted-2">
+              Green values were restored on your device. Not legal advice.
+            </p>
           </article>
           <div className={`${card} flex flex-col gap-2 text-sm`}>
-            <span className="text-xs font-semibold tracking-wider text-cloud-on-tint uppercase">Left your device</span>
+            <span className="text-xs font-semibold tracking-wider text-cloud-on-tint uppercase">
+              Left your device
+            </span>
             <span className="font-bold">1 clause · 248 characters</span>
-            <span className="text-xs font-semibold tracking-wider text-device-on-tint uppercase">Stayed on device</span>
+            <span className="text-xs font-semibold tracking-wider text-device-on-tint uppercase">
+              Stayed on device
+            </span>
             <span className="font-bold">20 personal items · 6 pages</span>
           </div>
         </Panel>
 
         <Panel title="6 · Basic protection" status="no-api">
           <div className="rounded-card bg-detected/70 p-4 text-sm leading-relaxed">
-            <strong>Basic protection.</strong> No on-device model in this browser, so local rules hide IDs, phones, emails, IBANs and amounts. Names below are
-            masked; check them before you approve.
+            <strong>Basic protection.</strong> No on-device model in this browser, so local rules
+            hide IDs, phones, emails, IBANs and amounts. Names below are masked; check them before
+            you approve.
           </div>
           <div className={card}>
             <p className="m-0 mb-1 text-sm font-semibold">Names to check</p>

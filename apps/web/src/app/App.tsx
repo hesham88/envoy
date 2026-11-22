@@ -1,23 +1,36 @@
 import { useEffect, useReducer, useState } from 'react';
 import { answer, type AnalyzeProgress } from '@envoy/ai';
-import { AboutDialog } from '../components/AboutDialog';
-import { LiveRegion } from '../components/LiveRegion';
-import { NetworkInspector } from '../components/NetworkInspector';
-import { OfflineBanner } from '../components/OfflineBanner';
+import {
+  AboutDialog,
+  LiveRegion,
+  NetworkInspector,
+  OfflineBanner,
+  ChatApp,
+  runAnalysis,
+  initialSession,
+  sessionReducer,
+  useEnvoy,
+  type EnvoyConfig,
+  type EnvoyRuntime,
+} from '@envoy/app';
 import { Logo, StatusPill } from '@envoy/ui';
 import { DevPage } from '../dev/DevPage';
 import { Banners } from '../art/Banners';
 import { Landing } from '../landing/Landing';
-import { ChatApp } from '../chat/ChatApp';
 import { SceneFrame } from '../art/SceneFrame';
 import { SidePanelMockup } from '../art/SidePanelMockup';
 import { Studio } from '../art/Studio';
 import { Answer } from '../screens/Answer';
 import { Review } from '../screens/Review';
 import { Start } from '../screens/Start';
-import { runAnalysis } from './actions';
-import { initialSession, sessionReducer } from './session';
-import { useEnvoy, type EnvoyRuntime } from './useEnvoy';
+import { cloudModelOverride, readFirebaseEnv } from '../env';
+
+/** The web app's Firebase settings come from its Vite build environment. */
+const ENVOY_CONFIG: EnvoyConfig = {
+  readEnv: () => readFirebaseEnv(),
+  cloudModelOverride,
+  dev: import.meta.env.DEV,
+};
 
 /** The product shell; `runtime` is injected so tests can drive every state. */
 export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
@@ -178,11 +191,11 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
 }
 
 function ChatProduct() {
-  return <ChatApp runtime={useEnvoy()} />;
+  return <ChatApp runtime={useEnvoy(ENVOY_CONFIG)} />;
 }
 
 function ProductApp() {
-  return <AppShell runtime={useEnvoy()} />;
+  return <AppShell runtime={useEnvoy(ENVOY_CONFIG)} />;
 }
 
 export function App() {

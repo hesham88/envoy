@@ -4,12 +4,22 @@ import { useReducer } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { analyze, type Analysis, type Deps } from '@envoy/ai';
 import { EN_LEASE } from '@envoy/core';
-import { initialSession, sessionReducer, type SessionState } from '../app/session';
+import { initialSession, sessionReducer, type SessionState } from '@envoy/app';
 import { Review } from './Review';
 
-const basicDeps = { runPrivate: vi.fn(), models: {}, getDeviceStatus: async () => 'no-api' } as unknown as Deps;
+const basicDeps = {
+  runPrivate: vi.fn(),
+  models: {},
+  getDeviceStatus: async () => 'no-api',
+} as unknown as Deps;
 
-function Harness({ analysis, onApprove = vi.fn() }: { analysis: Analysis; onApprove?: (o: string) => void }) {
+function Harness({
+  analysis,
+  onApprove = vi.fn(),
+}: {
+  analysis: Analysis;
+  onApprove?: (o: string) => void;
+}) {
   const start: SessionState = {
     ...initialSession,
     phase: 'review',
@@ -30,7 +40,9 @@ async function basicAnalysis() {
 describe('Review screen', () => {
   it('shows the question, the notice and what the cloud will see', async () => {
     render(<Harness analysis={await basicAnalysis()} />);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Can my landlord raise the rent 20% this year?');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Can my landlord raise the rent 20% this year?',
+    );
     expect(screen.getByText(/uses Basic protection/)).toBeInTheDocument();
     const preview = screen.getByRole('region', { name: /What the cloud will see/ });
     expect(preview).toHaveTextContent('The monthly rent is');
@@ -42,7 +54,9 @@ describe('Review screen', () => {
     render(<Harness analysis={await basicAnalysis()} />);
     const rent = screen.getAllByRole('button', { name: /EGP 8,500/ })[0]!;
     await user.click(rent); // masked → hidden
-    expect(screen.getByRole('region', { name: /What the cloud will see/ })).not.toHaveTextContent('The monthly rent is');
+    expect(screen.getByRole('region', { name: /What the cloud will see/ })).not.toHaveTextContent(
+      'The monthly rent is',
+    );
   });
 
   it('approve disabled while guard has leaks', async () => {
@@ -67,6 +81,8 @@ describe('Review screen', () => {
     const onApprove = vi.fn();
     render(<Harness analysis={await basicAnalysis()} onApprove={onApprove} />);
     await user.click(screen.getByRole('button', { name: /Approve and send/ }));
-    expect(onApprove).toHaveBeenCalledWith(expect.stringContaining('Question: Can my landlord raise the rent 20% this year?'));
+    expect(onApprove).toHaveBeenCalledWith(
+      expect.stringContaining('Question: Can my landlord raise the rent 20% this year?'),
+    );
   });
 });

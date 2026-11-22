@@ -2,6 +2,8 @@
 @import './tokens.css';
 /* Scan this package's components (workspace packages live under node_modules, which Tailwind skips). */
 @source './';
+/* The shared product UI (@envoy/app) uses these utilities too. */
+@source '../../app/src';
 
 /* Tailwind utilities read the Envoy tokens (tokens.css), so light/dark switch in one place. */
 @theme inline {
