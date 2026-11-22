@@ -24,7 +24,7 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 | Lane | Agent | Owns |
 | --- | --- | --- |
 | Core + web AI + visual identity | Claude Code | `packages/core`, `packages/ai`, `apps/web`, `docs/img/`, brand/motion assets |
-| Eval harness | Antigravity (Gemini, "Argon") | `tests/eval/**`, `npm run eval`, `docs/EVAL.md` |
+| Eval harness + CLI hook | Antigravity (Gemini, "Argon") | `tests/eval/**`, `npm run eval`, `docs/EVAL.md`, `packages/cli/**` (envoy-guard) |
 | Chrome extension | Muse | `apps/extension/**` |
 Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused edits only, and pull before you push.
 
