@@ -1,4 +1,29 @@
-/* Panel-specific layout only. Design tokens, Tailwind theme and shared component
-   styles come from @envoy/ui/styles.css (imported in main.tsx). */
+﻿/* Panel-specific layout and signature motion. Tokens, Tailwind theme and shared
+   component styles come from @envoy/ui/styles.css (imported in main.tsx).
+   All motion is transform/opacity only and stops under reduced motion. */
 body { background: var(--paper); }
 .panel-scroll { scrollbar-gutter: stable; }
+
+.packet-track { position: relative; height: 34px; }
+.packet-line { position: absolute; left: 18px; right: 18px; top: 50%; height: 2px; transform: translateY(-50%);
+  background: linear-gradient(90deg, var(--device), var(--cloud)); opacity: .45; border-radius: 2px; }
+.packet { position: absolute; top: 50%; left: 18px; transform: translate(0, -50%); color: var(--device-on-tint);
+  animation: packet-fly 1.6s ease-in-out infinite; }
+@keyframes packet-fly {
+  0% { transform: translate(0, -50%) scale(1); opacity: 0; }
+  12% { opacity: 1; }
+  55% { transform: translate(calc(100% + 0px), -50%) scale(1); }
+  88% { opacity: 1; }
+  100% { transform: translate(calc(100% + 0px), -50%) scale(.9); opacity: 0; }
+}
+.packet-track { --packet-distance: 220px; }
+.packet { animation-name: packet-fly-x; }
+@keyframes packet-fly-x {
+  0% { transform: translate(0, -50%); opacity: 0; }
+  12% { opacity: 1; }
+  82% { opacity: 1; }
+  100% { transform: translate(var(--packet-distance), -50%); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .packet { animation: none; left: 50%; }
+}

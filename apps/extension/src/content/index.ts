@@ -42,6 +42,8 @@ shadow.innerHTML = `
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; padding: 3px;
     animation: envoy-spin 14s linear infinite; }
   @keyframes envoy-spin { to { transform: rotate(360deg); } }
+  .ring { animation: envoy-lock .45s ease-out; }
+  @keyframes envoy-lock { 0% { transform: scale(1.05); opacity: .4; } 100% { transform: scale(1); opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .ring::after { animation: none; } }
   .card { position: fixed; z-index: 2147483646; display: none; width: 340px; max-width: calc(100vw - 24px); max-height: 60vh; overflow: auto;
     background: #fff; color: #16181d; border: 1px solid #e2e2dd; border-radius: 16px; padding: 12px;

@@ -20,6 +20,7 @@ import { DETECT_SCHEMA, EN_LEASE, MINIMIZE_SCHEMA, ROUTE_SCHEMA, SUGGESTED_QUEST
 import { FlightRecorder } from './recorder/FlightRecorder';
 import { RulesPanel } from './rules/RulesPanel';
 import { AnalyzingPanel, EnvoySeal, Logo, ModeChip, RestoredText, StatusPill, STEP_EMBLEMS, StepEmblem, TaggedText } from '@envoy/ui';
+import { Cloud, Laptop, MailCheck } from 'lucide-react';
 import { CLOUD_ENABLED, HOSTED_APP_URL, cloudModelOverride, isUnpacked, readFirebaseEnv } from './env';
 import { FIX_HINTS, gateState } from './gate';
 
@@ -60,6 +61,7 @@ export function App() {
   const [settings, setSettings] = useState<RemoteSettings>(DEFAULT_SETTINGS);
   const [status, setStatus] = useState<DeviceStatus | 'checking'>('checking');
   const [dlProgress, setDlProgress] = useState<number | null>(null);
+  const [online, setOnline] = useState(() => navigator.onLine);
   const [doc, setDoc] = useState('');
   const [question, setQuestion] = useState<string>(SUGGESTED_QUESTIONS[0] ?? '');
   const [phase, setPhase] = useState<Phase>('idle');
@@ -97,11 +99,14 @@ export function App() {
         }
       })
       .catch(() => undefined);
+    const onNet = () => setOnline(navigator.onLine);
+    window.addEventListener('online', onNet);
+    window.addEventListener('offline', onNet);
     const onVis = () => {
       if (!document.hidden) void getDeviceStatus().then(setStatus);
     };
     document.addEventListener('visibilitychange', onVis);
-    return () => document.removeEventListener('visibilitychange', onVis);
+    return () => { document.removeEventListener('visibilitychange', onVis); window.removeEventListener('online', onNet); window.removeEventListener('offline', onNet); };
   }, [env.app]);
 
   async function enablePrivateMode() {
@@ -181,7 +186,12 @@ export function App() {
       </header>
 
       <main className="grid gap-3 px-4 py-3">
-        {env.error && <p className={`${card} bg-danger-tint text-danger`}>{env.error}</p>}
+        {env.error && <p className={`${card} bg-danger-tint text-danger`} role="alert">{env.error}</p>}
+        {!online && (
+          <p className={card} role="status">
+            <strong>You're offline.</strong> <span className="text-muted">On-device steps keep working. A question that needs the cloud gets a lighter on-device answer, labelled as such.</span>
+          </p>
+        )}
 
         {!gate.ready && (
           <section className={card} aria-labelledby="ready-h">
@@ -264,6 +274,14 @@ export function App() {
             <div className="mt-2 flex gap-2">
               <button className={btn} type="button" onClick={() => setEditing((v) => !v)}>{editing ? 'Done editing' : 'Edit excerpt'}</button>
             </div>
+            {phase === 'answering' && (
+              <div className="packet-track mt-3" aria-hidden="true">
+                <span className="packet-line" />
+                <Laptop size={16} className="absolute left-0 top-1/2 -translate-y-1/2 text-device" />
+                <span className="packet"><MailCheck size={18} /></span>
+                <Cloud size={16} className="absolute right-0 top-1/2 -translate-y-1/2 text-cloud" />
+              </div>
+            )}
             {showHandoff ? (
               <div className="mt-3 grid gap-2">
                 <p className="text-sm text-muted">This question needs cloud reasoning. The extension runs on-device only, so hand it to the hosted Envoy app � it will re-run detection there and show you the same masked excerpt before anything is sent.</p>

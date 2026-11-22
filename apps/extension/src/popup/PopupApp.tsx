@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getDeviceStatus, type DeviceStatus } from '@envoy/ai';
-import { Logo, StatusPill } from '@envoy/ui';
+import { EnvoySeal, Logo, StatusPill } from '@envoy/ui';
 
 export function PopupApp() {
   const [origin, setOrigin] = useState('');
@@ -9,8 +9,10 @@ export function PopupApp() {
   const [status, setStatus] = useState<DeviceStatus | 'checking'>('checking');
   const [note, setNote] = useState('');
   const [tab, setTab] = useState<{ windowId?: number }>({});
+  const [onboard, setOnboard] = useState<number | null>(null);
 
   useEffect(() => {
+    chrome.storage.local.get('envoyOnboarded').then((v) => setOnboard(v.envoyOnboarded ? -1 : 0)).catch(() => setOnboard(-1));
     void getDeviceStatus().then(setStatus);
     chrome.tabs
       .query({ active: true, currentWindow: true })
@@ -27,6 +29,11 @@ export function PopupApp() {
       })
       .catch(() => undefined);
   }, []);
+
+  async function finishOnboarding() {
+    setOnboard(-1);
+    await chrome.storage.local.set({ envoyOnboarded: true }).catch(() => undefined);
+  }
 
   async function toggle(next: boolean) {
     if (!origin) return;
@@ -55,6 +62,36 @@ export function PopupApp() {
         <Logo size={20} withWordmark />
         <StatusPill status={status} progress={null} />
       </header>
+
+      {onboard !== null && onboard >= 0 && (
+        <section className="mb-3 rounded-card border border-line bg-surface p-3" aria-label="Welcome to Envoy">
+          {onboard === 0 && (
+            <div className="grid justify-items-center gap-2 text-center">
+              <EnvoySeal size={110} interactive={false} />
+              <h2 className="text-sm font-semibold">What Envoy does</h2>
+              <p className="text-xs text-muted">Envoy reads your text on this device first, replaces private details with tags like [EMAIL], and only ever sends what you approve.</p>
+            </div>
+          )}
+          {onboard === 1 && (
+            <div>
+              <h2 className="text-sm font-semibold">You choose each site</h2>
+              <p className="mt-1 text-xs text-muted">Envoy does nothing on a site until you switch it on below. When off, it injects nothing and changes nothing. Password, one-time-code and card fields are always left alone.</p>
+            </div>
+          )}
+          {onboard === 2 && (
+            <div>
+              <h2 className="text-sm font-semibold">Your on-device model</h2>
+              <p className="mt-1 text-xs text-muted">Status now: {status}. Without the model, Basic protection uses built-in local rules: still masked, still safe, just less clever. You can download the model from the side panel.</p>
+            </div>
+          )}
+          <div className="mt-3 flex gap-2">
+            {onboard < 2
+              ? <button type="button" className="min-h-11 flex-1 rounded-control bg-ink px-3 py-2 text-sm font-semibold text-paper" onClick={() => setOnboard(onboard + 1)}>Next</button>
+              : <button type="button" className="min-h-11 flex-1 rounded-control bg-ink px-3 py-2 text-sm font-semibold text-paper" onClick={() => void finishOnboarding()}>Done</button>}
+            <button type="button" className="min-h-11 rounded-control border border-line bg-surface px-3 py-2 text-sm font-semibold" onClick={() => void finishOnboarding()}>Skip</button>
+          </div>
+        </section>
+      )}
       <section className="rounded-card border border-line bg-surface p-3">
         <h2 className="text-sm font-semibold">Envoy on this site</h2>
         <p className="mt-1 text-xs text-muted">{host || 'Open a normal web page to choose.'}</p>
