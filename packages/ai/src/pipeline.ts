@@ -153,6 +153,45 @@ function maskQuestion(question: string, docEntities: Entity[], tags: TagMap): st
   return maskText(question, found, tags);
 }
 
+export interface ReviewChoices {
+  selectedIds: number[];
+  /** Tags whose whole sentence the user removed from the excerpt. */
+  hiddenTags: Set<string>;
+  /** Tags whose real value the user chose to share. */
+  sharedTags: Set<string>;
+}
+
+type ComposeInput = Pick<Analysis, 'question' | 'chunks' | 'entities' | 'tags' | 'steps' | 'mode'>;
+
+/** Replaces every sentence that mentions a hidden tag with "[…]". */
+function dropHiddenSentences(text: string, hidden: Set<string>): string {
+  if (![...hidden].some((t) => text.includes(t))) return text;
+  const out: string[] = [];
+  for (const sentence of text.split(/(?<=[.!?])\s+/)) {
+    const hide = [...hidden].some((t) => sentence.includes(t));
+    if (!hide) out.push(sentence);
+    else if (out.at(-1) !== '[…]') out.push('[…]');
+  }
+  return out.join(' ');
+}
+
+/** Rebuilds the excerpt, guard result and receipt from the user's review choices. Pure. */
+export function composeOutbound(a: ComposeInput, choices: ReviewChoices): { outbound: string; guard: { ok: boolean; leaks: Leak[] }; receipt: Receipt } {
+  const isShared = (e: Entity) => choices.sharedTags.has(a.tags.tagOf(e));
+  const masked = a.entities.filter((e) => !isShared(e));
+  const allowed = a.entities.filter(isShared);
+  const selected = a.chunks.filter((c) => choices.selectedIds.includes(c.id));
+  const outbound = [
+    `Question: ${maskQuestion(a.question, masked, a.tags)}`,
+    ...selected.map((c) => `${c.label}: ${dropHiddenSentences(maskChunk(c, masked, a.tags), choices.hiddenTags)}`),
+  ].join('\n\n');
+  const knownTags = a.tags.entries().map((t) => t.tag);
+  const guard = checkOutbound(outbound, a.entities, { knownTags, allowed });
+  const sharedByUser = knownTags.filter((t) => choices.sharedTags.has(t)).length;
+  const receipt = buildReceipt({ entities: a.entities, outbound, chunksSent: selected, chunksAll: a.chunks, steps: [...a.steps], mode: a.mode, sharedByUser });
+  return { outbound, guard, receipt };
+}
+
 export async function analyze(doc: string, question: string, deps: Deps): Promise<Analysis> {
   const chunks = chunkDocument(doc);
   const rules = detectWithRules(doc);
@@ -210,12 +249,10 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
   }
 
   const tags = assignTags(entities);
-  const selected = chunks.filter((c) => selection.ids.includes(c.id));
-  const outbound = [`Question: ${maskQuestion(question, entities, tags)}`, ...selected.map((c) => `${c.label}: ${maskChunk(c, entities, tags)}`)].join(
-    '\n\n',
+  const { outbound, guard, receipt } = composeOutbound(
+    { question, chunks, entities, tags, steps, mode },
+    { selectedIds: selection.ids, hiddenTags: new Set(), sharedTags: new Set() },
   );
-  const guard = checkOutbound(outbound, entities, { knownTags: tags.entries().map((t) => t.tag) });
-  const receipt = buildReceipt({ entities, outbound, chunksSent: selected, chunksAll: chunks, steps: [...steps], mode });
 
   return {
     question,
@@ -249,8 +286,13 @@ export async function answer(
   analysis: Analysis,
   approvedOutbound: string,
   deps: Deps,
+  opts: { sharedTags?: string[] } = {},
 ): Promise<{ text: string; spans: RestoredSpan[]; source: 'on_device' | 'in_cloud'; lighter: boolean; receipt: Receipt }> {
-  const check = checkOutbound(approvedOutbound, analysis.entities, { knownTags: analysis.tags.entries().map((t) => t.tag) });
+  const shared = new Set(opts.sharedTags ?? []);
+  const allowed = analysis.entities.filter((e) => shared.has(analysis.tags.tagOf(e)));
+  const knownTags = analysis.tags.entries().map((t) => t.tag);
+  const sharedByUser = knownTags.filter((t) => shared.has(t)).length;
+  const check = checkOutbound(approvedOutbound, analysis.entities, { knownTags, allowed });
   if (!check.ok) throw new OutboundBlockedError(check.leaks);
 
   const selected = analysis.chunks.filter((c) => analysis.selectedIds.includes(c.id));
@@ -278,6 +320,7 @@ export async function answer(
     chunksAll: analysis.chunks,
     steps,
     mode: analysis.mode,
+    sharedByUser: source === 'in_cloud' ? sharedByUser : 0,
   });
   return { text: restored.text, spans: restored.spans, source, lighter: source === 'on_device', receipt };
 }

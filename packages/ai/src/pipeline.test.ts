@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { InferenceSource, type GenerativeModel } from 'firebase/ai';
 import { buildMinimizePrompt, chunkDocument, EN_LEASE, type Chunk, type Step } from '@envoy/core';
-import { analyze, answer, OutboundBlockedError, selectClausesBatched, type Deps } from './pipeline';
+import { analyze, answer, composeOutbound, OutboundBlockedError, selectClausesBatched, type Deps } from './pipeline';
 import { networkLog } from './network-log';
 
 const QUESTION = 'Can my landlord raise the rent 20% this year?';
@@ -197,5 +197,40 @@ describe('review fixes I3/I4', () => {
     const { deps } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
     await expect(answer(a, `${a.outbound}\nTenant: [MONA_ADEL]`, deps)).rejects.toBeInstanceOf(OutboundBlockedError);
+  });
+});
+
+describe('composeOutbound (review edits)', () => {
+  it('composeOutbound honours hidden and shared tags', async () => {
+    const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
+    const hidden = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(['[RENT]']), sharedTags: new Set() });
+    expect(hidden.outbound).not.toContain('The monthly rent is');
+    expect(hidden.outbound).toContain('[…]');
+    expect(hidden.guard.ok).toBe(true);
+
+    const shared = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(), sharedTags: new Set(['[RENT]']) });
+    expect(shared.outbound).toContain('The monthly rent is EGP 8,500.');
+    expect(shared.guard.ok).toBe(true);
+    expect(shared.receipt.sharedByUser).toBe(1);
+  });
+
+  it('custom clause selection changes the outbound and receipt', async () => {
+    const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
+    const two = composeOutbound(a, { selectedIds: [6, 7], hiddenTags: new Set(), sharedTags: new Set() });
+    expect(two.outbound).toContain('Clause 6:');
+    expect(two.outbound).toContain('Clause 7:');
+    expect(two.receipt.clausesSent).toBe(2);
+  });
+
+  it('matches what analyze produced when nothing is changed', async () => {
+    const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
+    expect(composeOutbound(a, { selectedIds: a.selectedIds, hiddenTags: new Set(), sharedTags: new Set() }).outbound).toBe(a.outbound);
+  });
+
+  it('lets answer() send a value the user chose to share', async () => {
+    const { deps } = fakeDeps('available');
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    const shared = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(), sharedTags: new Set(['[RENT]']) });
+    await expect(answer(a, shared.outbound, deps, { sharedTags: ['[RENT]'] })).resolves.toMatchObject({ source: 'in_cloud' });
   });
 });
