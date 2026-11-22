@@ -5,12 +5,23 @@
  */
 import { detectWithRules, type CustomRule } from './rules';
 import { canonical } from './tags';
+import {
+  encodedBlobs,
+  joinedLinesReading,
+  numberWordsReading,
+  reversedReading,
+  type Reading,
+} from './guard-variants';
 import type { Entity, EntityType } from './types';
 
 export interface Leak {
   value: string;
   type: EntityType;
   index: number;
+  /** How the value was disguised, when it was: spelled out, split, reversed, or encoded. */
+  via?: 'words' | 'split' | 'reversed' | 'encoded';
+  /** Set when the guard blocks text it can't check (an encoded blob), rather than a found value. */
+  unreadable?: boolean;
 }
 
 const TAG = /\[[A-Z][A-Z0-9_]*\]/g;
@@ -207,32 +218,68 @@ export function checkOutbound(
         (a) => a.type === p.type && canonical(a.value, a.type) === canonical(p.value, p.type),
       ),
   );
-  const found: Leak[] = detectWithRules(text, { custom: opts.custom }).map((e) => ({
-    value: e.value,
-    type: e.type,
-    index: e.start,
-  }));
-
-  for (const p of protectedEntities) {
-    switch (p.type) {
-      case 'PHONE':
-      case 'IBAN':
-      case 'NATIONAL_ID':
-      case 'CARD':
-      case 'SECRET':
-        found.push(...findCodes(text, p.value, p.type));
-        break;
-      case 'MONEY':
-        found.push(...findAmount(text, p.value));
-        break;
-      case 'EMAIL':
-        found.push(...findWords(text, p.value, p.type), ...findDefanged(text, p.value));
-        break;
-      default:
-        found.push(...findWords(text, p.value, p.type));
-        // A value with digits in it (a token, a reference) is searched compacted too, so T-O-K-E-N-9-9 is caught.
-        if (/\d/.test(p.value)) found.push(...findCompact(text, p.value, p.type));
+  const searchRules = (t: string): Leak[] =>
+    detectWithRules(t, { custom: opts.custom }).map((e) => ({
+      value: e.value,
+      type: e.type,
+      index: e.start,
+    }));
+  const searchProtected = (t: string): Leak[] => {
+    const out: Leak[] = [];
+    for (const p of protectedEntities) {
+      switch (p.type) {
+        case 'PHONE':
+        case 'IBAN':
+        case 'NATIONAL_ID':
+        case 'CARD':
+        case 'SECRET':
+          out.push(...findCodes(t, p.value, p.type));
+          break;
+        case 'MONEY':
+          out.push(...findAmount(t, p.value));
+          break;
+        case 'EMAIL':
+          out.push(...findWords(t, p.value, p.type), ...findDefanged(t, p.value));
+          break;
+        default:
+          out.push(...findWords(t, p.value, p.type));
+          // A value with digits in it (a token, a reference) is searched compacted too, so T-O-K-E-N-9-9 is caught.
+          if (/\d/.test(p.value)) out.push(...findCompact(t, p.value, p.type));
+      }
     }
+    return out;
+  };
+
+  const found: Leak[] = [...searchRules(text), ...searchProtected(text)];
+
+  // The same checks on other readings of the text, mapped back to where the disguised value is.
+  const readings: [Reading, Leak['via'], boolean][] = [
+    [numberWordsReading(text), 'words', true],
+    [joinedLinesReading(text), 'split', false],
+    [reversedReading(text), 'reversed', false],
+  ];
+  for (const [reading, via, withRules] of readings) {
+    if (reading.text === text) continue;
+    for (const l of [
+      ...(withRules ? searchRules(reading.text) : []),
+      ...searchProtected(reading.text),
+    ]) {
+      const [start, end] = reading.span(l.index, l.value.length);
+      found.push({ type: l.type, value: text.slice(start, end), index: start, via });
+    }
+  }
+
+  // Encoded blobs: decode and check them. Fail closed: readable encoded text is blocked even when
+  // nothing protected is found in it, because the person approving can't read it either.
+  for (const blob of encodedBlobs(text)) {
+    const inside = [...searchRules(blob.decoded), ...searchProtected(blob.decoded)];
+    found.push({
+      type: inside[0]?.type ?? 'SECRET',
+      value: text.slice(blob.start, blob.end),
+      index: blob.start,
+      via: 'encoded',
+      ...(inside.length ? {} : { unreadable: true }),
+    });
   }
 
   const leaks: Leak[] = [];

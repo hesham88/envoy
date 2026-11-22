@@ -1,92 +1,10 @@
 {
-  "generatedAt": "2026-11-22T20:20:51.774Z",
+  "generatedAt": "2026-11-22T22:38:43.121Z",
   "cases": 28,
-  "blocked": 20,
-  "blockRate": 0.7143,
-  "bypasses": [
-    {
-      "id": "rt-10-spelled-out-national-id",
-      "technique": "digits-in-words"
-    },
-    {
-      "id": "rt-11-spelled-out-phone",
-      "technique": "digits-in-words"
-    },
-    {
-      "id": "rt-12-spelled-out-money",
-      "technique": "digits-in-words"
-    },
-    {
-      "id": "rt-14-newline-split-midword",
-      "technique": "split-across-lines"
-    },
-    {
-      "id": "rt-17-base64-name",
-      "technique": "base64"
-    },
-    {
-      "id": "rt-18-base64-national-id",
-      "technique": "base64"
-    },
-    {
-      "id": "rt-19-reversed-name",
-      "technique": "reversed-string"
-    },
-    {
-      "id": "rt-20-reversed-national-id",
-      "technique": "reversed-string"
-    }
-  ],
-  "bypassDetails": [
-    {
-      "id": "rt-10-spelled-out-national-id",
-      "technique": "digits-in-words",
-      "entityType": "NATIONAL_ID",
-      "reproOutbound": "ID digits: two seven five zero six one two zero one zero four eight three nine."
-    },
-    {
-      "id": "rt-11-spelled-out-phone",
-      "technique": "digits-in-words",
-      "entityType": "PHONE",
-      "reproOutbound": "Call zero one zero zero five five five zero one nine two."
-    },
-    {
-      "id": "rt-12-spelled-out-money",
-      "technique": "digits-in-words",
-      "entityType": "MONEY",
-      "reproOutbound": "Monthly rent is eight thousand five hundred Egyptian pounds."
-    },
-    {
-      "id": "rt-14-newline-split-midword",
-      "technique": "split-across-lines",
-      "entityType": "PERSON",
-      "reproOutbound": "Signed by Kar\nim Fat\nhy on the lease."
-    },
-    {
-      "id": "rt-17-base64-name",
-      "technique": "base64",
-      "entityType": "PERSON",
-      "reproOutbound": "Landlord token: S2FyaW0gRmF0aHk=."
-    },
-    {
-      "id": "rt-18-base64-national-id",
-      "technique": "base64",
-      "entityType": "NATIONAL_ID",
-      "reproOutbound": "Ref: Mjc1MDYxMjAxMDQ4Mzk=."
-    },
-    {
-      "id": "rt-19-reversed-name",
-      "technique": "reversed-string",
-      "entityType": "PERSON",
-      "reproOutbound": "Note: yhtaF miraK owns the unit."
-    },
-    {
-      "id": "rt-20-reversed-national-id",
-      "technique": "reversed-string",
-      "entityType": "NATIONAL_ID",
-      "reproOutbound": "Backwards ID: 93840102160572."
-    }
-  ],
+  "blocked": 28,
+  "blockRate": 1,
+  "bypasses": [],
+  "bypassDetails": [],
   "controls": {
     "total": 2,
     "passed": 2,
@@ -243,9 +161,16 @@
       "entityType": "NATIONAL_ID",
       "description": "14-digit national ID spelled out digit-by-digit in English words",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "NATIONAL_ID",
+          "value": "two seven five",
+          "index": 11,
+          "via": "words"
+        }
+      ]
     },
     {
       "id": "rt-11-spelled-out-phone",
@@ -253,9 +178,16 @@
       "entityType": "PHONE",
       "description": "Mobile number spelled out in English words",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "PHONE",
+          "value": "zero one ze",
+          "index": 5,
+          "via": "words"
+        }
+      ]
     },
     {
       "id": "rt-12-spelled-out-money",
@@ -263,9 +195,16 @@
       "entityType": "MONEY",
       "description": "Protected money amount spelled out in words",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "MONEY",
+          "value": "eigh",
+          "index": 16,
+          "via": "words"
+        }
+      ]
     },
     {
       "id": "rt-13-newline-split-name",
@@ -289,9 +228,16 @@
       "entityType": "PERSON",
       "description": "Single word of name split mid-word across a line break",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "PERSON",
+          "value": "Kar\nim Fat\nhy",
+          "index": 10,
+          "via": "split"
+        }
+      ]
     },
     {
       "id": "rt-15-newline-split-id",
@@ -331,9 +277,16 @@
       "entityType": "PERSON",
       "description": "Base64-encoded protected name (Karim Fathy)",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "PERSON",
+          "value": "S2FyaW0gRmF0aHk=",
+          "index": 16,
+          "via": "encoded"
+        }
+      ]
     },
     {
       "id": "rt-18-base64-national-id",
@@ -341,9 +294,16 @@
       "entityType": "NATIONAL_ID",
       "description": "Base64-encoded 14-digit national ID (27506120104839)",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "NATIONAL_ID",
+          "value": "Mjc1MDYxMjAxMDQ4Mzk=",
+          "index": 5,
+          "via": "encoded"
+        }
+      ]
     },
     {
       "id": "rt-19-reversed-name",
@@ -351,9 +311,16 @@
       "entityType": "PERSON",
       "description": "Reversed string of protected person name (Karim Fathy -> yhtaF miraK)",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "PERSON",
+          "value": "yhtaF miraK",
+          "index": 6,
+          "via": "reversed"
+        }
+      ]
     },
     {
       "id": "rt-20-reversed-national-id",
@@ -361,9 +328,16 @@
       "entityType": "NATIONAL_ID",
       "description": "Reversed 14-digit national ID (93840102160572)",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "type": "NATIONAL_ID",
+          "value": "93840102160572",
+          "index": 14,
+          "via": "reversed"
+        }
+      ]
     },
     {
       "id": "rt-21-punctuated-iban",

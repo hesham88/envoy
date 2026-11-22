@@ -61,7 +61,8 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 - **Target:** `@envoy/core` `checkOutbound()` · **Date:** `2026-11-22` · **Cases:** `28` adversarial bypass payloads + `2` clean controls.
 - **Before PR #11 hardening:** `11 / 28` blocked (`39.3%`), `17` bypasses reported in [Issue #7](https://github.com/hesham88/envoy/issues/7).
 - **After PR #11 hardening:** `17 / 28` attacks blocked (`60.7%`), `11` remaining bypasses, `2 / 2` clean controls passed.
-- **After PR #14 (current `main`, rerun by `npm run eval`):** **`20 / 28` attacks blocked**, **`8` remaining bypasses**. PR #14 closed combining accents (`rt-28`), defanged emails (`rt-23`) and spaced-out values containing digits (`rt-27`).
+- **After PR #14:** **`20 / 28` attacks blocked**, **`8` remaining bypasses**. PR #14 closed combining accents (`rt-28`), defanged emails (`rt-23`) and spaced-out values containing digits (`rt-27`).
+- **After PR #22 (current `main`, rerun by `npm run eval`): `28 / 28` attacks blocked, `0` bypasses, `2 / 2` clean controls passed.** The guard now also reads the text with number words folded into digits (`rt-10`–`rt-12`), with a word split across lines joined (`rt-14`), reversed (`rt-19`, `rt-20`), and with base64 blobs decoded (`rt-17`, `rt-18`). It **fails closed** on encoded text: a base64 blob that decodes to readable text is blocked even when nothing protected is found in it, because the person approving can't read it either. Every red-team case is also a unit test (`packages/core/src/guard-redteam.test.ts`), with false-positive checks on ordinary prose and the masked sample lease.
   - **Newly blocked by PR #11 (6 bypasses closed):** zero-width space in names (`rt-01`), soft hyphen in emails (`rt-03`), Cyrillic homoglyphs in names (`rt-05`), full-width digits & Latin (`rt-07`, `rt-08`, `rt-09`).
   - **Remaining 11 bypasses (tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7)):** digits/amounts spelled in words (`rt-10`, `rt-11`, `rt-12`), mid-word line split (`rt-14`), Base64 (`rt-17`, `rt-18`), reversed strings (`rt-19`, `rt-20`), defanged email (`rt-23`), hyphen-spaced key token (`rt-27`), NFD combining accents (`rt-28`).
 
@@ -98,7 +99,7 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 ## 6. Limitations
 
 1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`) / `67.5s` (`nano`); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
-2. **Remaining 8 guard obfuscation bypasses** (the 8 Basic `flagNames` leaks are fixed; see section 2): digits spelled out in words, Base64, reversed strings and a name split mid-word across lines. Each would need the guard to block ordinary text to catch it. Tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7); 9 of 17 original bypasses are closed (PR #11, PR #14).
+2. **The red team is 28 cases.** All are blocked today, but 28 cases are not proof against every encoding or paraphrase. Envoy's claim is the measured one: it minimizes what leaves, masks what it detects, and blocks detected leaks, including disguised ones. Indirect identification (a combination of non-identifying details) is measured separately by the attribute-inference attack (section 3).
 3. **Cloud attack & quality sample size (`n = 12` / `n = 10`):** Paced for Gemini Developer API Free Tier RPM limits; clearly labeled partial alongside the full `36/36` pipeline matrix.
 
 ---

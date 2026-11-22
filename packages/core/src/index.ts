@@ -13,3 +13,4 @@ export * from './restore';
 export * from './receipt';
 export * from './scan';
 export * from './names';
+export * from './guard-variants';
