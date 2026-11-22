@@ -45,6 +45,11 @@ Motion polish → eval and Harness² tuning → Chrome extension → launch (ass
 - Build-free MV3 side-panel scaffold in `apps/extension` (no `package.json`, so the web workspace, `tsc -b`, Vite and `npm run verify` never pick it up; web build and typecheck verified green with it present). It mirrors the web design tokens, adds a live Nano prerequisite gate and a selection context-menu intake (session storage only, no content script).
 - Not wired to Firebase/`@envoy/ai` yet. Integration path and the App Check on `chrome-extension://` question are assessed in `apps/extension/INTEGRATION.md`. Load via `chrome://extensions` → Developer mode → Load unpacked (branded Chrome ignores `--load-extension`).
 
+## Model under test (rule, 2026-11-22)
+- Every on-device result so far ran on **Gemma 4** (`gemma4_component`), enabled only by the developer-trial flag `gemma4-for-built-in-ai` plus CPU-backend launch options. Judges on ordinary Chrome will most likely get the **default Gemini Nano**, and neither Firebase AI Logic nor the Prompt API can choose or report which model ran.
+- **Rule:** every eval number, timing or quality claim names the model (component name and version from `chrome://on-device-internals`). The README and video quote results from the **default model**, or label Gemma 4 results as such.
+- **Plan:** a second test profile `F:ChromeEnvoyNano` (flag off, TEMP on F:) so the eval and the prompt probes run on both models; the prompts are tuned to pass on the default model first.
+
 ## Cloud model
 `gemini-3.8-flash` through Remote Config key `cloud_model` (default in code). Override locally with `VITE_CLOUD_MODEL`.
 
