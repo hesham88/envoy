@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-22T20:20:53.689Z",
-  "commit": "cdabc7a",
+  "generatedAt": "2026-11-22T21:27:33.432Z",
+  "commit": "1117c24",
   "arms": [
     {
       "id": "gemma4",
@@ -26,7 +26,18 @@
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": 1
+        "answerQualityRetained": null
+      },
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 0
       }
     },
     {
@@ -51,9 +62,20 @@
         },
         "minimizationRatio": 0.1017,
         "reidRecoveryExact": 0,
-        "reidRecoveryPartial": 0.0085,
+        "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": 1
+        "answerQualityRetained": null
+      },
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 0
       }
     },
     {
@@ -69,58 +91,48 @@
         "outboundLeaks": 0,
         "clauseAccuracy": 1,
         "latencyMs": {
-          "p50": 5,
-          "p95": 22
+          "p50": 6,
+          "p95": 32
         },
         "minimizationRatio": 0.9016,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
-        "attributeInference": 0.0968,
-        "answerQualityRetained": 1
+        "attributeInference": 0.039,
+        "answerQualityRetained": 0.75
+      },
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 20
       }
     }
   ],
   "redteam": {
     "cases": 28,
-    "blocked": 20,
-    "bypasses": [
-      {
-        "id": "rt-10-spelled-out-national-id",
-        "technique": "digits-in-words"
-      },
-      {
-        "id": "rt-11-spelled-out-phone",
-        "technique": "digits-in-words"
-      },
-      {
-        "id": "rt-12-spelled-out-money",
-        "technique": "digits-in-words"
-      },
-      {
-        "id": "rt-14-newline-split-midword",
-        "technique": "split-across-lines"
-      },
-      {
-        "id": "rt-17-base64-name",
-        "technique": "base64"
-      },
-      {
-        "id": "rt-18-base64-national-id",
-        "technique": "base64"
-      },
-      {
-        "id": "rt-19-reversed-name",
-        "technique": "reversed-string"
-      },
-      {
-        "id": "rt-20-reversed-national-id",
-        "technique": "reversed-string"
-      }
-    ]
+    "blocked": 28,
+    "bypasses": [],
+    "controls": {
+      "total": 10,
+      "passed": 10,
+      "falseBlocks": 0
+    }
   },
   "secrets": {
     "recall": 1,
     "precision": 0.9412,
     "n": 24
+  },
+  "cli": {
+    "recall": 1,
+    "precision": 1,
+    "n": 24,
+    "falseBlocks": 0,
+    "rawEchoLeaks": 0
   }
 }

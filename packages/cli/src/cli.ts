@@ -1,6 +1,6 @@
 import { scanText } from '@envoy/core';
 import { evaluateHook, type HookPayload } from './hook';
-import { buildInitSnippet, type SupportedAgent } from './init';
+import { formatInitCommand, type SupportedAgent } from './init';
 import { loadUserRules } from './rules';
 
 async function readStdin(): Promise<string> {
@@ -23,14 +23,10 @@ async function main(): Promise<void> {
   const cmd = argv[0];
 
   if (cmd === 'init') {
-    const target = argv[1];
-    if (target !== 'claude' && target !== 'gemini') {
-      process.stderr.write('Usage: envoy-guard init claude|gemini\n');
-      process.exit(1);
-    }
-    const snippet = buildInitSnippet(target);
-    process.stderr.write(`# Add this to ${snippet.file}\n# ${snippet.note}\n\n`);
-    process.stdout.write(JSON.stringify(snippet.json, null, 2) + '\n');
+    const out = formatInitCommand(argv[1]);
+    if (out.stderr) process.stderr.write(out.stderr);
+    if (out.stdout) process.stdout.write(out.stdout);
+    if (out.exitCode !== 0) process.exit(out.exitCode);
     return;
   }
 

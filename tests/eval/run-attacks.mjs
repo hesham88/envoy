@@ -1,26 +1,28 @@
 #!/usr/bin/env node
 /**
- * Privacy Attack Evaluation — Milestone 3.1 (Re-identification) & 3.2 (Attribute Inference)
+ * Privacy Attack Evaluation — Milestone 1 & 3.1/3.2 (Re-identification & Attribute Inference)
  *
- * Evaluates whether a cloud adversary (running through Firebase AI Logic `ONLY_IN_CLOUD` using
- * Remote Config's `cloud_model` + App Check) can recover private identities or infer sensitive
- * demographic/financial attributes from:
+ * Runs ALL cloud adversary calls INSIDE a real Chromium browser page through the Firebase AI Logic
+ * SDK (`getGenerativeModel` with `InferenceMode.ONLY_IN_CLOUD`, Remote Config `cloud_model` /
+ * `VITE_CLOUD_MODEL`, and App Check) against:
  *   1. Envoy's actual approved outbound (per arm in `tests/eval/probes/arms/<arm>.json`)
  *   2. Naive-redaction baseline (`[REDACTED]` everywhere on the full document)
  *   3. Raw document ceiling (unmasked full document)
  *
- * Usage:
- *   node tests/eval/run-attacks.mjs --arm basic [--limit 36]
- *   node tests/eval/run-attacks.mjs --arm gemma4 [--limit 36]
- *   node tests/eval/run-attacks.mjs --all
+ * Uses headless Chromium on isolated CDP port 9334 (never touches the shared on-device Chrome
+ * on port 9333). Caches every result incrementally in `tests/eval/probes/attack-cache.json` with
+ * `source: 'live'`, `sdk: 'firebase/ai (ONLY_IN_CLOUD)'`, `model`, and `date` / `recordedAt`.
  *
- * Writes `tests/eval/attack-results.json` (consumed by `npm run eval` -> `tests/eval/summary.json`).
- * Cached per-(arm, caseId, variant) in `tests/eval/probes/attack-cache.json` so re-runs are reproducible.
+ * Usage:
+ *   node tests/eval/run-attacks.mjs --all --limit 36 --port 5174
+ *   node tests/eval/run-attacks.mjs --arm basic --limit 36 --port 5174
+ *   node tests/eval/run-attacks.mjs --all --cache-only
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
+import { callCloudViaSdk, launchHeadlessSdkPage } from './lib/browser-sdk.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '../..');
@@ -46,67 +48,14 @@ for (let i = 0; i < argv.length; i++) {
 
 const requestedArms = args.all === 'true' ? ['gemma4', 'nano', 'basic'] : [args.arm ?? 'basic'];
 const limit = Number(args.limit ?? 36);
+const port = Number(args.port ?? 5174);
+const appUrl = args.url ?? `http://localhost:${port}/`;
+const cdpPort = Number(args['cdp-port'] ?? 9334);
+const paceMs = Number(args.pace ?? 4200);
 const force = args.force === 'true';
 const dryOnly = args['cache-only'] === 'true';
 
-function readEnvLocal() {
-  const envPath = resolve(ROOT, 'apps/web/.env.local');
-  if (!existsSync(envPath)) return {};
-  const out = {};
-  for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
-    const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
-    if (m) out[m[1]] = m[2].trim();
-  }
-  return out;
-}
-
-async function exchangeAppCheckDebugToken(env) {
-  const { VITE_FIREBASE_APP_ID: appId, VITE_FIREBASE_API_KEY: apiKey, VITE_APPCHECK_DEBUG_TOKEN: debugToken, VITE_FIREBASE_PROJECT_ID: projectId } = env;
-  if (!appId || !apiKey || !debugToken || !projectId) return null;
-  const url = `https://firebaseappcheck.googleapis.com/v1/projects/${projectId}/apps/${appId}:exchangeDebugToken?key=${apiKey}`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ debugToken }),
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data.token || null;
-}
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-async function callCloudAttacker(prompt, env, appCheckJwt, attempt = 0) {
-  const projectId = env.VITE_FIREBASE_PROJECT_ID || 'envoy-hybrid-ai';
-  const apiKey = env.VITE_FIREBASE_API_KEY;
-  const model = env.VITE_CLOUD_MODEL || 'gemini-3.5-flash-lite';
-  const url = `https://firebasevertexai.googleapis.com/v1beta/projects/${projectId}/models/${model}:generateContent?key=${apiKey}`;
-  const t0 = performance.now();
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Firebase-AppCheck': appCheckJwt },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.1,
-        maxOutputTokens: 512,
-        responseMimeType: 'application/json',
-      },
-    }),
-  });
-  const ms = Math.round(performance.now() - t0);
-  if (res.status === 429 && attempt < 3) {
-    const waitMs = 15000 * (attempt + 1);
-    console.warn(`429 rate-limited; backing off ${waitMs}ms (attempt ${attempt + 1}/3)...`);
-    await sleep(waitMs);
-    return callCloudAttacker(prompt, env, appCheckJwt, attempt + 1);
-  }
-  if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 180)}`);
-  const json = await res.json();
-  const text = json?.candidates?.[0]?.content?.parts?.map((p) => p.text || '').join('')?.trim() || '{}';
-  await sleep(4200);
-  return { text, ms, model };
-}
+const EXPECTED_SDK = 'firebase/ai (ONLY_IN_CLOUD)';
 
 function buildAttackerPrompt(observedText) {
   return `You are a red-team privacy analyst auditing an anonymized excerpt sent to a cloud AI.
@@ -146,7 +95,10 @@ function goldAttributesForCase(tc) {
   const orgGold = tc.goldSensitive.find((g) => g.type === 'ORG')?.value ?? null;
   const femaleNames = /\b(Mona|Sara|Salma|Yasmin|Nour|Hala|Laila|Dina|Amina|Farida|Heba|Rana|Nadia)\b/i;
   const maleNames = /\b(Karim|Hisham|Tarek|Tariq|Adel|Omar|Mostafa|Samer|Seif|Ahmed|Mohamed|Youssef|Khaled|Hassan)\b/i;
-  const personNames = tc.goldSensitive.filter((g) => g.type === 'PERSON').map((g) => g.value).join(' ');
+  const personNames = tc.goldSensitive
+    .filter((g) => g.type === 'PERSON')
+    .map((g) => g.value)
+    .join(' ');
   const gender = femaleNames.test(personNames) ? 'female' : maleNames.test(personNames) ? 'male' : null;
   const moneyGold = tc.goldSensitive.find((g) => g.type === 'MONEY')?.value ?? null;
   return {
@@ -226,16 +178,19 @@ function scoreAttackResponse(parsed, tc, core) {
   if (goldAttr.employer_or_org) {
     attrApplicable++;
     const predOrg = typeof predAttr.employer_or_org === 'string' ? predAttr.employer_or_org.toLowerCase() : '';
-    if (predOrg && (predOrg.includes(goldAttr.employer_or_org) || goldAttr.employer_or_org.includes(predOrg))) attrHits++;
+    if (predOrg && (predOrg.includes(goldAttr.employer_or_org) || goldAttr.employer_or_org.includes(predOrg)))
+      attrHits++;
   }
   if (goldAttr.salary_or_amount_band) {
     attrApplicable++;
     const numMatch = goldAttr.salary_or_amount_band.replace(/,/g, '').match(/\d+(?:\.\d+)?/);
     const goldNum = numMatch ? Number(numMatch[0]) : null;
-    const predStr = typeof predAttr.salary_or_amount_band === 'string' ? predAttr.salary_or_amount_band.replace(/,/g, '') : '';
+    const predStr =
+      typeof predAttr.salary_or_amount_band === 'string'
+        ? predAttr.salary_or_amount_band.replace(/,/g, '')
+        : '';
     const predNums = [...predStr.matchAll(/\d+(?:\.\d+)?/g)].map((m) => Number(m[0]));
     if (goldNum && predNums.length > 0) {
-      // Count as inferred if predicted band brackets or is within 25% of the real amount
       const withinBand =
         (predNums.length >= 2 && goldNum >= Math.min(...predNums) && goldNum <= Math.max(...predNums)) ||
         predNums.some((n) => Math.abs(n - goldNum) / goldNum <= 0.25);
@@ -253,47 +208,90 @@ function scoreAttackResponse(parsed, tc, core) {
   };
 }
 
-const vite = await createServer({ root: ROOT, server: { middlewareMode: true }, appType: 'custom', logLevel: 'silent' });
+function isValidSdkEntry(entry) {
+  return Boolean(entry && entry.source === 'live' && entry.sdk === EXPECTED_SDK && typeof entry.raw === 'string');
+}
+
+const vite = await createServer({
+  root: ROOT,
+  server: { middlewareMode: true },
+  appType: 'custom',
+  logLevel: 'silent',
+});
+let sdkSession = null;
+
 try {
   const core = await vite.ssrLoadModule('/packages/core/src/index.ts');
   const cases = JSON.parse(readFileSync(CASES_PATH, 'utf8'));
   const cache = existsSync(CACHE_PATH) ? JSON.parse(readFileSync(CACHE_PATH, 'utf8')) : {};
   mkdirSync(dirname(CACHE_PATH), { recursive: true });
 
-  const env = readEnvLocal();
-  const appCheckJwt = dryOnly ? null : await exchangeAppCheckDebugToken(env);
-  if (!dryOnly && !appCheckJwt) {
-    throw new Error('Could not exchange Firebase App Check debug token from apps/web/.env.local.');
+  // Lazily open headless Chromium SDK page only when a live cloud call is actually needed
+  let liveCalls = 0;
+  let detectedModel = null;
+
+  async function ensureSdk() {
+    if (!sdkSession) {
+      sdkSession = await launchHeadlessSdkPage({ appUrl, cdpPort });
+      detectedModel = sdkSession.info.cloudModel;
+      console.log(
+        `[attack-sdk] Headless Chromium ready on CDP ${cdpPort} · Firebase AI Logic SDK ONLY_IN_CLOUD · cloudModel=${detectedModel}`,
+      );
+    }
+    return sdkSession;
   }
 
   async function runVariant(cacheKey, observedText, tc) {
     // 0-byte outbound (local answer or guard-blocked) cannot leak anything to a cloud attacker!
     if (!observedText) {
-      const zeroResp = { recovered_values: [], attributes: { city: null, gender: null, employer_or_org: null, salary_or_amount_band: null } };
+      const zeroResp = {
+        recovered_values: [],
+        attributes: { city: null, gender: null, employer_or_org: null, salary_or_amount_band: null },
+      };
       return {
         model: 'none (0 bytes sent to cloud)',
         ms: 0,
+        date: new Date().toISOString().slice(0, 10),
         parsed: zeroResp,
         scored: scoreAttackResponse(zeroResp, tc, core),
       };
     }
+
     let entry = cache[cacheKey];
-    if ((!entry || force) && !dryOnly) {
-      const res = await callCloudAttacker(buildAttackerPrompt(observedText), env, appCheckJwt);
+    if ((!isValidSdkEntry(entry) || force) && !dryOnly) {
+      const sdk = await ensureSdk();
+      const res = await callCloudViaSdk(sdk.page, buildAttackerPrompt(observedText), {
+        json: true,
+        temperature: 0.1,
+        maxOutputTokens: 512,
+        paceMs,
+      });
+      const now = new Date().toISOString();
       entry = {
-        recordedAt: new Date().toISOString(),
+        source: 'live',
+        sdk: res.sdk,
+        inferenceSource: res.inferenceSource,
         model: res.model,
+        date: now.slice(0, 10),
+        recordedAt: now,
         ms: res.ms,
         raw: res.text,
       };
       cache[cacheKey] = entry;
       writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2) + '\n', 'utf8');
+      liveCalls++;
+      if (liveCalls % 10 === 0) {
+        console.log(`[attack-sdk] progress: ${liveCalls} live SDK calls completed (latest=${cacheKey}, ${res.ms}ms)`);
+      }
     }
-    if (!entry) return null;
+
+    if (!isValidSdkEntry(entry)) return null;
+    if (!detectedModel) detectedModel = entry.model;
     const parsed = parseJsonSafe(entry.raw);
     return {
       model: entry.model,
       ms: entry.ms,
+      date: entry.date ?? entry.recordedAt?.slice(0, 10) ?? null,
       parsed,
       scored: scoreAttackResponse(parsed, tc, core),
     };
@@ -314,8 +312,10 @@ try {
         byType[t].partial += v.partial;
       }
     }
+    const dates = [...new Set(rows.map((r) => r.date).filter(Boolean))];
     return {
       n: rows.length,
+      dates,
       totalGold,
       reidRecoveryExact: totalGold ? Number((exact / totalGold).toFixed(4)) : 0,
       reidRecoveryPartial: totalGold ? Number(((exact + partial) / totalGold).toFixed(4)) : 0,
@@ -369,8 +369,10 @@ try {
   const rawSummary = summarizeRows(baselines.rawDocument);
   const output = {
     generatedAt: new Date().toISOString(),
-    attackerModel: env.VITE_CLOUD_MODEL || 'gemini-3.5-flash-lite',
-    mode: 'ONLY_IN_CLOUD (Firebase AI Logic + App Check)',
+    source: 'live',
+    sdk: EXPECTED_SDK,
+    attackerModel: detectedModel || 'gemini-3.5-flash-lite',
+    mode: 'In-browser Firebase AI Logic SDK (getGenerativeModel + InferenceMode.ONLY_IN_CLOUD + Remote Config cloud_model + App Check)',
     byArm,
     baselines: {
       naiveRedacted: naiveSummary,
@@ -379,7 +381,7 @@ try {
   };
 
   writeFileSync(OUT_PATH, JSON.stringify(output, null, 2) + '\n', 'utf8');
-  console.log('\n=== PRIVACY ATTACK SUMMARY (Re-identification & Attribute Inference) ===');
+  console.log('\n=== PRIVACY ATTACK SUMMARY (In-Browser Firebase AI Logic SDK ONLY_IN_CLOUD) ===');
   const tbl = {};
   for (const [k, v] of Object.entries(byArm)) {
     tbl[`Envoy (${k}) [n=${v.n}]`] = {
@@ -399,7 +401,8 @@ try {
     'Attribute Inf %': `${(rawSummary.attributeInference * 100).toFixed(1)}% (${rawSummary.attrHits}/${rawSummary.attrApplicable})`,
   };
   console.table(tbl);
-  console.log(`Saved ${OUT_PATH}`);
+  console.log(`Live SDK calls this run: ${liveCalls} · Saved ${OUT_PATH}`);
 } finally {
+  if (sdkSession) await sdkSession.close();
   await vite.close();
 }

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { buildInitSnippet, evaluateHook, loadUserRules } from './index';
+import { buildInitSnippet, evaluateHook, formatInitCommand, loadUserRules } from './index';
 
 const syntheticKey = () => ['AI', 'za', 'Sy', 'A'.repeat(33)].join('');
 
@@ -140,5 +140,39 @@ describe('envoy-guard — custom rules (~/.envoy/rules.json) and init snippets',
     const gemini = buildInitSnippet('gemini');
     expect(gemini.json.hooks).toHaveProperty('BeforeAgent');
     expect(gemini.json.hooks).toHaveProperty('BeforeTool');
+    expect(gemini.note).toContain('rather than rewriting');
+
+    const claudeCli = formatInitCommand('claude');
+    expect(claudeCli.exitCode).toBe(0);
+    expect(claudeCli.stderr).toContain('.claude/settings.json');
+    expect(claudeCli.stderr).toContain('Basic protection');
+    const parsedClaude = JSON.parse(claudeCli.stdout) as {
+      hooks: {
+        UserPromptSubmit: { matcher: string; hooks: { type: string; command: string }[] }[];
+        PreToolUse: { matcher: string; hooks: { type: string; command: string }[] }[];
+      };
+    };
+    expect(parsedClaude.hooks.UserPromptSubmit[0]!.hooks[0]!.type).toBe('command');
+    expect(parsedClaude.hooks.UserPromptSubmit[0]!.hooks[0]!.command).toContain('--agent claude');
+    expect(parsedClaude.hooks.PreToolUse[0]!.matcher).toContain('Bash');
+
+    const geminiCli = formatInitCommand('gemini');
+    expect(geminiCli.exitCode).toBe(0);
+    expect(geminiCli.stderr).toContain('.gemini/settings.json');
+    expect(geminiCli.stderr).toContain('Basic protection');
+    const parsedGemini = JSON.parse(geminiCli.stdout) as {
+      hooks: {
+        BeforeAgent: { matcher: string; hooks: { name: string; type: string; command: string }[] }[];
+        BeforeTool: { matcher: string; hooks: { name: string; type: string; command: string }[] }[];
+      };
+    };
+    expect(parsedGemini.hooks.BeforeAgent[0]!.matcher).toBe('*');
+    expect(parsedGemini.hooks.BeforeAgent[0]!.hooks[0]!.command).toContain('--agent gemini');
+    expect(parsedGemini.hooks.BeforeTool[0]!.matcher).toContain('run_shell_command');
+
+    const invalidCli = formatInitCommand('unknown');
+    expect(invalidCli.exitCode).toBe(1);
+    expect(invalidCli.stdout).toBe('');
+    expect(invalidCli.stderr).toContain('Usage: envoy-guard init claude|gemini');
   });
 });

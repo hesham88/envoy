@@ -42,7 +42,7 @@ export function buildInitSnippet(agent: SupportedAgent, command = 'envoy-guard')
 
   return {
     file: '.gemini/settings.json (or ~/.gemini/settings.json)',
-    note: 'Basic protection (rules-only in Node; no on-device LLM). Uses Gemini CLI native BeforeAgent and BeforeTool hook events.',
+    note: 'Basic protection (rules-only in Node; no on-device LLM). Uses Gemini CLI native BeforeAgent and BeforeTool hook events; blocks ("deny") and prints a masked copy rather than rewriting prompts inline.',
     json: {
       hooks: {
         BeforeAgent: [
@@ -71,5 +71,25 @@ export function buildInitSnippet(agent: SupportedAgent, command = 'envoy-guard')
         ],
       },
     },
+  };
+}
+
+/** Formats stdout JSON and stderr guidance for `envoy-guard init claude|gemini` (never writes files). */
+export function formatInitCommand(
+  target: string | undefined,
+  command = 'envoy-guard',
+): { exitCode: number; stdout: string; stderr: string } {
+  if (target !== 'claude' && target !== 'gemini') {
+    return {
+      exitCode: 1,
+      stdout: '',
+      stderr: 'Usage: envoy-guard init claude|gemini\n',
+    };
+  }
+  const snippet = buildInitSnippet(target, command);
+  return {
+    exitCode: 0,
+    stdout: JSON.stringify(snippet.json, null, 2) + '\n',
+    stderr: `# Add this to ${snippet.file}\n# ${snippet.note}\n\n`,
   };
 }

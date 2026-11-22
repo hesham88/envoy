@@ -2,8 +2,8 @@
 
 **Use Envoy with your favourite coding agent:** `envoy-guard` intercepts secrets, personal data, and your own custom terms before they leave your machine to a cloud coding agent.
 
-> **Protection level — Basic protection (rules-only):**
-> Node.js does not have Chrome's on-device model or Firebase AI Logic browser inference, so `envoy-guard` runs `@envoy/core`'s fast deterministic `scanText()` engine (`SECRET` keys/tokens/PEM/JWT/passwords, national IDs, IBANs, Luhn cards, phones, emails, money, dates, addresses, plus your `~/.envoy/rules.json` `CustomRule[]`). It never makes network calls.
+> **Protection level — Basic protection (rules-only, blocks rather than rewrites):**
+> Node.js does not have Chrome's on-device model or Firebase AI Logic browser inference, so `envoy-guard` runs `@envoy/core`'s fast deterministic `scanText()` engine (`SECRET` keys/tokens/PEM/JWT/passwords, national IDs, IBANs, Luhn cards, phones, emails, money, dates, addresses, plus your `~/.envoy/rules.json` `CustomRule[]`). It makes zero network calls and **blocks** offending prompts/tool calls with a ready-to-paste masked copy rather than rewriting them in place.
 
 ---
 
@@ -21,6 +21,7 @@ npx envoy-guard init claude
 
 ### 2. Gemini CLI (`BeforeAgent` + `BeforeTool`)
 - **`BeforeAgent`:** Scans submitted prompts and returns strict JSON `{"decision": "deny", "reason": "..."}` with a masked copy when sensitive data is found, or `{"decision": "allow"}` when clean.
+  - **Honest limitation:** Like Claude Code, `envoy-guard` **blocks** (`decision: "deny"`) and returns a ready-to-paste masked copy rather than silently rewriting prompts in place.
 - **`BeforeTool` (`web_fetch|run_shell_command|write_file|replace`):** Scans outbound tool parameters and returns `{"decision": "deny", ...}` if secrets or personal data are detected.
 
 Print the exact `.gemini/settings.json` snippet (never edits your settings automatically):

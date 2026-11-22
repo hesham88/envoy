@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-22T20:20:53.689Z",
-  "commit": "cdabc7a",
+  "generatedAt": "2026-11-22T21:27:33.432Z",
+  "commit": "1117c24",
   "nTotal": 36,
   "arms": [
     {
@@ -36,7 +36,7 @@
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": 1
+        "answerQualityRetained": null
       },
       "counts": {
         "totalGold": 263,
@@ -2060,7 +2060,18 @@
             }
           ]
         }
-      ]
+      ],
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 0
+      }
     },
     {
       "id": "nano",
@@ -2093,9 +2104,9 @@
         },
         "minimizationRatio": 0.1017,
         "reidRecoveryExact": 0,
-        "reidRecoveryPartial": 0.0085,
+        "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": 1
+        "answerQualityRetained": null
       },
       "counts": {
         "totalGold": 263,
@@ -4133,7 +4144,18 @@
             }
           ]
         }
-      ]
+      ],
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 0
+      }
     },
     {
       "id": "basic",
@@ -4157,14 +4179,14 @@
         "clauseAccuracy": 1,
         "routeAccuracy": 0.7778,
         "latencyMs": {
-          "p50": 5,
-          "p95": 22
+          "p50": 6,
+          "p95": 32
         },
         "minimizationRatio": 0.9016,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
-        "attributeInference": 0.0968,
-        "answerQualityRetained": 1
+        "attributeInference": 0.039,
+        "answerQualityRetained": 0.75
       },
       "counts": {
         "totalGold": 263,
@@ -4182,11 +4204,11 @@
           "id": "lease-01-rent-cap",
           "category": "residential_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:30.940Z",
+          "recordedAt": "2026-11-22T20:57:27.774Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 35,
+          "ms": 41,
           "docChars": 2554,
           "outboundChars": 2537,
           "clausesTotal": 6,
@@ -4222,17 +4244,24 @@
           "uniqueDetectedCount": 16,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 2918
+            }
+          ]
         },
         {
           "id": "lease-02-end-date-local",
           "category": "residential_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:31.080Z",
+          "recordedAt": "2026-11-22T20:57:33.796Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 6,
+          "ms": 32,
           "docChars": 2474,
           "outboundChars": 2518,
           "clausesTotal": 1,
@@ -4268,17 +4297,24 @@
           "uniqueDetectedCount": 16,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 2899
+            }
+          ]
         },
         {
           "id": "lease-03-early-exit-deposit",
           "category": "residential_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:31.214Z",
+          "recordedAt": "2026-11-22T20:57:45.516Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 4,
+          "ms": 26,
           "docChars": 2474,
           "outboundChars": 2536,
           "clausesTotal": 1,
@@ -4315,17 +4351,24 @@
           "uniqueDetectedCount": 16,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 2917
+            }
+          ]
         },
         {
           "id": "lease-04-late-fee-grace-period",
           "category": "residential_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:31.333Z",
+          "recordedAt": "2026-11-22T20:57:51.428Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 2,
+          "ms": 7,
           "docChars": 549,
           "outboundChars": 602,
           "clausesTotal": 1,
@@ -4351,17 +4394,24 @@
           "uniqueDetectedCount": 9,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 983
+            }
+          ]
         },
         {
           "id": "lease-05-sublet-policy",
           "category": "residential_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:31.465Z",
+          "recordedAt": "2026-11-22T20:57:58.603Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 8,
+          "ms": 17,
           "docChars": 638,
           "outboundChars": 669,
           "clausesTotal": 1,
@@ -4388,17 +4438,24 @@
           "uniqueDetectedCount": 10,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 1050
+            }
+          ]
         },
         {
           "id": "lease-06-landlord-entry-notice-local",
           "category": "residential_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:31.586Z",
+          "recordedAt": "2026-11-22T20:58:05.492Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 6,
+          "ms": 12,
           "docChars": 411,
           "outboundChars": 491,
           "clausesTotal": 1,
@@ -4425,17 +4482,24 @@
           "uniqueDetectedCount": 6,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 872
+            }
+          ]
         },
         {
           "id": "lease-07-commercial-cam-cap",
           "category": "commercial_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:31.718Z",
+          "recordedAt": "2026-11-22T20:58:11.047Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 11,
+          "ms": 15,
           "docChars": 470,
           "outboundChars": 524,
           "clausesTotal": 1,
@@ -4465,17 +4529,24 @@
             "PERSON:Office Suite",
             "PERSON:Common Area"
           ],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 905
+            }
+          ]
         },
         {
           "id": "lease-08-plumbing-responsibility",
           "category": "residential_lease",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:31.834Z",
+          "recordedAt": "2026-11-22T20:58:18.691Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 5,
+          "ms": 10,
           "docChars": 463,
           "outboundChars": 527,
           "clausesTotal": 1,
@@ -4501,7 +4572,14 @@
           "uniqueDetectedCount": 7,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 908
+            }
+          ]
         },
         {
           "id": "offer-01-severance-calculation",
@@ -4548,11 +4626,11 @@
           "id": "offer-02-non-compete-scope",
           "category": "employment_contract",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:32.082Z",
+          "recordedAt": "2026-11-22T20:58:35.562Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 7,
+          "ms": 13,
           "docChars": 604,
           "outboundChars": 672,
           "clausesTotal": 1,
@@ -4581,17 +4659,24 @@
           "falseMasks": [
             "PERSON:Base Salary"
           ],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 1053
+            }
+          ]
         },
         {
           "id": "offer-03-probation-period-local",
           "category": "employment_contract",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:32.206Z",
+          "recordedAt": "2026-11-22T20:59:10.912Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 3,
+          "ms": 5,
           "docChars": 344,
           "outboundChars": 389,
           "clausesTotal": 1,
@@ -4617,7 +4702,14 @@
           "uniqueDetectedCount": 5,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 770
+            }
+          ]
         },
         {
           "id": "offer-04-bonus-proration",
@@ -4664,11 +4756,11 @@
           "id": "offer-05-ip-side-project",
           "category": "employment_contract",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:32.456Z",
+          "recordedAt": "2026-11-22T21:00:08.252Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 6,
+          "ms": 11,
           "docChars": 578,
           "outboundChars": 669,
           "clausesTotal": 1,
@@ -4698,7 +4790,14 @@
             "PERSON:Working Hours",
             "PERSON:Intellectual Property"
           ],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 1050
+            }
+          ]
         },
         {
           "id": "offer-06-remote-work-allowance",
@@ -4787,11 +4886,11 @@
           "id": "med-02-vitamin-d-dosage-local",
           "category": "medical_report",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:32.848Z",
+          "recordedAt": "2026-11-22T21:00:39.993Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 8,
+          "ms": 14,
           "docChars": 411,
           "outboundChars": 476,
           "clausesTotal": 1,
@@ -4817,17 +4916,24 @@
           "uniqueDetectedCount": 7,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 857
+            }
+          ]
         },
         {
           "id": "med-03-insurance-copay-cap",
           "category": "medical_report",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:32.966Z",
+          "recordedAt": "2026-11-22T21:00:48.543Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 5,
+          "ms": 10,
           "docChars": 449,
           "outboundChars": 512,
           "clausesTotal": 1,
@@ -4856,7 +4962,14 @@
           "falseMasks": [
             "PERSON:Attending Surgeon"
           ],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 893
+            }
+          ]
         },
         {
           "id": "med-04-mri-contrast-prep",
@@ -4943,7 +5056,7 @@
           "id": "freelance-02-invoice-payment-net-local",
           "category": "consulting_agreement",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:33.337Z",
+          "recordedAt": "2026-11-22T21:01:03.965Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
@@ -4974,17 +5087,24 @@
           "uniqueDetectedCount": 6,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 816
+            }
+          ]
         },
         {
           "id": "freelance-03-card-hold-dispute",
           "category": "consulting_agreement",
           "noisy": false,
-          "recordedAt": "2026-11-22T20:20:33.463Z",
+          "recordedAt": "2026-11-22T21:01:09.379Z",
           "mode": "basic",
           "deviceStatus": "unavailable",
           "fallbackReason": null,
-          "ms": 4,
+          "ms": 9,
           "docChars": 509,
           "outboundChars": 575,
           "clausesTotal": 1,
@@ -5011,7 +5131,14 @@
           "uniqueDetectedCount": 7,
           "falseMaskCount": 0,
           "falseMasks": [],
-          "networkSteps": []
+          "networkSteps": [
+            {
+              "step": "reason",
+              "target": "cloud",
+              "blocked": false,
+              "chars": 956
+            }
+          ]
         },
         {
           "id": "freelance-04-liability-cap",
@@ -5568,7 +5695,18 @@
           "falseMasks": [],
           "networkSteps": []
         }
-      ]
+      ],
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 20
+      }
     }
   ],
   "oracleUpperBound": {
