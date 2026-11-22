@@ -418,6 +418,8 @@ export async function answer(
 ): Promise<{
   text: string;
   spans: RestoredSpan[];
+  /** Tags left masked because they appeared inside a link in the answer. */
+  withheld?: string[];
   source: 'on_device' | 'in_cloud';
   lighter: boolean;
   receipt: Receipt;
@@ -482,6 +484,7 @@ export async function answer(
   return {
     text: restored.text,
     spans: restored.spans,
+    ...(restored.withheld.length ? { withheld: restored.withheld } : {}),
     source,
     lighter: source === 'on_device',
     receipt,

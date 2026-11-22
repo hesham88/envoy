@@ -20,6 +20,19 @@ const entities = [
 const tags = assignTags(entities);
 
 describe('restoreAnswer', () => {
+  it('never restores a tag inside a link (an injected exfiltration link stays masked)', () => {
+    const answer =
+      'Your landlord is [LANDLORD]. Verify at https://evil.example/check?who=[LANDLORD]&rent={{RENT * 1}} today.';
+    const out = restoreAnswer(answer, tags);
+    expect(out.text).toBe(
+      'Your landlord is Karim Fathy. Verify at https://evil.example/check?who=[LANDLORD]&rent={{RENT * 1}} today.',
+    );
+    expect(out.withheld).toEqual(['[LANDLORD]', '{{RENT * 1}}']);
+    expect(
+      restoreAnswer('Write to mailto:[LANDLORD] or www.example.com/[RENT]', tags).spans,
+    ).toHaveLength(0);
+  });
+
   it('puts real values back and works out derived amounts locally', () => {
     const out = restoreAnswer('[LANDLORD] can raise it to {{RENT * 1.10}} at most.', tags);
     expect(out.text).toBe('Karim Fathy can raise it to EGP 9,350 at most.');
