@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { hypotrochoid, ringBand, waveBand } from './guilloche';
 
-const points = (d: string) => [...d.matchAll(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g)].map((m) => [Number(m[1]), Number(m[2])]);
+const points = (d: string) =>
+  [...d.matchAll(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g)].map((m) => [Number(m[1]), Number(m[2])]);
 
 describe('guilloche geometry', () => {
   it('ringBand draws one closed polar curve per strand, phase-shifted around the ring', () => {

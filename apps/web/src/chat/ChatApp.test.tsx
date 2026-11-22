@@ -1,0 +1,136 @@
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { InferenceSource } from 'firebase/ai';
+import { networkLog, type Deps } from '@envoy/ai';
+import type { EnvoyRuntime } from '../app/useEnvoy';
+import { ChatApp } from './ChatApp';
+import { buildRows } from './FlightRecorder';
+
+function basicRuntime(reply = 'Yes. The cap is 10% a year.') {
+  const generateContent = vi.fn(async (_prompt: string) => ({
+    response: { text: () => reply, inferenceSource: InferenceSource.IN_CLOUD },
+  }));
+  const runtime: EnvoyRuntime = {
+    status: 'no-api',
+    progress: null,
+    settings: { cloudModel: 'gemini-3.8-flash', promptVersion: 'v1' },
+    deps: {
+      runPrivate: vi.fn(),
+      models: { reason: { generateContent } },
+      getDeviceStatus: async () => 'no-api',
+    } as unknown as Deps,
+    configError: null,
+    enablePrivateMode: vi.fn(),
+    refreshStatus: vi.fn(async () => undefined),
+  };
+  return { runtime, generateContent };
+}
+
+beforeEach(() => {
+  networkLog.clear();
+  try {
+    localStorage.clear();
+  } catch {
+    /* ignore */
+  }
+});
+
+describe('ChatApp', () => {
+  it('nothing reaches the cloud until the user approves the exact excerpt', async () => {
+    const user = userEvent.setup();
+    const { runtime, generateContent } = basicRuntime();
+    render(<ChatApp runtime={runtime} />);
+    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+
+    const approve = await screen.findByRole('button', { name: 'Approve and send' });
+    expect(generateContent).not.toHaveBeenCalled();
+    expect(screen.getAllByText(/Basic protection|on-device model/i).length).toBeGreaterThan(0);
+
+    await user.click(approve);
+    await screen.findByText(/The cap is 10% a year/);
+    expect(generateContent).toHaveBeenCalledTimes(1);
+    const sent = generateContent.mock.calls[0]![0];
+    for (const raw of ['Karim Fathy', 'Mona Adel', '27506120104839', 'mona.adel@example.com'])
+      expect(sent).not.toContain(raw);
+  });
+
+  it('a message without a document is protected too, and the recorder names where each step ran', async () => {
+    const user = userEvent.setup();
+    const { runtime, generateContent } = basicRuntime('Draft: Dear [PERSON], ...');
+    render(<ChatApp runtime={runtime} />);
+    await user.type(
+      screen.getByLabelText('Message Envoy'),
+      'Email mona.adel@example.com about EGP 8,500{Enter}',
+    );
+
+    const turn = await screen.findByRole('article');
+    await within(turn).findByRole('button', { name: 'Approve and send' });
+    const recorder = within(turn).getByText('Privacy flight recorder').closest('details')!;
+    expect(recorder.querySelector('[data-row="rules"]')).toHaveAttribute('data-state', 'done');
+    expect(recorder.querySelector('[data-row="detect"]')).toHaveAttribute('data-state', 'skipped');
+    expect(recorder.querySelector('[data-row="approve"]')).toHaveAttribute('data-state', 'running');
+    expect(generateContent).not.toHaveBeenCalled();
+
+    await user.click(within(turn).getByRole('button', { name: 'Approve and send' }));
+    await waitFor(() => expect(generateContent).toHaveBeenCalledTimes(1));
+    const sent = generateContent.mock.calls[0]![0];
+    expect(sent).not.toContain('mona.adel@example.com');
+    expect(sent).toContain('[EMAIL]');
+    await waitFor(() =>
+      expect(recorder.querySelector('[data-row="reason"]')).toHaveAttribute('data-state', 'done'),
+    );
+    expect(
+      within(recorder.querySelector('[data-row="reason"]') as HTMLElement).getByText(
+        /gemini-3\.8-flash/,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("applies the user's own rules and keeps them in this browser", async () => {
+    const user = userEvent.setup();
+    const { runtime, generateContent } = basicRuntime();
+    render(<ChatApp runtime={runtime} />);
+    await user.click(screen.getByRole('button', { name: /Your rules/ }));
+    await user.type(screen.getByLabelText(/Words to protect/), 'Bluebird');
+    await user.click(screen.getByRole('button', { name: 'Add rule' }));
+    expect(JSON.parse(localStorage.getItem('envoy.rules.v1')!)).toEqual([
+      { label: 'PRIVATE', terms: ['Bluebird'] },
+    ]);
+    await user.click(screen.getByRole('button', { name: 'Close' }));
+
+    await user.type(screen.getByLabelText('Message Envoy'), 'Summarise the Bluebird plan{Enter}');
+    await user.click(await screen.findByRole('button', { name: 'Approve and send' }));
+    await waitFor(() => expect(generateContent).toHaveBeenCalled());
+    expect(generateContent.mock.calls[0]![0]).not.toContain('Bluebird');
+  });
+
+  it('Local only never calls the cloud', async () => {
+    const user = userEvent.setup();
+    const { runtime, generateContent } = basicRuntime();
+    render(<ChatApp runtime={runtime} />);
+    await user.click(screen.getByRole('switch', { name: 'Local only' }));
+    await user.type(
+      screen.getByLabelText('Message Envoy'),
+      'What is my email mona.adel@example.com for?{Enter}',
+    );
+    await screen.findByText(/nothing was answered and nothing was sent/);
+    expect(screen.queryByRole('button', { name: 'Approve and send' })).toBeNull();
+    expect(generateContent).not.toHaveBeenCalled();
+  });
+});
+
+describe('buildRows', () => {
+  it('waits before anything runs and never claims a cloud call that did not happen', () => {
+    const rows = buildRows({
+      phase: 'analyzing',
+      progress: null,
+      analysis: null,
+      result: null,
+      cloudModel: 'm',
+      localOnly: false,
+    });
+    expect(rows.find((r) => r.key === 'rules')?.state).toBe('running');
+    expect(rows.find((r) => r.key === 'reason')?.state).toBe('waiting');
+  });
+});

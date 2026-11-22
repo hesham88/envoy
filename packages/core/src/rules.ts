@@ -7,7 +7,17 @@ import type { Entity, EntityType } from './types';
 
 // ---------- validators ----------
 
-const IBAN_LENGTHS: Record<string, number> = { EG: 29, GB: 22, DE: 22, FR: 27, AE: 23, SA: 24, NL: 18, ES: 24, IT: 27 };
+const IBAN_LENGTHS: Record<string, number> = {
+  EG: 29,
+  GB: 22,
+  DE: 22,
+  FR: 27,
+  AE: 23,
+  SA: 24,
+  NL: 18,
+  ES: 24,
+  IT: 27,
+};
 
 export function isValidIban(raw: string): boolean {
   const s = raw.replace(/[\s.-]+/g, '').toUpperCase();
@@ -38,7 +48,14 @@ export function isLuhn(raw: string): boolean {
   return sum % 10 === 0;
 }
 
-const GOVERNORATES = new Set(['01', '02', '03', '04', '88', ...Array.from({ length: 25 }, (_, i) => String(i + 11))]);
+const GOVERNORATES = new Set([
+  '01',
+  '02',
+  '03',
+  '04',
+  '88',
+  ...Array.from({ length: 25 }, (_, i) => String(i + 11)),
+]);
 
 /** Structure check only (century, birth date, governorate); the final check digit is not verified. */
 export function isEgyptianNationalId(raw: string): boolean {
@@ -49,7 +66,12 @@ export function isEgyptianNationalId(raw: string): boolean {
   const month = Number(s.slice(3, 5));
   const day = Number(s.slice(5, 7));
   const date = new Date(Date.UTC(year, month - 1, day));
-  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return false;
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  )
+    return false;
   return GOVERNORATES.has(s.slice(7, 9));
 }
 
@@ -77,7 +99,12 @@ const CURRENCY_AFTER = '(?:EGP|USD|EUR|GBP|LE|L\\.E\\.|pounds|dollars|euros|ج\\
 // Secrets: provider key formats with fixed prefixes (low false-positive rate), PEM private keys,
 // JWTs, and the value of an explicit `password=` / `api_key:` style assignment.
 const SECRET_DETECTORS: Detector[] = [
-  { type: 'SECRET', priority: -1, confidence: 0.99, pattern: /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g },
+  {
+    type: 'SECRET',
+    priority: -1,
+    confidence: 0.99,
+    pattern: /-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g,
+  },
   {
     type: 'SECRET',
     priority: -1,
@@ -85,13 +112,19 @@ const SECRET_DETECTORS: Detector[] = [
     pattern:
       /\b(?:AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{40,}|xox[abprs]-[A-Za-z0-9-]{10,}|(?:sk|rk)_(?:live|test)_[0-9A-Za-z]{16,}|sk-(?:ant-|proj-)?[A-Za-z0-9_-]{20,}|glpat-[A-Za-z0-9_-]{20,})/g,
   },
-  { type: 'SECRET', priority: -1, confidence: 0.95, pattern: /\beyJ[A-Za-z0-9_-]{8,}\.eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}/g },
+  {
+    type: 'SECRET',
+    priority: -1,
+    confidence: 0.95,
+    pattern: /\beyJ[A-Za-z0-9_-]{8,}\.eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}/g,
+  },
   {
     type: 'SECRET',
     priority: -1,
     confidence: 0.85,
     // (?<![A-Za-z0-9]) rather than \b so DB_PASSWORD and MY_API_KEY count.
-    pattern: /(?<![A-Za-z0-9])(?:password|passwd|pwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)\b["']?\s*[:=]\s*["']?([^\s"',;]{6,})/gi,
+    pattern:
+      /(?<![A-Za-z0-9])(?:password|passwd|pwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)\b["']?\s*[:=]\s*["']?([^\s"',;]{6,})/gi,
     group: 1,
   },
 ];
@@ -123,10 +156,30 @@ const DETECTORS: Detector[] = [
     pattern: /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g,
   },
   // Separators people use in numbers: space . - / ( ) — at most two between digits.
-  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /\+[1-9]\d{0,2}(?:[ .\-/()]{0,2}\d){6,13}(?!\d)/g },
-  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /(?<!\d)00[1-9]\d{0,2}(?:[ .\-/()]{0,2}\d){6,13}(?!\d)/g },
-  { type: 'PHONE', priority: 3, confidence: 0.9, pattern: /(?<![\d(])\(?01[0125]\)?(?:[ .\-/]{0,2}\d){8}(?!\d)/g },
-  { type: 'PHONE', priority: 3, confidence: 0.85, pattern: /(?<![\d(])\(?0[23]\)?(?:[ .\-/]{0,2}\d){8}(?!\d)/g },
+  {
+    type: 'PHONE',
+    priority: 3,
+    confidence: 0.9,
+    pattern: /\+[1-9]\d{0,2}(?:[ .\-/()]{0,2}\d){6,13}(?!\d)/g,
+  },
+  {
+    type: 'PHONE',
+    priority: 3,
+    confidence: 0.9,
+    pattern: /(?<!\d)00[1-9]\d{0,2}(?:[ .\-/()]{0,2}\d){6,13}(?!\d)/g,
+  },
+  {
+    type: 'PHONE',
+    priority: 3,
+    confidence: 0.9,
+    pattern: /(?<![\d(])\(?01[0125]\)?(?:[ .\-/]{0,2}\d){8}(?!\d)/g,
+  },
+  {
+    type: 'PHONE',
+    priority: 3,
+    confidence: 0.85,
+    pattern: /(?<![\d(])\(?0[23]\)?(?:[ .\-/]{0,2}\d){8}(?!\d)/g,
+  },
   {
     type: 'CARD',
     priority: 4,
@@ -146,8 +199,18 @@ const DETECTORS: Detector[] = [
     confidence: 0.9,
     pattern: new RegExp(`(?<![\\d.,])${NUMBER} ?${CURRENCY_AFTER}(?![A-Za-z])`, 'g'),
   },
-  { type: 'DATE', priority: 6, confidence: 0.85, pattern: new RegExp(`\\b\\d{1,2} ${MONTHS},? \\d{4}\\b`, 'g') },
-  { type: 'DATE', priority: 6, confidence: 0.85, pattern: new RegExp(`\\b${MONTHS} \\d{1,2}, \\d{4}\\b`, 'g') },
+  {
+    type: 'DATE',
+    priority: 6,
+    confidence: 0.85,
+    pattern: new RegExp(`\\b\\d{1,2} ${MONTHS},? \\d{4}\\b`, 'g'),
+  },
+  {
+    type: 'DATE',
+    priority: 6,
+    confidence: 0.85,
+    pattern: new RegExp(`\\b${MONTHS} \\d{1,2}, \\d{4}\\b`, 'g'),
+  },
   { type: 'DATE', priority: 6, confidence: 0.8, pattern: /\b\d{1,2}\/\d{1,2}\/\d{4}\b/g },
   { type: 'DATE', priority: 6, confidence: 0.8, pattern: /\b\d{4}-\d{2}-\d{2}\b/g },
   {
@@ -180,12 +243,14 @@ const cleanTerms = (r: CustomRule) => (r.terms ?? []).map((t) => t.trim()).filte
 
 /** Checks one rule. Returns why it can't be used, or null when it's fine. */
 export function validateCustomRule(rule: CustomRule): string | null {
-  if (!LABEL_RE.test(rule.label)) return 'The label must start with a letter and use only A–Z, 0–9 and _ (up to 24).';
+  if (!LABEL_RE.test(rule.label))
+    return 'The label must start with a letter and use only A–Z, 0–9 and _ (up to 24).';
   const terms = cleanTerms(rule);
   if (!terms.length && !rule.pattern) return 'Add at least one word or a pattern.';
   if (terms.some((t) => t.length < 2)) return 'Words must be at least 2 characters.';
   if (rule.pattern) {
-    if (rule.pattern.length > MAX_PATTERN) return `The pattern is longer than ${MAX_PATTERN} characters.`;
+    if (rule.pattern.length > MAX_PATTERN)
+      return `The pattern is longer than ${MAX_PATTERN} characters.`;
     let re: RegExp;
     try {
       re = new RegExp(rule.pattern, 'u');
@@ -206,9 +271,22 @@ function customDetectors(rules: readonly CustomRule[]): Detector[] {
     const terms = cleanTerms(r).sort((a, b) => b.length - a.length);
     if (terms.length) {
       const alt = terms.map(escapeRe).join('|');
-      out.push({ type: 'CUSTOM', label: r.label, priority: 10, confidence: 1, pattern: new RegExp(`(?<![\\p{L}\\p{N}])(?:${alt})(?![\\p{L}\\p{N}])`, 'giu') });
+      out.push({
+        type: 'CUSTOM',
+        label: r.label,
+        priority: 10,
+        confidence: 1,
+        pattern: new RegExp(`(?<![\\p{L}\\p{N}])(?:${alt})(?![\\p{L}\\p{N}])`, 'giu'),
+      });
     }
-    if (r.pattern) out.push({ type: 'CUSTOM', label: r.label, priority: 10, confidence: 1, pattern: new RegExp(r.pattern, 'gu') });
+    if (r.pattern)
+      out.push({
+        type: 'CUSTOM',
+        label: r.label,
+        priority: 10,
+        confidence: 1,
+        pattern: new RegExp(r.pattern, 'gu'),
+      });
   }
   return out;
 }

@@ -13,7 +13,10 @@ const ent = (type: Entity['type'], value: string, start: number, role?: string):
   ...(role ? { role } : {}),
 });
 
-const entities = [ent('PERSON', 'Karim Fathy', 0, 'landlord'), ent('MONEY', 'EGP 8,500', 30, 'rent')];
+const entities = [
+  ent('PERSON', 'Karim Fathy', 0, 'landlord'),
+  ent('MONEY', 'EGP 8,500', 30, 'rent'),
+];
 const tags = assignTags(entities);
 
 describe('restoreAnswer', () => {
@@ -21,7 +24,11 @@ describe('restoreAnswer', () => {
     const out = restoreAnswer('[LANDLORD] can raise it to {{RENT * 1.10}} at most.', tags);
     expect(out.text).toBe('Karim Fathy can raise it to EGP 9,350 at most.');
     expect(out.spans).toHaveLength(2);
-    expect(out.spans[0]).toMatchObject({ tag: '[LANDLORD]', value: 'Karim Fathy', computed: false });
+    expect(out.spans[0]).toMatchObject({
+      tag: '[LANDLORD]',
+      value: 'Karim Fathy',
+      computed: false,
+    });
     expect(out.spans[1]).toMatchObject({ value: 'EGP 9,350', computed: true });
   });
 
@@ -31,13 +38,18 @@ describe('restoreAnswer', () => {
   });
 
   it('leaves unknown tags and invalid expressions as written', () => {
-    expect(restoreAnswer('Ask [UNKNOWN] about {{RENT * }}.', tags).text).toBe('Ask [UNKNOWN] about {{RENT * }}.');
+    expect(restoreAnswer('Ask [UNKNOWN] about {{RENT * }}.', tags).text).toBe(
+      'Ask [UNKNOWN] about {{RENT * }}.',
+    );
     expect(restoreAnswer('{{alert(1)}}', tags).text).toBe('{{alert(1)}}');
   });
 
   it('round-trips a masked clause', () => {
     const clause = 'Karim Fathy says the monthly rent is EGP 8,500.';
-    const ents = [ent('PERSON', 'Karim Fathy', 0, 'landlord'), ent('MONEY', 'EGP 8,500', clause.indexOf('EGP'), 'rent')];
+    const ents = [
+      ent('PERSON', 'Karim Fathy', 0, 'landlord'),
+      ent('MONEY', 'EGP 8,500', clause.indexOf('EGP'), 'rent'),
+    ];
     const t = assignTags(ents);
     expect(restoreAnswer(maskText(clause, ents, t), t).text).toBe(clause);
   });

@@ -7,6 +7,8 @@ import { OfflineBanner } from '../components/OfflineBanner';
 import { Logo, StatusPill } from '@envoy/ui';
 import { DevPage } from '../dev/DevPage';
 import { Banners } from '../art/Banners';
+import { Landing } from '../landing/Landing';
+import { ChatApp } from '../chat/ChatApp';
 import { SceneFrame } from '../art/SceneFrame';
 import { SidePanelMockup } from '../art/SidePanelMockup';
 import { Studio } from '../art/Studio';
@@ -21,8 +23,12 @@ import { useEnvoy, type EnvoyRuntime } from './useEnvoy';
 export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
   const [state, dispatch] = useReducer(sessionReducer, initialSession);
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [progress, setProgress] = useState<{ p: AnalyzeProgress | null; startedAt: number }>({ p: null, startedAt: 0 });
-  const inspectable = typeof location !== 'undefined' && new URLSearchParams(location.search).has('inspect');
+  const [progress, setProgress] = useState<{ p: AnalyzeProgress | null; startedAt: number }>({
+    p: null,
+    startedAt: 0,
+  });
+  const inspectable =
+    typeof location !== 'undefined' && new URLSearchParams(location.search).has('inspect');
   const [inspectorOpen, setInspectorOpen] = useState(inspectable);
 
   // Move focus to the new screen's heading so keyboard and screen-reader users land in the right place.
@@ -49,13 +55,22 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
 
   async function analyze(question = state.question) {
     if (!state.doc || !runtime.deps) {
-      dispatch({ type: 'FAIL', message: runtime.configError ?? 'Envoy is still starting. Try again in a moment.' });
+      dispatch({
+        type: 'FAIL',
+        message: runtime.configError ?? 'Envoy is still starting. Try again in a moment.',
+      });
       return;
     }
     dispatch({ type: 'ANALYZE_START' });
     setProgress({ p: null, startedAt: Date.now() });
     try {
-      const { analysis, notice } = await runAnalysis(runtime.deps, state.doc.text, question, runtime.status, (p) => setProgress((x) => ({ ...x, p })));
+      const { analysis, notice } = await runAnalysis(
+        runtime.deps,
+        state.doc.text,
+        question,
+        runtime.status,
+        (p) => setProgress((x) => ({ ...x, p })),
+      );
       dispatch({ type: 'ANALYZE_DONE', analysis, ...(notice ? { notice } : {}) });
     } catch (e) {
       dispatch({ type: 'FAIL', message: (e as Error).message });
@@ -66,7 +81,9 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
     if (!state.analysis || !runtime.deps) return;
     dispatch({ type: 'SEND_START' });
     try {
-      const result = await answer(state.analysis, outbound, runtime.deps, { sharedTags: state.sharedTags });
+      const result = await answer(state.analysis, outbound, runtime.deps, {
+        sharedTags: state.sharedTags,
+      });
       dispatch({ type: 'ANSWER_DONE', result });
     } catch (e) {
       dispatch({ type: 'FAIL', message: (e as Error).message });
@@ -80,7 +97,13 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
     void (async () => {
       if (!state.doc || !runtime.deps) return;
       try {
-        const { analysis, notice } = await runAnalysis(runtime.deps, state.doc.text, question, runtime.status, (p) => setProgress((x) => ({ ...x, p })));
+        const { analysis, notice } = await runAnalysis(
+          runtime.deps,
+          state.doc.text,
+          question,
+          runtime.status,
+          (p) => setProgress((x) => ({ ...x, p })),
+        );
         dispatch({ type: 'ANALYZE_DONE', analysis, ...(notice ? { notice } : {}) });
       } catch (e) {
         dispatch({ type: 'FAIL', message: (e as Error).message });
@@ -92,9 +115,25 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
   if ((state.phase === 'review' || state.phase === 'sending') && state.analysis) {
     screen = <Review state={state} dispatch={dispatch} onApprove={(o) => void approve(o)} />;
   } else if (state.phase === 'answered' && state.result) {
-    screen = <Answer question={state.question} result={state.result} onFollowUp={followUp} onNew={() => dispatch({ type: 'SET_QUESTION', question: '' })} />;
+    screen = (
+      <Answer
+        question={state.question}
+        result={state.result}
+        onFollowUp={followUp}
+        onNew={() => dispatch({ type: 'SET_QUESTION', question: '' })}
+      />
+    );
   } else {
-    screen = <Start state={state} dispatch={dispatch} runtime={runtime} onAnalyze={() => void analyze()} progress={progress.p} startedAt={progress.startedAt} />;
+    screen = (
+      <Start
+        state={state}
+        dispatch={dispatch}
+        runtime={runtime}
+        onAnalyze={() => void analyze()}
+        progress={progress.p}
+        startedAt={progress.startedAt}
+      />
+    );
   }
 
   return (
@@ -103,11 +142,18 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
         <Logo withWordmark animated />
         <div className="flex flex-wrap items-center gap-3">
           <StatusPill status={runtime.status} progress={runtime.progress} />
-          <button onClick={() => setAboutOpen(true)} className="min-h-9 px-2 text-sm font-semibold text-cloud-on-tint underline-offset-2 hover:underline">
+          <button
+            onClick={() => setAboutOpen(true)}
+            className="min-h-9 px-2 text-sm font-semibold text-cloud-on-tint underline-offset-2 hover:underline"
+          >
             How it works
           </button>
           {inspectable && (
-            <button onClick={() => setInspectorOpen(!inspectorOpen)} aria-pressed={inspectorOpen} className="min-h-9 rounded-control border border-line bg-surface px-3 text-sm font-semibold">
+            <button
+              onClick={() => setInspectorOpen(!inspectorOpen)}
+              aria-pressed={inspectorOpen}
+              className="min-h-9 rounded-control border border-line bg-surface px-3 text-sm font-semibold"
+            >
               Network
             </button>
           )}
@@ -131,15 +177,26 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
   );
 }
 
+function ChatProduct() {
+  return <ChatApp runtime={useEnvoy()} />;
+}
+
 function ProductApp() {
   return <AppShell runtime={useEnvoy()} />;
 }
 
 export function App() {
   if (typeof location !== 'undefined' && location.pathname.startsWith('/dev')) return <DevPage />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/sidepanel')) return <SidePanelMockup />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/banners')) return <Banners />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/scene')) return <SceneFrame />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/sidepanel'))
+    return <SidePanelMockup />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/banners'))
+    return <Banners />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/scene'))
+    return <SceneFrame />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio')) return <Studio />;
-  return <ProductApp />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/app'))
+    return <ChatProduct />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/classic'))
+    return <ProductApp />;
+  return <Landing />;
 }

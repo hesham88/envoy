@@ -8,7 +8,8 @@ describe('buildReceipt', () => {
   const chunksAll = chunkDocument(EN_LEASE.text);
   const entities = detectWithRules(EN_LEASE.text);
   const clause7 = chunksAll.filter((c) => c.label === 'Clause 7');
-  const outbound = 'Question: Can my landlord raise the rent 20% this year?\n\nClause 7: The monthly rent is [AMOUNT].';
+  const outbound =
+    'Question: Can my landlord raise the rent 20% this year?\n\nClause 7: The monthly rent is [AMOUNT].';
 
   const r = buildReceipt({
     entities,
@@ -38,7 +39,14 @@ describe('buildReceipt', () => {
   });
 
   it('reports nothing sent for a local answer', () => {
-    const local = buildReceipt({ entities, outbound: null, chunksSent: [], chunksAll, steps: [], mode: 'private' });
+    const local = buildReceipt({
+      entities,
+      outbound: null,
+      chunksSent: [],
+      chunksAll,
+      steps: [],
+      mode: 'private',
+    });
     expect([local.charsSent, local.clausesSent, local.pagesSent]).toEqual([0, 0, 0]);
     expect(local.sharedTags).toEqual([]);
   });

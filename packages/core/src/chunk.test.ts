@@ -54,7 +54,10 @@ describe('chunkDocument', () => {
   });
 
   it('covers every non-whitespace character of the input', () => {
-    const covered = chunks.map((c) => c.text).join('').replace(/\s|-{3}\s*Page\s*\d+\s*-{3}/g, '');
+    const covered = chunks
+      .map((c) => c.text)
+      .join('')
+      .replace(/\s|-{3}\s*Page\s*\d+\s*-{3}/g, '');
     const all = DOC.replace(/\s|-{3}\s*Page\s*\d+\s*-{3}/g, '');
     expect(covered).toBe(all);
   });
@@ -78,7 +81,10 @@ describe('estimateTokens', () => {
 
 describe('review fix I3: oversized chunks', () => {
   it('splits a chunk longer than the limit at sentence boundaries, keeping offsets and the id', () => {
-    const text = Array.from({ length: 400 }, (_, i) => `Sentence number ${i} talks about the lease.`).join(' ');
+    const text = Array.from(
+      { length: 400 },
+      (_, i) => `Sentence number ${i} talks about the lease.`,
+    ).join(' ');
     const [only] = chunkDocument(text);
     const parts = splitChunk(only!, 1000);
     expect(parts.length).toBeGreaterThan(1);

@@ -24,6 +24,18 @@
   --color-danger-tint: var(--danger-tint);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+  --color-uv-dark: var(--uv-dark);
+  --color-uv-deep: var(--uv-deep);
+  --color-uv-panel: var(--uv-panel);
+  --color-uv-line: var(--uv-line);
+  --color-uv-text: var(--uv-text);
+  --color-uv-muted: var(--uv-muted);
+  --color-uv-green: var(--uv-green);
+  --color-uv-blue: var(--uv-blue);
+  --color-uv-amber: var(--uv-amber);
+  --color-uv-violet: var(--uv-violet);
+  --color-uv-danger: var(--uv-danger);
   --radius-control: var(--radius-control);
   --radius-card: var(--radius-card);
 }
@@ -40,12 +52,33 @@
 }
 
 /* Envoy art: slow counter-rotating guilloche layers (disabled under reduced motion by the guard above). */
-@keyframes envoy-spin { to { transform: rotate(360deg); } }
-.envoy-spin-slow { animation: envoy-spin 140s linear infinite; transform-origin: 50% 50%; }
-.envoy-spin-rev { animation: envoy-spin 110s linear infinite reverse; transform-origin: 50% 50%; }
+@keyframes envoy-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.envoy-spin-slow {
+  animation: envoy-spin 140s linear infinite;
+  transform-origin: 50% 50%;
+}
+.envoy-spin-rev {
+  animation: envoy-spin 110s linear infinite reverse;
+  transform-origin: 50% 50%;
+}
 
 /* ── DelegationScene timeline (10 s loop). Every element reads the same delay/state, so `frame` freezes them together. ── */
-.envoy-scene :is(.envoy-scan, .envoy-raw, .envoy-tag, .envoy-fade, .envoy-packet, .envoy-intruder, .envoy-guard, .envoy-answer, .envoy-arrive) {
+.envoy-scene
+  :is(
+    .envoy-scan,
+    .envoy-raw,
+    .envoy-tag,
+    .envoy-fade,
+    .envoy-packet,
+    .envoy-intruder,
+    .envoy-guard,
+    .envoy-answer,
+    .envoy-arrive
+  ) {
   animation-duration: var(--envoy-dur, 10s);
   animation-delay: var(--envoy-delay, 0s);
   animation-play-state: var(--envoy-state, running);
@@ -53,50 +86,309 @@
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   animation-fill-mode: both;
 }
-.envoy-scan { animation-name: envoy-scan; }
-@keyframes envoy-scan { 0% { transform: translateY(-30px); opacity: 0 } 2% { opacity: 1 } 16% { transform: translateY(300px); opacity: 1 } 18%, 100% { opacity: 0; transform: translateY(300px) } }
+.envoy-scan {
+  animation-name: envoy-scan;
+}
+@keyframes envoy-scan {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  16% {
+    transform: translateY(300px);
+    opacity: 1;
+  }
+  18%,
+  100% {
+    opacity: 0;
+    transform: translateY(300px);
+  }
+}
 
-.envoy-raw { animation-name: envoy-raw; }
+.envoy-raw {
+  animation-name: envoy-raw;
+}
 @keyframes envoy-raw {
-  0%, 10% { background: transparent; color: inherit; opacity: 1 }
-  14%, 24% { background: var(--detected); box-shadow: inset 0 -2px 0 var(--detected-line); opacity: 1 }
-  30%, 84% { opacity: 0 }
-  88%, 96% { opacity: 1; background: var(--restored); box-shadow: none }
-  100% { opacity: 1; background: transparent }
+  0%,
+  10% {
+    background: transparent;
+    color: inherit;
+    opacity: 1;
+  }
+  14%,
+  24% {
+    background: var(--detected);
+    box-shadow: inset 0 -2px 0 var(--detected-line);
+    opacity: 1;
+  }
+  30%,
+  84% {
+    opacity: 0;
+  }
+  88%,
+  96% {
+    opacity: 1;
+    background: var(--restored);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    background: transparent;
+  }
 }
-.envoy-tag { animation-name: envoy-tag; transform: translateY(-50%); }
-@keyframes envoy-tag { 0%, 26% { opacity: 0; transform: translateY(-50%) scale(0.6) } 31%, 84% { opacity: 1; transform: translateY(-50%) scale(1) } 88%, 100% { opacity: 0; transform: translateY(-50%) scale(0.6) } }
+.envoy-tag {
+  animation-name: envoy-tag;
+  transform: translateY(-50%);
+}
+@keyframes envoy-tag {
+  0%,
+  26% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.6);
+  }
+  31%,
+  84% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.6);
+  }
+}
 
-.envoy-fade { animation-name: envoy-fade; }
-@keyframes envoy-fade { 0%, 32% { opacity: 1 } 38%, 84% { opacity: 0.18 } 90%, 100% { opacity: 1 } }
+.envoy-fade {
+  animation-name: envoy-fade;
+}
+@keyframes envoy-fade {
+  0%,
+  32% {
+    opacity: 1;
+  }
+  38%,
+  84% {
+    opacity: 0.18;
+  }
+  90%,
+  100% {
+    opacity: 1;
+  }
+}
 
-.envoy-packet { animation-name: envoy-packet; }
+.envoy-packet {
+  animation-name: envoy-packet;
+}
 @keyframes envoy-packet {
-  0%, 38% { opacity: 0; transform: translateZ(0) }
-  41% { opacity: 1; transform: translateZ(8px) }
-  58% { opacity: 1; transform: translateZ(263px) }
-  61%, 100% { opacity: 0; transform: translateZ(265px) }
+  0%,
+  38% {
+    opacity: 0;
+    transform: translateZ(0);
+  }
+  41% {
+    opacity: 1;
+    transform: translateZ(8px);
+  }
+  58% {
+    opacity: 1;
+    transform: translateZ(263px);
+  }
+  61%,
+  100% {
+    opacity: 0;
+    transform: translateZ(265px);
+  }
 }
-.envoy-arrive { animation-name: envoy-arrive; }
-@keyframes envoy-arrive { 0%, 57% { opacity: 0 } 61%, 76% { opacity: 1 } 80%, 100% { opacity: 0 } }
+.envoy-arrive {
+  animation-name: envoy-arrive;
+}
+@keyframes envoy-arrive {
+  0%,
+  57% {
+    opacity: 0;
+  }
+  61%,
+  76% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
 
-.envoy-intruder { animation-name: envoy-intruder; }
+.envoy-intruder {
+  animation-name: envoy-intruder;
+}
 @keyframes envoy-intruder {
-  0%, 60% { opacity: 0; transform: translateZ(0) }
-  62% { opacity: 1; transform: translateZ(10px) }
-  67% { opacity: 1; transform: translateZ(126px) }
-  69% { transform: translateZ(114px) translateX(-6px) }
-  71% { transform: translateZ(122px) translateX(6px) }
-  76% { opacity: 1; transform: translateZ(0) }
-  80%, 100% { opacity: 0; transform: translateZ(0) }
+  0%,
+  60% {
+    opacity: 0;
+    transform: translateZ(0);
+  }
+  62% {
+    opacity: 1;
+    transform: translateZ(10px);
+  }
+  67% {
+    opacity: 1;
+    transform: translateZ(126px);
+  }
+  69% {
+    transform: translateZ(114px) translateX(-6px);
+  }
+  71% {
+    transform: translateZ(122px) translateX(6px);
+  }
+  76% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: translateZ(0);
+  }
 }
-.envoy-guard { animation-name: envoy-guard; }
+.envoy-guard {
+  animation-name: envoy-guard;
+}
 @keyframes envoy-guard {
-  0%, 45% { box-shadow: none }
-  48% { box-shadow: 0 0 0 3px var(--device) }
-  52%, 64% { box-shadow: none }
-  67% { box-shadow: 0 0 0 4px var(--danger) }
-  72%, 100% { box-shadow: none }
+  0%,
+  45% {
+    box-shadow: none;
+  }
+  48% {
+    box-shadow: 0 0 0 3px var(--device);
+  }
+  52%,
+  64% {
+    box-shadow: none;
+  }
+  67% {
+    box-shadow: 0 0 0 4px var(--danger);
+  }
+  72%,
+  100% {
+    box-shadow: none;
+  }
 }
-.envoy-answer { animation-name: envoy-answer; }
-@keyframes envoy-answer { 0%, 76% { opacity: 0; transform: translateZ(265px) } 86% { opacity: 1; transform: translateZ(6px) } 96% { opacity: 1; transform: translateZ(0) } 100% { opacity: 0 } }
+.envoy-answer {
+  animation-name: envoy-answer;
+}
+@keyframes envoy-answer {
+  0%,
+  76% {
+    opacity: 0;
+    transform: translateZ(265px);
+  }
+  86% {
+    opacity: 1;
+    transform: translateZ(6px);
+  }
+  96% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- UvRing: fluorescent ring around a protected field ---------- */
+@property --uv-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+.envoy-uvring {
+  --uv-a: #3dffb0;
+  --uv-b: #7d95ff;
+  isolation: isolate;
+}
+.envoy-uvring[data-tone='found'] {
+  --uv-a: #ffb547;
+  --uv-b: #3dffb0;
+}
+.envoy-uvring-line,
+.envoy-uvring-glow {
+  position: absolute;
+  inset: -3px;
+  border-radius: calc(var(--uv-r) + 3px);
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--uv-angle),
+    var(--uv-a),
+    var(--uv-b) 25%,
+    var(--uv-a) 50%,
+    var(--uv-b) 75%,
+    var(--uv-a)
+  );
+  padding: 2px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  animation:
+    envoy-uv-lock 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    envoy-uv-turn 6s linear infinite;
+  z-index: 1;
+}
+.envoy-uvring-glow {
+  filter: blur(10px);
+  opacity: 0.75;
+  inset: -6px;
+  padding: 6px;
+}
+.envoy-uvring > :not(span) {
+  position: relative;
+  z-index: 2;
+}
+@keyframes envoy-uv-turn {
+  to {
+    --uv-angle: 360deg;
+  }
+}
+@keyframes envoy-uv-lock {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+    filter: blur(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .envoy-uvring-line,
+  .envoy-uvring-glow {
+    animation: none;
+  }
+}
+
+/* ---------- the restore moment: a restored value surfaces like UV ink ---------- */
+.envoy-restore {
+  animation: envoy-restore 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes envoy-restore {
+  from {
+    opacity: 0.25;
+    filter: blur(3px);
+    box-shadow:
+      0 0 0 1px var(--device),
+      0 0 22px var(--device);
+  }
+  45% {
+    opacity: 1;
+    filter: blur(0);
+    box-shadow:
+      0 0 0 1px var(--device),
+      0 0 16px var(--device);
+  }
+  to {
+    box-shadow: none;
+  }
+}

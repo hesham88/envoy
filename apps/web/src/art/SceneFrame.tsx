@@ -5,7 +5,7 @@ export function SceneFrame() {
   const raw = new URLSearchParams(location.search).get('frame');
   const frame = raw === null ? undefined : Math.min(1, Math.max(0, Number(raw)));
   return (
-    <div className="bg-paper" data-scene-frame>
+    <div className="envoy-uv bg-paper" data-scene-frame>
       <DelegationScene frame={frame} />
     </div>
   );

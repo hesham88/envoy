@@ -45,7 +45,10 @@ export const DETECT_SCHEMA = {
 
 export const MINIMIZE_SCHEMA = {
   type: 'object',
-  properties: { clause_ids: { type: 'array', items: { type: 'integer' } }, reason: { type: 'string' } },
+  properties: {
+    clause_ids: { type: 'array', items: { type: 'integer' } },
+    reason: { type: 'string' },
+  },
   required: ['clause_ids', 'reason'],
 } as const;
 
@@ -55,7 +58,8 @@ export const ROUTE_SCHEMA = {
   required: ['answerable_locally', 'reason'],
 } as const;
 
-const clausesXml = (chunks: Chunk[]) => chunks.map((c) => `<clause id="${c.id}">${c.text}</clause>`).join('\n');
+const clausesXml = (chunks: Chunk[]) =>
+  chunks.map((c) => `<clause id="${c.id}">${c.text}</clause>`).join('\n');
 
 export function buildDetectPrompt(text: string, question: string): string {
   return `## Task
@@ -116,7 +120,10 @@ ${clausesXml(chunks)}`;
 // ---------- parsers ----------
 
 function parseJson(raw: string): unknown {
-  const unfenced = raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+  const unfenced = raw
+    .trim()
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```$/, '');
   try {
     return JSON.parse(unfenced);
   } catch {
@@ -124,7 +131,8 @@ function parseJson(raw: string): unknown {
   }
 }
 
-const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
+const isRecord = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
 
 /** Keeps only entities whose text appears verbatim in the source; returns every occurrence. */
 export function parseDetectResponse(raw: string, source: string): Entity[] {
@@ -139,7 +147,14 @@ export function parseDetectResponse(raw: string, source: string): Entity[] {
     if (!(ENTITY_ROLES as readonly unknown[]).includes(role)) continue;
     const needle = text.trim();
     for (let i = source.indexOf(needle); i !== -1; i = source.indexOf(needle, i + needle.length)) {
-      const entity: Entity = { type: kind as EntityType, value: needle, start: i, end: i + needle.length, confidence: 0.8, source: 'nano' };
+      const entity: Entity = {
+        type: kind as EntityType,
+        value: needle,
+        start: i,
+        end: i + needle.length,
+        confidence: 0.8,
+        source: 'nano',
+      };
       if (role !== 'other') entity.role = role as string;
       out.push(entity);
     }
@@ -147,13 +162,18 @@ export function parseDetectResponse(raw: string, source: string): Entity[] {
   return out;
 }
 
-export function parseMinimizeResponse(raw: string, validIds: number[]): { ids: number[]; reason: string } | null {
+export function parseMinimizeResponse(
+  raw: string,
+  validIds: number[],
+): { ids: number[]; reason: string } | null {
   const data = parseJson(raw);
   if (!isRecord(data) || !Array.isArray(data.clause_ids)) return null;
   const valid = new Set(validIds);
-  const ids = [...new Set(data.clause_ids.filter((n): n is number => Number.isInteger(n) && valid.has(n as number)))].sort(
-    (a, b) => a - b,
-  );
+  const ids = [
+    ...new Set(
+      data.clause_ids.filter((n): n is number => Number.isInteger(n) && valid.has(n as number)),
+    ),
+  ].sort((a, b) => a - b);
   if (ids.length === 0) return null;
   return { ids, reason: typeof data.reason === 'string' ? data.reason : '' };
 }
@@ -161,5 +181,8 @@ export function parseMinimizeResponse(raw: string, validIds: number[]): { ids: n
 export function parseRouteResponse(raw: string): { local: boolean; reason: string } | null {
   const data = parseJson(raw);
   if (!isRecord(data) || typeof data.answerable_locally !== 'boolean') return null;
-  return { local: data.answerable_locally, reason: typeof data.reason === 'string' ? data.reason : '' };
+  return {
+    local: data.answerable_locally,
+    reason: typeof data.reason === 'string' ? data.reason : '',
+  };
 }

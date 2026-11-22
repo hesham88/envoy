@@ -15,6 +15,7 @@ import {
   chunkDocument,
   CLOUD_EXPRESSION_INSTRUCTION,
   detectWithRules,
+  flagNames,
   estimateTokens,
   maskText,
   mergeEntities,
@@ -108,35 +109,6 @@ export async function selectClausesBatched(
   }
   if (ids.size === 0) return { ids: chunks.map((c) => c.id), reason: 'No clause could be singled out, so every clause is included (masked).' };
   return { ids: [...ids].sort((a, b) => a - b), reason: reasons.join(' ') };
-}
-
-const NAME_STOPWORDS = new Set(
-  'the this that these those either each any both all residential lease agreement landlord tenant premises arab republic egypt cairo maadi road street clause clauses rent deposit utilities maintenance payment entry termination notices governing signed building flat use parties term contract notice page january february march april may june july august september october november december monday tuesday wednesday thursday friday saturday sunday'.split(
-    ' ',
-  ),
-);
-
-/** Person-like names the rules can't know about (Basic protection): flagged, and masked by default. */
-const NAME_PATTERNS: RegExp[] = [
-  // Title + name: "Dr. Omar", "Mrs Hala Samir"
-  /\b(?:Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g,
-  // Capitalised names, allowing Arabic-name particles: "Mohamed El Sayed", "Nour Al Din", "Karim Fathy"
-  /\b[A-Z][a-z]{2,}(?:\s+(?:El|Al|Abdel|Abd|Abu|Bin|Ibn|de|van|von))?(?:\s+[A-Z][a-z]{2,})+/g,
-  // Names in capitals: "AHMED HASSAN"
-  /\b[A-Z]{3,}(?:\s+[A-Z]{3,})+\b/g,
-];
-
-function flagNames(text: string, taken: Entity[]): Entity[] {
-  const out: Entity[] = [];
-  for (const [i, re] of NAME_PATTERNS.entries()) {
-    for (const m of text.matchAll(re)) {
-      const words = m[0].split(/\s+/).filter((w) => !/^(Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?$/.test(w));
-      if (i > 0 && words.some((w) => NAME_STOPWORDS.has(w.toLowerCase()))) continue;
-      const e: Entity = { type: 'PERSON', value: m[0], start: m.index, end: m.index + m[0].length, confidence: 0.4, source: 'rules' };
-      if (![...taken, ...out].some((t) => t.start < e.end && e.start < t.end)) out.push(e);
-    }
-  }
-  return out.sort((a, b) => a.start - b.start);
 }
 
 function maskChunk(c: Chunk, entities: Entity[], tags: TagMap): string {

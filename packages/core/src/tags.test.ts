@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { assignTags, canonical, maskText, mergeEntities } from './tags';
 import type { Entity } from './types';
 
-const ent = (type: Entity['type'], value: string, start: number, extra: Partial<Entity> = {}): Entity => ({
+const ent = (
+  type: Entity['type'],
+  value: string,
+  start: number,
+  extra: Partial<Entity> = {},
+): Entity => ({
   type,
   value,
   start,
@@ -25,7 +30,9 @@ describe('canonical', () => {
   });
 
   it('ignores spacing and case for IBANs, IDs and names', () => {
-    expect(canonical('EG38 0019 0005 0000 0000 2631 8000 2', 'IBAN')).toBe(canonical('eg380019000500000000263180002', 'IBAN'));
+    expect(canonical('EG38 0019 0005 0000 0000 2631 8000 2', 'IBAN')).toBe(
+      canonical('eg380019000500000000263180002', 'IBAN'),
+    );
     expect(canonical('Karim  Fathy', 'PERSON')).toBe(canonical('karim fathy', 'PERSON'));
   });
 });
@@ -33,7 +40,10 @@ describe('canonical', () => {
 describe('mergeEntities', () => {
   it('lets rules win on overlap but keeps the role the model found', () => {
     const rules = [ent('MONEY', 'EGP 8,500', 20)];
-    const nano = [ent('MONEY', '8,500', 24, { source: 'nano', role: 'rent' }), ent('PERSON', 'Karim Fathy', 0, { source: 'nano', role: 'landlord' })];
+    const nano = [
+      ent('MONEY', '8,500', 24, { source: 'nano', role: 'rent' }),
+      ent('PERSON', 'Karim Fathy', 0, { source: 'nano', role: 'landlord' }),
+    ];
     const merged = mergeEntities(rules, nano);
     expect(merged.map((e) => [e.type, e.value, e.source, e.role])).toEqual([
       ['PERSON', 'Karim Fathy', 'nano', 'landlord'],
@@ -42,14 +52,20 @@ describe('mergeEntities', () => {
   });
 
   it('returns entities sorted with no overlaps', () => {
-    const merged = mergeEntities([ent('PHONE', '01005550192', 10)], [ent('PERSON', 'Mona', 0, { source: 'nano' }), ent('PERSON', '0100', 10, { source: 'nano' })]);
+    const merged = mergeEntities(
+      [ent('PHONE', '01005550192', 10)],
+      [ent('PERSON', 'Mona', 0, { source: 'nano' }), ent('PERSON', '0100', 10, { source: 'nano' })],
+    );
     expect(merged.map((e) => e.value)).toEqual(['Mona', '01005550192']);
   });
 });
 
 describe('assignTags', () => {
   it('uses the role for meaning-preserving tags', () => {
-    const tags = assignTags([ent('PERSON', 'Karim Fathy', 0, { role: 'landlord' }), ent('MONEY', 'EGP 8,500', 40, { role: 'rent' })]);
+    const tags = assignTags([
+      ent('PERSON', 'Karim Fathy', 0, { role: 'landlord' }),
+      ent('MONEY', 'EGP 8,500', 40, { role: 'rent' }),
+    ]);
     expect(tags.tagOf(ent('PERSON', 'Karim Fathy', 0, { role: 'landlord' }))).toBe('[LANDLORD]');
     expect(tags.valueOf('[RENT]')).toBe('EGP 8,500');
   });
@@ -78,12 +94,19 @@ describe('assignTags', () => {
     const d1 = ent('DATE', '1 September 2024', 40);
     const d2 = ent('DATE', '15 August 2024', 70);
     const tags = assignTags([t1, t2, d1, d2]);
-    expect([tags.tagOf(t1), tags.tagOf(t2), tags.tagOf(d1), tags.tagOf(d2)]).toEqual(['[TENANT]', '[TENANT_2]', '[DATE_1]', '[DATE_2]']);
+    expect([tags.tagOf(t1), tags.tagOf(t2), tags.tagOf(d1), tags.tagOf(d2)]).toEqual([
+      '[TENANT]',
+      '[TENANT_2]',
+      '[DATE_1]',
+      '[DATE_2]',
+    ]);
   });
 
   it('lists every tag with its value and type', () => {
     const tags = assignTags([ent('EMAIL', 'mona.adel@example.com', 0)]);
-    expect(tags.entries()).toEqual([{ tag: '[EMAIL]', value: 'mona.adel@example.com', type: 'EMAIL' }]);
+    expect(tags.entries()).toEqual([
+      { tag: '[EMAIL]', value: 'mona.adel@example.com', type: 'EMAIL' },
+    ]);
   });
 });
 
