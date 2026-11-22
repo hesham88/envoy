@@ -60,6 +60,36 @@ describe('the guard is not fooled by', () => {
     expect(checkOutbound(`Reach ${fullWidth('sara')}@example.com`, []).ok).toBe(false);
   });
 
+  // Regressions from the eval lane's red team (tests/eval/redteam.json).
+  it('combining accents added to a name (rt-28)', () => {
+    const ACUTE = String.fromCharCode(0x301);
+    const karim: Entity = { ...person, value: 'Karim Fathy', end: 11 };
+    expect(checkOutbound(`Signed by Ka${ACUTE}rim Fa${ACUTE}thy.`, [karim]).ok).toBe(false);
+    expect(checkOutbound('Signed by Kárim Fáthy.', [karim]).ok).toBe(false); // precomposed
+  });
+
+  it('a defanged email (rt-23)', () => {
+    expect(checkOutbound('Email: mona [dot] adel [at] example [dot] com.', [email!]).ok).toBe(
+      false,
+    );
+  });
+
+  it('a spaced-out token that contains digits (rt-27)', () => {
+    const token: Entity = {
+      type: 'ORG',
+      value: 'TOKEN_ALPHA_992817',
+      start: 0,
+      end: 18,
+      confidence: 1,
+      source: 'rules',
+    };
+    expect(checkOutbound('Key: T-O-K-E-N-_-A-L-P-H-A-_-9-9-2-8-1-7.', [token]).ok).toBe(false);
+  });
+
+  it('does not over-match: a name without digits is not searched compacted', () => {
+    expect(checkOutbound('Simona Adelaide wrote back.', [person]).ok).toBe(true);
+  });
+
   it('still lets clean, masked text through', () => {
     expect(
       checkOutbound('Question: can [LANDLORD] raise [RENT] by 20%?', [person, email!, phone!], {
