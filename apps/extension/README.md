@@ -1,43 +1,48 @@
-# Envoy Chrome extension (Muse lane)
+# Envoy for Chrome
 
-A Manifest V3 side panel that runs the same Envoy flow as the web app, reusing `@envoy/core`, `@envoy/ai` and the shared `@envoy/ui` design system: select or paste private text, let the on-device model minimize it, approve exactly what the cloud sees.
+Envoy in your browser, in three places:
 
-## Build and load (unpacked)
+- **The side panel** is the same chat as the [web app](https://envoy-hybrid-ai.web.app/app), with the privacy flight recorder, the approval card, Local only, your own rules and the network ledger. Select text on any page, right-click and choose **Ask Envoy about this selection**, and it arrives as the document.
+- **Any text box** on a site you turn Envoy on for gets a small seal chip. Turn it on and a fluorescent ring locks around the field: amber while private details are still in it, green once they're replaced. A card lists what was found, lets you keep or hide each value, shows what the site receives now and after, and replaces the text in the field when you press **Replace**. Turn it off and nothing is drawn at all.
+- **Upload with Envoy** appears next to file inputs on those sites. Envoy masks the text of a document, or strips location data and burns your redaction boxes into an image, then hands the site the rebuilt file.
+
+The extension shares its code with the web app: `@envoy/core` (detection, tags, guard), `@envoy/ai` (Firebase AI Logic and the device guard), `@envoy/ui` (design system) and `@envoy/app` (the chat).
+
+## Install (load unpacked)
 
 ```sh
 npm install
-npm run build -w @envoy/extension        # release build -> dist/ (never contains a debug token)
-npm run check:dist -w @envoy/extension   # pre-zip gate: fails if token material reached dist/
+npm run build -w @envoy/extension        # release build -> apps/extension/dist
+npm run check:dist -w @envoy/extension   # fails if any App Check token material reached dist/
 ```
 
-1. Open `chrome://extensions`, turn on **Developer mode**.
-2. **Load unpacked** -> choose `apps/extension/dist`.
-3. Click the Envoy toolbar icon, or select text -> right-click -> **Ask Envoy about this selection**.
+1. Open `chrome://extensions` and turn on **Developer mode**.
+2. Choose **Load unpacked** and select `apps/extension/dist`.
+3. Pin Envoy. Click it to open the popup, switch **Envoy on this site** on, and accept Chrome's permission prompt.
 
-For local development against the live model and cloud:
+## What it can access, and why
 
-```sh
-npm run build:dev -w @envoy/extension    # extensiondev build -> dist-dev/ (gitignored)
-```
+| Permission | Why |
+| --- | --- |
+| `sidePanel` | The Envoy chat. |
+| `contextMenus` | "Ask Envoy about this selection". The selected text goes to the side panel through `chrome.storage.session` and is removed once read. |
+| `storage` | Your own rules and the sites you turned on, kept in `chrome.storage.local` on this computer. |
+| `scripting` + optional host access | The text-box chip and upload button run **only on sites you switch on**, one origin at a time, after Chrome asks you. No site is enabled by default. |
+| `offscreen` | Runs the on-device model check for text boxes in an extension page, never in the website's own context. |
 
-That build bakes in the App Check debug token from `apps/web/.env.local`. **Never share, zip or commit `dist-dev/`, any token, or `.env.local`.** Before any zip for judges, rebuild with plain `npm run build` and run `npm run check:dist` (optionally with `VITE_APPCHECK_DEBUG_TOKEN=CANARY-1234` in the environment: the canary must not appear in `dist/`).
+Envoy never touches password, one-time-code, card or bank-account fields, and it writes page text only with `textContent`, never as HTML. There is no telemetry.
 
-## Judges build: on-device only (implemented)
+## On the device, and in the cloud
 
-Release builds (`vite build`, any mode other than `extensiondev`) make **no cloud calls**: detect / minimize / route / local answers run on-device, and a question that needs cloud reasoning shows a handoff to the hosted app (https://envoy-hybrid-ai.web.app), which has real reCAPTCHA Enterprise App Check. This avoids shipping any App Check debug token. The alternative (owner decision) is a dedicated judging-only debug token, revoked after judging ends on Dec 16, 2026; the everyday token is never zipped.
+- Private steps (find details, choose what the question needs, decide where to answer) use Firebase AI Logic with `ONLY_ON_DEVICE` and the same device guard as the web app: they run on Chrome's built-in model or not at all.
+- Without the on-device model, Envoy uses **Basic protection**: local rules for IDs, numbers, emails, accounts, keys and your own words, plus a name check. The app says which mode ran.
+- **Cloud reasoning:** Firebase App Check can't attest a `chrome-extension://` page, so the side panel embeds the real Envoy web chat (`https://envoy-hybrid-ai.web.app/app?embed=extension`). It runs on the web origin, where App Check (reCAPTCHA Enterprise) works, and the frame gets Chrome's on-device model through `allow="language-model"`. Everyone gets cloud answers, and no key or debug token ships in the extension. Selected text and your rules pass to the frame by `postMessage` on this computer; the site's CSP lets only Envoy's own extension (ID `ekmjefnebmjbeahkadaheapbgpgkabkd`, fixed by the manifest key) embed it. Offline, the panel falls back to the on-device chat and offers **Continue in Envoy on the web** for cloud questions. Developer builds (`npm run build:dev`) run the chat in the panel and use a local App Check debug token. **Never share, zip or commit `dist-dev/`.**
 
-## What works
+## Requirements
 
-- Side panel on the shared design system (`@envoy/ui`): `Logo`, `StatusPill`, `ModeChip`, `AnalyzingPanel`, `TaggedText`, `RestoredText`, `EnvoySeal`, `StepEmblem`. Green = on-device, blue = cloud, always with an icon and a word. Basic protection is a normal, explained state.
-- Full flow in the panel: prerequisite gate with the solved Nano recipe (Gemma 4 flag, %TEMP% space, CPU-backend flags), live per-step progress, masked-excerpt review with Guard status and editing, approve, restored answer with a compact privacy receipt, and the `fallbackReason` shown when a run falls back to Basic.
-- Context-menu intake via `chrome.storage.session` only. No content script, no DOM scraping, no host permissions.
-- Verified (2026-11-22): end-to-end in the F: Chrome profile - Private mode, Clause 7 only, 235 chars sent, derived amount EGP 9,350 restored on-device; and the revamped panel loads and renders in a clean profile.
+Desktop Chrome with the built-in model for Private mode; `chrome://on-device-internals` shows its status, and Envoy offers the download from a click. Everything else, including Basic protection, works without it.
 
-## Prerequisites
+## Limits
 
-| Need | Why | Fallback |
-| --- | --- | --- |
-| Chrome 138+ desktop | Side Panel + Prompt API in extensions | - |
-| Gemini Nano (Gemma 4) downloaded, `availability() === 'available'` | Private steps are `ONLY_ON_DEVICE` | Basic protection (rules only) |
-| ~22 GB free on the profile volume; >4 GB VRAM or 16 GB RAM + 4 cores; ~5 GB free in %TEMP% for the download | Google's hardware bar + Chrome's installer space check | Basic protection |
-| Settings -> AI -> On-device AI on (Chrome 157+) | Model is off until enabled | Gate shows the fix |
+- Image uploads: Envoy doesn't detect private regions in images; you draw the boxes. PDFs are rebuilt as simple text PDFs ("layout simplified"), because a box drawn over PDF text doesn't remove the text underneath.
+- Rich editors (ChatGPT, Gmail and others) receive replaced text through the same input events typing produces; a site that blocks those may need you to paste the masked text yourself.

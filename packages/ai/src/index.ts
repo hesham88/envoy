@@ -9,7 +9,21 @@ export {
   PrivacyViolationError,
   runPrivate,
   withCloudTripwire,
+  inAiQueue,
+  cancelPrivateSteps,
+  PrivateStepCancelledError,
   type DeviceStatus,
 } from './device-guard';
 export { networkLog, type NetworkEntry } from './network-log';
-export { analyze, answer, buildReasonPrompt, composeOutbound, OutboundBlockedError, selectClausesBatched, type Analysis, type AnalyzeProgress, type Deps, type ReviewChoices } from './pipeline';
+export {
+  analyze,
+  answer,
+  buildReasonPrompt,
+  composeOutbound,
+  OutboundBlockedError,
+  selectClausesBatched,
+  type Analysis,
+  type AnalyzeProgress,
+  type Deps,
+  type ReviewChoices,
+} from './pipeline';

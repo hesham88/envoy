@@ -330,13 +330,13 @@
     "id": "rt-ctrl-05-ordinary-base64",
     "technique": "control-base64",
     "entityType": "PERSON",
-    "description": "Control: ordinary non-PII Base64 payload must NOT be blocked",
+    "description": "Control: binary SHA-256 Base64 digest (non-readable bytes; PR #22 fails closed on readable Base64 text) must NOT be blocked",
     "protectedEntities": [
       { "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" },
       { "type": "NATIONAL_ID", "value": "27506120104839", "start": 12, "end": 26, "confidence": 1, "source": "rules" }
     ],
     "knownTags": ["[LANDLORD]", "[NATIONAL_ID]"],
-    "outbound": "Attachment digest: SGVsbG8gd29ybGQgZnJvbSBFbnZveSE= (verified for [LANDLORD]).",
+    "outbound": "Attachment digest: 47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU= (verified for [LANDLORD]).",
     "expectedBlocked": false
   },
   {

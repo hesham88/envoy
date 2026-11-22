@@ -24,7 +24,9 @@ declare global {
  */
 export function initEnvoy(cfg: FirebaseEnv, opts: { dev: boolean }): { app: FirebaseApp; ai: AI } {
   if (!cfg.recaptchaSiteKey && !opts.dev) {
-    throw new Error('Missing VITE_RECAPTCHA_SITE_KEY: App Check cannot start, and AI Logic requires it.');
+    throw new Error(
+      'Missing VITE_RECAPTCHA_SITE_KEY: App Check cannot start, and AI Logic requires it.',
+    );
   }
   if (opts.dev) {
     globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = cfg.appCheckDebugToken || true;

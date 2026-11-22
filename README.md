@@ -12,7 +12,7 @@
 
 # Envoy
 
-**Ask the cloud. Keep your secrets.** Envoy is your private agent to cloud AI. Before anything leaves your computer, AI on your own device reads your document and your question, keeps only what the question needs, and swaps every personal detail for a tag that keeps its meaning (`[LANDLORD]`, `[RENT]`). You see the exact text and approve it. Gemini in the cloud reasons over the tags, and your real details go back into the answer on your device.
+**Ask the cloud. Keep your secrets.** Powerful AI reasoning, minimum necessary disclosure, and you stay in control. Envoy is your private agent to cloud AI. Before anything leaves your computer, AI on your own device reads your document and your question, keeps only what the question needs, and swaps every personal detail for a tag that keeps its meaning (`[LANDLORD]`, `[RENT]`). You see the exact text and approve it. Gemini in the cloud reasons over the tags, and your real details go back into the answer on your device.
 
 This is **Privacy-Conscious Delegation** (after PAPILLON, Li et al., NAACL 2025), built on **Firebase AI Logic hybrid inference**: the on-device model handles everything private, and the cloud model handles the hard reasoning, over tags.
 
@@ -112,7 +112,7 @@ To see the guard catch firebase-js-sdk #10635 yourself, open [`/dev`](https://en
 A typical scrubber replaces everything with `[REDACTED]` and still sends the whole document. The cloud loses who is who, and gets far more than it needs. Envoy delegates instead:
 
 - **Tags keep meaning.** Karim Fathy becomes `[LANDLORD]` and EGP 8,500 becomes `[RENT]`, so the cloud can still reason about who owes what.
-- **Only what the question needs is sent.** For the rent question, the on-device model keeps the rent clause; the clause with the bank account never leaves.
+- **Only what the question needs is sent.** For the rent question, the on-device model keeps the rent clause; the clause with the bank account isn't sent.
 - **The cloud never sees the result either.** It writes `{{RENT * 1.10}}` and Envoy works out EGP 9,350 on your device ([`expr.ts`](packages/core/src/expr.ts)).
 - **Some questions never go to the cloud.** "When does my lease end?" is answered on the device, with 0 bytes sent.
 
@@ -144,9 +144,27 @@ The guidebook's patterns show up throughout: **let users supervise automation** 
 
 ## Measured
 
-Every number names the model, its version, the date and the number of cases, and comes from real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic). The eval harness measures masking, leaks after the guard, a re-identification attack on what actually leaves the device, and answer quality compared with sending the whole document. What every commit checks, and how the real-model evaluation works: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
+Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, measured 22 November 2026 on a 2018 laptop CPU. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
 
-A note on models: neither Firebase AI Logic nor the Prompt API reports which on-device model Chrome used. Our development runs used Gemma 4 (`gemma4_component`, behind a developer-trial flag). Ordinary Chrome uses its default Gemini Nano, and the results are reported for each.
+| Setup | On-device model | Private details masked | Raw details sent, after the guard | Text sent, of the whole document | Time, median |
+| --- | --- | --- | --- | --- | --- |
+| Gemma 4, the model Gemini Nano 4 is built on | `gemma4_component` 2026.11.3.1140 | 263 / 263 | 0 | 22% | 55 s |
+| Chrome's default Gemini Nano | `nano_v3_cpu_component` 2025.8.21.1028 | 263 / 263 | 0 | 10% | 67 s |
+| Basic protection | none (local rules) | 263 / 263 | 0 | 90% | 5 ms |
+
+- **The guard red team:** 28 of 28 disguised leaks blocked: spaced, punctuated, invisible characters, lookalike letters, accents, defanged emails, numbers in words, split words, reversed text and base64. Text the guard can't read (an encoded blob) is blocked rather than trusted.
+- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (18–23% of its masks), which you can unmask in the approval card. Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
+
+### What Envoy promises, and what it doesn't
+
+- It masks every private detail it detects, before anything is sent, and you approve the exact text.
+- It sends only what the question needs when the on-device model is available.
+- It blocks detected leaks, including disguised ones, and blocks text it can't check.
+- It does **not** promise that nothing about you can be inferred: details that aren't identifying on their own (a city, an employer) can narrow things down together. The eval's attack test measures this, and you can hide any sentence in the approval card.
+
+### Which on-device model?
+
+The contest names Gemini Nano 4 for Web/Chrome. Google builds Gemini Nano 4 on Gemma 4, and Chrome's Gemma 4 built-in model is `gemma4_component`, still behind a developer-trial flag; Chrome's default today is Gemini Nano 3 (`nano_v3_cpu_component` on this machine). Envoy doesn't pick the model: Firebase AI Logic `ONLY_ON_DEVICE` runs on whichever model Chrome provides, so Envoy is measured on both. Neither Firebase AI Logic nor the Prompt API says which model answered, so Envoy's interface says "Chrome's built-in model" and never names one it can't confirm.
 
 <img src="docs/img/brand/section-judges.png" alt="Judges: try it" width="100%">
 

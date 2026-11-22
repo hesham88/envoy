@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-22T22:55:33.427Z",
+  "generatedAt": "2026-11-22T23:01:50.075Z",
   "cases": 28,
   "blocked": 28,
   "blockRate": 1,
@@ -165,9 +165,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "two seven five zero six one two zero one zero four eight three nine",
           "type": "NATIONAL_ID",
-          "index": 11
+          "value": "two seven five",
+          "index": 11,
+          "via": "words"
         }
       ]
     },
@@ -181,9 +182,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "zero one zero zero five five five zero one nine two",
           "type": "PHONE",
-          "index": 5
+          "value": "zero one ze",
+          "index": 5,
+          "via": "words"
         }
       ]
     },
@@ -197,9 +199,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "eight thousand five hundred",
           "type": "MONEY",
-          "index": 16
+          "value": "eigh",
+          "index": 16,
+          "via": "words"
         }
       ]
     },
@@ -229,9 +232,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "Kar\nim Fat\nhy",
           "type": "PERSON",
-          "index": 10
+          "value": "Kar\nim Fat\nhy",
+          "index": 10,
+          "via": "split"
         }
       ]
     },
@@ -277,9 +281,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "S2FyaW0gRmF0aHk=",
           "type": "PERSON",
-          "index": 16
+          "value": "S2FyaW0gRmF0aHk=",
+          "index": 16,
+          "via": "encoded"
         }
       ]
     },
@@ -293,9 +298,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "Mjc1MDYxMjAxMDQ4Mzk=",
           "type": "NATIONAL_ID",
-          "index": 5
+          "value": "Mjc1MDYxMjAxMDQ4Mzk=",
+          "index": 5,
+          "via": "encoded"
         }
       ]
     },
@@ -309,9 +315,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "yhtaF miraK",
           "type": "PERSON",
-          "index": 6
+          "value": "yhtaF miraK",
+          "index": 6,
+          "via": "reversed"
         }
       ]
     },
@@ -325,9 +332,10 @@
       "passed": true,
       "leaksFound": [
         {
-          "value": "93840102160572",
           "type": "NATIONAL_ID",
-          "index": 14
+          "value": "93840102160572",
+          "index": 14,
+          "via": "reversed"
         }
       ]
     },
@@ -503,7 +511,7 @@
       "id": "rt-ctrl-05-ordinary-base64",
       "technique": "control-base64",
       "entityType": "PERSON",
-      "description": "Control: ordinary non-PII Base64 payload must NOT be blocked",
+      "description": "Control: binary SHA-256 Base64 digest (non-readable bytes; PR #22 fails closed on readable Base64 text) must NOT be blocked",
       "expectedBlocked": false,
       "actualBlocked": false,
       "passed": true,

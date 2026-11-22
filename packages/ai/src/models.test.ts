@@ -4,7 +4,10 @@ import { InferenceMode, type AI } from 'firebase/ai';
 const getGenerativeModel = vi.fn((_ai: unknown, params: unknown) => ({ params }));
 vi.mock('firebase/ai', async (importOriginal) => {
   const actual = await importOriginal<typeof import('firebase/ai')>();
-  return { ...actual, getGenerativeModel: (ai: unknown, params: unknown) => getGenerativeModel(ai, params) };
+  return {
+    ...actual,
+    getGenerativeModel: (ai: unknown, params: unknown) => getGenerativeModel(ai, params),
+  };
 });
 
 const { createStepModel, modeFor, DEFAULT_SETTINGS } = await import('./models');
@@ -38,7 +41,11 @@ describe('createStepModel', () => {
   it('puts the on-device system prompt in initialPrompts as text content', () => {
     createStepModel(ai, 'detect', settings);
     const params = getGenerativeModel.mock.lastCall?.[1] as {
-      onDeviceParams: { createOptions: { initialPrompts: { role: string; content: { type: string; value: string }[] }[] } };
+      onDeviceParams: {
+        createOptions: {
+          initialPrompts: { role: string; content: { type: string; value: string }[] }[];
+        };
+      };
     };
     const first = params.onDeviceParams.createOptions.initialPrompts[0];
     expect(first?.role).toBe('system');
@@ -51,8 +58,12 @@ describe('createStepModel', () => {
     const params = getGenerativeModel.mock.lastCall?.[1] as {
       onDeviceParams: { createOptions: { expectedInputs: unknown; expectedOutputs: unknown } };
     };
-    expect(params.onDeviceParams.createOptions.expectedInputs).toEqual([{ type: 'text', languages: ['en'] }]);
-    expect(params.onDeviceParams.createOptions.expectedOutputs).toEqual([{ type: 'text', languages: ['en'] }]);
+    expect(params.onDeviceParams.createOptions.expectedInputs).toEqual([
+      { type: 'text', languages: ['en'] },
+    ]);
+    expect(params.onDeviceParams.createOptions.expectedOutputs).toEqual([
+      { type: 'text', languages: ['en'] },
+    ]);
   });
 
   it('sets structured output on both sides only when a schema is given', () => {
@@ -60,7 +71,9 @@ describe('createStepModel', () => {
     createStepModel(ai, 'route', settings, schema);
     const withSchema = getGenerativeModel.mock.lastCall?.[1] as {
       onDeviceParams: { promptOptions?: { responseConstraint: unknown } };
-      inCloudParams: { generationConfig?: { responseMimeType: string; responseJsonSchema: unknown } };
+      inCloudParams: {
+        generationConfig?: { responseMimeType: string; responseJsonSchema: unknown };
+      };
     };
     expect(withSchema.onDeviceParams.promptOptions?.responseConstraint).toEqual(schema);
     expect(withSchema.inCloudParams.generationConfig?.responseMimeType).toBe('application/json');
@@ -77,7 +90,10 @@ describe('createStepModel', () => {
 
   it('uses the remote cloud model when settings change', () => {
     createStepModel(ai, 'reason', { ...settings, cloudModel: 'gemini-3.5-flash-lite' });
-    const params = getGenerativeModel.mock.lastCall?.[1] as { mode: string; inCloudParams: { model: string } };
+    const params = getGenerativeModel.mock.lastCall?.[1] as {
+      mode: string;
+      inCloudParams: { model: string };
+    };
     expect(params.mode).toBe(InferenceMode.PREFER_IN_CLOUD);
     expect(params.inCloudParams.model).toBe('gemini-3.5-flash-lite');
   });

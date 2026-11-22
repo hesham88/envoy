@@ -56,20 +56,16 @@ The initial Basic run leaked **8 person names across 7 cases** (5 hyphenated Ara
 > **Finding:** Across all **36 / 36** cases (`263` gold entities, `77` attributes), naive `[REDACTED]`-everywhere over the full document still leaks **1.5% (`4 / 263`)** exact values and **6.5% (`5 / 77`)** hidden attributes from surrounding context. **Both on-device Envoy arms (`nano` and `gemma4`) drive exact re-identification, partial re-identification, AND attribute inference to `0.0%` (`0 / 263` and `0 / 77`) — strictly beating `[REDACTED]`-everywhere.**
 
 ### 3.3 Outbound Guard Red-Team (`tests/eval/redteam.json`, `tests/eval/run-redteam.mjs`)
-- **Target:** `@envoy/core` `checkOutbound()` (`packages/core/src/guard.ts`) · **Date:** `2026-11-22` · **Cases:** `28` adversarial bypass payloads + `10` false-positive controls (ordinary lease prose with number words, non-protected spelled-out numbers, ordinary non-PII Base64, reversible English words, multi-line substring overlap `"Simona\nAdelaide"` vs `"Mona Adel"`, real multi-line masked lease clauses, short digit-word runs, hyphenated line-wrapped prose).
+- **Target:** `@envoy/core` `checkOutbound()` (`packages/core/src/guard.ts` + `guard-variants.ts`) · **Date:** `2026-11-22` · **Cases:** `28` adversarial bypass payloads + `10` false-positive controls (ordinary lease prose with number words, non-protected spelled-out numbers, binary SHA-256 Base64 digest, reversible English words, multi-line substring overlap `"Simona\nAdelaide"` vs `"Mona Adel"`, real multi-line masked lease clauses, short digit-word runs, hyphenated line-wrapped prose).
 
 | Stage | Attacks Blocked | Bypasses | Controls Clean | False Blocks |
 | --- | :---: | :---: | :---: | :---: |
 | Initial baseline (Issue #7) | `11 / 28` (39.3%) | `17` | `2 / 2` | `0` |
 | After PR #11 (ZWSP, homoglyphs, full-width) | `17 / 28` (60.7%) | `11` | `2 / 2` | `0` |
 | After PR #14 (NFD accents, defanged email, spaced tokens) | `20 / 28` (71.4%) | `8` | `2 / 2` | `0` |
-| **After Milestone 3 (`guard.ts` commit `7882b9e`)** | **`28 / 28` (100.0%)** | **`0`** | **`10 / 10`** | **`0`** |
+| **After PR #22 + Milestone 3 controls (current `main`)** | **`28 / 28` (100.0%)** | **`0`** | **`10 / 10`** | **`0`** |
 
-- **Milestone 3 protections closed all 8 remaining bypasses without over-blocking ordinary prose (regression tests in `packages/core/src/guard-unicode.test.ts`):**
-  1. **Reversed protected values (`rt-19`, `rt-20`):** reversed-needle search in `findCodes` and word-bounded `findReversedWords` (min 6 alphanumeric chars).
-  2. **Base64 of protected values (`rt-17`, `rt-18`):** pure UTF-8 standard + URL-safe Base64 search (`findBase64`, case-sensitive, min 6 raw bytes → 8 Base64 chars).
-  3. **Digits & amounts spelled in words (`rt-10`, `rt-11`, `rt-12`):** `foldNumberWords` inside `guardView()` folds 6+ consecutive digit-word sequences and multi-word cardinal phrases (leaving single ordinary words like *"two years"*, *"sixty days"*, *"zero tolerance"* untouched unless adjacent to currency).
-  4. **Mid-word newline split (`rt-14`):** `findLineSplitName` for `PERSON` entities only, requiring a line break inside the span, strict letter boundaries at start/end, and no internal punctuation.
+- **PR #22 closed all 8 remaining bypasses (`packages/core/src/guard-variants.ts`, `packages/core/src/guard-redteam.test.ts`):** the guard now also reads the text with number words folded into digits (`rt-10`–`rt-12`), with a word split across lines joined (`rt-14`), reversed (`rt-19`, `rt-20`), and with Base64 blobs decoded (`rt-17`, `rt-18`). It **fails closed** on encoded text: a Base64 blob that decodes to readable ASCII text is blocked even when nothing protected is found inside it (because the reviewer cannot read it either), while non-readable binary digests (e.g., SHA-256 in `rt-ctrl-05`) and all 10 false-positive controls pass with `0` false blocks.
 
 ### 3.4 Secrets & CustomRule Evaluation (`tests/eval/run-secrets.mjs`)
 - **Target:** `@envoy/core` `scanText()` (`SECRET` + `CustomRule`) · **Date:** `2026-11-22` · **Cases:** `n = 24` (`16` runtime-constructed key-shaped positives + `8` negative controls; zero secret literals committed).
@@ -139,8 +135,9 @@ Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) now publish
 
 ### Limitations
 1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`) / `67.0s` (`nano`); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
-2. **Title-Case heading false flags in `flagNames()` (`5 / 20` unattended `OutboundBlockedError` blocks):** Both `nano` (`detectScope: 'selected'` runs `flagNames` on unselected clauses) and `basic` false-flag headings such as `"Base Salary"` and `"Without Cause"` as `PERSON`, blocking send until a user clears them in the Review screen. Fixing `flagNames()` heading stopwords is the #1 high-leverage utility improvement for the next core pass.
-3. **`gemma4` real `answer()` quality not collected (`metricsN.answerQuality = 0`):** Milestone 1 focused real `runCase({ withAnswer: true })` quality collection on Default Gemini Nano (`nano`, `n = 18`) and Basic (`basic`, `n = 20`); `gemma4`'s `answerQualityRetained` is honestly `null` rather than estimated.
+2. **The red team is 28 cases + 10 false-positive controls.** All 28 are blocked today with 0 false blocks, but 28 cases are not proof against every encoding or paraphrase. Envoy's claim is the measured one: it minimizes what leaves, masks what it detects, and blocks detected leaks, including disguised ones. Indirect identification is measured separately by the 36-case attribute-inference attack (section 3).
+3. **Title-Case heading false flags in `flagNames()` (`5 / 20` unattended `OutboundBlockedError` blocks):** Both `nano` (`detectScope: 'selected'` runs `flagNames` on unselected clauses) and `basic` false-flag headings such as `"Base Salary"` and `"Without Cause"` as `PERSON`, blocking send until a user clears them in the Review screen. Fixing `flagNames()` heading stopwords is the #1 high-leverage utility improvement for the next core pass.
+4. **`gemma4` real `answer()` quality not collected (`metricsN.answerQuality = 0`):** Milestone 1 focused real `runCase({ withAnswer: true })` quality collection on Default Gemini Nano (`nano`, `n = 18`) and Basic (`basic`, `n = 20`); `gemma4`'s `answerQualityRetained` is honestly `null` rather than estimated.
 
 ---
 

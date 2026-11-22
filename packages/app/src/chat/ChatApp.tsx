@@ -199,7 +199,8 @@ export function ChatApp({
       text: message,
       source: 'paste',
     };
-    const question = inline ? 'Help with the request in this message.' : message;
+    // Without a document, the message is both the text and the request.
+    const question = inline ? 'Do what this message asks.' : message;
     const id = nextId.current++;
     const start: SessionState = sessionReducer(
       { ...initialSession, phase: 'loaded', doc: turnDoc, question },
@@ -655,6 +656,21 @@ function TurnView({
         </p>
       </div>
       <div className="flex flex-col gap-3">
+        {s.phase === 'analyzing' && runtime.status === 'available' && runtime.cancelPrivate && (
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-[12px] border border-line px-4 py-2.5 text-[13.5px] text-muted">
+            <span>
+              Chrome's built-in model is reading this on your device. On some computers that takes a
+              minute.
+            </span>
+            <button
+              type="button"
+              onClick={runtime.cancelPrivate}
+              className="rounded-full border border-line px-3 py-1 text-ink hover:border-detected-line/70"
+            >
+              Don't wait: use Basic protection
+            </button>
+          </div>
+        )}
         <FlightRecorder
           startedAt={turn.startedAt}
           phase={s.phase}
@@ -745,6 +761,26 @@ function Approval({
   const r = composed.receipt;
   return (
     <div className="flex flex-col gap-3">
+      {/* Which protection produced this excerpt, said plainly before anything is sent. */}
+      <p
+        data-mode={analysis.mode}
+        className={`m-0 rounded-[12px] border px-4 py-3 text-[14px] leading-relaxed ${analysis.mode === 'private' ? 'border-device/50 bg-device-tint/50 text-ink' : 'border-detected-line/50 bg-detected/30 text-ink'}`}
+      >
+        {analysis.mode === 'private' ? (
+          <>
+            <strong>Private mode.</strong> Chrome's built-in model found the details and kept only
+            what the question needs: about{' '}
+            {Math.max(1, Math.round((100 * outbound.length) / Math.max(1, docChars)))}% of the text.
+          </>
+        ) : (
+          <>
+            <strong>Basic protection.</strong> Without the on-device model, local rules masked every
+            detail they detected, but the excerpt is the whole text, about{' '}
+            {Math.max(1, Math.round((100 * outbound.length) / Math.max(1, docChars)))}% of it, not
+            just what the question needs. Read it before you approve.
+          </>
+        )}
+      </p>
       {/* Before and after, at a glance: what you have, what would leave. */}
       <div
         aria-label="Before and after"

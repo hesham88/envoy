@@ -29,6 +29,13 @@ interface Props {
   approveLabel?: string;
 }
 
+const VIA_LABEL: Record<string, string> = {
+  words: ', written in words',
+  split: ', split across lines',
+  reversed: ', written backwards',
+  encoded: ', encoded',
+};
+
 export function CloudPreview({
   outbound,
   guard,
@@ -82,7 +89,10 @@ export function CloudPreview({
           {guard.leaks.map((l, i) => (
             <span key={i}>
               {i > 0 ? ', ' : ''}
-              {LEAK_LABEL[l.type] ?? 'a personal detail'} (
+              {l.unreadable
+                ? "encoded text Envoy can't read"
+                : (LEAK_LABEL[l.type] ?? 'a personal detail')}
+              {l.via && !l.unreadable ? VIA_LABEL[l.via] : ''} (
               <code className="font-mono">{l.value}</code>)
             </span>
           ))}

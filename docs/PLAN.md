@@ -39,7 +39,7 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 | 10 | Polish gate | in progress: Lighthouse a11y 100, best practices 100, SEO 91; dark-theme toggle, 1024px check and perf trace pending |
 
 ## Next plans
-Motion polish → eval and Harness² tuning (**ALL 5 ARGON SPRINT MILESTONES COMPLETED 2026-11-22 on `lane/eval-harness`**: **M1** real in-browser Firebase AI Logic SDK `ONLY_IN_CLOUD` attacks `36/36` across all 3 arms (`0.0%` exact/partial Re-ID & `0.0%` attr inf for `nano` & `gemma4` vs `1.5%`/`6.5%` `[REDACTED]` and `85.5%`/`67.5%` raw) + real verbatim `runCase({ withAnswer: true })` answer quality (`nano`: `66.7%` unattended / `92.3%` unblocked `n=18`, `basic`: `75.0%` unattended / `100.0%` unblocked `n=20`); **M2** per-metric `metricsN` in `tests/eval/summary.json`; **M3** isolated `packages/core/src/guard.ts` commit `7882b9e` closing all remaining 8 red-team bypasses (`20/28 -> 28/28` blocked, `0` bypasses, `10/10` controls clean); **M4** verbatim recorded on-device traces `tests/eval/probes/demo-trace-nano.json` & `demo-trace-gemma4.json`; **M5** tested `envoy-guard init claude|gemini`, honest Basic-protection README, and `n=24` CLI eval `100%` recall / `100%` precision) → Chrome extension → launch (assets, README, video, Devpost).
+Motion polish → eval and Harness² tuning (**ALL 5 ARGON SPRINT MILESTONES COMPLETED 2026-11-22 on `lane/eval-harness`**: **M1** real in-browser Firebase AI Logic SDK `ONLY_IN_CLOUD` attacks `36/36` across all 3 arms (`0.0%` exact/partial Re-ID & `0.0%` attr inf for `nano` & `gemma4` vs `1.5%`/`6.5%` `[REDACTED]` and `85.5%`/`67.5%` raw) + real verbatim `runCase({ withAnswer: true })` answer quality (`nano`: `66.7%` unattended / `92.3%` unblocked `n=18`, `basic`: `75.0%` unattended / `100.0%` unblocked `n=20`); **M2** per-metric `metricsN` in `tests/eval/summary.json`; **M3** 8 new false-positive red-team controls verifying PR #22's guard (`28/28` blocked, `0` bypasses, `10/10` controls clean); **M4** verbatim recorded on-device traces `tests/eval/probes/demo-trace-nano.json` & `demo-trace-gemma4.json`; **M5** tested `envoy-guard init claude|gemini`, honest Basic-protection README, and `n=24` CLI eval `100%` recall / `100%` precision) → Chrome extension → launch (assets, README, video, Devpost).
 
 ## Chrome extension (Muse lane: lane/extension)
 - **Built and E2E verified (2026-11-22):** Vite + React package (@envoy/extension) on the shared @envoy/ui design system, reusing @envoy/core + @envoy/ai. F: profile E2E: Private mode, Clause 7 only, Guard clean, 235 chars sent, EGP 9,350 restored on-device.
@@ -80,6 +80,11 @@ Motion polish → eval and Harness² tuning (**ALL 5 ARGON SPRINT MILESTONES COM
   - multimodal images (on-device image input is not yet verified, so images are kept local and the app says so);
   - OG image; demo video with Chatterbox narration;
   - security sweep.
+
+## Extension (Claude lane since 2026-11-22 22:22)
+- Side panel = the shared chat (`@envoy/app`, PR #18): selected text arrives as the document, rules shared with the in-page widget via chrome.storage.local, release builds hand cloud questions to the web app.
+- In-page widget and upload dialog revamped (PR #16); store assets re-rendered from the real build (`apps/extension/scripts/render-store.mjs`).
+- Not yet verified as an installed extension on real sites (needs the extension Chrome); do before submission.
 
 ## Stubbed / known issues
 - On-device prompts (v1) have now run on the real model (2026-11-22, see the Nano 4 item below): detect / minimize / route all behave as designed on the sample lease.

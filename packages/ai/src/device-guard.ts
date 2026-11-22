@@ -41,6 +41,24 @@ interface LanguageModelApi {
  * `GenerativeModel` instance; with 4 separate step models (`detect`, `minimize`, `route`,
  * `answerLocal`), keeping 4 concurrent KV caches open exhausts on-device memory on CPU.
  */
+/** Sessions open right now, so a private step can be cancelled (destroying a session stops its prompt). */
+const liveSessions = new Set<() => void>();
+let cancelEpoch = 0;
+
+/** The person chose not to wait: thrown by a private step that was cancelled. Not a privacy error. */
+export class PrivateStepCancelledError extends Error {
+  constructor() {
+    super('You chose Basic protection instead of waiting for the on-device model.');
+    this.name = 'PrivateStepCancelledError';
+  }
+}
+
+/** Stops the on-device step that is running now. The pipeline then finishes in Basic protection. */
+export function cancelPrivateSteps(): void {
+  cancelEpoch++;
+  for (const destroy of [...liveSessions]) destroy();
+}
+
 async function withSessionCleanup<T>(fn: () => Promise<T>): Promise<T> {
   if (!('LanguageModel' in globalThis)) return fn();
   const api = (globalThis as unknown as { LanguageModel: LanguageModelApi }).LanguageModel;
@@ -64,6 +82,7 @@ async function withSessionCleanup<T>(fn: () => Promise<T>): Promise<T> {
       };
       session.destroy = safeDestroy;
       created.push({ session, destroy: safeDestroy });
+      liveSessions.add(safeDestroy);
     }
     return session;
   };
@@ -71,7 +90,10 @@ async function withSessionCleanup<T>(fn: () => Promise<T>): Promise<T> {
     return await fn();
   } finally {
     api.create = originalCreate;
-    for (const item of created) item.destroy();
+    for (const item of created) {
+      item.destroy();
+      liveSessions.delete(item.destroy);
+    }
   }
 }
 
@@ -79,8 +101,13 @@ export async function getDeviceStatus(): Promise<DeviceStatus> {
   if (!('LanguageModel' in globalThis)) return 'no-api';
   const api = (globalThis as unknown as { LanguageModel: LanguageModelApi }).LanguageModel;
   try {
-    const status = await api.availability({ expectedInputs: ENGLISH_TEXT, expectedOutputs: ENGLISH_TEXT });
-    return status === 'available' || status === 'downloadable' || status === 'downloading' ? status : 'unavailable';
+    const status = await api.availability({
+      expectedInputs: ENGLISH_TEXT,
+      expectedOutputs: ENGLISH_TEXT,
+    });
+    return status === 'available' || status === 'downloadable' || status === 'downloading'
+      ? status
+      : 'unavailable';
   } catch {
     return 'unavailable';
   }
@@ -109,8 +136,16 @@ export async function withCloudTripwire<T>(fn: () => Promise<T>): Promise<T> {
       const url = requestUrl(input);
       if (url.includes(CLOUD_ENDPOINT)) {
         const payload = typeof init?.body === 'string' ? init.body : '';
-        networkLog.record({ at: Date.now(), step: 'tripwire', target: 'cloud', blocked: true, payload });
-        return Promise.reject(new PrivacyViolationError('Blocked a cloud request during a private step.'));
+        networkLog.record({
+          at: Date.now(),
+          step: 'tripwire',
+          target: 'cloud',
+          blocked: true,
+          payload,
+        });
+        return Promise.reject(
+          new PrivacyViolationError('Blocked a cloud request during a private step.'),
+        );
       }
       return passThrough(input, init);
     };
@@ -127,19 +162,56 @@ export async function withCloudTripwire<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
+/**
+ * One queue for every model call (private steps, the warm-up and the cloud step). The tripwire
+ * swaps globalThis.fetch and the session cleanup wraps LanguageModel.create for the length of a
+ * private step, so two calls must never overlap: a cloud call during a private step would be
+ * blocked, and two private steps would share wrappers. On a CPU the model can only run one session
+ * at a time anyway.
+ */
+let queue: Promise<unknown> = Promise.resolve();
+export function inAiQueue<T>(fn: () => Promise<T>): Promise<T> {
+  const run = queue.then(fn, fn);
+  queue = run.then(
+    () => undefined,
+    () => undefined,
+  );
+  return run;
+}
+
 /** Runs one private step on the device, or not at all. */
 export async function runPrivate(
   model: GenerativeModel,
   request: string,
   step: Step,
 ): Promise<{ text: string; ms: number; source: 'on_device' }> {
+  return inAiQueue(() => runPrivateNow(model, request, step));
+}
+
+async function runPrivateNow(
+  model: GenerativeModel,
+  request: string,
+  step: Step,
+): Promise<{ text: string; ms: number; source: 'on_device' }> {
   await assertDeviceReady();
+  const epoch = cancelEpoch;
   const started = performance.now();
-  const result = await withCloudTripwire(() => withSessionCleanup(() => model.generateContent(request)));
+  let result;
+  try {
+    result = await withCloudTripwire(() =>
+      withSessionCleanup(() => model.generateContent(request)),
+    );
+  } catch (e) {
+    if (cancelEpoch !== epoch) throw new PrivateStepCancelledError();
+    throw e;
+  }
+  if (cancelEpoch !== epoch) throw new PrivateStepCancelledError();
   const ms = Math.round(performance.now() - started);
   if (result.response.inferenceSource !== InferenceSource.ON_DEVICE) {
     networkLog.record({ at: Date.now(), step, target: 'cloud', blocked: true, payload: '' });
-    throw new PrivacyViolationError(`Step "${step}" did not run on the device; its result was discarded.`);
+    throw new PrivacyViolationError(
+      `Step "${step}" did not run on the device; its result was discarded.`,
+    );
   }
   networkLog.record({ at: Date.now(), step, target: 'device', blocked: false, payload: request });
   return { text: result.response.text(), ms, source: 'on_device' };

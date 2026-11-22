@@ -201,3 +201,15 @@ describe('ChatApp in the extension side panel', () => {
     open.mockRestore();
   });
 });
+
+describe('the mode is said plainly before anything is sent', () => {
+  it('Basic protection explains that the excerpt is the whole text, masked', async () => {
+    const user = userEvent.setup();
+    const { runtime } = basicRuntime();
+    const { container } = render(<ChatApp runtime={runtime} />);
+    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    await screen.findByRole('button', { name: 'Approve and send' });
+    const note = container.querySelector('[data-mode="basic"]');
+    expect(note?.textContent).toMatch(/Basic protection\..*whole text/);
+  });
+});

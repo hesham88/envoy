@@ -9,7 +9,7 @@ import { LOGO_PATHS } from './Logo';
 import { hypotrochoid, ringBand } from './guilloche';
 
 const MICROTEXT =
-  'READ ON THIS DEVICE · ONLY WHAT IS NEEDED · APPROVED BY YOU · RESTORED ON THIS DEVICE · NOTHING RAW LEAVES · ';
+  'READ ON THIS DEVICE · ONLY WHAT IS NEEDED · APPROVED BY YOU · RESTORED ON THIS DEVICE · RAW DETAILS BLOCKED · ';
 
 export function EnvoySeal({
   size = 400,
