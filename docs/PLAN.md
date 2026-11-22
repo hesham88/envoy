@@ -23,8 +23,23 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 | 11 | Restore and local expressions | built |
 | 12 | Receipt and wired pipeline, dev panel | wired on /dev (Basic protection verified in a browser; private mode awaits a machine with the model) |
 
+## Product UI (plan 2: docs/superpowers/plans/2026-11-22-envoy-product-ui.md)
+
+| # | Task | Status |
+| --- | --- | --- |
+| 1 | Tooling, fonts, Tailwind tokens, jsdom tests | built |
+| 2 | Logo + favicon | built (refine with Muse concepts at launch) |
+| 3 | composeOutbound (hide / share / clause picks) | built |
+| 4 | Session state machine + runtime hook | wired |
+| 5 | Start screen + on-device guide | wired |
+| 6 | Review screen | wired (Basic protection verified in a browser) |
+| 7 | Answer screen + receipt | built (cloud answer needs owner steps 1–4) |
+| 8 | Offline (service worker) + banner | wired (verified offline on the live site) |
+| 9 | About, Network inspector, a11y | wired |
+| 10 | Polish gate | in progress: Lighthouse a11y 100, best practices 100, SEO 91; dark-theme toggle, 1024px check and perf trace pending |
+
 ## Next plans
-Product UI (screens, logo, motion, a11y, PWA) → eval and Harness² tuning → Chrome extension → launch (assets, README, video, Devpost).
+Motion polish → eval and Harness² tuning → Chrome extension → launch (assets, README, video, Devpost).
 
 ## Cloud model
 `gemini-3.8-flash` through Remote Config key `cloud_model` (default in code). Override locally with `VITE_CLOUD_MODEL`.
