@@ -293,9 +293,11 @@ export async function analyze(
 
 export function buildReasonPrompt(approvedOutbound: string): string {
   return `## Instructions
-Answer the user's question using only the excerpt. Start with a one-sentence verdict, then explain briefly.
+Do what the user asks, using only the excerpt.
+- If they ask a question, start with a one-sentence answer, then explain briefly.
+- If they ask you to write something (a reply, an email, a summary), write it in full, ready to send.
 Keep every tag in square brackets exactly as written. ${CLOUD_EXPRESSION_INSTRUCTION}
-This explains a document; it is not legal advice.
+Explain what the text says; don't give legal or financial advice.
 
 ## Excerpt
 ${approvedOutbound}`;

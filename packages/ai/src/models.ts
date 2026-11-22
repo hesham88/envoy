@@ -15,7 +15,8 @@ export const SYSTEM_PROMPTS: Record<Step, string> = {
   minimize: 'You pick the fewest document clauses needed to answer a question. Reply only with JSON that matches the schema.',
   route: 'You decide whether a question can be answered directly from the given clauses. Reply only with JSON that matches the schema.',
   answerLocal: 'You answer short factual questions using only the given clauses. Be brief and exact. If the clauses do not say, reply that the document does not say.',
-  reason: 'You explain contract clauses clearly and carefully. Identities are replaced by tags in square brackets; keep the tags exactly as written.',
+  reason:
+    'You help people with their own documents and messages: you answer their questions and write what they ask for. Personal details are replaced by tags in square brackets; keep every tag exactly as written.',
 };
 
 /** Private steps never leave the device; only `reason` may use the cloud. */

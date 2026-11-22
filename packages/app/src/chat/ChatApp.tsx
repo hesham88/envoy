@@ -199,7 +199,8 @@ export function ChatApp({
       text: message,
       source: 'paste',
     };
-    const question = inline ? 'Help with the request in this message.' : message;
+    // Without a document, the message is both the text and the request.
+    const question = inline ? 'Do what this message asks.' : message;
     const id = nextId.current++;
     const start: SessionState = sessionReducer(
       { ...initialSession, phase: 'loaded', doc: turnDoc, question },
