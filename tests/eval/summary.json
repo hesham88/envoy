@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-22T21:27:33.432Z",
-  "commit": "1117c24",
+  "generatedAt": "2026-11-22T22:55:37.080Z",
+  "commit": "3bf65e9",
   "arms": [
     {
       "id": "gemma4",
@@ -53,18 +53,18 @@
       "nTotal": 36,
       "metrics": {
         "maskRecall": 1,
-        "falseMaskRate": 0.2265,
+        "falseMaskRate": 0.2054,
         "outboundLeaks": 0,
         "clauseAccuracy": 0.8333,
         "latencyMs": {
-          "p50": 67471,
-          "p95": 110878
+          "p50": 66978,
+          "p95": 154011
         },
-        "minimizationRatio": 0.1017,
+        "minimizationRatio": 0.0838,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": null
+        "answerQualityRetained": 0.6667
       },
       "metricsN": {
         "maskRecall": 36,
@@ -75,7 +75,7 @@
         "minimizationRatio": 36,
         "reid": 36,
         "attribute": 36,
-        "answerQuality": 0
+        "answerQuality": 18
       }
     },
     {

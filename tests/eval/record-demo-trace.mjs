@@ -170,3 +170,4 @@ try {
 } finally {
   await session.close().catch(() => undefined);
 }
+process.exit(0);

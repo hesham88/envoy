@@ -1028,5 +1028,135 @@
     "recordedAt": "2026-11-22T21:10:23.789Z",
     "ms": 1615,
     "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the 3% early-settlement administrative charge and correctly cites clause 3.\"}"
+  },
+  "sdk:real:nano:judge:lease-01-rent-cap:2026-11-22T22:15:15": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:45:18.802Z",
+    "ms": 1751,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly states that the landlord cannot raise the rent by 20% because increases are capped at 10% per contract year under Clause 7.\"\n}"
+  },
+  "sdk:real:nano:judge:lease-02-end-date-local:2026-11-22T22:18:06": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:45:24.871Z",
+    "ms": 1845,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly identifies that the contract lasts for three years and accurately cites Clause 2.\"}"
+  },
+  "sdk:real:nano:judge:lease-03-early-exit-deposit:2026-11-22T22:20:05": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:45:31.349Z",
+    "ms": 2025,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately quotes the exact condition from Clause 6 regarding the deposit when leaving early.\"\n}"
+  },
+  "sdk:real:nano:judge:lease-04-late-fee-grace-period:2026-11-22T22:21:51": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:45:37.520Z",
+    "ms": 1924,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly identifies Clause 8 and accurately notes that the document specifies the late fee applies after 10 days, though it implies uncertainty about the 8th of the month being past the due date (rent is due on the 1st, so the 8th is 7 days late and does not incur the fee).\"}"
+  },
+  "sdk:real:nano:judge:lease-05-sublet-policy:2026-11-22T22:23:23": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:45:46.389Z",
+    "ms": 4659,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states that short-term rentals are prohibited without prior written authorization, accurately reflecting Clause 3.\"}"
+  },
+  "sdk:real:nano:judge:lease-06-landlord-entry-notice-local:2026-11-22T22:24:46": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:45:52.869Z",
+    "ms": 2260,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly states the required notice period and explicitly cites Clause 4 in accordance with the source document.\"\n}"
+  },
+  "sdk:real:nano:judge:lease-07-commercial-cam-cap:2026-11-22T22:26:32": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:46:01.873Z",
+    "ms": 4783,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states that the increase cannot be 15% because Clause 3 caps annual service charge increases at 8%.\"}"
+  },
+  "sdk:real:nano:judge:lease-08-plumbing-responsibility:2026-11-22T22:28:00": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:46:07.840Z",
+    "ms": 1728,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly identifies that the Landlord is solely responsible for hidden plumbing based on Clause 3.\"}"
+  },
+  "sdk:real:nano:judge:offer-02-non-compete-scope:2026-11-22T22:31:06": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:46:15.683Z",
+    "ms": 3633,
+    "text": "{\"verdict\": \"wrong\", \"citesRightClause\": false, \"rationale\": \"The candidate incorrectly stated the document does not say, whereas clause 4 explicitly permits working in non-financial software industries like healthcare.\"}"
+  },
+  "sdk:real:nano:judge:offer-03-probation-period-local:2026-11-22T22:32:33": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:46:23.084Z",
+    "ms": 3177,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the probationary period duration from the correct clause.\"}"
+  },
+  "sdk:real:nano:judge:med-02-vitamin-d-dosage-local:2026-11-22T22:38:48": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:46:30.442Z",
+    "ms": 3139,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate answer accurately states the timing for the repeat blood test as eight weeks, matching the source document and citing the correct clause.\"}"
+  },
+  "sdk:real:nano:judge:med-03-insurance-copay-cap:2026-11-22T22:39:58": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:46:38.057Z",
+    "ms": 3389,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states the patient's 20% co-pay based on the procedure fee and cites the correct clause.\"}"
+  },
+  "sdk:real:nano:judge:freelance-02-invoice-payment-net-local:2026-11-22T22:42:33": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-22",
+    "recordedAt": "2026-11-22T22:46:45.707Z",
+    "ms": 3439,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the payment period and correctly cites the corresponding clause.\"}"
   }
 }

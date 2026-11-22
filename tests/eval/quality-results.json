@@ -1,10 +1,414 @@
 {
-  "generatedAt": "2026-11-22T21:10:23.818Z",
+  "generatedAt": "2026-11-22T22:46:45.754Z",
   "source": "live",
   "answerMethod": "Real product answer() collected via runCase({ withAnswer: true }) through Firebase AI Logic in Chrome (no regenerated answers, no extra prompt lines)",
   "judgeModel": "gemini-3.5-flash-lite",
   "judgeSdk": "firebase/ai (ONLY_IN_CLOUD)",
   "byArm": {
+    "nano": {
+      "n": 18,
+      "nAnswered": 13,
+      "nGuardBlocked": 5,
+      "dates": [
+        "2026-11-22"
+      ],
+      "answerOrigin": "verbatim runCase({ withAnswer: true }) via @envoy/ai answer()",
+      "answerSources": {
+        "on_device": 10,
+        "in_cloud": 3,
+        "guard_blocked": 5
+      },
+      "envoyScore": 0.6667,
+      "unblockedEnvoyScore": 0.9231,
+      "rawCeilingScore": 1,
+      "answerQualityRetained": 0.6667,
+      "clauseCiteRate": 0.6667,
+      "verdicts": {
+        "correct": 12,
+        "partially": 0,
+        "wrong": 6
+      },
+      "rows": [
+        {
+          "id": "lease-01-rent-cap",
+          "question": "Can my landlord raise the rent 20% this year?",
+          "recordedAt": "2026-11-22T22:15:15.818Z",
+          "answerSource": "in_cloud",
+          "answerMs": 3950,
+          "guardOk": true,
+          "envoyAnswer": "No, your landlord cannot raise the rent 20% this year because increases are capped at 10%. \n\nAccording to the excerpt, the landlord may only increase the rent once per contract year by no more than 10% (making the maximum allowed increase EGP 9,350), which is less than the proposed 20% increase.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% because increases are capped at 10% per contract year under Clause 7."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites Clause 7's 10% maximum annual increase limit."
+          }
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "question": "When does my contract end?",
+          "recordedAt": "2026-11-22T22:18:06.016Z",
+          "answerSource": "on_device",
+          "answerMs": 13646,
+          "guardOk": true,
+          "envoyAnswer": "The contract ends after three years. **Clause 2**",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the contract lasts for three years and accurately cites Clause 2."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately calculated the end date based on the three-year term starting September 1, 2024, and correctly cited Clause 2."
+          }
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "question": "What happens to my deposit if I leave early?",
+          "recordedAt": "2026-11-22T22:20:05.732Z",
+          "answerSource": "on_device",
+          "answerMs": 18911,
+          "guardOk": true,
+          "envoyAnswer": "If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit. **Clause 6**",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately quotes the exact condition from Clause 6 regarding the deposit when leaving early."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers what happens to the deposit upon early departure according to Clause 6."
+          }
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "question": "If I pay rent on the 8th of the month, do I owe the late fee?",
+          "recordedAt": "2026-11-22T22:21:51.739Z",
+          "answerSource": "on_device",
+          "answerMs": 22842,
+          "guardOk": true,
+          "envoyAnswer": "**Clause 8** If rent is paid more than 10 days late, a fee of EGP 250 is incurred. The document does not say if paying on the 8th of the month qualifies as more than 10 days late.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies Clause 8 and accurately notes that the document specifies the late fee applies after 10 days, though it implies uncertainty about the 8th of the month being past the due date (rent is due on the 1st, so the 8th is 7 days late and does not incur the fee)."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately concludes that no late fee is owed because payment on the 8th is within the 10-day grace period, and correctly cites Clause 8."
+          }
+        },
+        {
+          "id": "lease-05-sublet-policy",
+          "question": "Can I rent out one bedroom on a short-term basis without asking the owner?",
+          "recordedAt": "2026-11-22T22:23:23.978Z",
+          "answerSource": "in_cloud",
+          "answerMs": 2234,
+          "guardOk": true,
+          "envoyAnswer": "No, you cannot rent out one bedroom on a short-term basis without asking the owner because the agreement explicitly prohibits listing any room on short-term rental platforms without prior written authorization from the Landlord.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that short-term rentals are prohibited without prior written authorization, accurately reflecting Clause 3."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that short-term rentals require prior written authorization and accurately cites Clause 3."
+          }
+        },
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "question": "How many hours' notice must the landlord give before entering for repairs?",
+          "recordedAt": "2026-11-22T22:24:46.739Z",
+          "answerSource": "on_device",
+          "answerMs": 13611,
+          "guardOk": true,
+          "envoyAnswer": "The landlord must give at least 48 hours' written notice before entering for routine inspection or non-urgent repairs. **Clause 4**",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states the required notice period and explicitly cites Clause 4 in accordance with the source document."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states the 48-hour notice requirement for non-urgent repairs and correctly reflects the contents of clause 4."
+          }
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "question": "Can the building management increase our monthly service charge by 15% next year?",
+          "recordedAt": "2026-11-22T22:26:32.185Z",
+          "answerSource": "in_cloud",
+          "answerMs": 3926,
+          "guardOk": true,
+          "envoyAnswer": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nAccording to Clause 3, annual increases to the service charge are capped at 8% per year, meaning they are restricted to that specific cap rather than a 15% increase.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that the increase cannot be 15% because Clause 3 caps annual service charge increases at 8%."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states that a 15% increase is not allowed because annual increases are capped at 8%, correctly citing Clause 3."
+          }
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "question": "A main water pipe inside the wall burst. Who has to pay for the repair?",
+          "recordedAt": "2026-11-22T22:28:00.751Z",
+          "answerSource": "on_device",
+          "answerMs": 7906,
+          "guardOk": true,
+          "envoyAnswer": "The Landlord is solely responsible for the repair. (Clause 3)",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the Landlord is solely responsible for hidden plumbing based on Clause 3."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the landlord is responsible for the repair and accurately cites Clause 3 regarding hidden plumbing."
+          }
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "question": "If I resign, can I immediately join a healthcare software startup in Cairo?",
+          "recordedAt": "2026-11-22T22:31:06.601Z",
+          "answerSource": "on_device",
+          "answerMs": 7122,
+          "guardOk": true,
+          "envoyAnswer": "The document does not say.",
+          "envoyJudge": {
+            "verdict": "wrong",
+            "score": 0,
+            "citesRightClause": false,
+            "rationale": "The candidate incorrectly stated the document does not say, whereas clause 4 explicitly permits working in non-financial software industries like healthcare."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the healthcare software startup is exempt from the non-competition clause and cites the right clause."
+          }
+        },
+        {
+          "id": "offer-03-probation-period-local",
+          "question": "How long is my probationary period?",
+          "recordedAt": "2026-11-22T22:32:33.818Z",
+          "answerSource": "on_device",
+          "answerMs": 8370,
+          "guardOk": true,
+          "envoyAnswer": "**Clause 3:** The probationary period is ninety (90) days.",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the probationary period duration from the correct clause."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states the length of the probationary period and correctly cites clause 3 as specified in the source document."
+          }
+        },
+        {
+          "id": "offer-04-bonus-proration",
+          "question": "What is my maximum annual performance bonus if I hit 100% of my targets?",
+          "recordedAt": "2026-11-22T18:52:20.933Z",
+          "answerSource": "guard_blocked",
+          "answerMs": null,
+          "guardOk": false,
+          "envoyAnswer": "[Blocked by Outbound Guard: OutboundBlockedError]",
+          "envoyJudge": {
+            "verdict": "wrong",
+            "score": 0,
+            "citesRightClause": false,
+            "rationale": "OutboundBlockedError: guard blocked sending (3 flagged item(s)); requires manual user review."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly calculates the bonus amount using the base salary and formula provided in the document and cites the appropriate clause."
+          }
+        },
+        {
+          "id": "offer-05-ip-side-project",
+          "question": "Does the company own an unrelated hobby project I build on weekends on my personal laptop?",
+          "recordedAt": "2026-11-22T18:53:38.450Z",
+          "answerSource": "guard_blocked",
+          "answerMs": null,
+          "guardOk": false,
+          "envoyAnswer": "[Blocked by Outbound Guard: OutboundBlockedError]",
+          "envoyJudge": {
+            "verdict": "wrong",
+            "score": 0,
+            "citesRightClause": false,
+            "rationale": "OutboundBlockedError: guard blocked sending (1 flagged item(s)); requires manual user review."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states that the company does not own the project and accurately references Clause 4 and the conditions from the source document."
+          }
+        },
+        {
+          "id": "med-01-fasting-glucose-threshold",
+          "question": "How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?",
+          "recordedAt": "2026-11-22T18:56:40.644Z",
+          "answerSource": "guard_blocked",
+          "answerMs": null,
+          "guardOk": false,
+          "envoyAnswer": "[Blocked by Outbound Guard: OutboundBlockedError]",
+          "envoyJudge": {
+            "verdict": "wrong",
+            "score": 0,
+            "citesRightClause": false,
+            "rationale": "OutboundBlockedError: guard blocked sending (3 flagged item(s)); requires manual user review."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the classification of the fasting blood glucose and the recommended follow-up from clauses 3 and 4 without any hallucinations."
+          }
+        },
+        {
+          "id": "med-02-vitamin-d-dosage-local",
+          "question": "In how many weeks should the repeat vitamin D blood test be scheduled?",
+          "recordedAt": "2026-11-22T22:38:48.540Z",
+          "answerSource": "on_device",
+          "answerMs": 9798,
+          "guardOk": true,
+          "envoyAnswer": "The repeat vitamin D blood test should be scheduled in eight (8) weeks. (Clause 3)",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate answer accurately states the timing for the repeat blood test as eight weeks, matching the source document and citing the correct clause."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately answers that the repeat test should be in eight weeks, reflecting the correct source clause."
+          }
+        },
+        {
+          "id": "med-03-insurance-copay-cap",
+          "question": "If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?",
+          "recordedAt": "2026-11-22T22:39:58.313Z",
+          "answerSource": "on_device",
+          "answerMs": 12249,
+          "guardOk": true,
+          "envoyAnswer": "The insurer reimburses 80% of the procedure fee, so the patient pays 20% of the procedure fee. **Clause 3**",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly states the patient's 20% co-pay based on the procedure fee and cites the correct clause."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly calculates the 20% co-pay as EGP 5,000 based on the total fee of EGP 25,000 from Clause 3."
+          }
+        },
+        {
+          "id": "freelance-01-kill-fee",
+          "question": "If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?",
+          "recordedAt": "2026-11-22T19:01:49.144Z",
+          "answerSource": "guard_blocked",
+          "answerMs": null,
+          "guardOk": false,
+          "envoyAnswer": "[Blocked by Outbound Guard: OutboundBlockedError]",
+          "envoyJudge": {
+            "verdict": "wrong",
+            "score": 0,
+            "citesRightClause": false,
+            "rationale": "OutboundBlockedError: guard blocked sending (2 flagged item(s)); requires manual user review."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate correctly identifies that the client must pay 50% of the milestone fee based on the cancellation policy."
+          }
+        },
+        {
+          "id": "freelance-02-invoice-payment-net-local",
+          "question": "Within how many days of receiving an invoice must the client pay?",
+          "recordedAt": "2026-11-22T22:42:33.361Z",
+          "answerSource": "on_device",
+          "answerMs": 9022,
+          "guardOk": true,
+          "envoyAnswer": "The client must pay within fifteen (15) calendar days of receipt. **Clause 3**",
+          "envoyJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states the payment period and correctly cites the corresponding clause."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately identifies the payment timeline and correctly references Clause 3 from the source document."
+          }
+        },
+        {
+          "id": "loan-01-early-payoff-penalty",
+          "question": "If I pay off my remaining loan balance early, what percentage penalty applies?",
+          "recordedAt": "2026-11-22T19:05:56.965Z",
+          "answerSource": "guard_blocked",
+          "answerMs": null,
+          "guardOk": false,
+          "envoyAnswer": "[Blocked by Outbound Guard: OutboundBlockedError]",
+          "envoyJudge": {
+            "verdict": "wrong",
+            "score": 0,
+            "citesRightClause": false,
+            "rationale": "OutboundBlockedError: guard blocked sending (4 flagged item(s)); requires manual user review."
+          },
+          "rawCeilingJudge": {
+            "verdict": "correct",
+            "score": 1,
+            "citesRightClause": true,
+            "rationale": "The candidate accurately states the 3% early-settlement administrative charge and correctly cites clause 3."
+          }
+        }
+      ]
+    },
     "basic": {
       "n": 20,
       "nAnswered": 15,
