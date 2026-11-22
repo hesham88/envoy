@@ -38,6 +38,7 @@ Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused 
 - Commit only your own lane's files, never `git add -A` across lanes. Run `npm run verify` before every commit; push your lane branch and open a PR into `main`. Merges into `main` are deliberate (Claude or the owner), after CI is green.
 - To pick up others' merged work: `git fetch origin && git merge origin/main` in your own worktree.
 - Each worktree has its own `node_modules` (run `npm install` once) and its own `apps/web/.env.local` (already copied; never commit it).
+- **Deploys:** only `main` reaches https://envoy-hybrid-ai.web.app, through CI (`firebase-hosting-merge.yml`). Never run `firebase deploy` from a lane worktree. Until the CI deploy key exists, Claude deploys by hand only from a checkout whose HEAD equals `origin/main`. PRs get preview channels once the key exists.
 - Dev server ports: Claude 5173, Argon 5174, Muse 5175 (`npm run dev -- --port <n>`). Only one agent drives the model Chrome (port 9333) at a time: on a CPU, parallel sessions starve each other.
 
 ## Hard rules
