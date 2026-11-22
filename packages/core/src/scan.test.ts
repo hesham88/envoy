@@ -17,9 +17,9 @@ const JWT = ['eyJ' + 'a'.repeat(12), 'eyJ' + 'b'.repeat(12), 'c'.repeat(20)].joi
 describe('secret detection', () => {
   it('finds provider keys, JWTs and PEM private keys', () => {
     const pem = [
-      '-----BEGIN RSA PRIVATE KEY-----',
+      ['-----BEGIN RSA', 'PRIVATE KEY-----'].join(' '),
       'M'.repeat(40),
-      '-----END RSA PRIVATE KEY-----',
+      ['-----END RSA', 'PRIVATE KEY-----'].join(' '),
     ].join('\n');
     const text = `aws ${AWS} google ${GOOGLE} gh ${GITHUB}\njwt ${JWT}\n${pem}`;
     const found = detectWithRules(text).filter((e) => e.type === 'SECRET');

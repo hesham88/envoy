@@ -14,6 +14,7 @@ export function RestoredText({
 }) {
   const out: React.ReactNode[] = [];
   let at = from;
+  let n = 0;
   for (const s of spans.filter((x) => x.start >= from && x.end <= to)) {
     if (s.start > at) out.push(text.slice(at, s.start));
     out.push(
@@ -25,7 +26,8 @@ export function RestoredText({
             ? `Worked out on your device from ${s.tag}`
             : `Restored on your device from ${s.tag}`
         }
-        className="rounded bg-restored px-1 py-px text-inherit"
+        className="envoy-restore rounded bg-restored px-1 py-px text-inherit"
+        style={{ animationDelay: `${120 + n++ * 110}ms` }}
       >
         {s.value}
       </mark>,

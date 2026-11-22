@@ -59,6 +59,24 @@ Motion polish → eval and Harness² tuning → Chrome extension → launch (ass
 - Basic protection is fully polished.
 - The video shows the full on-device flow.
 
+## Judge-feedback push (2026-11-22, after an independent review scored 7.75/10)
+- **Done (Claude lane, live on main):**
+  - Landing page `/` (UV-night identity, live rules-only demo labelled as such, steps with InferenceMode and code links, guard, extension, judges' test).
+  - Chat app `/app` with a Privacy Flight Recorder per turn, an approval card (before/after), Local only, Your rules, and the network ledger. The old flow is at `/classic`.
+  - `@envoy/core`: `scanText`, `SECRET`, `CustomRule`, `flagNames`.
+  - Full README with UV-night art and real screenshots.
+  - CI deploy skips with a notice until the deploy key exists.
+- **Argon (eval + packages/cli):** PR #2 must move to `runCase`/`analyze`, run all 36 cases on Gemma 4, default Nano and Basic, add a re-identification attack, a red-team and answer quality, write `tests/eval/summary.json` (the landing page renders it), and build `envoy-guard`.
+- **Muse (extension):** PR #8 (draft). Before merge:
+  - the pill must not claim "Gemini Nano" (the model can't be identified; say "Chrome's built-in model");
+  - don't tell end users to enable the gemma4 developer flag;
+  - PDF `/Length` must be the byte length (non-ASCII text breaks it).
+- **Claude next:**
+  - motion polish in the chat (fibres and the restore moment);
+  - multimodal images (on-device image input is not yet verified, so images are kept local and the app says so);
+  - OG image; demo video with Chatterbox narration;
+  - security sweep.
+
 ## Stubbed / known issues
 - On-device prompts (v1) have now run on the real model (2026-11-22, see the Nano 4 item below): detect / minimize / route all behave as designed on the sample lease.
 - **Nano 4 (`gemma4_component`) downloaded and running on-device (resolved 2026-11-22):**
