@@ -12,3 +12,4 @@ export {
   type DeviceStatus,
 } from './device-guard';
 export { networkLog, type NetworkEntry } from './network-log';
+export { analyze, answer, buildReasonPrompt, OutboundBlockedError, selectClausesBatched, type Analysis, type Deps } from './pipeline';

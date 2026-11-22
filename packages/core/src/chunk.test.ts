@@ -40,11 +40,17 @@ describe('chunkDocument', () => {
     expect(chunks[0]!.text).toContain('RESIDENTIAL LEASE');
   });
 
-  it('gives ids in order and offsets that point back into the source', () => {
-    chunks.forEach((c, i) => {
-      expect(c.id).toBe(i + 1);
-      expect(DOC.slice(c.start, c.end)).toBe(c.text);
-    });
+  it('uses the clause number as the id (preamble 0), so models see matching numbers', () => {
+    expect(chunks.map((c) => c.id)).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it('gives offsets that point back into the source', () => {
+    for (const c of chunks) expect(DOC.slice(c.start, c.end)).toBe(c.text);
+  });
+
+  it('falls back to sequential ids when clause numbers repeat', () => {
+    const dup = chunkDocument('1. First.\n1. Again.');
+    expect(dup.map((c) => c.id)).toEqual([1, 2]);
   });
 
   it('covers every non-whitespace character of the input', () => {

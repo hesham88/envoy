@@ -74,5 +74,11 @@ export function chunkDocument(text: string): Chunk[] {
     const label = span.label.startsWith('Paragraph') ? `Paragraph ${chunks.length + 1}` : span.label;
     chunks.push({ id: chunks.length + 1, label, text: text.slice(s, e), start: s, end: e, page: pageAt(s, markers) });
   }
+
+  // Ids match clause numbers (preamble 0) so prompts and labels agree; fall back to sequence on duplicates.
+  const numbers = chunks.map((c) => (c.label === 'Preamble' ? 0 : Number(c.label.match(/^Clause (\d+)$/)?.[1] ?? NaN)));
+  if (numbers.every((n) => Number.isInteger(n)) && new Set(numbers).size === numbers.length) {
+    chunks.forEach((c, i) => (c.id = numbers[i]!));
+  }
   return chunks;
 }

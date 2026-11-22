@@ -17,6 +17,7 @@ import {
   type RemoteSettings,
 } from '@envoy/ai';
 import { cloudModelOverride, readFirebaseEnv } from '../env';
+import { PipelinePanel } from './PipelinePanel';
 
 interface Result {
   label: string;
@@ -184,6 +185,8 @@ export function DevPage() {
           </div>
         ))}
       </section>
+
+      <PipelinePanel ai={env.ai} settings={settings} />
 
       <section style={card}>
         <h2 style={{ marginTop: 0, fontSize: 18 }}>Network log</h2>
