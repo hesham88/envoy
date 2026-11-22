@@ -1,33 +1,43 @@
-# Envoy Chrome extension (separate track)
+# Envoy Chrome extension (Muse lane)
 
-A Manifest V3 side-panel scaffold that reuses Envoy's idea — *select or paste private text, let the on-device model minimize it, approve what the cloud sees* — without touching the web app's build.
+A Manifest V3 side panel that runs the same Envoy flow as the web app, reusing `@envoy/core`, `@envoy/ai` and the shared `@envoy/ui` design system: select or paste private text, let the on-device model minimize it, approve exactly what the cloud sees.
 
-## Load it (unpacked, no build)
+## Build and load (unpacked)
+
+```sh
+npm install
+npm run build -w @envoy/extension        # release build -> dist/ (never contains a debug token)
+npm run check:dist -w @envoy/extension   # pre-zip gate: fails if token material reached dist/
+```
 
 1. Open `chrome://extensions`, turn on **Developer mode**.
-2. **Load unpacked** → choose this `apps/extension` folder.
-3. Pin Envoy, click its toolbar icon (or select text → right-click → **Ask Envoy about this selection**). The side panel opens.
+2. **Load unpacked** -> choose `apps/extension/dist`.
+3. Click the Envoy toolbar icon, or select text -> right-click -> **Ask Envoy about this selection**.
 
-There is no `package.json`, bundler or build step here on purpose: the root workspace glob (`apps/*`), `tsc -b` references and Vite never pick this folder up, so `npm run verify` in the web track is unaffected.
+For local development against the live model and cloud:
 
-## What works today
+```sh
+npm run build:dev -w @envoy/extension    # extensiondev build -> dist-dev/ (gitignored)
+```
 
-- MV3 side panel with Envoy's design tokens (green = on-device, blue = cloud, always labelled), dark-mode aware, AA contrast, 44px targets, reduced-motion safe.
-- A live **prerequisite gate** in the panel: Side Panel/Prompt API presence, Gemini Nano `LanguageModel.availability()`, a one-click **Enable private mode** download (real user gesture, progress in the pill), and hardware/storage hints.
-- Context-menu intake of the current selection via `chrome.storage.session` only (cleared on browser close). No content script, no DOM scraping, no host permissions — per design §12.
+That build bakes in the App Check debug token from `apps/web/.env.local`. **Never share, zip or commit `dist-dev/`, any token, or `.env.local`.** Before any zip for judges, rebuild with plain `npm run build` and run `npm run check:dist` (optionally with `VITE_APPCHECK_DEBUG_TOKEN=CANARY-1234` in the environment: the canary must not appear in `dist/`).
 
-## What is not wired yet
+## Judges build: on-device only (implemented)
 
-Firebase AI Logic, App Check, the `@envoy/core` detectors and the `@envoy/ai` guarded pipeline. The **Analyze privately** button stays disabled until integration provides `window.__envoyExtension.analyze`. No cloud call is made from this scaffold. See [INTEGRATION.md](INTEGRATION.md).
+Release builds (`vite build`, any mode other than `extensiondev`) make **no cloud calls**: detect / minimize / route / local answers run on-device, and a question that needs cloud reasoning shows a handoff to the hosted app (https://envoy-hybrid-ai.web.app), which has real reCAPTCHA Enterprise App Check. This avoids shipping any App Check debug token. The alternative (owner decision) is a dedicated judging-only debug token, revoked after judging ends on Dec 16, 2026; the everyday token is never zipped.
 
-## Prerequisites to use it for real
+## What works
+
+- Side panel on the shared design system (`@envoy/ui`): `Logo`, `StatusPill`, `ModeChip`, `AnalyzingPanel`, `TaggedText`, `RestoredText`, `EnvoySeal`, `StepEmblem`. Green = on-device, blue = cloud, always with an icon and a word. Basic protection is a normal, explained state.
+- Full flow in the panel: prerequisite gate with the solved Nano recipe (Gemma 4 flag, %TEMP% space, CPU-backend flags), live per-step progress, masked-excerpt review with Guard status and editing, approve, restored answer with a compact privacy receipt, and the `fallbackReason` shown when a run falls back to Basic.
+- Context-menu intake via `chrome.storage.session` only. No content script, no DOM scraping, no host permissions.
+- Verified (2026-11-22): end-to-end in the F: Chrome profile - Private mode, Clause 7 only, 235 chars sent, derived amount EGP 9,350 restored on-device; and the revamped panel loads and renders in a clean profile.
+
+## Prerequisites
 
 | Need | Why | Fallback |
 | --- | --- | --- |
-| Chrome 138+ desktop (extensions Prompt API; web needs 148+) | `LanguageModel` in the side-panel page | Basic protection (rules only) |
-| Gemini Nano downloaded (`availability() === 'available'`) | Private steps must be `ONLY_ON_DEVICE` | Basic protection; never raw text to cloud |
-| ~22 GB free on the profile volume; >4 GB VRAM or 16 GB RAM + 4 cores; unmetered network for first download | Google's hardware bar for Nano | Basic protection |
-| Chrome Settings → AI → On-device AI enabled (Chrome 157+) | Model stays off until enabled | In-panel guide + status check |
-| Firebase AI Logic + App Check configured for the extension origin | Cloud *reason* step needs a valid App Check token; reCAPTCHA Enterprise does not run naturally on `chrome-extension://` pages | Local-only answers until solved (see INTEGRATION.md) |
-
-**Solved on the dev machine (2026-11-22, see `docs/PLAN.md`):** the Nano v3 GPU component is refused on a 4 GB Pascal GPU, and Chrome's installer also aborts if `%TEMP%` lacks 2× the package size free (~5 GB for Gemma 4), regardless of profile-drive space. Working recipe: enable `chrome://flags/#gemma4-for-built-in-ai`, launch Chrome with `TEMP`/`TMP` redirected to a roomy drive (e.g. `F:\ChromeEnvoy-tmp`), and add `--enable-features=OnDeviceModelForceCpuBackend,OnDeviceModelCpuBackend` on older GPUs. The panel's gate surfaces these fixes when availability is not `available`.
+| Chrome 138+ desktop | Side Panel + Prompt API in extensions | - |
+| Gemini Nano (Gemma 4) downloaded, `availability() === 'available'` | Private steps are `ONLY_ON_DEVICE` | Basic protection (rules only) |
+| ~22 GB free on the profile volume; >4 GB VRAM or 16 GB RAM + 4 cores; ~5 GB free in %TEMP% for the download | Google's hardware bar + Chrome's installer space check | Basic protection |
+| Settings -> AI -> On-device AI on (Chrome 157+) | Model is off until enabled | Gate shows the fix |
