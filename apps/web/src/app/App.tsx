@@ -4,6 +4,7 @@ import { AboutDialog } from '../components/AboutDialog';
 import { LiveRegion } from '../components/LiveRegion';
 import { Logo } from '../components/Logo';
 import { NetworkInspector } from '../components/NetworkInspector';
+import { OfflineBanner } from '../components/OfflineBanner';
 import { StatusPill } from '../components/StatusPill';
 import { DevPage } from '../dev/DevPage';
 import { Answer } from '../screens/Answer';
@@ -115,6 +116,7 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
           )}
         </div>
       </header>
+      <OfflineBanner />
       {screen}
       <LiveRegion message={announcement} />
       <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
