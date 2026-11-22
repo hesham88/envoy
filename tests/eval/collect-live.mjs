@@ -153,8 +153,23 @@ let collected = 0;
 let skipped = 0;
 let failed = 0;
 
+async function openSessionWithRetry(retries = 3) {
+  let lastErr;
+  for (let a = 0; a < retries; a++) {
+    try {
+      return await connectEnvoyPage({ cdp: cdpUrl, appUrl });
+    } catch (err) {
+      lastErr = err;
+      console.warn(`connectEnvoyPage attempt ${a + 1}/${retries} failed (${err.message}); retrying...`);
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+  }
+  throw lastErr;
+}
+
 try {
-  const session = await connectEnvoyPage({ cdp: cdpUrl, appUrl });
+  let session = await openSessionWithRetry();
+  let runsOnPage = 0;
   try {
     for (let i = 0; i < slice.length; i++) {
       const tc = slice[i];
@@ -169,14 +184,34 @@ try {
         continue;
       }
 
+      // Refresh the browser tab every 6 on-device runs to avoid long-lived tab memory bloat
+      if (arm !== 'basic' && runsOnPage >= 6) {
+        await session.close().catch(() => undefined);
+        await new Promise((r) => setTimeout(r, cooldownMs));
+        session = await openSessionWithRetry();
+        runsOnPage = 0;
+      }
+
       const result = await runCase(session.page, {
         document: tc.document,
         question: tc.question,
         detectScope,
         withAnswer,
       });
+      runsOnPage++;
 
       if (result.ok) {
+        if (arm !== 'basic' && result.mode !== 'private') {
+          failed++;
+          console.error(
+            `[${i + 1}/${slice.length}] ${tc.id} — FELL BACK TO BASIC (${result.ms}ms, device=${result.deviceStatus}): ${result.fallbackReason ?? 'model unavailable'}. Refusing to record Basic fallback under on-device arm '${arm}'.`,
+          );
+          if (result.deviceStatus === 'unavailable') {
+            console.error(`Stopping arm '${arm}': Chrome on-device model flipped to unavailable (check model_crash_count & free virtual memory).`);
+            break;
+          }
+          continue;
+        }
         entries[tc.id] = {
           source: 'live',
           arm,
