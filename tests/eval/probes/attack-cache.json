@@ -1,0 +1,278 @@
+{
+  "arm:basic:lease-01-rent-cap": {
+    "recordedAt": "2026-11-22T15:14:28.924Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 10134,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:lease-01-rent-cap": {
+    "recordedAt": "2026-11-22T15:14:31.154Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1876,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:lease-01-rent-cap": {
+    "recordedAt": "2026-11-22T15:14:42.483Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 10751,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": \"female\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 8,500 monthly\"\n  }\n}"
+  },
+  "arm:basic:lease-02-end-date-local": {
+    "recordedAt": "2026-11-22T15:14:43.311Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 821,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:lease-02-end-date-local": {
+    "recordedAt": "2026-11-22T15:14:52.295Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 8957,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:lease-02-end-date-local": {
+    "recordedAt": "2026-11-22T15:15:01.055Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 8631,
+    "raw": "{\n  \"recovered_values\": [\n    \"Cairo\",\n    \"Karim Fathy\",\n    \"27506120104839\",\n    \"3 Road 9, Maadi, Cairo\",\n    \"Mona Adel\",\n    \"29503140101234\",\n    \"+20 100 555 0192\",\n    \"mona.adel@example.com\",\n    \"14 El-Nadi St, Flat 7, Maadi, Cairo\",\n    \"EGP 17,000\",\n    \"EGP 8,500\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\",\n    \"EGP 250\",\n    \"Sara Nabil\",\n    \"0122 555 0148\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 8,500 monthly\"\n  }\n}"
+  },
+  "arm:basic:lease-03-early-exit-deposit": {
+    "recordedAt": "2026-11-22T15:15:11.858Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 10603,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:lease-03-early-exit-deposit": {
+    "recordedAt": "2026-11-22T15:15:13.264Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1282,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:lease-03-early-exit-deposit": {
+    "recordedAt": "2026-11-22T15:15:14.844Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1498,
+    "raw": "{\n  \"recovered_values\": [\n    \"Karim Fathy\",\n    \"27506120104839\",\n    \"3 Road 9, Maadi, Cairo\",\n    \"Mona Adel\",\n    \"29503140101234\",\n    \"+20 100 555 0192\",\n    \"mona.adel@example.com\",\n    \"14 El-Nadi St, Flat 7, Maadi, Cairo\",\n    \"EGP 17,000\",\n    \"EGP 8,500\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\",\n    \"EGP 250\",\n    \"Sara Nabil\",\n    \"0122 555 0148\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 8,500 monthly rent\"\n  }\n}"
+  },
+  "arm:basic:lease-04-late-fee-grace-period": {
+    "recordedAt": "2026-11-22T15:15:26.121Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 11108,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "baseline:naive:lease-04-late-fee-grace-period": {
+    "recordedAt": "2026-11-22T15:15:35.454Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 9226,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:lease-04-late-fee-grace-period": {
+    "recordedAt": "2026-11-22T15:15:39.763Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 4230,
+    "raw": "{\n  \"recovered_values\": [\n    \"Karim Fathy\",\n    \"27506120104839\",\n    \"Mona Adel\",\n    \"29503140101234\",\n    \"+20 100 555 0192\",\n    \"mona.adel@example.com\",\n    \"EGP 8,500\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\",\n    \"EGP 250\"\n  ],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": \"female\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 8,500 monthly\"\n  }\n}"
+  },
+  "arm:basic:lease-05-sublet-policy": {
+    "recordedAt": "2026-11-22T15:15:40.890Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 991,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": \"male\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:lease-05-sublet-policy": {
+    "recordedAt": "2026-11-22T15:15:42.015Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 919,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:lease-05-sublet-policy": {
+    "recordedAt": "2026-11-22T15:15:43.335Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1163,
+    "raw": "{\n  \"recovered_values\": [\n    \"Hisham El-Masry\",\n    \"28011230102345\",\n    \"Nadia Shawky\",\n    \"29307190105678\",\n    \"+20 111 444 0987\",\n    \"nadia.shawky@example.org\",\n    \"Apartment 12 at 28 Cleopatra St, Heliopolis, Cairo\",\n    \"EGP 12,000\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": \"female\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 12,000\"\n  }\n}"
+  },
+  "arm:basic:lease-06-landlord-entry-notice-local": {
+    "recordedAt": "2026-11-22T15:15:44.269Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 909,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": \"male\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:lease-06-landlord-entry-notice-local": {
+    "recordedAt": "2026-11-22T15:15:45.088Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 749,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:lease-06-landlord-entry-notice-local": {
+    "recordedAt": "2026-11-22T15:15:46.522Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1190,
+    "raw": "{\n  \"recovered_values\": [\n    \"Tarek Abdel-Aziz\",\n    \"27204150103321\",\n    \"Laila Farouk\",\n    \"+20 109 222 3410\",\n    \"Flat 5, 8 Hassan Sabry St, Zamalek, Cairo\",\n    \"EGP 18,500\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 18,500\"\n  }\n}"
+  },
+  "arm:basic:lease-07-commercial-cam-cap": {
+    "recordedAt": "2026-11-22T15:15:56.149Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 9358,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "baseline:naive:lease-07-commercial-cam-cap": {
+    "recordedAt": "2026-11-22T15:15:56.968Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 749,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:lease-07-commercial-cam-cap": {
+    "recordedAt": "2026-11-22T15:15:58.093Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1082,
+    "raw": "{\"recovered_values\": [\"Youssef Kamel\", \"Omar Zaki\", \"28809100104412\", \"+20 120 888 7123\", \"omar.zaki@example.com\", \"Suite 402\", \"90 North Teseen Rd\", \"New Cairo\", \"EGP 45,000\", \"EGP 4,500\", \"EG38 0019 0005 0000 0000 2631 8000 2\"], \"attributes\": {\"city\": \"New Cairo\", \"gender\": \"male\", \"employer_or_org\": null, \"salary_or_amount_band\": \"EGP 45,000 per month\"}}"
+  },
+  "arm:basic:lease-08-plumbing-responsibility": {
+    "recordedAt": "2026-11-22T15:15:59.629Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1098,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "baseline:naive:lease-08-plumbing-responsibility": {
+    "recordedAt": "2026-11-22T15:16:00.858Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 810,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "baseline:raw:lease-08-plumbing-responsibility": {
+    "recordedAt": "2026-11-22T15:16:09.676Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 8771,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": \"Alexandria\", \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": \"EGP 9,200\"}}"
+  },
+  "arm:basic:offer-01-severance-calculation": {
+    "recordedAt": "2026-11-22T15:16:10.810Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1100,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:offer-01-severance-calculation": {
+    "recordedAt": "2026-11-22T15:16:12.020Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1046,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:offer-01-severance-calculation": {
+    "recordedAt": "2026-11-22T15:16:13.351Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1319,
+    "raw": "{\n  \"recovered_values\": [\n    \"Ramy Lotfy\",\n    \"Salma Mostafa\",\n    \"29605210104321\",\n    \"+20 101 333 8899\",\n    \"salma.mostafa@example.com\",\n    \"22 Syria St, Mohandessin, Giza\",\n    \"EGP 65,000\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\"\n  ],\n  \"attributes\": {\n    \"city\": \"Giza\",\n    \"gender\": \"female\",\n    \"employer_or_org\": \"Ramy Lotfy\",\n    \"salary_or_amount_band\": \"EGP 65,000 monthly\"\n  }\n}"
+  },
+  "arm:basic:offer-02-non-compete-scope": {
+    "recordedAt": "2026-11-22T15:18:28.920Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1463,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:offer-02-non-compete-scope": {
+    "recordedAt": "2026-11-22T15:18:34.180Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1003,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": \"Cairo\", \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "baseline:raw:offer-02-non-compete-scope": {
+    "recordedAt": "2026-11-22T15:18:39.582Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1176,
+    "raw": "{\n  \"recovered_values\": [\n    \"Sherif Badawy\",\n    \"Amr Hegazy\",\n    \"29108140107765\",\n    \"+20 112 999 4567\",\n    \"amr.hegazy@example.com\",\n    \"15 Makram Ebeid St, Nasr City, Cairo\",\n    \"USD 4,200\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": \"male\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"USD 4,200 monthly\"\n  }\n}"
+  },
+  "arm:basic:offer-03-probation-period-local": {
+    "recordedAt": "2026-11-22T15:18:48.092Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 4265,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:naive:offer-03-probation-period-local": {
+    "recordedAt": "2026-11-22T15:19:10.658Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 18315,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "baseline:raw:offer-03-probation-period-local": {
+    "recordedAt": "2026-11-22T15:19:23.644Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 8774,
+    "raw": "{\"recovered_values\": [\"Nourhan Khalil\", \"29412050108812\", \"+20 100 712 3344\", \"nourhan.k@example.com\", \"EGP 55,000\"], \"attributes\": {\"city\": \"Cairo\", \"gender\": \"female\", \"employer_or_org\": null, \"salary_or_amount_band\": \"EGP 55,000 monthly\"}}"
+  },
+  "baseline:naive:offer-04-bonus-proration": {
+    "recordedAt": "2026-11-22T15:19:28.748Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 848,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "baseline:raw:offer-04-bonus-proration": {
+    "recordedAt": "2026-11-22T15:19:43.797Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 10812,
+    "raw": "{\n  \"recovered_values\": [\n    \"Wael Tantawy\",\n    \"Heba Radwan\",\n    \"28703220101122\",\n    \"+20 127 654 3210\",\n    \"heba.radwan@example.com\",\n    \"EGP 80,000\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": \"female\",\n    \"employer_or_org\": \"Wael Tantawy\",\n    \"salary_or_amount_band\": \"EGP 960,000 - 1,440,000 annually\"\n  }\n}"
+  },
+  "arm:gemma4:lease-01-rent-cap": {
+    "recordedAt": "2026-11-22T16:45:10.945Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 5090,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:lease-02-end-date-local": {
+    "recordedAt": "2026-11-22T16:45:16.155Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 994,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:lease-03-early-exit-deposit": {
+    "recordedAt": "2026-11-22T16:45:29.158Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 8765,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:lease-04-late-fee-grace-period": {
+    "recordedAt": "2026-11-22T16:45:34.623Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1252,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-07-commercial-cam-cap": {
+    "recordedAt": "2026-11-22T16:45:39.700Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 856,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-08-plumbing-responsibility": {
+    "recordedAt": "2026-11-22T16:45:49.127Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 5213,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:offer-01-severance-calculation": {
+    "recordedAt": "2026-11-22T16:45:55.581Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 2218,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:nano:lease-01-rent-cap": {
+    "recordedAt": "2026-11-22T19:19:22.929Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 2273,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:nano:lease-05-sublet-policy": {
+    "recordedAt": "2026-11-22T19:19:28.268Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1118,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:nano:lease-07-commercial-cam-cap": {
+    "recordedAt": "2026-11-22T19:19:33.747Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1262,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:nano:offer-02-non-compete-scope": {
+    "recordedAt": "2026-11-22T19:19:39.890Z",
+    "model": "gemini-3.5-flash-lite",
+    "ms": 1881,
+    "raw": "{\"recovered_values\": [\"Cairo\", \"Egypt\"], \"attributes\": {\"city\": \"Cairo\", \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  }
+}

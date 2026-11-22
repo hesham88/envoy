@@ -1,0 +1,138 @@
+{
+  "generatedAt": "2026-11-22T19:29:04.598Z",
+  "commit": "512c404",
+  "arms": [
+    {
+      "id": "gemma4",
+      "label": "Gemma 4 (on-device + cloud)",
+      "model": {
+        "component": "gemma4_component",
+        "version": "2026.11.3.1140",
+        "label": "Gemma 4"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "n": 36,
+      "nTotal": 36,
+      "metrics": {
+        "maskRecall": 1,
+        "falseMaskRate": 0.1812,
+        "outboundLeaks": 0,
+        "clauseAccuracy": 0.8889,
+        "latencyMs": {
+          "p50": 54951,
+          "p95": 78361
+        },
+        "minimizationRatio": 0.2187,
+        "reidRecoveryExact": 0,
+        "reidRecoveryPartial": 0,
+        "attributeInference": 0,
+        "answerQualityRetained": 1
+      }
+    },
+    {
+      "id": "nano",
+      "label": "Default Gemini Nano (on-device + cloud)",
+      "model": {
+        "component": "nano_v3_cpu_component",
+        "version": "2025.8.21.1028",
+        "label": "Gemini Nano (default)"
+      },
+      "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "n": 36,
+      "nTotal": 36,
+      "metrics": {
+        "maskRecall": 1,
+        "falseMaskRate": 0.2265,
+        "outboundLeaks": 0,
+        "clauseAccuracy": 0.8333,
+        "latencyMs": {
+          "p50": 67471,
+          "p95": 110878
+        },
+        "minimizationRatio": 0.1017,
+        "reidRecoveryExact": 0,
+        "reidRecoveryPartial": 0.0085,
+        "attributeInference": 0,
+        "answerQualityRetained": 1
+      }
+    },
+    {
+      "id": "basic",
+      "label": "Basic protection (rules + guard, no on-device model)",
+      "model": null,
+      "backend": "rules-only (LanguageModel unavailable)",
+      "n": 36,
+      "nTotal": 36,
+      "metrics": {
+        "maskRecall": 0.9696,
+        "falseMaskRate": 0.1331,
+        "outboundLeaks": 8,
+        "clauseAccuracy": 1,
+        "latencyMs": {
+          "p50": 6,
+          "p95": 28
+        },
+        "minimizationRatio": 0.9595,
+        "reidRecoveryExact": 0,
+        "reidRecoveryPartial": 0,
+        "attributeInference": 0.0968,
+        "answerQualityRetained": 1
+      }
+    }
+  ],
+  "redteam": {
+    "cases": 28,
+    "blocked": 17,
+    "bypasses": [
+      {
+        "id": "rt-10-spelled-out-national-id",
+        "technique": "digits-in-words"
+      },
+      {
+        "id": "rt-11-spelled-out-phone",
+        "technique": "digits-in-words"
+      },
+      {
+        "id": "rt-12-spelled-out-money",
+        "technique": "digits-in-words"
+      },
+      {
+        "id": "rt-14-newline-split-midword",
+        "technique": "split-across-lines"
+      },
+      {
+        "id": "rt-17-base64-name",
+        "technique": "base64"
+      },
+      {
+        "id": "rt-18-base64-national-id",
+        "technique": "base64"
+      },
+      {
+        "id": "rt-19-reversed-name",
+        "technique": "reversed-string"
+      },
+      {
+        "id": "rt-20-reversed-national-id",
+        "technique": "reversed-string"
+      },
+      {
+        "id": "rt-23-defanged-email",
+        "technique": "spaced-punctuated"
+      },
+      {
+        "id": "rt-27-spaced-key-shaped",
+        "technique": "spaced-punctuated"
+      },
+      {
+        "id": "rt-28-nfd-accented-name",
+        "technique": "unicode-combining-marks"
+      }
+    ]
+  },
+  "secrets": {
+    "recall": 1,
+    "precision": 0.9412,
+    "n": 24
+  }
+}
