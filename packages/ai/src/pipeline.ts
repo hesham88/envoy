@@ -203,9 +203,10 @@ export async function analyze(
   doc: string,
   question: string,
   deps: Deps,
-  opts: { onProgress?: (p: AnalyzeProgress) => void } = {},
+  opts: { onProgress?: (p: AnalyzeProgress) => void; detectScope?: 'all' | 'selected' } = {},
 ): Promise<Analysis> {
   const progress = opts.onProgress ?? (() => undefined);
+  const detectScope = opts.detectScope ?? 'all';
   progress({ step: 'rules', part: 1, parts: 1 });
   const chunks = chunkDocument(doc);
   const rules = detectWithRules(doc);
@@ -237,18 +238,37 @@ export async function analyze(
       };
 
       const nano: Entity[] = [];
-      const detectBatches = batchChunks(chunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS);
-      for (const batch of detectBatches) {
-        nano.push(...parseDetectResponse(await run('detect', buildDetectPrompt(batch.map((c) => c.text).join('\n\n'), question)), doc));
+      if (detectScope === 'selected') {
+        selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
+        const selected = chunks.filter((c) => selection.ids.includes(c.id));
+        const detectChunks = chunks.filter((c) => selection.ids.includes(c.id) || c.id === 1);
+        const detectBatches = batchChunks(detectChunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS);
+        totals.detect = detectBatches.length;
+        for (const batch of detectBatches) {
+          nano.push(...parseDetectResponse(await run('detect', buildDetectPrompt(batch.map((c) => c.text).join('\n\n'), question)), doc));
+        }
+        const merged = mergeEntities(rules, nano);
+        const unselectedNames = flagNames(doc, merged);
+        entities = mergeEntities(merged, unselectedNames);
+        const routePrompt = buildRoutePrompt(question, selected);
+        route =
+          estimateTokens(routePrompt) > MAX_TOKENS
+            ? { local: false, reason: 'Too much text for an on-device check, so it goes to the reasoning step, masked.' }
+            : (parseRouteResponse(await run('route', routePrompt)) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' });
+      } else {
+        const detectBatches = batchChunks(chunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS);
+        for (const batch of detectBatches) {
+          nano.push(...parseDetectResponse(await run('detect', buildDetectPrompt(batch.map((c) => c.text).join('\n\n'), question)), doc));
+        }
+        entities = mergeEntities(rules, nano);
+        selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
+        const selected = chunks.filter((c) => selection.ids.includes(c.id));
+        const routePrompt = buildRoutePrompt(question, selected);
+        route =
+          estimateTokens(routePrompt) > MAX_TOKENS
+            ? { local: false, reason: 'Too much text for an on-device check, so it goes to the reasoning step, masked.' }
+            : (parseRouteResponse(await run('route', routePrompt)) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' });
       }
-      entities = mergeEntities(rules, nano);
-      selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
-      const selected = chunks.filter((c) => selection.ids.includes(c.id));
-      const routePrompt = buildRoutePrompt(question, selected);
-      route =
-        estimateTokens(routePrompt) > MAX_TOKENS
-          ? { local: false, reason: 'Too much text for an on-device check, so it goes to the reasoning step, masked.' }
-          : (parseRouteResponse(await run('route', routePrompt)) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' });
     } catch (e) {
       // A blocked cloud request is fatal however the SDK wraps the error (it rewraps fetch failures).
       const blockedNow = networkLog.entries.filter((x) => x.blocked).length;
