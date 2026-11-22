@@ -1,0 +1,18 @@
+# Envoy
+
+> Your private AI agent to the cloud. Envoy practises Privacy-Conscious Delegation: an on-device model in Chrome (via Firebase AI Logic hybrid inference) reads a private document and the user's question first, shares only the clauses the question needs with identities replaced by meaning-preserving tags, lets the user approve exactly what leaves, and restores the real values in the answer on the device.
+
+Built for the Firebase #BuildHybridAI 2026 hackathon. Open source under Apache-2.0.
+
+## How it works
+
+- Detect, minimize and route run with `InferenceMode.ONLY_ON_DEVICE`, behind Envoy's own device guard (it checks Chrome's `LanguageModel`, blocks the cloud endpoint during private steps, and rejects answers that did not come from the device; this works around firebase-js-sdk issue #10635).
+- The user reviews "What the cloud will see" and approves it; an outbound guard blocks any raw personal detail.
+- Reasoning uses `InferenceMode.PREFER_IN_CLOUD` (cloud model from Remote Config); amounts the cloud needs are returned as expressions like `{{RENT * 1.10}}` and computed on the device.
+- Simple factual questions are answered on the device with zero cloud calls. Without the on-device model, Envoy uses Basic protection (local rules only) and never falls back to sending raw text.
+
+## Links
+
+- [Source code](https://github.com/hesham88/envoy)
+- [App](https://envoy-hybrid-ai.web.app/)
+- [Research inspiration: PAPILLON, Li et al., NAACL 2025](https://arxiv.org/abs/2410.17127)
