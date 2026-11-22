@@ -1,0 +1,478 @@
+{
+  "lease-01-rent-cap": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:08:51.671Z",
+    "ms": 81186,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 33693
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 27060
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 20403
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"3 Road 9, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"landlord\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\": [7], \"reason\": \"Clause 7 specifies the landlord's rent increase allowance, which is 10% per contract year, which does not cover a 20% increase.\"}",
+    "routeJson": "{\n  \"answerable_locally\": false,\n  \"reason\": \"The question asks for permission to raise the rent by 20%, which requires judgment and comparison to the contract terms (a condition), not a direct fact found in the clauses. Clause 7 specifies a maximum increase of 10%.\"\n}",
+    "schemaValid": true
+  },
+  "lease-02-end-date-local": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:10:19.024Z",
+    "ms": 85697,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 26371
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 29571
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 29729
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"3 Road 9, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"14 El-Nadi St, Flat 7, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"}]}",
+    "minimizeJson": "{\"clause_ids\": [\n  2,\n  10\n],\n\"reason\": \"Clause 2 specifies the term of the lease (three years starting 1 September 2024), and Clause 10 describes how the lease can be terminated.\"}",
+    "routeJson": "{\n\"answerable_locally\":false,\n\"reason\": \"The question asks for when the contract ends, which requires judgment or comparison based on the start date and termination clauses. Clause 2 gives a start date (1 September 2024) and a term (three years), but not the exact end date. Clause 10 describes termination conditions, which is conditional knowledge, not a direct factual lookup.\"\n}",
+    "schemaValid": true
+  },
+  "lease-03-early-exit-deposit": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:12:20.652Z",
+    "ms": 119710,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 34635
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 33729
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 31311
+      },
+      {
+        "step": "answerLocal",
+        "source": "on_device",
+        "ms": 19993
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"3 Road 9, Maadi, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 17,000\",\"kind\":\"MONEY\",\"role\":\"deposit\"},{\"text\":\"one month's rent\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\":[6,10],\"reason\":\"Clause 6 states the Landlord may keep one month's rent from the deposit if the Tenant leaves early without proper notice, and Clause 10 allows the Tenant to end the Lease early with 90 days' written notice subject to Clause 6.\"}",
+    "routeJson": "{\n  \"answerable_locally\": true,\n  \"reason\": \"The question asks what happens to the deposit if the tenant leaves early. Clause 6 directly states: 'If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.' This is a direct statement of a consequence regarding the deposit, making it answerable from the clauses.\"\n}",
+    "localAnswerText": "The Landlord may keep one month's rent from the deposit if the Tenant leaves before the end of the term without the notice required by Clause 10. Clause 6.",
+    "schemaValid": true
+  },
+  "lease-04-late-fee-grace-period": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:13:50.236Z",
+    "ms": 82879,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 21003
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 33338
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 28506
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EG38 0019 0005 0000 0000 2631 8000 2\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 250\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\": [\n  8\n],\n\"reason\": \"Clause 8 specifies the late fee condition based on payment delay, which would apply if paying on the 8th is considered late.\"}",
+    "routeJson": "{\n\"answerable_locally\": false,\n\"reason\": \"The question requires judgment or application of the rule (determining if payment on the 8th constitutes being '10 days late'), which is beyond a simple fact lookup in the clauses. The clause only specifies the late fee condition: 'Rent paid more than 10 days late carries a fee...'\"\n}",
+    "schemaValid": true
+  },
+  "lease-05-sublet-policy": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:15:17.967Z",
+    "ms": 85900,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 35286
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 19516
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 18753
+      },
+      {
+        "step": "answerLocal",
+        "source": "on_device",
+        "ms": 12314
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Hisham El-Masry\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Nadia Shawky\",\"kind\":\"PERSON\",\"role\":\"tenant\"}]}",
+    "minimizeJson": "{\"clause_ids\":[3],\"reason\":\"Clause 3 explicitly prohibits subletting or listing any room on short-term rental platforms without prior written authorization from the Landlord.\"}",
+    "routeJson": "{\"answerable_locally\":true, \"reason\":\"The question asks about a specific rule regarding short-term rental, which is directly addressed by the clause stating that subletting or listing a room on short-term rental platforms requires prior written authorization.\"}",
+    "localAnswerText": "The Tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord. (Clause 3)",
+    "schemaValid": true
+  },
+  "offer-01-severance-calculation": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:23:04.468Z",
+    "ms": 154453,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 62015
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 48202
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 43674
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Ramy Lotfy\",\"kind\":\"PERSON\",\"role\":\"employer\"},{\"text\":\"Salma Mostafa\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"22 Syria St, Mohandessin, Giza\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 65,000\",\"kind\":\"MONEY\",\"role\":\"salary\"}]}",
+    "minimizeJson": "{\"clause_ids\": [\n  1,\n  2,\n  5\n], \"reason\": \"Clause 5 specifies the severance for termination without cause after probation, which applies to the question.\"}",
+    "routeJson": "{\n\"answerable_locally\": false,\n\"reason\": \"The question asks for a specific amount of severance pay based on a hypothetical termination scenario (after 18 months without cause). While Clause 5 mentions severance for termination without cause, the calculation of the amount requires applying the terms of Clause 5 to the specific timeline mentioned in the question. This involves judgment and calculation, not a simple lookup of a pre-stated fact.\"\n}",
+    "schemaValid": true
+  },
+  "offer-03-probation-period-local": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:23:58.363Z",
+    "ms": 53194,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 22172
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 14666
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 16035
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Nourhan Khalil\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"EGP 55,000\",\"kind\":\"MONEY\",\"role\":\"salary\"}]}",
+    "minimizeJson": "{\"clause_ids\": [2], \"reason\": \"Clause 3 directly addresses the probationary period duration.\"}",
+    "routeJson": "{\"answerable_locally\":false, \"reason\":\"The question asks for personal information regarding a probationary period, which requires making assumptions or looking up external context, making it not a direct fact present in the clauses. The clauses do not contain information about a probationary period.\"}",
+    "schemaValid": true
+  },
+  "med-01-fasting-glucose-threshold": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:25:07.169Z",
+    "ms": 68394,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 16870
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 25873
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 25464
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Adel Mansour\",\"kind\":\"PERSON\",\"role\":\"patient\"},{\"text\":\"11 Tahrir St, Dokki, Giza\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"114 mg/dL\",\"kind\":\"MONEY\",\"role\":\"other\"},{\"text\":\"5.9%\",\"kind\":\"MONEY\",\"role\":\"other\"},{\"text\":\"3 months\",\"kind\":\"MONEY\",\"role\":\"other\"}]}",
+    "minimizeJson": "{\"clause_ids\": [3, 4], \"reason\": \"Clause 3 states the result falls in the impaired fasting glucose range, and Clause 4 describes the recommendation to repeat HbA1c and review lifestyle changes.\"}",
+    "routeJson": "{\n\"answerable_locally\": false,\n\"reason\": \"The question asks for the classification of a specific result and a recommended follow-up, which requires interpretation and synthesis of information from multiple clauses, rather than a simple fact lookup. While the result (114 mg/dL) and the classification (impaired fasting glucose/prediabetes range) are present, answering the question completely requires understanding the context and the subsequent recommendation, which involves judgment/synthesis.\"\n}",
+    "schemaValid": true
+  },
+  "freelance-01-kill-fee": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:26:12.375Z",
+    "ms": 64808,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 11062
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 29106
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 14363
+      },
+      {
+        "step": "answerLocal",
+        "source": "on_device",
+        "ms": 10080
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Bassem Fouad\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"Mariam Rizk\",\"kind\":\"PERSON\",\"role\":\"employee\"},{\"text\":\"+20 106 111 2233\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"mariam.rizk@example.com\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"50%\",\"kind\":\"MONEY\",\"role\":\"other\"},{\"text\":\"milestone's fee\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\": [4], \"reason\": \"Clause 4 directly addresses the fee payable upon cancellation of a milestone.\"}",
+    "routeJson": "{\n\"answerable_locally\": true,\n\"reason\": \"The question asks for a specific amount the client must pay under a given condition (cancellation halfway through Milestone 2), which can be directly extracted from Clause 4.\"\n}",
+    "localAnswerText": "If the client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days. (Clause 4)",
+    "schemaValid": true
+  },
+  "loan-01-early-payoff-penalty": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:27:15.831Z",
+    "ms": 63037,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 14502
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 23402
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 14776
+      },
+      {
+        "step": "answerLocal",
+        "source": "on_device",
+        "ms": 10166
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Samer Fawzy\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"16 El-Merghany St, Heliopolis, Cairo\",\"kind\":\"ADDRESS\",\"role\":\"tenant\"},{\"text\":\"EGP 400,000\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"3% of the prepaid principal balance\",\"kind\":\"MONEY\",\"role\":\"fee\"}]}",
+    "minimizeJson": "{\"clause_ids\": [2, 3], \"reason\": \"Clause 2 states the remaining principal balance, and Clause 3 specifies the penalty for early prepayment (3% of the prepaid principal balance).\"}",
+    "routeJson": "{\n  \"answerable_locally\": true,\n  \"reason\": \"Yes, the percentage penalty applies is explicitly stated in clause 3: 'subject to an early-settlement administrative charge of 3% of the prepaid principal balance.'\"\n}",
+    "localAnswerText": "The early-settlement administrative charge is 3% of the prepaid principal balance. (Clause 3)",
+    "schemaValid": true
+  },
+  "noisy-01-arabic-indic-digits-lease": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:28:20.519Z",
+    "ms": 64196,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 13237
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 18729
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 23087
+      },
+      {
+        "step": "answerLocal",
+        "source": "on_device",
+        "ms": 8910
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\": [2], \"reason\": \"Clause 2 specifies a cap of 10% on annual rent increases, contradicting the 15% question.\"}",
+    "routeJson": "{\n  \"answerable_locally\": true,\n  \"reason\": \"The question asks if a specific percentage increase (15%) is permissible. Clause 2 states that any annual rent increase at renewal is strictly capped at 10%. Since 15% is not mentioned or implied as being allowed by the text, the answer is derived directly from the clause's statement about the cap.\"\n}",
+    "localAnswerText": "No, any annual rent increase at renewal is strictly capped at 10%. Clause 2. Rent and Renewal Cap. is used.",
+    "schemaValid": true
+  },
+  "noisy-04-postfix-currency-le-egp": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:29:24.200Z",
+    "ms": 63234,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 13618
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 21538
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 16358
+      },
+      {
+        "step": "answerLocal",
+        "source": "on_device",
+        "ms": 11510
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"17,000 LE\",\"kind\":\"MONEY\",\"role\":\"deposit\"},{\"text\":\"one month's rent\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\n  \"clause_ids\": [\n    2\n  ],\n  \"reason\": \"Clause 2 directly addresses how much the landlord can keep if the tenant leaves early without notice.\"\n}",
+    "routeJson": "{\n\"answerable_locally\": true,\n\"reason\": \"The question asks for a specific amount (how much of the security deposit the landlord can keep) based on a condition described in the clause, which is directly stated in clause 2.\"\n}",
+    "localAnswerText": "The Landlord may retain one month's rent from the deposit if the Tenant leaves early without giving 90 days' written notice. (Clause 2)",
+    "schemaValid": true
+  },
+  "noisy-05-all-caps-and-titled-names": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:30:30.537Z",
+    "ms": 65894,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 9869
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 37369
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 10901
+      },
+      {
+        "step": "answerLocal",
+        "source": "on_device",
+        "ms": 7543
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"KARIM FATHY\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Dr Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"+20-100-555-0192\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 9,000\",\"kind\":\"MONEY\",\"role\":\"rent\"},{\"text\":\"Landlord\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Tenant\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"Eng. Tarek Samir\",\"kind\":\"PERSON\",\"role\":\"witness\"},{\"text\":\"Landlord\",\"kind\":\"ORG\",\"role\":\"employer\"}]\n}",
+    "minimizeJson": "{\"clause_ids\":[2],\"reason\":\"Clause 2 explicitly states that the Landlord pays for elevator servicing.\"}",
+    "routeJson": "{\"answerable_locally\":true,\"reason\":\"Clause 2 explicitly states that 'The Landlord pays for elevator servicing' under Common Area Maintenance.\"}",
+    "localAnswerText": "The Landlord pays for elevator servicing, stair lighting, and common-area repairs. Clause 2.",
+    "schemaValid": true
+  },
+  "noisy-06-pii-in-user-question": {
+    "source": "live",
+    "modelLabel": "Gemma 4",
+    "modelComponent": "gemma4_component",
+    "modelVersion": "2026.11.3.1140",
+    "backend": "cpu (OnDeviceModelForceCpuBackend)",
+    "detectScope": "selected",
+    "recordedAt": "2026-11-22T14:31:25.903Z",
+    "ms": 55002,
+    "steps": [
+      {
+        "step": "minimize",
+        "source": "on_device",
+        "ms": 12674
+      },
+      {
+        "step": "detect",
+        "source": "on_device",
+        "ms": 24991
+      },
+      {
+        "step": "route",
+        "source": "on_device",
+        "ms": 17142
+      }
+    ],
+    "detectJson": "{\"entities\":[{\"text\":\"Karim Fathy\",\"kind\":\"PERSON\",\"role\":\"landlord\"},{\"text\":\"Mona Adel\",\"kind\":\"PERSON\",\"role\":\"tenant\"},{\"text\":\"+20 100 555 0192\",\"kind\":\"ADDRESS\",\"role\":\"other\"},{\"text\":\"EGP 8,500\",\"kind\":\"MONEY\",\"role\":\"rent\"}]}",
+    "minimizeJson": "{\"clause_ids\": [2], \"reason\": \"Clause 2 addresses rent increases, which is the core of the question about raising the rent by 20%.\"}",
+    "routeJson": "{\n\"answerable_locally\":false,\n\"reason\": \"The question asks for an assessment of whether a rent increase is possible based on a specific scenario, which requires judgment and comparison against the given rules (Clause 2), not a direct fact lookup.\"\n}",
+    "schemaValid": true
+  }
+}

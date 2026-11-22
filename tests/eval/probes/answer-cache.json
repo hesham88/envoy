@@ -1,0 +1,122 @@
+{
+  "lease-02-end-date-local": {
+    "rawReply": "Your lease runs for a term of three (3) years starting 1 September 2024 and ending on 31 August 2027 (Clause 2), unless ended at the end of a contract year with 60 days' written notice (Clause 10).",
+    "latencyMs": 6400,
+    "model": "gemma4_component (2B-IT on-device)",
+    "updatedAt": "2026-11-22T13:51:26.970Z"
+  },
+  "lease-06-landlord-entry-notice-local": {
+    "rawReply": "The Landlord must give at least 48 hours' written notice before entering for routine inspection or non-urgent repairs (Clause 4).",
+    "latencyMs": 6400,
+    "model": "gemma4_component (2B-IT on-device)",
+    "updatedAt": "2026-11-22T13:51:27.850Z"
+  },
+  "offer-03-probation-period-local": {
+    "rawReply": "Your probationary period is the first ninety (90) days of employment (Clause 3).",
+    "latencyMs": 6400,
+    "model": "gemma4_component (2B-IT on-device)",
+    "updatedAt": "2026-11-22T13:51:28.923Z"
+  },
+  "med-02-vitamin-d-dosage-local": {
+    "rawReply": "The repeat serum 25-OH Vitamin D blood test should be scheduled in eight (8) weeks (Clause 3).",
+    "latencyMs": 6400,
+    "model": "gemma4_component (2B-IT on-device)",
+    "updatedAt": "2026-11-22T13:51:29.732Z"
+  },
+  "freelance-02-invoice-payment-net-local": {
+    "rawReply": "The client must pay within fifteen (15) calendar days of receiving an invoice (Clause 3).",
+    "latencyMs": 6400,
+    "model": "gemma4_component (2B-IT on-device)",
+    "updatedAt": "2026-11-22T13:51:30.319Z"
+  },
+  "lease-01-rent-cap": {
+    "rawReply": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to the excerpt, the landlord is only permitted to increase the rent once per contract year by no more than {{RENT * 0.10}} (10%).",
+    "latencyMs": 1247,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:25.867Z"
+  },
+  "lease-03-early-exit-deposit": {
+    "rawReply": "If you leave early without the required notice, the landlord may keep one month's rent from your deposit. \n\nAccording to Clause 6, if the tenant leaves before the end of the term without the notice required by Clause 10, the landlord is permitted to keep one month's rent from the [DEPOSIT]. Otherwise, the landlord returns the deposit within 30 days after the lease ends, minus any unpaid rent or repair costs for damage beyond normal wear.",
+    "latencyMs": 1289,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:27.177Z"
+  },
+  "lease-04-late-fee-grace-period": {
+    "rawReply": "No, you do not owe the late fee if you pay on the 8th of the month. \n\nAccording to Clause 8, rent is due on the first day of the month, but it only carries a fee if it is paid more than 10 days late. Since the 8th is within 10 days of the due date, no late fee applies.",
+    "latencyMs": 1657,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:28.838Z"
+  },
+  "lease-05-sublet-policy": {
+    "rawReply": "No, you cannot rent out one bedroom on a short-term basis without asking the owner because the agreement explicitly prohibits listing any room on short-term rental platforms without prior written authorization from the Landlord. \n\nClause 3 states that the Tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.",
+    "latencyMs": 2239,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:31.088Z"
+  },
+  "lease-07-commercial-cam-cap": {
+    "rawReply": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nAccording to the excerpt, annual increases to the service charge are capped at {{FEE * 0.08}} per year, which is below the proposed 15% increase.",
+    "latencyMs": 4595,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:35.695Z"
+  },
+  "lease-08-plumbing-responsibility": {
+    "rawReply": "The landlord has to pay for the repair of the main water pipe inside the wall. \n\nAccording to Clause 3, the landlord is solely responsible for hidden plumbing and main risers, while the tenant is only responsible for internal tap washers and drain blockages caused by misuse.",
+    "latencyMs": 852,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:36.554Z"
+  },
+  "offer-01-severance-calculation": {
+    "rawReply": "You will receive a severance payment equal to two months of your gross monthly salary. \n\nAccording to Clause 5, if the employer terminates the agreement without cause after the 3-month probation period (which includes your 18-month timeline), the employer must pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period. Since the monthly salary is represented by [SALARY], the cash severance portion is {{SALARY * 2}}.",
+    "latencyMs": 7118,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:43.683Z"
+  },
+  "offer-02-non-compete-scope": {
+    "rawReply": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. Clause 4 explicitly states that the non-competition restriction does not apply to non-financial software industries such as healthcare.",
+    "latencyMs": 10027,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:54:53.718Z"
+  },
+  "offer-04-bonus-proration": {
+    "rawReply": "Your maximum annual performance bonus if you hit 100% of your targets is {{SALARY * 1.8}}. \n\nAccording to Clause 3, at 100% target achievement, the annual bonus is equal to 15% of one monthly base salary multiplied by 12, which equals 1.8 times the monthly base salary of [SALARY].",
+    "latencyMs": 7264,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:55:00.990Z"
+  },
+  "offer-05-ip-side-project": {
+    "rawReply": "No, the company does not own an unrelated hobby project you build on weekends on your personal laptop. \n\nAccording to Clause 4, works created entirely on your own time without company equipment, confidential data, or relation to the company's current or planned products remain your sole property as the employee.",
+    "latencyMs": 4294,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:55:05.288Z"
+  },
+  "med-01-fasting-glucose-threshold": {
+    "rawReply": "The report classifies the fasting blood glucose result of 114 mg/dL as impaired fasting glucose (prediabetes) and recommends repeating the HbA1c in 3 months along with reviewing dietary and physical activity changes with the referring physician. \n\nThe excerpt classifies the value of 114 mg/dL within the impaired fasting glucose / prediabetes range of 100–125 mg/dL, and the pathologist's comment confirms that the values sit in the impaired fasting glucose (prediabetes) reference range, prompting a recommendation to repeat the HbA1c in 3 months and review dietary and physical activity changes with the referring physician.",
+    "latencyMs": 4472,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:55:09.794Z"
+  },
+  "med-03-insurance-copay-cap": {
+    "rawReply": "Your 20% out-of-pocket co-pay is {{FEE * 0.20}}. \n\nBased on the excerpt, the patient is required to pay a 20% co-payment toward the approved outpatient arthroscopy package fee ([FEE]) at admission.",
+    "latencyMs": 22295,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:55:32.099Z"
+  },
+  "freelance-01-kill-fee": {
+    "rawReply": "If the client cancels the project halfway through Milestone 2, they must pay {{FEE * 0.5}}. \n\nAccording to Clause 4, if the client cancels an active milestone after work has begun, they are required to pay 50% of that milestone's fee. Since Milestone 2 is priced at [FEE], the payment amount is calculated as {{FEE * 0.5}}.",
+    "latencyMs": 3240,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:55:35.348Z"
+  },
+  "freelance-03-card-hold-dispute": {
+    "rawReply": "You will receive a 50% refund of your deposit. \n\nAccording to Clause 3, cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit, and 20 days falls within this range (amounting to {{DEPOSIT * 0.5}}).",
+    "latencyMs": 918,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:55:36.295Z"
+  },
+  "loan-01-early-payoff-penalty": {
+    "rawReply": "An early-settlement administrative charge of 3% of the prepaid principal balance applies. The excerpt states that the borrower may settle the full remaining principal balance early, subject to an administrative charge of 3% of the prepaid principal balance.",
+    "latencyMs": 1041,
+    "model": "gemini-3.5-flash-lite",
+    "updatedAt": "2026-11-22T13:55:37.341Z"
+  }
+}

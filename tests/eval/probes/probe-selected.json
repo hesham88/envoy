@@ -1,0 +1,66 @@
+{
+  "variant": "selected",
+  "question": "Can my landlord raise the rent 20% this year?",
+  "at": "2026-11-22T13:22:09.980Z",
+  "results": [
+    {
+      "ok": true,
+      "ms": 79125,
+      "mode": "private",
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks about a potential rent increase of 20%, which requires judgment or comparison against the clause's limit of 10% increase. It does not ask for a direct fact like a specific date, name, amount, or period mentioned in the clause itself."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 44631
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 11519
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 22938
+        }
+      ],
+      "guardOk": true,
+      "fallbackReason": null,
+      "nanoEntities": [],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 3
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 44636
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 56157
+        }
+      ]
+    }
+  ]
+}

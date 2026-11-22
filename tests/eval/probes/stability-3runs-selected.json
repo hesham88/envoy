@@ -1,0 +1,263 @@
+{
+  "variant": "selected",
+  "question": "Can my landlord raise the rent 20% this year?",
+  "at": "2026-11-22T14:04:01.021Z",
+  "summary": {
+    "runs": 3,
+    "privateCount": 3,
+    "basicCount": 0,
+    "privateRatePct": 100,
+    "avgMs": 87617,
+    "reusePage": false,
+    "targetUrl": "http://localhost:5173/",
+    "aiPath": "/@fs/F:/Projects/Envoy-wt/claude/packages/ai/src/index.ts"
+  },
+  "results": [
+    {
+      "ok": true,
+      "availBefore": "available",
+      "availAfter": "available",
+      "ms": 108503,
+      "mode": "private",
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks about a specific percentage increase (20%) which is different from the maximum allowed increase mentioned in the clauses (10%). This involves judgment and comparison rather than a direct fact lookup."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 64706
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 24922
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 18851
+        }
+      ],
+      "guardOk": true,
+      "fallbackReason": null,
+      "nanoEntities": [
+        [
+          "PERSON",
+          "Karim Fathy",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Mona Adel",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Karim Fathy",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Mona Adel",
+          "tenant"
+        ]
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 1
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 6
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 64713
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 89636
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "availBefore": "available",
+      "availAfter": "available",
+      "ms": 92737,
+      "mode": "private",
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks about a potential increase of 20%, which requires judgment or comparison against the maximum increase allowed (10%) stated in the clause."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 26296
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 52182
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 14237
+        }
+      ],
+      "guardOk": true,
+      "fallbackReason": null,
+      "nanoEntities": [
+        [
+          "PERSON",
+          "Karim Fathy",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Mona Adel",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Karim Fathy",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Mona Adel",
+          "tenant"
+        ]
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 4
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 26301
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 78485
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "availBefore": "available",
+      "availAfter": "available",
+      "ms": 61610,
+      "mode": "private",
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks for permission or possibility regarding a 20% rent increase, which requires judgment or comparison against the stated maximum increase (10%) in clause 7."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 22194
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 22694
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 16701
+        }
+      ],
+      "guardOk": true,
+      "fallbackReason": null,
+      "nanoEntities": [
+        [
+          "PERSON",
+          "Karim Fathy",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Mona Adel",
+          "tenant"
+        ],
+        [
+          "PERSON",
+          "Karim Fathy",
+          "landlord"
+        ],
+        [
+          "PERSON",
+          "Mona Adel",
+          "tenant"
+        ]
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 4
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 22198
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 44894
+        }
+      ]
+    }
+  ]
+}
