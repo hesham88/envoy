@@ -4,6 +4,7 @@
 import { maskFindings, scanText, type CustomRule, type Finding, type ScanResult } from '@envoy/core';
 import { fieldFromElement, isEnvoyField } from './eligibility';
 import { getFieldText, setFieldText } from './field';
+import { initUploadUi } from './upload-ui';
 
 declare const chrome: {
   storage: { local: { get(k: string): Promise<Record<string, unknown>> }; onChanged: { addListener(fn: () => void): void } };
@@ -214,3 +215,5 @@ window.addEventListener('scroll', place, true);
 document.addEventListener('focusout', () => {
   window.setTimeout(() => { if (document.activeElement !== activeField) { toggle.style.display = 'none'; } }, 120);
 });
+
+initUploadUi(shadow, () => customRules);

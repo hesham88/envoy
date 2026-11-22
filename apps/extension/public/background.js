@@ -49,6 +49,18 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     setSiteEnabled(msg.origin, !!msg.enabled).then((sites) => sendResponse({ ok: true, sites })).catch((e) => sendResponse({ ok: false, error: String(e) }));
     return true;
   }
+  if (msg?.type === 'envoy:pdf-mask') {
+    (async () => {
+      try {
+        await ensureOffscreen();
+        const res = await chrome.runtime.sendMessage({ type: 'envoy:pdf-mask-internal', base64: msg.base64, name: msg.name });
+        sendResponse(res ?? { ok: false, error: 'No response from the PDF checker.' });
+      } catch (e) {
+        sendResponse({ ok: false, error: String(e) });
+      }
+    })();
+    return true;
+  }
   if (msg?.type === 'envoy:deep-check') {
     (async () => {
       try {

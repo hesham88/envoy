@@ -6,6 +6,7 @@
 import { assignTags, parseDetectResponse } from '@envoy/core';
 import { createStepModel, DEFAULT_SETTINGS, getDeviceStatus, initEnvoy, runPrivate } from '@envoy/ai';
 import { isUnpacked, readFirebaseEnv } from '../env';
+import './pdf-handler';
 
 declare const chrome: {
   runtime: {

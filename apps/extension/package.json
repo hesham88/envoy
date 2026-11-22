@@ -20,7 +20,8 @@
     "@envoy/ui": "0.1.0",
     "lucide-react": "^1.77.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
-    "@fontsource/ibm-plex-mono": "^5.3.0"
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "pdfjs-dist": "^6.5.438"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
