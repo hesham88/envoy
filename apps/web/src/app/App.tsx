@@ -1,6 +1,9 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { answer } from '@envoy/ai';
+import { AboutDialog } from '../components/AboutDialog';
+import { LiveRegion } from '../components/LiveRegion';
 import { Logo } from '../components/Logo';
+import { NetworkInspector } from '../components/NetworkInspector';
 import { StatusPill } from '../components/StatusPill';
 import { DevPage } from '../dev/DevPage';
 import { Answer } from '../screens/Answer';
@@ -13,6 +16,31 @@ import { useEnvoy, type EnvoyRuntime } from './useEnvoy';
 /** The product shell; `runtime` is injected so tests can drive every state. */
 export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
   const [state, dispatch] = useReducer(sessionReducer, initialSession);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const inspectable = typeof location !== 'undefined' && new URLSearchParams(location.search).has('inspect');
+  const [inspectorOpen, setInspectorOpen] = useState(inspectable);
+
+  // Move focus to the new screen's heading so keyboard and screen-reader users land in the right place.
+  useEffect(() => {
+    if (state.phase === 'review' || state.phase === 'answered') {
+      document.querySelector<HTMLElement>('main h1')?.focus();
+    }
+  }, [state.phase]);
+
+  const announcement =
+    state.phase === 'analyzing'
+      ? 'Reading your document on this device…'
+      : state.phase === 'review' && state.analysis
+        ? `Found ${state.analysis.receipt.foundTotal} personal items on your device. Review what the cloud will see.`
+        : state.phase === 'sending'
+          ? 'Sending the masked excerpt you approved…'
+          : state.phase === 'answered' && state.result
+            ? state.result.source === 'on_device'
+              ? 'Answered on your device. Nothing was sent.'
+              : 'Answer received. Your details were restored on this device.'
+            : state.phase === 'error' && state.error
+              ? state.error
+              : '';
 
   async function analyze(question = state.question) {
     if (!state.doc || !runtime.deps) {
@@ -68,6 +96,14 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
         <Logo withWordmark animated />
         <div className="flex flex-wrap items-center gap-3">
           <StatusPill status={runtime.status} progress={runtime.progress} />
+          <button onClick={() => setAboutOpen(true)} className="min-h-9 px-2 text-sm font-semibold text-cloud-on-tint underline-offset-2 hover:underline">
+            How it works
+          </button>
+          {inspectable && (
+            <button onClick={() => setInspectorOpen(!inspectorOpen)} aria-pressed={inspectorOpen} className="min-h-9 rounded-control border border-line bg-surface px-3 text-sm font-semibold">
+              Network
+            </button>
+          )}
           {state.doc && (
             <button
               onClick={() => dispatch({ type: 'CLEAR' })}
@@ -80,6 +116,9 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
         </div>
       </header>
       {screen}
+      <LiveRegion message={announcement} />
+      <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <NetworkInspector open={inspectorOpen} onClose={() => setInspectorOpen(false)} />
     </div>
   );
 }
