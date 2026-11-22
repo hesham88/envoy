@@ -1,0 +1,55 @@
+{
+  "variant": "all",
+  "question": "Can my landlord raise the rent 20% this year?",
+  "at": "2026-11-22T12:45:43.633Z",
+  "results": [
+    {
+      "ok": true,
+      "ms": 33604,
+      "mode": "basic",
+      "selectedIds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "route": {
+        "local": false,
+        "reason": "Basic protection: questions go to the reasoning step, masked."
+      },
+      "steps": [
+        {
+          "step": "detect",
+          "source": "rules",
+          "ms": 0
+        }
+      ],
+      "guardOk": true,
+      "nanoEntities": [],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nPreamble: RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on [DATE_1] between the parties named in Clause 1.\n\nClause 1: 1. Parties. [PERSON], national ID [NATIONAL_ID], of [ADDRESS] (\"the Landlord\"), and [PERSON_2], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\").\n\nClause 2: 2. Premises and term. The Landlord leases to the Tenant the apartment at [ADDRESS_2] (\"the Premises\") for a term of three (3) years starting [DATE_2].\n\nClause 3: 3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\nClause 4: 4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\nClause 5: 5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\nClause 6: 6. Deposit. The Tenant pays a security deposit of [AMOUNT] on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\nClause 7: 7. Rent. The monthly rent is [AMOUNT_2]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [AMOUNT_3].\n\nClause 9: 9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\nClause 11: 11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at [EMAIL].\n\nClause 12: 12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on [DATE_1] by [PERSON] (Landlord) and [PERSON_2] (Tenant), witnessed by [PERSON_3], phone [PHONE_2].",
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 4
+        }
+      ]
+    }
+  ]
+}

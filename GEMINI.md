@@ -20,6 +20,26 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 - GitHub account `hesham88`; commit author `Hesham Aboul-Fetouh <hesham1988@gmail.com>`. Google/Firebase account: `hesham1988@gmail.com` only. Never use a work account.
 - No backend server of our own. The only network calls are to Firebase services.
 
+## Who owns what (owner decision, 2026-11-22) — don't edit another lane's files without asking
+| Lane | Agent | Owns |
+| --- | --- | --- |
+| Core + web AI + visual identity | Claude Code | `packages/core`, `packages/ai`, `apps/web`, `docs/img/`, brand/motion assets |
+| Eval harness | Antigravity (Gemini, "Argon") | `tests/eval/**`, `npm run eval`, `docs/EVAL.md` |
+| Chrome extension | Muse | `apps/extension/**` |
+Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused edits only, and pull before you push.
+
+## Worktrees: one folder and one branch per agent (owner decision, 2026-11-22 15:27)
+| Agent | Work ONLY in this folder | Branch |
+| --- | --- | --- |
+| Claude Code | `F:/Projects/Envoy-wt/claude` | `lane/core-web` |
+| Argon (Antigravity) | `F:/Projects/Envoy-wt/argon` | `lane/eval-harness` |
+| Muse | `F:/Projects/Envoy-wt/muse` | `lane/extension` |
+- `F:/Projects/Envoy` is the **integration checkout only**. Don't edit, build or commit there.
+- Commit only your own lane's files, never `git add -A` across lanes. Run `npm run verify` before every commit; push your lane branch and open a PR into `main`. Merges into `main` are deliberate (Claude or the owner), after CI is green.
+- To pick up others' merged work: `git fetch origin && git merge origin/main` in your own worktree.
+- Each worktree has its own `node_modules` (run `npm install` once) and its own `apps/web/.env.local` (already copied; never commit it).
+- Dev server ports: Claude 5173, Argon 5174, Muse 5175 (`npm run dev -- --port <n>`). Only one agent drives the model Chrome (port 9333) at a time: on a CPU, parallel sessions starve each other.
+
 ## Hard rules
 - Never commit secrets, `.env`, API keys, App Check debug tokens, or real personal data. Sample people and IDs are fictional.
 - Private steps (detect, minimize, route, local answer) use `InferenceMode.ONLY_ON_DEVICE`. They must never fall back to the cloud, and raw document text never goes to the cloud.
@@ -30,7 +50,11 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 ## Shared skills (every agent)
 - `docs/skills/harness2/SKILL.md`: improve prompts and workflows with Propose–Probe–Compose, and log lessons in `docs/harness/LESSONS.md`.
 - `docs/skills/muse-image/SKILL.md`: generate images with Meta Muse Image. There's a **$8 total cap**, enforced by a ledger. Never commit the key.
-- Claude Code also has these installed globally in `~/.claude/skills/`.
+- `docs/skills/pair-ai-ux/SKILL.md`: design and audit AI UX, calibrated trust, explainability, human-in-the-loop control and graceful fallbacks with Google PAIR's People + AI Guidebook (Ch. 3–6 & 23 patterns).
+- `docs/skills/pair-ai-eval/SKILL.md`: apply PAIR Guidebook Ch. 1–2 to AI value-fit, interaction design policies, precision/recall trade-offs, noisy-data evaluation (`tests/eval`) and hackathon judge framing. See `docs/PAIR_GUIDEBOOK_STRATEGY.md`.
+- `docs/skills/chrome-built-in-ai/SKILL.md`: build, debug and test with Chrome's Built-in AI APIs (`LanguageModel` Prompt API, `Summarizer`, `Translator`, `LanguageDetector`, `Writer`, `Rewriter`, `Proofreader`, WebMCP, hardware/disk/`%TEMP%`/CPU-flag requirements and `chrome://on-device-internals`).
+- `docs/skills/firebase-ai-logic-hybrid/SKILL.md`: configure Firebase AI Logic (`firebase/ai` in `firebase@13.x`) hybrid on-device + cloud inference (`HybridParams`, `InferenceMode`, `InferenceSource`, dual structured output, App Check debug/production setup, CSP headers, and the 4-layer device guard for SDK bug #10635).
+- Claude Code, Antigravity and other agents also have these installed globally (`~/.claude/skills/`, `~/.agents/skills/`, `~/.gemini/config/skills/`) and via `.agents/skills.json`.
 - **Working style:** don't fan out multiple subagents; do the work in-session or through scripts.
 - **Keep going, no stopping:** at a checkpoint, post a short status and continue with the next task. Stop only when truly blocked (you need the owner's input or credentials, or an action is destructive or irreversible).
 

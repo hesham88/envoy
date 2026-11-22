@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Envoy</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/><path d="M9 9l3 3-3 3M13 15h3" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><strong>Envoy</strong><span>Private AI to the cloud</span></div>
+      </div>
+      <span id="statusPill" class="pill" role="status">Checking device…</span>
+    </header>
+
+    <main>
+      <section class="card" aria-labelledby="ready-h">
+        <h2 id="ready-h">Can this device run Envoy?</h2>
+        <p class="muted">Every private step must run on this device. If a check fails, Envoy uses Basic protection and never sends raw text to the cloud.</p>
+        <ul id="checks" class="checks"></ul>
+        <button id="enableBtn" class="primary" type="button" hidden>Enable private mode</button>
+        <p id="enableNote" class="muted small" hidden>Downloads Gemini Nano once. This needs a real click, an unmetered connection, and about 22 GB free on the profile drive.</p>
+      </section>
+
+      <ol class="steps" aria-label="How Envoy handles your question">
+        <li><b>1 · Detect &amp; minimize</b><span class="tag device">On-device</span></li>
+        <li><b>2 · Reason</b><span class="tag cloud">Cloud · only if needed</span></li>
+        <li><b>3 · Restore</b><span class="tag device">On-device</span></li>
+      </ol>
+
+      <section class="card">
+        <label for="docText">Document or selected text</label>
+        <textarea id="docText" rows="7" placeholder="Select text on any page, right-click → “Ask Envoy about this selection”, or paste text here."></textarea>
+        <label for="question">Your question</label>
+        <textarea id="question" rows="2" placeholder="Can my landlord raise the rent 20% this year?"></textarea>
+        <button id="analyzeBtn" class="primary" type="button" disabled>Analyze privately</button>
+        <p class="muted small">Engine wiring is the integration step (see INTEGRATION.md). Until then this scaffold proves the surface, permissions and device gate without touching the web build.</p>
+      </section>
+
+      <section class="card" aria-labelledby="cloud-h">
+        <h2 id="cloud-h">What the cloud will see</h2>
+        <p class="mono empty">Nothing yet. After integration, only the masked excerpt you approve appears here — for example Clause 7 with <span class="chip">[RENT]</span>, never a raw name, ID or account.</p>
+      </section>
+    </main>
+    <footer>Text lives in memory / session only. Clear it any time by closing the panel session. Not legal advice.</footer>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

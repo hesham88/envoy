@@ -153,7 +153,61 @@ function maskQuestion(question: string, docEntities: Entity[], tags: TagMap): st
   return maskText(question, found, tags);
 }
 
-export async function analyze(doc: string, question: string, deps: Deps): Promise<Analysis> {
+export interface ReviewChoices {
+  selectedIds: number[];
+  /** Tags whose whole sentence the user removed from the excerpt. */
+  hiddenTags: Set<string>;
+  /** Tags whose real value the user chose to share. */
+  sharedTags: Set<string>;
+}
+
+type ComposeInput = Pick<Analysis, 'question' | 'chunks' | 'entities' | 'tags' | 'steps' | 'mode'>;
+
+/** Replaces every sentence that mentions a hidden tag with "[…]". */
+function dropHiddenSentences(text: string, hidden: Set<string>): string {
+  if (![...hidden].some((t) => text.includes(t))) return text;
+  const out: string[] = [];
+  for (const sentence of text.split(/(?<=[.!?])\s+/)) {
+    const hide = [...hidden].some((t) => sentence.includes(t));
+    if (!hide) out.push(sentence);
+    else if (out.at(-1) !== '[…]') out.push('[…]');
+  }
+  return out.join(' ');
+}
+
+/** Rebuilds the excerpt, guard result and receipt from the user's review choices. Pure. */
+export function composeOutbound(a: ComposeInput, choices: ReviewChoices): { outbound: string; guard: { ok: boolean; leaks: Leak[] }; receipt: Receipt } {
+  const isShared = (e: Entity) => choices.sharedTags.has(a.tags.tagOf(e));
+  const masked = a.entities.filter((e) => !isShared(e));
+  const allowed = a.entities.filter(isShared);
+  const selected = a.chunks.filter((c) => choices.selectedIds.includes(c.id));
+  const outbound = [
+    `Question: ${maskQuestion(a.question, masked, a.tags)}`,
+    ...selected.map((c) => `${c.label}: ${dropHiddenSentences(maskChunk(c, masked, a.tags), choices.hiddenTags)}`),
+  ].join('\n\n');
+  const knownTags = a.tags.entries().map((t) => t.tag);
+  const guard = checkOutbound(outbound, a.entities, { knownTags, allowed });
+  const sharedByUser = knownTags.filter((t) => choices.sharedTags.has(t)).length;
+  const receipt = buildReceipt({ entities: a.entities, outbound, chunksSent: selected, chunksAll: a.chunks, steps: [...a.steps], mode: a.mode, sharedByUser });
+  return { outbound, guard, receipt };
+}
+
+export interface AnalyzeProgress {
+  step: 'rules' | Step;
+  /** 1-based part of this step (on-device steps can run in several batches). */
+  part: number;
+  parts: number;
+}
+
+export async function analyze(
+  doc: string,
+  question: string,
+  deps: Deps,
+  opts: { onProgress?: (p: AnalyzeProgress) => void; detectScope?: 'all' | 'selected' } = {},
+): Promise<Analysis> {
+  const progress = opts.onProgress ?? (() => undefined);
+  const detectScope = opts.detectScope ?? 'all';
+  progress({ step: 'rules', part: 1, parts: 1 });
   const chunks = chunkDocument(doc);
   const rules = detectWithRules(doc);
   const steps: ReceiptStep[] = [];
@@ -167,7 +221,15 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
   if (mode === 'private') {
     const blockedBefore = networkLog.entries.filter((x) => x.blocked).length;
     try {
+      const totals: Partial<Record<Step, number>> = {
+        detect: batchChunks(chunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS).length,
+        minimize: batchChunks(chunks, (b) => buildMinimizePrompt(b, question), MAX_TOKENS).length,
+        route: 1,
+      };
+      const done: Partial<Record<Step, number>> = {};
       const run = async (step: Step, prompt: string) => {
+        done[step] = (done[step] ?? 0) + 1;
+        progress({ step, part: done[step]!, parts: Math.max(totals[step] ?? 1, done[step]!) });
         const r = await deps.runPrivate(deps.models[step], prompt, step);
         const prev = steps.find((s) => s.step === step);
         if (prev) prev.ms += r.ms;
@@ -176,18 +238,37 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
       };
 
       const nano: Entity[] = [];
-      const detectBatches = batchChunks(chunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS);
-      for (const batch of detectBatches) {
-        nano.push(...parseDetectResponse(await run('detect', buildDetectPrompt(batch.map((c) => c.text).join('\n\n'), question)), doc));
+      if (detectScope === 'selected') {
+        selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
+        const selected = chunks.filter((c) => selection.ids.includes(c.id));
+        const detectChunks = chunks.filter((c) => selection.ids.includes(c.id) || c.id === 1);
+        const detectBatches = batchChunks(detectChunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS);
+        totals.detect = detectBatches.length;
+        for (const batch of detectBatches) {
+          nano.push(...parseDetectResponse(await run('detect', buildDetectPrompt(batch.map((c) => c.text).join('\n\n'), question)), doc));
+        }
+        const merged = mergeEntities(rules, nano);
+        const unselectedNames = flagNames(doc, merged);
+        entities = mergeEntities(merged, unselectedNames);
+        const routePrompt = buildRoutePrompt(question, selected);
+        route =
+          estimateTokens(routePrompt) > MAX_TOKENS
+            ? { local: false, reason: 'Too much text for an on-device check, so it goes to the reasoning step, masked.' }
+            : (parseRouteResponse(await run('route', routePrompt)) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' });
+      } else {
+        const detectBatches = batchChunks(chunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS);
+        for (const batch of detectBatches) {
+          nano.push(...parseDetectResponse(await run('detect', buildDetectPrompt(batch.map((c) => c.text).join('\n\n'), question)), doc));
+        }
+        entities = mergeEntities(rules, nano);
+        selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
+        const selected = chunks.filter((c) => selection.ids.includes(c.id));
+        const routePrompt = buildRoutePrompt(question, selected);
+        route =
+          estimateTokens(routePrompt) > MAX_TOKENS
+            ? { local: false, reason: 'Too much text for an on-device check, so it goes to the reasoning step, masked.' }
+            : (parseRouteResponse(await run('route', routePrompt)) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' });
       }
-      entities = mergeEntities(rules, nano);
-      selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
-      const selected = chunks.filter((c) => selection.ids.includes(c.id));
-      const routePrompt = buildRoutePrompt(question, selected);
-      route =
-        estimateTokens(routePrompt) > MAX_TOKENS
-          ? { local: false, reason: 'Too much text for an on-device check, so it goes to the reasoning step, masked.' }
-          : (parseRouteResponse(await run('route', routePrompt)) ?? { local: false, reason: 'Unclear, so it goes to the reasoning step.' });
     } catch (e) {
       // A blocked cloud request is fatal however the SDK wraps the error (it rewraps fetch failures).
       const blockedNow = networkLog.entries.filter((x) => x.blocked).length;
@@ -210,12 +291,10 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
   }
 
   const tags = assignTags(entities);
-  const selected = chunks.filter((c) => selection.ids.includes(c.id));
-  const outbound = [`Question: ${maskQuestion(question, entities, tags)}`, ...selected.map((c) => `${c.label}: ${maskChunk(c, entities, tags)}`)].join(
-    '\n\n',
+  const { outbound, guard, receipt } = composeOutbound(
+    { question, chunks, entities, tags, steps, mode },
+    { selectedIds: selection.ids, hiddenTags: new Set(), sharedTags: new Set() },
   );
-  const guard = checkOutbound(outbound, entities, { knownTags: tags.entries().map((t) => t.tag) });
-  const receipt = buildReceipt({ entities, outbound, chunksSent: selected, chunksAll: chunks, steps: [...steps], mode });
 
   return {
     question,
@@ -249,8 +328,13 @@ export async function answer(
   analysis: Analysis,
   approvedOutbound: string,
   deps: Deps,
+  opts: { sharedTags?: string[] } = {},
 ): Promise<{ text: string; spans: RestoredSpan[]; source: 'on_device' | 'in_cloud'; lighter: boolean; receipt: Receipt }> {
-  const check = checkOutbound(approvedOutbound, analysis.entities, { knownTags: analysis.tags.entries().map((t) => t.tag) });
+  const shared = new Set(opts.sharedTags ?? []);
+  const allowed = analysis.entities.filter((e) => shared.has(analysis.tags.tagOf(e)));
+  const knownTags = analysis.tags.entries().map((t) => t.tag);
+  const sharedByUser = knownTags.filter((t) => shared.has(t)).length;
+  const check = checkOutbound(approvedOutbound, analysis.entities, { knownTags, allowed });
   if (!check.ok) throw new OutboundBlockedError(check.leaks);
 
   const selected = analysis.chunks.filter((c) => analysis.selectedIds.includes(c.id));
@@ -278,6 +362,7 @@ export async function answer(
     chunksAll: analysis.chunks,
     steps,
     mode: analysis.mode,
+    sharedByUser: source === 'in_cloud' ? sharedByUser : 0,
   });
   return { text: restored.text, spans: restored.spans, source, lighter: source === 'on_device', receipt };
 }

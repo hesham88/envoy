@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@import './tokens.css';
+/* Scan this package's components (workspace packages live under node_modules, which Tailwind skips). */
+@source './';
 
 /* Tailwind utilities read the Envoy tokens (tokens.css), so light/dark switch in one place. */
 @theme inline {
@@ -35,3 +38,8 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Envoy art: slow counter-rotating guilloche layers (disabled under reduced motion by the guard above). */
+@keyframes envoy-spin { to { transform: rotate(360deg); } }
+.envoy-spin-slow { animation: envoy-spin 140s linear infinite; transform-origin: 50% 50%; }
+.envoy-spin-rev { animation: envoy-spin 110s linear infinite reverse; transform-origin: 50% 50%; }

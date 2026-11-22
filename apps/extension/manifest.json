@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Envoy — Private AI to the Cloud",
+  "short_name": "Envoy",
+  "version": "0.1.0",
+  "description": "Ask the cloud. Keep your secrets. Envoy reads selected or pasted text on-device first, then shares only what you approve.",
+  "minimum_chrome_version": "138",
+  "permissions": ["sidePanel", "contextMenus", "storage"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Open Envoy" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://*.googleapis.com https://*.firebaseapp.com https://www.google.com"
+  }
+}

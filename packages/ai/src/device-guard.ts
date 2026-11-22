@@ -26,8 +26,53 @@ export class PrivacyViolationError extends Error {
   override name = 'PrivacyViolationError';
 }
 
+interface LanguageModelSession {
+  destroy?: () => void;
+}
+
 interface LanguageModelApi {
   availability(options: unknown): Promise<string>;
+  create?: (options?: unknown) => Promise<LanguageModelSession>;
+}
+
+/**
+ * Ensures any Chrome `LanguageModel` session created inside `fn` is destroyed as soon as `fn`
+ * finishes. `@firebase/ai`'s `ChromeAdapterImpl` holds `this.oldSession` open on every
+ * `GenerativeModel` instance; with 4 separate step models (`detect`, `minimize`, `route`,
+ * `answerLocal`), keeping 4 concurrent KV caches open exhausts on-device memory on CPU.
+ */
+async function withSessionCleanup<T>(fn: () => Promise<T>): Promise<T> {
+  if (!('LanguageModel' in globalThis)) return fn();
+  const api = (globalThis as unknown as { LanguageModel: LanguageModelApi }).LanguageModel;
+  if (typeof api.create !== 'function') return fn();
+  const originalCreate = api.create.bind(api);
+  const created: Array<{ session: LanguageModelSession; destroy: () => void }> = [];
+  api.create = async (options?: unknown) => {
+    const session = await originalCreate(options);
+    if (session && typeof session.destroy === 'function') {
+      const realDestroy = session.destroy.bind(session);
+      let destroyed = false;
+      const safeDestroy = () => {
+        if (!destroyed) {
+          destroyed = true;
+          try {
+            realDestroy();
+          } catch {
+            // ignore double-destroy errors
+          }
+        }
+      };
+      session.destroy = safeDestroy;
+      created.push({ session, destroy: safeDestroy });
+    }
+    return session;
+  };
+  try {
+    return await fn();
+  } finally {
+    api.create = originalCreate;
+    for (const item of created) item.destroy();
+  }
 }
 
 export async function getDeviceStatus(): Promise<DeviceStatus> {
@@ -90,7 +135,7 @@ export async function runPrivate(
 ): Promise<{ text: string; ms: number; source: 'on_device' }> {
   await assertDeviceReady();
   const started = performance.now();
-  const result = await withCloudTripwire(() => model.generateContent(request));
+  const result = await withCloudTripwire(() => withSessionCleanup(() => model.generateContent(request)));
   const ms = Math.round(performance.now() - started);
   if (result.response.inferenceSource !== InferenceSource.ON_DEVICE) {
     networkLog.record({ at: Date.now(), step, target: 'cloud', blocked: true, payload: '' });

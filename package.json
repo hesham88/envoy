@@ -16,7 +16,7 @@
     "dev": "npm run dev -w apps/web",
     "build": "npm run build --workspaces --if-present",
     "preview": "npm run preview -w apps/web --if-present",
-    "test": "vitest run",
+    "test": "vitest run --pool=threads --maxWorkers=2",
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc -b",
@@ -28,6 +28,8 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "playwright-core": "^1.65.1",
     "prettier": "^3.10.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.73.0",

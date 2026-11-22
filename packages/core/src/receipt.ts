@@ -19,9 +19,12 @@ export interface Receipt {
   pagesSent: number;
   steps: ReceiptStep[];
   mode: 'private' | 'basic';
+  /** Details the user explicitly chose to share in Review. */
+  sharedByUser: number;
 }
 
 export function buildReceipt(args: {
+  sharedByUser?: number;
   entities: Entity[];
   outbound: string | null;
   chunksSent: Chunk[];
@@ -39,7 +42,8 @@ export function buildReceipt(args: {
     found,
     foundTotal: distinct.size,
     sharedTags,
-    keptTotal: distinct.size,
+    keptTotal: distinct.size - (args.sharedByUser ?? 0),
+    sharedByUser: args.sharedByUser ?? 0,
     charsSent: args.outbound?.length ?? 0,
     clausesSent: args.outbound ? args.chunksSent.length : 0,
     pagesTotal: Math.max(1, ...args.chunksAll.map((c) => c.page)),

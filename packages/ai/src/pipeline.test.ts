@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { InferenceSource, type GenerativeModel } from 'firebase/ai';
 import { buildMinimizePrompt, chunkDocument, EN_LEASE, type Chunk, type Step } from '@envoy/core';
-import { analyze, answer, OutboundBlockedError, selectClausesBatched, type Deps } from './pipeline';
+import { analyze, answer, composeOutbound, OutboundBlockedError, selectClausesBatched, type Deps } from './pipeline';
 import { networkLog } from './network-log';
 
 const QUESTION = 'Can my landlord raise the rent 20% this year?';
@@ -89,6 +89,18 @@ describe('analyze', () => {
     expect(a.receipt.foundTotal).toBeGreaterThanOrEqual(8);
     expect(a.receipt.steps.map((s) => s.step)).toEqual(['detect', 'minimize', 'route']);
     expect(a.receipt.steps.every((s) => s.source === 'on_device')).toBe(true);
+  });
+
+  it("supports detectScope='selected' (minimize first, then detect on selected clauses only)", async () => {
+    const { deps, runPrivate } = fakeDeps('available');
+    const a = await analyze(EN_LEASE.text, QUESTION, deps, { detectScope: 'selected' });
+    expect(a.mode).toBe('private');
+    expect(a.selectedIds).toEqual([7]);
+    expect(a.receipt.steps.map((s) => s.step)).toEqual(['minimize', 'detect', 'route']);
+    const detectPrompt = runPrivate.mock.calls.find((c) => c[2] === 'detect')?.[1] as string;
+    expect(detectPrompt).toContain('7. Rent.');
+    expect(detectPrompt).not.toContain('8. Payment.');
+    expect(a.guard.ok).toBe(true);
   });
 });
 
@@ -197,5 +209,56 @@ describe('review fixes I3/I4', () => {
     const { deps } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
     await expect(answer(a, `${a.outbound}\nTenant: [MONA_ADEL]`, deps)).rejects.toBeInstanceOf(OutboundBlockedError);
+  });
+});
+
+describe('composeOutbound (review edits)', () => {
+  it('composeOutbound honours hidden and shared tags', async () => {
+    const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
+    const hidden = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(['[RENT]']), sharedTags: new Set() });
+    expect(hidden.outbound).not.toContain('The monthly rent is');
+    expect(hidden.outbound).toContain('[…]');
+    expect(hidden.guard.ok).toBe(true);
+
+    const shared = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(), sharedTags: new Set(['[RENT]']) });
+    expect(shared.outbound).toContain('The monthly rent is EGP 8,500.');
+    expect(shared.guard.ok).toBe(true);
+    expect(shared.receipt.sharedByUser).toBe(1);
+  });
+
+  it('custom clause selection changes the outbound and receipt', async () => {
+    const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
+    const two = composeOutbound(a, { selectedIds: [6, 7], hiddenTags: new Set(), sharedTags: new Set() });
+    expect(two.outbound).toContain('Clause 6:');
+    expect(two.outbound).toContain('Clause 7:');
+    expect(two.receipt.clausesSent).toBe(2);
+  });
+
+  it('matches what analyze produced when nothing is changed', async () => {
+    const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
+    expect(composeOutbound(a, { selectedIds: a.selectedIds, hiddenTags: new Set(), sharedTags: new Set() }).outbound).toBe(a.outbound);
+  });
+
+  it('lets answer() send a value the user chose to share', async () => {
+    const { deps } = fakeDeps('available');
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    const shared = composeOutbound(a, { selectedIds: [7], hiddenTags: new Set(), sharedTags: new Set(['[RENT]']) });
+    await expect(answer(a, shared.outbound, deps, { sharedTags: ['[RENT]'] })).resolves.toMatchObject({ source: 'in_cloud' });
+  });
+});
+
+describe('progress reporting', () => {
+  it('reports each on-device step as it starts, with batch counts', async () => {
+    const events: { step: string; part: number; parts: number }[] = [];
+    await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps, { onProgress: (p) => events.push(p) });
+    expect(events.map((e) => e.step)).toEqual(expect.arrayContaining(['rules', 'detect', 'minimize', 'route']));
+    expect(events[0]!.step).toBe('rules');
+    for (const e of events) expect(e.part).toBeLessThanOrEqual(e.parts);
+  });
+
+  it('reports only the rules step in Basic protection', async () => {
+    const events: string[] = [];
+    await analyze(EN_LEASE.text, QUESTION, fakeDeps('no-api').deps, { onProgress: (p) => events.push(p.step) });
+    expect(events).toEqual(['rules']);
   });
 });

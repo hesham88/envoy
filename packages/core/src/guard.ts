@@ -74,9 +74,18 @@ function findAmount(text: string, value: string): Leak[] {
 export function checkOutbound(
   outbound: string,
   protectedEntities: Entity[],
-  opts: { knownTags?: Iterable<string> } = {},
+  opts: { knownTags?: Iterable<string>; allowed?: Entity[] } = {},
 ): { ok: boolean; leaks: Leak[] } {
   const text = withoutTags(outbound, opts.knownTags);
+  const allowed = opts.allowed ?? [];
+  const amountOf = (v: string) => Number(canonical(v, 'MONEY').split(':')[1]);
+  const isAllowed = (l: Leak) =>
+    allowed.some((a) =>
+      a.type === 'MONEY' && l.type === 'MONEY'
+        ? amountOf(a.value) === amountOf(l.value)
+        : a.type === l.type && canonical(a.value, a.type) === canonical(l.value, l.type),
+    );
+  protectedEntities = protectedEntities.filter((p) => !allowed.some((a) => a.type === p.type && canonical(a.value, a.type) === canonical(p.value, p.type)));
   const found: Leak[] = detectWithRules(text).map((e) => ({ value: e.value, type: e.type, index: e.start }));
 
   for (const p of protectedEntities) {
@@ -98,7 +107,7 @@ export function checkOutbound(
   const leaks: Leak[] = [];
   for (const l of found.sort((a, b) => a.index - b.index || b.value.length - a.value.length)) {
     const covered = leaks.some((k) => l.index >= k.index && l.index + l.value.length <= k.index + k.value.length);
-    if (!covered) leaks.push(l);
+    if (!covered && !isAllowed(l)) leaks.push(l);
   }
   return { ok: leaks.length === 0, leaks };
 }
