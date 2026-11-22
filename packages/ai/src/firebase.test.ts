@@ -40,25 +40,41 @@ describe('initEnvoy', () => {
   it('turns on App Check with reCAPTCHA Enterprise before creating the AI instance', () => {
     initEnvoy(cfg, { dev: false });
     expect(Provider).toHaveBeenCalledWith('site-key');
-    expect(initializeAppCheck).toHaveBeenCalledWith({ name: 'app' }, expect.objectContaining({ isTokenAutoRefreshEnabled: true }));
-    expect(initializeAppCheck.mock.invocationCallOrder[0]).toBeLessThan(getAI.mock.invocationCallOrder[0]!);
+    expect(initializeAppCheck).toHaveBeenCalledWith(
+      { name: 'app' },
+      expect.objectContaining({ isTokenAutoRefreshEnabled: true }),
+    );
+    expect(initializeAppCheck.mock.invocationCallOrder[0]).toBeLessThan(
+      getAI.mock.invocationCallOrder[0]!,
+    );
   });
 
   it('asks AI Logic for limited-use App Check tokens (replay protection)', () => {
     initEnvoy(cfg, { dev: false });
-    expect(getAI).toHaveBeenCalledWith({ name: 'app' }, expect.objectContaining({ useLimitedUseAppCheckTokens: true }));
+    expect(getAI).toHaveBeenCalledWith(
+      { name: 'app' },
+      expect.objectContaining({ useLimitedUseAppCheckTokens: true }),
+    );
   });
 
   it('sets the debug token only in development', () => {
     initEnvoy(cfg, { dev: false });
-    expect((globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: unknown }).FIREBASE_APPCHECK_DEBUG_TOKEN).toBeUndefined();
+    expect(
+      (globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: unknown }).FIREBASE_APPCHECK_DEBUG_TOKEN,
+    ).toBeUndefined();
     initEnvoy(cfg, { dev: true });
-    expect((globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: unknown }).FIREBASE_APPCHECK_DEBUG_TOKEN).toBe(true);
+    expect(
+      (globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: unknown }).FIREBASE_APPCHECK_DEBUG_TOKEN,
+    ).toBe(true);
     initEnvoy({ ...cfg, appCheckDebugToken: 'stable-token' }, { dev: true });
-    expect((globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: unknown }).FIREBASE_APPCHECK_DEBUG_TOKEN).toBe('stable-token');
+    expect(
+      (globalThis as { FIREBASE_APPCHECK_DEBUG_TOKEN?: unknown }).FIREBASE_APPCHECK_DEBUG_TOKEN,
+    ).toBe('stable-token');
   });
 
   it('refuses to start without a reCAPTCHA site key outside development', () => {
-    expect(() => initEnvoy({ ...cfg, recaptchaSiteKey: '' }, { dev: false })).toThrow(/VITE_RECAPTCHA_SITE_KEY/);
+    expect(() => initEnvoy({ ...cfg, recaptchaSiteKey: '' }, { dev: false })).toThrow(
+      /VITE_RECAPTCHA_SITE_KEY/,
+    );
   });
 });
