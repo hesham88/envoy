@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { checkOutbound, detectWithRules, guardView, type Entity } from './index';
 
-const ZWSP = '​';
-const ZWJ = '‍';
-const SOFT_HYPHEN = '­';
-const BIDI = '‮';
+const ZWSP = String.fromCharCode(0x200b); // zero-width space
+const ZWJ = String.fromCharCode(0x200d); // zero-width joiner
+const SOFT_HYPHEN = String.fromCharCode(0xad);
+const BIDI = String.fromCharCode(0x202e); // right-to-left override
 const fullWidth = (s: string) =>
   s.replace(/[0-9A-Za-z]/g, (c) => String.fromCodePoint(c.codePointAt(0)! + 0xfee0));
 const arabicIndic = (s: string) =>
