@@ -7,6 +7,7 @@ import { NetworkInspector } from '../components/NetworkInspector';
 import { OfflineBanner } from '../components/OfflineBanner';
 import { StatusPill } from '../components/StatusPill';
 import { DevPage } from '../dev/DevPage';
+import { Studio } from '../art/Studio';
 import { Answer } from '../screens/Answer';
 import { Review } from '../screens/Review';
 import { Start } from '../screens/Start';
@@ -134,5 +135,6 @@ function ProductApp() {
 
 export function App() {
   if (typeof location !== 'undefined' && location.pathname.startsWith('/dev')) return <DevPage />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio')) return <Studio />;
   return <ProductApp />;
 }

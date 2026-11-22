@@ -35,3 +35,8 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Envoy art: slow counter-rotating guilloche layers (disabled under reduced motion by the guard above). */
+@keyframes envoy-spin { to { transform: rotate(360deg); } }
+.envoy-spin-slow { animation: envoy-spin 140s linear infinite; transform-origin: 50% 50%; }
+.envoy-spin-rev { animation: envoy-spin 110s linear infinite reverse; transform-origin: 50% 50%; }
