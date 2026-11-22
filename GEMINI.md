@@ -20,6 +20,14 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 - GitHub account `hesham88`; commit author `Hesham Aboul-Fetouh <hesham1988@gmail.com>`. Google/Firebase account: `hesham1988@gmail.com` only. Never use a work account.
 - No backend server of our own. The only network calls are to Firebase services.
 
+## Who owns what (owner decision, 2026-11-22) — don't edit another lane's files without asking
+| Lane | Agent | Owns |
+| --- | --- | --- |
+| Core + web AI + visual identity | Claude Code | `packages/core`, `packages/ai`, `apps/web`, `docs/img/`, brand/motion assets |
+| Eval harness | Antigravity (Gemini, "Argon") | `tests/eval/**`, `npm run eval`, `docs/EVAL.md` |
+| Chrome extension | Muse | `apps/extension/**` |
+Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused edits only, and pull before you push.
+
 ## Hard rules
 - Never commit secrets, `.env`, API keys, App Check debug tokens, or real personal data. Sample people and IDs are fictional.
 - Private steps (detect, minimize, route, local answer) use `InferenceMode.ONLY_ON_DEVICE`. They must never fall back to the cloud, and raw document text never goes to the cloud.
