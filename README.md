@@ -101,7 +101,7 @@ Five models, four on the device and one for the cloud, and where each piece live
 | `getAI` with App Check limited-use tokens | [`firebase.ts:44`](packages/ai/src/firebase.ts#L44) |
 | The mode per step: `detect`, `minimize`, `route`, `answerLocal` use `ONLY_ON_DEVICE`; `reason` uses `PREFER_IN_CLOUD` | [`models.ts:22`](packages/ai/src/models.ts#L22), [`models.ts:27`](packages/ai/src/models.ts#L27) |
 | Remote Config: `cloud_model`, `prompt_version` | [`remote.ts:20`](packages/ai/src/remote.ts#L20) |
-| On-device model download from a click (`initializeDeviceModel`) | [`useEnvoy.ts:78`](apps/web/src/app/useEnvoy.ts#L78) |
+| On-device model download from a click (`initializeDeviceModel`) | [`useEnvoy.ts:91`](apps/web/src/app/useEnvoy.ts#L91) |
 | The device guard: availability check, network tripwire, `inferenceSource` assertion | [`device-guard.ts:78`](packages/ai/src/device-guard.ts#L78), [`:104`](packages/ai/src/device-guard.ts#L104), [`:131`](packages/ai/src/device-guard.ts#L131), [`:140`](packages/ai/src/device-guard.ts#L140) |
 | The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags) | [`pipeline.ts:177`](packages/ai/src/pipeline.ts#L177), [`:304`](packages/ai/src/pipeline.ts#L304), [`:329`](packages/ai/src/pipeline.ts#L329) |
 
