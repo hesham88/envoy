@@ -32,7 +32,7 @@ export function FoundList({ analysis, receipt }: { analysis: Analysis; receipt: 
           <li key={type} className="flex justify-between gap-2.5 border-b border-line py-2 last:border-b-0">
             <span>{LABELS[type][0]}</span>
             <span className="text-muted">
-              {n} · {LABELS[type][1]}
+              {n} · {type === 'PERSON' && analysis.mode === 'basic' ? 'masked; please check them' : LABELS[type][1]}
             </span>
           </li>
         ))}
