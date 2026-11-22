@@ -97,4 +97,82 @@ describe('the guard is not fooled by', () => {
       }).ok,
     ).toBe(true);
   });
+
+  // Milestone 3 red-team regressions (rt-10..12, rt-14, rt-17..20) + false-positive controls.
+  it('catches digits and amounts spelled out in words (rt-10, rt-11, rt-12)', () => {
+    const rent: Entity = {
+      type: 'MONEY',
+      value: 'EGP 8,500',
+      start: 0,
+      end: 9,
+      confidence: 1,
+      source: 'rules',
+    };
+    const rId = checkOutbound(
+      'ID digits: two nine five zero three one four zero one zero one two three four.',
+      [nid!],
+    );
+    expect(rId.ok).toBe(false);
+    expect(rId.leaks[0]!.value).toContain('two nine five');
+
+    const rPhone = checkOutbound(
+      'Call zero one zero zero five five five zero one nine two.',
+      [phone!],
+    );
+    expect(rPhone.ok).toBe(false);
+
+    const rMoney = checkOutbound(
+      'Monthly rent is eight thousand five hundred Egyptian pounds.',
+      [rent],
+    );
+    expect(rMoney.ok).toBe(false);
+    expect(rMoney.leaks[0]!.value).toBe('eight thousand five hundred');
+  });
+
+  it('catches Base64-encoded protected values (rt-17, rt-18) without blocking ordinary Base64', () => {
+    const karim: Entity = { ...person, value: 'Karim Fathy', end: 11 };
+    const karimNid: Entity = { ...nid!, value: '27506120104839' };
+    expect(checkOutbound('Landlord token: S2FyaW0gRmF0aHk=.', [karim]).ok).toBe(false);
+    expect(checkOutbound('Ref: Mjc1MDYxMjAxMDQ4Mzk=.', [karimNid]).ok).toBe(false);
+    // Ordinary non-PII Base64 ("Hello world from Envoy!") must pass.
+    expect(
+      checkOutbound('Digest: SGVsbG8gd29ybGQgZnJvbSBFbnZveSE=.', [karim, karimNid]).ok,
+    ).toBe(true);
+  });
+
+  it('catches reversed protected names and IDs (rt-19, rt-20) without blocking ordinary words', () => {
+    const karim: Entity = { ...person, value: 'Karim Fathy', end: 11 };
+    const karimNid: Entity = { ...nid!, value: '27506120104839' };
+    expect(checkOutbound('Note: yhtaF miraK owns the unit.', [karim]).ok).toBe(false);
+    expect(checkOutbound('Backwards ID: 93840102160572.', [karimNid]).ok).toBe(false);
+    expect(
+      checkOutbound('The parties live well without raw war over stops.', [karim, karimNid]).ok,
+    ).toBe(true);
+  });
+
+  it('catches a person name split mid-word across a newline (rt-14) without over-matching', () => {
+    const karim: Entity = { ...person, value: 'Karim Fathy', end: 11 };
+    expect(checkOutbound('Signed by Kar\nim Fat\nhy on the lease.', [karim]).ok).toBe(false);
+    // Substring across newline inside longer words must NOT be blocked.
+    expect(checkOutbound('Simona\nAdelaide wrote back.', [person]).ok).toBe(true);
+    // Sentence punctuation across a newline must NOT join unrelated words.
+    expect(checkOutbound('We drove a kar.\nIm fat, hy!', [karim]).ok).toBe(true);
+  });
+
+  it('does not block ordinary lease prose with number words or multi-line wrapped text', () => {
+    const rent: Entity = {
+      type: 'MONEY',
+      value: 'EGP 8,500',
+      start: 0,
+      end: 9,
+      confidence: 1,
+      source: 'rules',
+    };
+    const prose =
+      'Clause 2: Term of three years with sixty days written notice, two inspections, zero tolerance, ' +
+      'and twenty-four hours notice.\nThe building has two hundred fifty units and [RENT] is due monthly.';
+    expect(
+      checkOutbound(prose, [person, nid!, phone!, rent], { knownTags: ['[RENT]'] }).ok,
+    ).toBe(true);
+  });
 });
