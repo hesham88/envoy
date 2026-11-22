@@ -45,6 +45,7 @@ Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused 
 - Private steps (detect, minimize, route, local answer) use `InferenceMode.ONLY_ON_DEVICE`. They must never fall back to the cloud, and raw document text never goes to the cloud.
 - **Known SDK bug (firebase-js-sdk #10635, open):** `ONLY_ON_DEVICE` silently calls the cloud when Chrome's `LanguageModel` API is missing. Before every private step, check that `'LanguageModel' in self` and `await LanguageModel.availability() === 'available'`; otherwise use Basic protection (local rules only). After the call, assert `response.inferenceSource === InferenceSource.ON_DEVICE`. Keep the tests for this guard green.
 - Don't guess Firebase AI Logic APIs. Check the installed typings in `node_modules/@firebase/ai`.
+- **Evals and probes measure the real product:** every on-device or cloud result must come from the real pipeline (`analyze` / `answer` in `@envoy/ai`) running through **Firebase AI Logic hybrid inference** (`initEnvoy` → `createStepModel` with `ONLY_ON_DEVICE` / `PREFER_IN_CLOUD` → `runPrivate` and the device guard) inside the Chrome that has the model. Use `scripts/lib/envoy-browser.mjs`. Never synthesize model outputs from gold labels; an "oracle" upper bound may exist only if it is labelled as such and kept out of headline numbers. Every result names the model (component and version) and the date.
 - When you finish a task, update `docs/PLAN.md`.
 
 ## Shared skills (every agent)
