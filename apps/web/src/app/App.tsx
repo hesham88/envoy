@@ -6,6 +6,8 @@ import { NetworkInspector } from '../components/NetworkInspector';
 import { OfflineBanner } from '../components/OfflineBanner';
 import { Logo, StatusPill } from '@envoy/ui';
 import { DevPage } from '../dev/DevPage';
+import { Banners } from '../art/Banners';
+import { SceneFrame } from '../art/SceneFrame';
 import { SidePanelMockup } from '../art/SidePanelMockup';
 import { Studio } from '../art/Studio';
 import { Answer } from '../screens/Answer';
@@ -136,6 +138,8 @@ function ProductApp() {
 export function App() {
   if (typeof location !== 'undefined' && location.pathname.startsWith('/dev')) return <DevPage />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/sidepanel')) return <SidePanelMockup />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/banners')) return <Banners />;
+  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/scene')) return <SceneFrame />;
   if (typeof location !== 'undefined' && location.pathname.startsWith('/studio')) return <Studio />;
   return <ProductApp />;
 }

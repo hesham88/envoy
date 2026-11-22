@@ -3,7 +3,7 @@
  * 1. Re-runs every rule detector on the outbound text (anything structured that isn't a tag is a leak).
  * 2. Looks for every protected value again, tolerant of reformatting (spacing, case, prefixes, currency).
  */
-import { detectWithRules } from './rules';
+import { detectWithRules , type CustomRule } from './rules';
 import { canonical } from './tags';
 import type { Entity, EntityType } from './types';
 
@@ -74,7 +74,7 @@ function findAmount(text: string, value: string): Leak[] {
 export function checkOutbound(
   outbound: string,
   protectedEntities: Entity[],
-  opts: { knownTags?: Iterable<string>; allowed?: Entity[] } = {},
+  opts: { knownTags?: Iterable<string>; allowed?: Entity[]; custom?: readonly CustomRule[] } = {},
 ): { ok: boolean; leaks: Leak[] } {
   const text = withoutTags(outbound, opts.knownTags);
   const allowed = opts.allowed ?? [];
@@ -86,7 +86,7 @@ export function checkOutbound(
         : a.type === l.type && canonical(a.value, a.type) === canonical(l.value, l.type),
     );
   protectedEntities = protectedEntities.filter((p) => !allowed.some((a) => a.type === p.type && canonical(a.value, a.type) === canonical(p.value, p.type)));
-  const found: Leak[] = detectWithRules(text).map((e) => ({ value: e.value, type: e.type, index: e.start }));
+  const found: Leak[] = detectWithRules(text, { custom: opts.custom }).map((e) => ({ value: e.value, type: e.type, index: e.start }));
 
   for (const p of protectedEntities) {
     switch (p.type) {
@@ -94,6 +94,7 @@ export function checkOutbound(
       case 'IBAN':
       case 'NATIONAL_ID':
       case 'CARD':
+      case 'SECRET':
         found.push(...findCodes(text, p.value, p.type));
         break;
       case 'MONEY':
