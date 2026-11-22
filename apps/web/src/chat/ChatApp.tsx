@@ -43,6 +43,7 @@ interface Turn {
   session: SessionState;
   progress: AnalyzeProgress | null;
   localOnly: boolean;
+  startedAt: number;
   /** The message itself was the document (no attachment). */
   inline: boolean;
 }
@@ -166,11 +167,19 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
     );
     setTurns((ts) => [
       ...ts,
-      { id, session: { ...start, question: message }, progress: null, localOnly, inline },
+      {
+        id,
+        session: { ...start, question: message },
+        progress: null,
+        localOnly,
+        inline,
+        startedAt: Date.now(),
+      },
     ]);
     setDraft('');
     const dispatch = dispatchTo(id);
     try {
+      await runtime.warmUp?.(); // never two on-device sessions at once
       const analysis = await analyze(turnDoc.text, question, runtime.deps, {
         onProgress: (p) => update(id, (t) => ({ ...t, progress: p })),
         customRules: rules,
@@ -415,6 +424,7 @@ export function ChatApp({ runtime }: { runtime: EnvoyRuntime }) {
             </label>
             <textarea
               id="envoy-composer"
+              onFocus={() => void runtime.warmUp?.()}
               value={draft}
               rows={1}
               placeholder={
@@ -547,6 +557,7 @@ function TurnView({
       </div>
       <div className="flex flex-col gap-3">
         <FlightRecorder
+          startedAt={turn.startedAt}
           phase={s.phase}
           progress={turn.progress}
           analysis={s.analysis}
@@ -628,8 +639,37 @@ function Approval({
       </p>
     );
   }
+  const docChars = session.doc?.text.length ?? 0;
+  const r = composed.receipt;
   return (
     <div className="flex flex-col gap-3">
+      {/* Before and after, at a glance: what you have, what would leave. */}
+      <div
+        aria-label="Before and after"
+        role="group"
+        className="grid grid-cols-[1fr_auto_1fr] items-stretch gap-2 text-[13.5px]"
+      >
+        <div className="rounded-[12px] border border-detected-line/40 bg-detected/25 px-3.5 py-2.5">
+          <div className="text-muted">On this device</div>
+          <div className="font-semibold text-ink">
+            {docChars.toLocaleString()} characters, {r.foundTotal} private{' '}
+            {r.foundTotal === 1 ? 'detail' : 'details'}
+          </div>
+        </div>
+        <span aria-hidden="true" className="self-center text-muted">
+          →
+        </span>
+        <div className="rounded-[12px] border border-cloud/50 bg-cloud-tint/50 px-3.5 py-2.5">
+          <div className="text-muted">Would leave, after you approve</div>
+          <div className="font-semibold text-ink">
+            {outbound.length.toLocaleString()} characters,{' '}
+            {guard.ok
+              ? '0 raw details'
+              : `${guard.leaks.length} raw ${guard.leaks.length === 1 ? 'detail' : 'details'}: blocked`}
+            {r.sharedByUser > 0 ? `, ${r.sharedByUser} you chose to share` : ''}
+          </div>
+        </div>
+      </div>
       <CloudPreview
         outbound={outbound}
         guard={guard}

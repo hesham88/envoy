@@ -94,6 +94,28 @@ export function createStepModel(ai: AI, step: Step, settings: RemoteSettings, sc
 - **The on-device model download** starts from a click (`initializeDeviceModel` needs a user gesture), with progress in the app.
 - **Every result names its source:** `response.inferenceSource` is checked on every call and shown in the flight recorder.
 
+Five models, four on the device and one for the cloud, and where each piece lives:
+
+| What | Code |
+| --- | --- |
+| `getAI` with App Check limited-use tokens | [`firebase.ts:44`](packages/ai/src/firebase.ts#L44) |
+| The mode per step: `detect`, `minimize`, `route`, `answerLocal` use `ONLY_ON_DEVICE`; `reason` uses `PREFER_IN_CLOUD` | [`models.ts:22`](packages/ai/src/models.ts#L22), [`models.ts:27`](packages/ai/src/models.ts#L27) |
+| Remote Config: `cloud_model`, `prompt_version` | [`remote.ts:20`](packages/ai/src/remote.ts#L20) |
+| On-device model download from a click (`initializeDeviceModel`) | [`useEnvoy.ts:91`](apps/web/src/app/useEnvoy.ts#L91) |
+| The device guard: availability check, network tripwire, `inferenceSource` assertion | [`device-guard.ts:78`](packages/ai/src/device-guard.ts#L78), [`:104`](packages/ai/src/device-guard.ts#L104), [`:131`](packages/ai/src/device-guard.ts#L131), [`:140`](packages/ai/src/device-guard.ts#L140) |
+| The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags) | [`pipeline.ts:177`](packages/ai/src/pipeline.ts#L177), [`:304`](packages/ai/src/pipeline.ts#L304), [`:329`](packages/ai/src/pipeline.ts#L329) |
+
+To see the guard catch firebase-js-sdk #10635 yourself, open [`/dev`](https://envoy-hybrid-ai.web.app/dev) and press **Simulate missing LanguageModel**: the private step is blocked instead of silently going to the cloud.
+
+### Why not just redact?
+
+A typical scrubber replaces everything with `[REDACTED]` and still sends the whole document. The cloud loses who is who, and gets far more than it needs. Envoy delegates instead:
+
+- **Tags keep meaning.** Karim Fathy becomes `[LANDLORD]` and EGP 8,500 becomes `[RENT]`, so the cloud can still reason about who owes what.
+- **Only what the question needs is sent.** For the rent question, the on-device model keeps the rent clause; the clause with the bank account never leaves.
+- **The cloud never sees the result either.** It writes `{{RENT * 1.10}}` and Envoy works out EGP 9,350 on your device ([`expr.ts`](packages/core/src/expr.ts)).
+- **Some questions never go to the cloud.** "When does my lease end?" is answered on the device, with 0 bytes sent.
+
 <img src="docs/img/brand/section-guard.png" alt="We don't trust the default." width="100%">
 
 ## The guard
@@ -106,6 +128,17 @@ export function createStepModel(ai: AI, step: Step, settings: RemoteSettings, sc
 4. **Clean up:** every on-device session is destroyed after its step.
 
 Then, before anything is sent, the **outbound guard** ([`packages/core/src/guard.ts`](packages/core/src/guard.ts)) scans the approved text again for any raw value, spaced, punctuated or retyped by hand. Secrets (API keys, private keys, tokens) and your own rules count too. Anything raw blocks the send.
+
+## Designed with Google's People + AI Guidebook
+
+Envoy follows the [PAIR Guidebook](https://pair.withgoogle.com/guidebook) (full mapping in [docs/PAIR_GUIDEBOOK_STRATEGY.md](docs/PAIR_GUIDEBOOK_STRATEGY.md)). Its **interaction design policies** are enforced in code, not left to prompts:
+
+1. **No silent cloud fallback.** A private step runs on the device or not at all ([`device-guard.ts`](packages/ai/src/device-guard.ts)).
+2. **No raw detail leaves.** The outbound guard re-checks everything you approve, including your own edits ([`guard.ts`](packages/core/src/guard.ts)).
+3. **No invented details.** A detail the on-device model reports only counts if it appears word for word in your document ([`prompts.ts`](packages/core/src/prompts.ts)).
+4. **Explain, don't overclaim.** The on-device model's own reasons for what it kept and where it answers appear in the flight recorder. Envoy explains documents; it isn't legal advice.
+
+The guidebook's patterns show up throughout: **let users supervise automation** (nothing is sent before you approve the exact text), **automate more when risk is low** (questions the document answers are answered on the device, with no approval needed because nothing leaves), **make it safe to explore** (a fictional sample contract), and **be transparent about privacy** (the flight recorder and the network ledger).
 
 <img src="docs/img/brand/section-measured.png" alt="What actually leaves the device." width="100%">
 
@@ -149,6 +182,6 @@ npm run verify                                  # lint, typecheck, tests, build
 
 ## Credits and licence
 
-Inspired by **PAPILLON: Privacy Preservation from Internet-based and Local Language Model Ensembles** (Siyan Li et al., NAACL 2025). Built with Firebase AI Logic, Chrome's built-in AI, Firebase App Check, Remote Config and Hosting. All sample people, IDs and numbers are fictional.
+Inspired by **PAPILLON: Privacy Preservation from Internet-based and Local Language Model Ensembles** (Siyan Li et al., NAACL 2025), and designed with Google PAIR's **People + AI Guidebook**. Built with Firebase AI Logic, Chrome's built-in AI, Firebase App Check, Remote Config and Hosting. All sample people, IDs and numbers are fictional.
 
 Licensed under [Apache-2.0](LICENSE).
