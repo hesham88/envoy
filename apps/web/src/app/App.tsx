@@ -24,6 +24,7 @@ import { Answer } from '../screens/Answer';
 import { Review } from '../screens/Review';
 import { Start } from '../screens/Start';
 import { cloudModelOverride, readFirebaseEnv } from '../env';
+import { isExtensionEmbed, useExtensionBridge } from './embed';
 
 /** The web app's Firebase settings come from its Vite build environment. */
 const ENVOY_CONFIG: EnvoyConfig = {
@@ -191,7 +192,14 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
 }
 
 function ChatProduct() {
-  return <ChatApp runtime={useEnvoy(ENVOY_CONFIG)} />;
+  const runtime = useEnvoy(ENVOY_CONFIG);
+  return isExtensionEmbed() ? <EmbeddedChat runtime={runtime} /> : <ChatApp runtime={runtime} />;
+}
+
+/** The chat inside the extension's side panel: panel layout, document and rules from the panel. */
+function EmbeddedChat({ runtime }: { runtime: EnvoyRuntime }) {
+  const { doc, rulesStore } = useExtensionBridge();
+  return <ChatApp runtime={runtime} layout="panel" incomingDoc={doc} rulesStore={rulesStore} />;
 }
 
 function ProductApp() {
