@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+@import './tokens.css';
+/* Scan this package's components (workspace packages live under node_modules, which Tailwind skips). */
+@source './';
+
+/* Tailwind utilities read the Envoy tokens (tokens.css), so light/dark switch in one place. */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-device: var(--device);
+  --color-device-tint: var(--device-tint);
+  --color-device-on-tint: var(--device-on-tint);
+  --color-cloud: var(--cloud);
+  --color-cloud-tint: var(--cloud-tint);
+  --color-cloud-on-tint: var(--cloud-on-tint);
+  --color-detected: var(--detected);
+  --color-detected-line: var(--detected-line);
+  --color-restored: var(--restored);
+  --color-danger: var(--danger);
+  --color-danger-tint: var(--danger-tint);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --radius-control: var(--radius-control);
+  --radius-card: var(--radius-card);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Envoy art: slow counter-rotating guilloche layers (disabled under reduced motion by the guard above). */
+@keyframes envoy-spin { to { transform: rotate(360deg); } }
+.envoy-spin-slow { animation: envoy-spin 140s linear infinite; transform-origin: 50% 50%; }
+.envoy-spin-rev { animation: envoy-spin 110s linear infinite reverse; transform-origin: 50% 50%; }
+
+/* ── DelegationScene timeline (10 s loop). Every element reads the same delay/state, so `frame` freezes them together. ── */
+.envoy-scene :is(.envoy-scan, .envoy-raw, .envoy-tag, .envoy-fade, .envoy-packet, .envoy-intruder, .envoy-guard, .envoy-answer, .envoy-arrive) {
+  animation-duration: var(--envoy-dur, 10s);
+  animation-delay: var(--envoy-delay, 0s);
+  animation-play-state: var(--envoy-state, running);
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+.envoy-scan { animation-name: envoy-scan; }
+@keyframes envoy-scan { 0% { transform: translateY(-30px); opacity: 0 } 2% { opacity: 1 } 16% { transform: translateY(300px); opacity: 1 } 18%, 100% { opacity: 0; transform: translateY(300px) } }
+
+.envoy-raw { animation-name: envoy-raw; }
+@keyframes envoy-raw {
+  0%, 10% { background: transparent; color: inherit; opacity: 1 }
+  14%, 24% { background: var(--detected); box-shadow: inset 0 -2px 0 var(--detected-line); opacity: 1 }
+  30%, 84% { opacity: 0 }
+  88%, 96% { opacity: 1; background: var(--restored); box-shadow: none }
+  100% { opacity: 1; background: transparent }
+}
+.envoy-tag { animation-name: envoy-tag; transform: translateY(-50%); }
+@keyframes envoy-tag { 0%, 26% { opacity: 0; transform: translateY(-50%) scale(0.6) } 31%, 84% { opacity: 1; transform: translateY(-50%) scale(1) } 88%, 100% { opacity: 0; transform: translateY(-50%) scale(0.6) } }
+
+.envoy-fade { animation-name: envoy-fade; }
+@keyframes envoy-fade { 0%, 32% { opacity: 1 } 38%, 84% { opacity: 0.18 } 90%, 100% { opacity: 1 } }
+
+.envoy-packet { animation-name: envoy-packet; }
+@keyframes envoy-packet {
+  0%, 38% { opacity: 0; transform: translateZ(0) }
+  41% { opacity: 1; transform: translateZ(8px) }
+  58% { opacity: 1; transform: translateZ(263px) }
+  61%, 100% { opacity: 0; transform: translateZ(265px) }
+}
+.envoy-arrive { animation-name: envoy-arrive; }
+@keyframes envoy-arrive { 0%, 57% { opacity: 0 } 61%, 76% { opacity: 1 } 80%, 100% { opacity: 0 } }
+
+.envoy-intruder { animation-name: envoy-intruder; }
+@keyframes envoy-intruder {
+  0%, 60% { opacity: 0; transform: translateZ(0) }
+  62% { opacity: 1; transform: translateZ(10px) }
+  67% { opacity: 1; transform: translateZ(126px) }
+  69% { transform: translateZ(114px) translateX(-6px) }
+  71% { transform: translateZ(122px) translateX(6px) }
+  76% { opacity: 1; transform: translateZ(0) }
+  80%, 100% { opacity: 0; transform: translateZ(0) }
+}
+.envoy-guard { animation-name: envoy-guard; }
+@keyframes envoy-guard {
+  0%, 45% { box-shadow: none }
+  48% { box-shadow: 0 0 0 3px var(--device) }
+  52%, 64% { box-shadow: none }
+  67% { box-shadow: 0 0 0 4px var(--danger) }
+  72%, 100% { box-shadow: none }
+}
+.envoy-answer { animation-name: envoy-answer; }
+@keyframes envoy-answer { 0%, 76% { opacity: 0; transform: translateZ(265px) } 86% { opacity: 1; transform: translateZ(6px) } 96% { opacity: 1; transform: translateZ(0) } 100% { opacity: 0 } }

@@ -105,6 +105,9 @@ export function PipelinePanel({ ai, settings }: { ai: AI | null; settings: Remot
             Mode: <strong>{analysis.mode === 'private' ? 'Private (on-device)' : 'Basic protection (rules only)'}</strong> · selected clauses:{' '}
             {analysis.selectedIds.join(', ')} · route: {analysis.route.local ? 'answer on device' : 'reason in cloud'} ({analysis.route.reason})
           </p>
+          {analysis.fallbackReason && (
+            <p style={{ margin: 0, color: 'var(--danger)' }}>Fallback reason: {analysis.fallbackReason}</p>
+          )}
           <details>
             <summary>Entities ({analysis.entities.length})</summary>
             <pre style={mono}>

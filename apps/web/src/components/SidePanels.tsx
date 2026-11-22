@@ -1,6 +1,6 @@
 import { ShieldAlert } from 'lucide-react';
 import type { EnvoyRuntime } from '../app/useEnvoy';
-import { ModeChip } from './ModeChip';
+import { ModeChip } from '@envoy/ui';
 
 const STEPS = [
   { n: 1, title: 'Detect and minimize', body: 'Finds personal details and picks only the parts of the document your question needs.', chip: <ModeChip kind="device">On-device</ModeChip> },

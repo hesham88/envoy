@@ -16,7 +16,7 @@
     "dev": "npm run dev -w apps/web",
     "build": "npm run build --workspaces --if-present",
     "preview": "npm run preview -w apps/web --if-present",
-    "test": "vitest run",
+    "test": "vitest run --pool=threads --maxWorkers=1",
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc -b",

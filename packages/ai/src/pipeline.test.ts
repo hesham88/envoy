@@ -90,6 +90,18 @@ describe('analyze', () => {
     expect(a.receipt.steps.map((s) => s.step)).toEqual(['detect', 'minimize', 'route']);
     expect(a.receipt.steps.every((s) => s.source === 'on_device')).toBe(true);
   });
+
+  it("supports detectScope='selected' (minimize first, then detect on selected clauses only)", async () => {
+    const { deps, runPrivate } = fakeDeps('available');
+    const a = await analyze(EN_LEASE.text, QUESTION, deps, { detectScope: 'selected' });
+    expect(a.mode).toBe('private');
+    expect(a.selectedIds).toEqual([7]);
+    expect(a.receipt.steps.map((s) => s.step)).toEqual(['minimize', 'detect', 'route']);
+    const detectPrompt = runPrivate.mock.calls.find((c) => c[2] === 'detect')?.[1] as string;
+    expect(detectPrompt).toContain('7. Rent.');
+    expect(detectPrompt).not.toContain('8. Payment.');
+    expect(a.guard.ok).toBe(true);
+  });
 });
 
 describe('selectClausesBatched', () => {

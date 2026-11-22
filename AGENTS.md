@@ -28,11 +28,25 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 | Chrome extension | Muse | `apps/extension/**` |
 Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused edits only, and pull before you push.
 
+## Worktrees: one folder and one branch per agent (owner decision, 2026-11-22 15:27)
+| Agent | Work ONLY in this folder | Branch |
+| --- | --- | --- |
+| Claude Code | `F:/Projects/Envoy-wt/claude` | `lane/core-web` |
+| Argon (Antigravity) | `F:/Projects/Envoy-wt/argon` | `lane/eval-harness` |
+| Muse | `F:/Projects/Envoy-wt/muse` | `lane/extension` |
+- `F:/Projects/Envoy` is the **integration checkout only**. Don't edit, build or commit there.
+- Commit only your own lane's files, never `git add -A` across lanes. Run `npm run verify` before every commit; push your lane branch and open a PR into `main`. Merges into `main` are deliberate (Claude or the owner), after CI is green.
+- To pick up others' merged work: `git fetch origin && git merge origin/main` in your own worktree.
+- Each worktree has its own `node_modules` (run `npm install` once) and its own `apps/web/.env.local` (already copied; never commit it).
+- **Deploys:** only `main` reaches https://envoy-hybrid-ai.web.app, through CI (`firebase-hosting-merge.yml`). Never run `firebase deploy` from a lane worktree. Until the CI deploy key exists, Claude deploys by hand only from a checkout whose HEAD equals `origin/main`. PRs get preview channels once the key exists.
+- Dev server ports: Claude 5173, Argon 5174, Muse 5175 (`npm run dev -- --port <n>`). Only one agent drives the model Chrome (port 9333) at a time: on a CPU, parallel sessions starve each other.
+
 ## Hard rules
 - Never commit secrets, `.env`, API keys, App Check debug tokens, or real personal data. Sample people and IDs are fictional.
 - Private steps (detect, minimize, route, local answer) use `InferenceMode.ONLY_ON_DEVICE`. They must never fall back to the cloud, and raw document text never goes to the cloud.
 - **Known SDK bug (firebase-js-sdk #10635, open):** `ONLY_ON_DEVICE` silently calls the cloud when Chrome's `LanguageModel` API is missing. Before every private step, check that `'LanguageModel' in self` and `await LanguageModel.availability() === 'available'`; otherwise use Basic protection (local rules only). After the call, assert `response.inferenceSource === InferenceSource.ON_DEVICE`. Keep the tests for this guard green.
 - Don't guess Firebase AI Logic APIs. Check the installed typings in `node_modules/@firebase/ai`.
+- **Evals and probes measure the real product:** every on-device or cloud result must come from the real pipeline (`analyze` / `answer` in `@envoy/ai`) running through **Firebase AI Logic hybrid inference** (`initEnvoy` → `createStepModel` with `ONLY_ON_DEVICE` / `PREFER_IN_CLOUD` → `runPrivate` and the device guard) inside the Chrome that has the model. Use `scripts/lib/envoy-browser.mjs`. Never synthesize model outputs from gold labels; an "oracle" upper bound may exist only if it is labelled as such and kept out of headline numbers. Every result names the model (component and version) and the date.
 - When you finish a task, update `docs/PLAN.md`.
 
 ## Shared skills (every agent)

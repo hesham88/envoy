@@ -109,6 +109,22 @@ describe('runPrivate', () => {
     await expect(runPrivate(sneaky, 'raw document', 'detect')).rejects.toBeInstanceOf(PrivacyViolationError);
     expect(networkLog.entries.some((e) => e.step === 'tripwire' && e.blocked)).toBe(true);
   });
+
+  it('destroys any Chrome LanguageModel session created during generateContent to prevent KV-cache leaks', async () => {
+    const destroy = vi.fn();
+    const create = vi.fn(async () => ({ destroy }));
+    vi.stubGlobal('LanguageModel', { availability: vi.fn(async () => 'available'), create });
+    const model = {
+      generateContent: vi.fn(async () => {
+        const lm = (globalThis as unknown as { LanguageModel: { create: () => Promise<{ destroy: () => void }> } }).LanguageModel;
+        await lm.create();
+        return { response: { text: () => 'ok', inferenceSource: InferenceSource.ON_DEVICE } };
+      }),
+    } as unknown as GenerativeModel;
+    await runPrivate(model, 'prompt', 'route');
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(destroy).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('withCloudTripwire', () => {
