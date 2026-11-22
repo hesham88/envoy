@@ -192,7 +192,21 @@ export function composeOutbound(a: ComposeInput, choices: ReviewChoices): { outb
   return { outbound, guard, receipt };
 }
 
-export async function analyze(doc: string, question: string, deps: Deps): Promise<Analysis> {
+export interface AnalyzeProgress {
+  step: 'rules' | Step;
+  /** 1-based part of this step (on-device steps can run in several batches). */
+  part: number;
+  parts: number;
+}
+
+export async function analyze(
+  doc: string,
+  question: string,
+  deps: Deps,
+  opts: { onProgress?: (p: AnalyzeProgress) => void } = {},
+): Promise<Analysis> {
+  const progress = opts.onProgress ?? (() => undefined);
+  progress({ step: 'rules', part: 1, parts: 1 });
   const chunks = chunkDocument(doc);
   const rules = detectWithRules(doc);
   const steps: ReceiptStep[] = [];
@@ -206,7 +220,15 @@ export async function analyze(doc: string, question: string, deps: Deps): Promis
   if (mode === 'private') {
     const blockedBefore = networkLog.entries.filter((x) => x.blocked).length;
     try {
+      const totals: Partial<Record<Step, number>> = {
+        detect: batchChunks(chunks, (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question), MAX_TOKENS).length,
+        minimize: batchChunks(chunks, (b) => buildMinimizePrompt(b, question), MAX_TOKENS).length,
+        route: 1,
+      };
+      const done: Partial<Record<Step, number>> = {};
       const run = async (step: Step, prompt: string) => {
+        done[step] = (done[step] ?? 0) + 1;
+        progress({ step, part: done[step]!, parts: Math.max(totals[step] ?? 1, done[step]!) });
         const r = await deps.runPrivate(deps.models[step], prompt, step);
         const prev = steps.find((s) => s.step === step);
         if (prev) prev.ms += r.ms;

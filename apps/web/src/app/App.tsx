@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useState } from 'react';
-import { answer } from '@envoy/ai';
+import { answer, type AnalyzeProgress } from '@envoy/ai';
 import { AboutDialog } from '../components/AboutDialog';
 import { LiveRegion } from '../components/LiveRegion';
 import { Logo } from '../components/Logo';
@@ -18,6 +18,7 @@ import { useEnvoy, type EnvoyRuntime } from './useEnvoy';
 export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
   const [state, dispatch] = useReducer(sessionReducer, initialSession);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [progress, setProgress] = useState<{ p: AnalyzeProgress | null; startedAt: number }>({ p: null, startedAt: 0 });
   const inspectable = typeof location !== 'undefined' && new URLSearchParams(location.search).has('inspect');
   const [inspectorOpen, setInspectorOpen] = useState(inspectable);
 
@@ -49,8 +50,9 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
       return;
     }
     dispatch({ type: 'ANALYZE_START' });
+    setProgress({ p: null, startedAt: Date.now() });
     try {
-      const { analysis, notice } = await runAnalysis(runtime.deps, state.doc.text, question, runtime.status);
+      const { analysis, notice } = await runAnalysis(runtime.deps, state.doc.text, question, runtime.status, (p) => setProgress((x) => ({ ...x, p })));
       dispatch({ type: 'ANALYZE_DONE', analysis, ...(notice ? { notice } : {}) });
     } catch (e) {
       dispatch({ type: 'FAIL', message: (e as Error).message });
@@ -71,10 +73,11 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
   function followUp(question: string) {
     dispatch({ type: 'SET_QUESTION', question });
     dispatch({ type: 'ANALYZE_START' });
+    setProgress({ p: null, startedAt: Date.now() });
     void (async () => {
       if (!state.doc || !runtime.deps) return;
       try {
-        const { analysis, notice } = await runAnalysis(runtime.deps, state.doc.text, question, runtime.status);
+        const { analysis, notice } = await runAnalysis(runtime.deps, state.doc.text, question, runtime.status, (p) => setProgress((x) => ({ ...x, p })));
         dispatch({ type: 'ANALYZE_DONE', analysis, ...(notice ? { notice } : {}) });
       } catch (e) {
         dispatch({ type: 'FAIL', message: (e as Error).message });
@@ -88,7 +91,7 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
   } else if (state.phase === 'answered' && state.result) {
     screen = <Answer question={state.question} result={state.result} onFollowUp={followUp} onNew={() => dispatch({ type: 'SET_QUESTION', question: '' })} />;
   } else {
-    screen = <Start state={state} dispatch={dispatch} runtime={runtime} onAnalyze={() => void analyze()} />;
+    screen = <Start state={state} dispatch={dispatch} runtime={runtime} onAnalyze={() => void analyze()} progress={progress.p} startedAt={progress.startedAt} />;
   }
 
   return (

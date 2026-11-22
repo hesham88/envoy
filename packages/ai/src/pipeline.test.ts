@@ -234,3 +234,19 @@ describe('composeOutbound (review edits)', () => {
     await expect(answer(a, shared.outbound, deps, { sharedTags: ['[RENT]'] })).resolves.toMatchObject({ source: 'in_cloud' });
   });
 });
+
+describe('progress reporting', () => {
+  it('reports each on-device step as it starts, with batch counts', async () => {
+    const events: { step: string; part: number; parts: number }[] = [];
+    await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps, { onProgress: (p) => events.push(p) });
+    expect(events.map((e) => e.step)).toEqual(expect.arrayContaining(['rules', 'detect', 'minimize', 'route']));
+    expect(events[0]!.step).toBe('rules');
+    for (const e of events) expect(e.part).toBeLessThanOrEqual(e.parts);
+  });
+
+  it('reports only the rules step in Basic protection', async () => {
+    const events: string[] = [];
+    await analyze(EN_LEASE.text, QUESTION, fakeDeps('no-api').deps, { onProgress: (p) => events.push(p.step) });
+    expect(events).toEqual(['rules']);
+  });
+});

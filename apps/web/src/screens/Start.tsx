@@ -1,7 +1,9 @@
 import { useId, type Dispatch } from 'react';
 import { SUGGESTED_QUESTIONS } from '@envoy/core';
 import type { SessionAction, SessionState } from '../app/session';
+import type { AnalyzeProgress } from '@envoy/ai';
 import type { EnvoyRuntime } from '../app/useEnvoy';
+import { AnalyzingPanel } from '../components/AnalyzingPanel';
 import { DocumentInput } from '../components/DocumentInput';
 import { HowItWorks, OnDeviceGuide } from '../components/SidePanels';
 
@@ -10,9 +12,11 @@ interface Props {
   dispatch: Dispatch<SessionAction>;
   runtime: EnvoyRuntime;
   onAnalyze: () => void;
+  progress?: AnalyzeProgress | null;
+  startedAt?: number;
 }
 
-export function Start({ state, dispatch, runtime, onAnalyze }: Props) {
+export function Start({ state, dispatch, runtime, onAnalyze, progress = null, startedAt = 0 }: Props) {
   const qId = useId();
   const busy = state.phase === 'analyzing';
   const ready = Boolean(state.doc && state.question.trim()) && !busy;
@@ -58,6 +62,8 @@ export function Start({ state, dispatch, runtime, onAnalyze }: Props) {
               ))}
             </div>
           </div>
+
+          {busy && <AnalyzingPanel progress={progress} mode={runtime.status === 'available' ? 'private' : 'basic'} startedAt={startedAt || Date.now()} />}
 
           {state.phase === 'error' && state.error && (
             <p role="alert" className="m-0 rounded-control bg-danger-tint px-4 py-3 text-sm text-danger">

@@ -1,4 +1,4 @@
-import { analyze, type Analysis, type DeviceStatus, type Deps } from '@envoy/ai';
+import { analyze, type Analysis, type AnalyzeProgress, type DeviceStatus, type Deps } from '@envoy/ai';
 
 export const NOTICES = {
   downloading: 'Your on-device model is still downloading, so this run uses Basic protection.',
@@ -11,8 +11,9 @@ export async function runAnalysis(
   doc: string,
   question: string,
   status: DeviceStatus | 'checking',
+  onProgress?: (p: AnalyzeProgress) => void,
 ): Promise<{ analysis: Analysis; notice: string | null }> {
-  const analysis = await analyze(doc, question, deps);
+  const analysis = await analyze(doc, question, deps, onProgress ? { onProgress } : {});
   if (analysis.mode === 'private') return { analysis, notice: null };
   if (analysis.fallbackReason) return { analysis, notice: analysis.fallbackReason };
   return { analysis, notice: status === 'downloading' ? NOTICES.downloading : NOTICES.noModel };
