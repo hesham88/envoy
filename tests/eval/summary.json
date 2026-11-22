@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-22T19:29:04.598Z",
-  "commit": "512c404",
+  "generatedAt": "2026-11-22T19:45:59.714Z",
+  "commit": "589276c",
   "arms": [
     {
       "id": "gemma4",
@@ -82,7 +82,7 @@
   ],
   "redteam": {
     "cases": 28,
-    "blocked": 17,
+    "blocked": 20,
     "bypasses": [
       {
         "id": "rt-10-spelled-out-national-id",
@@ -115,18 +115,6 @@
       {
         "id": "rt-20-reversed-national-id",
         "technique": "reversed-string"
-      },
-      {
-        "id": "rt-23-defanged-email",
-        "technique": "spaced-punctuated"
-      },
-      {
-        "id": "rt-27-spaced-key-shaped",
-        "technique": "spaced-punctuated"
-      },
-      {
-        "id": "rt-28-nfd-accented-name",
-        "technique": "unicode-combining-marks"
       }
     ]
   },

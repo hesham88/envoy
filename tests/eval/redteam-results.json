@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-22T19:29:02.936Z",
+  "generatedAt": "2026-11-22T19:45:58.111Z",
   "cases": 28,
-  "blocked": 17,
-  "blockRate": 0.6071,
+  "blocked": 20,
+  "blockRate": 0.7143,
   "bypasses": [
     {
       "id": "rt-10-spelled-out-national-id",
@@ -35,18 +35,6 @@
     {
       "id": "rt-20-reversed-national-id",
       "technique": "reversed-string"
-    },
-    {
-      "id": "rt-23-defanged-email",
-      "technique": "spaced-punctuated"
-    },
-    {
-      "id": "rt-27-spaced-key-shaped",
-      "technique": "spaced-punctuated"
-    },
-    {
-      "id": "rt-28-nfd-accented-name",
-      "technique": "unicode-combining-marks"
     }
   ],
   "bypassDetails": [
@@ -97,24 +85,6 @@
       "technique": "reversed-string",
       "entityType": "NATIONAL_ID",
       "reproOutbound": "Backwards ID: 93840102160572."
-    },
-    {
-      "id": "rt-23-defanged-email",
-      "technique": "spaced-punctuated",
-      "entityType": "EMAIL",
-      "reproOutbound": "Email: mona [dot] adel [at] example [dot] com."
-    },
-    {
-      "id": "rt-27-spaced-key-shaped",
-      "technique": "spaced-punctuated",
-      "entityType": "ORG",
-      "reproOutbound": "Key: T-O-K-E-N-_-A-L-P-H-A-_-9-9-2-8-1-7."
-    },
-    {
-      "id": "rt-28-nfd-accented-name",
-      "technique": "unicode-combining-marks",
-      "entityType": "PERSON",
-      "reproOutbound": "Signed by Kárim Fáthy."
     }
   ],
   "controls": {
@@ -433,9 +403,15 @@
       "entityType": "EMAIL",
       "description": "Defanged email with [at] and [dot]",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "mona [dot] adel [at] example [dot] com",
+          "type": "EMAIL",
+          "index": 7
+        }
+      ]
     },
     {
       "id": "rt-24-spaced-money",
@@ -491,9 +467,15 @@
       "entityType": "ORG",
       "description": "Hyphen-spaced synthetic secret token passed as protected entity",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "T-O-K-E-N-_-A-L-P-H-A-_-9-9-2-8-1-7",
+          "type": "ORG",
+          "index": 5
+        }
+      ]
     },
     {
       "id": "rt-28-nfd-accented-name",
@@ -501,9 +483,15 @@
       "entityType": "PERSON",
       "description": "Combining acute accents (NFD) added to protected person name",
       "expectedBlocked": true,
-      "actualBlocked": false,
-      "passed": false,
-      "leaksFound": []
+      "actualBlocked": true,
+      "passed": true,
+      "leaksFound": [
+        {
+          "value": "Kárim Fáthy",
+          "type": "PERSON",
+          "index": 10
+        }
+      ]
     },
     {
       "id": "rt-ctrl-01-clean-tags",

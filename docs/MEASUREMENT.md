@@ -31,7 +31,7 @@ The eval harness (`tests/eval`, run with `npm run eval`) runs 36 cases through t
 
 Rules for every number: it comes from a real run, never from gold labels; it names the model (component and version from `chrome://on-device-internals`), the date and the number of cases; and it's reported separately for Gemma 4 (our development model, behind a developer-trial flag), Chrome's default Gemini Nano (what most people have), and Basic protection (no model). Firebase AI Logic doesn't report which on-device model Chrome used, which is why each run records it.
 
-**Status:** the harness is being completed. Results publish to `tests/eval/summary.json`, which the [landing page](https://envoy-hybrid-ai.web.app/#guard) shows as soon as it exists, and in full in `docs/EVAL.md`. Until then, no measured figure is quoted anywhere in Envoy's materials.
+**Results:** [docs/EVAL.md](EVAL.md), with the machine-readable summary in [`tests/eval/summary.json`](../tests/eval/summary.json), which the [landing page](https://envoy-hybrid-ai.web.app/#guard) reads directly. The privacy matrix covers all 36 cases on each of the three setups. The attack and answer-quality runs are smaller samples, labelled as such.
 
 ## Reproduce
 
@@ -40,4 +40,4 @@ npm install
 npm run verify        # every automated check above
 ```
 
-Once the harness is merged: `npm run eval` reruns the evaluation from the committed real-run caches, and `npm run eval -- --live` re-collects against the on-device model (this needs the model Chrome; see docs/PLAN.md).
+`npm run eval` reruns the evaluation from the committed real-run caches, and `npm run eval -- --live` re-collects against the on-device model (this needs the model Chrome; see docs/PLAN.md).

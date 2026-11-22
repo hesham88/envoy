@@ -44,7 +44,7 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 ## 3. Privacy Attacks — Does Privacy Actually Hold? (Milestone 3)
 
 ### 3.1 & 3.2 Re-Identification & Attribute Inference (`tests/eval/run-attacks.mjs`)
-- **Attacker model:** Cloud **`gemini-3.5-flash-lite`** via **Firebase AI Logic (`ONLY_IN_CLOUD` + App Check)**, date **`2026-11-22`**, **`n = 12 / 36`** `[PARTIAL n=12/36]` (`118` gold sensitive entities · `31` ground-truth attributes: city, gender, employer/org, salary/amount band).
+- **Attacker model:** Cloud **`gemini-3.5-flash-lite`** via Firebase AI Logic's Gemini endpoint (`firebasevertexai.googleapis.com`), called directly over REST from Node with an App Check token. The SDK only runs in browsers; the model and backend are the same ones the app's cloud step uses, date **`2026-11-22`**, **`n = 12 / 36`** `[PARTIAL n=12/36]` (`118` gold sensitive entities · `31` ground-truth attributes: city, gender, employer/org, salary/amount band).
 
 | Observed Input Given to Cloud Adversary (`gemini-3.5-flash-lite`, `2026-11-22`, `n = 12`) | Exact Re-ID % | Partial + Exact Re-ID % | Attribute Inference % |
 | --- | :---: | :---: | :---: |
@@ -59,7 +59,8 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 ### 3.3 Outbound Guard Red-Team (`tests/eval/redteam.json`, `tests/eval/run-redteam.mjs`)
 - **Target:** `@envoy/core` `checkOutbound()` · **Date:** `2026-11-22` · **Cases:** `28` adversarial bypass payloads + `2` clean controls.
 - **Before PR #11 hardening:** `11 / 28` blocked (`39.3%`), `17` bypasses reported in [Issue #7](https://github.com/hesham88/envoy/issues/7).
-- **After PR #11 hardening (current `main`):** **`17 / 28` attacks blocked (`60.7%`)**, **`11` remaining bypasses**, **`2 / 2` clean controls passed (`0` false blocks)**.
+- **After PR #11 hardening:** `17 / 28` attacks blocked (`60.7%`), `11` remaining bypasses, `2 / 2` clean controls passed.
+- **After PR #14 (current `main`, rerun by `npm run eval`):** **`20 / 28` attacks blocked**, **`8` remaining bypasses**. PR #14 closed combining accents (`rt-28`), defanged emails (`rt-23`) and spaced-out values containing digits (`rt-27`).
   - **Newly blocked by PR #11 (6 bypasses closed):** zero-width space in names (`rt-01`), soft hyphen in emails (`rt-03`), Cyrillic homoglyphs in names (`rt-05`), full-width digits & Latin (`rt-07`, `rt-08`, `rt-09`).
   - **Remaining 11 bypasses (tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7)):** digits/amounts spelled in words (`rt-10`, `rt-11`, `rt-12`), mid-word line split (`rt-14`), Base64 (`rt-17`, `rt-18`), reversed strings (`rt-19`, `rt-20`), defanged email (`rt-23`), hyphen-spaced key token (`rt-27`), NFD combining accents (`rt-28`).
 
@@ -72,7 +73,7 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 
 ## 4. Answer Quality vs. Privacy — PAPILLON-Style Trade-Off (Milestone 4)
 
-- **Runner:** `tests/eval/run-quality.mjs` · **Cloud reasoning & judge model:** **`gemini-3.5-flash-lite`** via Firebase AI Logic (`ONLY_IN_CLOUD` + App Check) · **Date:** `2026-11-22` · **`n = 10 / 20`** `[PARTIAL n=10/20]`.
+- **Runner:** `tests/eval/run-quality.mjs` · **Cloud reasoning & judge model:** **`gemini-3.5-flash-lite`** via Firebase AI Logic's Gemini endpoint (`firebasevertexai.googleapis.com`), called directly over REST from Node with an App Check token. The SDK only runs in browsers; the model and backend are the same ones the app's cloud step uses. **How Envoy's answers were produced here:** the recorded runs didn't include `answer()`, so each Envoy answer was regenerated from the run's real approved outbound with the product's `buildReasonPrompt` plus one extra line about tag syntax, then restored with `restoreAnswer`. Treat this as an estimate of the product's answer quality on a 10-question sample, not a measurement of `answer()` itself · **Date:** `2026-11-22` · **`n = 10 / 20`** `[PARTIAL n=10/20]`.
 
 | Arm *(Measured `2026-11-22`, `n = 10`, judge `gemini-3.5-flash-lite`)* | Envoy Score | Raw-Doc Ceiling | **Answer Quality Retained** | Right Clause Cited % | Correct / Partial / Wrong | Exact Re-ID / Attr Inf |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -95,8 +96,8 @@ In Basic protection (no on-device model), `flagNames()` missed **8 unstructured 
 
 ## 6. Limitations
 
-1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`) / `67.5s` (`nano`); modern GPU-backed Chrome systems run on-device prompts in ~1–4s.
-2. **Remaining 11 guard obfuscation bypasses & 8 Basic `flagNames` leaks:** Tracked transparently in [Issue #7](https://github.com/hesham88/envoy/issues/7) (6 of 17 guard bypasses already closed in PR #11).
+1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`) / `67.5s` (`nano`); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
+2. **Remaining 8 guard obfuscation bypasses & 8 Basic `flagNames` leaks:** digits spelled out in words, Base64, reversed strings and a name split mid-word across lines. Each would need the guard to block ordinary text to catch it. Tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7); 9 of 17 original bypasses are closed (PR #11, PR #14).
 3. **Cloud attack & quality sample size (`n = 12` / `n = 10`):** Paced for Gemini Developer API Free Tier RPM limits; clearly labeled partial alongside the full `36/36` pipeline matrix.
 
 ---
