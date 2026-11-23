@@ -26,6 +26,7 @@ declare namespace chrome {
     function request(p: { origins: string[] }, cb?: (granted: boolean) => void): void;
   }
   namespace tabs {
+    function create(o: { url: string }): Promise<unknown>;
     function query(q: {
       active: boolean;
       currentWindow: boolean;

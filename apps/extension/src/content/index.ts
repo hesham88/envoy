@@ -50,6 +50,9 @@ const keep = new Set<string>();
 let original: string | null = null;
 let deepFindings: { type: string; value: string; tag: string }[] = [];
 let deepBusy = false;
+/** The last on-device check's outcome, always shown so a check never looks like it did nothing. */
+let deepStatus: { ok: true; added: number; ms?: number } | { ok: false; error: string } | null =
+  null;
 let lastDeepHash = '';
 let debounce: number | undefined;
 let idleTimer: number | undefined;
@@ -364,8 +367,10 @@ function renderCard() {
     });
     actions.append(apply);
   }
+  const status = deepStatusLine();
   card.append(
     actions,
+    ...(status ? [status] : []),
     el(
       'p',
       'note',
@@ -373,6 +378,35 @@ function renderCard() {
     ),
   );
   place();
+}
+
+/** One line about the last on-device check: what it found, or why it couldn't run and how to fix it. */
+function deepStatusLine(): HTMLElement | null {
+  if (deepBusy || !deepStatus) return null;
+  const line = el('p', 'deep-status');
+  line.setAttribute('role', 'status');
+  if (deepStatus.ok) {
+    const secs = deepStatus.ms ? ` in ${(deepStatus.ms / 1000).toFixed(1)} s` : '';
+    line.textContent =
+      deepStatus.added > 0
+        ? `On-device check found ${deepStatus.added} more${secs}.`
+        : `On-device check done${secs}: nothing more found.`;
+    return line;
+  }
+  line.dataset.error = 'true';
+  line.append(
+    document.createTextNode(
+      `On-device check couldn't run: ${deepStatus.error} Rules still protect this field. `,
+    ),
+  );
+  const fix = el('button', 'link-btn', 'How to turn on private mode');
+  fix.type = 'button';
+  fix.addEventListener(
+    'click',
+    () => void chrome.runtime.sendMessage({ type: 'envoy:open-ai-setup' }),
+  );
+  line.append(fix);
+  return line;
 }
 
 /** The apply moment: motes fly from the card into the field (skipped under reduced motion via CSS). */
@@ -416,13 +450,17 @@ async function runDeepCheck(manual: boolean) {
       ok: boolean;
       findings?: typeof deepFindings;
       error?: string;
+      ms?: number;
     };
     if (res?.ok && res.findings) {
       const seen = new Set((scan?.findings ?? []).map((f) => f.value));
       deepFindings = res.findings.filter((f) => !seen.has(f.value));
+      deepStatus = { ok: true, added: deepFindings.length, ...(res.ms ? { ms: res.ms } : {}) };
+    } else {
+      deepStatus = { ok: false, error: res?.error ?? 'no answer from the on-device checker.' };
     }
-  } catch {
-    /* rules-only is the fallback; the card copy already says so */
+  } catch (e) {
+    deepStatus = { ok: false, error: `${(e as Error).message}.` };
   }
   deepBusy = false;
   renderCard();
@@ -447,6 +485,7 @@ function setProtection(on: boolean) {
     original = null;
     keep.clear();
     deepFindings = [];
+    deepStatus = null;
     lastCount = 0;
     rescan();
   } else {

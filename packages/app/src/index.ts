@@ -24,3 +24,4 @@ export { CloudPreview } from './components/review/CloudPreview';
 export { DocumentViewer } from './components/review/DocumentViewer';
 export { FoundList } from './components/review/FoundList';
 export { FileReadError, readDocumentFile, type ReadDocument } from './lib/readFile';
+export { PrivateModeGuide, CHROME_PAGES, type ChromePage } from './chat/PrivateModeGuide';

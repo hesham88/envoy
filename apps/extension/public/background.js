@@ -58,6 +58,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     setSiteEnabled(msg.origin, !!msg.enabled).then((sites) => sendResponse({ ok: true, sites })).catch((e) => sendResponse({ ok: false, error: String(e) }));
     return true;
   }
+  if (msg?.type === 'envoy:open-ai-setup') {
+    // The text box card's "How to turn on private mode": the app's guide, in a new tab.
+    chrome.tabs.create({ url: 'https://envoy-hybrid-ai.web.app/app?guide=private' });
+    sendResponse({ ok: true });
+    return false;
+  }
   if (msg?.type === 'envoy:pdf-mask') {
     if (typeof msg.base64 !== 'string' || msg.base64.length > 40_000_000 || (msg.custom !== undefined && !Array.isArray(msg.custom))) { sendResponse({ ok: false, error: 'Bad request.' }); return false; }
     (async () => {

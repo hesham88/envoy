@@ -237,6 +237,26 @@ try {
   await page.waitForTimeout(300);
   check('textarea: Undo restores the text', (await page.inputValue('#ta')).includes(RAW.email));
 
+  // The on-device check always reports back. Headless Chrome has no model, so it must say why,
+  // and offer the private-mode guide, instead of silently leaving the card as it was.
+  await page.locator('#envoy-field-ui .btn', { hasText: 'Check with on-device AI' }).click();
+  const status = ui('.deep-status');
+  const shown = await status.waitFor({ timeout: 20000 }).then(
+    () => true,
+    () => false,
+  );
+  const statusText = shown ? await status.innerText() : '';
+  check(
+    'on-device check: the result is always shown (here: why it could not run)',
+    shown && /couldn't run|nothing more found|found \d+ more/.test(statusText),
+    statusText.replace(/\s+/g, ' ').slice(0, 140),
+  );
+  check(
+    'on-device check: offers the private-mode guide when it cannot run',
+    !/couldn't run/.test(statusText) ||
+      (await status.getByRole('button', { name: 'How to turn on private mode' }).count()) === 1,
+  );
+
   // Close the card the way a person would (the × button), then move on.
   await ui('.icon-btn').click();
   await page.waitForTimeout(200);

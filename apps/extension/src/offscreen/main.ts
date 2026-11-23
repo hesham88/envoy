@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (!ai || status !== 'available') {
       sendResponse({
         ok: false,
-        error: `On-device model not ready (${status}); rules-only findings are shown.`,
+        error: `Chrome's built-in model isn't ready on this computer (${status}).`,
         model: "Chrome's built-in model",
       });
       return;

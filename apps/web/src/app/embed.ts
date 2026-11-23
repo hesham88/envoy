@@ -13,7 +13,7 @@
  */
 import { useEffect, useMemo, useState } from 'react';
 import { validateCustomRule, type CustomRule } from '@envoy/core';
-import type { RulesStore, SessionDoc } from '@envoy/app';
+import type { ChromePage, RulesStore, SessionDoc } from '@envoy/app';
 
 /** Fixed by the public key in apps/extension/public/manifest.json. */
 export const ENVOY_EXTENSION_ID = 'ekmjefnebmjbeahkadaheapbgpgkabkd';
@@ -47,6 +47,7 @@ function cleanRules(value: unknown): CustomRule[] {
 export function useExtensionBridge(origin = EXTENSION_ORIGIN): {
   doc: SessionDoc | null;
   rulesStore: RulesStore;
+  openChromePage: (page: ChromePage) => void;
 } {
   const [doc, setDoc] = useState<SessionDoc | null>(null);
   const [rules, setRules] = useState<{ list: CustomRule[]; at: number } | null>(null);
@@ -78,5 +79,7 @@ export function useExtensionBridge(origin = EXTENSION_ORIGIN): {
     }),
     [rules, origin],
   );
-  return { doc, rulesStore };
+  const openChromePage = (page: ChromePage) =>
+    window.parent.postMessage({ type: 'envoy:open-chrome-page', page }, origin);
+  return { doc, rulesStore, openChromePage };
 }

@@ -64,6 +64,11 @@ function useSelectedText(): SessionDoc | null {
 }
 
 const HOSTED_ORIGIN = new URL(HOSTED_APP_URL).origin;
+const CHROME_PAGES = {
+  'settings-ai': 'chrome://settings/ai',
+  'flags-gemma4': 'chrome://flags/#gemma4-for-built-in-ai',
+  internals: 'chrome://on-device-internals',
+} as const;
 const READY_TIMEOUT_MS = 8000;
 
 /**
@@ -89,13 +94,17 @@ function EmbeddedChat({
     }, READY_TIMEOUT_MS);
     const onMessage = async (e: MessageEvent) => {
       if (e.origin !== HOSTED_ORIGIN || e.source !== frame.current?.contentWindow) return;
-      const m = e.data as { type?: string; rules?: unknown };
+      const m = e.data as { type?: string; rules?: unknown; page?: unknown };
       if (m?.type === 'envoy:ready') {
         setReady(true);
         const rules = await rulesStore.load();
         frame.current?.contentWindow?.postMessage({ type: 'envoy:rules', rules }, HOSTED_ORIGIN);
       } else if (m?.type === 'envoy:save-rules' && Array.isArray(m.rules)) {
         await rulesStore.save(m.rules as CustomRule[]);
+      } else if (m?.type === 'envoy:open-chrome-page' && typeof m.page === 'string') {
+        // Only these three pages: the private-mode guide's links. Web pages can't open chrome:// pages.
+        const url = CHROME_PAGES[m.page as keyof typeof CHROME_PAGES];
+        if (url) void chrome.tabs.create({ url });
       }
     };
     window.addEventListener('message', onMessage);
