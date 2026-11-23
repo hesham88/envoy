@@ -9,7 +9,7 @@ export function PopupApp() {
   const [enabled, setEnabled] = useState(false);
   const [status, setStatus] = useState<DeviceStatus | 'checking'>('checking');
   const [note, setNote] = useState('');
-  const [tab, setTab] = useState<{ windowId?: number }>({});
+  const [tab, setTab] = useState<{ id?: number; windowId?: number }>({});
   const [onboard, setOnboard] = useState<number | null>(null);
 
   useEffect(() => {
@@ -58,10 +58,30 @@ export function PopupApp() {
     })) as { ok: boolean; error?: string } | undefined;
     if (res?.ok) {
       setEnabled(next);
+      let live = false;
+      if (next && tab.id !== undefined) {
+        // Start Envoy in this tab now, unless it's already there (registered scripts start on the next load).
+        try {
+          const [check] = await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: () => !!document.getElementById('envoy-field-ui'),
+          });
+          if (!check?.result)
+            await chrome.scripting.executeScript({
+              target: { tabId: tab.id },
+              files: ['content.js'],
+            });
+          live = true;
+        } catch {
+          live = false;
+        }
+      }
       setNote(
         next
-          ? 'Envoy can now appear on this site. Reload the tab to see the toggle.'
-          : 'Envoy is off for this site.',
+          ? live
+            ? 'Envoy is on for this site. Click into a text box to see it.'
+            : 'Envoy is on for this site. Reload the tab to see it.'
+          : 'Envoy is off for this site. Reload the tab to remove it.',
       );
     } else {
       setNote(res?.error ?? 'Chrome did not grant access to this site.');
@@ -72,7 +92,7 @@ export function PopupApp() {
     <div className="w-[320px] bg-paper p-4 font-sans text-ink">
       <header className="mb-3 flex items-center justify-between">
         <Logo size={20} withWordmark />
-        <StatusPill status={status} progress={null} />
+        <StatusPill status={status} progress={null} compact />
       </header>
 
       {onboard !== null && onboard >= 0 && (

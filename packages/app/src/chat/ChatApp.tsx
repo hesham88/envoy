@@ -12,13 +12,14 @@ import {
   Lock,
   Paperclip,
   Plus,
+  History,
   ScrollText,
   ShieldCheck,
   X,
 } from 'lucide-react';
 import { analyze, answer, composeOutbound, type AnalyzeProgress } from '@envoy/ai';
 import { checkOutbound, EN_LEASE, validateCustomRule, type CustomRule } from '@envoy/core';
-import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill } from '@envoy/ui';
+import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill, UvRing } from '@envoy/ui';
 import { NOTICES } from '../app/actions';
 import {
   initialSession,
@@ -37,6 +38,8 @@ import { DocumentViewer } from '../components/review/DocumentViewer';
 import { FoundList } from '../components/review/FoundList';
 import { FileReadError, readDocumentFile } from '../lib/readFile';
 import { FlightRecorder } from './FlightRecorder';
+import { HistoryDialog } from './History';
+import { useVault } from '../lib/useVault';
 
 interface Turn {
   id: number;
@@ -46,7 +49,24 @@ interface Turn {
   startedAt: number;
   /** The message itself was the document (no attachment). */
   inline: boolean;
+  /** Opened from history: shown read-only. */
+  restored?: boolean;
 }
+
+/** What a saved chat keeps (encrypted in the vault). */
+interface SavedTurn {
+  question: string;
+  inline: boolean;
+  doc: SessionDoc | null;
+  result: NonNullable<SessionState['result']>;
+  notice: string | null;
+  at: number;
+}
+interface SavedChat {
+  createdAt: number;
+  turns: SavedTurn[];
+}
+const newChatId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
 const RULES_KEY = 'envoy.rules.v1';
 const PASTE_AS_FILE = 1500;
@@ -116,17 +136,44 @@ export function ChatApp({
   const [attachError, setAttachError] = useState<string | null>(null);
   const [imageNote, setImageNote] = useState<string | null>(null);
   const [localOnly, setLocalOnly] = useState(false);
+  const vault = useVault();
+  // Rules live in the encrypted vault (the extension passes its own store). Plain localStorage rules
+  // from earlier versions are moved into the vault once, then removed.
+  const vaultRules = useMemo<RulesStore | undefined>(
+    () =>
+      vault.state === 'ready'
+        ? {
+            load: async () => {
+              const saved = await vault.load<CustomRule[]>('_rules');
+              if (saved) return saved;
+              const legacy = loadRules();
+              if (legacy.length) {
+                await vault.save('_rules', 'Your rules', legacy);
+                try {
+                  localStorage.removeItem(RULES_KEY);
+                } catch {
+                  /* ignore */
+                }
+              }
+              return legacy;
+            },
+            save: (r) => vault.save('_rules', 'Your rules', r),
+          }
+        : undefined,
+    [vault.state],
+  );
+  const store = rulesStore ?? vaultRules;
   const [rules, setRules] = useState<CustomRule[]>(() => (rulesStore ? [] : loadRules()));
   useEffect(() => {
-    if (!rulesStore) return;
+    if (!store) return;
     let live = true;
-    void rulesStore.load().then((r) => {
+    void store.load().then((r) => {
       if (live) setRules(r.filter((x) => !validateCustomRule(x)));
     });
     return () => {
       live = false;
     };
-  }, [rulesStore]);
+  }, [store]);
   useEffect(() => {
     if (incomingDoc) setDoc(incomingDoc);
   }, [incomingDoc]);
@@ -136,6 +183,10 @@ export function ChatApp({
   );
   const [rulesOpen, setRulesOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const chatId = useRef(newChatId());
+  const createdAt = useRef(Date.now());
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [composerFocus, setComposerFocus] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -265,8 +316,56 @@ export function ChatApp({
     }
   }
 
+  useEffect(() => {
+    const answered = turns.filter((t) => t.session.phase === 'answered' && t.session.result);
+    if (!answered.length || vault.state !== 'ready') return;
+    const saved: SavedChat = {
+      createdAt: createdAt.current,
+      turns: answered.map((t) => ({
+        question: t.session.question,
+        inline: t.inline,
+        doc: t.inline ? null : t.session.doc,
+        result: t.session.result!,
+        notice: t.session.notice,
+        at: t.startedAt,
+      })),
+    };
+    const title = answered[0]!.session.question.replace(/\s+/g, ' ').slice(0, 80);
+    void vault.save(chatId.current, title, saved);
+  }, [turns, vault.state]);
+
+  async function openChat(id: string) {
+    if (busy) return;
+    const saved = await vault.load<SavedChat>(id);
+    if (!saved) return;
+    chatId.current = id;
+    createdAt.current = saved.createdAt;
+    setTurns(
+      saved.turns.map((t, i) => ({
+        id: nextId.current++ + i,
+        session: {
+          ...initialSession,
+          phase: 'answered',
+          question: t.question,
+          doc: t.doc,
+          result: t.result,
+          notice: t.notice,
+        },
+        progress: null,
+        localOnly: false,
+        startedAt: t.at,
+        inline: t.inline,
+        restored: true,
+      })),
+    );
+    const lastDoc = [...saved.turns].reverse().find((t) => t.doc)?.doc ?? null;
+    setDoc(lastDoc);
+  }
+
   function newChat() {
     if (busy) return;
+    chatId.current = newChatId();
+    createdAt.current = Date.now();
     setTurns([]);
     setDoc(null);
     setDraft('');
@@ -319,7 +418,7 @@ export function ChatApp({
           <Plus size={16} aria-hidden="true" /> New chat
         </button>
         <div className="flex flex-col gap-2 rounded-[12px] border border-line p-3">
-          <StatusPill status={runtime.status} progress={runtime.progress} />
+          <StatusPill status={runtime.status} progress={runtime.progress} compact />
           {runtime.status !== 'available' && runtime.status !== 'checking' && (
             <button
               onClick={runtime.enablePrivateMode}
@@ -351,8 +450,15 @@ export function ChatApp({
         >
           <ShieldCheck size={15} aria-hidden="true" /> How Envoy protects you
         </button>
+        <button
+          onClick={() => setHistoryOpen(true)}
+          className="flex items-center gap-2 rounded-[10px] px-2 py-2 text-left text-[14px] text-ink hover:bg-surface"
+        >
+          <History size={15} aria-hidden="true" /> History
+          {vault.entries.length ? ` (${vault.entries.length})` : ''}
+        </button>
         <p className="mt-auto mb-0 px-1 text-[12px] leading-snug text-muted">
-          Nothing is saved. Closing this tab forgets the chat, the document and every tag.
+          History is encrypted on this device and never sent. Delete it any time in History.
         </p>
       </aside>
 
@@ -385,6 +491,11 @@ export function ChatApp({
                   Icon: ScrollText,
                   onClick: () => setLedgerOpen((v) => !v),
                   pressed: ledgerOpen,
+                },
+                {
+                  label: 'History',
+                  Icon: History,
+                  onClick: () => setHistoryOpen(true),
                 },
                 {
                   label: 'How Envoy protects you',
@@ -480,116 +591,138 @@ export function ChatApp({
 
         {/* ---------- composer ---------- */}
         <div className="sticky bottom-0 bg-gradient-to-t from-uv-dark via-uv-dark/95 to-transparent px-4 pt-6 pb-5 sm:px-6">
-          <form
-            className="mx-auto flex max-w-[860px] flex-col gap-2 rounded-[22px] border border-line bg-surface p-3 shadow-[0_20px_60px_-30px_rgba(61,255,176,0.35)] focus-within:border-device/50"
-            onSubmit={(e) => {
-              e.preventDefault();
-              void send();
-            }}
-          >
-            {(doc || imageNote || attachError) && (
-              <div className="flex flex-wrap items-center gap-2 px-1">
-                {doc && (
-                  <span className="inline-flex max-w-full items-center gap-2 rounded-[10px] border border-line bg-paper px-2.5 py-1.5 text-[13px] text-ink">
-                    <FileText size={14} aria-hidden="true" className="flex-none text-device" />
-                    <span className="truncate">{doc.title}</span>
-                    <span className="hidden text-muted sm:inline">stays on this device</span>
+          {/* A soft neon rim around the composer while it has focus (it replaces the default focus outline). */}
+          <UvRing on={composerFocus} radius={22} className="mx-auto max-w-[860px]">
+            <form
+              className="flex flex-col gap-2 rounded-[22px] border border-line bg-surface p-3 shadow-[0_20px_60px_-30px_rgba(61,255,176,0.35)]"
+              onFocus={() => setComposerFocus(true)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null))
+                  setComposerFocus(false);
+              }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                void send();
+              }}
+            >
+              {(doc || imageNote || attachError) && (
+                <div className="flex flex-wrap items-center gap-2 px-1">
+                  {doc && (
+                    <span className="inline-flex max-w-full items-center gap-2 rounded-[10px] border border-line bg-paper px-2.5 py-1.5 text-[13px] text-ink">
+                      <FileText size={14} aria-hidden="true" className="flex-none text-device" />
+                      <span className="truncate">{doc.title}</span>
+                      <span className="hidden text-muted sm:inline">stays on this device</span>
+                      <button
+                        type="button"
+                        onClick={() => setDoc(null)}
+                        aria-label={`Remove ${doc.title}`}
+                        className="text-muted hover:text-ink"
+                      >
+                        <X size={14} />
+                      </button>
+                    </span>
+                  )}
+                  {imageNote && (
+                    <span className="inline-flex items-center gap-2 text-[13px] text-muted">
+                      <ImageOff size={14} aria-hidden="true" /> {imageNote}
+                    </span>
+                  )}
+                  {attachError && (
+                    <span role="alert" className="text-[13px] text-danger">
+                      {attachError}
+                    </span>
+                  )}
+                </div>
+              )}
+              <label htmlFor="envoy-composer" className="sr-only">
+                Message Envoy
+              </label>
+              <textarea
+                id="envoy-composer"
+                onFocus={() => void runtime.warmUp?.()}
+                value={draft}
+                rows={1}
+                placeholder={
+                  doc
+                    ? `Ask about ${doc.title}`
+                    : 'Ask anything. Attach a document or paste one in.'
+                }
+                onChange={(e) => setDraft(e.target.value)}
+                onPaste={(e) => {
+                  const pasted = e.clipboardData.getData('text');
+                  if (pasted.length > PASTE_AS_FILE && !doc) {
+                    e.preventDefault();
+                    setDoc({
+                      title: `Pasted text (${pasted.length.toLocaleString()} characters)`,
+                      text: pasted,
+                      source: 'paste',
+                    });
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+                    e.preventDefault();
+                    void send();
+                  }
+                }}
+                className="max-h-[40vh] min-h-[52px] resize-none bg-transparent px-2 py-2 text-[16px] leading-relaxed text-ink outline-none placeholder:text-muted focus-visible:outline-none"
+                style={{ fieldSizing: 'content' } as React.CSSProperties}
+              />
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1">
+                  <input
+                    ref={fileInput}
+                    type="file"
+                    hidden
+                    accept=".pdf,.txt,.md,.csv,application/pdf,text/plain,image/*"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) void attach(f);
+                      e.target.value = '';
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInput.current?.click()}
+                    aria-label="Attach a document"
+                    className="rounded-full p-2 text-muted hover:bg-paper hover:text-ink"
+                  >
+                    <Paperclip size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={localOnly}
+                    onClick={() => setLocalOnly((v) => !v)}
+                    title="Answer on this device only. Nothing is sent to the cloud."
+                    className={`rounded-full border px-3 py-1.5 text-[13px] ${localOnly ? 'border-device/60 bg-device-tint text-device-on-tint' : 'border-line text-muted hover:text-ink'}`}
+                  >
+                    Local only
+                  </button>
+                  {runtime.setFastCloud && (
                     <button
                       type="button"
-                      onClick={() => setDoc(null)}
-                      aria-label={`Remove ${doc.title}`}
-                      className="text-muted hover:text-ink"
+                      role="switch"
+                      aria-checked={!!runtime.fastCloud}
+                      onClick={() => runtime.setFastCloud?.(!runtime.fastCloud)}
+                      title={`Cloud model for the reasoning step: ${runtime.settings.cloudModel}. Fast is quicker; Gemini 4 Hydrogen reasons more carefully.`}
+                      className={`rounded-full border px-3 py-1.5 text-[13px] ${runtime.fastCloud ? 'border-cloud/60 bg-cloud-tint text-cloud-on-tint' : 'border-line text-muted hover:text-ink'}`}
                     >
-                      <X size={14} />
+                      {runtime.fastCloud ? 'Fast cloud' : 'Gemini 4 Hydrogen'}
                     </button>
-                  </span>
-                )}
-                {imageNote && (
-                  <span className="inline-flex items-center gap-2 text-[13px] text-muted">
-                    <ImageOff size={14} aria-hidden="true" /> {imageNote}
-                  </span>
-                )}
-                {attachError && (
-                  <span role="alert" className="text-[13px] text-danger">
-                    {attachError}
-                  </span>
-                )}
-              </div>
-            )}
-            <label htmlFor="envoy-composer" className="sr-only">
-              Message Envoy
-            </label>
-            <textarea
-              id="envoy-composer"
-              onFocus={() => void runtime.warmUp?.()}
-              value={draft}
-              rows={1}
-              placeholder={
-                doc ? `Ask about ${doc.title}` : 'Ask anything. Attach a document or paste one in.'
-              }
-              onChange={(e) => setDraft(e.target.value)}
-              onPaste={(e) => {
-                const pasted = e.clipboardData.getData('text');
-                if (pasted.length > PASTE_AS_FILE && !doc) {
-                  e.preventDefault();
-                  setDoc({
-                    title: `Pasted text (${pasted.length.toLocaleString()} characters)`,
-                    text: pasted,
-                    source: 'paste',
-                  });
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
-                  e.preventDefault();
-                  void send();
-                }
-              }}
-              className="max-h-[40vh] min-h-[52px] resize-none bg-transparent px-2 py-2 text-[16px] leading-relaxed text-ink outline-none placeholder:text-muted"
-              style={{ fieldSizing: 'content' } as React.CSSProperties}
-            />
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1">
-                <input
-                  ref={fileInput}
-                  type="file"
-                  hidden
-                  accept=".pdf,.txt,.md,.csv,application/pdf,text/plain,image/*"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) void attach(f);
-                    e.target.value = '';
-                  }}
-                />
+                  )}
+                </div>
                 <button
-                  type="button"
-                  onClick={() => fileInput.current?.click()}
-                  aria-label="Attach a document"
-                  className="rounded-full p-2 text-muted hover:bg-paper hover:text-ink"
+                  type="submit"
+                  disabled={!draft.trim() || busy}
+                  aria-label="Send"
+                  className="grid size-10 place-items-center rounded-full bg-device text-uv-deep transition-opacity disabled:opacity-35"
                 >
-                  <Paperclip size={18} />
-                </button>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={localOnly}
-                  onClick={() => setLocalOnly((v) => !v)}
-                  title="Answer on this device only. Nothing is sent to the cloud."
-                  className={`rounded-full border px-3 py-1.5 text-[13px] ${localOnly ? 'border-device/60 bg-device-tint text-device-on-tint' : 'border-line text-muted hover:text-ink'}`}
-                >
-                  Local only
+                  <ArrowUp size={19} strokeWidth={2.25} />
                 </button>
               </div>
-              <button
-                type="submit"
-                disabled={!draft.trim() || busy}
-                aria-label="Send"
-                className="grid size-10 place-items-center rounded-full bg-device text-uv-deep transition-opacity disabled:opacity-35"
-              >
-                <ArrowUp size={19} strokeWidth={2.25} />
-              </button>
-            </div>
-          </form>
+            </form>
+          </UvRing>
           <p className="mx-auto mt-2 mb-0 max-w-[860px] text-center text-[12px] text-muted">
             Envoy explains documents; it isn't legal or financial advice. Drop a PDF or text file
             anywhere to attach it.
@@ -605,13 +738,20 @@ export function ChatApp({
           Drop to attach. It stays on this device.
         </div>
       )}
+      {historyOpen && (
+        <HistoryDialog
+          vault={vault}
+          onOpen={(id) => void openChat(id)}
+          onClose={() => setHistoryOpen(false)}
+        />
+      )}
       {rulesOpen && (
         <RulesDialog
           rules={rules}
           onClose={() => setRulesOpen(false)}
           onChange={(r) => {
             setRules(r);
-            if (rulesStore) void rulesStore.save(r);
+            if (store) void store.save(r);
             else saveRules(r);
           }}
         />
@@ -671,16 +811,23 @@ function TurnView({
             </button>
           </div>
         )}
-        <FlightRecorder
-          startedAt={turn.startedAt}
-          phase={s.phase}
-          progress={turn.progress}
-          analysis={s.analysis}
-          result={s.result}
-          cloudModel={runtime.settings.cloudModel}
-          localOnly={turn.localOnly}
-          open={s.phase !== 'answered'}
-        />
+        {turn.restored ? (
+          <p className="m-0 text-[12.5px] text-muted">
+            From your history, {new Date(turn.startedAt).toLocaleString()}. Decrypted on this
+            device.
+          </p>
+        ) : (
+          <FlightRecorder
+            startedAt={turn.startedAt}
+            phase={s.phase}
+            progress={turn.progress}
+            analysis={s.analysis}
+            result={s.result}
+            cloudModel={runtime.settings.cloudModel}
+            localOnly={turn.localOnly}
+            open={s.phase !== 'answered'}
+          />
+        )}
         {s.notice && (
           <p className="m-0 rounded-[12px] border border-detected-line/50 bg-detected/40 px-4 py-3 text-[14px] text-ink">
             {s.notice}

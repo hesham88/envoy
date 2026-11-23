@@ -34,7 +34,7 @@ describe('createStepModel', () => {
     for (const step of ['detect', 'minimize', 'route', 'answerLocal', 'reason'] as const) {
       createStepModel(ai, step, settings);
       const params = getGenerativeModel.mock.lastCall?.[1] as { inCloudParams: { model: string } };
-      expect(params.inCloudParams.model).toBe('gemini-3.8-flash');
+      expect(params.inCloudParams.model).toBe(settings.cloudModel);
     }
   });
 

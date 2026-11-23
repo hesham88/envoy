@@ -24,16 +24,17 @@ export function UvRing({
   tone = 'device',
   className = '',
 }: UvRingProps) {
-  if (!on) return <div className={className}>{children}</div>;
+  // The children always stay the first child of the same wrapper, so turning the ring on or off
+  // never remounts them (a focused field keeps its focus and caret).
   return (
     <div
-      className={`envoy-uvring relative ${className}`}
-      data-tone={tone}
-      style={{ ['--uv-r' as string]: `${radius}px` }}
+      className={on ? `envoy-uvring relative ${className}` : className}
+      data-tone={on ? tone : undefined}
+      style={on ? { ['--uv-r' as string]: `${radius}px` } : undefined}
     >
-      <span aria-hidden="true" className="envoy-uvring-glow" />
-      <span aria-hidden="true" className="envoy-uvring-line" />
       {children}
+      {on && <span aria-hidden="true" className="envoy-uvring-glow" />}
+      {on && <span aria-hidden="true" className="envoy-uvring-line" />}
     </div>
   );
 }
