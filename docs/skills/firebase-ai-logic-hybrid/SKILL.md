@@ -127,3 +127,14 @@ When deploying a Firebase AI Logic hybrid app to Firebase Hosting (`firebase.jso
   - `frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/ https://www.recaptcha.net/`
 - **`Permissions-Policy` header:**
   Set `camera=(), microphone=(), geolocation=()`, and **never** disable `language-model` in `Permissions-Policy`.
+
+## 6. Verified facts (Firebase and Chrome docs, read 2026-11-23)
+
+- **Requirements:** Firebase JS SDK 12.5.0+; desktop Chrome **139+**. On-device inference uses Chrome's Prompt API; cloud uses the Gemini Developer API (recommended, no-cost start) or Agent Platform.
+- **Mode behaviour while the model downloads:** `ONLY_ON_DEVICE` waits (can take minutes); `PREFER_ON_DEVICE` and `PREFER_IN_CLOUD` go to the cloud; `ONLY_IN_CLOUD` always cloud.
+- **On-device limits:** single-turn only (no chat); about **9,216 tokens**; text, or text plus JPEG/PNG images (needs `chrome://flags/#prompt-api-for-gemini-nano-multimodal-input`). Cloud-only: audio, video, PDF, file URLs, multi-turn chat, tools (function calling, code execution, URL context, Search/Maps grounding). Hybrid doesn't support the Live API, server prompt templates, or reliable token counting.
+- **Default hybrid cloud model** (SDK 13): `gemini-3.5-flash-lite`. Name it explicitly with `inCloudParams.model`. Stable featured models (Nov 2026): `gemini-4-hydrogen` (Firebase's production example; no billing needed), `gemini-3.8-flash`, `gemini-3.5-flash-lite`. Never ship `-preview`, `-exp` or `-latest`.
+- **Config is fixed per `GenerativeModel`:** to change the model or options, create a new instance.
+- **Which on-device model:** the docs say "Gemini Nano" only. Google builds Gemini Nano 4 on Gemma 4 (Chrome component `gemma4_component`, behind the `gemma4-for-built-in-ai` flag); Chrome's default may be Nano 3 (`nano_v3_cpu_component`). Neither the SDK nor the Prompt API reports which model answered: say "Chrome's built-in model".
+- **App Check:** enforced automatically for AI Logic since 2 Nov 2026. Use `useLimitedUseAppCheckTokens: true` in `getAI` for replay protection. Never add `localhost` to reCAPTCHA domains; use a debug token in development only.
+- **Envoy's implementation is checked line by line in** `docs/FIREBASE_AI_LOGIC_REVIEW.md`.

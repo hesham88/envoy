@@ -1,4 +1,4 @@
-/* global chrome */
+/* global chrome, URL */
 // Envoy extension service worker (MV3). No DOM scraping: page text arrives only
 // from an explicit user action (toolbar click, context-menu selection, or the
 // per-site Envoy toggle the user switched on in the popup).
@@ -44,16 +44,26 @@ async function ensureOffscreen() {
   await offscreenCreating;
 }
 
-chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+// Messages come only from this extension (no externally_connectable). Even so, check:
+// - the site switch may only be changed from the extension's own pages (the popup), never from a
+//   content script running inside a web page, and only for a real http(s) origin;
+// - content-script requests must carry the expected payload types.
+const fromExtensionPage = (sender) => sender.id === chrome.runtime.id && typeof sender.url === 'string' && sender.url.startsWith(`chrome-extension://${chrome.runtime.id}/`);
+const isWebOrigin = (o) => { try { const u = new URL(o); return (u.protocol === 'https:' || u.protocol === 'http:') && u.origin === o; } catch { return false; } };
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (sender.id !== chrome.runtime.id) return false;
   if (msg?.type === 'envoy:set-site') {
+    if (!fromExtensionPage(sender) || !isWebOrigin(msg.origin)) { sendResponse({ ok: false, error: 'Not allowed.' }); return false; }
     setSiteEnabled(msg.origin, !!msg.enabled).then((sites) => sendResponse({ ok: true, sites })).catch((e) => sendResponse({ ok: false, error: String(e) }));
     return true;
   }
   if (msg?.type === 'envoy:pdf-mask') {
+    if (typeof msg.base64 !== 'string' || msg.base64.length > 40_000_000 || (msg.custom !== undefined && !Array.isArray(msg.custom))) { sendResponse({ ok: false, error: 'Bad request.' }); return false; }
     (async () => {
       try {
         await ensureOffscreen();
-        const res = await chrome.runtime.sendMessage({ type: 'envoy:pdf-mask-internal', base64: msg.base64, name: msg.name });
+        const res = await chrome.runtime.sendMessage({ type: 'envoy:pdf-mask-internal', base64: msg.base64, name: msg.name, custom: msg.custom });
         sendResponse(res ?? { ok: false, error: 'No response from the PDF checker.' });
       } catch (e) {
         sendResponse({ ok: false, error: String(e) });
@@ -62,6 +72,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     return true;
   }
   if (msg?.type === 'envoy:deep-check') {
+    if (typeof msg.text !== 'string' || msg.text.length > 200_000) { sendResponse({ ok: false, error: 'Bad request.' }); return false; }
     (async () => {
       try {
         await ensureOffscreen();

@@ -2,7 +2,7 @@
 
 export const RULES_KEY = 'envoyRules';
 
-/** Parses an import file: a JSON array of rules, or { rules: [...] } (envoy-guard CLI format). */
+/** Parses an import file: a JSON array of rules, or { rules: [...] }. */
 export function parseRulesJson(text: string): { rules: CustomRule[]; error: string | null } {
   let data: unknown;
   try {

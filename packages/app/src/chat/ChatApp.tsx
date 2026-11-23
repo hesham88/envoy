@@ -66,6 +66,12 @@ interface SavedChat {
   createdAt: number;
   turns: SavedTurn[];
 }
+/** A cheap fingerprint of a document for the in-memory cache (FNV-1a over the text, plus its length). */
+function fingerprint(text: string): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 0x01000193);
+  return `${text.length}:${(h >>> 0).toString(36)}`;
+}
 const newChatId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
 const RULES_KEY = 'envoy.rules.v1';
@@ -187,6 +193,7 @@ export function ChatApp({
   const createdAt = useRef(Date.now());
   const [historyOpen, setHistoryOpen] = useState(false);
   const [composerFocus, setComposerFocus] = useState(false);
+  const analysisCache = useRef(new Map<string, NonNullable<SessionState['analysis']>>());
   const fileInput = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -271,13 +278,22 @@ export function ChatApp({
     setDraft('');
     const dispatch = dispatchTo(id);
     try {
-      await runtime.warmUp?.(); // never two on-device sessions at once
-      const analysis = await analyze(turnDoc.text, question, runtime.deps, {
-        onProgress: (p) => update(id, (t) => ({ ...t, progress: p })),
-        customRules: rules,
-      });
-      const notice =
-        analysis.mode === 'private'
+      // Same document, question, rules and mode as earlier in this tab: reuse the on-device result
+      // instead of running the model again (it stays in memory only, never stored).
+      const cacheKey = `${runtime.status}|${question}|${fingerprint(turnDoc.text)}|${JSON.stringify(rules)}`;
+      const cached = analysisCache.current.get(cacheKey);
+      let analysis = cached;
+      if (!analysis) {
+        await runtime.warmUp?.(); // never two on-device sessions at once
+        analysis = await analyze(turnDoc.text, question, runtime.deps, {
+          onProgress: (p) => update(id, (t) => ({ ...t, progress: p })),
+          customRules: rules,
+        });
+        if (analysis.mode === 'private') analysisCache.current.set(cacheKey, analysis);
+      }
+      const notice = cached
+        ? 'Envoy reused the on-device result from earlier in this tab (same document, question and rules), so nothing ran again.'
+        : analysis.mode === 'private'
           ? null
           : (analysis.fallbackReason ??
             (runtime.status === 'downloading' ? NOTICES.downloading : NOTICES.noModel));

@@ -1,0 +1,63 @@
+# Envoy vs the Firebase AI Logic docs (hybrid on web + production checklist)
+
+Checked 23 November 2026 against:
+- [Hybrid on web: get started](https://firebase.google.com/docs/ai-logic/hybrid/web/get-started)
+- [Hybrid overview](https://firebase.google.com/docs/ai-logic/hybrid)
+- [Production checklist](https://firebase.google.com/docs/ai-logic/production-checklist)
+- [Agent skills](https://firebase.google.com/docs/ai-assistance/agent-skills)
+- [Chrome: Firebase AI Logic](https://developer.chrome.com/docs/ai/firebase-ai-logic)
+- [Understand hybrid inference (blog)](https://firebase.blog/posts/2025/10/understand-ai-logic-hybrid-inference/)
+- [Product page](https://firebase.google.com/products/firebase-ai-logic)
+
+✅ = done and where, ⚠️ = owner step or partial, ❌ = gap.
+
+## Hybrid inference on web
+
+| Doc says | Envoy | Where |
+| --- | --- | --- |
+| Firebase JS SDK 12.5.0+ | ✅ `firebase` 13.4.0 | root `package.json` |
+| Desktop Chrome 139+ | ✅ extension `minimum_chrome_version` 139 (was 138, fixed) | `apps/extension/public/manifest.json` |
+| `getAI(app, { backend: new GoogleAIBackend() })` (Developer API recommended) | ✅ with `useLimitedUseAppCheckTokens: true` | `packages/ai/src/firebase.ts` |
+| `getGenerativeModel(ai, { mode, inCloudParams, onDeviceParams })` | ✅ one model per step | `packages/ai/src/models.ts` |
+| InferenceMode chosen deliberately | ✅ `ONLY_ON_DEVICE` for detect, minimize, route, local answer; `PREFER_IN_CLOUD` for reasoning | `models.ts` `modeFor` |
+| `ONLY_ON_DEVICE` throws when the model is missing | ✅ plus our device guard, because of the open SDK issue #10635 (it can silently use the cloud) | `packages/ai/src/device-guard.ts` |
+| Check `response.inferenceSource` | ✅ every private step must be `ON_DEVICE` or its result is discarded; the cloud step's source is shown in the flight recorder | `device-guard.ts`, `pipeline.ts` |
+| `initializeDeviceModel()` after a user gesture, before requests | ✅ "Turn on private mode" button, with progress | `packages/app/src/app/useEnvoy.ts` |
+| `onDeviceParams.createOptions`: `expectedInputs`/`expectedOutputs` with languages, system prompt in `initialPrompts` | ✅ English text in and out; system prompt per step | `models.ts` |
+| Structured output on both sides in hybrid modes | ✅ `responseConstraint` on device, `responseJsonSchema` in the cloud, same JSON Schema | `models.ts` |
+| On-device is single-turn (no chat) | ✅ every on-device call is single-turn; follow-ups re-run the pipeline | `pipeline.ts` |
+| On-device limit 9,216 tokens | ✅ prompts are batched under 6,000 estimated tokens | `pipeline.ts` `MAX_TOKENS` |
+| Don't rely on count tokens in hybrid | ✅ local estimate only | `packages/core/src/chunk.ts` |
+| Default hybrid cloud model `gemini-3.5-flash-lite` (SDK 13) | ✅ we name the model explicitly: `gemini-4-hydrogen` by default, `gemini-3.5-flash-lite` as "Fast cloud" | `packages/ai/src/remote.ts`, `remoteconfig.template.json` |
+| The model config is fixed per `GenerativeModel` instance | ✅ models are rebuilt when Remote Config or the cloud choice changes | `useEnvoy.ts` |
+| Optional: pre-download the model | ✅ warm-up call on composer focus (and the download button) | `useEnvoy.ts` `warmUp` |
+| Image input on device needs `#prompt-api-for-gemini-nano-multimodal-input` | n/a: Envoy doesn't send images to the model; images are processed by local code only | `apps/extension/src/content/upload-ui.ts` |
+
+## Production checklist
+
+| Item | Envoy | Status |
+| --- | --- | --- |
+| Separate dev/test/prod projects | One project (`envoy-hybrid-ai`) for the hackathon | ⚠️ acceptable for the contest; split before real users |
+| Enforce App Check (Web: reCAPTCHA Enterprise) | reCAPTCHA Enterprise provider; enforcement is automatic for AI Logic since 2 Nov 2026; debug tokens only in development builds, never in a release (tested) | ✅ |
+| Limited-use tokens / replay protection | `useLimitedUseAppCheckTokens: true` | ✅ |
+| API key restrictions: HTTP referrers + an API allowlist with `firebasevertexai.googleapis.com` and only the Firebase APIs used | Must be set in Google Cloud console > Credentials. Referrers: `envoy-hybrid-ai.web.app`, `envoy-hybrid-ai.firebaseapp.com`, `localhost:5173`. APIs: Firebase AI Logic (`firebasevertexai.googleapis.com`), App Check, Remote Config, Installations | ⚠️ owner step |
+| Authenticated-users mode | Not used: Envoy has no accounts by design (privacy); App Check protects the endpoint | ✅ deliberate |
+| AI monitoring (requests, latency, tokens, errors) | Turn on in Firebase console > AI Logic > Monitoring. It shows cloud calls only, never on-device data | ⚠️ owner step |
+| Per-user rate limits (default 100 RPM) and project quotas | Default is fine for judging; check the Gemini quota for `gemini-4-hydrogen` | ⚠️ owner step |
+| Budget alerts and spend caps (Blaze) | Hydrogen and Flash-Lite don't require billing; set alerts if the project moves to Blaze | ⚠️ owner step if Blaze |
+| Stable model versions only, no `-preview`/`-latest` | `gemini-4-hydrogen` (stable) and `gemini-3.5-flash-lite` | ✅ |
+| Switch the model with Remote Config | `cloud_model` and `cloud_model_fast`; the template is versioned in the repo and deployed with `firebase deploy --only remoteconfig` | ✅ |
+| Remote Config `minimum_version` | Not needed: a web app always loads the latest build | n/a |
+| Model location | Developer API is global-only | n/a |
+
+## What's beyond the docs
+
+- The device guard (availability check, network tripwire, `inferenceSource` assertion, session cleanup), one queue for all model calls, and cancellable on-device steps.
+- The outbound guard: every approved excerpt is re-checked for raw or disguised values (red team 28/28).
+- Encrypted local history (AES-GCM, non-extractable key, optional passcode).
+
+## Owner steps from this review
+
+1. Google Cloud console > APIs & Services > Credentials: restrict the browser API key (referrers and API allowlist above).
+2. Firebase console > AI Logic > Monitoring: turn on AI monitoring.
+3. Check the Gemini quota for `gemini-4-hydrogen` before judging starts.
