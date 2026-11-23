@@ -8,9 +8,25 @@ import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 const [url, out, ...rest] = process.argv.slice(2);
-const opt = Object.fromEntries(rest.reduce((a, v, i, all) => (v.startsWith('--') ? [...a, [v.slice(2), all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? true : all[i + 1]]] : a), []));
+const opt = Object.fromEntries(
+  rest.reduce(
+    (a, v, i, all) =>
+      v.startsWith('--')
+        ? [
+            ...a,
+            [
+              v.slice(2),
+              all[i + 1]?.startsWith('--') || all[i + 1] === undefined ? true : all[i + 1],
+            ],
+          ]
+        : a,
+    [],
+  ),
+);
 if (!url || !out) {
-  console.error('usage: node scripts/shoot.mjs <url> <out.png> [--selector css] [--width n] [--height n] [--wait ms] [--dark] [--scale n]');
+  console.error(
+    'usage: node scripts/shoot.mjs <url> <out.png> [--selector css] [--width n] [--height n] [--wait ms] [--dark] [--scale n]',
+  );
   process.exit(2);
 }
 const browser = await chromium.launch({ channel: 'chrome', headless: true });

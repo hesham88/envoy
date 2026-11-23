@@ -147,3 +147,28 @@ describe('review fix C1: separators', () => {
     expect(count('Starts 01/09/2024 and 2024-09-01.', 'PHONE')).toBe(0);
   });
 });
+
+describe('account and ID numbers named in the text', () => {
+  const accounts = (t: string) =>
+    detectWithRules(t)
+      .filter((e) => e.type === 'ACCOUNT')
+      .map((e) => e.value);
+
+  it('finds a bank account number written as plain digits', () => {
+    expect(accounts('my bank account number 1010192316')).toEqual(['1010192316']);
+    expect(accounts('Acct: 7712-4410-998877, please.')).toEqual(['7712-4410-998877']);
+    expect(accounts('Policy no. 88 4410 2093 renews soon')).toEqual(['88 4410 2093']);
+    expect(accounts('passport #A12345678 expires')).toEqual(['A12345678']);
+  });
+
+  it('leaves short numbers, clauses and ordinary prose alone', () => {
+    expect(accounts('See clause 7 of the contract 2024.')).toEqual([]);
+    expect(accounts('Invoice 4410 is due.')).toEqual([]);
+    expect(accounts('My account is fine, thanks.')).toEqual([]);
+  });
+
+  it('lets stronger detectors keep what they own', () => {
+    const found = detectWithRules('account number EG38 0019 0005 0000 0000 2631 8000 2');
+    expect(found.map((e) => e.type)).toEqual(['IBAN']);
+  });
+});

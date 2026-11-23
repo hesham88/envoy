@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-23T15:19:38.158Z",
+  "generatedAt": "2026-11-23T19:14:48.320Z",
   "cases": 28,
   "blocked": 28,
   "blockRate": 1,
@@ -332,10 +332,9 @@
       "passed": true,
       "leaksFound": [
         {
-          "type": "NATIONAL_ID",
           "value": "93840102160572",
-          "index": 14,
-          "via": "reversed"
+          "type": "ACCOUNT",
+          "index": 14
         }
       ]
     },

@@ -7,6 +7,7 @@ import { PREF_KEYS, usePref } from '../lib/prefs';
 import { DETECT_SCHEMA, MINIMIZE_SCHEMA, ROUTE_SCHEMA, type Step } from '@envoy/core';
 import {
   diagnoseCloud,
+  type AppCheckMode,
   type CloudProblem,
   createStepModel,
   DEFAULT_SETTINGS,
@@ -63,13 +64,18 @@ export interface EnvoyConfig {
   cloudModelOverride?: () => string | undefined;
   /** Development build: allows the App Check debug token. */
   dev: boolean;
+  /** How App Check is set up; extension pages can't load the reCAPTCHA script. */
+  appCheck?: AppCheckMode;
 }
 
 export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
   const boot = useMemo(() => {
     try {
       return {
-        ...initEnvoy(config.readEnv(), { dev: config.dev }),
+        ...initEnvoy(config.readEnv(), {
+          dev: config.dev,
+          ...(config.appCheck ? { appCheck: config.appCheck } : {}),
+        }),
         error: null as string | null,
       };
     } catch (e) {

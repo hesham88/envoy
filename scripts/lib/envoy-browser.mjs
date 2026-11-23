@@ -18,10 +18,14 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const fsUrl = (p) => `/@fs/${resolve(ROOT, p).replace(/\\/g, '/')}`;
 
 /** Opens a fresh tab on the dev server inside the model Chrome. Close it with `close()`; Chrome keeps running. */
-export async function connectEnvoyPage({ cdp = 'http://127.0.0.1:9333', appUrl = 'http://localhost:5173/' } = {}) {
+export async function connectEnvoyPage({
+  cdp = 'http://127.0.0.1:9333',
+  appUrl = 'http://localhost:5173/',
+} = {}) {
   const browser = await chromium.connectOverCDP(cdp);
   const context = browser.contexts()[0];
-  if (!context) throw new Error(`No browser context at ${cdp}. Start the model Chrome first (docs/PLAN.md).`);
+  if (!context)
+    throw new Error(`No browser context at ${cdp}. Start the model Chrome first (docs/PLAN.md).`);
   const page = await context.newPage();
   await page.goto(appUrl, { waitUntil: 'networkidle' });
   return { page, close: () => page.close() };
@@ -31,7 +35,10 @@ export async function connectEnvoyPage({ cdp = 'http://127.0.0.1:9333', appUrl =
  * Runs one case. `withAnswer: true` also calls answer() on the composed excerpt (a real cloud call
  * through PREFER_IN_CLOUD unless the route is local). Returns plain data only.
  */
-export async function runCase(page, { document, question, detectScope = 'selected', withAnswer = false }) {
+export async function runCase(
+  page,
+  { document, question, detectScope = 'selected', withAnswer = false },
+) {
   return page.evaluate(
     async ({ document, question, detectScope, withAnswer, paths }) => {
       const ai = await import(paths.ai);
@@ -40,11 +47,20 @@ export async function runCase(page, { document, question, detectScope = 'selecte
       const g = globalThis;
       if (!g.__envoyEval) {
         const { ai: fbAi } = ai.initEnvoy(env.readFirebaseEnv(), { dev: true });
-        const schemas = { detect: core.DETECT_SCHEMA, minimize: core.MINIMIZE_SCHEMA, route: core.ROUTE_SCHEMA };
+        const schemas = {
+          detect: core.DETECT_SCHEMA,
+          minimize: core.MINIMIZE_SCHEMA,
+          route: core.ROUTE_SCHEMA,
+        };
         const models = Object.fromEntries(
-          ['detect', 'minimize', 'route', 'answerLocal', 'reason'].map((s) => [s, ai.createStepModel(fbAi, s, ai.DEFAULT_SETTINGS, schemas[s])]),
+          ['detect', 'minimize', 'route', 'answerLocal', 'reason'].map((s) => [
+            s,
+            ai.createStepModel(fbAi, s, ai.DEFAULT_SETTINGS, schemas[s]),
+          ]),
         );
-        g.__envoyEval = { deps: { runPrivate: ai.runPrivate, models, getDeviceStatus: ai.getDeviceStatus } };
+        g.__envoyEval = {
+          deps: { runPrivate: ai.runPrivate, models, getDeviceStatus: ai.getDeviceStatus },
+        };
       }
       const deps = g.__envoyEval.deps;
       ai.networkLog.clear();
@@ -67,7 +83,12 @@ export async function runCase(page, { document, question, detectScope = 'selecte
           steps: a.steps,
           guardOk: a.guard.ok,
           leaks: a.guard.leaks,
-          entities: a.entities.map((e) => ({ type: e.type, value: e.value, role: e.role ?? null, source: e.source })),
+          entities: a.entities.map((e) => ({
+            type: e.type,
+            value: e.value,
+            role: e.role ?? null,
+            source: e.source,
+          })),
           outbound: a.outbound,
           receipt: a.receipt,
           events,
@@ -75,13 +96,30 @@ export async function runCase(page, { document, question, detectScope = 'selecte
         if (withAnswer) {
           const t1 = performance.now();
           const res = await ai.answer(a, a.outbound, deps);
-          out.answer = { text: res.text, source: res.source, lighter: res.lighter, ms: Math.round(performance.now() - t1), receipt: res.receipt };
+          out.answer = {
+            text: res.text,
+            source: res.source,
+            lighter: res.lighter,
+            ms: Math.round(performance.now() - t1),
+            receipt: res.receipt,
+          };
         }
         // Proof of where every request went (device / cloud / blocked), straight from the network log.
-        out.network = ai.networkLog.entries.map((e) => ({ step: e.step, target: e.target, blocked: e.blocked, chars: e.payload.length }));
+        out.network = ai.networkLog.entries.map((e) => ({
+          step: e.step,
+          target: e.target,
+          blocked: e.blocked,
+          chars: e.payload.length,
+        }));
         return out;
       } catch (e) {
-        return { ok: false, deviceStatus, ms: Math.round(performance.now() - t0), error: `${e.name}: ${e.message}`, events };
+        return {
+          ok: false,
+          deviceStatus,
+          ms: Math.round(performance.now() - t0),
+          error: `${e.name}: ${e.message}`,
+          events,
+        };
       }
     },
     {

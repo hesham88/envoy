@@ -26,6 +26,7 @@ const KIND: Partial<Record<Finding['type'], string>> = {
   EMAIL: 'Email',
   PHONE: 'Phone',
   IBAN: 'Bank account',
+  ACCOUNT: 'Account number',
   CARD: 'Card',
   MONEY: 'Amount',
   DATE: 'Date',

@@ -247,6 +247,7 @@ export function checkOutbound(
       switch (p.type) {
         case 'PHONE':
         case 'IBAN':
+        case 'ACCOUNT':
         case 'NATIONAL_ID':
         case 'CARD':
         case 'SECRET':

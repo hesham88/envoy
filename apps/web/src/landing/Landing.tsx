@@ -28,6 +28,8 @@ export interface EvalSummary {
     id: string;
     label: string;
     model: { label: string; component: string; version: string } | null;
+    /** The days its cases were run (YYYY-MM-DD). */
+    measuredOn?: string[];
     n: number;
     nTotal: number;
     metrics: Record<string, number | { p50: number; p95: number } | undefined>;
@@ -446,8 +448,8 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
     <div className="mt-10 overflow-x-auto rounded-[16px] border border-uv-line">
       <table className="w-full min-w-[640px] border-collapse text-left text-[15px]">
         <caption className="px-5 pt-4 pb-2 text-left text-[14px] text-uv-muted">
-          Measured {summary.generatedAt.slice(0, 10)} through the real pipeline. n is the number of
-          cases run. Attacks and answer quality ran on smaller samples:{' '}
+          Measured through the real pipeline, on the dates in each row. n is the number of documents
+          run; "text sent" counts only the document's own text, not the question.{' '}
           <a href={src('docs/EVAL.md')} className="text-uv-blue underline underline-offset-4">
             full results
           </a>
@@ -461,7 +463,7 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
               'n',
               'Private details masked',
               'Leaks after the guard',
-              'Characters sent, vs the whole document',
+              'Document text sent',
             ].map((h) => (
               <th key={h} scope="col" className="border-b border-uv-line px-5 py-3 font-medium">
                 {h}
@@ -479,7 +481,10 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
                 {a.label}
               </th>
               <td className="border-b border-uv-line/60 px-5 py-3 text-uv-muted">
-                {a.model ? `${a.model.label} (${a.model.version})` : 'None'}
+                {a.model ? `${a.model.label} (${a.model.version})` : 'None (local rules)'}
+                {a.measuredOn?.length ? (
+                  <span className="block text-[12.5px]">measured {a.measuredOn.join(', ')}</span>
+                ) : null}
               </td>
               <td className="border-b border-uv-line/60 px-5 py-3 text-uv-muted">
                 {a.n}

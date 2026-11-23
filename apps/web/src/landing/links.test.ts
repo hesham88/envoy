@@ -35,8 +35,13 @@ describe('code links', () => {
             symbol,
             `${doc}: name the symbol in the link text for ${target}#L${line}`,
           ).toBeTruthy();
+          const linked = readFileSync(file, 'utf8').split('\n')[Number(line) - 1] ?? '';
           expect(
-            readFileSync(file, 'utf8').split('\n')[Number(line) - 1],
+            /^\s*import\b|^\s+[A-Za-z_$][\w$]*,?\s*$|\}\s*from\s/.test(linked),
+            `${doc}: ${target}#L${line} is an import line: link the definition or the call (run node scripts/fix-anchors.mjs)`,
+          ).toBe(false);
+          expect(
+            linked,
             `${doc}: ${target}#L${line} should contain ${symbol} (run node scripts/fix-anchors.mjs)`,
           ).toContain(symbol!);
         }

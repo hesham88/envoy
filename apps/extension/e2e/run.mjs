@@ -131,6 +131,8 @@ const PAGE = `<!doctype html><html><head><meta charset="utf-8"><title>Test chat<
 <div class="box"><div id="rich" contenteditable="true" role="textbox" aria-label="Rich editor"></div></div>
 <div class="box"><label>Password <input id="pw" type="password"></label></div>
 <div class="box"><label>Attach <input id="file" type="file"></label></div>
+<div class="box"><button id="plus" type="button" style="margin-top:20px">+ Add files</button><input id="hidden-file" type="file" style="display:none"></div>
+<script>document.getElementById("plus").addEventListener("click", () => document.getElementById("hidden-file").click());</script>
 </body></html>`;
 const EDITORS_PAGE = `<!doctype html><html><head><meta charset="utf-8"><title>Editors</title>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
@@ -317,6 +319,33 @@ try {
   }
   await ed.close();
 
+  // --- a plain account number is found (seen missed on a real site) ---
+  await page.fill('#ta', 'my bank account number 1010192316');
+  await page.focus('#ta');
+  await page.waitForTimeout(300);
+  await ui('.chip').click();
+  await page.waitForTimeout(700);
+  check(
+    'account number: a plain bank account number is found',
+    (await ui('.card').innerText()).includes('1010192316'),
+  );
+  await ui('.icon-btn')
+    .click()
+    .catch(() => undefined);
+  await page.waitForTimeout(200);
+
+  // --- a hidden file input opened from a "+" button: the upload button sits by the "+" ---
+  await page.click('#plus');
+  await page.waitForTimeout(600);
+  const plus = await page.locator('#plus').boundingBox();
+  const up = await ui('.up-btn').boundingBox();
+  check(
+    'upload button: anchored to what was clicked when the input is hidden (not top-left)',
+    !!up && !!plus && up.y > 100 && Math.abs(up.y - plus.y) < 60,
+    up ? `button at ${Math.round(up.x)},${Math.round(up.y)}` : 'no button',
+  );
+  await page.keyboard.press('Escape');
+
   // --- password field is never touched ---
   await page.click('#pw');
   await page.waitForTimeout(300);
@@ -408,6 +437,27 @@ try {
       !pdf.handed.latin.includes('2631'),
     pdf.receipt.slice(0, 160),
   );
+
+  // --- switching the site off in the popup stops the copy already running on the page ---
+  await page.bringToFront();
+  await page.focus('#ta');
+  await page.waitForTimeout(300);
+  const chipBefore = await ui('.chip').evaluate((el) => getComputedStyle(el).display !== 'none');
+  const offPopupP = ctx.waitForEvent('page', { timeout: 15000 });
+  await cdp.send('Target.createTarget', { url: `chrome-extension://${extId}/popup.html` });
+  const offPopup = await offPopupP;
+  await offPopup.waitForLoadState();
+  await offPopup.evaluate(
+    (o) =>
+      globalThis.chrome.runtime.sendMessage({ type: 'envoy:set-site', origin: o, enabled: false }),
+    `http://127.0.0.1:${PORT}`,
+  );
+  await offPopup.close();
+  await page.waitForTimeout(800);
+  const hostShown = await page.evaluate(
+    () => getComputedStyle(document.getElementById('envoy-field-ui')).display !== 'none',
+  );
+  check('site switched off: the running page drops Envoy at once', chipBefore && !hostShown);
 
   // --- message security ---
   const pageCanMessage = await page.evaluate(

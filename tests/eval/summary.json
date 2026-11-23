@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-23T15:19:40.789Z",
-  "commit": "17d8271",
+  "generatedAt": "2026-11-23T19:14:50.335Z",
+  "commit": "afeb3e2",
   "arms": [
     {
       "id": "gemma4",
@@ -11,6 +11,9 @@
         "label": "Gemma 4"
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "measuredOn": [
+        "2026-11-22"
+      ],
       "n": 36,
       "nTotal": 36,
       "metrics": {
@@ -22,7 +25,7 @@
           "p50": 54951,
           "p95": 78361
         },
-        "minimizationRatio": 0.2187,
+        "minimizationRatio": 0.1587,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
@@ -45,6 +48,9 @@
       "label": "Basic protection (rules + guard, no on-device model)",
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
+      "measuredOn": [
+        "2026-11-23"
+      ],
       "n": 36,
       "nTotal": 36,
       "metrics": {
@@ -56,7 +62,7 @@
           "p50": 6,
           "p95": 21
         },
-        "minimizationRatio": 1.1193,
+        "minimizationRatio": 0.9065,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0.039,

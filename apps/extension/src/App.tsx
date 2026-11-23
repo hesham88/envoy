@@ -16,6 +16,8 @@ const CONFIG: EnvoyConfig = {
   readEnv: readFirebaseEnv,
   cloudModelOverride,
   dev: import.meta.env.MODE === 'extensiondev',
+  // Extension pages may not load the reCAPTCHA script (Manifest V3).
+  appCheck: 'no-script',
 };
 
 const rulesStore: RulesStore = {

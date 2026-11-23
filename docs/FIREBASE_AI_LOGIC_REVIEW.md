@@ -28,7 +28,7 @@ Checked 23 November 2026 against:
 | On-device is single-turn (no chat) | ✅ every on-device call is single-turn; follow-ups re-run the pipeline | `pipeline.ts` |
 | On-device limit 9,216 tokens | ✅ prompts are batched under 6,000 estimated tokens | `pipeline.ts` `MAX_TOKENS` |
 | Don't rely on count tokens in hybrid | ✅ local estimate only | `packages/core/src/chunk.ts` |
-| Default hybrid cloud model `gemini-3.5-flash-lite` (SDK 13) | ✅ we name the model explicitly: `gemini-4-hydrogen` by default, `gemini-3.5-flash-lite` as "Fast cloud" | `packages/ai/src/remote.ts`, `remoteconfig.template.json` |
+| Default hybrid cloud model `gemini-3.5-flash-lite` (SDK 13) | ✅ we name the model explicitly: Remote Config `cloud_default = fast` (`gemini-3.5-flash-lite`) by default, and `gemini-4-hydrogen` as the saved "Gemini 4 Hydrogen" choice in the composer | `packages/ai/src/remote.ts`, `remoteconfig.template.json` |
 | The model config is fixed per `GenerativeModel` instance | ✅ models are rebuilt when Remote Config or the cloud choice changes | `useEnvoy.ts` |
 | Optional: pre-download the model | ✅ warm-up call on composer focus (and the download button) | `useEnvoy.ts` `warmUp` |
 | Image input on device needs `#prompt-api-for-gemini-nano-multimodal-input` | n/a: Envoy doesn't send images to the model; images are processed by local code only | `apps/extension/src/content/upload-ui.ts` |

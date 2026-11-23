@@ -9,15 +9,15 @@ Envoy's claims are about what leaves your device, so every claim needs evidence 
 
 `npm run verify` (lint, typecheck, all tests, build) gates every commit and every pull request. The privacy properties it checks:
 
-| Property | Where it's tested |
-| --- | --- |
-| A private step never reaches the cloud. If Chrome's model is missing, Envoy uses Basic protection; a cloud request during a private step is blocked and stops the run; a result not from the device is discarded. | [`packages/ai/src/device-guard.test.ts`](../packages/ai/src/device-guard.test.ts), [`packages/ai/src/pipeline.test.ts`](../packages/ai/src/pipeline.test.ts) |
-| Nothing is sent before the user approves the exact text, and what's sent contains no raw names, IDs, emails or accounts from the sample. | [`apps/web/src/chat/ChatApp.test.tsx`](../packages/app/src/chat/ChatApp.test.tsx) |
-| Local only never calls the cloud. | [`apps/web/src/chat/ChatApp.test.tsx`](../packages/app/src/chat/ChatApp.test.tsx) |
-| The outbound guard blocks a raw value however it's reformatted: spacing, punctuation, zero-width characters, soft hyphens, bidi controls, full-width digits, Arabic-Indic digits, Cyrillic lookalikes. | [`packages/core/src/guard.test.ts`](../packages/core/src/guard.test.ts), [`packages/core/src/guard-unicode.test.ts`](../packages/core/src/guard-unicode.test.ts) |
-| Secrets (provider API keys, private keys, JWTs, `password=` values) and the user's own rules are masked and enforced by the guard. | [`packages/core/src/scan.test.ts`](../packages/core/src/scan.test.ts) |
-| Detectors validate what they find (IBAN checksum, Luhn for cards, the structure of Egyptian national IDs) to keep false alarms down. | [`packages/core/src/rules.test.ts`](../packages/core/src/rules.test.ts) |
-| The App Check debug token can never be part of a production build. | [`apps/web/src/env.test.ts`](../apps/web/src/env.test.ts) |
+| Property                                                                                                                                                                                                          | Where it's tested                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A private step never reaches the cloud. If Chrome's model is missing, Envoy uses Basic protection; a cloud request during a private step is blocked and stops the run; a result not from the device is discarded. | [`packages/ai/src/device-guard.test.ts`](../packages/ai/src/device-guard.test.ts), [`packages/ai/src/pipeline.test.ts`](../packages/ai/src/pipeline.test.ts)     |
+| Nothing is sent before the user approves the exact text, and what's sent contains no raw names, IDs, emails or accounts from the sample.                                                                          | [`packages/app/src/chat/ChatApp.test.tsx`](../packages/app/src/chat/ChatApp.test.tsx)                                                                            |
+| Local only never calls the cloud.                                                                                                                                                                                 | [`packages/app/src/chat/ChatApp.test.tsx`](../packages/app/src/chat/ChatApp.test.tsx)                                                                            |
+| The outbound guard blocks a raw value however it's reformatted: spacing, punctuation, zero-width characters, soft hyphens, bidi controls, full-width digits, Arabic-Indic digits, Cyrillic lookalikes.            | [`packages/core/src/guard.test.ts`](../packages/core/src/guard.test.ts), [`packages/core/src/guard-unicode.test.ts`](../packages/core/src/guard-unicode.test.ts) |
+| Secrets (provider API keys, private keys, JWTs, `password=` values) and the user's own rules are masked and enforced by the guard.                                                                                | [`packages/core/src/scan.test.ts`](../packages/core/src/scan.test.ts)                                                                                            |
+| Detectors validate what they find (IBAN checksum, Luhn for cards, the structure of Egyptian national IDs) to keep false alarms down.                                                                              | [`packages/core/src/rules.test.ts`](../packages/core/src/rules.test.ts)                                                                                          |
+| The App Check debug token can never be part of a production build.                                                                                                                                                | [`apps/web/src/env.test.ts`](../apps/web/src/env.test.ts)                                                                                                        |
 
 ## 2. Real-model evaluation
 
@@ -31,7 +31,7 @@ The eval harness (`tests/eval`, run with `npm run eval`) runs 36 cases through t
 
 Rules for every number: it comes from a real run, never from gold labels; it names the model (component and version from `chrome://on-device-internals`), the date and the number of cases; and it's reported separately for Gemma 4 (our development model, behind a developer-trial flag), Chrome's default Gemini Nano (what most people have), and Basic protection (no model). Firebase AI Logic doesn't report which on-device model Chrome used, which is why each run records it.
 
-**Results:** [docs/EVAL.md](EVAL.md), with the machine-readable summary in [`tests/eval/summary.json`](../tests/eval/summary.json), which the [landing page](https://envoy-hybrid-ai.web.app/#guard) reads directly. The privacy matrix covers all 36 cases on each of the three setups. The attack and answer-quality runs are smaller samples, labelled as such.
+**Results:** [docs/EVAL.md](EVAL.md), with the machine-readable summary in [`tests/eval/summary.json`](../tests/eval/summary.json), which the [landing page](https://envoy-hybrid-ai.web.app/#guard) reads directly. The privacy matrix and the re-identification attacks cover all 36 cases on each setup; answer quality ran on 20 cases. Each number states its sample size.
 
 ## Reproduce
 

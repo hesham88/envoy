@@ -132,6 +132,18 @@ const SECRET_DETECTORS: Detector[] = [
 const DETECTORS: Detector[] = [
   ...SECRET_DETECTORS,
   {
+    // A number the text itself calls an account, card, policy, passport or other ID number:
+    // "my bank account number 1010192316", "policy no. 88-4410-2093", "passport #A1234567".
+    // Lowest priority, so IBANs, cards, phones, national IDs and dates win when they overlap.
+    type: 'ACCOUNT',
+    priority: 8,
+    confidence: 0.85,
+    pattern:
+      /(?<!\p{L})(?:(?:bank\s+)?account|acct|a\/c|card|policy|member(?:ship)?|customer|client|reference|ref|invoice|passport|licen[cs]e|national\s+id|id|ssn|social\s+security|tax|routing|sort\s+code|swift|bic|meter|contract)(?:\s+(?:number|no\.?|num|#|id|code))?\s*(?:is\s+|:\s*|=\s*|#\s*)?([A-Z]{0,4}\d[\d -]{4,30}\d)(?![\p{L}\p{N}])/giu,
+    group: 1,
+    accept: (v) => ((v.match(/\d/g) ?? []).length >= 6 ? v.trim() : null),
+  },
+  {
     type: 'IBAN',
     priority: 0,
     confidence: 0.99,

@@ -6,6 +6,7 @@ import type { SessionAction } from '../../app/session';
 
 const LEAK_LABEL: Record<string, string> = {
   IBAN: 'a bank account (IBAN)',
+  ACCOUNT: 'an account or ID number',
   NATIONAL_ID: 'a national ID',
   PHONE: 'a phone number',
   EMAIL: 'an email address',

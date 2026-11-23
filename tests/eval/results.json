@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-23T15:19:40.789Z",
-  "commit": "17d8271",
+  "generatedAt": "2026-11-23T19:14:50.335Z",
+  "commit": "afeb3e2",
   "nTotal": 36,
   "arms": [
     {
@@ -32,7 +32,7 @@
           "p50": 54951,
           "p95": 78361
         },
-        "minimizationRatio": 0.2187,
+        "minimizationRatio": 0.1587,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
@@ -45,7 +45,7 @@
         "totalDetected": 320,
         "totalFalseMasks": 58,
         "totalDocChars": 21550,
-        "totalOutboundChars": 4712,
+        "totalOutboundChars": 3421,
         "clauseHits": 32,
         "routeHits": 22
       },
@@ -60,7 +60,7 @@
           "fallbackReason": null,
           "ms": 124482,
           "docChars": 2554,
-          "outboundChars": 235,
+          "outboundChars": 168,
           "clausesTotal": 6,
           "selectedIds": [
             7
@@ -113,7 +113,7 @@
           "fallbackReason": null,
           "ms": 72223,
           "docChars": 2474,
-          "outboundChars": 594,
+          "outboundChars": 525,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -168,7 +168,7 @@
           "fallbackReason": null,
           "ms": 70916,
           "docChars": 2474,
-          "outboundChars": 642,
+          "outboundChars": 565,
           "clausesTotal": 1,
           "selectedIds": [
             6,
@@ -223,7 +223,7 @@
           "fallbackReason": null,
           "ms": 72072,
           "docChars": 549,
-          "outboundChars": 428,
+          "outboundChars": 335,
           "clausesTotal": 1,
           "selectedIds": [
             7,
@@ -383,7 +383,7 @@
           "fallbackReason": null,
           "ms": 63682,
           "docChars": 470,
-          "outboundChars": 260,
+          "outboundChars": 157,
           "clausesTotal": 1,
           "selectedIds": [
             3
@@ -439,7 +439,7 @@
           "fallbackReason": null,
           "ms": 49342,
           "docChars": 463,
-          "outboundChars": 322,
+          "outboundChars": 229,
           "clausesTotal": 1,
           "selectedIds": [
             3
@@ -492,7 +492,7 @@
           "fallbackReason": null,
           "ms": 75183,
           "docChars": 774,
-          "outboundChars": 324,
+          "outboundChars": 201,
           "clausesTotal": 1,
           "selectedIds": [
             5
@@ -952,7 +952,7 @@
           "fallbackReason": null,
           "ms": 60442,
           "docChars": 449,
-          "outboundChars": 283,
+          "outboundChars": 177,
           "clausesTotal": 1,
           "selectedIds": [
             3
@@ -1010,7 +1010,7 @@
           "fallbackReason": null,
           "ms": 61451,
           "docChars": 466,
-          "outboundChars": 319,
+          "outboundChars": 233,
           "clausesTotal": 1,
           "selectedIds": [
             3
@@ -1410,7 +1410,7 @@
           "fallbackReason": null,
           "ms": 50414,
           "docChars": 235,
-          "outboundChars": 187,
+          "outboundChars": 112,
           "clausesTotal": 1,
           "selectedIds": [
             2
@@ -1518,7 +1518,7 @@
           "fallbackReason": null,
           "ms": 53971,
           "docChars": 297,
-          "outboundChars": 282,
+          "outboundChars": 182,
           "clausesTotal": 1,
           "selectedIds": [
             2
@@ -1683,7 +1683,7 @@
           "fallbackReason": null,
           "ms": 59815,
           "docChars": 249,
-          "outboundChars": 346,
+          "outboundChars": 235,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -1792,7 +1792,7 @@
           "fallbackReason": null,
           "ms": 56584,
           "docChars": 309,
-          "outboundChars": 269,
+          "outboundChars": 160,
           "clausesTotal": 1,
           "selectedIds": [
             2
@@ -1849,7 +1849,7 @@
           "fallbackReason": null,
           "ms": 52619,
           "docChars": 261,
-          "outboundChars": 221,
+          "outboundChars": 142,
           "clausesTotal": 1,
           "selectedIds": [
             2
@@ -2098,7 +2098,7 @@
           "p50": 6,
           "p95": 21
         },
-        "minimizationRatio": 1.1193,
+        "minimizationRatio": 0.9065,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0.039,
@@ -2111,7 +2111,7 @@
         "totalDetected": 280,
         "totalFalseMasks": 18,
         "totalDocChars": 21550,
-        "totalOutboundChars": 24120,
+        "totalOutboundChars": 19535,
         "clauseHits": 36,
         "routeHits": 28
       },
@@ -2126,7 +2126,7 @@
           "fallbackReason": null,
           "ms": 56,
           "docChars": 2554,
-          "outboundChars": 2537,
+          "outboundChars": 2347,
           "clausesTotal": 6,
           "selectedIds": [
             0,
@@ -2179,7 +2179,7 @@
           "fallbackReason": null,
           "ms": 21,
           "docChars": 2474,
-          "outboundChars": 2518,
+          "outboundChars": 2347,
           "clausesTotal": 1,
           "selectedIds": [
             0,
@@ -2232,7 +2232,7 @@
           "fallbackReason": null,
           "ms": 21,
           "docChars": 2474,
-          "outboundChars": 2536,
+          "outboundChars": 2347,
           "clausesTotal": 1,
           "selectedIds": [
             0,
@@ -2286,7 +2286,7 @@
           "fallbackReason": null,
           "ms": 6,
           "docChars": 549,
-          "outboundChars": 602,
+          "outboundChars": 499,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2329,7 +2329,7 @@
           "fallbackReason": null,
           "ms": 9,
           "docChars": 638,
-          "outboundChars": 669,
+          "outboundChars": 543,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2373,7 +2373,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 411,
-          "outboundChars": 491,
+          "outboundChars": 365,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2417,7 +2417,7 @@
           "fallbackReason": null,
           "ms": 9,
           "docChars": 470,
-          "outboundChars": 524,
+          "outboundChars": 391,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2464,7 +2464,7 @@
           "fallbackReason": null,
           "ms": 6,
           "docChars": 463,
-          "outboundChars": 527,
+          "outboundChars": 414,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2507,7 +2507,7 @@
           "fallbackReason": null,
           "ms": 9,
           "docChars": 774,
-          "outboundChars": 847,
+          "outboundChars": 684,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2553,7 +2553,7 @@
           "fallbackReason": null,
           "ms": 14,
           "docChars": 604,
-          "outboundChars": 673,
+          "outboundChars": 546,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2597,7 +2597,7 @@
           "fallbackReason": null,
           "ms": 4,
           "docChars": 344,
-          "outboundChars": 389,
+          "outboundChars": 312,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2640,7 +2640,7 @@
           "fallbackReason": null,
           "ms": 5,
           "docChars": 447,
-          "outboundChars": 511,
+          "outboundChars": 387,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2685,7 +2685,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 578,
-          "outboundChars": 672,
+          "outboundChars": 530,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2731,7 +2731,7 @@
           "fallbackReason": null,
           "ms": 4,
           "docChars": 344,
-          "outboundChars": 475,
+          "outboundChars": 311,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2774,7 +2774,7 @@
           "fallbackReason": null,
           "ms": 19,
           "docChars": 767,
-          "outboundChars": 852,
+          "outboundChars": 683,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2824,7 +2824,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 411,
-          "outboundChars": 476,
+          "outboundChars": 364,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2867,7 +2867,7 @@
           "fallbackReason": null,
           "ms": 6,
           "docChars": 449,
-          "outboundChars": 512,
+          "outboundChars": 376,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2913,7 +2913,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 466,
-          "outboundChars": 512,
+          "outboundChars": 406,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -2958,7 +2958,7 @@
           "fallbackReason": null,
           "ms": 8,
           "docChars": 508,
-          "outboundChars": 591,
+          "outboundChars": 432,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3007,7 +3007,7 @@
           "fallbackReason": null,
           "ms": 4,
           "docChars": 377,
-          "outboundChars": 435,
+          "outboundChars": 318,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3051,7 +3051,7 @@
           "fallbackReason": null,
           "ms": 5,
           "docChars": 509,
-          "outboundChars": 575,
+          "outboundChars": 460,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3095,7 +3095,7 @@
           "fallbackReason": null,
           "ms": 5,
           "docChars": 475,
-          "outboundChars": 559,
+          "outboundChars": 407,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3142,7 +3142,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 488,
-          "outboundChars": 516,
+          "outboundChars": 396,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3187,7 +3187,7 @@
           "fallbackReason": null,
           "ms": 6,
           "docChars": 364,
-          "outboundChars": 421,
+          "outboundChars": 315,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3230,7 +3230,7 @@
           "fallbackReason": null,
           "ms": 5,
           "docChars": 235,
-          "outboundChars": 306,
+          "outboundChars": 221,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3274,7 +3274,7 @@
           "fallbackReason": null,
           "ms": 5,
           "docChars": 257,
-          "outboundChars": 372,
+          "outboundChars": 243,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3317,7 +3317,7 @@
           "fallbackReason": null,
           "ms": 5,
           "docChars": 297,
-          "outboundChars": 378,
+          "outboundChars": 268,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3361,7 +3361,7 @@
           "fallbackReason": null,
           "ms": 4,
           "docChars": 299,
-          "outboundChars": 456,
+          "outboundChars": 297,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3405,7 +3405,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 341,
-          "outboundChars": 419,
+          "outboundChars": 319,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3447,7 +3447,7 @@
           "fallbackReason": null,
           "ms": 6,
           "docChars": 249,
-          "outboundChars": 350,
+          "outboundChars": 237,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3489,7 +3489,7 @@
           "fallbackReason": null,
           "ms": 5,
           "docChars": 335,
-          "outboundChars": 412,
+          "outboundChars": 314,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3531,7 +3531,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 309,
-          "outboundChars": 403,
+          "outboundChars": 284,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3576,7 +3576,7 @@
           "fallbackReason": null,
           "ms": 4,
           "docChars": 261,
-          "outboundChars": 334,
+          "outboundChars": 245,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3618,7 +3618,7 @@
           "fallbackReason": null,
           "ms": 7,
           "docChars": 353,
-          "outboundChars": 454,
+          "outboundChars": 328,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3660,7 +3660,7 @@
           "fallbackReason": null,
           "ms": 4,
           "docChars": 386,
-          "outboundChars": 465,
+          "outboundChars": 359,
           "clausesTotal": 1,
           "selectedIds": [
             1,
@@ -3704,7 +3704,7 @@
           "fallbackReason": null,
           "ms": 6,
           "docChars": 290,
-          "outboundChars": 351,
+          "outboundChars": 240,
           "clausesTotal": 1,
           "selectedIds": [
             1,

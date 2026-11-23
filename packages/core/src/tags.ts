@@ -26,6 +26,7 @@ export function canonical(value: string, type: EntityType): string {
       return `${currency}:${Number(num.replace(/,/g, ''))}`;
     }
     case 'IBAN':
+    case 'ACCOUNT':
     case 'NATIONAL_ID':
     case 'CARD':
     case 'SECRET':
@@ -69,6 +70,7 @@ const TYPE_BASE: Record<EntityType, string> = {
   PHONE: 'PHONE',
   NATIONAL_ID: 'NATIONAL_ID',
   IBAN: 'ACCOUNT',
+  ACCOUNT: 'ACCOUNT',
   CARD: 'CARD',
   MONEY: 'AMOUNT',
   DATE: 'DATE',
