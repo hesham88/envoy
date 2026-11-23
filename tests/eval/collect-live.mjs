@@ -10,13 +10,11 @@
  *
  * Arms:
  *   --arm gemma4  -> F:\ChromeEnvoy on CDP 9333 (`gemma4_component` `2026.11.3.1140`, CPU backend)
- *   --arm nano    -> F:\ChromeEnvoyNano on CDP 9333 (default Gemini Nano component + version)
  *   --arm basic   -> Headless Chromium on an isolated CDP port (LanguageModel unavailable -> Basic protection)
  *
  * Usage:
  *   node tests/eval/collect-live.mjs --arm basic --port 5174
  *   node tests/eval/collect-live.mjs --arm gemma4 --component gemma4_component --version 2026.11.3.1140 --label "Gemma 4" --port 5174 [--with-answer] [--cooldown 2000]
- *   node tests/eval/collect-live.mjs --arm nano --component <comp> --version <ver> --label "Gemini Nano (default)" --port 5174
  */
 import { chromium } from 'playwright-core';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
@@ -64,15 +62,6 @@ const ARM_DEFAULTS = {
       label: args.label ?? 'Gemma 4',
     },
     backend: args.backend ?? 'cpu (OnDeviceModelForceCpuBackend)',
-  },
-  nano: {
-    label: 'Default Gemini Nano (on-device + cloud)',
-    model: {
-      component: args.component ?? 'optimization_guide_on_device_model',
-      version: args.version ?? 'unknown',
-      label: args.label ?? 'Gemini Nano (default)',
-    },
-    backend: args.backend ?? 'chrome-default',
   },
   basic: {
     label: 'Basic protection (rules + guard, no on-device model)',

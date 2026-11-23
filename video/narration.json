@@ -1,0 +1,51 @@
+[
+  {
+    "id": "n01-hook",
+    "text": "Cloud AI is brilliant. But to help with your lease, your contract or your medical letter, it asks you to hand over everything."
+  },
+  {
+    "id": "n02-promise",
+    "text": "Envoy is your private agent to the cloud. Ask the cloud. Keep your secrets."
+  },
+  {
+    "id": "n03-live",
+    "text": "As you type, Envoy finds what is private, right here on your device. Names, emails, phone numbers and keys become tags that keep their meaning."
+  },
+  {
+    "id": "n04-chat",
+    "text": "Here is a real question, in private mode on Gemma four, the model Gemini Nano four is built on. Mona asks whether her landlord can raise her rent twenty percent this year.",
+    "cfg_weight": 0.3
+  },
+  {
+    "id": "n05-recorder",
+    "text": "Chrome's built-in model works through it on this laptop, step by step, and the privacy flight recorder shows where each step ran, which model, and how long it took. We have cut the wait."
+  },
+  {
+    "id": "n06-approve",
+    "text": "Before anything leaves, Mona reads exactly what the cloud will see. Only the clauses her question needs, and every name, number and account is already a tag. Nothing is sent until she approves."
+  },
+  {
+    "id": "n07-guard",
+    "text": "If a raw detail slips back in, even spaced out or disguised, the guard blocks the send."
+  },
+  {
+    "id": "n08-answer",
+    "text": "Gemini reasons over the tags, and writes the maths as an expression. Envoy works out the real amount on Mona's device, so the cloud never sees it."
+  },
+  {
+    "id": "n09-hybrid",
+    "text": "This is Firebase AI Logic hybrid inference, chosen step by step. On the device for everything private, and in the cloud only for the reasoning, over tags. If the cloud can't be reached, Envoy answers on the device and tells you why."
+  },
+  {
+    "id": "n10-extension",
+    "text": "In Chrome, Envoy guards the text boxes you choose. Turn it on, and private details light up. Replace them in one click, before you press send."
+  },
+  {
+    "id": "n11-measured",
+    "text": "We measured it on thirty six documents with Gemma four. Every private detail was masked, with zero leaks, and all twenty eight disguise attacks were blocked."
+  },
+  {
+    "id": "n12-end",
+    "text": "Envoy. Ask the cloud. Keep your secrets."
+  }
+]

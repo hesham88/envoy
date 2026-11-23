@@ -16,7 +16,8 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 - **The CLI hook (`packages/cli`, envoy-guard) was removed** on the owner's request.
 - **23 Nov reviews adopted** (`docs/REVIEW_RESPONSE.md`): history is opt-in; the cloud model is a saved setting (Remote Config `cloud_default = fast`); honest skipped rows in the flight recorder; code links tested; heading names, PDF offsets, receipt clause count, secret newline, offscreen schema fixed; `/studio` and `/classic` dev-only; e2e 23/23 incl. ProseMirror and Quill.
 - **Delivery (23 Nov):** PR #23 (Argon's eval upgrade) merged; merges to `main` deploy automatically through CI (least-privilege `github-deploy` service account); repo homepage set; the integration checkout and every lane branch are on `main` (old integration edits in `stash@{0}` and `_backup-1527/integration-2026-11-23`). Pending: re-measure the `nano` arm with answers after the heading fix (about an hour on the model Chrome).
-- **Video:** waiting for the owner's go-ahead.
+- **Gemini Nano 3 dropped (23 Nov, owner rule: re-measure if it works, otherwise remove):** it ran 12 cases, then crashed repeatedly on the 16 GB laptop. Removed from the eval arms, summary, site, README and guide. Its live run did find two private-path false blocks, now fixed (generic role words as organisations, bare numbers as money). Gemma 4 is restored in `F:ChromeEnvoy` (flag on, `gemma4_component` Ready).
+- **Video:** recorded on Gemma 4 (one real take, the on-device wait cut and labelled), Chatterbox narration, original music and effects, built with ffmpeg (`video/film/build.mjs`).
 
 ## Foundation and privacy core (plan 1)
 
