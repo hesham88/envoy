@@ -1,18 +1,31 @@
 {
   "parameters": {
     "cloud_model": {
-      "defaultValue": { "value": "gemini-4-hydrogen" },
+      "defaultValue": {
+        "value": "gemini-4-hydrogen"
+      },
       "description": "Cloud model for Envoy's reasoning step (stable; Firebase's recommended production model, Nov 2026)",
       "valueType": "STRING"
     },
     "cloud_model_fast": {
-      "defaultValue": { "value": "gemini-3.5-flash-lite" },
+      "defaultValue": {
+        "value": "gemini-3.5-flash-lite"
+      },
       "description": "Faster cloud model people can choose in the composer ('Fast cloud')",
       "valueType": "STRING"
     },
     "prompt_version": {
-      "defaultValue": { "value": "v1" },
+      "defaultValue": {
+        "value": "v1"
+      },
       "description": "On-device prompt version",
+      "valueType": "STRING"
+    },
+    "cloud_default": {
+      "defaultValue": {
+        "value": "fast"
+      },
+      "description": "Which cloud model people get until they choose: 'fast' (cloud_model_fast) or 'capable' (cloud_model).",
       "valueType": "STRING"
     }
   }

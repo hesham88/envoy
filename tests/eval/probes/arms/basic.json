@@ -5,7 +5,7 @@
   "backend": "rules-only (LanguageModel unavailable)",
   "detectScope": "selected",
   "withAnswer": false,
-  "updatedAt": "2026-11-23T01:01:33.351Z",
+  "updatedAt": "2026-11-23T09:41:30.761Z",
   "nTotal": 36,
   "nMeasured": 36,
   "entries": {
@@ -15,11 +15,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:26.950Z",
+      "recordedAt": "2026-11-23T09:41:26.250Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 46,
+        "ms": 36,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -235,11 +235,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:27.146Z",
+      "recordedAt": "2026-11-23T09:41:26.405Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 19,
+        "ms": 18,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -455,11 +455,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:27.509Z",
+      "recordedAt": "2026-11-23T09:41:26.569Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 11,
+        "ms": 32,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -675,11 +675,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:27.867Z",
+      "recordedAt": "2026-11-23T09:41:26.734Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -810,11 +810,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:28.037Z",
+      "recordedAt": "2026-11-23T09:41:26.884Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 13,
+        "ms": 26,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -955,11 +955,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:28.231Z",
+      "recordedAt": "2026-11-23T09:41:27.021Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 10,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1069,11 +1069,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:28.424Z",
+      "recordedAt": "2026-11-23T09:41:27.162Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 15,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1220,11 +1220,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:28.620Z",
+      "recordedAt": "2026-11-23T09:41:27.303Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1341,11 +1341,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:28.770Z",
+      "recordedAt": "2026-11-23T09:41:27.439Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 14,
+        "ms": 15,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1366,19 +1366,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "without cause",
-            "type": "PERSON",
-            "index": 44
-          },
-          {
-            "value": "without cause",
-            "type": "PERSON",
-            "index": 685
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "DATE",
@@ -1433,19 +1422,13 @@
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
             "role": null,
             "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Without Cause",
-            "role": null,
-            "source": "rules"
           }
         ],
-        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 1: 1. Parties. Signed on [DATE_1] between [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\").\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month.\n\nClause 3: 3. Direct Deposit. Salary will be transferred to Employee's IBAN [ACCOUNT].\n\nClause 4: 4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\nClause 5: 5. Termination [PERSON_3]. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
+        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 1: 1. Parties. Signed on [DATE_1] between [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\").\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month.\n\nClause 3: 3. Direct Deposit. Salary will be transferred to Employee's IBAN [ACCOUNT].\n\nClause 4: 4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\nClause 5: 5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
         "receipt": {
           "found": {
             "DATE": 1,
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -1453,7 +1436,7 @@
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 10,
+          "foundTotal": 9,
           "sharedTags": [
             "[DATE_1]",
             "[PERSON]",
@@ -1463,12 +1446,11 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[AMOUNT]",
-            "[ACCOUNT]",
-            "[PERSON_3]"
+            "[ACCOUNT]"
           ],
-          "keptTotal": 10,
+          "keptTotal": 9,
           "sharedByUser": 0,
-          "charsSent": 844,
+          "charsSent": 847,
           "clausesSent": 5,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1498,11 +1480,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:29.001Z",
+      "recordedAt": "2026-11-23T09:41:27.570Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 8,
+        "ms": 10,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1562,29 +1544,23 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Base Salary",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "USD 4,200",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I resign, can I immediately join a healthcare software startup in Cairo?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") hires [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], of [ADDRESS] (\"Employee\").\n\nClause 2: 2. [PERSON_3]. Monthly salary is [AMOUNT].\n\nClause 3: 3. Leave. The Employee receives 21 working days of paid annual leave.\n\nClause 4: 4. Non-Competition. For six (6) months after termination, the Employee may not work for any direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
+        "outbound": "Question: If I resign, can I immediately join a healthcare software startup in Cairo?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") hires [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], of [ADDRESS] (\"Employee\").\n\nClause 2: 2. Base Salary. Monthly salary is [AMOUNT].\n\nClause 3: 3. Leave. The Employee receives 21 working days of paid annual leave.\n\nClause 4: 4. Non-Competition. For six (6) months after termination, the Employee may not work for any direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
@@ -1592,12 +1568,11 @@
             "[PHONE]",
             "[EMAIL]",
             "[ADDRESS]",
-            "[PERSON_3]",
             "[AMOUNT]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 672,
+          "charsSent": 673,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1627,11 +1602,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:29.215Z",
+      "recordedAt": "2026-11-23T09:41:27.693Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1733,11 +1708,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:29.418Z",
+      "recordedAt": "2026-11-23T09:41:27.813Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 8,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1760,24 +1735,9 @@
         "guardOk": false,
         "leaks": [
           {
-            "value": "annual performance bonus",
+            "value": "annual performance",
             "type": "PERSON",
             "index": 29
-          },
-          {
-            "value": "base salary",
-            "type": "PERSON",
-            "index": 248
-          },
-          {
-            "value": "base salary",
-            "type": "PERSON",
-            "index": 390
-          },
-          {
-            "value": "base salary",
-            "type": "PERSON",
-            "index": 436
           }
         ],
         "entities": [
@@ -1812,12 +1772,6 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Base Salary",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 80,000",
             "role": null,
@@ -1825,7 +1779,7 @@
           },
           {
             "type": "PERSON",
-            "value": "Annual Performance Bonus",
+            "value": "Annual Performance",
             "role": null,
             "source": "rules"
           },
@@ -1836,31 +1790,30 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Employee\").\n\nClause 2: 2. [PERSON_3]. Monthly base salary is [AMOUNT].\n\nClause 3: 3. [PERSON_4]. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\nClause 4: 4. Payroll Account. IBAN [ACCOUNT].",
+        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Employee\").\n\nClause 2: 2. Base Salary. Monthly base salary is [AMOUNT].\n\nClause 3: 3. [PERSON_3] Bonus. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\nClause 4: 4. Payroll Account. IBAN [ACCOUNT].",
         "receipt": {
           "found": {
-            "PERSON": 4,
+            "PERSON": 3,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 9,
+          "foundTotal": 8,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
-            "[PERSON_3]",
             "[AMOUNT]",
-            "[PERSON_4]",
+            "[PERSON_3]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 9,
+          "keptTotal": 8,
           "sharedByUser": 0,
-          "charsSent": 496,
+          "charsSent": 503,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1890,7 +1843,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:29.569Z",
+      "recordedAt": "2026-11-23T09:41:27.937Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -1955,28 +1908,22 @@
           },
           {
             "type": "PERSON",
-            "value": "Working Hours",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
             "value": "Intellectual Property",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: Does the company own an unrelated hobby project I build on weekends on my personal laptop?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS].\n\nClause 2: 2. Remuneration. [AMOUNT] per month.\n\nClause 3: 3. [PERSON_2]. Sunday through Thursday, 9:00 AM to 5:00 PM.\n\nClause 4: 4. [PERSON_3]. All inventions developed using Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
+        "outbound": "Question: Does the company own an unrelated hobby project I build on weekends on my personal laptop?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS].\n\nClause 2: 2. Remuneration. [AMOUNT] per month.\n\nClause 3: 3. Working Hours. Sunday through Thursday, 9:00 AM to 5:00 PM.\n\nClause 4: 4. [PERSON_2]. All inventions developed using Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -1984,12 +1931,11 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[AMOUNT]",
-            "[PERSON_2]",
-            "[PERSON_3]"
+            "[PERSON_2]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 669,
+          "charsSent": 672,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2019,11 +1965,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:29.708Z",
+      "recordedAt": "2026-11-23T09:41:28.058Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2042,14 +1988,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "equipment allowance",
-            "type": "PERSON",
-            "index": 338
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -2076,20 +2016,8 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Base Pay",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 52,000",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Equipment Allowance",
             "role": null,
             "source": "rules"
           },
@@ -2106,29 +2034,27 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. [PERSON_2]. [AMOUNT] monthly.\n\nClause 3: 3. [PERSON_3]. The Company provides a one-time home-office equipment allowance of up to [AMOUNT_2] upon submission of original receipts. Any amount above [AMOUNT_2] is paid by the Employee.",
+        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Base Pay. [AMOUNT] monthly.\n\nClause 3: 3. Equipment Allowance. The Company provides a one-time home-office equipment allowance of up to [AMOUNT_2] upon submission of original receipts. Any amount above [AMOUNT_2] is paid by the Employee.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 2
           },
-          "foundTotal": 8,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
-            "[PERSON_2]",
             "[AMOUNT]",
-            "[PERSON_3]",
             "[AMOUNT_2]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 468,
+          "charsSent": 475,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2158,11 +2084,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:29.869Z",
+      "recordedAt": "2026-11-23T09:41:28.200Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 24,
+        "ms": 21,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2182,14 +2108,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "referring physician",
-            "type": "PERSON",
-            "index": 815
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -2229,12 +2149,6 @@
           },
           {
             "type": "PERSON",
-            "value": "Referring Physician",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
             "value": "Dr. Hany Selim",
             "role": null,
             "source": "rules"
@@ -2247,7 +2161,7 @@
           },
           {
             "type": "PERSON",
-            "value": "Metabolic Panel Results",
+            "value": "Metabolic Panel",
             "role": null,
             "source": "rules"
           },
@@ -2270,10 +2184,10 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. Patient Identification. Patient: [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 2: 2. [PERSON_2] & Billing. Ordered by [PERSON_3]. Total lab fee paid: [AMOUNT].\n\nClause 3: 3. [PERSON_4]. [PERSON_5]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_6]. Values sit in the impaired fasting glucose (prediabetes) reference range. [PERSON_7]A1c in 3 months and review dietary and physical activity changes with the referring physician.",
+        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. Patient Identification. Patient: [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 2: 2. Referring Physician & Billing. Ordered by [PERSON_2]. Total lab fee paid: [AMOUNT].\n\nClause 3: 3. [PERSON_3] Results. [PERSON_4]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_5]. Values sit in the impaired fasting glucose (prediabetes) reference range. [PERSON_6]A1c in 3 months and review dietary and physical activity changes with the referring physician.",
         "receipt": {
           "found": {
-            "PERSON": 7,
+            "PERSON": 6,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -2281,7 +2195,7 @@
             "DATE": 1,
             "MONEY": 1
           },
-          "foundTotal": 13,
+          "foundTotal": 12,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -2290,16 +2204,15 @@
             "[ADDRESS]",
             "[DATE_1]",
             "[PERSON_2]",
-            "[PERSON_3]",
             "[AMOUNT]",
+            "[PERSON_3]",
             "[PERSON_4]",
             "[PERSON_5]",
-            "[PERSON_6]",
-            "[PERSON_7]"
+            "[PERSON_6]"
           ],
-          "keptTotal": 13,
+          "keptTotal": 12,
           "sharedByUser": 0,
-          "charsSent": 835,
+          "charsSent": 852,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2329,11 +2242,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:29.989Z",
+      "recordedAt": "2026-11-23T09:41:28.326Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2450,11 +2363,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:30.129Z",
+      "recordedAt": "2026-11-23T09:41:28.448Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2579,11 +2492,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:30.314Z",
+      "recordedAt": "2026-11-23T09:41:28.574Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 6,
+        "ms": 10,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2707,11 +2620,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:30.440Z",
+      "recordedAt": "2026-11-23T09:41:28.697Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2731,14 +2644,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "milestone fee",
-            "type": "PERSON",
-            "index": 89
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -2772,13 +2679,7 @@
           },
           {
             "type": "PERSON",
-            "value": "Milestone Fee",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Design System Delivery",
+            "value": "Design System",
             "role": null,
             "source": "rules"
           },
@@ -2802,22 +2703,22 @@
           },
           {
             "type": "PERSON",
-            "value": "Cancellation Kill Fee",
+            "value": "Cancellation Kill",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?\n\nClause 1: 1. Parties. Consulting Agreement between [PERSON] (\"Client\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Consultant\").\n\nClause 2: 2. [PERSON_3]. Milestone 2 ([PERSON_4]) is priced at [AMOUNT].\n\nClause 3: 3. [PERSON_5]. Client pays Consultant via IBAN [ACCOUNT].\n\nClause 4: 4. [PERSON_6]. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days.",
+        "outbound": "Question: If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?\n\nClause 1: 1. Parties. Consulting Agreement between [PERSON] (\"Client\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Consultant\").\n\nClause 2: 2. Milestone Fee. Milestone 2 ([PERSON_3] Delivery) is priced at [AMOUNT].\n\nClause 3: 3. [PERSON_4]. Client pays Consultant via IBAN [ACCOUNT].\n\nClause 4: 4. [PERSON_5] Fee. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days.",
         "receipt": {
           "found": {
-            "PERSON": 6,
+            "PERSON": 5,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 11,
+          "foundTotal": 10,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
@@ -2825,15 +2726,14 @@
             "[PHONE]",
             "[EMAIL]",
             "[PERSON_3]",
-            "[PERSON_4]",
             "[AMOUNT]",
-            "[PERSON_5]",
+            "[PERSON_4]",
             "[ACCOUNT]",
-            "[PERSON_6]"
+            "[PERSON_5]"
           ],
-          "keptTotal": 11,
+          "keptTotal": 10,
           "sharedByUser": 0,
-          "charsSent": 575,
+          "charsSent": 591,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2863,7 +2763,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:30.590Z",
+      "recordedAt": "2026-11-23T09:41:28.817Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -2978,7 +2878,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:30.734Z",
+      "recordedAt": "2026-11-23T09:41:28.928Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3100,11 +3000,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:30.862Z",
+      "recordedAt": "2026-11-23T09:41:29.052Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3222,11 +3122,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.020Z",
+      "recordedAt": "2026-11-23T09:41:29.165Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3245,24 +3145,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "principal balance",
-            "type": "PERSON",
-            "index": 265
-          },
-          {
-            "value": "principal balance",
-            "type": "PERSON",
-            "index": 365
-          },
-          {
-            "value": "principal balance",
-            "type": "PERSON",
-            "index": 491
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -3301,12 +3185,6 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Principal Balance",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 400,000",
             "role": null,
@@ -3319,10 +3197,10 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 1: 1. Borrower. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Direct debit IBAN: [ACCOUNT].\n\nClause 2: 2. [PERSON_2]. Remaining principal balance is [AMOUNT].\n\nClause 3: 3. [PERSON_3]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
+        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 1: 1. Borrower. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Direct debit IBAN: [ACCOUNT].\n\nClause 2: 2. Principal Balance. Remaining principal balance is [AMOUNT].\n\nClause 3: 3. [PERSON_2]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -3330,7 +3208,7 @@
             "IBAN": 1,
             "MONEY": 1
           },
-          "foundTotal": 9,
+          "foundTotal": 8,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -3338,13 +3216,12 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[ACCOUNT]",
-            "[PERSON_2]",
             "[AMOUNT]",
-            "[PERSON_3]"
+            "[PERSON_2]"
           ],
-          "keptTotal": 9,
+          "keptTotal": 8,
           "sharedByUser": 0,
-          "charsSent": 509,
+          "charsSent": 516,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3374,7 +3251,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.155Z",
+      "recordedAt": "2026-11-23T09:41:29.293Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3431,41 +3308,34 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Purchase Price",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 95,000",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 1: 1. Buyer. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], installation address [ADDRESS].\n\nClause 2: 2. [PERSON_2]. Total system cost is [AMOUNT].\n\nClause 3: 3. Warranty Terms. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
+        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 1: 1. Buyer. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], installation address [ADDRESS].\n\nClause 2: 2. Purchase Price. Total system cost is [AMOUNT].\n\nClause 3: 3. Warranty Terms. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
         "receipt": {
           "found": {
-            "PERSON": 2,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 7,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
             "[ADDRESS]",
-            "[PERSON_2]",
             "[AMOUNT]"
           ],
-          "keptTotal": 7,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 417,
+          "charsSent": 421,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3495,11 +3365,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.278Z",
+      "recordedAt": "2026-11-23T09:41:29.412Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 2,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3606,7 +3476,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.419Z",
+      "recordedAt": "2026-11-23T09:41:29.542Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3711,7 +3581,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.544Z",
+      "recordedAt": "2026-11-23T09:41:29.664Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3829,11 +3699,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.714Z",
+      "recordedAt": "2026-11-23T09:41:29.789Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 1,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3925,11 +3795,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.844Z",
+      "recordedAt": "2026-11-23T09:41:29.912Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4041,11 +3911,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:31.982Z",
+      "recordedAt": "2026-11-23T09:41:30.025Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4137,11 +4007,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:32.108Z",
+      "recordedAt": "2026-11-23T09:41:30.151Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4241,11 +4111,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:32.283Z",
+      "recordedAt": "2026-11-23T09:41:30.284Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 10,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4359,7 +4229,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:32.455Z",
+      "recordedAt": "2026-11-23T09:41:30.398Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4467,11 +4337,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:32.596Z",
+      "recordedAt": "2026-11-23T09:41:30.508Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 2,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4523,38 +4393,31 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Several Liability",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 12,000",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 1: 1. Parties. Landlord [PERSON] leases the apartment to Co-[PERSON_2] (phone [PHONE]) and [PERSON_3] (phone [PHONE_2]).\n\nClause 2: 2. Joint and [PERSON_4]. The total monthly rent is [AMOUNT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
+        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 1: 1. Parties. Landlord [PERSON] leases the apartment to Co-[PERSON_2] (phone [PHONE]) and [PERSON_3] (phone [PHONE_2]).\n\nClause 2: 2. Joint and Several Liability. The total monthly rent is [AMOUNT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
         "receipt": {
           "found": {
-            "PERSON": 4,
+            "PERSON": 3,
             "PHONE": 2,
             "MONEY": 1
           },
-          "foundTotal": 7,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
             "[PHONE]",
             "[PERSON_3]",
             "[PHONE_2]",
-            "[PERSON_4]",
             "[AMOUNT]"
           ],
-          "keptTotal": 7,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 447,
+          "charsSent": 454,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4584,11 +4447,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:32.818Z",
+      "recordedAt": "2026-11-23T09:41:30.631Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 1,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4608,14 +4471,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "Late fee",
-            "type": "PERSON",
-            "index": 268
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -4654,12 +4511,6 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Late Fee",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 250",
             "role": null,
@@ -4672,15 +4523,15 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How much notice must I give to end the contract early?\n\nClause 1: 1. Parties. [PERSON] (ID [NATIONAL_ID]) and [PERSON_2] (ID [NATIONAL_ID_2]).\n\nClause 2: 2. Deposit & Rent. Deposit is [AMOUNT] and monthly rent is [AMOUNT_2].\n\nClause 3: 3. [PERSON_3] & IBAN. Late fee is [AMOUNT_3]; transfer to [ACCOUNT].\n\nClause 4: 4. Early Termination Notice. The Tenant may end the Lease early by providing at least ninety (90) days' prior written notice to the Landlord.",
+        "outbound": "Question: How much notice must I give to end the contract early?\n\nClause 1: 1. Parties. [PERSON] (ID [NATIONAL_ID]) and [PERSON_2] (ID [NATIONAL_ID_2]).\n\nClause 2: 2. Deposit & Rent. Deposit is [AMOUNT] and monthly rent is [AMOUNT_2].\n\nClause 3: 3. Late Fee & IBAN. Late fee is [AMOUNT_3]; transfer to [ACCOUNT].\n\nClause 4: 4. Early Termination Notice. The Tenant may end the Lease early by providing at least ninety (90) days' prior written notice to the Landlord.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 2,
             "MONEY": 3,
             "IBAN": 1
           },
-          "foundTotal": 9,
+          "foundTotal": 8,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -4688,13 +4539,12 @@
             "[NATIONAL_ID_2]",
             "[AMOUNT]",
             "[AMOUNT_2]",
-            "[PERSON_3]",
             "[AMOUNT_3]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 9,
+          "keptTotal": 8,
           "sharedByUser": 0,
-          "charsSent": 467,
+          "charsSent": 465,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4724,7 +4574,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T01:01:32.959Z",
+      "recordedAt": "2026-11-23T09:41:30.742Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",

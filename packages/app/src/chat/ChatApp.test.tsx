@@ -17,6 +17,7 @@ function basicRuntime(reply = 'Yes. The cap is 10% a year.') {
     settings: {
       cloudModel: 'gemini-3.8-flash',
       fastCloudModel: 'gemini-3.5-flash-lite',
+      cloudDefault: 'fast',
       promptVersion: 'v1',
     },
     deps: {
@@ -73,6 +74,12 @@ describe('ChatApp', () => {
     const recorder = within(turn).getByText('Privacy flight recorder').closest('details')!;
     expect(recorder.querySelector('[data-row="rules"]')).toHaveAttribute('data-state', 'done');
     expect(recorder.querySelector('[data-row="detect"]')).toHaveAttribute('data-state', 'skipped');
+    // A skipped on-device step must not read as if the model ran.
+    const minimize = recorder.querySelector('[data-row="minimize"]')!;
+    expect(minimize).toHaveTextContent('Every clause sent, masked');
+    expect(minimize).toHaveTextContent('Skipped');
+    expect(minimize).not.toHaveTextContent('This device');
+    expect(minimize).not.toHaveTextContent("Chrome's built-in model");
     expect(recorder.querySelector('[data-row="approve"]')).toHaveAttribute('data-state', 'running');
     expect(generateContent).not.toHaveBeenCalled();
 

@@ -205,6 +205,14 @@ describe('answer', () => {
     ).rejects.toBeInstanceOf(OutboundBlockedError);
   });
 
+  it('counts the clauses the user approved in the receipt, not the model selection', async () => {
+    const { deps } = fakeDeps('available');
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    expect(a.selectedIds).toEqual([7]);
+    const out = await answer(a, a.outbound, deps, { selectedIds: [7, 8] });
+    expect(out.receipt.clausesSent).toBe(2);
+  });
+
   it('asks the cloud with the approved excerpt only, then restores real values and derived amounts', async () => {
     const { deps, models } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);

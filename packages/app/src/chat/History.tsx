@@ -5,10 +5,14 @@ import type { VaultApi } from '../lib/useVault';
 
 export function HistoryDialog({
   vault,
+  keep,
+  onKeep,
   onOpen,
   onClose,
 }: {
   vault: VaultApi;
+  keep: boolean;
+  onKeep: (on: boolean) => void;
   onOpen: (id: string) => void;
   onClose: () => void;
 }) {
@@ -52,9 +56,33 @@ export function HistoryDialog({
           </button>
         </div>
         <p className="m-0 text-[14px] leading-relaxed text-muted">
-          Your chats are encrypted on this device (AES-GCM, with a key that never leaves this
-          browser) and are never sent anywhere. Add a passcode so they can only be opened with it.
+          Off by default: closing the tab forgets the chat. Turn this on to keep answered chats on
+          this device, with their documents and real values, encrypted (AES-GCM, with a key that
+          never leaves this browser). They are never sent anywhere. Without a passcode, anyone who
+          can use this browser profile can open them; add a passcode so only you can.
         </p>
+        {vault.state !== 'unavailable' && (
+          <label className="flex items-center justify-between gap-3 rounded-[12px] border border-line px-3 py-2.5 text-[14.5px] text-ink">
+            Save chats on this device
+            <button
+              type="button"
+              role="switch"
+              aria-checked={keep}
+              onClick={() => onKeep(!keep)}
+              className={`relative h-6 w-11 rounded-full transition-colors ${keep ? 'bg-device' : 'bg-line'}`}
+            >
+              <span
+                aria-hidden="true"
+                className={`absolute top-0.5 size-5 rounded-full bg-paper transition-[left] ${keep ? 'left-[22px]' : 'left-0.5'}`}
+              />
+            </button>
+          </label>
+        )}
+        {!keep && vault.state === 'ready' && vault.entries.length > 0 && (
+          <p className="m-0 text-[13px] text-muted">
+            New chats aren't being saved. The chats below stay until you delete them.
+          </p>
+        )}
 
         {vault.state === 'unavailable' && (
           <p className="m-0 text-[14px] text-muted">

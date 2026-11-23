@@ -45,4 +45,4 @@ Desktop Chrome with the built-in model for Private mode; `chrome://on-device-int
 ## Limits
 
 - Image uploads: Envoy doesn't detect private regions in images; you draw the boxes. PDFs are rebuilt as simple text PDFs ("layout simplified"), because a box drawn over PDF text doesn't remove the text underneath.
-- Rich editors (ChatGPT, Gmail and others) receive replaced text through the same input events typing produces; a site that blocks those may need you to paste the masked text yourself.
+- Rich editors receive replaced text through the same input events typing produces. The end-to-end suite checks that it reaches the editor's own document in ProseMirror and Quill, not just the screen. A site that blocks those events may need you to paste the masked text yourself.

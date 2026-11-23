@@ -13,9 +13,10 @@ const SECTIONS: [string, string[]][] = [
   [
     'What stays on your device',
     [
-      'Your documents, messages and the real values behind every tag are processed in your browser and kept in memory for the open tab only. Closing the tab forgets them.',
+      'Your documents, messages and the real values behind every tag are processed in your browser. By default they are kept in memory for the open tab only, and closing the tab forgets them.',
+      'History is off until you turn it on (History > Save chats on this device). Then answered chats, including their documents, answers and real values, are saved in this browser (IndexedDB), encrypted with AES-GCM 256 under a key that cannot be exported from the browser. Without a passcode, anyone who can use this browser profile can open them; with a passcode (PBKDF2-SHA-256, 600,000 iterations), only you can. You can delete one chat or all history, with its key, at any time.',
       "Private steps (finding details, choosing what the question needs, deciding where to answer) run on Chrome's built-in model on your device, or on local rules when that model isn't available.",
-      'Your own rules (words you mark as private) and the sites you switch the extension on for are stored in your browser (localStorage, or chrome.storage.local for the extension). They are not sent anywhere.',
+      'Your own rules (words you mark as private) are stored encrypted in the same way in the web app, and in chrome.storage.local in the extension. Settings (your cloud model choice, whether History is on, the sites you switch the extension on for) are stored in your browser. None of this is sent anywhere.',
     ],
   ],
   [

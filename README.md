@@ -39,13 +39,13 @@ You can also turn on **Local only** (answer on this device, no cloud call), add 
 
 ## How it works
 
-| Step | What happens | Where it runs | Firebase AI Logic mode |
-| --- | --- | --- | --- |
-| 1. Detect | Rules catch IDs, phones, IBANs, cards, amounts, emails, dates and API keys. The on-device model finds names, roles and amounts the rules can't know. | This device | `ONLY_ON_DEVICE` |
-| 2. Minimize | The on-device model picks the clauses that answer the question; the rest stays behind. | This device | `ONLY_ON_DEVICE` |
-| 3. Approve | You read the excerpt word for word, with every detail as a tag, and approve, edit or stop. | You | none |
-| 4. Reason | Gemini answers over tags and writes maths as expressions instead of guessing numbers. | Cloud | `PREFER_IN_CLOUD` |
-| 5. Restore | Tags become your real details again; expressions are evaluated locally. | This device | none |
+| Step        | What happens                                                                                                                                         | Where it runs | Firebase AI Logic mode |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ---------------------- |
+| 1. Detect   | Rules catch IDs, phones, IBANs, cards, amounts, emails, dates and API keys. The on-device model finds names, roles and amounts the rules can't know. | This device   | `ONLY_ON_DEVICE`       |
+| 2. Minimize | The on-device model picks the clauses that answer the question; the rest stays behind.                                                               | This device   | `ONLY_ON_DEVICE`       |
+| 3. Approve  | You read the excerpt word for word, with every detail as a tag, and approve, edit or stop.                                                           | You           | none                   |
+| 4. Reason   | Gemini answers over tags and writes maths as expressions instead of guessing numbers.                                                                | Cloud         | `PREFER_IN_CLOUD`      |
+| 5. Restore  | Tags become your real details again; expressions are evaluated locally.                                                                              | This device   | none                   |
 
 When a question can be answered from the document alone ("When does my lease end?"), the on-device model answers it and **nothing is sent at all**.
 
@@ -73,15 +73,26 @@ export function modeFor(step: Step): InferenceMode {
   return step === 'reason' ? InferenceMode.PREFER_IN_CLOUD : InferenceMode.ONLY_ON_DEVICE;
 }
 
-export function createStepModel(ai: AI, step: Step, settings: RemoteSettings, schema?: JsonSchema): GenerativeModel {
+export function createStepModel(
+  ai: AI,
+  step: Step,
+  settings: RemoteSettings,
+  schema?: JsonSchema,
+): GenerativeModel {
   const params: HybridParams = {
     mode: modeFor(step),
     inCloudParams: {
       model: settings.cloudModel, // from Remote Config
-      ...(schema ? { generationConfig: { responseMimeType: 'application/json', responseJsonSchema: schema } } : {}),
+      ...(schema
+        ? { generationConfig: { responseMimeType: 'application/json', responseJsonSchema: schema } }
+        : {}),
     },
     onDeviceParams: {
-      createOptions: { expectedInputs: ENGLISH_TEXT, expectedOutputs: ENGLISH_TEXT, initialPrompts: [/* the step's system prompt */] },
+      createOptions: {
+        expectedInputs: ENGLISH_TEXT,
+        expectedOutputs: ENGLISH_TEXT,
+        initialPrompts: [/* the step's system prompt */],
+      },
       ...(schema ? { promptOptions: { responseConstraint: schema } } : {}),
     },
   };
@@ -96,14 +107,14 @@ export function createStepModel(ai: AI, step: Step, settings: RemoteSettings, sc
 
 Five models, four on the device and one for the cloud, and where each piece lives:
 
-| What | Code |
-| --- | --- |
-| `getAI` with App Check limited-use tokens | [`firebase.ts:44`](packages/ai/src/firebase.ts#L44) |
-| The mode per step: `detect`, `minimize`, `route`, `answerLocal` use `ONLY_ON_DEVICE`; `reason` uses `PREFER_IN_CLOUD` | [`models.ts:22`](packages/ai/src/models.ts#L22), [`models.ts:27`](packages/ai/src/models.ts#L27) |
-| Remote Config: `cloud_model`, `prompt_version` | [`remote.ts:20`](packages/ai/src/remote.ts#L20) |
-| On-device model download from a click (`initializeDeviceModel`) | [`useEnvoy.ts:91`](apps/web/src/app/useEnvoy.ts#L91) |
-| The device guard: availability check, network tripwire, `inferenceSource` assertion | [`device-guard.ts:78`](packages/ai/src/device-guard.ts#L78), [`:104`](packages/ai/src/device-guard.ts#L104), [`:131`](packages/ai/src/device-guard.ts#L131), [`:140`](packages/ai/src/device-guard.ts#L140) |
-| The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags) | [`pipeline.ts:177`](packages/ai/src/pipeline.ts#L177), [`:304`](packages/ai/src/pipeline.ts#L304), [`:329`](packages/ai/src/pipeline.ts#L329) |
+| What                                                                                                                  | Code                                                                                                                                                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `getAI` with App Check limited-use tokens                                                                             | [`getAI`](packages/ai/src/firebase.ts#L46)                                                                                                                                                                                                               |
+| The mode per step: `detect`, `minimize`, `route`, `answerLocal` use `ONLY_ON_DEVICE`; `reason` uses `PREFER_IN_CLOUD` | [`modeFor`](packages/ai/src/models.ts#L33), [`createStepModel`](packages/ai/src/models.ts#L38)                                                                                                                                                           |
+| Remote Config: `cloud_model`, `cloud_model_fast`, `cloud_default`, `prompt_version`                                   | [`getValue(rc, 'cloud_model')`](packages/ai/src/remote.ts#L36)                                                                                                                                                                                           |
+| On-device model download from a click (`initializeDeviceModel`)                                                       | [`initializeDeviceModel`](packages/app/src/app/useEnvoy.ts#L119)                                                                                                                                                                                         |
+| The device guard: availability check, network tripwire, `inferenceSource` assertion, session cleanup                  | [`getDeviceStatus`](packages/ai/src/device-guard.ts#L100), [`withCloudTripwire`](packages/ai/src/device-guard.ts#L131), [`InferenceSource.ON_DEVICE`](packages/ai/src/device-guard.ts#L210), [`withSessionCleanup`](packages/ai/src/device-guard.ts#L62) |
+| The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags)                         | [`analyze`](packages/ai/src/pipeline.ts#L220), [`answer`](packages/ai/src/pipeline.ts#L414), [`checkOutbound`](packages/ai/src/pipeline.ts#L433)                                                                                                         |
 
 To see the guard catch firebase-js-sdk #10635 yourself, open [`/dev`](https://envoy-hybrid-ai.web.app/dev) and press **Simulate missing LanguageModel**: the private step is blocked instead of silently going to the cloud.
 
@@ -146,11 +157,11 @@ The guidebook's patterns show up throughout: **let users supervise automation** 
 
 Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, measured 22 November 2026 on a 2018 laptop CPU. **Times vary a lot by device:** these are CPU-only runs on an older laptop; a recent computer with a supported GPU should be much faster, and the first run after starting Chrome is slower while the model loads. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
 
-| Setup | On-device model | Private details masked | Raw details sent, after the guard | Text sent, of the whole document | Time, median |
-| --- | --- | --- | --- | --- | --- |
-| Gemma 4, the model Gemini Nano 4 is built on | `gemma4_component` 2026.11.3.1140 | 263 / 263 | 0 | 22% | 55 s |
-| Chrome's default Gemini Nano | `nano_v3_cpu_component` 2025.8.21.1028 | 263 / 263 | 0 | 10% | 67 s |
-| Basic protection | none (local rules) | 263 / 263 | 0 | 90% | 5 ms |
+| Setup                                        | On-device model                        | Private details masked | Raw details sent, after the guard | Text sent, of the whole document | Time, median |
+| -------------------------------------------- | -------------------------------------- | ---------------------- | --------------------------------- | -------------------------------- | ------------ |
+| Gemma 4, the model Gemini Nano 4 is built on | `gemma4_component` 2026.11.3.1140      | 263 / 263              | 0                                 | 22%                              | 55 s         |
+| Chrome's default Gemini Nano                 | `nano_v3_cpu_component` 2025.8.21.1028 | 263 / 263              | 0                                 | 10%                              | 67 s         |
+| Basic protection                             | none (local rules)                     | 263 / 263              | 0                                 | 90%                              | 5 ms         |
 
 - **The guard red team:** 28 of 28 disguised leaks blocked: spaced, punctuated, invisible characters, lookalike letters, accents, defanged emails, numbers in words, split words, reversed text and base64. Text the guard can't read (an encoded blob) is blocked rather than trusted.
 - **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (18–23% of its masks), which you can unmask in the approval card. Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
@@ -171,9 +182,11 @@ The contest names Gemini Nano 4 for Web/Chrome. Google builds Gemini Nano 4 on G
 ## Judges: a two-minute test
 
 1. Open [envoy-hybrid-ai.web.app/app?sample=lease](https://envoy-hybrid-ai.web.app/app?sample=lease). The sample lease and everyone in it are fictional.
-2. Ask *"Can my landlord raise the rent 20% this year?"* and watch the flight recorder: each step says where it ran.
+2. Ask _"Can my landlord raise the rent 20% this year?"_ and watch the flight recorder: each step says where it ran.
 3. Read **What the cloud will see**. Names, IDs, the IBAN and the rent are tags. Share or hide something, then approve.
 4. The answer comes back with your real numbers, restored in green. Add `?inspect=1` to the address to open the network ledger.
+
+The cloud model is a setting in the composer: **Fast** (Gemini 3.5 Flash-Lite, about a second) is the default, and **Gemini 4 Hydrogen** reasons more carefully but can take 10 to 50 seconds. Your choice is saved in your browser. History is off unless you turn it on.
 
 Private mode needs a desktop Chrome with the built-in model (check `chrome://on-device-internals`); Envoy offers the download from a click. Without it, everything above still works in Basic protection, and the app says which mode ran.
 
@@ -187,19 +200,27 @@ npm run dev                                     # http://localhost:5173
 npm run verify                                  # lint, typecheck, tests, build
 ```
 
-| Path | What it is |
-| --- | --- |
-| [`packages/core`](packages/core) | The privacy engine, pure TypeScript with no network: rules, secrets, your own rules, tags, the outbound guard, expressions, restore, receipts. |
-| [`packages/ai`](packages/ai) | Firebase AI Logic: per-step hybrid models, the device guard, the pipeline (`analyze`, `answer`). |
-| [`packages/ui`](packages/ui) | Envoy's design system: tokens, the seal, guilloche art, the 2.5D scene, the UV ring, security fibres. |
-| [`apps/web`](apps/web) | The web app: landing page, chat, flight recorder, approval. |
-| [`apps/extension`](apps/extension) | The Chrome extension. |
-| [`tests/eval`](tests/eval) | The eval harness. |
+| Path                               | What it is                                                                                                                                     |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`packages/core`](packages/core)   | The privacy engine, pure TypeScript with no network: rules, secrets, your own rules, tags, the outbound guard, expressions, restore, receipts. |
+| [`packages/ai`](packages/ai)       | Firebase AI Logic: per-step hybrid models, the device guard, the pipeline (`analyze`, `answer`).                                               |
+| [`packages/ui`](packages/ui)       | Envoy's design system: tokens, the seal, guilloche art, the 2.5D scene, the UV ring, security fibres.                                          |
+| [`packages/app`](packages/app)     | The chat itself, shared by the web app and the extension's side panel: flight recorder, approval, encrypted history (opt-in), settings.        |
+| [`apps/web`](apps/web)             | The web app: landing page, privacy policy, the hosted chat.                                                                                    |
+| [`apps/extension`](apps/extension) | The Chrome extension: side panel, text-box protection, Upload with Envoy, and an end-to-end suite on the real build.                           |
+| [`tests/eval`](tests/eval)         | The eval harness.                                                                                                                              |
 
 <img src="docs/img/brand/section-open.png" alt="Open source" width="100%">
 
 ## Credits and licence
 
 Inspired by **PAPILLON: Privacy Preservation from Internet-based and Local Language Model Ensembles** (Siyan Li et al., NAACL 2025), and designed with Google PAIR's **People + AI Guidebook**. Built with Firebase AI Logic, Chrome's built-in AI, Firebase App Check, Remote Config and Hosting. All sample people, IDs and numbers are fictional.
+
+### Built during the contest, and with what
+
+- **When:** the repository starts on 22 November 2026 (first commit `8aa77f6`), inside the submission period. No code predates it.
+- **AI coding assistants:** Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity. Antigravity (Google, Gemini) built the eval harness. Both used the Firebase agent skills. Every change went through review, tests and CI.
+- **Art:** the logo, seal, banners and scenes are drawn in code (SVG and canvas), rendered to images by our own scripts. No generated images are used.
+- **Open-source libraries:** Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, and the Fraunces and IBM Plex fonts (SIL Open Font License).
 
 Licensed under [Apache-2.0](LICENSE).

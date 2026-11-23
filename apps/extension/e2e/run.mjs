@@ -132,8 +132,29 @@ const PAGE = `<!doctype html><html><head><meta charset="utf-8"><title>Test chat<
 <div class="box"><label>Password <input id="pw" type="password"></label></div>
 <div class="box"><label>Attach <input id="file" type="file"></label></div>
 </body></html>`;
+const EDITORS_PAGE = `<!doctype html><html><head><meta charset="utf-8"><title>Editors</title>
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+<style>body{font:15px system-ui;background:#f5f5f7;margin:0;padding:40px} .box{width:700px;margin:0 auto 28px;background:#fff} #pm .ProseMirror{min-height:90px;border:1px solid #ccc;border-radius:14px;padding:12px;outline:none} #quill{min-height:90px}</style></head>
+<body>
+<div class="box" style="margin-top:300px"><div id="quill"></div></div>
+<div class="box"><div id="pm"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>window.quill = new Quill('#quill', { theme: 'snow' });</script>
+<script type="module">
+import { EditorState } from 'https://esm.sh/prosemirror-state@1';
+import { EditorView } from 'https://esm.sh/prosemirror-view@1';
+import { schema } from 'https://esm.sh/prosemirror-schema-basic@1';
+import { keymap } from 'https://esm.sh/prosemirror-keymap@1';
+import { baseKeymap } from 'https://esm.sh/prosemirror-commands@1';
+window.pm = new EditorView(document.querySelector('#pm'), {
+  state: EditorState.create({ schema, plugins: [keymap(baseKeymap)] }),
+});
+</script>
+</body></html>`;
 const server = createServer((req, res) =>
-  res.writeHead(200, { 'content-type': 'text/html' }).end(PAGE),
+  res
+    .writeHead(200, { 'content-type': 'text/html' })
+    .end(req.url?.startsWith('/editors') ? EDITORS_PAGE : PAGE),
 );
 await new Promise((r) => server.listen(PORT, '127.0.0.1', r));
 
@@ -220,7 +241,7 @@ try {
   await ui('.icon-btn').click();
   await page.waitForTimeout(200);
 
-  // --- rich editor (contenteditable, like ChatGPT/Gmail) ---
+  // --- rich editor (a plain contenteditable) ---
   await page.click('#rich');
   await page.keyboard.type(`Send ${RAW.email} the account ${RAW.iban}`);
   await page.waitForTimeout(300);
@@ -236,6 +257,45 @@ try {
   );
   await ui('.icon-btn').click();
   await page.waitForTimeout(200);
+
+  // --- real editor libraries: ProseMirror (used by many AI chat sites) and Quill ---
+  // The check reads each editor's own document model, which is what a site sends, not just the screen.
+  const ed = await ctx.newPage();
+  await ed.setViewportSize({ width: 1280, height: 900 });
+  await ed.goto(`http://127.0.0.1:${PORT}/editors`);
+  const editorsReady = await ed
+    .waitForFunction(() => globalThis.quill && globalThis.pm, null, { timeout: 30000 })
+    .then(
+      () => true,
+      () => false,
+    );
+  check('editor libraries load (ProseMirror, Quill)', editorsReady);
+  if (editorsReady) {
+    const eui = (sel) => ed.locator(`#envoy-field-ui ${sel}`);
+    for (const [name, sel, read] of [
+      ['Quill', '#quill .ql-editor', () => globalThis.quill.getText()],
+      ['ProseMirror', '#pm .ProseMirror', () => globalThis.pm.state.doc.textContent],
+    ]) {
+      await ed.click(sel);
+      await ed.keyboard.type(`Email ${RAW.email} about IBAN ${RAW.iban}`);
+      await ed.waitForTimeout(400);
+      await eui('.chip').click();
+      await ed.waitForTimeout(700);
+      await eui('.btn.primary').click();
+      await ed.waitForTimeout(800);
+      const model = await ed.evaluate(read);
+      check(
+        `${name}: Replace reaches the editor's own document`,
+        model.includes('[EMAIL]') && !model.includes(RAW.email) && !model.includes('EG38'),
+        model.trim(),
+      );
+      await eui('.icon-btn')
+        .click()
+        .catch(() => undefined);
+      await ed.waitForTimeout(200);
+    }
+  }
+  await ed.close();
 
   // --- password field is never touched ---
   await page.click('#pw');

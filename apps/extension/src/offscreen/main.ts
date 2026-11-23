@@ -3,9 +3,10 @@
  * API (LanguageModel) here - stable for extensions since Chrome 138 - while
  * content scripts and web pages never touch it directly. Every private call
  * goes through runPrivate, the device guard for SDK bug #10635. */
-import { assignTags, parseDetectResponse } from '@envoy/core';
+import { assignTags, DETECT_SCHEMA, parseDetectResponse } from '@envoy/core';
 import {
   createStepModel,
+  type JsonSchema,
   DEFAULT_SETTINGS,
   getDeviceStatus,
   initEnvoy,
@@ -45,12 +46,17 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sendResponse({
         ok: false,
         error: `On-device model not ready (${status}); rules-only findings are shown.`,
-        model: 'Gemini Nano (Chrome built-in AI)',
+        model: "Chrome's built-in model",
       });
       return;
     }
     try {
-      const model = createStepModel(ai, 'detect', DEFAULT_SETTINGS);
+      const model = createStepModel(
+        ai,
+        'detect',
+        DEFAULT_SETTINGS,
+        DETECT_SCHEMA as unknown as JsonSchema,
+      );
       const prompt = `## Task
 List every person, organization, street address, money amount, secret, password, API key and account detail in the text, with its role.
 
@@ -67,7 +73,7 @@ ${(msg.text ?? '').slice(0, 6000)}
       const tags = assignTags(entities);
       sendResponse({
         ok: true,
-        model: 'Gemini Nano (Chrome built-in AI, via Firebase AI Logic)',
+        model: "Chrome's built-in model, via Firebase AI Logic",
         ms: out.ms,
         findings: entities.map((e) => ({ type: e.type, value: e.value, tag: tags.tagOf(e) })),
       });
@@ -75,7 +81,7 @@ ${(msg.text ?? '').slice(0, 6000)}
       sendResponse({
         ok: false,
         error: `${(e as Error).name}: ${(e as Error).message}`,
-        model: 'Gemini Nano (Chrome built-in AI)',
+        model: "Chrome's built-in model",
       });
     }
   })();

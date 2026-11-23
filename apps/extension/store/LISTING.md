@@ -45,9 +45,11 @@
   - `storage`: keeps the user's own privacy rules and the list of sites they switched Envoy on for, on this computer.
   - `scripting`: adds Envoy's text-box and upload helpers to the sites the user switches on, one site at a time.
   - `offscreen`: runs the on-device AI check for text boxes in an extension page instead of the website.
+  - `activeTab`: when the user switches Envoy on for the current site from the toolbar popup, adds the helpers to that open tab right away, without a reload.
   - **Host permissions (optional, requested per site):** requested only when the user switches Envoy on for a site, so the text-box and upload helpers can run there. No site is enabled by default.
   - **Remote code:** No. All code ships in the package. The side panel shows Envoy's own web app (https://envoy-hybrid-ai.web.app) in a frame, so cloud requests are protected by Firebase App Check.
 - **Data usage (what to tick):**
   - Collects **website content**: yes, only the text the user chooses to check, and only on the user's device; the masked excerpt the user approves is sent to Google's Gemini API through Firebase AI Logic to answer the question.
   - Not collected: personally identifiable information (beyond what's in the user's own text), health, financial, authentication, personal communications stored by Envoy, location, web history, user activity.
+  - Chat history in the side panel is off by default. If the user turns it on, chats are saved encrypted (AES-GCM) in the browser on this computer and never sent anywhere.
   - Certify: data is not sold to third parties; not used or transferred for purposes unrelated to the single purpose; not used to determine creditworthiness or for lending.

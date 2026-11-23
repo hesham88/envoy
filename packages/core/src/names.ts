@@ -5,7 +5,7 @@
 import type { Entity } from './types';
 
 const NAME_STOPWORDS = new Set(
-  'the this that these those either each any both all residential lease agreement landlord tenant premises arab republic egypt cairo maadi road street clause clauses rent deposit utilities maintenance payment entry termination notices governing signed building flat use parties term contract notice page january february march april may june july august september october november december monday tuesday wednesday thursday friday saturday sunday patient record member billing contractor client company employee employer section schedule annex appendix subject terms conditions invoice account statement policy dear hello hi thanks thank regards best kind please our your my we you they he she it its can could would should will may might also reach about from with google chrome envoy firebase gemini nano gmail chatgpt claude project'.split(
+  'the this that these those either each any both all residential lease agreement landlord tenant premises arab republic egypt cairo maadi road street clause clauses rent deposit utilities maintenance payment entry termination notices governing signed building flat use parties term contract notice page january february march april may june july august september october november december monday tuesday wednesday thursday friday saturday sunday patient record member billing contractor client company employee employer section schedule annex appendix subject terms conditions invoice account statement policy dear hello hi thanks thank regards best kind please our your my we you they he she it its can could would should will may might also reach about from with google chrome envoy firebase gemini nano gmail chatgpt claude project salary base bonus fee fees balance principal interest loan amount total due price tax cause without with physician referring diagnosis treatment medication results report summary notes milestone milestones scope services delivery warranty liability confidentiality insurance benefits compensation position title offer letter leave probation duties hours start end effective date law laws general provisions definitions overview purpose responsibilities obligations confidential'.split(
     ' ',
   ),
 );
@@ -25,6 +25,12 @@ const NAME_PATTERNS: RegExp[] = [
 
 export function flagNames(text: string, taken: Entity[]): Entity[] {
   const out: Entity[] = [];
+  // A real name is never also written in lowercase in the same text; a heading like "Base Salary"
+  // usually is ("the base salary is ..."). Such phrases are ordinary words, not names.
+  const lowerElsewhere = (value: string) => {
+    const lower = value.toLowerCase();
+    return lower !== value && text.includes(lower);
+  };
   for (const [i, re] of NAME_PATTERNS.entries()) {
     for (const m of text.matchAll(re)) {
       // Title matches are names by construction. Otherwise, split the match at stopwords and keep
@@ -59,6 +65,7 @@ export function flagNames(text: string, taken: Entity[]): Entity[] {
           confidence: 0.4,
           source: 'rules',
         };
+        if (i !== 0 && lowerElsewhere(e.value)) continue;
         if (![...taken, ...out].some((t) => t.start < e.end && e.start < t.end)) out.push(e);
       }
     }

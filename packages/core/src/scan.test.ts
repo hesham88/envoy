@@ -33,6 +33,11 @@ describe('secret detection', () => {
     expect(text.slice(found[0]!.start, found[0]!.end)).toBe('hunter2-very-long');
   });
 
+  it('never reads the next line as the value of an empty assignment', () => {
+    const env = ['VITE_FIREBASE_API_KEY=', 'AUTH_TOKEN=""', 'DEBUG=true'].join('\n');
+    expect(scanText(env).findings.filter((f) => f.type === 'SECRET')).toEqual([]);
+  });
+
   it('leaves ordinary prose alone', () => {
     expect(
       detectWithRules('The password policy is strict. Ask Skye for a token of thanks.').filter(
