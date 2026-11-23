@@ -3,5 +3,10 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
-  test: { name: '@envoy/ui', environment: 'jsdom', setupFiles: ['./src/test-setup.ts'], css: false },
+  test: {
+    name: '@envoy/ui',
+    environment: 'jsdom',
+    setupFiles: ['./src/test-setup.ts'],
+    css: false,
+  },
 });

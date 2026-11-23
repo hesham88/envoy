@@ -3,6 +3,7 @@
  * and builds the per-step models the pipeline needs.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { PREF_KEYS, usePref } from '../lib/prefs';
 import { DETECT_SCHEMA, MINIMIZE_SCHEMA, ROUTE_SCHEMA, type Step } from '@envoy/core';
 import {
   createStepModel,
@@ -18,6 +19,8 @@ import {
   type JsonSchema,
   type RemoteSettings,
 } from '@envoy/ai';
+
+const CLOUD_CHOICES = ['fast', 'capable'] as const;
 
 const SCHEMAS: Partial<Record<Step, JsonSchema>> = {
   detect: DETECT_SCHEMA as unknown as JsonSchema,
@@ -72,8 +75,13 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
   const [status, setStatus] = useState<EnvoyStatus>('checking');
   const [progress, setProgress] = useState<number | null>(null);
   const [remote, setSettings] = useState<RemoteSettings>(DEFAULT_SETTINGS);
-  const [fastCloud, setFastCloud] = useState(false);
-  // The cloud model this run uses: Gemini 4 Hydrogen by default, or the fast model when chosen.
+  // The cloud model: the person's saved choice, else Remote Config's default (fast unless changed).
+  const [cloudChoice, setCloudChoice] = usePref(PREF_KEYS.cloudModel, CLOUD_CHOICES);
+  const fastCloud = (cloudChoice ?? remote.cloudDefault) === 'fast';
+  const setFastCloud = useCallback(
+    (fast: boolean) => setCloudChoice(fast ? 'fast' : 'capable'),
+    [setCloudChoice],
+  );
   const settings = useMemo<RemoteSettings>(
     () => ({ ...remote, cloudModel: fastCloud ? remote.fastCloudModel : remote.cloudModel }),
     [remote, fastCloud],

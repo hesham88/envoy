@@ -1,6 +1,6 @@
 # Envoy — Empirical Security, Privacy & Utility Evaluation
 
-*Argon Eval Lane (`tests/eval/**`). Every number below comes from real runs via `scripts/lib/envoy-browser.mjs` (`analyze()` / `answer()` through Firebase AI Logic hybrid inference) or `@envoy/core` deterministic evaluators, stating exact model (`component` + `version`), date, and `n`. Machine-readable contract for the landing page & README: [`tests/eval/summary.json`](../tests/eval/summary.json).*
+_Argon Eval Lane (`tests/eval/**`). Every number below comes from real runs via `scripts/lib/envoy-browser.mjs` (`analyze()` / `answer()` through Firebase AI Logic hybrid inference) or `@envoy/core` deterministic evaluators, stating exact model (`component` + `version`), date, and `n`. Machine-readable contract for the landing page & README: [`tests/eval/summary.json`](../tests/eval/summary.json)._
 
 ---
 
@@ -23,41 +23,46 @@
 ## 2. Full Measured Pipeline Matrix — All 3 Arms (`FULL n = 36 / 36`, `2026-11-22`)
 
 All three arms were measured live on **`2026-11-22`** across all **36 benchmark cases (`263` gold sensitive entities)** via `scripts/lib/envoy-browser.mjs`:
+
 - **`nano` (Default Gemini Nano — what ordinary Chrome judges receive):** `nano_v3_cpu_component` `2025.8.21.1028`, CPU backend (`OnDeviceModelForceCpuBackend`), **`36/36` Private, `0` crashes, `0` fallbacks**.
 - **`gemma4` (Gemma 4 developer trial):** `gemma4_component` `2026.11.3.1140`, CPU backend (`OnDeviceModelForceCpuBackend` + `gemma4-for-built-in-ai`), **`36/36` Private, `0` crashes, `0` fallbacks**.
 - **`basic` (Fallback when on-device model is unavailable):** Rules + Guard + Name Flags in headless Chromium (`LanguageModel` unavailable), **`36/36`**.
 
-| Arm | Model (`component version`) | Backend | Date | `n / 36` | Mask Recall | False-Mask Rate | Outbound Leaks *(post-guard)* | Clause Acc | Min Ratio *(sent / doc)* | Latency `p50 / p95` |
-| --- | --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`nano`** | **Gemini Nano (default)** (`nano_v3_cpu_component 2025.8.21.1028`) | CPU (`OnDeviceModelForceCpuBackend`) | `2026-11-22` | **36 / 36** | **100.00%** *(263 / 263)* | 22.7% | **0** | **83.3%** *(30 / 36)* | **10.2%** *(**89.8% reduction**)* | **67,471 ms / 110,878 ms** |
-| **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`) | CPU (`OnDeviceModelForceCpuBackend`) | `2026-11-22` | **36 / 36** | **100.00%** *(263 / 263)* | 18.1% | **0** | **88.9%** *(32 / 36)* | **21.9%** *(**78.1% reduction**)* | **54,951 ms / 78,361 ms** |
-| **`basic`** | *None* (`LanguageModel` unavailable) | rules + guard + name flags | `2026-11-22` (re-run after PR #17) | **36 / 36** | **100.00%** *(263 / 263)* | 10.9% | **0** *(was 8, see below)* | 100.0% *(all clauses)* | 90.2% | **5 ms / 22 ms** |
+| Arm          | Model (`component version`)                                        | Backend                              |                    Date                     |  `n / 36`   |        Mask Recall        | False-Mask Rate | Outbound Leaks _(post-guard)_ |       Clause Acc       |     Min Ratio _(sent / doc)_      |    Latency `p50 / p95`     |
+| ------------ | ------------------------------------------------------------------ | ------------------------------------ | :-----------------------------------------: | :---------: | :-----------------------: | :-------------: | :---------------------------: | :--------------------: | :-------------------------------: | :------------------------: |
+| **`nano`**   | **Gemini Nano (default)** (`nano_v3_cpu_component 2025.8.21.1028`) | CPU (`OnDeviceModelForceCpuBackend`) |                `2026-11-22`                 | **36 / 36** | **100.00%** _(263 / 263)_ |      22.7%      |             **0**             | **83.3%** _(30 / 36)_  | **10.2%** _(**89.8% reduction**)_ | **67,471 ms / 110,878 ms** |
+| **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`)                    | CPU (`OnDeviceModelForceCpuBackend`) |                `2026-11-22`                 | **36 / 36** | **100.00%** _(263 / 263)_ |      18.1%      |             **0**             | **88.9%** _(32 / 36)_  | **21.9%** _(**78.1% reduction**)_ | **54,951 ms / 78,361 ms**  |
+| **`basic`**  | _None_ (`LanguageModel` unavailable)                               | rules + guard + name flags           | `2026-11-23` (re-run after the heading fix) | **36 / 36** | **100.00%** _(263 / 263)_ |      7.1%       |  **0** _(was 8, see below)_   | 100.0% _(all clauses)_ |               90.2%               |      **5 ms / 22 ms**      |
 
 ### Basic protection leaks: found, fixed, re-measured ([Issue #7](https://github.com/hesham88/envoy/issues/7))
+
 The first Basic run (no on-device model) let **8 person names across 7 cases** reach the outbound text. `flagNames()` missed two shapes of name:
+
 - **5 hyphenated Arabic surnames:** `lease-05-sublet-policy` (`Hisham El-Masry`), `med-02-vitamin-d-dosage-local` (`Yasmin El-Banna`), `freelance-04-liability-cap` (`Mostafa El-Gendy`), `noisy-02-eastern-arabic-digits-phone` (`Tariq El-Sawy`), `noisy-08-iso-and-slash-dates-with-card` (`Seif El-Din`).
 - **3 names after a role word:** `noisy-09-format-variants-same-entity` (`Karim Fathy`, `Mona Adel`), `noisy-10-multi-tenant-joint-liability` (`Karim Fathy`). "Landlord Karim Fathy" was discarded whole because "Landlord" is a stopword.
 
-**Fix (PR #17):** the name pattern accepts hyphenated particles, and a match is split at stopwords so the name in "Landlord Karim Fathy" is kept. Each case is a regression test in `packages/core/src/names.test.ts`. **Re-run of all 36 Basic cases through the real pipeline (`collect-live.mjs --arm basic`, `2026-11-22`): 0 leaks, 263 / 263 masked**, and false masks fell from 13.3% to 10.9%. Structured details (IDs, IBANs, phones, emails, cards, amounts, dates) never leaked in any arm, and both on-device arms had 0 leaks from the start.
+**Fix (PR #17):** the name pattern accepts hyphenated particles, and a match is split at stopwords so the name in "Landlord Karim Fathy" is kept. Each case is a regression test in `packages/core/src/names.test.ts`. **Re-run of all 36 Basic cases through the real pipeline (`collect-live.mjs --arm basic`, `2026-11-22`): 0 leaks, 263 / 263 masked**, and false masks fell from 13.3% to 10.9%. **Re-run on `2026-11-23`** after headings stopped counting as names (a phrase also written in lowercase in the document is not a name): still 0 leaks and 263 / 263 masked, and false masks fell to **7.1%**. Structured details (IDs, IBANs, phones, emails, cards, amounts, dates) never leaked in any arm, and both on-device arms had 0 leaks from the start.
 
 ---
 
 ## 3. Privacy Attacks — Does Privacy Actually Hold? (Milestone 3)
 
 ### 3.1 & 3.2 Re-Identification & Attribute Inference (`tests/eval/run-attacks.mjs`)
+
 - **Attacker model:** Cloud **`gemini-3.5-flash-lite`** via Firebase AI Logic's Gemini endpoint (`firebasevertexai.googleapis.com`), called directly over REST from Node with an App Check token. The SDK only runs in browsers; the model and backend are the same ones the app's cloud step uses, date **`2026-11-22`**, **`n = 12 / 36`** `[PARTIAL n=12/36]` (`118` gold sensitive entities · `31` ground-truth attributes: city, gender, employer/org, salary/amount band).
 
-| Observed Input Given to Cloud Adversary (`gemini-3.5-flash-lite`, `2026-11-22`, `n = 12`) | Exact Re-ID % | Partial + Exact Re-ID % | Attribute Inference % |
-| --- | :---: | :---: | :---: |
-| **Envoy (`nano`: Default Gemini Nano `nano_v3_cpu_component 2025.8.21.1028`)** | **0.0%** *(0 / 118)* | **0.9%** | **0.0%** *(0 / 31)* |
-| **Envoy (`gemma4`: Gemma 4 `gemma4_component 2026.11.3.1140`)** | **0.0%** *(0 / 118)* | **0.0%** | **0.0%** *(0 / 31)* |
-| **Envoy (`basic`: Rules + Guard, full doc)** | **0.0%** *(0 / 118)* | **0.0%** | **9.7%** *(3 / 31)* |
-| **Baseline: `[REDACTED]` everywhere (full doc)** | 0.0% *(0 / 118)* | 0.0% | 9.7% *(3 / 31)* |
-| **Ceiling: Raw Unmasked Document** | **72.0%** *(85 / 118)* | **74.6%** | **64.5%** *(20 / 31)* |
+| Observed Input Given to Cloud Adversary (`gemini-3.5-flash-lite`, `2026-11-22`, `n = 12`) |     Exact Re-ID %      | Partial + Exact Re-ID % | Attribute Inference % |
+| ----------------------------------------------------------------------------------------- | :--------------------: | :---------------------: | :-------------------: |
+| **Envoy (`nano`: Default Gemini Nano `nano_v3_cpu_component 2025.8.21.1028`)**            |  **0.0%** _(0 / 118)_  |        **0.9%**         |  **0.0%** _(0 / 31)_  |
+| **Envoy (`gemma4`: Gemma 4 `gemma4_component 2026.11.3.1140`)**                           |  **0.0%** _(0 / 118)_  |        **0.0%**         |  **0.0%** _(0 / 31)_  |
+| **Envoy (`basic`: Rules + Guard, full doc)**                                              |  **0.0%** _(0 / 118)_  |        **0.0%**         |  **9.7%** _(3 / 31)_  |
+| **Baseline: `[REDACTED]` everywhere (full doc)**                                          |    0.0% _(0 / 118)_    |          0.0%           |    9.7% _(3 / 31)_    |
+| **Ceiling: Raw Unmasked Document**                                                        | **72.0%** _(85 / 118)_ |        **74.6%**        | **64.5%** _(20 / 31)_ |
 
 > **Finding:** Naive `[REDACTED]`-everywhere redaction over the full document still leaks **9.7% (`3 / 31`)** of hidden attributes from surrounding irrelevant clauses. **Both on-device Envoy arms (`nano` and `gemma4`) drive BOTH exact re-identification AND attribute inference to `0.0%` (`0 / 118` and `0 / 31`) — strictly beating `[REDACTED]`-everywhere.**
 
 ### 3.3 Outbound Guard Red-Team (`tests/eval/redteam.json`, `tests/eval/run-redteam.mjs`)
+
 - **Target:** `@envoy/core` `checkOutbound()` · **Date:** `2026-11-22` · **Cases:** `28` adversarial bypass payloads + `2` clean controls.
 - **Before PR #11 hardening:** `11 / 28` blocked (`39.3%`), `17` bypasses reported in [Issue #7](https://github.com/hesham88/envoy/issues/7).
 - **After PR #11 hardening:** `17 / 28` attacks blocked (`60.7%`), `11` remaining bypasses, `2 / 2` clean controls passed.
@@ -67,6 +72,7 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
   - **Remaining 11 bypasses (tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7)):** digits/amounts spelled in words (`rt-10`, `rt-11`, `rt-12`), mid-word line split (`rt-14`), Base64 (`rt-17`, `rt-18`), reversed strings (`rt-19`, `rt-20`), defanged email (`rt-23`), hyphen-spaced key token (`rt-27`), NFD combining accents (`rt-28`).
 
 ### 3.4 Secrets & CustomRule Evaluation (`tests/eval/run-secrets.mjs`)
+
 - **Target:** `@envoy/core` `scanText()` (`SECRET` + `CustomRule`) · **Date:** `2026-11-22` · **Cases:** `n = 24` (`16` runtime-constructed key-shaped positives + `8` negative controls; zero secret literals committed).
 - **Measured result:** **`100.0%` Recall (`16 / 16`)**, **`94.1%` Precision (`16 / 17`)**, **`6 / 6` CustomRule tests passing**.
 - **1 precision finding tracked in [Issue #7](https://github.com/hesham88/envoy/issues/7):** `neg-07-env-template-empty` (`VITE_FIREBASE_API_KEY=\nAUTH_TOKEN=""`) matches across `\n`.
@@ -77,11 +83,11 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 
 - **Runner:** `tests/eval/run-quality.mjs` · **Cloud reasoning & judge model:** **`gemini-3.5-flash-lite`** via Firebase AI Logic's Gemini endpoint (`firebasevertexai.googleapis.com`), called directly over REST from Node with an App Check token. The SDK only runs in browsers; the model and backend are the same ones the app's cloud step uses. **How Envoy's answers were produced here:** the recorded runs didn't include `answer()`, so each Envoy answer was regenerated from the run's real approved outbound with the product's `buildReasonPrompt` plus one extra line about tag syntax, then restored with `restoreAnswer`. Treat this as an estimate of the product's answer quality on a 10-question sample, not a measurement of `answer()` itself · **Date:** `2026-11-22` · **`n = 10 / 20`** `[PARTIAL n=10/20]`.
 
-| Arm *(Measured `2026-11-22`, `n = 10`, judge `gemini-3.5-flash-lite`)* | Envoy Score | Raw-Doc Ceiling | **Answer Quality Retained** | Right Clause Cited % | Correct / Partial / Wrong | Exact Re-ID / Attr Inf |
-| --- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Envoy (`nano`: Default Gemini Nano `2025.8.21.1028`)** | **100.0%** | 100.0% | **100.0%** | **100.0%** | **10 / 0 / 0** | **0.0% / 0.0%** |
-| **Envoy (`gemma4`: Gemma 4 `2026.11.3.1140`)** | **100.0%** | 100.0% | **100.0%** | **100.0%** | **10 / 0 / 0** | **0.0% / 0.0%** |
-| **Envoy (`basic`: Rules + Guard)** | **100.0%** | 100.0% | **100.0%** | **100.0%** | **10 / 0 / 0** | **0.0% / 9.7%** |
+| Arm _(Measured `2026-11-22`, `n = 10`, judge `gemini-3.5-flash-lite`)_ | Envoy Score | Raw-Doc Ceiling | **Answer Quality Retained** | Right Clause Cited % | Correct / Partial / Wrong | Exact Re-ID / Attr Inf |
+| ---------------------------------------------------------------------- | :---------: | :-------------: | :-------------------------: | :------------------: | :-----------------------: | :--------------------: |
+| **Envoy (`nano`: Default Gemini Nano `2025.8.21.1028`)**               | **100.0%**  |     100.0%      |         **100.0%**          |      **100.0%**      |      **10 / 0 / 0**       |    **0.0% / 0.0%**     |
+| **Envoy (`gemma4`: Gemma 4 `2026.11.3.1140`)**                         | **100.0%**  |     100.0%      |         **100.0%**          |      **100.0%**      |      **10 / 0 / 0**       |    **0.0% / 0.0%**     |
+| **Envoy (`basic`: Rules + Guard)**                                     | **100.0%**  |     100.0%      |         **100.0%**          |      **100.0%**      |      **10 / 0 / 0**       |    **0.0% / 9.7%**     |
 
 ---
 
@@ -93,8 +99,8 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 
 ---
 
-## Appendix A — Oracle Model (Upper Bound) *(Synthetic Gold Ceiling — NOT a Real Model)*
+## Appendix A — Oracle Model (Upper Bound) _(Synthetic Gold Ceiling — NOT a Real Model)_
 
-*Computed purely in-memory by `tests/eval/run.mjs` from gold labels across all 36 cases (`263` gold items). Excluded from `tests/eval/summary.json` `arms[]` and never called Nano.*
+_Computed purely in-memory by `tests/eval/run.mjs` from gold labels across all 36 cases (`263` gold items). Excluded from `tests/eval/summary.json` `arms[]` and never called Nano._
 
 - **Oracle model (upper bound) + Envoy Layered:** `0 / 263` outbound leaks (`0.00%`), `minimizationRatio = 42.7%` (`57.3%` character reduction).

@@ -415,7 +415,8 @@ export async function answer(
   analysis: Analysis,
   approvedOutbound: string,
   deps: Deps,
-  opts: { sharedTags?: string[] } = {},
+  /** The clauses the user approved in review (they may differ from the model's selection). */
+  opts: { sharedTags?: string[]; selectedIds?: number[] } = {},
 ): Promise<{
   text: string;
   spans: RestoredSpan[];
@@ -436,7 +437,8 @@ export async function answer(
   });
   if (!check.ok) throw new OutboundBlockedError(check.leaks);
 
-  const selected = analysis.chunks.filter((c) => analysis.selectedIds.includes(c.id));
+  const ids = opts.selectedIds ?? analysis.selectedIds;
+  const selected = analysis.chunks.filter((c) => ids.includes(c.id));
   const steps = [...analysis.steps];
 
   if (analysis.mode === 'private' && analysis.route.local) {

@@ -25,6 +25,7 @@ describe('loadRemoteSettings', () => {
     await expect(loadRemoteSettings(app)).resolves.toEqual({
       cloudModel: 'gemini-4-hydrogen',
       fastCloudModel: 'gemini-3.5-flash-lite',
+      cloudDefault: 'fast',
       promptVersion: 'v2',
     });
   });
@@ -40,10 +41,19 @@ describe('loadRemoteSettings', () => {
     await expect(loadRemoteSettings(app)).resolves.toEqual(DEFAULT_SETTINGS);
   });
 
-  it('defaults to gemini-3.8-flash and prompt v1', () => {
+  it('switches the default to the capable model only when cloud_default says so', async () => {
+    fetchAndActivate.mockResolvedValueOnce(true);
+    getValue.mockImplementation((key: string) => ({
+      asString: () => (key === 'cloud_default' ? 'capable' : ''),
+    }));
+    await expect(loadRemoteSettings(app)).resolves.toMatchObject({ cloudDefault: 'capable' });
+  });
+
+  it('defaults to Hydrogen as the capable model, Flash-Lite as fast, and fast first', () => {
     expect(DEFAULT_SETTINGS).toEqual({
       cloudModel: 'gemini-4-hydrogen',
       fastCloudModel: 'gemini-3.5-flash-lite',
+      cloudDefault: 'fast',
       promptVersion: 'v1',
     });
   });

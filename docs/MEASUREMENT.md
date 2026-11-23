@@ -12,8 +12,8 @@ Envoy's claims are about what leaves your device, so every claim needs evidence 
 | Property | Where it's tested |
 | --- | --- |
 | A private step never reaches the cloud. If Chrome's model is missing, Envoy uses Basic protection; a cloud request during a private step is blocked and stops the run; a result not from the device is discarded. | [`packages/ai/src/device-guard.test.ts`](../packages/ai/src/device-guard.test.ts), [`packages/ai/src/pipeline.test.ts`](../packages/ai/src/pipeline.test.ts) |
-| Nothing is sent before the user approves the exact text, and what's sent contains no raw names, IDs, emails or accounts from the sample. | [`apps/web/src/chat/ChatApp.test.tsx`](../apps/web/src/chat/ChatApp.test.tsx) |
-| Local only never calls the cloud. | [`apps/web/src/chat/ChatApp.test.tsx`](../apps/web/src/chat/ChatApp.test.tsx) |
+| Nothing is sent before the user approves the exact text, and what's sent contains no raw names, IDs, emails or accounts from the sample. | [`apps/web/src/chat/ChatApp.test.tsx`](../packages/app/src/chat/ChatApp.test.tsx) |
+| Local only never calls the cloud. | [`apps/web/src/chat/ChatApp.test.tsx`](../packages/app/src/chat/ChatApp.test.tsx) |
 | The outbound guard blocks a raw value however it's reformatted: spacing, punctuation, zero-width characters, soft hyphens, bidi controls, full-width digits, Arabic-Indic digits, Cyrillic lookalikes. | [`packages/core/src/guard.test.ts`](../packages/core/src/guard.test.ts), [`packages/core/src/guard-unicode.test.ts`](../packages/core/src/guard-unicode.test.ts) |
 | Secrets (provider API keys, private keys, JWTs, `password=` values) and the user's own rules are masked and enforced by the guard. | [`packages/core/src/scan.test.ts`](../packages/core/src/scan.test.ts) |
 | Detectors validate what they find (IBAN checksum, Luhn for cards, the structure of Egyptian national IDs) to keep false alarms down. | [`packages/core/src/rules.test.ts`](../packages/core/src/rules.test.ts) |

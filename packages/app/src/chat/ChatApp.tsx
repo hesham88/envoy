@@ -2,7 +2,8 @@
  * Envoy as a chat (/app): talk to the cloud the way you would in any AI app, with a document or
  * without, and watch every turn go through the private pipeline. Each assistant turn shows its
  * Privacy Flight Recorder, the exact text it wants to send (you approve it), and the answer with
- * your details restored on this device. Nothing is stored: closing the tab forgets everything.
+ * your details restored on this device. Chats are kept only if you turn on History (encrypted on
+ * this device); otherwise closing the tab forgets everything.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -40,6 +41,7 @@ import { FileReadError, readDocumentFile } from '../lib/readFile';
 import { FlightRecorder } from './FlightRecorder';
 import { HistoryDialog } from './History';
 import { useVault } from '../lib/useVault';
+import { PREF_KEYS, usePref } from '../lib/prefs';
 
 interface Turn {
   id: number;
@@ -66,6 +68,16 @@ interface SavedChat {
   createdAt: number;
   turns: SavedTurn[];
 }
+/** Cloud failures in words a person can act on. Nothing was sent when these happen after the guard. */
+export function cloudErrorMessage(e: unknown): string {
+  const msg = e instanceof Error ? e.message : String(e);
+  if (/quota|RESOURCE_EXHAUSTED|\b429\b|rate.?limit/i.test(msg))
+    return 'The cloud model has reached its usage limit for now. Try again in a minute, switch the cloud model in the composer, or turn on Local only.';
+  if (/failed to fetch|network|offline/i.test(msg))
+    return "Couldn't reach the cloud. Check your connection, or turn on Local only to answer on this device.";
+  return msg;
+}
+
 /** A cheap fingerprint of a document for the in-memory cache (FNV-1a over the text, plus its length). */
 function fingerprint(text: string): string {
   let h = 0x811c9dc5;
@@ -75,6 +87,7 @@ function fingerprint(text: string): string {
 const newChatId = () => `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
 const RULES_KEY = 'envoy.rules.v1';
+const ON_OFF = ['on', 'off'] as const;
 const PASTE_AS_FILE = 1500;
 const SUGGESTIONS = [
   {
@@ -143,6 +156,8 @@ export function ChatApp({
   const [imageNote, setImageNote] = useState<string | null>(null);
   const [localOnly, setLocalOnly] = useState(false);
   const vault = useVault();
+  // History is opt-in: answered chats are saved (encrypted) only after the person turns it on.
+  const [keepHistory, setKeepHistory] = usePref(PREF_KEYS.keepHistory, ON_OFF);
   // Rules live in the encrypted vault (the extension passes its own store). Plain localStorage rules
   // from earlier versions are moved into the vault once, then removed.
   const vaultRules = useMemo<RulesStore | undefined>(
@@ -320,21 +335,25 @@ export function ChatApp({
     analysis: NonNullable<SessionState['analysis']>,
     outbound: string,
     sharedTags: string[],
+    selectedIds?: number[],
   ) {
     if (!runtime.deps) return;
     const dispatch = dispatchTo(id);
     dispatch({ type: 'SEND_START' });
     try {
-      const result = await answer(analysis, outbound, runtime.deps, { sharedTags });
+      const result = await answer(analysis, outbound, runtime.deps, {
+        sharedTags,
+        ...(selectedIds ? { selectedIds } : {}),
+      });
       dispatch({ type: 'ANSWER_DONE', result });
     } catch (e) {
-      dispatch({ type: 'FAIL', message: (e as Error).message });
+      dispatch({ type: 'FAIL', message: cloudErrorMessage(e) });
     }
   }
 
   useEffect(() => {
     const answered = turns.filter((t) => t.session.phase === 'answered' && t.session.result);
-    if (!answered.length || vault.state !== 'ready') return;
+    if (keepHistory !== 'on' || !answered.length || vault.state !== 'ready') return;
     const saved: SavedChat = {
       createdAt: createdAt.current,
       turns: answered.map((t) => ({
@@ -348,7 +367,7 @@ export function ChatApp({
     };
     const title = answered[0]!.session.question.replace(/\s+/g, ' ').slice(0, 80);
     void vault.save(chatId.current, title, saved);
-  }, [turns, vault.state]);
+  }, [turns, vault.state, keepHistory]);
 
   async function openChat(id: string) {
     if (busy) return;
@@ -597,7 +616,7 @@ export function ChatApp({
                 turn={t}
                 runtime={runtime}
                 dispatch={dispatchTo(t.id)}
-                onApprove={(a, o, s) => void approve(t.id, a, o, s)}
+                onApprove={(a, o, s, ids) => void approve(t.id, a, o, s, ids)}
                 handoff={cloudHandoff}
               />
             ))
@@ -716,16 +735,40 @@ export function ChatApp({
                     Local only
                   </button>
                   {runtime.setFastCloud && (
-                    <button
-                      type="button"
-                      role="switch"
-                      aria-checked={!!runtime.fastCloud}
-                      onClick={() => runtime.setFastCloud?.(!runtime.fastCloud)}
-                      title={`Cloud model for the reasoning step: ${runtime.settings.cloudModel}. Fast is quicker; Gemini 4 Hydrogen reasons more carefully.`}
-                      className={`rounded-full border px-3 py-1.5 text-[13px] ${runtime.fastCloud ? 'border-cloud/60 bg-cloud-tint text-cloud-on-tint' : 'border-line text-muted hover:text-ink'}`}
+                    <div
+                      role="radiogroup"
+                      aria-label="Cloud model"
+                      className="inline-flex items-center rounded-full border border-line p-0.5 text-[13px]"
                     >
-                      {runtime.fastCloud ? 'Fast cloud' : 'Gemini 4 Hydrogen'}
-                    </button>
+                      {(
+                        [
+                          [
+                            true,
+                            'Fast',
+                            runtime.settings.fastCloudModel,
+                            'Answers in a second or two',
+                          ],
+                          [
+                            false,
+                            'Gemini 4 Hydrogen',
+                            runtime.settings.cloudModel,
+                            'Reasons more carefully; can take 10 to 50 seconds',
+                          ],
+                        ] as const
+                      ).map(([fast, label, model, hint]) => (
+                        <button
+                          key={label}
+                          type="button"
+                          role="radio"
+                          aria-checked={!!runtime.fastCloud === fast}
+                          onClick={() => runtime.setFastCloud?.(fast)}
+                          title={`Cloud model for the reasoning step: ${model}. ${hint}. Your choice is saved in this browser.`}
+                          className={`rounded-full px-2.5 py-1 ${!!runtime.fastCloud === fast ? 'bg-cloud-tint text-cloud-on-tint' : 'text-muted hover:text-ink'}`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
                   )}
                 </div>
                 <button
@@ -757,6 +800,8 @@ export function ChatApp({
       {historyOpen && (
         <HistoryDialog
           vault={vault}
+          keep={keepHistory === 'on'}
+          onKeep={(on) => setKeepHistory(on ? 'on' : 'off')}
           onOpen={(id) => void openChat(id)}
           onClose={() => setHistoryOpen(false)}
         />
@@ -796,6 +841,7 @@ function TurnView({
     analysis: NonNullable<SessionState['analysis']>,
     outbound: string,
     sharedTags: string[],
+    selectedIds?: number[],
   ) => void;
 }) {
   const s = turn.session;
@@ -888,6 +934,7 @@ function Approval({
     analysis: NonNullable<SessionState['analysis']>,
     outbound: string,
     sharedTags: string[],
+    selectedIds?: number[],
   ) => void;
   localOnly: boolean;
 }) {
@@ -988,7 +1035,12 @@ function Approval({
         onApprove={() =>
           handoff
             ? void window.open(handoff.url, '_blank', 'noopener')
-            : onApprove(analysis, outbound, session.sharedTags)
+            : onApprove(
+                analysis,
+                outbound,
+                session.sharedTags,
+                session.selectedIds ?? analysis.selectedIds,
+              )
         }
         approveLabel={handoff ? 'Continue in Envoy on the web' : 'Approve and send'}
       />

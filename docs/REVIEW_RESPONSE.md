@@ -4,60 +4,91 @@ Status as of 23 November 2026. ✅ done (with where), ⚠️ owner step or partl
 
 ## First judge review (ChatGPT, 7.75/10)
 
-| Point | Status |
-| --- | --- |
-| Live privacy inspection panel | ✅ Privacy flight recorder on every answer: each step, where it ran, which model, time, characters sent (`packages/app/src/chat/FlightRecorder.tsx`); network ledger of every request |
-| Real inference-source indicators | ✅ every private step must report `inferenceSource === ON_DEVICE` or it's discarded; the recorder shows the source and the cloud model by name |
-| Approval before transmission | ✅ nothing is sent until you approve the exact text in the approval card (tested: `ChatApp.test.tsx`) |
-| Privacy leakage evaluation | ✅ 36 cases × 3 setups, 0 raw details after the guard on all three; re-identification and attribute attacks; red team 28/28 (`docs/EVAL.md`) |
-| Offline / local-only mode | ✅ Local only (no cloud call); questions the document answers are answered on the device; offline banner |
-| Before/after request comparison | ✅ at the top of the approval card, plus the document view |
-| Architecture documentation | ✅ README: diagram, the call sites with line links, the guard, what Envoy promises and doesn't |
-| Automated tests and benchmarks | ✅ 304 unit/integration tests, `npm run eval`, extension end-to-end suite on the real build (20/20: text box, rich editor, password fields, text/photo/PDF upload, message security, side panel) |
-| "Does privacy actually hold?" (logs, analytics, errors, history) | ✅ no analytics or logs leave the device; history is encrypted on the device; errors show only local text |
-| A three-minute video structure | ⏳ waiting for your go-ahead (script and narration lines are drafted) |
+| Point                                                            | Status                                                                                                                                                                                           |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Live privacy inspection panel                                    | ✅ Privacy flight recorder on every answer: each step, where it ran, which model, time, characters sent (`packages/app/src/chat/FlightRecorder.tsx`); network ledger of every request            |
+| Real inference-source indicators                                 | ✅ every private step must report `inferenceSource === ON_DEVICE` or it's discarded; the recorder shows the source and the cloud model by name                                                   |
+| Approval before transmission                                     | ✅ nothing is sent until you approve the exact text in the approval card (tested: `ChatApp.test.tsx`)                                                                                            |
+| Privacy leakage evaluation                                       | ✅ 36 cases × 3 setups, 0 raw details after the guard on all three; re-identification and attribute attacks; red team 28/28 (`docs/EVAL.md`)                                                     |
+| Offline / local-only mode                                        | ✅ Local only (no cloud call); questions the document answers are answered on the device; offline banner                                                                                         |
+| Before/after request comparison                                  | ✅ at the top of the approval card, plus the document view                                                                                                                                       |
+| Architecture documentation                                       | ✅ README: diagram, the call sites with line links, the guard, what Envoy promises and doesn't                                                                                                   |
+| Automated tests and benchmarks                                   | ✅ 304 unit/integration tests, `npm run eval`, extension end-to-end suite on the real build (20/20: text box, rich editor, password fields, text/photo/PDF upload, message security, side panel) |
+| "Does privacy actually hold?" (logs, analytics, errors, history) | ✅ no analytics or logs leave the device; history is encrypted on the device; errors show only local text                                                                                        |
+| A three-minute video structure                                   | ⏳ waiting for your go-ahead (script and narration lines are drafted)                                                                                                                            |
 
 ## Second judge review (ChatGPT, 3.9/5)
 
-| Point | Status |
-| --- | --- |
-| A. Red team 20/28 not good enough | ✅ 28/28, with false-positive checks; every case is a unit test (`packages/core/src/guard-redteam.test.ts`) |
-| A. Uncertain cases should fail closed | ✅ text the guard can't read (an encoded blob) is blocked; tags inside links in answers are never restored |
-| A. Don't claim "never leaves" | ✅ README "What Envoy promises, and what it doesn't"; scene and seal copy fixed |
-| B. Latency 55–67 s | ⚠️ partly: detection only in the clauses the question needs (the measured setup), warm-up on focus, a cache for repeated questions, "Don't wait: use Basic protection", live timer. Combining the three on-device calls into one needs a model re-measurement before it can ship. Times vary a lot by device, and the README says so |
-| B. Benchmark on a GPU | ❌ this machine's GPU can't run Chrome's model (it crashes the GPU backend); not claimed anywhere |
-| B. Warm and cold latency | ✅ 5-run check: 250 s cold (busy machine), 89–100 s warm (`tests/eval/probes/fallback-check-5-runs.json`) |
-| C. False masks 18–23% | ⚠️ unchanged on the model setups; heading words and line-break names fixed in Basic (now 10.9%); every mask can be undone in the approval card |
-| D. Basic ≠ Private, say so before sending | ✅ the approval card states which protection produced the excerpt and what that means |
-| Global fetch interception (concurrency) | ✅ one queue for every model call, with concurrency tests |
-| Intermittent fallback to Basic | ✅ fixed and verified: 5/5 runs stayed Private (`docs/PLAN.md`) |
-| More realistic attacks (prompt injection, reconstruction, encodings) | ✅ injection test end to end; exfiltration through restored links closed; encodings in the red team. ⚠️ combined-attribute re-identification is measured on 12 cases (Argon is extending) |
-| Gemini Nano 4 compliance | ✅ explained in the README: Nano 4 is built on Gemma 4 (`gemma4_component`, measured); Chrome's default today is Nano 3 (also measured); Envoy runs on whichever Chrome provides |
-| Don't name an unverifiable model in the UI | ✅ "Chrome's built-in model" everywhere |
-| Extension: verify on real sites, don't distract from the web app | ✅ end-to-end suite on the real build; the extension's side panel is the same web chat |
-| README behind the implementation | ✅ already fixed before this review (the review read an old snapshot); now also the measured table |
-| Cloud model quota for judges | ⚠️ `gemini-4-hydrogen` (no billing required) via Remote Config; check the quota before judging |
-| Positioning: selective delegation, minimum disclosure | ✅ README intro |
+| Point                                                                | Status                                                                                                                                                                                                                                                                                                                               |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A. Red team 20/28 not good enough                                    | ✅ 28/28, with false-positive checks; every case is a unit test (`packages/core/src/guard-redteam.test.ts`)                                                                                                                                                                                                                          |
+| A. Uncertain cases should fail closed                                | ✅ text the guard can't read (an encoded blob) is blocked; tags inside links in answers are never restored                                                                                                                                                                                                                           |
+| A. Don't claim "never leaves"                                        | ✅ README "What Envoy promises, and what it doesn't"; scene and seal copy fixed                                                                                                                                                                                                                                                      |
+| B. Latency 55–67 s                                                   | ⚠️ partly: detection only in the clauses the question needs (the measured setup), warm-up on focus, a cache for repeated questions, "Don't wait: use Basic protection", live timer. Combining the three on-device calls into one needs a model re-measurement before it can ship. Times vary a lot by device, and the README says so |
+| B. Benchmark on a GPU                                                | ❌ this machine's GPU can't run Chrome's model (it crashes the GPU backend); not claimed anywhere                                                                                                                                                                                                                                    |
+| B. Warm and cold latency                                             | ✅ 5-run check: 250 s cold (busy machine), 89–100 s warm (`tests/eval/probes/fallback-check-5-runs.json`)                                                                                                                                                                                                                            |
+| C. False masks 18–23%                                                | ⚠️ unchanged on the model setups; heading words and line-break names fixed in Basic (now 7.1%, re-measured 23 Nov, still 0 leaks); every mask can be undone in the approval card                                                                                                                                                     |
+| D. Basic ≠ Private, say so before sending                            | ✅ the approval card states which protection produced the excerpt and what that means                                                                                                                                                                                                                                                |
+| Global fetch interception (concurrency)                              | ✅ one queue for every model call, with concurrency tests                                                                                                                                                                                                                                                                            |
+| Intermittent fallback to Basic                                       | ✅ fixed and verified: 5/5 runs stayed Private (`docs/PLAN.md`)                                                                                                                                                                                                                                                                      |
+| More realistic attacks (prompt injection, reconstruction, encodings) | ✅ injection test end to end; exfiltration through restored links closed; encodings in the red team. ⚠️ combined-attribute re-identification is measured on 12 cases (Argon is extending)                                                                                                                                            |
+| Gemini Nano 4 compliance                                             | ✅ explained in the README: Nano 4 is built on Gemma 4 (`gemma4_component`, measured); Chrome's default today is Nano 3 (also measured); Envoy runs on whichever Chrome provides                                                                                                                                                     |
+| Don't name an unverifiable model in the UI                           | ✅ "Chrome's built-in model" everywhere                                                                                                                                                                                                                                                                                              |
+| Extension: verify on real sites, don't distract from the web app     | ✅ end-to-end suite on the real build; the extension's side panel is the same web chat                                                                                                                                                                                                                                               |
+| README behind the implementation                                     | ✅ already fixed before this review (the review read an old snapshot); now also the measured table                                                                                                                                                                                                                                   |
+| Cloud model quota for judges                                         | ⚠️ `gemini-4-hydrogen` (no billing required) via Remote Config; check the quota before judging                                                                                                                                                                                                                                       |
+| Positioning: selective delegation, minimum disclosure                | ✅ README intro                                                                                                                                                                                                                                                                                                                      |
 
 ## Argon's winning-strategy audit
 
-| Point | Status |
-| --- | --- |
-| Cloud steps need console setup | ✅ done earlier; cloud answers verified through the app and the extension |
-| CPU latency: warm-up, per-step progress | ✅ warm-up on focus; live per-step progress and timer |
-| `/dev` on-device test used the JSON model | ✅ uses `answerLocal` |
-| README table of call sites with line links | ✅ |
-| #10635 as the signature engineering moment | ✅ README "We don't trust the default" + `/dev` simulate button |
-| Real eval numbers | ✅ `docs/EVAL.md`, `tests/eval/summary.json`, landing page |
-| "Why not just redact?" | ✅ README |
-| Basic protection first-class | ✅ |
-| Replay a recorded on-device run for judges without the model | ⏳ waiting for Argon's recorded traces |
+| Point                                                        | Status                                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| Cloud steps need console setup                               | ✅ done earlier; cloud answers verified through the app and the extension |
+| CPU latency: warm-up, per-step progress                      | ✅ warm-up on focus; live per-step progress and timer                     |
+| `/dev` on-device test used the JSON model                    | ✅ uses `answerLocal`                                                     |
+| README table of call sites with line links                   | ✅                                                                        |
+| #10635 as the signature engineering moment                   | ✅ README "We don't trust the default" + `/dev` simulate button           |
+| Real eval numbers                                            | ✅ `docs/EVAL.md`, `tests/eval/summary.json`, landing page                |
+| "Why not just redact?"                                       | ✅ README                                                                 |
+| Basic protection first-class                                 | ✅                                                                        |
+| Replay a recorded on-device run for judges without the model | ⏳ waiting for Argon's recorded traces                                    |
 
 ## PAIR quick wins
 
-| Point | Status |
-| --- | --- |
-| Show the on-device model's reasons (selection, route) | ✅ in the flight recorder |
-| Local route: don't show "what the cloud will see" | ✅ answered on the device, no approval card |
-| Eval structured as rules vs model vs layered | ✅ |
-| PAIR vocabulary and interaction policies in the README | ✅ |
+| Point                                                  | Status                                      |
+| ------------------------------------------------------ | ------------------------------------------- |
+| Show the on-device model's reasons (selection, route)  | ✅ in the flight recorder                   |
+| Local route: don't show "what the cloud will see"      | ✅ answered on the device, no approval card |
+| Eval structured as rules vs model vs layered           | ✅                                          |
+| PAIR vocabulary and interaction policies in the README | ✅                                          |
+
+## 23 November reviews (Claude, Argon, and the integration-checkout review)
+
+The integration-checkout review was written against the stale `phase-3-product-ui` checkout (152 tests, no README, no eval), so most of its points were already closed on `main`. Its still-valid points are merged into the table below.
+
+| Point                                                                                        | Status                                                                                                                                                                                                     |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Privacy policy said "kept in memory for the open tab only" while history saved automatically | ✅ History is now **opt-in** (off by default, a switch in History). The policy, the chat's header and the Web Store listing describe exactly what is stored, how it's encrypted, and the no-passcode limit |
+| README and landing code links pointed at moved files and drifted lines                       | ✅ Every line link names its symbol; `apps/web/src/landing/links.test.ts` fails if a link's file is missing or its line no longer holds the symbol                                                         |
+| Flight recorder showed "This device · Chrome's built-in model" for steps that didn't run     | ✅ Skipped steps show a neutral "Skipped" badge, "Not run", and labels like "Every clause sent, masked (no clause selection)" (tested)                                                                     |
+| Headings flagged as names ("Base Salary", "Without Cause") blocked unattended answers        | ✅ A phrase that also appears in lowercase in the document isn't a name; heading words added to the stopwords. Basic re-measured                                                                           |
+| Extension offscreen detect ran without its JSON schema and named "Gemini Nano"               | ✅ `DETECT_SCHEMA` passed; "Chrome's built-in model"                                                                                                                                                       |
+| PDF rebuild: byte offsets wrong for non-ASCII text                                           | ✅ Text folded to ASCII for the standard font, and a stale object with a wrong `/Length` removed; offsets tested byte by byte                                                                              |
+| Receipt counted the model's clauses, not the ones the user approved                          | ✅ `answer()` takes the approved clause ids (tested)                                                                                                                                                       |
+| Secret rule matched across a newline (`KEY=` then the next line)                             | ✅ `[ \t]*`; secrets precision 94.1% → 100%                                                                                                                                                                |
+| Blocked secrets and custom-rule matches showed "a personal detail"                           | ✅ Labelled                                                                                                                                                                                                |
+| `X-Frame-Options: DENY` contradicted `frame-ancestors`                                       | ✅ Removed; CSP `frame-ancestors` governs framing                                                                                                                                                          |
+| `/studio/*` and `/classic` served in production                                              | ✅ Development builds only (and dropped from the production bundle)                                                                                                                                        |
+| Extension claims "ChatGPT, Gemini, Gmail" without testing them                               | ✅ Copy now claims what's tested; e2e checks that Replace reaches the internal document of ProseMirror and Quill editors (23/23)                                                                           |
+| Landing demo shows generic tags while the pitch is role tags                                 | ✅ One line under the demo explains role tags need the on-device model                                                                                                                                     |
+| README hides `packages/app`; no AI-tool disclosure                                           | ✅ Repo map updated; "Built during the contest, and with what" section                                                                                                                                     |
+| Hydrogen is slow (10–50 s) as the default                                                    | ✅ The cloud model is a saved setting in the composer; Remote Config `cloud_default = fast` gives everyone Flash-Lite until they choose Hydrogen                                                           |
+| A quota error would show a raw SDK message                                                   | ✅ Plain message with what to do (switch model, Local only)                                                                                                                                                |
+| Lint failure in `e2e/run.mjs`                                                                | ✅ Fixed earlier                                                                                                                                                                                           |
+| Merge PR #23 (Argon's eval upgrade)                                                          | ⏳ Argon's lane: it needs a rebase on `main` (CLI removal, new numbers) before merging                                                                                                                     |
+| Replay a recorded on-device run for judges                                                   | ⏳ Needs PR #23's traces                                                                                                                                                                                   |
+| Answer-quality table is self-judged; tuning set = test set                                   | ⏳ Argon's lane (held-out set, different judge model)                                                                                                                                                      |
+| Cloud quota for judging; quota form by Wed 25 Nov, 10 AM PT                                  | ⚠️ Owner step                                                                                                                                                                                              |
+| Repo homepage URL, CI deploy secret                                                          | ⚠️ Owner steps (repo settings)                                                                                                                                                                             |
+| Video and Devpost text                                                                       | ⏳ Waiting for the owner's go-ahead                                                                                                                                                                        |
+| Integration checkout `F:/Projects/Envoy` is stale with uncommitted lane files                | ⚠️ Owner's checkout; not touched                                                                                                                                                                           |
