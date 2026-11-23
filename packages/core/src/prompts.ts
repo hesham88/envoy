@@ -134,6 +134,23 @@ function parseJson(raw: string): unknown {
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   typeof v === 'object' && v !== null && !Array.isArray(v);
 
+/** Words that name a role in a document, never a particular person or company. */
+const GENERIC_PARTY =
+  /^(?:the\s+)?(?:company|employer|employee|landlord|tenant|lessor|lessee|client|contractor|consultant|bank|lender|borrower|patient|physician|doctor|buyer|seller|party|parties|guarantor|licensor|licensee|provider|customer|supplier|agent|owner)s?$/i;
+const CURRENCY =
+  /(?:EGP|USD|EUR|GBP|SAR|AED|LE|L\.E\.|[$€£¥]|\b(?:pounds?|dollars?|euros?|riyals?|dirhams?)\b)/i;
+
+/**
+ * Drops model findings that can't be what the model says: a generic role word as a name or company
+ * ("the Company"), or a bare number as money ("90" in "ninety (90) days" is a duration). Masking
+ * them hides meaning, and their lowercase or spelled-out forms would then block the send.
+ */
+function plausible(kind: EntityType, value: string): boolean {
+  if ((kind === 'PERSON' || kind === 'ORG') && GENERIC_PARTY.test(value)) return false;
+  if (kind === 'MONEY' && !CURRENCY.test(value)) return false;
+  return true;
+}
+
 /** Keeps only entities whose text appears verbatim in the source; returns every occurrence. */
 export function parseDetectResponse(raw: string, source: string): Entity[] {
   const data = parseJson(raw);
@@ -146,6 +163,7 @@ export function parseDetectResponse(raw: string, source: string): Entity[] {
     if (!(ENTITY_KINDS as readonly unknown[]).includes(kind)) continue;
     if (!(ENTITY_ROLES as readonly unknown[]).includes(role)) continue;
     const needle = text.trim();
+    if (!plausible(kind as EntityType, needle)) continue;
     for (let i = source.indexOf(needle); i !== -1; i = source.indexOf(needle, i + needle.length)) {
       const entity: Entity = {
         type: kind as EntityType,

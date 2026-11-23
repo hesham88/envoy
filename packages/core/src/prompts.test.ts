@@ -51,6 +51,23 @@ describe('prompt builders', () => {
 });
 
 describe('parseDetectResponse', () => {
+  it('drops generic role words and bare numbers the model calls names or money (seen live on Nano)', () => {
+    const src =
+      'The Company employs Heba Radwan. The first ninety (90) days are probation. Salary: EGP 55,000.';
+    const json = JSON.stringify({
+      entities: [
+        { text: 'Company', kind: 'ORG', role: 'employer' },
+        { text: '90', kind: 'MONEY', role: 'other' },
+        { text: 'Heba Radwan', kind: 'PERSON', role: 'employee' },
+        { text: 'EGP 55,000', kind: 'MONEY', role: 'other' },
+      ],
+    });
+    expect(parseDetectResponse(json, src).map((e) => e.value)).toEqual([
+      'Heba Radwan',
+      'EGP 55,000',
+    ]);
+  });
+
   it('drops non-verbatim entities (hallucinated names never reach the tag map)', () => {
     const json = JSON.stringify({
       entities: [

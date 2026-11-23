@@ -1,6 +1,6 @@
 /**
  * How to turn on private mode: live checks of what this browser and computer can do, then the steps
- * to turn on Chrome's on-device AI, download the model, and (optionally) try the Gemini Nano 4
+ * to turn on Chrome's on-device AI, download the model, and turn on Gemini Nano 4
  * preview built on Gemma 4. Web pages can't open chrome:// pages; inside the extension's side panel
  * `openChromePage` opens them, elsewhere the guide offers to copy the address.
  */
@@ -242,10 +242,10 @@ export function PrivateModeGuide({
             </div>
           </li>
           <li>
-            <b>Choose the model (optional).</b> Chrome decides which model a page gets. By default
-            that's Gemini Nano. To try <b>Gemini Nano 4</b>, built on Gemma 4, turn on the preview
-            flag, relaunch Chrome, and download again. Envoy works with either; neither Chrome nor
-            Firebase tells a page which one answered, so Envoy says "Chrome's built-in model".
+            <b>Use Gemini Nano 4 (recommended).</b> Envoy is built and measured on Chrome's Gemma 4
+            model, which Gemini Nano 4 is built on. Turn on this flag, relaunch Chrome, and download
+            again. Chrome decides which model a page gets, and neither Chrome nor Firebase tells a
+            page which one answered, so Envoy says "Chrome's built-in model".
             <div className="mt-1.5">
               <ChromeLink page="flags-gemma4" open={openChromePage} />
             </div>

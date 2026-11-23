@@ -10,7 +10,7 @@
  * NEVER edits or synthesizes trace content; refuses to write if `mode !== 'private'`.
  *
  * Usage:
- *   node tests/eval/record-demo-trace.mjs --arm nano --component nano_v3_cpu_component --version 2025.8.21.1028 --label "Gemini Nano (default)" --port 5174
+ *   node tests/eval/record-demo-trace.mjs --arm gemma4 --component gemma4_component --version 2026.11.3.1140 --label "Gemma 4" --port 5174
  *   node tests/eval/record-demo-trace.mjs --arm gemma4 --component gemma4_component --version 2026.11.3.1140 --label "Gemma 4" --port 5174
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
@@ -38,18 +38,13 @@ for (let i = 0; i < argv.length; i++) {
   }
 }
 
-const arm = args.arm ?? 'nano';
+const arm = args.arm ?? 'gemma4';
 const port = Number(args.port ?? 5174);
 const appUrl = args.url ?? `http://localhost:${port}/`;
 const cdp = args.cdp ?? 'http://127.0.0.1:9333';
 const QUESTION = 'Can my landlord raise the rent 20% this year?';
 
 const ARM_MODELS = {
-  nano: {
-    component: args.component ?? 'nano_v3_cpu_component',
-    version: args.version ?? '2025.8.21.1028',
-    label: args.label ?? 'Gemini Nano (default)',
-  },
   gemma4: {
     component: args.component ?? 'gemma4_component',
     version: args.version ?? '2026.11.3.1140',

@@ -244,7 +244,9 @@ const qualityData = existsSync(QUALITY_RESULTS_PATH) ? JSON.parse(readFileSync(Q
 const redteamData = existsSync(REDTEAM_RESULTS_PATH) ? JSON.parse(readFileSync(REDTEAM_RESULTS_PATH, 'utf8')) : null;
 const secretsData = existsSync(SECRETS_RESULTS_PATH) ? JSON.parse(readFileSync(SECRETS_RESULTS_PATH, 'utf8')) : null;
 
-const ARM_ORDER = ['gemma4', 'nano', 'basic'];
+// Gemini Nano 3 (Chrome's earlier default) was dropped on 2026-11-23: it could not run reliably on the
+// measurement machine, and the contest model is Gemini Nano 4, built on Gemma 4.
+const ARM_ORDER = ['gemma4', 'basic'];
 const arms = [];
 for (const armId of ARM_ORDER) {
   const scored = scoreArmFile(armId, resolve(ARMS_DIR, `${armId}.json`));
@@ -379,7 +381,7 @@ writeFileSync(RESULTS_PATH, JSON.stringify(resultsJson, null, 2) + '\n', 'utf8')
 
 console.log(`\n=== ENVOY LIVE EVALUATION SUMMARY (commit ${commit}) ===`);
 if (arms.length === 0) {
-  console.warn('No live arm caches found in tests/eval/probes/arms/*.json. Run `node tests/eval/collect-live.mjs --arm basic|gemma4|nano`.');
+  console.warn('No live arm caches found in tests/eval/probes/arms/*.json. Run `node tests/eval/collect-live.mjs --arm basic|gemma4`.');
 } else {
   const table = {};
   for (const a of arms) {

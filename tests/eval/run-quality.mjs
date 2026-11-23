@@ -43,7 +43,7 @@ for (let i = 0; i < argv.length; i++) {
   }
 }
 
-const requestedArms = args.all === 'true' ? ['gemma4', 'nano', 'basic'] : [args.arm ?? 'basic'];
+const requestedArms = args.all === 'true' ? ['gemma4', 'basic'] : [args.arm ?? 'basic'];
 const limit = Number(args.limit ?? 20);
 const port = Number(args.port ?? 5174);
 const appUrl = args.url ?? `http://localhost:${port}/`;

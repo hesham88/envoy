@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-23T10:39:06.605Z",
-  "commit": "e594748",
+  "generatedAt": "2026-11-23T15:19:40.789Z",
+  "commit": "17d8271",
   "arms": [
     {
       "id": "gemma4",
@@ -38,44 +38,6 @@
         "reid": 36,
         "attribute": 36,
         "answerQuality": 0
-      }
-    },
-    {
-      "id": "nano",
-      "label": "Default Gemini Nano (on-device + cloud)",
-      "model": {
-        "component": "nano_v3_cpu_component",
-        "version": "2025.8.21.1028",
-        "label": "Gemini Nano (default)"
-      },
-      "backend": "cpu (OnDeviceModelForceCpuBackend)",
-      "n": 36,
-      "nTotal": 36,
-      "metrics": {
-        "maskRecall": 1,
-        "falseMaskRate": 0.2054,
-        "outboundLeaks": 0,
-        "clauseAccuracy": 0.8333,
-        "latencyMs": {
-          "p50": 66978,
-          "p95": 154011
-        },
-        "minimizationRatio": 0.0838,
-        "reidRecoveryExact": 0,
-        "reidRecoveryPartial": 0,
-        "attributeInference": 0,
-        "answerQualityRetained": 0.6667
-      },
-      "metricsN": {
-        "maskRecall": 36,
-        "falseMaskRate": 36,
-        "outboundLeaks": 36,
-        "clauseAccuracy": 36,
-        "latencyMs": 36,
-        "minimizationRatio": 36,
-        "reid": 36,
-        "attribute": 36,
-        "answerQuality": 18
       }
     },
     {

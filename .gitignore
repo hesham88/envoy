@@ -21,3 +21,8 @@ dist-dev/
 
 # Private keys (the extension signing key lives outside the repo)
 *.pem
+
+# Video renders and narration audio (built locally; the film goes to YouTube)
+video/out/
+video/wav/
+video/audio/out/

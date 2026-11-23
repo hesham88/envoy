@@ -63,12 +63,12 @@ describe('Landing', () => {
           generatedAt: '2026-11-22T19:29:04.598Z',
           arms: [
             {
-              id: 'nano',
-              label: 'Default Gemini Nano',
+              id: 'gemma4',
+              label: 'Gemma 4 (on-device + cloud)',
               model: {
-                label: 'Gemini Nano (default)',
-                component: 'nano_v3_cpu_component',
-                version: '2025.8.21.1028',
+                label: 'Gemma 4',
+                component: 'gemma4_component',
+                version: '2026.11.3.1140',
               },
               n: 30,
               nTotal: 36,
@@ -78,8 +78,8 @@ describe('Landing', () => {
         }}
       />,
     );
-    const row = screen.getByRole('row', { name: /Default Gemini Nano/ });
-    expect(row.textContent).toContain('2025.8.21.1028');
+    const row = screen.getByRole('row', { name: /Gemma 4/ });
+    expect(row.textContent).toContain('2026.11.3.1140');
     expect(row.textContent).toContain('30 of 36');
     expect(row.textContent).toContain('10%');
   });
