@@ -46,8 +46,11 @@ if (status !== 'available') throw new Error(`on-device model is "${status}": not
 // The cloud model for this take: Gemini 4 Hydrogen (the saved composer choice).
 await page.getByRole('radio', { name: 'Gemini 4 Hydrogen' }).click();
 await wait(1500);
-const model = await page.evaluate(() => document.body.innerText.match(/Cloud model: ([\w.-]+)/)?.[1]);
-if (model !== 'gemini-4-hydrogen') throw new Error(`cloud model is ${model}, not gemini-4-hydrogen`);
+const model = await page.evaluate(
+  () => document.body.innerText.match(/Cloud model: ([\w.-]+)/)?.[1],
+);
+if (model !== 'gemini-4-hydrogen')
+  throw new Error(`cloud model is ${model}, not gemini-4-hydrogen`);
 
 const cdp = await ctx.newCDPSession(page);
 const frames = [];
@@ -89,7 +92,10 @@ await wait(5000);
 
 // 2. What the cloud will see.
 mark('approval');
-await page.getByRole('group', { name: 'Before and after' }).last().evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+await page
+  .getByRole('group', { name: 'Before and after' })
+  .last()
+  .evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 await wait(5000);
 await page.evaluate(() => window.scrollBy({ top: 320, behavior: 'smooth' }));
 await wait(5000);
@@ -120,7 +126,10 @@ await center(approveBtn());
 await wait(1200);
 mark('approve');
 await approveBtn().click();
-await page.getByText(/Reasoned in the cloud over tags|Answered on this device|Lighter answer/).first().waitFor({ timeout: 240000 });
+await page
+  .getByText(/Reasoned in the cloud over tags|Answered on this device|Lighter answer/)
+  .first()
+  .waitFor({ timeout: 240000 });
 mark('answer');
 // This take must show Gemini 4 Hydrogen itself answering: stop at once otherwise.
 const answerText = await page.locator('article').last().innerText();
@@ -144,12 +153,24 @@ await page.keyboard.press('Enter');
 await wait(1500);
 await center(page.locator('details').last());
 mark('analysing2');
-// Wait for THIS answer's receipt, not one already on screen.
-await page.waitForFunction(
-  (n) => document.body.innerText.split('0 bytes left this device.').length - 1 > n,
-  before,
+// Wait for THIS answer's receipt (not one already on screen), or for an approval card: if the
+// router sends this question to the cloud, stop (nothing is sent before approval).
+const approvalsBefore = await page.getByRole('button', { name: 'Approve and send' }).count();
+const outcome = await page.waitForFunction(
+  ([n, k]) => {
+    if (document.body.innerText.split('0 bytes left this device.').length - 1 > n) return 'local';
+    const approve = [...document.querySelectorAll('button')].filter(
+      (x) => x.textContent?.trim() === 'Approve and send',
+    );
+    return approve.length > k ? 'cloud' : false;
+  },
+  [before, approvalsBefore],
   { timeout: 20 * 60 * 1000, polling: 500 },
 );
+if ((await outcome.jsonValue()) !== 'local')
+  throw new Error(
+    'the second question was routed to the cloud: not a usable take (nothing was sent)',
+  );
 mark('answer2');
 await center(page.locator('article').last());
 await wait(8000);
@@ -159,7 +180,9 @@ await page.getByRole('button', { name: 'Network ledger' }).first().click();
 await wait(600);
 mark('ledger');
 await wait(4500);
-await page.getByRole('complementary', { name: 'Network inspector' }).evaluate((d) => d.scrollBy({ top: 500, behavior: 'smooth' }));
+await page
+  .getByRole('complementary', { name: 'Network inspector' })
+  .evaluate((d) => d.scrollBy({ top: 500, behavior: 'smooth' }));
 await wait(4500);
 mark('end');
 await cdp.send('Page.stopScreencast');
@@ -182,43 +205,114 @@ kept.forEach((f, i) => {
 list.push(`file 'f${String(kept.length - 1).padStart(5, '0')}.jpg'`);
 writeFileSync(join(dir, 'list.txt'), list.join('\n'));
 const master = join(RAW, 'private-master.mp4');
-execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', join(dir, 'list.txt'), '-vf', `fps=30,scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:color=0x0b0a1f,format=yuv420p`, '-c:v', 'libx264', '-crf', '16', master]);
+execFileSync('ffmpeg', [
+  '-loglevel',
+  'error',
+  '-y',
+  '-f',
+  'concat',
+  '-safe',
+  '0',
+  '-i',
+  join(dir, 'list.txt'),
+  '-vf',
+  `fps=30,scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:color=0x0b0a1f,format=yuv420p`,
+  '-c:v',
+  'libx264',
+  '-crf',
+  '16',
+  master,
+]);
 rmSync(dir, { recursive: true, force: true });
 writeFileSync(join(RAW, 'private-marks.json'), JSON.stringify({ marks, typing }, null, 2));
 
 // Cut the scenes from the one take. Each part is [from, to] in master seconds.
 const m = marks;
+const cuts = {};
 const cut = (id, parts) => {
+  cuts[id] = parts;
   const tmp = parts.map((_, i) => join(RAW, `.${id}-${i}.mp4`));
   parts.forEach(([a, b], i) =>
-    execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-ss', a.toFixed(2), '-i', master, '-t', (b - a).toFixed(2), '-c:v', 'libx264', '-crf', '16', '-an', tmp[i]]),
+    execFileSync('ffmpeg', [
+      '-loglevel',
+      'error',
+      '-y',
+      '-ss',
+      a.toFixed(2),
+      '-i',
+      master,
+      '-t',
+      (b - a).toFixed(2),
+      '-c:v',
+      'libx264',
+      '-crf',
+      '16',
+      '-an',
+      tmp[i],
+    ]),
   );
-  writeFileSync(join(RAW, `.${id}.txt`), tmp.map((f) => `file '${f.replace(/\\/g, '/')}'`).join('\n'));
-  execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', join(RAW, `.${id}.txt`), '-c', 'copy', join(RAW, `${id}.mp4`)]);
+  writeFileSync(
+    join(RAW, `.${id}.txt`),
+    tmp.map((f) => `file '${f.replace(/\\/g, '/')}'`).join('\n'),
+  );
+  execFileSync('ffmpeg', [
+    '-loglevel',
+    'error',
+    '-y',
+    '-f',
+    'concat',
+    '-safe',
+    '0',
+    '-i',
+    join(RAW, `.${id}.txt`),
+    '-c',
+    'copy',
+    join(RAW, `${id}.mp4`),
+  ]);
   rmSync(join(RAW, `.${id}.txt`));
   tmp.forEach((f) => rmSync(f, { force: true }));
   // Typing moments inside this scene, re-timed to the scene's own clock.
   const local = [];
   let offset = 0;
   for (const [a, b] of parts) {
-    for (const t of typing) if (t.at >= a && t.at <= b) local.push({ name: t.name, at: offset + t.at - a });
+    for (const t of typing)
+      if (t.at >= a && t.at <= b) local.push({ name: t.name, at: offset + t.at - a });
     offset += b - a;
   }
   writeFileSync(join(RAW, `${id}.marks.json`), JSON.stringify(local, null, 1));
   console.log(`cut ${id} (${offset.toFixed(1)} s)`);
 };
 const waitCut = (a, b, keepStart, keepEnd) =>
-  b - a > keepStart + keepEnd + 2 ? [[a, a + keepStart], [b - keepEnd, b]] : [[a, b]];
+  b - a > keepStart + keepEnd + 2
+    ? [
+        [a, a + keepStart],
+        [b - keepEnd, b],
+      ]
+    : [[a, b]];
 cut('n06-chat', [[Math.max(0, m.loaded + 0.3), m.send + 3.5]]);
 cut('n07-recorder', waitCut(m.analysing, m.analysed + 5, 6, 6));
 cut('n08-approve', [[m.approval, m.guard]]);
 cut('n09-guard', [[m.guard, m.blocked + 4]]);
 cut('n10-answer', waitCut(m.approve - 0.5, m['answer-end'], 3.5, 10));
-cut('n11-local', [[m.q2 - 0.3, m.analysing2 + 4], ...waitCut(m.analysing2 + 4, m.answer2 + 8, 0, 9.5).slice(-1)]);
+cut('n11-local', [
+  [m.q2 - 0.3, m.analysing2 + 4],
+  ...waitCut(m.analysing2 + 4, m.answer2 + 8, 0, 9.5).slice(-1),
+]);
 cut('n12-ledger', [[m.ledger - 0.3, m.end]]);
+writeFileSync(join(RAW, 'private-cuts.json'), JSON.stringify(cuts, null, 1));
 writeFileSync(
   join(RAW, 'private-waits.json'),
-  JSON.stringify({ analysis: m.analysed - m.analysing, hydrogen: m.answer - m.approve, local: m.answer2 - m.analysing2 }, null, 2),
+  JSON.stringify(
+    {
+      analysis: m.analysed - m.analysing,
+      hydrogen: m.answer - m.approve,
+      local: m.answer2 - m.analysing2,
+    },
+    null,
+    2,
+  ),
 );
-console.log(`waits: analysis ${(m.analysed - m.analysing).toFixed(0)} s, Hydrogen ${(m.answer - m.approve).toFixed(0)} s, local ${(m.answer2 - m.analysing2).toFixed(0)} s`);
+console.log(
+  `waits: analysis ${(m.analysed - m.analysing).toFixed(0)} s, Hydrogen ${(m.answer - m.approve).toFixed(0)} s, local ${(m.answer2 - m.analysing2).toFixed(0)} s`,
+);
 process.exit(0);

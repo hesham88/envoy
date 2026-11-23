@@ -1,19 +1,23 @@
 /* global console, document */
 /**
- * Renders the film's caption overlays (transparent PNGs, 1920x1080) from HTML with headless Chrome:
- * one step chip per scene, the "wait cut" card, and the closing links. Brand: UV night, Fraunces for
- * display, IBM Plex for text, green = this device, blue = cloud.
+ * Renders the film's stills (1920x1080 PNGs) from HTML with headless Chrome: the guilloche pattern
+ * that lies over the animated background, each layout's card frame (shadow + glow below the footage,
+ * a hairline ring above it, a rounded mask), the margin captions, chapter cards, wait-cut notes with
+ * the take's real times, and the closing links. Brand: UV night, Fraunces display, IBM Plex text,
+ * green = this device, blue = cloud, amber = the guard.
  *
- * Usage: node video/film/overlays.mjs  ->  video/out/overlays/<id>.png
+ * Usage: node video/film/overlays.mjs  ->  video/out/overlays/*.png
  */
 import { chromium } from 'playwright-core';
-import { mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CHAPTERS, COLOR, H, LABEL, LAYOUTS, SCENES, W, WAIT_TEXT } from './layout.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, '../..');
 const OUT = join(HERE, '../out/overlays');
+const RAW = join(HERE, '../out/raw');
 mkdirSync(OUT, { recursive: true });
 
 const font = (pkg, file) =>
@@ -24,51 +28,145 @@ const FONTS = `
 @font-face { font-family: PlexMono; font-weight: 500; src: url(${font('@fontsource/ibm-plex-mono', 'ibm-plex-mono-latin-500-normal.woff2')}); }
 @font-face { font-family: Fraunces; src: url(${font('@fontsource-variable/fraunces', 'fraunces-latin-opsz-normal.woff2')}); }`;
 
-/** where: 'device' (green), 'cloud' (blue), 'you' (white), 'note' (amber). */
-const CHIPS = {
-  'n01-hook': ['note', 'Today: you paste everything into the cloud'],
-  'n02-promise': ['device', 'Envoy: your private AI agent to the cloud'],
-  'n03-live': ['device', 'Live on the page: local rules, nothing sent'],
-  'n04-chat': ['device', "Private mode: Chrome's built-in Gemma 4 model (Gemini Nano 4)"],
-  'n05-recorder': ['device', 'Privacy flight recorder: every step, where it ran'],
-  'n06-approve': ['you', 'You approve the exact text that leaves'],
-  'n07-guard': ['note', 'The guard blocks raw details, even disguised'],
-  'n08-answer': ['cloud', 'Gemini reasons over tags; the maths is done on your device'],
-  'n09-hybrid': ['cloud', 'Firebase AI Logic: ONLY_ON_DEVICE + PREFER_IN_CLOUD'],
-  'n10-extension': ['device', 'Chrome extension: the text boxes you choose'],
-  'n11-measured': ['device', '36 documents · 263 private details · 0 leaks · 28/28 attacks blocked'],
-};
-const COLOR = { device: '#3dffb0', cloud: '#7aa7ff', you: '#ece9ff', note: '#ffb547' };
-
-const page = (body) => `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}
-html,body{margin:0;width:1920px;height:1080px;background:transparent;overflow:hidden}
-.chip{position:absolute;left:96px;bottom:84px;display:flex;align-items:center;gap:16px;padding:16px 28px 16px 22px;border-radius:999px;
- background:rgba(11,10,31,.82);border:1.5px solid var(--c);box-shadow:0 0 28px -6px var(--c),inset 0 0 18px -10px var(--c);
- font:600 30px/1.2 Plex,sans-serif;color:#ece9ff;letter-spacing:.005em}
-.dot{width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 14px var(--c)}
-.card{position:absolute;left:340px;top:16px;padding:12px 24px;border-radius:999px;background:rgba(11,10,31,.9);border:1.5px solid #ffb547;
- box-shadow:0 0 26px -8px #ffb547;font:500 21px/1.3 Plex,sans-serif;color:#ece9ff;white-space:nowrap}
-.card b{font:600 22px/1 Fraunces,serif;color:#ffb547;margin-right:10px}
-.links{position:absolute;left:0;right:0;bottom:96px;text-align:center;font:500 30px/1.5 PlexMono,monospace;color:#ece9ff}
-.links span{color:#3dffb0}
-</style></head><body>${body}</body></html>`;
+const RADIUS = 22;
+const css = `${FONTS}
+html,body{margin:0;width:${W}px;height:${H}px;background:transparent;overflow:hidden;color:#ece9ff}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:7px 16px 7px 12px;border-radius:999px;
+  border:1.5px solid var(--c);background:rgba(11,10,31,.72);box-shadow:0 0 22px -8px var(--c);
+  font:600 19px/1 Plex,sans-serif;color:#ece9ff;white-space:nowrap}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+h2{margin:0;font:400 50px/1.07 Fraunces,serif;letter-spacing:-.01em;color:#f4f2ff;text-wrap:balance}
+p{margin:0;font:500 23px/1.45 Plex,sans-serif;color:#b9b5d6;text-wrap:pretty}
+.col{position:absolute;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:20px}
+.bottom{position:absolute;left:160px;right:160px;top:952px;display:flex;align-items:center;justify-content:space-between;gap:40px}
+.bottom h2{font-size:38px}
+.bottom p{font-size:21px;margin-top:6px}
+.wait{position:absolute;padding:14px 18px;border-radius:16px;border:1.5px solid #ffb547;background:rgba(11,10,31,.86);
+  box-shadow:0 0 26px -10px #ffb547;font:500 19px/1.4 Plex,sans-serif;color:#ece9ff}
+.wait b{display:block;margin-bottom:4px;font:400 26px/1.1 Fraunces,serif;font-weight:400;color:#ffb547}
+`;
+const page = (body) =>
+  `<!doctype html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${body}</body></html>`;
 
 const b = await chromium.launch({ channel: 'chrome', headless: true });
-const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
-const shot = async (id, html) => {
+const p = await b.newPage({ viewport: { width: W, height: H } });
+const shot = async (name, html) => {
   await p.setContent(page(html));
   await p.evaluate(() => document.fonts.ready);
-  await p.screenshot({ path: join(OUT, `${id}.png`), omitBackground: true });
-  console.log(id);
+  await p.screenshot({ path: join(OUT, `${name}.png`), omitBackground: true });
 };
-for (const [id, [where, text]] of Object.entries(CHIPS))
-  await shot(id, `<div class="chip" style="--c:${COLOR[where]}"><span class="dot"></span>${text}</div>`);
+
+// 1. Guilloche: security-print rosettes drawn as faint light (green = device, blue = cloud).
+await p.setContent(page('<canvas id="c" width="1920" height="1080"></canvas>'));
+await p.evaluate(() => {
+  const g = document.getElementById('c').getContext('2d');
+  const rosette = (cx, cy, R, r, d, turns, color, lines) => {
+    g.strokeStyle = color;
+    g.lineWidth = 1.1;
+    for (let j = 0; j < lines; j++) {
+      const rot = (j / lines) * Math.PI * 2;
+      g.beginPath();
+      for (let i = 0; i <= 1400; i++) {
+        const t = (i / 1400) * Math.PI * 2 * turns;
+        const x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+        const y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+        const xr = x * Math.cos(rot) - y * Math.sin(rot);
+        const yr = x * Math.sin(rot) + y * Math.cos(rot);
+        if (i) g.lineTo(cx + xr, cy + yr);
+        else g.moveTo(cx + xr, cy + yr);
+      }
+      g.stroke();
+    }
+  };
+  rosette(1640, 170, 420, 150, 120, 3, 'rgba(122,167,255,0.06)', 6);
+  rosette(250, 930, 380, 130, 110, 3, 'rgba(61,255,176,0.055)', 6);
+});
+await p.screenshot({ path: join(OUT, 'bg-pattern.png'), omitBackground: true });
+console.log('bg-pattern');
+
+// 2. Card frames per layout and colour: below (shadow + glow), above (hairline ring), mask.
+const frames = new Set();
+for (const s of Object.values(SCENES)) {
+  const L = LAYOUTS[s.layout];
+  if (L.frameless) continue;
+  const key = `${s.layout}-${s.where}`;
+  if (frames.has(key)) continue;
+  frames.add(key);
+  const c = COLOR[s.where];
+  const box = `left:${L.x}px;top:${L.y}px;width:${L.w}px;height:${L.h}px;border-radius:${RADIUS}px;position:absolute`;
+  await shot(
+    `under-${key}`,
+    `<div style="${box};background:#0b0a1f;box-shadow:0 50px 120px -30px rgba(0,0,0,.9),0 0 90px -20px ${c}66"></div>`,
+  );
+  await shot(
+    `over-${key}`,
+    `<div style="${box};box-sizing:border-box;border:1.5px solid ${c}8c"></div>`,
+  );
+  if (!existsSync(join(OUT, `mask-${s.layout}.png`))) {
+    await p.setViewportSize({ width: L.w, height: L.h });
+    await p.setContent(
+      `<html><body style="margin:0;background:#000"><div style="width:${L.w}px;height:${L.h}px;border-radius:${RADIUS}px;background:#fff"></div></body></html>`,
+    );
+    await p.screenshot({ path: join(OUT, `mask-${s.layout}.png`) });
+    await p.setViewportSize({ width: W, height: H });
+  }
+}
+console.log('frames', [...frames].join(' '));
+
+// 3. Captions in the margins.
+const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const pill = (where) =>
+  `<span class="pill" style="--c:${COLOR[where]}"><span class="dot"></span>${LABEL[where]}</span>`;
+const column = (L) => {
+  const left = L.caption === 'column-left' ? 80 : L.x + L.w + 44;
+  const width = L.caption === 'column-left' ? L.x - 80 - 44 : W - left - 80;
+  return { left, width };
+};
+for (const [id, s] of Object.entries(SCENES)) {
+  const L = LAYOUTS[s.layout];
+  if (L.caption === 'none') continue;
+  let html;
+  if (L.caption === 'bottom') {
+    html = `<div class="bottom"><div><h2>${esc(s.title)}</h2><p>${esc(s.sub)}</p></div>${pill(s.where)}</div>`;
+  } else if (L.caption === 'open') {
+    html = `<div style="position:absolute;left:0;right:0;top:70px;text-align:center;font:400 120px/1 Fraunces,serif;letter-spacing:-.02em;color:#f4f2ff">${esc(s.title)}</div>
+      <div style="position:absolute;left:0;right:0;top:922px;text-align:center"><p style="font-size:32px;color:#d7d3ee">${esc(s.sub)}</p></div>`;
+  } else {
+    const { left, width } = column(L);
+    html = `<div class="col" style="left:${left}px;width:${width}px"><div>${pill(s.where)}</div><h2>${esc(s.title)}</h2><p>${esc(s.sub)}</p></div>`;
+  }
+  await shot(`cap-${id}`, html);
+}
+console.log('captions');
+
+// 4. Wait-cut notes with the take's real times (placeholders until the take exists).
+const waitsFile = join(RAW, 'private-waits.json');
+const waits = existsSync(waitsFile) ? JSON.parse(readFileSync(waitsFile, 'utf8')) : null;
+for (const [id, s] of Object.entries(SCENES)) {
+  if (!s.wait) continue;
+  const L = LAYOUTS[s.layout];
+  const secs = waits?.[s.wait];
+  const text = secs ? WAIT_TEXT[s.wait](secs) : 'Wait cut: (times from the take)';
+  const { left, width } = column(L);
+  await shot(
+    `wait-${id}`,
+    `<div class="wait" style="left:${left}px;width:${width - 36}px;bottom:${H - (L.y + L.h)}px"><b>Wait cut</b>${esc(text.replace(/^Wait cut: /, ''))}</div>`,
+  );
+}
+console.log('waits', waits ? JSON.stringify(waits) : '(placeholders)');
+
+// 5. Chapter cards and the closing links.
+for (const [id, c] of Object.entries(CHAPTERS))
+  await shot(
+    `chapter-${id}`,
+    `<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px">
+      <div style="font:400 118px/1 Fraunces,serif;letter-spacing:-.02em;color:#f4f2ff">${esc(c.title)}</div>
+      <p style="font-size:30px;color:#c9c5e6">${esc(c.sub)}</p></div>`,
+  );
 await shot(
-  'wait-cut',
-  `<div class="card"><b>Wait cut</b>About 3.5 minutes on this CPU-only laptop. Times vary a lot by device.</div>`,
+  'end-links',
+  `<div style="position:absolute;left:0;right:0;bottom:92px;text-align:center;font:500 30px/1.5 PlexMono,monospace;color:#ece9ff">
+    <span style="color:#3dffb0">envoy-hybrid-ai.web.app</span>&nbsp;&nbsp;&nbsp;github.com/hesham88/envoy</div>`,
 );
-await shot(
-  'n12-links',
-  `<div class="links"><span>envoy-hybrid-ai.web.app</span> &nbsp;·&nbsp; github.com/hesham88/envoy</div>`,
-);
+console.log('chapters, links');
 await b.close();
