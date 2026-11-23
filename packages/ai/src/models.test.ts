@@ -97,4 +97,18 @@ describe('createStepModel', () => {
     expect(params.mode).toBe(InferenceMode.PREFER_IN_CLOUD);
     expect(params.inCloudParams.model).toBe('gemini-3.5-flash-lite');
   });
+
+  it('runs the capable model cloud-only, so its failure reaches the fast model, not the device', () => {
+    createStepModel(ai, 'reason', settings, undefined, true);
+    const params = getGenerativeModel.mock.lastCall?.[1] as { mode: string };
+    expect(params.mode).toBe(InferenceMode.ONLY_IN_CLOUD);
+  });
+
+  it('never makes a private step cloud-only (cloudOnly applies to reason only)', () => {
+    for (const step of ['detect', 'minimize', 'route', 'answerLocal'] as const) {
+      createStepModel(ai, step, settings, undefined, true);
+      const params = getGenerativeModel.mock.lastCall?.[1] as { mode: string };
+      expect(params.mode).toBe(InferenceMode.ONLY_ON_DEVICE);
+    }
+  });
 });

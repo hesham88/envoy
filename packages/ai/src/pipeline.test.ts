@@ -230,6 +230,43 @@ describe('answer', () => {
     expect(out.receipt.clausesSent).toBe(0);
   });
 
+  it("the chosen cloud model refuses (daily quota): the fast cloud model answers, and it's marked", async () => {
+    const { deps, models } = fakeDeps('available');
+    (models.reason.generateContent as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+      new Error('[429] RESOURCE_EXHAUSTED: quota exceeded'),
+    );
+    const fast = {
+      generateContent: vi.fn(async () => ({
+        response: {
+          text: () => '[LANDLORD] may raise it by at most 10%.',
+          inferenceSource: InferenceSource.IN_CLOUD,
+        },
+      })),
+    } as unknown as GenerativeModel;
+    deps.reasonFallback = fast;
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    const out = await answer(a, a.outbound, deps);
+    expect(out.source).toBe('in_cloud');
+    expect(out.lighter).toBe(false);
+    expect(out.usedFallbackModel).toBe(true);
+    expect(out.text).toBe('Karim Fathy may raise it by at most 10%.');
+    // Both requests carried the same masked, guard-checked excerpt, and the ledger shows both.
+    const sent = (fast.generateContent as ReturnType<typeof vi.fn>).mock.calls[0]![0] as string;
+    expect(sent).not.toMatch(/8,500|Karim Fathy|EG38/);
+    expect(
+      networkLog.entries.filter((e) => e.step === 'reason' && e.target === 'cloud'),
+    ).toHaveLength(2);
+  });
+
+  it('without a fallback model, a cloud error reaches the caller unchanged', async () => {
+    const { deps, models } = fakeDeps('available');
+    (models.reason.generateContent as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+      new Error('boom'),
+    );
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    await expect(answer(a, a.outbound, deps)).rejects.toThrow('boom');
+  });
+
   it('counts the clauses the user approved in the receipt, not the model selection', async () => {
     const { deps } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);

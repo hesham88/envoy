@@ -74,7 +74,7 @@ Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 
 
 ## Cloud model
 
-Two cloud models through Remote Config: `cloud_model_fast` = `gemini-3.5-flash-lite` (about 1.4 s) and `cloud_model` = `gemini-4-hydrogen` (10–50 s, more careful). `cloud_default` = `fast` decides what people get until they choose in the composer; their choice is saved in the browser. Override locally with `VITE_CLOUD_MODEL`.
+Two cloud models through Remote Config: `cloud_model_fast` = `gemini-3.5-flash-lite` (about 1.4 s) and `cloud_model` = `gemini-4-hydrogen` (10–50 s, more careful). `cloud_default` = `fast` decides what people get until they choose in the composer; their choice is saved in the browser. Override locally with `VITE_CLOUD_MODEL`. Fallback chain (23 Nov): Hydrogen runs `ONLY_IN_CLOUD`; if it fails (free tier: 20 requests/day, it ran out on 23 Nov and showed "cloud unreachable"), `deps.reasonFallback` (Flash-Lite, `PREFER_IN_CLOUD`) answers and the answer says so; only then the device. A refused request is still listed in the ledger.
 
 ## Judge experience (must-have)
 
