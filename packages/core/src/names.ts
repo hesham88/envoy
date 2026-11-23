@@ -11,14 +11,16 @@ const NAME_STOPWORDS = new Set(
 );
 
 /** Person-like names the rules can't know about (Basic protection): flagged, and masked by default. */
+// Words of a name are separated by spaces or tabs, never a line break: "Mona Adel\nEmail: ..." is
+// a name followed by a label on the next line, not a three-word name.
 const NAME_PATTERNS: RegExp[] = [
   // Title + name: "Dr. Omar", "Mrs Hala Samir"
-  /\b(?:Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g,
+  /\b(?:Mr|Mrs|Ms|Miss|Dr|Prof|Eng)\.?[ \t]+[A-Z][a-z]+(?:[ \t]+[A-Z][a-z]+)*/g,
   // Capitalised names, allowing Arabic-name particles, spaced or hyphenated:
   // "Mohamed El Sayed", "Nour Al Din", "Hisham El-Masry", "Abdel-Rahman Ali", "Karim Fathy"
-  /\b[A-Z][a-z]{2,}(?:-[A-Z][a-z]+)*(?:\s+(?:El|Al|Abdel|Abd|Abu|Bin|Ibn|de|van|von))?(?:\s+[A-Z][a-z]+(?:-[A-Z][a-z]+)*)+/g,
+  /\b[A-Z][a-z]{2,}(?:-[A-Z][a-z]+)*(?:[ \t]+(?:El|Al|Abdel|Abd|Abu|Bin|Ibn|de|van|von))?(?:[ \t]+[A-Z][a-z]+(?:-[A-Z][a-z]+)*)+/g,
   // Names in capitals: "AHMED HASSAN"
-  /\b[A-Z]{3,}(?:\s+[A-Z]{3,})+\b/g,
+  /\b[A-Z]{3,}(?:[ \t]+[A-Z]{3,})+\b/g,
 ];
 
 export function flagNames(text: string, taken: Entity[]): Entity[] {

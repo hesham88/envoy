@@ -53,7 +53,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     (async () => {
       try {
         await ensureOffscreen();
-        const res = await chrome.runtime.sendMessage({ type: 'envoy:pdf-mask-internal', base64: msg.base64, name: msg.name });
+        const res = await chrome.runtime.sendMessage({ type: 'envoy:pdf-mask-internal', base64: msg.base64, name: msg.name, custom: msg.custom });
         sendResponse(res ?? { ok: false, error: 'No response from the PDF checker.' });
       } catch (e) {
         sendResponse({ ok: false, error: String(e) });

@@ -25,6 +25,10 @@ describe('flagNames (Basic protection)', () => {
     ]);
   });
 
+  it('never runs a name across a line break', () => {
+    expect(names('Tenant: Mona Adel\nEmail: mona.adel@example.com')).toEqual(['Mona Adel']);
+  });
+
   it('still ignores ordinary capitalised phrases', () => {
     expect(
       names('This Residential Lease Agreement is made in Cairo, Arab Republic of Egypt.'),

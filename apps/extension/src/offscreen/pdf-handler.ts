@@ -16,7 +16,6 @@ declare const chrome: {
       ): void;
     };
   };
-  storage: { local: { get(k: string): Promise<Record<string, unknown>> } };
 };
 
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
@@ -32,10 +31,8 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         });
         return;
       }
-      const stored = await chrome.storage.local.get('envoyRules').catch(() => ({}));
-      const custom = (msg.custom ??
-        (stored as { envoyRules?: CustomRule[] }).envoyRules ??
-        []) as CustomRule[];
+      // Offscreen documents have no chrome.storage: the page sends the person's rules with the file.
+      const custom = (Array.isArray(msg.custom) ? msg.custom : []) as CustomRule[];
       const scan = scanText(text, { custom });
       const masked = maskFindings(text, scan, new Set());
       const fake = new File([''], msg.name ?? 'document.pdf', { type: 'application/pdf' });
