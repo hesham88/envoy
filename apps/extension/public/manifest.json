@@ -1,16 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "Envoy — Private AI to the Cloud",
+  "name": "Envoy: private AI agent to the cloud",
   "short_name": "Envoy",
   "version": "0.1.0",
-  "description": "Ask the cloud. Keep your secrets. Envoy reads selected or typed text on-device first, then shares only what you approve.",
-  "minimum_chrome_version": "138",
+  "description": "Ask cloud AI about private text. Envoy masks your details on your device, and you approve exactly what is sent.",
+  "minimum_chrome_version": "139",
   "permissions": [
     "sidePanel",
     "contextMenus",
     "storage",
     "scripting",
-    "offscreen"
+    "offscreen",
+    "activeTab"
   ],
   "optional_host_permissions": [
     "http://*/*",
@@ -21,7 +22,12 @@
   },
   "action": {
     "default_title": "Open Envoy",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png"
+    }
   },
   "side_panel": {
     "default_path": "sidepanel.html"
@@ -29,5 +35,11 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://*.googleapis.com https://*.firebaseapp.com https://www.google.com; frame-src https://envoy-hybrid-ai.web.app"
   },
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5In0/gtfZDtBEPoZcu4XSz8uzftBDKogZaEZoFTqYIWCfxA/VngU26T3aEATeyeCX6mPS5TNQ731ew7V9TeNqVX6AozIsvA4N0Nxwqet6YflsgdHjKiujAvNz8pi0skl6Ox6Y6es+CHtJ4CAA1eAqnSUrfB3gWS6k48bjHbbztgkV2mfimFZNSWWnjOXf1yop1bHejqbi23Tz0QxfWkJboUC51rnMo5iZTHjQf0WCa8FWsfZWOYOc1wRIwDnHUhT0XSJWTDlM7yGECZWt5eEXo7N9XDFJzgGbIHoPjuT08hFhHgABm0RAlsIdI1ATfa9s25zZAsk277Lczgl+GR53QIDAQAB"
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5In0/gtfZDtBEPoZcu4XSz8uzftBDKogZaEZoFTqYIWCfxA/VngU26T3aEATeyeCX6mPS5TNQ731ew7V9TeNqVX6AozIsvA4N0Nxwqet6YflsgdHjKiujAvNz8pi0skl6Ox6Y6es+CHtJ4CAA1eAqnSUrfB3gWS6k48bjHbbztgkV2mfimFZNSWWnjOXf1yop1bHejqbi23Tz0QxfWkJboUC51rnMo5iZTHjQf0WCa8FWsfZWOYOc1wRIwDnHUhT0XSJWTDlM7yGECZWt5eEXo7N9XDFJzgGbIHoPjuT08hFhHgABm0RAlsIdI1ATfa9s25zZAsk277Lczgl+GR53QIDAQAB",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
 }

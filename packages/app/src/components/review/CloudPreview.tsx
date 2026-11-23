@@ -15,6 +15,8 @@ const LEAK_LABEL: Record<string, string> = {
   PERSON: 'a name',
   ADDRESS: 'an address',
   ORG: 'an organisation',
+  SECRET: 'a password, key or token',
+  CUSTOM: 'something one of your rules protects',
 };
 
 interface Props {

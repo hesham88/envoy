@@ -1,6 +1,6 @@
 # Envoy — Empirical Security, Privacy & Utility Evaluation
 
-*Argon Eval Lane (`tests/eval/**`, `docs/EVAL.md`, `packages/cli/**`). Every number below comes from real runs via `scripts/lib/envoy-browser.mjs` (`analyze()` / `answer()` through Firebase AI Logic hybrid inference in Chrome), real in-browser Firebase AI Logic SDK `ONLY_IN_CLOUD` calls (`tests/eval/lib/browser-sdk.mjs`), or `@envoy/core` / `@envoy/cli` deterministic evaluators, stating exact model (`component` + `version`), date, and `n`. Machine-readable contract for the landing page & README: [`tests/eval/summary.json`](../tests/eval/summary.json) (now with per-metric `metricsN`).*
+*Argon Eval Lane (`tests/eval/**`, `docs/EVAL.md`). Every number below comes from real runs via `scripts/lib/envoy-browser.mjs` (`analyze()` / `answer()` through Firebase AI Logic hybrid inference in Chrome), real in-browser Firebase AI Logic SDK `ONLY_IN_CLOUD` calls (`tests/eval/lib/browser-sdk.mjs`), or `@envoy/core` deterministic evaluators, stating exact model (`component` + `version`), date, and `n`. Machine-readable contract for the landing page & README: [`tests/eval/summary.json`](../tests/eval/summary.json) (now with per-metric `metricsN`).*
 
 ---
 
@@ -104,19 +104,7 @@ Both traces include `steps` (`step`, `source`, `ms`), `selectedIds`, `selectionR
 
 ---
 
-## 6. `envoy-guard` CLI Hook & Evaluation (`packages/cli`, Milestone 5)
-
-- **Package:** `@envoy/cli` (`packages/cli/dist/cli.mjs` → bin `envoy-guard`), rules-only **Basic protection** using `@envoy/core` `scanText()` + `~/.envoy/rules.json` (`CustomRule[]`). Makes zero network calls and **blocks** offending prompts/tool inputs with a ready-to-paste masked copy rather than rewriting them inline.
-- **Verified agent hook contracts (`2026-11-22`):**
-  - **Claude Code:** `UserPromptSubmit` (`decision: "block"` + masked copy; documents that Claude Code cannot rewrite prompts inline) and `PreToolUse` (`WebFetch|Bash|Write|Edit` → `permissionDecision: "deny"`).
-  - **Gemini CLI:** `BeforeAgent` and `BeforeTool` (`web_fetch|run_shell_command|write_file|replace` → strict JSON `{"decision": "deny"|"allow"}`).
-- **Tested `envoy-guard init claude|gemini`:** Unit-tested (`packages/cli/src/hook.test.ts`, **9 / 9 passing**) and binary-verified (`packages/cli/dist/cli.mjs init claude|gemini`) — prints valid `settings.json` JSON to stdout and Basic-protection guidance to stderr without editing user files.
-- **CLI Eval Case Set (`tests/eval/run-cli.mjs`, `2026-11-22`):** **`n = 24`** realistic Claude Code & Gemini CLI prompts and tool inputs (`14` positives with runtime-constructed `SECRET` tokens, PII, and `CustomRule[]` codenames/ticket regexes; `10` clean coding-agent controls including tech terms, git SHAs, UUIDs, read-only tools, and word-boundary controls):
-  - **Recall:** **`100.0%`** (`14 / 14`) · **Precision:** **`100.0%`** (`14 / 14`) · **False blocks:** **`0`** · **Raw-value echoes in stdout:** **`0`** · **Hook contract failures:** **`0`**.
-
----
-
-## 7. `summary.json` `metricsN` Contract & Known Limitations
+## 6. `summary.json` `metricsN` Contract & Known Limitations
 
 Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) now publishes per-metric sample sizes so the landing page never hides or conflates `n`:
 ```json

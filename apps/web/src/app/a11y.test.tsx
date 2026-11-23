@@ -8,7 +8,12 @@ import { AppShell } from './App';
 const basicRuntime = (): EnvoyRuntime => ({
   status: 'no-api',
   progress: null,
-  settings: { cloudModel: 'gemini-3.8-flash', promptVersion: 'v1' },
+  settings: {
+    cloudModel: 'gemini-3.8-flash',
+    fastCloudModel: 'gemini-3.5-flash-lite',
+    cloudDefault: 'fast',
+    promptVersion: 'v1',
+  },
   deps: {
     runPrivate: vi.fn(),
     models: {},

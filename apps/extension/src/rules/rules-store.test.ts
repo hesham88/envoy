@@ -3,7 +3,7 @@ import { parseRulesJson, rulesToJson, testRules } from './rules-store';
 import { diffWords } from '../recorder/diff';
 
 describe('rules import/export', () => {
-  it('round-trips the envoy-guard JSON format', () => {
+  it('round-trips the { rules: [...] } JSON format', () => {
     const parsed = parseRulesJson(rulesToJson([{ label: 'PROJECT', terms: ['Falcon'] }]));
     expect(parsed.error).toBeNull();
     expect(parsed.rules).toEqual([{ label: 'PROJECT', terms: ['Falcon'] }]);

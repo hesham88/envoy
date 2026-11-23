@@ -34,13 +34,16 @@ export interface EvalSummary {
   }[];
 }
 
-const STEPS: {
+/** [path, line, the symbol on that line]. `links.test.ts` checks every line still holds its symbol. */
+export type CodeRef = [string, number?, string?];
+
+export const STEPS: {
   key: string;
   title: string;
   where: string;
   mode: string;
   body: string;
-  code: [string, number?];
+  code: CodeRef;
 }[] = [
   {
     key: 'detect',
@@ -48,7 +51,7 @@ const STEPS: {
     where: 'This device',
     mode: 'ONLY_ON_DEVICE',
     body: 'Rules catch numbers, accounts and keys. The on-device model finds names, roles and amounts the rules cannot know.',
-    code: ['packages/ai/src/models.ts', 23],
+    code: ['packages/ai/src/models.ts', 33, 'modeFor'],
   },
   {
     key: 'minimize',
@@ -56,7 +59,7 @@ const STEPS: {
     where: 'This device',
     mode: 'ONLY_ON_DEVICE',
     body: 'The on-device model picks the clauses that answer your question. Everything else stays behind.',
-    code: ['packages/ai/src/pipeline.ts'],
+    code: ['packages/ai/src/pipeline.ts', 105, 'selectClausesBatched'],
   },
   {
     key: 'approve',
@@ -64,7 +67,7 @@ const STEPS: {
     where: 'You',
     mode: 'No model',
     body: 'You see the excerpt word for word, with every detail already a tag. Share a value, hide a sentence, or stop.',
-    code: ['apps/web/src/chat/ChatApp.tsx'],
+    code: ['packages/app/src/chat/ChatApp.tsx'],
   },
   {
     key: 'reason',
@@ -72,7 +75,7 @@ const STEPS: {
     where: 'Cloud',
     mode: 'PREFER_IN_CLOUD',
     body: 'Gemini answers using [RENT] and [LANDLORD], and writes maths like {{RENT * 1.10}} instead of guessing numbers.',
-    code: ['packages/ai/src/pipeline.ts', 357],
+    code: ['packages/ai/src/pipeline.ts', 402, 'buildReasonPrompt'],
   },
   {
     key: 'restore',
@@ -84,21 +87,21 @@ const STEPS: {
   },
 ];
 
-const GUARD: [string, string, [string, number?]][] = [
+export const GUARD: [string, string, CodeRef][] = [
   [
     'Check before every private step',
     "Chrome's on-device model must report itself available, or Envoy switches to Basic protection.",
-    ['packages/ai/src/device-guard.ts', 78],
+    ['packages/ai/src/device-guard.ts', 100, 'getDeviceStatus'],
   ],
   [
     'Fence the network',
     'While a private step runs, any request to the cloud endpoint is blocked and the run stops.',
-    ['packages/ai/src/device-guard.ts', 104],
+    ['packages/ai/src/device-guard.ts', 131, 'withCloudTripwire'],
   ],
   [
     'Verify where it ran',
     'After each private step, Envoy checks the response came from the device, not the cloud.',
-    ['packages/ai/src/device-guard.ts', 140],
+    ['packages/ai/src/device-guard.ts', 210, 'InferenceSource.ON_DEVICE'],
   ],
   [
     'Check what leaves',
@@ -241,7 +244,9 @@ export function Landing() {
               <UvDemo />
               <p className="mt-5 mb-0 border-t border-uv-line/70 pt-4 text-[14px] leading-relaxed text-uv-muted">
                 This instant check runs on this page with rules only: no AI, and nothing is sent.
-                The full pipeline, with the on-device model and Firebase AI Logic, runs in the app.{' '}
+                The full pipeline, with the on-device model and Firebase AI Logic, runs in the app,
+                where tags also carry roles, like [LANDLORD] and [RENT], so the cloud can still
+                reason about who owes what.{' '}
                 <a href="/app" className="text-uv-green underline underline-offset-4">
                   Try it with a real document
                 </a>
@@ -314,7 +319,7 @@ export function Landing() {
         <Section
           id="extension"
           title="Envoy on every text box you type into."
-          lede="The Chrome extension brings the same protection to ChatGPT, Gemini, Gmail and any site you choose. Turn it on for a site and the box lights up. Turn it off and it is an ordinary text box."
+          lede="The Chrome extension brings the same protection to the sites you choose: plain text boxes and rich editors (tested with ProseMirror and Quill, the editor libraries many chat and mail sites use). Turn it on for a site and the box lights up. Turn it off and it is an ordinary text box."
         >
           <div className="grid gap-5 md:grid-cols-3">
             {[
@@ -408,9 +413,14 @@ export function Landing() {
             Open source under Apache-2.0. Inspired by PAPILLON (Li et al., NAACL 2025). Built for
             #BuildHybridAI with Firebase AI Logic.
           </p>
-          <a href={REPO} className="hover:text-uv-text">
-            github.com/hesham88/envoy
-          </a>
+          <span className="flex gap-5">
+            <a href="/privacy" className="hover:text-uv-text">
+              Privacy policy
+            </a>
+            <a href={REPO} className="hover:text-uv-text">
+              github.com/hesham88/envoy
+            </a>
+          </span>
         </div>
       </footer>
     </div>

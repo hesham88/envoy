@@ -21,9 +21,38 @@ export function wrapText(text: string): string[] {
   return out;
 }
 
+const FOLD: Record<string, string> = {
+  '‘': "'",
+  '’': "'",
+  '“': '"',
+  '”': '"',
+  '–': '-',
+  '—': '-',
+  '…': '...',
+  ' ': ' ',
+  '€': 'EUR ',
+  '£': 'GBP ',
+  '¥': 'JPY ',
+  '•': '*',
+};
+
+/**
+ * The PDF uses the standard Helvetica font, which only covers basic Latin. Fold the text to
+ * printable ASCII (smart quotes, dashes, currency signs, accents), and mark anything else with "?".
+ * With one byte per character, the /Length and xref byte offsets below are exact.
+ */
+export function toPdfAscii(text: string): string {
+  return [...text]
+    .map((c) => FOLD[c] ?? c)
+    .join('')
+    .normalize('NFKD')
+    .replace(/\p{M}/gu, '')
+    .replace(/[^\n\x20-\x7E]/g, '?');
+}
+
 /** Builds a minimal multi-page text PDF (uncompressed streams, Helvetica). */
 export function buildTextPdf(text: string): Blob {
-  const lines = wrapText(text);
+  const lines = wrapText(toPdfAscii(text));
   const pages: string[][] = [];
   for (let i = 0; i < lines.length; i += LINES_PER_PAGE)
     pages.push(lines.slice(i, i + LINES_PER_PAGE));
@@ -33,7 +62,7 @@ export function buildTextPdf(text: string): Blob {
   objects[1] = '<< /Type /Catalog /Pages 2 0 R >>';
   objects[2] = `<< /Type /Pages /Kids [${pageIds.map((id) => `${id} 0 R`).join(' ')}] /Count ${pages.length} >>`;
   objects[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>';
-  objects[4] = '<< /Length 44 >> stream\nBT /F1 10 Tf 14 TL ET\nendstream';
+  objects[4] = '<< >>'; // unused; keeps the page object numbers simple
   pages.forEach((pageLines, i) => {
     const pageId = pageIds[i] ?? 5;
     const contentId = pageId + 1;

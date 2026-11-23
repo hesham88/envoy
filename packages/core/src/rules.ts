@@ -124,7 +124,7 @@ const SECRET_DETECTORS: Detector[] = [
     confidence: 0.85,
     // (?<![A-Za-z0-9]) rather than \b so DB_PASSWORD and MY_API_KEY count.
     pattern:
-      /(?<![A-Za-z0-9])(?:password|passwd|pwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)\b["']?\s*[:=]\s*["']?([^\s"',;]{6,})/gi,
+      /(?<![A-Za-z0-9])(?:password|passwd|pwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret)\b["']?[ \t]*[:=][ \t]*["']?([^\s"',;]{6,})/gi,
     group: 1,
   },
 ];

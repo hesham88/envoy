@@ -5,7 +5,7 @@
   "backend": "rules-only (LanguageModel unavailable)",
   "detectScope": "selected",
   "withAnswer": true,
-  "updatedAt": "2026-11-22T21:01:13.984Z",
+  "updatedAt": "2026-11-23T10:04:27.354Z",
   "nTotal": 36,
   "nMeasured": 36,
   "entries": {
@@ -15,11 +15,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:57:27.774Z",
+      "recordedAt": "2026-11-23T10:00:59.958Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 41,
+        "ms": 53,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -227,10 +227,10 @@
           }
         ],
         "answer": {
-          "text": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7, the Landlord is only permitted to increase the rent once per contract year by no more than EGP 850 (which is 10%), provided there is at least 60 days' written notice given to the Tenant.",
+          "text": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7 of the agreement, the Landlord is only permitted to increase the rent once per contract year by no more than 10% (which would be expressed as EGP 9,350), provided they give at least 60 days' written notice.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 2143,
+          "ms": 4162,
           "receipt": {
             "found": {
               "DATE": 2,
@@ -276,7 +276,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 2127
+                "ms": 4131
               }
             ],
             "mode": "basic"
@@ -287,7 +287,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 2918
+            "chars": 3057
           }
         ]
       }
@@ -298,11 +298,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:57:33.796Z",
+      "recordedAt": "2026-11-23T10:01:06.193Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 32,
+        "ms": 23,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -510,10 +510,10 @@
           }
         ],
         "answer": {
-          "text": "Your contract ends after a term of three (3) years starting on 1 September 2024, unless terminated earlier in accordance with the lease terms. \n\nAccording to Clause 2, the lease is for a term of three (3) years starting on 1 September 2024. Additionally, Clause 10 allows either party to end the lease at the end of a contract year with at least 60 days' written notice, or the tenant to end it early with 90 days' written notice subject to Clause 6.",
+          "text": "Your contract ends after a term of three (3) years starting on 1 September 2024, unless terminated earlier in accordance with the agreement. \n\nAccording to Clause 2, the premises are leased for a term of three years beginning on 1 September 2024. Additionally, Clause 10 allows either party to end the lease at the end of a contract year with at least 60 days' written notice, or the tenant to end it early with 90 days' written notice.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1739,
+          "ms": 1986,
           "receipt": {
             "found": {
               "DATE": 2,
@@ -559,7 +559,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1735
+                "ms": 1977
               }
             ],
             "mode": "basic"
@@ -570,7 +570,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 2899
+            "chars": 3038
           }
         ]
       }
@@ -581,11 +581,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:57:45.516Z",
+      "recordedAt": "2026-11-23T10:01:13.463Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 26,
+        "ms": 20,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -793,10 +793,10 @@
           }
         ],
         "answer": {
-          "text": "If you leave early without the required notice, the Landlord may keep one month's rent from your deposit. \n\nAccording to Clause 6, the Landlord normally returns the deposit within 30 days after the Lease ends, minus any unpaid rent or damage repair costs. However, if you leave before the end of the term without providing the notice required by Clause 10, the Landlord is permitted to keep one month's rent from your deposit.",
+          "text": "If you leave early without the required notice, the Landlord may keep one month's rent from your security deposit. \n\nThe text states that the Landlord returns the security deposit within 30 days after the Lease ends, minus any unpaid rent or repair costs. However, if you leave before the end of the term without providing the 90 days' written notice required by Clause 10, the Landlord is permitted to retain an amount equal to one month's rent from that deposit.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 7471,
+          "ms": 3030,
           "receipt": {
             "found": {
               "DATE": 2,
@@ -842,7 +842,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 7468
+                "ms": 3023
               }
             ],
             "mode": "basic"
@@ -853,7 +853,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 2917
+            "chars": 3056
           }
         ]
       }
@@ -864,11 +864,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:57:51.428Z",
+      "recordedAt": "2026-11-23T10:01:24.785Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -991,10 +991,10 @@
           }
         ],
         "answer": {
-          "text": "Based on the provided excerpt, you do not owe the late fee if you pay on the 8th of the month. \n\nAccording to Clause 8, the rent is due on the first day of each month, but a late fee of EGP 250 is only applied if the rent is paid more than 10 days late. Since the 8th of the month is within the 10-day grace period, no late fee is incurred.",
+          "text": "Yes, you do not owe the late fee if you pay on the 8th of the month. According to the text, rent is due on the first day of the month, but a late fee is only charged if the rent is paid more than 10 days late.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1688,
+          "ms": 7095,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -1031,7 +1031,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1687
+                "ms": 7094
               }
             ],
             "mode": "basic"
@@ -1042,7 +1042,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 983
+            "chars": 1122
           }
         ]
       }
@@ -1053,11 +1053,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:57:58.603Z",
+      "recordedAt": "2026-11-23T10:01:32.621Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 17,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1190,10 +1190,10 @@
           }
         ],
         "answer": {
-          "text": "No, you cannot rent out one bedroom on a short-term basis without asking the owner. \n\nAccording to Clause 3, the Tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.",
+          "text": "No, the tenant cannot rent out one bedroom on a short-term basis without asking the owner. According to the text, the tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 2932,
+          "ms": 3611,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -1233,7 +1233,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 2931
+                "ms": 3610
               }
             ],
             "mode": "basic"
@@ -1244,7 +1244,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 1050
+            "chars": 1189
           }
         ]
       }
@@ -1255,11 +1255,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:58:05.492Z",
+      "recordedAt": "2026-11-23T10:01:38.860Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 12,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1361,10 +1361,10 @@
           }
         ],
         "answer": {
-          "text": "The landlord must give at least 48 hours' written notice before entering the property for non-urgent repairs. Clause 4 states that the landlord must provide at least 48 hours' written notice prior to entry for routine inspection or non-urgent repairs.",
+          "text": "The landlord must give at least 48 hours' written notice before entering the property for routine inspection or non-urgent repairs. Clause 4 specifies that the Landlord is required to provide this notice period prior to entry for routine inspection or non-urgent repairs.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 2645,
+          "ms": 2015,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -1397,7 +1397,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 2644
+                "ms": 2014
               }
             ],
             "mode": "basic"
@@ -1408,7 +1408,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 872
+            "chars": 1011
           }
         ]
       }
@@ -1419,11 +1419,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:58:11.047Z",
+      "recordedAt": "2026-11-23T10:01:46.013Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 15,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1562,10 +1562,10 @@
           }
         ],
         "answer": {
-          "text": "No, the building management cannot increase your monthly service charge by 15% next year. Clause 3 states that annual increases to the service charge are capped at 8% per year.",
+          "text": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nAccording to Clause 3 of the excerpt, annual increases to the monthly service charge (CAM) of EGP 4,500 are strictly capped at 8% per year.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1317,
+          "ms": 2929,
           "receipt": {
             "found": {
               "PERSON": 4,
@@ -1605,7 +1605,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1317
+                "ms": 2928
               }
             ],
             "mode": "basic"
@@ -1616,7 +1616,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 905
+            "chars": 1044
           }
         ]
       }
@@ -1627,11 +1627,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:58:18.691Z",
+      "recordedAt": "2026-11-23T10:01:51.379Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 10,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1740,10 +1740,10 @@
           }
         ],
         "answer": {
-          "text": "The Landlord has to pay for the repair. \n\nAccording to Clause 3, the Landlord is solely responsible for hidden plumbing and main risers, which covers a main water pipe bursting inside the wall.",
+          "text": "The Landlord has to pay for the repair of a main water pipe inside the wall. \n\nAccording to Clause 3, the Landlord is solely responsible for hidden plumbing, while the Tenant is only responsible for internal tap washers and drain blockages caused by misuse.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 3423,
+          "ms": 1135,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -1778,7 +1778,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 3423
+                "ms": 1135
               }
             ],
             "mode": "basic"
@@ -1789,7 +1789,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 908
+            "chars": 1047
           }
         ]
       }
@@ -1800,7 +1800,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:31.964Z",
+      "recordedAt": "2026-11-23T10:01:57.317Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -1825,19 +1825,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "without cause",
-            "type": "PERSON",
-            "index": 44
-          },
-          {
-            "value": "without cause",
-            "type": "PERSON",
-            "index": 685
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "DATE",
@@ -1892,19 +1881,13 @@
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
             "role": null,
             "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Without Cause",
-            "role": null,
-            "source": "rules"
           }
         ],
-        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 1: 1. Parties. Signed on [DATE_1] between [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\").\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month.\n\nClause 3: 3. Direct Deposit. Salary will be transferred to Employee's IBAN [ACCOUNT].\n\nClause 4: 4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\nClause 5: 5. Termination [PERSON_3]. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
+        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 1: 1. Parties. Signed on [DATE_1] between [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\").\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month.\n\nClause 3: 3. Direct Deposit. Salary will be transferred to Employee's IBAN [ACCOUNT].\n\nClause 4: 4. Confidentiality. The Employee shall keep all proprietary source code and customer lists confidential.\n\nClause 5: 5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
         "receipt": {
           "found": {
             "DATE": 1,
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -1912,7 +1895,7 @@
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 10,
+          "foundTotal": 9,
           "sharedTags": [
             "[DATE_1]",
             "[PERSON]",
@@ -1922,12 +1905,11 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[AMOUNT]",
-            "[ACCOUNT]",
-            "[PERSON_3]"
+            "[ACCOUNT]"
           ],
-          "keptTotal": 10,
+          "keptTotal": 9,
           "sharedByUser": 0,
-          "charsSent": 844,
+          "charsSent": 847,
           "clausesSent": 5,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1948,7 +1930,63 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "If the company eliminates your role without cause after 18 months, you receive severance equal to two months of gross monthly salary plus a 60-day notice period. \n\nAccording to the text, the agreement applies because 18 months is after the 3-month probation period mentioned in Clause 5. Therefore, the termination without cause provision applies, which requires a payment of two times the gross monthly salary (which would be calculated as EGP 130,000) in addition to the 60-day notice period.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1712,
+          "receipt": {
+            "found": {
+              "DATE": 1,
+              "PERSON": 2,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "ADDRESS": 1,
+              "MONEY": 1,
+              "IBAN": 1
+            },
+            "foundTotal": 9,
+            "sharedTags": [
+              "[DATE_1]",
+              "[PERSON]",
+              "[PERSON_2]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[ADDRESS]",
+              "[AMOUNT]",
+              "[ACCOUNT]"
+            ],
+            "keptTotal": 9,
+            "sharedByUser": 0,
+            "charsSent": 847,
+            "clausesSent": 5,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1710
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 1367
+          }
+        ]
       }
     },
     "offer-02-non-compete-scope": {
@@ -1957,11 +1995,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:58:35.562Z",
+      "recordedAt": "2026-11-23T10:02:03.052Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 13,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2021,29 +2059,23 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Base Salary",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "USD 4,200",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I resign, can I immediately join a healthcare software startup in Cairo?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") hires [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], of [ADDRESS] (\"Employee\").\n\nClause 2: 2. [PERSON_3]. Monthly salary is [AMOUNT].\n\nClause 3: 3. Leave. The Employee receives 21 working days of paid annual leave.\n\nClause 4: 4. Non-Competition. For six (6) months after termination, the Employee may not work for any direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
+        "outbound": "Question: If I resign, can I immediately join a healthcare software startup in Cairo?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") hires [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], of [ADDRESS] (\"Employee\").\n\nClause 2: 2. Base Salary. Monthly salary is [AMOUNT].\n\nClause 3: 3. Leave. The Employee receives 21 working days of paid annual leave.\n\nClause 4: 4. Non-Competition. For six (6) months after termination, the Employee may not work for any direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
@@ -2051,12 +2083,11 @@
             "[PHONE]",
             "[EMAIL]",
             "[ADDRESS]",
-            "[PERSON_3]",
             "[AMOUNT]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 672,
+          "charsSent": 673,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2078,20 +2109,20 @@
           }
         ],
         "answer": {
-          "text": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. Clause 4 states that the non-competition restriction does not apply to non-financial software industries such as healthcare.",
+          "text": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. \n\nThe text states that the non-competition restriction only applies to direct competitors offering consumer payment gateway or mobile wallet services in Egypt for six months after termination, and it explicitly excludes non-financial software industries such as healthcare.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 8403,
+          "ms": 1508,
           "receipt": {
             "found": {
-              "PERSON": 3,
+              "PERSON": 2,
               "NATIONAL_ID": 1,
               "PHONE": 1,
               "EMAIL": 1,
               "ADDRESS": 1,
               "MONEY": 1
             },
-            "foundTotal": 8,
+            "foundTotal": 7,
             "sharedTags": [
               "[PERSON]",
               "[PERSON_2]",
@@ -2099,12 +2130,11 @@
               "[PHONE]",
               "[EMAIL]",
               "[ADDRESS]",
-              "[PERSON_3]",
               "[AMOUNT]"
             ],
-            "keptTotal": 8,
+            "keptTotal": 7,
             "sharedByUser": 0,
-            "charsSent": 672,
+            "charsSent": 673,
             "clausesSent": 4,
             "pagesTotal": 1,
             "pagesSent": 1,
@@ -2117,7 +2147,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 8403
+                "ms": 1507
               }
             ],
             "mode": "basic"
@@ -2128,7 +2158,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 1053
+            "chars": 1193
           }
         ]
       }
@@ -2139,11 +2169,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:59:10.912Z",
+      "recordedAt": "2026-11-23T10:02:08.450Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2237,10 +2267,10 @@
           }
         ],
         "answer": {
-          "text": "Your probationary period lasts for the first ninety (90) days of employment. According to Clause 3, the probationary period is defined as the first ninety (90) days of employment.",
+          "text": "Your probationary period is the first ninety (90) days of employment. \n\nAccording to Clause 3, this initial ninety-day period allows either party to terminate the contract by giving seven (7) days' written notice.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 31124,
+          "ms": 1174,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -2272,7 +2302,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 31123
+                "ms": 1173
               }
             ],
             "mode": "basic"
@@ -2283,7 +2313,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 770
+            "chars": 909
           }
         ]
       }
@@ -2451,11 +2481,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T21:00:08.252Z",
+      "recordedAt": "2026-11-23T10:02:18.237Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 11,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2516,28 +2546,22 @@
           },
           {
             "type": "PERSON",
-            "value": "Working Hours",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
             "value": "Intellectual Property",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: Does the company own an unrelated hobby project I build on weekends on my personal laptop?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS].\n\nClause 2: 2. Remuneration. [AMOUNT] per month.\n\nClause 3: 3. [PERSON_2]. Sunday through Thursday, 9:00 AM to 5:00 PM.\n\nClause 4: 4. [PERSON_3]. All inventions developed using Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
+        "outbound": "Question: Does the company own an unrelated hobby project I build on weekends on my personal laptop?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS].\n\nClause 2: 2. Remuneration. [AMOUNT] per month.\n\nClause 3: 3. Working Hours. Sunday through Thursday, 9:00 AM to 5:00 PM.\n\nClause 4: 4. [PERSON_2]. All inventions developed using Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -2545,12 +2569,11 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[AMOUNT]",
-            "[PERSON_2]",
-            "[PERSON_3]"
+            "[PERSON_2]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 669,
+          "charsSent": 672,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2572,20 +2595,20 @@
           }
         ],
         "answer": {
-          "text": "No, the company does not own an unrelated hobby project you build on weekends on your personal laptop. \n\nAccording to [Clause 4], works created entirely on the employee's own time, without company equipment or confidential data, and unrelated to the company's current or planned products remain the sole property of the employee.",
+          "text": "No, the company does not own an unrelated hobby project you build on weekends on your personal laptop. \n\nAccording to the text, works created entirely on your own time without using company equipment or confidential data, and which are unrelated to the company's current or planned products, remain your sole property.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 48902,
+          "ms": 1343,
           "receipt": {
             "found": {
-              "PERSON": 3,
+              "PERSON": 2,
               "NATIONAL_ID": 1,
               "PHONE": 1,
               "EMAIL": 1,
               "ADDRESS": 1,
               "MONEY": 1
             },
-            "foundTotal": 8,
+            "foundTotal": 7,
             "sharedTags": [
               "[PERSON]",
               "[NATIONAL_ID]",
@@ -2593,12 +2616,11 @@
               "[EMAIL]",
               "[ADDRESS]",
               "[AMOUNT]",
-              "[PERSON_2]",
-              "[PERSON_3]"
+              "[PERSON_2]"
             ],
-            "keptTotal": 8,
+            "keptTotal": 7,
             "sharedByUser": 0,
-            "charsSent": 669,
+            "charsSent": 672,
             "clausesSent": 4,
             "pagesTotal": 1,
             "pagesSent": 1,
@@ -2611,7 +2633,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 48901
+                "ms": 1343
               }
             ],
             "mode": "basic"
@@ -2622,7 +2644,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 1050
+            "chars": 1192
           }
         ]
       }
@@ -2633,11 +2655,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:32.579Z",
+      "recordedAt": "2026-11-23T10:02:23.541Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 8,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2656,14 +2678,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "equipment allowance",
-            "type": "PERSON",
-            "index": 338
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -2690,20 +2706,8 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Base Pay",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 52,000",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Equipment Allowance",
             "role": null,
             "source": "rules"
           },
@@ -2720,29 +2724,27 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. [PERSON_2]. [AMOUNT] monthly.\n\nClause 3: 3. [PERSON_3]. The Company provides a one-time home-office equipment allowance of up to [AMOUNT_2] upon submission of original receipts. Any amount above [AMOUNT_2] is paid by the Employee.",
+        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 1: 1. Employee. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL].\n\nClause 2: 2. Base Pay. [AMOUNT] monthly.\n\nClause 3: 3. Equipment Allowance. The Company provides a one-time home-office equipment allowance of up to [AMOUNT_2] upon submission of original receipts. Any amount above [AMOUNT_2] is paid by the Employee.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 2
           },
-          "foundTotal": 8,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
-            "[PERSON_2]",
             "[AMOUNT]",
-            "[PERSON_3]",
             "[AMOUNT_2]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 468,
+          "charsSent": 475,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2763,7 +2765,57 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "No, the full amount is not covered by the single-purchase limit because the allowance has a maximum limit of EGP 3,000. Clause 3 states that the company provides a home-office equipment allowance of up to EGP 3,000, and any amount above that limit must be paid by the employee.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1083,
+          "receipt": {
+            "found": {
+              "PERSON": 1,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "MONEY": 2
+            },
+            "foundTotal": 6,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[AMOUNT]",
+              "[AMOUNT_2]"
+            ],
+            "keptTotal": 6,
+            "sharedByUser": 0,
+            "charsSent": 475,
+            "clausesSent": 3,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1082
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 995
+          }
+        ]
       }
     },
     "med-01-fasting-glucose-threshold": {
@@ -2772,7 +2824,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:32.721Z",
+      "recordedAt": "2026-11-23T10:02:29.065Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -2796,14 +2848,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "referring physician",
-            "type": "PERSON",
-            "index": 815
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -2843,12 +2889,6 @@
           },
           {
             "type": "PERSON",
-            "value": "Referring Physician",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
             "value": "Dr. Hany Selim",
             "role": null,
             "source": "rules"
@@ -2861,7 +2901,7 @@
           },
           {
             "type": "PERSON",
-            "value": "Metabolic Panel Results",
+            "value": "Metabolic Panel",
             "role": null,
             "source": "rules"
           },
@@ -2884,10 +2924,10 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. Patient Identification. Patient: [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 2: 2. [PERSON_2] & Billing. Ordered by [PERSON_3]. Total lab fee paid: [AMOUNT].\n\nClause 3: 3. [PERSON_4]. [PERSON_5]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_6]. Values sit in the impaired fasting glucose (prediabetes) reference range. [PERSON_7]A1c in 3 months and review dietary and physical activity changes with the referring physician.",
+        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. Patient Identification. Patient: [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 2: 2. Referring Physician & Billing. Ordered by [PERSON_2]. Total lab fee paid: [AMOUNT].\n\nClause 3: 3. [PERSON_3] Results. [PERSON_4]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_5]. Values sit in the impaired fasting glucose (prediabetes) reference range. [PERSON_6]A1c in 3 months and review dietary and physical activity changes with the referring physician.",
         "receipt": {
           "found": {
-            "PERSON": 7,
+            "PERSON": 6,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -2895,7 +2935,7 @@
             "DATE": 1,
             "MONEY": 1
           },
-          "foundTotal": 13,
+          "foundTotal": 12,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -2904,16 +2944,15 @@
             "[ADDRESS]",
             "[DATE_1]",
             "[PERSON_2]",
-            "[PERSON_3]",
             "[AMOUNT]",
+            "[PERSON_3]",
             "[PERSON_4]",
             "[PERSON_5]",
-            "[PERSON_6]",
-            "[PERSON_7]"
+            "[PERSON_6]"
           ],
-          "keptTotal": 13,
+          "keptTotal": 12,
           "sharedByUser": 0,
-          "charsSent": 835,
+          "charsSent": 852,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -2934,7 +2973,65 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "The report classifies a fasting blood glucose result of 114 mg/dL as impaired fasting glucose (prediabetes) and recommends checking HbA1c in 3 months along with reviewing dietary and physical activity changes. \n\nAccording to Clause 3, a result of 114 mg/dL falls within the reference interval for impaired fasting glucose / prediabetes range (100–125 mg/dL). Clause 4 then specifies the recommendation to check Repeat HbA1c in 3 months and review dietary and physical activity changes with the referring physician.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1291,
+          "receipt": {
+            "found": {
+              "PERSON": 6,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "ADDRESS": 1,
+              "DATE": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 12,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[ADDRESS]",
+              "[DATE_1]",
+              "[PERSON_2]",
+              "[AMOUNT]",
+              "[PERSON_3]",
+              "[PERSON_4]",
+              "[PERSON_5]",
+              "[PERSON_6]"
+            ],
+            "keptTotal": 12,
+            "sharedByUser": 0,
+            "charsSent": 852,
+            "clausesSent": 4,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1290
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 1372
+          }
+        ]
       }
     },
     "med-02-vitamin-d-dosage-local": {
@@ -2943,11 +3040,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T21:00:39.993Z",
+      "recordedAt": "2026-11-23T10:02:34.409Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 14,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3056,10 +3153,10 @@
           }
         ],
         "answer": {
-          "text": "The repeat vitamin D blood test should be scheduled in eight weeks. According to Clause 3, the plan is to schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.",
+          "text": "The repeat vitamin D blood test should be scheduled in eight weeks. The patient record states that a repeat serum 25-OH Vitamin D blood test is to be scheduled in eight (8) weeks following supplementation with colecalciferol.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 23245,
+          "ms": 1119,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -3094,7 +3191,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 23244
+                "ms": 1118
               }
             ],
             "mode": "basic"
@@ -3105,7 +3202,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 857
+            "chars": 996
           }
         ]
       }
@@ -3116,11 +3213,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T21:00:48.543Z",
+      "recordedAt": "2026-11-23T10:02:39.728Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 10,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3237,10 +3334,10 @@
           }
         ],
         "answer": {
-          "text": "Your 20% out-of-pocket co-pay is EGP 5,000. \n\nAccording to Clause 3, the approved outpatient arthroscopy package fee is EGP 25,000, and the patient is responsible for a 20% co-payment at admission.",
+          "text": "Your 20% out-of-pocket co-pay is EGP 5,000. \n\nUnder Policy Plan B, the patient is required to pay a 20% co-pay at admission based on the approved outpatient arthroscopy package fee of EGP 25,000.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 4320,
+          "ms": 1096,
           "receipt": {
             "found": {
               "PERSON": 3,
@@ -3276,7 +3373,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 4319
+                "ms": 1095
               }
             ],
             "mode": "basic"
@@ -3287,7 +3384,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 893
+            "chars": 1032
           }
         ]
       }
@@ -3298,7 +3395,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:33.091Z",
+      "recordedAt": "2026-11-23T10:02:45.141Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3417,7 +3514,60 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "Yes, you can drink water 2 hours before your abdominal MRI with contrast. Plain water is permitted up to 1 hour before arrival.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1188,
+          "receipt": {
+            "found": {
+              "PERSON": 3,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "DATE": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 8,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[DATE_1]",
+              "[PERSON_2]",
+              "[AMOUNT]",
+              "[PERSON_3]"
+            ],
+            "keptTotal": 8,
+            "sharedByUser": 0,
+            "charsSent": 512,
+            "clausesSent": 3,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1187
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 1032
+          }
+        ]
       }
     },
     "freelance-01-kill-fee": {
@@ -3426,11 +3576,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:33.219Z",
+      "recordedAt": "2026-11-23T10:02:50.774Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 8,
+        "ms": 9,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3450,14 +3600,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "milestone fee",
-            "type": "PERSON",
-            "index": 89
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -3491,13 +3635,7 @@
           },
           {
             "type": "PERSON",
-            "value": "Milestone Fee",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Design System Delivery",
+            "value": "Design System",
             "role": null,
             "source": "rules"
           },
@@ -3521,22 +3659,22 @@
           },
           {
             "type": "PERSON",
-            "value": "Cancellation Kill Fee",
+            "value": "Cancellation Kill",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?\n\nClause 1: 1. Parties. Consulting Agreement between [PERSON] (\"Client\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Consultant\").\n\nClause 2: 2. [PERSON_3]. Milestone 2 ([PERSON_4]) is priced at [AMOUNT].\n\nClause 3: 3. [PERSON_5]. Client pays Consultant via IBAN [ACCOUNT].\n\nClause 4: 4. [PERSON_6]. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days.",
+        "outbound": "Question: If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?\n\nClause 1: 1. Parties. Consulting Agreement between [PERSON] (\"Client\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Consultant\").\n\nClause 2: 2. Milestone Fee. Milestone 2 ([PERSON_3] Delivery) is priced at [AMOUNT].\n\nClause 3: 3. [PERSON_4]. Client pays Consultant via IBAN [ACCOUNT].\n\nClause 4: 4. [PERSON_5] Fee. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days.",
         "receipt": {
           "found": {
-            "PERSON": 6,
+            "PERSON": 5,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 11,
+          "foundTotal": 10,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
@@ -3544,15 +3682,14 @@
             "[PHONE]",
             "[EMAIL]",
             "[PERSON_3]",
-            "[PERSON_4]",
             "[AMOUNT]",
-            "[PERSON_5]",
+            "[PERSON_4]",
             "[ACCOUNT]",
-            "[PERSON_6]"
+            "[PERSON_5]"
           ],
-          "keptTotal": 11,
+          "keptTotal": 10,
           "sharedByUser": 0,
-          "charsSent": 575,
+          "charsSent": 591,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3573,7 +3710,62 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "If the client cancels the project halfway through Milestone 2, they must pay USD 3,000 of the milestone fee. \n\nAccording to the text, if the client cancels an active milestone after work has begun, they are required to pay 50% of that milestone's fee within 14 days. Since Milestone 2 is priced at USD 6,000, the cancellation fee is half of that amount.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1407,
+          "receipt": {
+            "found": {
+              "PERSON": 5,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "MONEY": 1,
+              "IBAN": 1
+            },
+            "foundTotal": 10,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[PERSON_3]",
+              "[AMOUNT]",
+              "[PERSON_4]",
+              "[ACCOUNT]",
+              "[PERSON_5]"
+            ],
+            "keptTotal": 10,
+            "sharedByUser": 0,
+            "charsSent": 591,
+            "clausesSent": 4,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1406
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 1111
+          }
+        ]
       }
     },
     "freelance-02-invoice-payment-net-local": {
@@ -3582,7 +3774,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T21:01:03.965Z",
+      "recordedAt": "2026-11-23T10:02:56.099Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3689,10 +3881,10 @@
           }
         ],
         "answer": {
-          "text": "The client must pay the invoice within fifteen (15) calendar days of receipt.\n\nAccording to Clause 3, invoices must be paid in full within fifteen (15) calendar days of receipt.",
+          "text": "The client must pay the invoice within fifteen (15) calendar days of receipt. Clause 3 of the text specifies that invoices are submitted on the last business day of the month and must be paid in full within this timeframe.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 6973,
+          "ms": 1105,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -3726,7 +3918,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 6973
+                "ms": 1104
               }
             ],
             "mode": "basic"
@@ -3737,7 +3929,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 816
+            "chars": 955
           }
         ]
       }
@@ -3748,11 +3940,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T21:01:09.379Z",
+      "recordedAt": "2026-11-23T10:03:01.449Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3862,10 +4054,10 @@
           }
         ],
         "answer": {
-          "text": "You will receive a 50% refund of your deposit. \n\nAccording to Clause 3 of the Cancellation Schedule, cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit, and 20 days falls within this timeframe (amounting to EGP 15,000).",
+          "text": "You will receive a 50% refund of your deposit. \n\nSince you are canceling 20 days before the event, this falls into the window of between 14 and 29 days before the event, which entitles you to a refund amount of EGP 15,000.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1181,
+          "ms": 1122,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -3901,7 +4093,7 @@
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1180
+                "ms": 1121
               }
             ],
             "mode": "basic"
@@ -3912,7 +4104,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 956
+            "chars": 1095
           }
         ]
       }
@@ -3923,11 +4115,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:33.586Z",
+      "recordedAt": "2026-11-23T10:03:07.250Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4036,7 +4228,59 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "The maximum damages liability the consultant can be held responsible for is 100% of the Total Contract Fee. Under Clause 4 of the contract, neither party's aggregate liability can exceed EGP 120,000 (100% of the Total Contract Fee paid under Clause 2), and both parties are protected from indirect or consequential damages.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1583,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "MONEY": 1,
+              "IBAN": 1
+            },
+            "foundTotal": 7,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[AMOUNT]",
+              "[PERSON_2]",
+              "[ACCOUNT]"
+            ],
+            "keptTotal": 7,
+            "sharedByUser": 0,
+            "charsSent": 559,
+            "clausesSent": 4,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1581
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 1079
+          }
+        ]
       }
     },
     "loan-01-early-payoff-penalty": {
@@ -4045,7 +4289,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:33.715Z",
+      "recordedAt": "2026-11-23T10:03:12.647Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4068,24 +4312,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "principal balance",
-            "type": "PERSON",
-            "index": 265
-          },
-          {
-            "value": "principal balance",
-            "type": "PERSON",
-            "index": 365
-          },
-          {
-            "value": "principal balance",
-            "type": "PERSON",
-            "index": 491
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -4124,12 +4352,6 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Principal Balance",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 400,000",
             "role": null,
@@ -4142,10 +4364,10 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 1: 1. Borrower. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Direct debit IBAN: [ACCOUNT].\n\nClause 2: 2. [PERSON_2]. Remaining principal balance is [AMOUNT].\n\nClause 3: 3. [PERSON_3]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
+        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 1: 1. Borrower. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Direct debit IBAN: [ACCOUNT].\n\nClause 2: 2. Principal Balance. Remaining principal balance is [AMOUNT].\n\nClause 3: 3. [PERSON_2]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
@@ -4153,7 +4375,7 @@
             "IBAN": 1,
             "MONEY": 1
           },
-          "foundTotal": 9,
+          "foundTotal": 8,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -4161,13 +4383,12 @@
             "[EMAIL]",
             "[ADDRESS]",
             "[ACCOUNT]",
-            "[PERSON_2]",
             "[AMOUNT]",
-            "[PERSON_3]"
+            "[PERSON_2]"
           ],
-          "keptTotal": 9,
+          "keptTotal": 8,
           "sharedByUser": 0,
-          "charsSent": 509,
+          "charsSent": 516,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4188,7 +4409,61 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "An early-settlement administrative charge of EGP 12,000 applies if you pay off the remaining loan balance early. \n\nThe text states that the Borrower may settle the full remaining principal balance at any time by giving 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1181,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "ADDRESS": 1,
+              "IBAN": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 8,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[ADDRESS]",
+              "[ACCOUNT]",
+              "[AMOUNT]",
+              "[PERSON_2]"
+            ],
+            "keptTotal": 8,
+            "sharedByUser": 0,
+            "charsSent": 516,
+            "clausesSent": 3,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1180
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 1036
+          }
+        ]
       }
     },
     "loan-02-warranty-coverage-period-local": {
@@ -4197,11 +4472,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:33.836Z",
+      "recordedAt": "2026-11-23T10:03:18.112Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4254,41 +4529,34 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Purchase Price",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 95,000",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 1: 1. Buyer. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], installation address [ADDRESS].\n\nClause 2: 2. [PERSON_2]. Total system cost is [AMOUNT].\n\nClause 3: 3. Warranty Terms. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
+        "outbound": "Question: How many years does the warranty cover the lithium battery pack?\n\nClause 1: 1. Buyer. [PERSON], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], installation address [ADDRESS].\n\nClause 2: 2. Purchase Price. Total system cost is [AMOUNT].\n\nClause 3: 3. Warranty Terms. The hybrid inverter is warranted for five (5) years, and the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
         "receipt": {
           "found": {
-            "PERSON": 2,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 7,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
             "[PHONE]",
             "[EMAIL]",
             "[ADDRESS]",
-            "[PERSON_2]",
             "[AMOUNT]"
           ],
-          "keptTotal": 7,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 417,
+          "charsSent": 421,
           "clausesSent": 3,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -4309,7 +4577,58 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "The warranty covers the lithium battery pack for ten years or 6,000 charge cycles. According to Clause 3, the warranty terms specify that the hybrid inverter has a five-year warranty, while the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1234,
+          "receipt": {
+            "found": {
+              "PERSON": 1,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "EMAIL": 1,
+              "ADDRESS": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 6,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[EMAIL]",
+              "[ADDRESS]",
+              "[AMOUNT]"
+            ],
+            "keptTotal": 6,
+            "sharedByUser": 0,
+            "charsSent": 421,
+            "clausesSent": 3,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1233
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 941
+          }
+        ]
       }
     },
     "noisy-01-arabic-indic-digits-lease": {
@@ -4318,11 +4637,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:33.959Z",
+      "recordedAt": "2026-11-23T10:03:23.868Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4420,7 +4739,56 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "No, the landlord cannot increase the rent by 15% at renewal. \n\nAccording to the excerpt, any annual rent increase at renewal is strictly capped at 10%. Therefore, a 15% increase exceeds the allowed limit.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1537,
+          "receipt": {
+            "found": {
+              "PERSON": 3,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 6,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PERSON_2]",
+              "[PHONE]",
+              "[PERSON_3]",
+              "[AMOUNT]"
+            ],
+            "keptTotal": 6,
+            "sharedByUser": 0,
+            "charsSent": 306,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1536
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 826
+          }
+        ]
       }
     },
     "noisy-02-eastern-arabic-digits-phone": {
@@ -4429,11 +4797,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:34.083Z",
+      "recordedAt": "2026-11-23T10:03:29.481Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4525,7 +4893,55 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "Sixty days' written notice is required to terminate the lease at the end of a contract year. According to Clause 3 of the text, either the Landlord or the Tenant can end the agreement at the conclusion of a contract year by providing a written notice of sixty (60) days.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1390,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "PHONE": 1,
+              "DATE": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 5,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[PHONE]",
+              "[DATE_1]",
+              "[AMOUNT]"
+            ],
+            "keptTotal": 5,
+            "sharedByUser": 0,
+            "charsSent": 372,
+            "clausesSent": 3,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1390
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 892
+          }
+        ]
       }
     },
     "noisy-03-unspaced-iban-and-compact-phone": {
@@ -4534,11 +4950,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:34.210Z",
+      "recordedAt": "2026-11-23T10:03:34.852Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4643,7 +5059,57 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "Your bank transfer will incur a late fee. Payments received more than 10 days after the due date of the 1st of each month are subject to a late fee of EGP 250.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1144,
+          "receipt": {
+            "found": {
+              "PERSON": 3,
+              "PHONE": 1,
+              "MONEY": 2,
+              "IBAN": 1
+            },
+            "foundTotal": 7,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[PHONE]",
+              "[PERSON_3]",
+              "[AMOUNT]",
+              "[ACCOUNT]",
+              "[AMOUNT_2]"
+            ],
+            "keptTotal": 7,
+            "sharedByUser": 0,
+            "charsSent": 378,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1143
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 898
+          }
+        ]
       }
     },
     "noisy-04-postfix-currency-le-egp": {
@@ -4652,11 +5118,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:34.329Z",
+      "recordedAt": "2026-11-23T10:03:40.357Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 1,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4739,7 +5205,52 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "If you leave without giving the 90-day early termination notice, the landlord can keep one month's rent from your security deposit. The text states that if you leave early without giving 90 days' written notice, the Landlord is permitted to retain one month's rent from the deposit of 17,000 LE.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1289,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "MONEY": 2
+            },
+            "foundTotal": 4,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[AMOUNT]",
+              "[AMOUNT_2]"
+            ],
+            "keptTotal": 4,
+            "sharedByUser": 0,
+            "charsSent": 456,
+            "clausesSent": 3,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1288
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 976
+          }
+        ]
       }
     },
     "noisy-05-all-caps-and-titled-names": {
@@ -4864,11 +5375,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:34.569Z",
+      "recordedAt": "2026-11-23T10:03:50.287Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4951,7 +5462,53 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "No, Karim Fathy cannot raise your EGP 8,500 rent by 20% this year. \n\nAccording to the text, the Landlord is only permitted to increase the rent once per contract year by no more than 10%, which means the maximum allowed rent after the increase would be EGP 9,350.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1492,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "PHONE": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 4,
+            "sharedTags": [
+              "[PERSON_2]",
+              "[PHONE]",
+              "[PERSON]",
+              "[AMOUNT]"
+            ],
+            "keptTotal": 4,
+            "sharedByUser": 0,
+            "charsSent": 350,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1491
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 870
+          }
+        ]
       }
     },
     "noisy-07-particles-arabic-transliterated-names": {
@@ -4960,11 +5517,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:34.694Z",
+      "recordedAt": "2026-11-23T10:03:55.676Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -5055,7 +5612,55 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "Yes, the tenant can assign the lease to a sister company without a fee if it is a wholly-owned affiliate and they meet certain conditions. \n\nAccording to the text, the Tenant is allowed to assign the lease to a wholly-owned affiliate without paying an assignment fee, provided they give 30 days' written notice and the original Tenant remains the guarantor.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1164,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "NATIONAL_ID": 1,
+              "PHONE": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 5,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[NATIONAL_ID]",
+              "[PHONE]",
+              "[AMOUNT]"
+            ],
+            "keptTotal": 5,
+            "sharedByUser": 0,
+            "charsSent": 412,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1164
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 932
+          }
+        ]
       }
     },
     "noisy-08-iso-and-slash-dates-with-card": {
@@ -5064,7 +5669,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:34.817Z",
+      "recordedAt": "2026-11-23T10:04:01.008Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -5173,7 +5778,57 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "Yes, you get a full refund minus a deduction if no personal training sessions were used. The text states that the Member may cancel within 14 calendar days of the start date for a 100% refund minus EGP 0 if no personal training sessions were used.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1103,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "CARD": 1,
+              "DATE": 2,
+              "MONEY": 2
+            },
+            "foundTotal": 7,
+            "sharedTags": [
+              "[PERSON]",
+              "[CARD]",
+              "[DATE_1]",
+              "[DATE_2]",
+              "[AMOUNT]",
+              "[PERSON_2]",
+              "[AMOUNT_2]"
+            ],
+            "keptTotal": 7,
+            "sharedByUser": 0,
+            "charsSent": 403,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1102
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 923
+          }
+        ]
       }
     },
     "noisy-09-format-variants-same-entity": {
@@ -5182,11 +5837,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:34.936Z",
+      "recordedAt": "2026-11-23T10:04:06.552Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 1,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -5281,7 +5936,53 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "The maximum rent after the first annual increase is EGP 9,350. \n\nThe excerpt states that the starting rent is EGP 8,500, and after 12 months, the Landlord may raise the rent by at most 10%.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1320,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "PHONE": 1,
+              "MONEY": 1
+            },
+            "foundTotal": 4,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[PHONE]",
+              "[AMOUNT]"
+            ],
+            "keptTotal": 4,
+            "sharedByUser": 0,
+            "charsSent": 334,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1319
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 854
+          }
+        ]
       }
     },
     "noisy-10-multi-tenant-joint-liability": {
@@ -5290,11 +5991,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:35.047Z",
+      "recordedAt": "2026-11-23T10:04:13.063Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -5346,38 +6047,31 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Several Liability",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 12,000",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 1: 1. Parties. Landlord [PERSON] leases the apartment to Co-[PERSON_2] (phone [PHONE]) and [PERSON_3] (phone [PHONE_2]).\n\nClause 2: 2. Joint and [PERSON_4]. The total monthly rent is [AMOUNT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
+        "outbound": "Question: If my flatmate misses their half of the rent, can the landlord demand the full amount from me?\n\nClause 1: 1. Parties. Landlord [PERSON] leases the apartment to Co-[PERSON_2] (phone [PHONE]) and [PERSON_3] (phone [PHONE_2]).\n\nClause 2: 2. Joint and Several Liability. The total monthly rent is [AMOUNT]. All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.",
         "receipt": {
           "found": {
-            "PERSON": 4,
+            "PERSON": 3,
             "PHONE": 2,
             "MONEY": 1
           },
-          "foundTotal": 7,
+          "foundTotal": 6,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
             "[PHONE]",
             "[PERSON_3]",
             "[PHONE_2]",
-            "[PERSON_4]",
             "[AMOUNT]"
           ],
-          "keptTotal": 7,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 447,
+          "charsSent": 454,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -5398,7 +6092,55 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "Yes, the landlord can demand the full amount from you if your flatmate misses their half of the rent. Clause 2 states that all co-tenants are jointly and severally liable for the full monthly rent, meaning the landlord may recover any unpaid balance from either co-tenant.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 2285,
+          "receipt": {
+            "found": {
+              "PERSON": 3,
+              "PHONE": 2,
+              "MONEY": 1
+            },
+            "foundTotal": 6,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[PHONE]",
+              "[PERSON_3]",
+              "[PHONE_2]",
+              "[AMOUNT]"
+            ],
+            "keptTotal": 6,
+            "sharedByUser": 0,
+            "charsSent": 454,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 2285
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 974
+          }
+        ]
       }
     },
     "noisy-11-distractor-numbers-and-clauses": {
@@ -5407,11 +6149,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:35.171Z",
+      "recordedAt": "2026-11-23T10:04:21.687Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -5431,14 +6173,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "Late fee",
-            "type": "PERSON",
-            "index": 268
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -5477,12 +6213,6 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Late Fee",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 250",
             "role": null,
@@ -5495,15 +6225,15 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How much notice must I give to end the contract early?\n\nClause 1: 1. Parties. [PERSON] (ID [NATIONAL_ID]) and [PERSON_2] (ID [NATIONAL_ID_2]).\n\nClause 2: 2. Deposit & Rent. Deposit is [AMOUNT] and monthly rent is [AMOUNT_2].\n\nClause 3: 3. [PERSON_3] & IBAN. Late fee is [AMOUNT_3]; transfer to [ACCOUNT].\n\nClause 4: 4. Early Termination Notice. The Tenant may end the Lease early by providing at least ninety (90) days' prior written notice to the Landlord.",
+        "outbound": "Question: How much notice must I give to end the contract early?\n\nClause 1: 1. Parties. [PERSON] (ID [NATIONAL_ID]) and [PERSON_2] (ID [NATIONAL_ID_2]).\n\nClause 2: 2. Deposit & Rent. Deposit is [AMOUNT] and monthly rent is [AMOUNT_2].\n\nClause 3: 3. Late Fee & IBAN. Late fee is [AMOUNT_3]; transfer to [ACCOUNT].\n\nClause 4: 4. Early Termination Notice. The Tenant may end the Lease early by providing at least ninety (90) days' prior written notice to the Landlord.",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 2,
             "MONEY": 3,
             "IBAN": 1
           },
-          "foundTotal": 9,
+          "foundTotal": 8,
           "sharedTags": [
             "[PERSON]",
             "[NATIONAL_ID]",
@@ -5511,13 +6241,12 @@
             "[NATIONAL_ID_2]",
             "[AMOUNT]",
             "[AMOUNT_2]",
-            "[PERSON_3]",
             "[AMOUNT_3]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 9,
+          "keptTotal": 8,
           "sharedByUser": 0,
-          "charsSent": 467,
+          "charsSent": 465,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -5538,7 +6267,58 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "You must provide at least ninety (90) days' prior written notice to the Landlord to end the contract early. \n\nThe text states in Clause 4 that the Tenant is allowed to end the Lease early as long as they provide this prior written notice.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 4401,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "NATIONAL_ID": 2,
+              "MONEY": 3,
+              "IBAN": 1
+            },
+            "foundTotal": 8,
+            "sharedTags": [
+              "[PERSON]",
+              "[NATIONAL_ID]",
+              "[PERSON_2]",
+              "[NATIONAL_ID_2]",
+              "[AMOUNT]",
+              "[AMOUNT_2]",
+              "[AMOUNT_3]",
+              "[ACCOUNT]"
+            ],
+            "keptTotal": 8,
+            "sharedByUser": 0,
+            "charsSent": 465,
+            "clausesSent": 4,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 4400
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 985
+          }
+        ]
       }
     },
     "noisy-12-euro-and-usd-dual-currency": {
@@ -5547,11 +6327,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-22T20:20:35.298Z",
+      "recordedAt": "2026-11-23T10:04:27.337Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 5,
+        "ms": 7,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -5649,7 +6429,56 @@
             "at": 0
           }
         ],
-        "network": []
+        "answer": {
+          "text": "If annual gross revenue exceeds the threshold, a quarterly royalty percentage of 6% applies to revenue above that threshold. \n\nAccording to Clause 2, once annual gross revenue exceeds $250,000, the Licensee is required to pay a quarterly royalty of 6% specifically on the revenue that exceeds that specified threshold.",
+          "source": "in_cloud",
+          "lighter": false,
+          "ms": 1428,
+          "receipt": {
+            "found": {
+              "PERSON": 2,
+              "EMAIL": 1,
+              "PHONE": 1,
+              "MONEY": 2
+            },
+            "foundTotal": 6,
+            "sharedTags": [
+              "[PERSON]",
+              "[PERSON_2]",
+              "[EMAIL]",
+              "[PHONE]",
+              "[AMOUNT]",
+              "[AMOUNT_2]"
+            ],
+            "keptTotal": 6,
+            "sharedByUser": 0,
+            "charsSent": 351,
+            "clausesSent": 2,
+            "pagesTotal": 1,
+            "pagesSent": 1,
+            "steps": [
+              {
+                "step": "detect",
+                "source": "rules",
+                "ms": 0
+              },
+              {
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1427
+              }
+            ],
+            "mode": "basic"
+          }
+        },
+        "network": [
+          {
+            "step": "reason",
+            "target": "cloud",
+            "blocked": false,
+            "chars": 871
+          }
+        ]
       }
     }
   }

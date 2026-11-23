@@ -17,6 +17,7 @@ import { Logo, StatusPill } from '@envoy/ui';
 import { DevPage } from '../dev/DevPage';
 import { Banners } from '../art/Banners';
 import { Landing } from '../landing/Landing';
+import { Privacy } from '../landing/Privacy';
 import { SceneFrame } from '../art/SceneFrame';
 import { SidePanelMockup } from '../art/SidePanelMockup';
 import { Studio } from '../art/Studio';
@@ -207,17 +208,18 @@ function ProductApp() {
 }
 
 export function App() {
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/dev')) return <DevPage />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/sidepanel'))
-    return <SidePanelMockup />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/banners'))
-    return <Banners />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio/scene'))
-    return <SceneFrame />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/studio')) return <Studio />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/app'))
-    return <ChatProduct />;
-  if (typeof location !== 'undefined' && location.pathname.startsWith('/classic'))
-    return <ProductApp />;
+  const path = typeof location !== 'undefined' ? location.pathname : '/';
+  if (path.startsWith('/dev')) return <DevPage />;
+  // Internal tools (art export) and the old four-screen flow: development builds only. In a
+  // production build import.meta.env.DEV is false, so these branches and their code are dropped.
+  if (import.meta.env.DEV) {
+    if (path.startsWith('/studio/sidepanel')) return <SidePanelMockup />;
+    if (path.startsWith('/studio/banners')) return <Banners />;
+    if (path.startsWith('/studio/scene')) return <SceneFrame />;
+    if (path.startsWith('/studio')) return <Studio />;
+    if (path.startsWith('/classic')) return <ProductApp />;
+  }
+  if (path.startsWith('/privacy')) return <Privacy />;
+  if (path.startsWith('/app')) return <ChatProduct />;
   return <Landing />;
 }

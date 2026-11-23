@@ -10,7 +10,9 @@
     "build:dev": "vite build --mode extensiondev --outDir dist-dev && vite build --mode extensiondev --outDir dist-dev --config vite.content.config.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "check:dist": "node ./scripts/verify-dist.mjs",
-    "pack": "npm run build && npm run check:dist && node ./scripts/pack.mjs"
+    "pack": "npm run build && npm run check:dist && node ./scripts/pack.mjs",
+    "pack:store": "npm run build && npm run check:dist && node ./scripts/pack.mjs --store",
+    "test:e2e": "npm run build && node ./e2e/run.mjs"
   },
   "dependencies": {
     "@envoy/ai": "0.1.0",

@@ -6,6 +6,7 @@ import { bytesToBase64, extractPdfText } from './pdf';
 
 declare const chrome: {
   runtime: {
+    id: string;
     onMessage: {
       addListener(
         fn: (
@@ -16,10 +17,10 @@ declare const chrome: {
       ): void;
     };
   };
-  storage: { local: { get(k: string): Promise<Record<string, unknown>> } };
 };
 
-chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if ((sender as { id?: string }).id !== chrome.runtime.id) return false;
   if (msg?.type !== 'envoy:pdf-mask-internal') return false;
   (async () => {
     try {
@@ -32,10 +33,8 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         });
         return;
       }
-      const stored = await chrome.storage.local.get('envoyRules').catch(() => ({}));
-      const custom = (msg.custom ??
-        (stored as { envoyRules?: CustomRule[] }).envoyRules ??
-        []) as CustomRule[];
+      // Offscreen documents have no chrome.storage: the page sends the person's rules with the file.
+      const custom = (Array.isArray(msg.custom) ? msg.custom : []) as CustomRule[];
       const scan = scanText(text, { custom });
       const masked = maskFindings(text, scan, new Set());
       const fake = new File([''], msg.name ?? 'document.pdf', { type: 'application/pdf' });

@@ -1,0 +1,1219 @@
+{
+  "model": "gemma4_component@2026.11.3.1140",
+  "variant": "selected",
+  "question": "Can my landlord raise the rent 20% this year?",
+  "at": "2026-11-23T00:38:37.047Z",
+  "via": "Firebase AI Logic hybrid inference (@envoy/ai analyze)",
+  "results": [
+    {
+      "ok": true,
+      "deviceStatus": "available",
+      "ms": 249867,
+      "mode": "private",
+      "fallbackReason": null,
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks for advice or interpretation of the landlord's ability to raise the rent by 20%, which requires judgment based on the given clause (which limits the increase to no more than 10%)."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 151562
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 61261
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 37011
+        }
+      ],
+      "guardOk": true,
+      "leaks": [],
+      "entities": [
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "27506120104839",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "3 Road 9, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "29503140101234",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "+20 100 555 0192",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "1 September 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 17,000",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 8,500",
+          "role": "rent",
+          "source": "rules"
+        },
+        {
+          "type": "IBAN",
+          "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 250",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Sara Nabil",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "0122 555 0148",
+          "role": null,
+          "source": "rules"
+        }
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "receipt": {
+        "found": {
+          "DATE": 2,
+          "PERSON": 3,
+          "NATIONAL_ID": 2,
+          "ADDRESS": 2,
+          "PHONE": 2,
+          "EMAIL": 1,
+          "MONEY": 3,
+          "IBAN": 1
+        },
+        "foundTotal": 16,
+        "sharedTags": [
+          "[RENT]"
+        ],
+        "keptTotal": 16,
+        "sharedByUser": 0,
+        "charsSent": 235,
+        "clausesSent": 1,
+        "pagesTotal": 6,
+        "pagesSent": 1,
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 151562
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 61261
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 37011
+          }
+        ],
+        "mode": "private"
+      },
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 3
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 151567
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 212830
+        }
+      ],
+      "network": [
+        {
+          "step": "minimize",
+          "target": "device",
+          "blocked": false,
+          "chars": 2972
+        },
+        {
+          "step": "detect",
+          "target": "device",
+          "blocked": false,
+          "chars": 1056
+        },
+        {
+          "step": "route",
+          "target": "device",
+          "blocked": false,
+          "chars": 546
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "deviceStatus": "available",
+      "ms": 88962,
+      "mode": "private",
+      "fallbackReason": null,
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks about a potential increase of 20%, which requires judgment against the stated limit in the clauses (10%)."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 33169
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 35164
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 20605
+        }
+      ],
+      "guardOk": true,
+      "leaks": [],
+      "entities": [
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "27506120104839",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "3 Road 9, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "29503140101234",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "+20 100 555 0192",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "1 September 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 17,000",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 8,500",
+          "role": "rent",
+          "source": "rules"
+        },
+        {
+          "type": "IBAN",
+          "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 250",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Sara Nabil",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "0122 555 0148",
+          "role": null,
+          "source": "rules"
+        }
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "receipt": {
+        "found": {
+          "DATE": 2,
+          "PERSON": 3,
+          "NATIONAL_ID": 2,
+          "ADDRESS": 2,
+          "PHONE": 2,
+          "EMAIL": 1,
+          "MONEY": 3,
+          "IBAN": 1
+        },
+        "foundTotal": 16,
+        "sharedTags": [
+          "[RENT]"
+        ],
+        "keptTotal": 16,
+        "sharedByUser": 0,
+        "charsSent": 235,
+        "clausesSent": 1,
+        "pagesTotal": 6,
+        "pagesSent": 1,
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 33169
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 35164
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 20605
+          }
+        ],
+        "mode": "private"
+      },
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 1
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 33170
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 68339
+        }
+      ],
+      "network": [
+        {
+          "step": "minimize",
+          "target": "device",
+          "blocked": false,
+          "chars": 2972
+        },
+        {
+          "step": "detect",
+          "target": "device",
+          "blocked": false,
+          "chars": 1056
+        },
+        {
+          "step": "route",
+          "target": "device",
+          "blocked": false,
+          "chars": 546
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "deviceStatus": "available",
+      "ms": 99586,
+      "mode": "private",
+      "fallbackReason": null,
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks about a specific proposed increase of 20%, which requires judgment or interpretation of the lease terms (clause 7 specifies a maximum increase of 10%), not a direct factual lookup of a date, name, amount, or period."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 33932
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 33488
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 32140
+        }
+      ],
+      "guardOk": true,
+      "leaks": [],
+      "entities": [
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "27506120104839",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "3 Road 9, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "29503140101234",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "+20 100 555 0192",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "1 September 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 17,000",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 8,500",
+          "role": "rent",
+          "source": "rules"
+        },
+        {
+          "type": "IBAN",
+          "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 250",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Sara Nabil",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "0122 555 0148",
+          "role": null,
+          "source": "rules"
+        }
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "receipt": {
+        "found": {
+          "DATE": 2,
+          "PERSON": 3,
+          "NATIONAL_ID": 2,
+          "ADDRESS": 2,
+          "PHONE": 2,
+          "EMAIL": 1,
+          "MONEY": 3,
+          "IBAN": 1
+        },
+        "foundTotal": 16,
+        "sharedTags": [
+          "[RENT]"
+        ],
+        "keptTotal": 16,
+        "sharedByUser": 0,
+        "charsSent": 235,
+        "clausesSent": 1,
+        "pagesTotal": 6,
+        "pagesSent": 1,
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 33932
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 33488
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 32140
+          }
+        ],
+        "mode": "private"
+      },
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 2
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 33935
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 67425
+        }
+      ],
+      "network": [
+        {
+          "step": "minimize",
+          "target": "device",
+          "blocked": false,
+          "chars": 2972
+        },
+        {
+          "step": "detect",
+          "target": "device",
+          "blocked": false,
+          "chars": 1056
+        },
+        {
+          "step": "route",
+          "target": "device",
+          "blocked": false,
+          "chars": 546
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "deviceStatus": "available",
+      "ms": 99176,
+      "mode": "private",
+      "fallbackReason": null,
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks about a specific percentage increase (20%) which is higher than the allowed increase (10%) mentioned in the clause. Determining if a landlord *can* raise the rent by 20% requires judgment/comparison with the clause's restriction, not just a direct lookup of a stated fact."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 30517
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 35245
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 33388
+        }
+      ],
+      "guardOk": true,
+      "leaks": [],
+      "entities": [
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "27506120104839",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "3 Road 9, Maadi, Cairo",
+          "role": "landlord",
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "29503140101234",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "+20 100 555 0192",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "1 September 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 17,000",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 8,500",
+          "role": "rent",
+          "source": "rules"
+        },
+        {
+          "type": "IBAN",
+          "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 250",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Sara Nabil",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "0122 555 0148",
+          "role": null,
+          "source": "rules"
+        }
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "receipt": {
+        "found": {
+          "DATE": 2,
+          "PERSON": 3,
+          "NATIONAL_ID": 2,
+          "ADDRESS": 2,
+          "PHONE": 2,
+          "EMAIL": 1,
+          "MONEY": 3,
+          "IBAN": 1
+        },
+        "foundTotal": 16,
+        "sharedTags": [
+          "[RENT]"
+        ],
+        "keptTotal": 16,
+        "sharedByUser": 0,
+        "charsSent": 235,
+        "clausesSent": 1,
+        "pagesTotal": 6,
+        "pagesSent": 1,
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 30517
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 35245
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 33388
+          }
+        ],
+        "mode": "private"
+      },
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 2
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 30520
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 65766
+        }
+      ],
+      "network": [
+        {
+          "step": "minimize",
+          "target": "device",
+          "blocked": false,
+          "chars": 2972
+        },
+        {
+          "step": "detect",
+          "target": "device",
+          "blocked": false,
+          "chars": 1056
+        },
+        {
+          "step": "route",
+          "target": "device",
+          "blocked": false,
+          "chars": 546
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "deviceStatus": "available",
+      "ms": 93600,
+      "mode": "private",
+      "fallbackReason": null,
+      "selectedIds": [
+        7
+      ],
+      "route": {
+        "local": false,
+        "reason": "The question asks if the rent 'Can' be raised by 20% this year? Clause 7 limits the landlord's increase to 'no more than 10%'. This requires comparison/judgment against the clause, not a direct factual lookup of a specific date, name, amount, or period."
+      },
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 30023
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 32638
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 30919
+        }
+      ],
+      "guardOk": true,
+      "leaks": [],
+      "entities": [
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "27506120104839",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "3 Road 9, Maadi, Cairo",
+          "role": "landlord",
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "NATIONAL_ID",
+          "value": "29503140101234",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "+20 100 555 0192",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "ADDRESS",
+          "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "1 September 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 17,000",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 8,500",
+          "role": "rent",
+          "source": "rules"
+        },
+        {
+          "type": "IBAN",
+          "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "MONEY",
+          "value": "EGP 250",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "EMAIL",
+          "value": "mona.adel@example.com",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "DATE",
+          "value": "15 August 2024",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PERSON",
+          "value": "Karim Fathy",
+          "role": "landlord",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Mona Adel",
+          "role": "tenant",
+          "source": "nano"
+        },
+        {
+          "type": "PERSON",
+          "value": "Sara Nabil",
+          "role": null,
+          "source": "rules"
+        },
+        {
+          "type": "PHONE",
+          "value": "0122 555 0148",
+          "role": null,
+          "source": "rules"
+        }
+      ],
+      "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+      "receipt": {
+        "found": {
+          "DATE": 2,
+          "PERSON": 3,
+          "NATIONAL_ID": 2,
+          "ADDRESS": 2,
+          "PHONE": 2,
+          "EMAIL": 1,
+          "MONEY": 3,
+          "IBAN": 1
+        },
+        "foundTotal": 16,
+        "sharedTags": [
+          "[RENT]"
+        ],
+        "keptTotal": 16,
+        "sharedByUser": 0,
+        "charsSent": 235,
+        "clausesSent": 1,
+        "pagesTotal": 6,
+        "pagesSent": 1,
+        "steps": [
+          {
+            "step": "minimize",
+            "source": "on_device",
+            "ms": 30023
+          },
+          {
+            "step": "detect",
+            "source": "on_device",
+            "ms": 32638
+          },
+          {
+            "step": "route",
+            "source": "on_device",
+            "ms": 30919
+          }
+        ],
+        "mode": "private"
+      },
+      "events": [
+        {
+          "step": "rules",
+          "part": 1,
+          "parts": 1,
+          "at": 0
+        },
+        {
+          "step": "minimize",
+          "part": 1,
+          "parts": 1,
+          "at": 1
+        },
+        {
+          "step": "detect",
+          "part": 1,
+          "parts": 1,
+          "at": 30026
+        },
+        {
+          "step": "route",
+          "part": 1,
+          "parts": 1,
+          "at": 62665
+        }
+      ],
+      "network": [
+        {
+          "step": "minimize",
+          "target": "device",
+          "blocked": false,
+          "chars": 2972
+        },
+        {
+          "step": "detect",
+          "target": "device",
+          "blocked": false,
+          "chars": 1056
+        },
+        {
+          "step": "route",
+          "target": "device",
+          "blocked": false,
+          "chars": 546
+        }
+      ]
+    }
+  ]
+}

@@ -109,7 +109,9 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
     const send = document.createElement('button');
     send.className = 'primary';
     send.textContent = 'Send this file to the site';
-    send.addEventListener('click', () => {
+    send.addEventListener('click', async () => {
+      // Images: burn the boxes in now, so every box drawn after the file was chosen is applied.
+      if (chosen && kindOf(chosen) === 'image') outFile = await burnImage(chosen);
       if (outFile) {
         handOff(outFile);
         card.style.display = 'none';
@@ -141,6 +143,7 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
           type: 'envoy:pdf-mask',
           base64: btoa(bin),
           name: chosen.name,
+          custom: getRules(),
         })) as { ok: true; base64: string; receipt: UploadReceipt } | { ok: false; error: string };
         if (!res.ok) throw new Error(res.error);
         const outBin = atob(res.base64);

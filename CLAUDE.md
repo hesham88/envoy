@@ -24,7 +24,7 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 | Lane | Agent | Owns |
 | --- | --- | --- |
 | Core + web AI + visual identity | Claude Code | `packages/core`, `packages/ai`, `apps/web`, `docs/img/`, brand/motion assets |
-| Eval harness + CLI hook | Antigravity (Gemini, "Argon") | `tests/eval/**`, `npm run eval`, `docs/EVAL.md`, `packages/cli/**` (envoy-guard) |
+| Eval harness | Antigravity (Gemini, "Argon") | `tests/eval/**`, `npm run eval`, `docs/EVAL.md` |
 | Chrome extension | Claude Code (taken over from Muse, owner decision 2026-11-22 22:22) | `apps/extension/**` |
 Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused edits only, and pull before you push.
 
@@ -56,6 +56,7 @@ Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused 
 - `docs/skills/pair-ai-eval/SKILL.md`: apply PAIR Guidebook Ch. 1–2 to AI value-fit, interaction design policies, precision/recall trade-offs, noisy-data evaluation (`tests/eval`) and hackathon judge framing. See `docs/PAIR_GUIDEBOOK_STRATEGY.md`.
 - `docs/skills/chrome-built-in-ai/SKILL.md`: build, debug and test with Chrome's Built-in AI APIs (`LanguageModel` Prompt API, `Summarizer`, `Translator`, `LanguageDetector`, `Writer`, `Rewriter`, `Proofreader`, WebMCP, hardware/disk/`%TEMP%`/CPU-flag requirements and `chrome://on-device-internals`).
 - `docs/skills/firebase-ai-logic-hybrid/SKILL.md`: configure Firebase AI Logic (`firebase/ai` in `firebase@13.x`) hybrid on-device + cloud inference (`HybridParams`, `InferenceMode`, `InferenceSource`, dual structured output, App Check debug/production setup, CSP headers, and the 4-layer device guard for SDK bug #10635).
+- `docs/skills/firebase-ai-logic-production/SKILL.md`: production-readiness review for Firebase AI Logic (App Check, API key restrictions, stable models via Remote Config, monitoring, quotas, hybrid specifics). Envoy's result: `docs/FIREBASE_AI_LOGIC_REVIEW.md`.
 - Claude Code, Antigravity and other agents also have these installed globally (`~/.claude/skills/`, `~/.agents/skills/`, `~/.gemini/config/skills/`) and via `.agents/skills.json`.
 - **Working style:** don't fan out multiple subagents; do the work in-session or through scripts.
 - **Keep going, no stopping:** at a checkpoint, post a short status and continue with the next task. Stop only when truly blocked (you need the owner's input or credentials, or an action is destructive or irreversible).

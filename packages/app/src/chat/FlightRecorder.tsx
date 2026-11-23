@@ -40,7 +40,8 @@ const WHERE: Record<Where, { text: string; cls: string; Icon: typeof Cpu }> = {
   cloud: { text: 'Cloud', cls: 'border-cloud/60 text-cloud-on-tint', Icon: Cloud },
 };
 
-const ORDER: Step[] = ['detect', 'minimize', 'route'];
+// The order the pipeline runs them in (selected scope): choose the clauses, find details in them, route.
+const ORDER: Step[] = ['minimize', 'detect', 'route'];
 const LABEL: Record<string, string> = {
   rules: 'Checked with local rules',
   detect: 'Found private details',
@@ -50,6 +51,13 @@ const LABEL: Record<string, string> = {
   reason: 'Reasoned over tags',
   answerLocal: 'Answered on this device',
   restore: 'Restored your details',
+};
+
+// Skipped on-device steps say so in their label, so nothing reads as if the model ran.
+const SKIPPED_LABEL: Record<string, string> = {
+  detect: 'Find private details with the on-device model: skipped',
+  minimize: 'Every clause sent, masked (no clause selection)',
+  route: 'Decide where to answer: skipped, the cloud answers',
 };
 
 export interface FlightInput {
@@ -118,9 +126,9 @@ export function buildRows({
         : undefined;
     rows.push({
       key: s,
-      label: LABEL[s]!,
+      label: state === 'skipped' && basic ? SKIPPED_LABEL[s]! : LABEL[s]!,
       where: 'device',
-      model: "Chrome's built-in model",
+      model: state === 'skipped' ? 'Not run' : "Chrome's built-in model",
       state,
       ...(state === 'done' ? { ms: stepMs(steps, s) } : {}),
       ...(state === 'skipped'
@@ -246,7 +254,10 @@ export function FlightRecorder(props: FlightInput & { open?: boolean; startedAt?
       </summary>
       <ol className="m-0 list-none border-t border-line p-0">
         {rows.map((r) => {
-          const w = WHERE[r.where];
+          const w =
+            r.state === 'skipped'
+              ? { text: 'Skipped', cls: 'border-line text-muted', Icon: SkipForward }
+              : WHERE[r.where];
           return (
             <li
               key={r.key}
@@ -257,7 +268,9 @@ export function FlightRecorder(props: FlightInput & { open?: boolean; startedAt?
               <span className="pt-0.5">
                 <StateIcon state={r.state} />
               </span>
-              <span className={`text-[14px] ${r.state === 'waiting' ? 'text-muted' : 'text-ink'}`}>
+              <span
+                className={`text-[14px] ${r.state === 'waiting' || r.state === 'skipped' ? 'text-muted' : 'text-ink'}`}
+              >
                 {r.label}
                 {r.detail && <span className="block text-[12.5px] text-muted">{r.detail}</span>}
               </span>
