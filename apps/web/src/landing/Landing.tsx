@@ -368,7 +368,7 @@ export function Landing() {
             {[
               [
                 'Open Envoy and load the sample lease.',
-                'It works on any Chrome. Without the on-device model you get Basic protection, and the app says so.',
+                'It works on any Chrome. Without the on-device model you get Basic protection, and the app says so. To see Private mode anyway, open the recorded run: a real run on Gemma 4, word for word.',
               ],
               [
                 'Ask: "Can my landlord raise the rent 20% this year?"',
@@ -398,6 +398,12 @@ export function Landing() {
               className="rounded-full bg-uv-green px-6 py-3 text-[16px] font-semibold text-uv-deep hover:brightness-110"
             >
               Start the test
+            </a>
+            <a
+              href="/app?recorded=1"
+              className="rounded-full border border-uv-line px-6 py-3 text-[16px] text-uv-text hover:border-uv-green/60"
+            >
+              See a recorded Private-mode run
             </a>
             <a
               href={REPO}

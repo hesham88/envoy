@@ -138,10 +138,13 @@ export function PrivateModeGuide({
   runtime,
   openChromePage,
   onClose,
+  onShowRecording,
 }: {
   runtime: Pick<EnvoyRuntime, 'status' | 'progress' | 'enablePrivateMode' | 'refreshStatus'>;
   openChromePage?: (page: ChromePage) => void;
   onClose: () => void;
+  /** Opens the recorded Private-mode run (for computers that can't run the model). */
+  onShowRecording?: () => void;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const [rows, setRows] = useState<CheckRow[] | null>(null);
@@ -262,6 +265,18 @@ export function PrivateModeGuide({
           vary a lot by device. You can always choose "Don't wait" and continue with Basic
           protection.
         </p>
+        {onShowRecording && (
+          <p className="m-0 text-[13.5px]">
+            Can't run it on this computer?{' '}
+            <button
+              onClick={onShowRecording}
+              className="text-device-on-tint underline underline-offset-4"
+            >
+              See a recorded Private-mode run
+            </button>
+            , made with Gemma 4 on a laptop.
+          </p>
+        )}
       </div>
     </dialog>
   );
