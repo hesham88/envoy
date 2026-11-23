@@ -38,6 +38,17 @@ describe('flagNames (Basic protection)', () => {
     expect(names(doc)).toEqual(['Dr. Omar Nabil', 'Karim Fathy']);
   });
 
+  it('treats a heading as ordinary words when its lowercase form appears in the question, or with other separators', () => {
+    const doc = [
+      '2. Common Area Maintenance.',
+      'The Landlord pays for common-area repairs.',
+      '3. Annual Performance Bonus.',
+    ].join('\n');
+    expect(
+      flagNames(doc, [], 'How is the annual performance bonus paid?').map((e) => e.value),
+    ).toEqual([]);
+  });
+
   it('never runs a name across a line break', () => {
     expect(names('Tenant: Mona Adel\nEmail: mona.adel@example.com')).toEqual(['Mona Adel']);
   });

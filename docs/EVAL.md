@@ -28,14 +28,20 @@ All three arms were measured live on **`2026-11-22`** across all **36 benchmark 
 - **`gemma4` (Gemma 4 developer trial):** `gemma4_component` `2026.11.3.1140`, CPU backend (`OnDeviceModelForceCpuBackend` + `gemma4-for-built-in-ai`), **`36/36` Private, `0` fallbacks**.
 - **`basic` (Fallback when on-device model is unavailable):** Rules + Guard + Name Flags in headless Chromium (`LanguageModel` unavailable), **`36/36`**.
 
-| Arm | Model (`component version`) | Backend | Date | `n / 36` | Mask Recall | False-Mask Rate | Outbound Leaks *(post-guard)* | Clause Acc | Min Ratio *(sent / doc)* | Latency `p50 / p95` |
-| --- | --- | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`nano`** | **Gemini Nano (default)** (`nano_v3_cpu_component 2025.8.21.1028`) | CPU (`OnDeviceModelForceCpuBackend`) | `2026-11-22` | **36 / 36** | **100.00%** *(263 / 263)* | 20.5% | **0** | **83.3%** *(30 / 36)* | **8.4%** *(**91.6% reduction**)* | **66,978 ms / 154,011 ms** |
-| **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`) | CPU (`OnDeviceModelForceCpuBackend`) | `2026-11-22` | **36 / 36** | **100.00%** *(263 / 263)* | 18.1% | **0** | **88.9%** *(32 / 36)* | **21.9%** *(**78.1% reduction**)* | **54,951 ms / 78,361 ms** |
-| **`basic`** | *None* (`LanguageModel` unavailable) | rules + guard + name flags | `2026-11-22` (post-PR #17) | **36 / 36** | **100.00%** *(263 / 263)* | 10.9% | **0** *(was 8)* | 100.0% *(all clauses)* | 90.2% | **6 ms / 32 ms** |
+| Arm          | Model (`component version`)                                        | Backend                              |                    Date                     |  `n / 36`   |        Mask Recall        | False-Mask Rate | Outbound Leaks _(post-guard)_ |       Clause Acc       |     Min Ratio _(sent / doc)_      |    Latency `p50 / p95`     |
+| ------------ | ------------------------------------------------------------------ | ------------------------------------ | :-----------------------------------------: | :---------: | :-----------------------: | :-------------: | :---------------------------: | :--------------------: | :-------------------------------: | :------------------------: |
+| **`nano`**   | **Gemini Nano (default)** (`nano_v3_cpu_component 2025.8.21.1028`) | CPU (`OnDeviceModelForceCpuBackend`) |                `2026-11-22`                 | **36 / 36** | **100.00%** _(263 / 263)_ |      22.7%      |             **0**             | **83.3%** _(30 / 36)_  | **10.2%** _(**89.8% reduction**)_ | **67,471 ms / 110,878 ms** |
+| **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`)                    | CPU (`OnDeviceModelForceCpuBackend`) |                `2026-11-22`                 | **36 / 36** | **100.00%** _(263 / 263)_ |      18.1%      |             **0**             | **88.9%** _(32 / 36)_  | **21.9%** _(**78.1% reduction**)_ | **54,951 ms / 78,361 ms**  |
+| **`basic`**  | _None_ (`LanguageModel` unavailable)                               | rules + guard + name flags           | `2026-11-23` (re-run after the heading fix) | **36 / 36** | **100.00%** _(263 / 263)_ |      6.4%       |  **0** _(was 8, see below)_   | 100.0% _(all clauses)_ |               90.2%               |      **5 ms / 22 ms**      |
 
 ### Basic protection leaks: found, fixed, re-measured ([Issue #7](https://github.com/hesham88/envoy/issues/7))
-The initial Basic run leaked **8 person names across 7 cases** (5 hyphenated Arabic surnames `El-*` and 3 names preceded by role words like `"Landlord Karim Fathy"`). **PR #17** fixed both patterns in `packages/core/src/names.ts`; re-running all 36 Basic cases through the real pipeline brought leaks to **0 (`263 / 263` masked)** and lowered false masks from `13.3%` to `10.9%`.
+
+The first Basic run (no on-device model) let **8 person names across 7 cases** reach the outbound text. `flagNames()` missed two shapes of name:
+
+- **5 hyphenated Arabic surnames:** `lease-05-sublet-policy` (`Hisham El-Masry`), `med-02-vitamin-d-dosage-local` (`Yasmin El-Banna`), `freelance-04-liability-cap` (`Mostafa El-Gendy`), `noisy-02-eastern-arabic-digits-phone` (`Tariq El-Sawy`), `noisy-08-iso-and-slash-dates-with-card` (`Seif El-Din`).
+- **3 names after a role word:** `noisy-09-format-variants-same-entity` (`Karim Fathy`, `Mona Adel`), `noisy-10-multi-tenant-joint-liability` (`Karim Fathy`). "Landlord Karim Fathy" was discarded whole because "Landlord" is a stopword.
+
+**Fix (PR #17):** the name pattern accepts hyphenated particles, and a match is split at stopwords so the name in "Landlord Karim Fathy" is kept. Each case is a regression test in `packages/core/src/names.test.ts`. **Re-run of all 36 Basic cases through the real pipeline (`collect-live.mjs --arm basic`, `2026-11-22`): 0 leaks, 263 / 263 masked**, and false masks fell from 13.3% to 10.9%. **Re-run on `2026-11-23`** after headings stopped counting as names (a phrase also written in lowercase in the document is not a name): still 0 leaks and 263 / 263 masked, and false masks fell to **6.4%**. Structured details (IDs, IBANs, phones, emails, cards, amounts, dates) never leaked in any arm, and both on-device arms had 0 leaks from the start.
 
 ---
 
@@ -82,11 +88,12 @@ The initial Basic run leaked **8 person names across 7 cases** (5 hyphenated Ara
 | Arm *(Measured `2026-11-22`, judge `gemini-3.5-flash-lite` via Firebase AI Logic SDK `ONLY_IN_CLOUD`)* | `n` | Sources *(device / cloud / guard-blocked)* | Unblocked Score | **Overall Envoy Score (unattended)** | Raw-Doc Ceiling | **Answer Quality Retained** | Right Clause Cited % | Correct / Partial / Wrong |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **`nano`** (`nano_v3_cpu_component 2025.8.21.1028`) | **18** | `10 / 3 / 5` | **92.3%** *(12 / 13)* | **66.7%** *(12 / 18)* | 100.0% | **66.7%** | 66.7% | `12 / 0 / 6` |
-| **`basic`** (Rules + Guard + Name Flags) | **20** | `0 / 15 / 5` | **100.0%** *(15 / 15)* | **75.0%** *(15 / 20)* | 100.0% | **75.0%** | 75.0% | `15 / 0 / 5` |
+| **`basic`** (Rules + Guard + Name Flags) *(re-measured `2026-11-23`, after the heading fix)* | **20** | `0 / 20 / 0` | **97.5%** *(19.5 / 20)* | **97.5%** *(19.5 / 20)* | 100.0% | **97.5%** | 100.0% | `19 / 1 / 0` |
 | **`gemma4`** (`gemma4_component 2026.11.3.1140`) | **0** | *not collected with `withAnswer`* | — | — | — | `null` | — | — |
 
 > **Honest drop from the prior `n = 10` regenerated estimate (`100%` → `66.7%` Nano / `75.0%` Basic) — two real product causes uncovered:**
 > 1. **5 / 20 unattended `OutboundBlockedError` blocks on both arms** (`offer-04`, `offer-05`/`offer-01`, `med-01`, `freelance-01`, `loan-01`): `flagNames()` flagged Title-Case headings (`"Base Salary"`, `"Referring Physician"`, `"Milestone Fee"`, `"Principal Balance"`, `"Without Cause"`) as `PERSON` entities, and `checkOutbound()` then blocked lowercase mentions of those exact phrases in the body text until the user clears them in the Review screen.
+>    **Fixed on `2026-11-23`** (`packages/core/src/names.ts`): a capitalised phrase also written in lowercase in the document or the question, across spaces or hyphens, is not a name. Basic re-measured with answers: **0 blocks**, quality retained **75.0% → 97.5%**; a unit test now runs all 36 cases in Basic protection and fails on any block. The `nano` row is from the 22 Nov run, before the fix; its re-run is pending.
 > 2. **1 / 10 on-device local answer miss on `nano`** (`offer-02-non-compete-scope`): Default Gemini Nano routed a nuanced non-compete interpretation locally (`local: true`), and `answerLocal` replied *"the document does not say"* even though Clause 4 explicitly permitted non-financial software (healthcare). All `3 / 3` (`100%`) cloud-routed masked Nano answers and `9 / 10` (`90.0%`) local Nano answers were graded correct. *(2 of the 20 Nano runs — `offer-01` (`OutboundBlockedError` on re-run) and `freelance-03` (1 transient `InvalidStateError` on the 19th consecutive CPU run) — had no stored `answer` and are excluded from `n = 18`.)*
 
 ---
@@ -124,7 +131,7 @@ Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) now publish
 ### Limitations
 1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`) / `67.0s` (`nano`); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
 2. **The red team is 28 cases + 10 false-positive controls.** All 28 are blocked today with 0 false blocks, but 28 cases are not proof against every encoding or paraphrase. Envoy's claim is the measured one: it minimizes what leaves, masks what it detects, and blocks detected leaks, including disguised ones. Indirect identification is measured separately by the 36-case attribute-inference attack (section 3).
-3. **Title-Case heading false flags in `flagNames()` (`5 / 20` unattended `OutboundBlockedError` blocks):** Both `nano` (`detectScope: 'selected'` runs `flagNames` on unselected clauses) and `basic` false-flag headings such as `"Base Salary"` and `"Without Cause"` as `PERSON`, blocking send until a user clears them in the Review screen. Fixing `flagNames()` heading stopwords is the #1 high-leverage utility improvement for the next core pass.
+3. **Title-Case heading false flags in `flagNames()`:** fixed on `2026-11-23` (see §4). Basic now has 0 unattended blocks on the 36 cases; the `nano` quality row predates the fix and will be re-measured.
 4. **`gemma4` real `answer()` quality not collected (`metricsN.answerQuality = 0`):** Milestone 1 focused real `runCase({ withAnswer: true })` quality collection on Default Gemini Nano (`nano`, `n = 18`) and Basic (`basic`, `n = 20`); `gemma4`'s `answerQualityRetained` is honestly `null` rather than estimated.
 
 ---

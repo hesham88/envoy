@@ -75,7 +75,7 @@ export const STEPS: {
     where: 'Cloud',
     mode: 'PREFER_IN_CLOUD',
     body: 'Gemini answers using [RENT] and [LANDLORD], and writes maths like {{RENT * 1.10}} instead of guessing numbers.',
-    code: ['packages/ai/src/pipeline.ts', 402, 'buildReasonPrompt'],
+    code: ['packages/ai/src/pipeline.ts', 405, 'buildReasonPrompt'],
   },
   {
     key: 'restore',

@@ -23,13 +23,24 @@ const NAME_PATTERNS: RegExp[] = [
   /\b[A-Z]{3,}(?:[ \t]+[A-Z]{3,})+\b/g,
 ];
 
-export function flagNames(text: string, taken: Entity[]): Entity[] {
+/**
+ * @param context Other text that goes out with `text` (the question), also searched for lowercase
+ *   uses of a candidate.
+ */
+export function flagNames(text: string, taken: Entity[], context = ''): Entity[] {
   const out: Entity[] = [];
   // A real name is never also written in lowercase in the same text; a heading like "Base Salary"
-  // usually is ("the base salary is ..."). Such phrases are ordinary words, not names.
+  // usually is ("the base salary is ..."). Such phrases are ordinary words, not names. Words may be
+  // joined by any separator ("Common Area" / "common-area"), the way the outbound guard matches.
+  // Emails and links are left out: "karim.fathy@example.com" is the name itself, lowercased.
+  const haystack = `${text}\n${context}`.replace(/\S+@\S+|(?:https?:\/\/|www\.)\S+/g, ' ');
   const lowerElsewhere = (value: string) => {
-    const lower = value.toLowerCase();
-    return lower !== value && text.includes(lower);
+    const words = value.split(/[^A-Za-z]+/).filter(Boolean);
+    if (!words.length || value === value.toLowerCase()) return false;
+    const re = new RegExp(
+      `(?<![A-Za-z])${words.map((w) => w.toLowerCase()).join('[ \\t-]+')}(?![A-Za-z])`,
+    );
+    return re.test(haystack);
   };
   for (const [i, re] of NAME_PATTERNS.entries()) {
     for (const m of text.matchAll(re)) {

@@ -205,6 +205,31 @@ describe('answer', () => {
     ).rejects.toBeInstanceOf(OutboundBlockedError);
   });
 
+  it('masks a name typed only in the question, not in the document', async () => {
+    const { deps } = fakeDeps('no-api');
+    const a = await analyze(EN_LEASE.text, 'Can Hala Samir raise my rent?', deps);
+    expect(a.outbound).toMatch(/Can \[[A-Z_0-9]+\] raise my rent/);
+    expect(a.outbound).not.toContain('Hala Samir');
+    const out = await answer(a, a.outbound, deps);
+    expect(out.receipt).toBeDefined();
+  });
+
+  it('cloud unreachable: the SDK answers on the device instead, and the receipt says nothing was sent', async () => {
+    const { deps, models } = fakeDeps('available');
+    (models.reason.generateContent as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      response: {
+        text: () => 'Answered on this device: the cap is 10%.',
+        inferenceSource: InferenceSource.ON_DEVICE,
+      },
+    });
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    const out = await answer(a, a.outbound, deps);
+    expect(out.source).toBe('on_device');
+    expect(out.lighter).toBe(true);
+    expect(out.receipt.charsSent).toBe(0);
+    expect(out.receipt.clausesSent).toBe(0);
+  });
+
   it('counts the clauses the user approved in the receipt, not the model selection', async () => {
     const { deps } = fakeDeps('available');
     const a = await analyze(EN_LEASE.text, QUESTION, deps);
