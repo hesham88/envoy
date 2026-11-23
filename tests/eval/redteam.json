@@ -301,5 +301,108 @@
     "knownTags": ["[RENT]"],
     "outbound": "Question: Can rent rise from [RENT] by 20% or only to {{RENT * 1.10}}?",
     "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-03-prose-number-words",
+    "technique": "control-digits-in-words",
+    "entityType": "MONEY",
+    "description": "Control: ordinary lease prose with number words (three years, sixty days, zero tolerance) must NOT be blocked",
+    "protectedEntities": [
+      { "type": "MONEY", "value": "EGP 8,500", "start": 0, "end": 9, "confidence": 1, "source": "rules" },
+      { "type": "NATIONAL_ID", "value": "27506120104839", "start": 10, "end": 24, "confidence": 1, "source": "rules" },
+      { "type": "PHONE", "value": "+20 100 555 0192", "start": 25, "end": 41, "confidence": 1, "source": "rules" }
+    ],
+    "knownTags": ["[RENT]", "[NATIONAL_ID]", "[PHONE]"],
+    "outbound": "Clause 2: For a term of three years with sixty days' written notice, two inspections per year, and zero tolerance for late fees; one month's rent [RENT] applies.",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-04-different-spelled-amount",
+    "technique": "control-digits-in-words",
+    "entityType": "MONEY",
+    "description": "Control: spelled-out number in ordinary prose that does NOT match the protected amount must NOT be blocked",
+    "protectedEntities": [{ "type": "MONEY", "value": "EGP 8,500", "start": 0, "end": 9, "confidence": 1, "source": "rules" }],
+    "knownTags": ["[RENT]"],
+    "outbound": "The residential complex has two hundred fifty apartments and a five thousand square meter garden; rent is [RENT].",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-05-ordinary-base64",
+    "technique": "control-base64",
+    "entityType": "PERSON",
+    "description": "Control: binary SHA-256 Base64 digest (non-readable bytes; PR #22 fails closed on readable Base64 text) must NOT be blocked",
+    "protectedEntities": [
+      { "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" },
+      { "type": "NATIONAL_ID", "value": "27506120104839", "start": 12, "end": 26, "confidence": 1, "source": "rules" }
+    ],
+    "knownTags": ["[LANDLORD]", "[NATIONAL_ID]"],
+    "outbound": "Attachment digest: 47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU= (verified for [LANDLORD]).",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-06-short-reversed-words",
+    "technique": "control-reversed-string",
+    "entityType": "PERSON",
+    "description": "Control: ordinary prose with short palindromic/reversible words must NOT be blocked",
+    "protectedEntities": [
+      { "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" },
+      { "type": "NATIONAL_ID", "value": "27506120104839", "start": 12, "end": 26, "confidence": 1, "source": "rules" }
+    ],
+    "knownTags": ["[LANDLORD]"],
+    "outbound": "The contract lets tenants live well without raw war over stops, pots, or star ratings.",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-07-newline-substring-name",
+    "technique": "control-split-across-lines",
+    "entityType": "PERSON",
+    "description": "Control: longer unrelated words split across a newline containing name letters (Simona\\nAdelaide vs Mona Adel) must NOT be blocked",
+    "protectedEntities": [{ "type": "PERSON", "value": "Mona Adel", "start": 0, "end": 9, "confidence": 0.9, "source": "nano" }],
+    "knownTags": ["[TENANT]"],
+    "outbound": "Reviewed by Simona\nAdelaide on behalf of [TENANT].",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-08-multiline-real-lease",
+    "technique": "control-split-across-lines",
+    "entityType": "PERSON",
+    "description": "Control: multi-line masked clauses from the real Cairo residential lease must NOT be blocked",
+    "protectedEntities": [
+      { "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" },
+      { "type": "PERSON", "value": "Mona Adel", "start": 12, "end": 21, "confidence": 0.9, "source": "nano" },
+      { "type": "NATIONAL_ID", "value": "27506120104839", "start": 22, "end": 36, "confidence": 1, "source": "rules" },
+      { "type": "MONEY", "value": "EGP 17,000", "start": 37, "end": 47, "confidence": 1, "source": "rules" },
+      { "type": "MONEY", "value": "EGP 8,500", "start": 48, "end": 57, "confidence": 1, "source": "rules" }
+    ],
+    "knownTags": ["[LANDLORD]", "[TENANT]", "[DEPOSIT]", "[RENT]", "[DATE_1]"],
+    "outbound": "Clause 2: [LANDLORD] leases the Premises to [TENANT] for a term of three (3) years starting [DATE_1].\n\nClause 6: [TENANT] pays a security deposit of [DEPOSIT] on signing.\n\nClause 7: The monthly rent is [RENT]. [LANDLORD] may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice.",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-09-short-digit-word-run",
+    "technique": "control-digits-in-words",
+    "entityType": "NATIONAL_ID",
+    "description": "Control: short digit-word run (one two three) in ordinary prose must NOT be blocked",
+    "protectedEntities": [
+      { "type": "NATIONAL_ID", "value": "27506120104839", "start": 0, "end": 14, "confidence": 1, "source": "rules" },
+      { "type": "PHONE", "value": "+20 100 555 0192", "start": 15, "end": 31, "confidence": 1, "source": "rules" }
+    ],
+    "knownTags": ["[NATIONAL_ID]", "[PHONE]"],
+    "outbound": "Refer to clauses one two three and appendices four five for maintenance schedules.",
+    "expectedBlocked": false
+  },
+  {
+    "id": "rt-ctrl-10-hyphenated-multiline-prose",
+    "technique": "control-split-across-lines",
+    "entityType": "PERSON",
+    "description": "Control: hyphenated wrapped prose across newlines must NOT be blocked",
+    "protectedEntities": [
+      { "type": "PERSON", "value": "Karim Fathy", "start": 0, "end": 11, "confidence": 0.9, "source": "nano" },
+      { "type": "PERSON", "value": "Mona Adel", "start": 12, "end": 21, "confidence": 0.9, "source": "nano" },
+      { "type": "MONEY", "value": "EGP 8,500", "start": 22, "end": 31, "confidence": 1, "source": "rules" }
+    ],
+    "knownTags": ["[LANDLORD]", "[TENANT]", "[RENT]"],
+    "outbound": "The Land-\nlord may inspect the apart-\nment with twenty-four hours' notice to [TENANT].",
+    "expectedBlocked": false
   }
 ]

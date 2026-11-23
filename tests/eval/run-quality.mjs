@@ -1,27 +1,28 @@
 #!/usr/bin/env node
 /**
- * PAPILLON-Style Answer Quality vs. Privacy Evaluation — Milestone 4 (PAIR Ch. 1–2)
+ * PAPILLON-Style Answer Quality vs. Privacy Evaluation — Milestone 1 & 4
  *
- * Compares three answering conditions across benchmark questions:
- *   (i)   Envoy (masked approved outbound -> Firebase AI Logic cloud -> local restoreAnswer())
- *   (ii)  Cloud Gemini Raw Ceiling (full raw fictional document -> Firebase AI Logic cloud)
- *   (iii) Local-Only Answer (when present from on-device arm cache)
+ * Grades ONLY verbatim answers produced by the REAL product `answer()` function collected via
+ * `runCase({ withAnswer: true })` (in `tests/eval/probes/arms/<arm>.json`).
+ * NEVER regenerates Envoy answers outside `answer()` and NEVER adds extra prompt lines.
  *
- * Uses cloud Gemini via Firebase AI Logic (`ONLY_IN_CLOUD` + App Check) as a fixed-rubric judge:
- *   verdict: "correct" (1.0) | "partially" (0.5) | "wrong" (0.0)
- *   citesRightClause: boolean
- * Reports `answerQualityRetained = envoyScore / rawCeilingScore` (the privacy-utility trade-off).
+ * Both the raw-document cloud ceiling and the separate fixed-rubric judge run inside a browser page
+ * through the Firebase AI Logic SDK (`getGenerativeModel` with `InferenceMode.ONLY_IN_CLOUD`,
+ * Remote Config `cloud_model` / `VITE_CLOUD_MODEL`, and App Check).
  *
- * Writes `tests/eval/quality-results.json` (consumed by `npm run eval` -> `tests/eval/summary.json`)
- * and caches all LLM answers & judge verdicts in `tests/eval/probes/quality-cache.json`.
+ * Reports `answerQualityRetained = envoyScore / rawCeilingScore` honestly per arm with exact `n`,
+ * model, date, and breakdown of on-device vs. cloud answers.
+ *
+ * Usage:
+ *   node tests/eval/run-quality.mjs --all --limit 20 --port 5174
+ *   node tests/eval/run-quality.mjs --all --cache-only
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createServer } from 'vite';
+import { callCloudViaSdk, launchHeadlessSdkPage } from './lib/browser-sdk.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = resolve(__dirname, '../..');
 const CASES_PATH = resolve(__dirname, 'cases.json');
 const ARMS_DIR = resolve(__dirname, 'probes/arms');
 const CACHE_PATH = resolve(__dirname, 'probes/quality-cache.json');
@@ -44,10 +45,16 @@ for (let i = 0; i < argv.length; i++) {
 
 const requestedArms = args.all === 'true' ? ['gemma4', 'nano', 'basic'] : [args.arm ?? 'basic'];
 const limit = Number(args.limit ?? 20);
+const port = Number(args.port ?? 5174);
+const appUrl = args.url ?? `http://localhost:${port}/`;
+const cdpPort = Number(args['cdp-port'] ?? 9334);
+const paceMs = Number(args.pace ?? 4200);
+const force = args.force === 'true';
 const cacheOnly = args['cache-only'] === 'true';
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const QUALITY_IDS = [
+const EXPECTED_SDK = 'firebase/ai (ONLY_IN_CLOUD)';
+
+export const QUALITY_IDS = [
   'lease-01-rent-cap',
   'lease-02-end-date-local',
   'lease-03-early-exit-deposit',
@@ -69,63 +76,6 @@ const QUALITY_IDS = [
   'freelance-03-card-hold-dispute',
   'loan-01-early-payoff-penalty',
 ];
-
-function readEnvLocal() {
-  const envPath = resolve(ROOT, 'apps/web/.env.local');
-  if (!existsSync(envPath)) return {};
-  const out = {};
-  for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
-    const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
-    if (m) out[m[1]] = m[2].trim();
-  }
-  return out;
-}
-
-async function exchangeAppCheckDebugToken(env) {
-  const { VITE_FIREBASE_APP_ID: appId, VITE_FIREBASE_API_KEY: apiKey, VITE_APPCHECK_DEBUG_TOKEN: debugToken, VITE_FIREBASE_PROJECT_ID: projectId } = env;
-  if (!appId || !apiKey || !debugToken || !projectId) return null;
-  const url = `https://firebaseappcheck.googleapis.com/v1/projects/${projectId}/apps/${appId}:exchangeDebugToken?key=${apiKey}`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ debugToken }),
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data.token || null;
-}
-
-async function callCloud(prompt, env, appCheckJwt, { json = false } = {}, attempt = 0) {
-  const projectId = env.VITE_FIREBASE_PROJECT_ID || 'envoy-hybrid-ai';
-  const apiKey = env.VITE_FIREBASE_API_KEY;
-  const model = env.VITE_CLOUD_MODEL || 'gemini-3.5-flash-lite';
-  const url = `https://firebasevertexai.googleapis.com/v1beta/projects/${projectId}/models/${model}:generateContent?key=${apiKey}`;
-  const t0 = performance.now();
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Firebase-AppCheck': appCheckJwt },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.1,
-        maxOutputTokens: 320,
-        ...(json ? { responseMimeType: 'application/json' } : {}),
-      },
-    }),
-  });
-  const ms = Math.round(performance.now() - t0);
-  if (res.status === 429 && attempt < 3) {
-    const waitMs = 15000 * (attempt + 1);
-    console.warn(`429 rate-limited; backing off ${waitMs}ms...`);
-    await sleep(waitMs);
-    return callCloud(prompt, env, appCheckJwt, { json }, attempt + 1);
-  }
-  if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 180)}`);
-  const data = await res.json();
-  const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text || '').join('')?.trim() || '';
-  await sleep(4200);
-  return { text, ms, model };
-}
 
 function buildJudgePrompt(tc, candidateAnswer) {
   return `You are a strict evaluation judge grading an AI assistant's answer against the full source document.
@@ -159,46 +109,83 @@ const VERDICT_SCORE = { correct: 1.0, partially: 0.5, wrong: 0.0 };
 function parseJudge(raw) {
   try {
     const j = JSON.parse(raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, ''));
-    const verdict = j.verdict === 'correct' || j.verdict === 'partially' || j.verdict === 'wrong' ? j.verdict : 'wrong';
-    return { verdict, score: VERDICT_SCORE[verdict], citesRightClause: Boolean(j.citesRightClause), rationale: String(j.rationale ?? '') };
+    const verdict =
+      j.verdict === 'correct' || j.verdict === 'partially' || j.verdict === 'wrong' ? j.verdict : 'wrong';
+    return {
+      verdict,
+      score: VERDICT_SCORE[verdict],
+      citesRightClause: Boolean(j.citesRightClause),
+      rationale: String(j.rationale ?? ''),
+    };
   } catch {
     return { verdict: 'wrong', score: 0, citesRightClause: false, rationale: 'Judge JSON parse error' };
   }
 }
 
-const vite = await createServer({ root: ROOT, server: { middlewareMode: true }, appType: 'custom', logLevel: 'silent' });
+function isValidSdkEntry(entry) {
+  return Boolean(entry && entry.source === 'live' && entry.sdk === EXPECTED_SDK && typeof entry.text === 'string');
+}
+
+const cases = JSON.parse(readFileSync(CASES_PATH, 'utf8'));
+const caseMap = new Map(cases.map((c) => [c.id, c]));
+const cache = existsSync(CACHE_PATH) ? JSON.parse(readFileSync(CACHE_PATH, 'utf8')) : {};
+mkdirSync(dirname(CACHE_PATH), { recursive: true });
+
+let sdkSession = null;
+let detectedModel = null;
+let liveCalls = 0;
+
+async function ensureSdk() {
+  if (!sdkSession) {
+    sdkSession = await launchHeadlessSdkPage({ appUrl, cdpPort });
+    detectedModel = sdkSession.info.cloudModel;
+    console.log(
+      `[quality-sdk] Headless Chromium ready on CDP ${cdpPort} · Firebase AI Logic SDK ONLY_IN_CLOUD · cloudModel=${detectedModel}`,
+    );
+  }
+  return sdkSession;
+}
+
+async function cachedSdkCall(key, prompt, opts = {}) {
+  const prev = cache[key];
+  if (!force && isValidSdkEntry(prev)) {
+    if (!detectedModel) detectedModel = prev.model;
+    return prev;
+  }
+  if (cacheOnly) return null;
+  const sdk = await ensureSdk();
+  const res = await callCloudViaSdk(sdk.page, prompt, {
+    json: Boolean(opts.json),
+    temperature: 0.1,
+    maxOutputTokens: 320,
+    paceMs,
+  });
+  const now = new Date().toISOString();
+  cache[key] = {
+    source: 'live',
+    sdk: res.sdk,
+    inferenceSource: res.inferenceSource,
+    model: res.model,
+    date: now.slice(0, 10),
+    recordedAt: now,
+    ms: res.ms,
+    text: res.text,
+  };
+  writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2) + '\n', 'utf8');
+  liveCalls++;
+  return cache[key];
+}
+
 try {
-  const core = await vite.ssrLoadModule('/packages/core/src/index.ts');
-  const ai = await vite.ssrLoadModule('/packages/ai/src/index.ts');
-  const cases = JSON.parse(readFileSync(CASES_PATH, 'utf8'));
-  const caseMap = new Map(cases.map((c) => [c.id, c]));
-  const cache = existsSync(CACHE_PATH) ? JSON.parse(readFileSync(CACHE_PATH, 'utf8')) : {};
-  mkdirSync(dirname(CACHE_PATH), { recursive: true });
-
-  const env = readEnvLocal();
-  const appCheckJwt = cacheOnly ? null : await exchangeAppCheckDebugToken(env);
-  if (!cacheOnly && !appCheckJwt) {
-    throw new Error('Could not exchange Firebase App Check debug token from apps/web/.env.local.');
-  }
-
-  async function cachedCall(key, prompt, opts = {}) {
-    if (cache[key]) return cache[key];
-    if (cacheOnly) return null;
-    const res = await callCloud(prompt, env, appCheckJwt, opts);
-    cache[key] = { ...res, recordedAt: new Date().toISOString() };
-    writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2) + '\n', 'utf8');
-    return cache[key];
-  }
-
   const targetIds = QUALITY_IDS.slice(0, limit);
   const byArm = {};
-  const rawCeilingRows = [];
-  const rawSeen = new Set();
 
   for (const armId of requestedArms) {
     const armPath = resolve(ARMS_DIR, `${armId}.json`);
     if (!existsSync(armPath)) continue;
     const armFile = JSON.parse(readFileSync(armPath, 'utf8'));
+    const hasLiveAnswers = Object.values(armFile.entries ?? {}).some((e) => Boolean(e?.result?.answer?.text));
+    if (!hasLiveAnswers) continue;
     const rows = [];
 
     for (const id of targetIds) {
@@ -207,56 +194,53 @@ try {
       if (!tc || !entry || entry.source !== 'live' || !entry.result?.ok) continue;
       const r = entry.result;
 
-      // (ii) Raw-document cloud ceiling (fictional data)
-      let rawAns = null;
-      let rawJudge = null;
+      // STRICT Milestone 1 rule: ONLY grade verbatim answers returned by real runCase({ withAnswer: true }).
+      // Never regenerate answers outside answer() and never add extra prompt lines.
+      // Exception: if `guardOk === false`, calling `answer()` in the real product throws
+      // `OutboundBlockedError` (0 bytes sent, no automatic answer without user review intervention).
+      // Record that honestly as `answerSource: 'guard_blocked'` with score 0.0 when the arm has
+      // live `withAnswer` results collected.
+      const envoyText = typeof r.answer?.text === 'string' && r.answer.text.trim() ? r.answer.text.trim() : null;
+      const isGuardBlocked = !r.guardOk && !envoyText;
+      if (!envoyText && !isGuardBlocked) continue;
+      const answerSource = isGuardBlocked ? 'guard_blocked' : (r.answer.source ?? 'unknown');
+
+      // (ii) Raw-document cloud ceiling (fictional data) via in-browser Firebase AI Logic SDK ONLY_IN_CLOUD
       const rawPrompt = `## Instructions\nAnswer the user's question using only the document. Start with a one-sentence verdict, then explain briefly and cite the clause number.\n\n## Question\n${tc.question}\n\n## Document\n${tc.document}`;
-      const rawRes = await cachedCall(`raw:ans:${id}`, rawPrompt);
-      if (rawRes) {
-        rawAns = rawRes.text;
-        const jRes = await cachedCall(`raw:judge:${id}`, buildJudgePrompt(tc, rawAns), { json: true });
-        if (jRes) rawJudge = parseJudge(jRes.text);
-        if (!rawSeen.has(id) && rawJudge) {
-          rawSeen.add(id);
-          rawCeilingRows.push({ id, ...rawJudge });
-        }
+      const rawRes = await cachedSdkCall(`sdk:raw:ans:${id}`, rawPrompt);
+      if (!rawRes) continue;
+      const rawJudgeRes = await cachedSdkCall(`sdk:raw:judge:${id}`, buildJudgePrompt(tc, rawRes.text), { json: true });
+      if (!rawJudgeRes) continue;
+      const rawJudge = parseJudge(rawJudgeRes.text);
+
+      let envoyJudge;
+      if (isGuardBlocked) {
+        envoyJudge = {
+          verdict: 'wrong',
+          score: 0.0,
+          citesRightClause: false,
+          rationale: `OutboundBlockedError: guard blocked sending (${(r.leaks ?? []).length} flagged item(s)); requires manual user review.`,
+        };
+      } else {
+        // (i) Judge the verbatim product answer() output (cache key includes recordedAt so new live answers re-grade)
+        const ansStamp = (entry.recordedAt ?? 'unknown').slice(0, 19);
+        const envoyJudgeRes = await cachedSdkCall(
+          `sdk:real:${armId}:judge:${id}:${ansStamp}`,
+          buildJudgePrompt(tc, envoyText),
+          { json: true },
+        );
+        if (!envoyJudgeRes) continue;
+        envoyJudge = parseJudge(envoyJudgeRes.text);
       }
-
-      // (i) Envoy answer: use live runCase answer if captured, otherwise call cloud on approved masked outbound + local restoreAnswer
-      let envoyText = r.answer?.text ?? null;
-      let answerSource = r.answer?.source ?? null;
-
-      if (!envoyText) {
-        if (!r.guardOk) {
-          envoyText = '[Blocked by Outbound Guard before sending to cloud]';
-          answerSource = 'guard_blocked';
-        } else {
-          const guardrail =
-            '\nStrict tag rule: ONLY use {{TAG * factor}} with exact numeric [TAG] names that actually appear in square brackets inside the Excerpt.';
-          const reasonPrompt = ai.buildReasonPrompt(r.outbound) + guardrail;
-          const cloudRes = await cachedCall(`envoy:${armId}:ans:${id}`, reasonPrompt);
-          if (cloudRes) {
-            // Reconstruct TagMap from the recorded entities so restoreAnswer restores [TAG] and {{EXPR}}
-            const ents = (r.entities ?? []).map((e) => ({ ...e, start: 0, end: e.value.length, confidence: 1 }));
-            const tags = core.assignTags(ents);
-            const restored = core.restoreAnswer(cloudRes.text, tags);
-            envoyText = restored.text;
-            answerSource = 'in_cloud';
-          }
-        }
-      }
-
-      if (!envoyText || !rawJudge) continue;
-      const envoyJudgeRes = await cachedCall(`envoy:${armId}:judge:${id}`, buildJudgePrompt(tc, envoyText), { json: true });
-      if (!envoyJudgeRes) continue;
-      const envoyJudge = parseJudge(envoyJudgeRes.text);
 
       rows.push({
         id,
         question: tc.question,
+        recordedAt: entry.recordedAt ?? null,
         answerSource,
+        answerMs: r.answer?.ms ?? null,
         guardOk: r.guardOk,
-        envoyAnswer: envoyText,
+        envoyAnswer: envoyText ?? '[Blocked by Outbound Guard: OutboundBlockedError]',
         envoyJudge,
         rawCeilingJudge: rawJudge,
       });
@@ -266,10 +250,27 @@ try {
       const envoyAvg = rows.reduce((s, x) => s + x.envoyJudge.score, 0) / rows.length;
       const rawAvg = rows.reduce((s, x) => s + x.rawCeilingJudge.score, 0) / rows.length;
       const retained = rawAvg > 0 ? Number((envoyAvg / rawAvg).toFixed(4)) : 1;
-      const clauseCiteRate = Number((rows.filter((x) => x.envoyJudge.citesRightClause).length / rows.length).toFixed(4));
+      const clauseCiteRate = Number(
+        (rows.filter((x) => x.envoyJudge.citesRightClause).length / rows.length).toFixed(4),
+      );
+      const dates = [...new Set(rows.map((r) => r.recordedAt?.slice(0, 10)).filter(Boolean))];
+      const answeredRows = rows.filter((x) => x.answerSource !== 'guard_blocked');
+      const unblockedAvg = answeredRows.length
+        ? answeredRows.reduce((s, x) => s + x.envoyJudge.score, 0) / answeredRows.length
+        : 0;
       byArm[armId] = {
         n: rows.length,
+        nAnswered: answeredRows.length,
+        nGuardBlocked: rows.length - answeredRows.length,
+        dates,
+        answerOrigin: 'verbatim runCase({ withAnswer: true }) via @envoy/ai answer()',
+        answerSources: {
+          on_device: rows.filter((x) => x.answerSource === 'on_device').length,
+          in_cloud: rows.filter((x) => x.answerSource === 'in_cloud').length,
+          guard_blocked: rows.filter((x) => x.answerSource === 'guard_blocked').length,
+        },
         envoyScore: Number(envoyAvg.toFixed(4)),
+        unblockedEnvoyScore: Number(unblockedAvg.toFixed(4)),
         rawCeilingScore: Number(rawAvg.toFixed(4)),
         answerQualityRetained: retained,
         clauseCiteRate,
@@ -285,17 +286,21 @@ try {
 
   const output = {
     generatedAt: new Date().toISOString(),
-    judgeModel: env.VITE_CLOUD_MODEL || 'gemini-3.5-flash-lite',
-    mode: 'ONLY_IN_CLOUD (Firebase AI Logic + App Check)',
+    source: 'live',
+    answerMethod: 'Real product answer() collected via runCase({ withAnswer: true }) through Firebase AI Logic in Chrome (no regenerated answers, no extra prompt lines)',
+    judgeModel: detectedModel || 'gemini-3.5-flash-lite',
+    judgeSdk: EXPECTED_SDK,
     byArm,
   };
   writeFileSync(OUT_PATH, JSON.stringify(output, null, 2) + '\n', 'utf8');
 
-  console.log('\n=== PAPILLON-STYLE ANSWER QUALITY VS PRIVACY SUMMARY ===');
+  console.log('\n=== PAPILLON-STYLE ANSWER QUALITY VS PRIVACY SUMMARY (REAL runCase({ withAnswer: true })) ===');
   const tbl = {};
   for (const [armId, s] of Object.entries(byArm)) {
     tbl[`${armId} [n=${s.n}]`] = {
+      'Sources (dev/cloud/blk)': `${s.answerSources.on_device}/${s.answerSources.in_cloud}/${s.answerSources.guard_blocked}`,
       'Envoy Score': `${(s.envoyScore * 100).toFixed(1)}%`,
+      'Unblocked Score': `${(s.unblockedEnvoyScore * 100).toFixed(1)}% (${s.nAnswered})`,
       'Raw Ceiling': `${(s.rawCeilingScore * 100).toFixed(1)}%`,
       'Quality Retained': `${(s.answerQualityRetained * 100).toFixed(1)}%`,
       'Clause Cite %': `${(s.clauseCiteRate * 100).toFixed(1)}%`,
@@ -303,7 +308,7 @@ try {
     };
   }
   console.table(tbl);
-  console.log(`Saved ${OUT_PATH}`);
+  console.log(`Live SDK calls this run: ${liveCalls} · Saved ${OUT_PATH}`);
 } finally {
-  await vite.close();
+  if (sdkSession) await sdkSession.close();
 }

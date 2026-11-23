@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-23T10:17:04.702Z",
-  "commit": "c453627",
+  "generatedAt": "2026-11-23T10:39:06.605Z",
+  "commit": "e594748",
   "arms": [
     {
       "id": "gemma4",
@@ -26,7 +26,18 @@
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": 1
+        "answerQualityRetained": null
+      },
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 0
       }
     },
     {
@@ -42,18 +53,29 @@
       "nTotal": 36,
       "metrics": {
         "maskRecall": 1,
-        "falseMaskRate": 0.2265,
+        "falseMaskRate": 0.2054,
         "outboundLeaks": 0,
         "clauseAccuracy": 0.8333,
         "latencyMs": {
-          "p50": 67471,
-          "p95": 110878
+          "p50": 66978,
+          "p95": 154011
         },
-        "minimizationRatio": 0.1017,
+        "minimizationRatio": 0.0838,
         "reidRecoveryExact": 0,
-        "reidRecoveryPartial": 0.0085,
+        "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": 1
+        "answerQualityRetained": 0.6667
+      },
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 18
       }
     },
     {
@@ -70,20 +92,36 @@
         "clauseAccuracy": 1,
         "latencyMs": {
           "p50": 6,
-          "p95": 22
+          "p95": 21
         },
         "minimizationRatio": 1.1193,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
-        "attributeInference": 0.0968,
-        "answerQualityRetained": 1
+        "attributeInference": 0.039,
+        "answerQualityRetained": 0.975
+      },
+      "metricsN": {
+        "maskRecall": 36,
+        "falseMaskRate": 36,
+        "outboundLeaks": 36,
+        "clauseAccuracy": 36,
+        "latencyMs": 36,
+        "minimizationRatio": 36,
+        "reid": 36,
+        "attribute": 36,
+        "answerQuality": 20
       }
     }
   ],
   "redteam": {
     "cases": 28,
     "blocked": 28,
-    "bypasses": []
+    "bypasses": [],
+    "controls": {
+      "total": 10,
+      "passed": 10,
+      "falseBlocks": 0
+    }
   },
   "secrets": {
     "recall": 1,

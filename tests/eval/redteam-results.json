@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-23T10:17:02.513Z",
+  "generatedAt": "2026-11-23T10:39:05.278Z",
   "cases": 28,
   "blocked": 28,
   "blockRate": 1,
   "bypasses": [],
   "bypassDetails": [],
   "controls": {
-    "total": 2,
-    "passed": 2,
+    "total": 10,
+    "passed": 10,
     "falseBlocks": []
   },
   "rows": [
@@ -482,6 +482,86 @@
       "technique": "control-clean",
       "entityType": "MONEY",
       "description": "Control: symbolic math expression {{RENT * 1.10}} must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-03-prose-number-words",
+      "technique": "control-digits-in-words",
+      "entityType": "MONEY",
+      "description": "Control: ordinary lease prose with number words (three years, sixty days, zero tolerance) must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-04-different-spelled-amount",
+      "technique": "control-digits-in-words",
+      "entityType": "MONEY",
+      "description": "Control: spelled-out number in ordinary prose that does NOT match the protected amount must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-05-ordinary-base64",
+      "technique": "control-base64",
+      "entityType": "PERSON",
+      "description": "Control: binary SHA-256 Base64 digest (non-readable bytes; PR #22 fails closed on readable Base64 text) must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-06-short-reversed-words",
+      "technique": "control-reversed-string",
+      "entityType": "PERSON",
+      "description": "Control: ordinary prose with short palindromic/reversible words must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-07-newline-substring-name",
+      "technique": "control-split-across-lines",
+      "entityType": "PERSON",
+      "description": "Control: longer unrelated words split across a newline containing name letters (Simona\\nAdelaide vs Mona Adel) must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-08-multiline-real-lease",
+      "technique": "control-split-across-lines",
+      "entityType": "PERSON",
+      "description": "Control: multi-line masked clauses from the real Cairo residential lease must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-09-short-digit-word-run",
+      "technique": "control-digits-in-words",
+      "entityType": "NATIONAL_ID",
+      "description": "Control: short digit-word run (one two three) in ordinary prose must NOT be blocked",
+      "expectedBlocked": false,
+      "actualBlocked": false,
+      "passed": true,
+      "leaksFound": []
+    },
+    {
+      "id": "rt-ctrl-10-hyphenated-multiline-prose",
+      "technique": "control-split-across-lines",
+      "entityType": "PERSON",
+      "description": "Control: hyphenated wrapped prose across newlines must NOT be blocked",
       "expectedBlocked": false,
       "actualBlocked": false,
       "passed": true,

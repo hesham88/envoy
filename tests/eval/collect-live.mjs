@@ -23,6 +23,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { connectEnvoyPage, runCase } from '../../scripts/lib/envoy-browser.mjs';
+import { initBrowserSdk } from './lib/browser-sdk.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const CASES_PATH = resolve(__dirname, 'cases.json');
@@ -48,7 +49,7 @@ const port = Number(args.port ?? 5174);
 const appUrl = args.url ?? `http://localhost:${port}/`;
 const detectScope = args.scope ?? 'selected';
 const withAnswer = args['with-answer'] === 'true';
-const cooldownMs = Number(args.cooldown ?? (arm === 'basic' ? 100 : 2000));
+const cooldownMs = Number(args.cooldown ?? (arm === 'basic' ? (withAnswer ? 4200 : 100) : 2000));
 const force = args.force === 'true';
 const offset = Number(args.offset ?? 0);
 const limit = Number(args.limit ?? 999);
@@ -157,7 +158,10 @@ async function openSessionWithRetry(retries = 3) {
   let lastErr;
   for (let a = 0; a < retries; a++) {
     try {
-      return await connectEnvoyPage({ cdp: cdpUrl, appUrl });
+      const sess = await connectEnvoyPage({ cdp: cdpUrl, appUrl });
+      const sdkInfo = await initBrowserSdk(sess.page);
+      console.log(`Initialized browser Firebase AI Logic SDK (cloudModel=${sdkInfo.cloudModel})`);
+      return sess;
     } catch (err) {
       lastErr = err;
       console.warn(`connectEnvoyPage attempt ${a + 1}/${retries} failed (${err.message}); retrying...`);
@@ -192,12 +196,21 @@ try {
         runsOnPage = 0;
       }
 
-      const result = await runCase(session.page, {
-        document: tc.document,
-        question: tc.question,
-        detectScope,
-        withAnswer,
-      });
+      let result;
+      for (let attempt = 0; attempt < 4; attempt++) {
+        result = await runCase(session.page, {
+          document: tc.document,
+          question: tc.question,
+          detectScope,
+          withAnswer,
+        });
+        if (result.ok || !/429|RESOURCE_EXHAUSTED|quota|rate.?limit/i.test(result.error ?? '')) {
+          break;
+        }
+        const waitMs = 15000 * (attempt + 1);
+        console.warn(`[${i + 1}/${slice.length}] ${tc.id} — 429 rate-limited; backing off ${waitMs}ms...`);
+        await session.page.waitForTimeout(waitMs);
+      }
       runsOnPage++;
 
       if (result.ok) {

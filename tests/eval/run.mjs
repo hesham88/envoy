@@ -39,7 +39,7 @@ if (process.argv.includes('--live')) {
   });
 }
 
-// Always refresh deterministic local evaluations (guard red-team & secrets/custom-rules; no Chrome needed)
+// Always refresh deterministic local evaluations (guard red-team, secrets/custom-rules; no Chrome needed)
 execFileSync(process.execPath, [resolve(__dirname, 'run-redteam.mjs')], { stdio: 'inherit' });
 execFileSync(process.execPath, [resolve(__dirname, 'run-secrets.mjs')], { stdio: 'inherit' });
 
@@ -238,7 +238,7 @@ function scoreArmFile(armId, filePath) {
   };
 }
 
-// Merge optional Milestone 3 & 4 measured artifacts when present
+// Merge optional Milestone 1, 3, 4 & 5 measured artifacts when present
 const attackData = existsSync(ATTACK_RESULTS_PATH) ? JSON.parse(readFileSync(ATTACK_RESULTS_PATH, 'utf8')) : null;
 const qualityData = existsSync(QUALITY_RESULTS_PATH) ? JSON.parse(readFileSync(QUALITY_RESULTS_PATH, 'utf8')) : null;
 const redteamData = existsSync(REDTEAM_RESULTS_PATH) ? JSON.parse(readFileSync(REDTEAM_RESULTS_PATH, 'utf8')) : null;
@@ -249,14 +249,27 @@ const arms = [];
 for (const armId of ARM_ORDER) {
   const scored = scoreArmFile(armId, resolve(ARMS_DIR, `${armId}.json`));
   if (!scored) continue;
-  if (attackData?.byArm?.[armId]) {
-    scored.metrics.reidRecoveryExact = attackData.byArm[armId].reidRecoveryExact ?? null;
-    scored.metrics.reidRecoveryPartial = attackData.byArm[armId].reidRecoveryPartial ?? null;
-    scored.metrics.attributeInference = attackData.byArm[armId].attributeInference ?? null;
+  const attackArm = attackData?.byArm?.[armId] ?? null;
+  const qualityArm = qualityData?.byArm?.[armId] ?? null;
+  if (attackArm) {
+    scored.metrics.reidRecoveryExact = attackArm.reidRecoveryExact ?? null;
+    scored.metrics.reidRecoveryPartial = attackArm.reidRecoveryPartial ?? null;
+    scored.metrics.attributeInference = attackArm.attributeInference ?? null;
   }
-  if (qualityData?.byArm?.[armId]) {
-    scored.metrics.answerQualityRetained = qualityData.byArm[armId].answerQualityRetained ?? null;
+  if (qualityArm) {
+    scored.metrics.answerQualityRetained = qualityArm.answerQualityRetained ?? null;
   }
+  scored.metricsN = {
+    maskRecall: scored.n,
+    falseMaskRate: scored.n,
+    outboundLeaks: scored.n,
+    clauseAccuracy: scored.n,
+    latencyMs: scored.n,
+    minimizationRatio: scored.n,
+    reid: attackArm?.n ?? 0,
+    attribute: attackArm?.n ?? 0,
+    answerQuality: qualityArm?.n ?? 0,
+  };
   arms.push(scored);
 }
 
@@ -322,12 +335,20 @@ const summaryJson = {
       attributeInference: a.metrics.attributeInference,
       answerQualityRetained: a.metrics.answerQualityRetained,
     },
+    metricsN: a.metricsN,
   })),
   redteam: redteamData
     ? {
         cases: redteamData.cases,
         blocked: redteamData.blocked,
         bypasses: redteamData.bypasses,
+        controls: redteamData.controls
+          ? {
+              total: redteamData.controls.total,
+              passed: redteamData.controls.passed,
+              falseBlocks: redteamData.controls.falseBlocks.length,
+            }
+          : undefined,
       }
     : { cases: 0, blocked: 0, bypasses: [] },
   secrets: secretsData
