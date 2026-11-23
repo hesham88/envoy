@@ -40,6 +40,7 @@ import { FoundList } from '../components/review/FoundList';
 import { FileReadError, readDocumentFile } from '../lib/readFile';
 import { FlightRecorder } from './FlightRecorder';
 import { HistoryDialog } from './History';
+import { PrivateModeGuide, type ChromePage } from './PrivateModeGuide';
 import { useVault } from '../lib/useVault';
 import { PREF_KEYS, usePref } from '../lib/prefs';
 
@@ -139,6 +140,8 @@ export interface ChatAppProps {
   cloudHandoff?: { url: string } | null;
   /** 'panel': a narrow side panel with a compact toolbar instead of the rail. */
   layout?: 'page' | 'panel';
+  /** Inside the extension: opens chrome:// pages for the private-mode guide (web pages can't). */
+  openChromePage?: (page: ChromePage) => void;
 }
 
 export function ChatApp({
@@ -146,6 +149,7 @@ export function ChatApp({
   incomingDoc = null,
   rulesStore,
   cloudHandoff = null,
+  openChromePage,
   layout = 'page',
 }: ChatAppProps) {
   const panel = layout === 'panel';
@@ -207,6 +211,11 @@ export function ChatApp({
   const chatId = useRef(newChatId());
   const createdAt = useRef(Date.now());
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(
+    () =>
+      typeof location !== 'undefined' &&
+      new URLSearchParams(location.search).get('guide') === 'private',
+  );
   const [composerFocus, setComposerFocus] = useState(false);
   const analysisCache = useRef(new Map<string, NonNullable<SessionState['analysis']>>());
   const fileInput = useRef<HTMLInputElement>(null);
@@ -463,10 +472,10 @@ export function ChatApp({
           <StatusPill status={runtime.status} progress={runtime.progress} compact />
           {runtime.status !== 'available' && runtime.status !== 'checking' && (
             <button
-              onClick={runtime.enablePrivateMode}
+              onClick={() => setGuideOpen(true)}
               className="text-left text-[13px] text-device-on-tint underline underline-offset-4"
             >
-              Turn on private mode
+              Set up private mode
             </button>
           )}
           <p className="m-0 text-[12.5px] leading-snug text-muted">
@@ -564,10 +573,10 @@ export function ChatApp({
             <StatusPill status={runtime.status} progress={runtime.progress} compact />
             {runtime.status !== 'available' && runtime.status !== 'checking' && (
               <button
-                onClick={runtime.enablePrivateMode}
+                onClick={() => setGuideOpen(true)}
                 className="text-[12.5px] text-device-on-tint underline underline-offset-4"
               >
-                Turn on private mode
+                Set up private mode
               </button>
             )}
           </div>
@@ -811,6 +820,13 @@ export function ChatApp({
           onKeep={(on) => setKeepHistory(on ? 'on' : 'off')}
           onOpen={(id) => void openChat(id)}
           onClose={() => setHistoryOpen(false)}
+        />
+      )}
+      {guideOpen && (
+        <PrivateModeGuide
+          runtime={runtime}
+          {...(openChromePage ? { openChromePage } : {})}
+          onClose={() => setGuideOpen(false)}
         />
       )}
       {rulesOpen && (

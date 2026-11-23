@@ -116,6 +116,9 @@ export const THEME_CSS = `
 .btn.primary { grid-column: 1 / -1; border: 0; background: ${UV.green}; color: ${UV.dark}; box-shadow: 0 0 24px -6px ${UV.green}; }
 .btn.primary:hover { filter: brightness(1.08); }
 .note { margin: 10px 0 0; color: ${UV.muted}; font-size: 11.5px; }
+.deep-status { margin: 10px 0 0; color: ${UV.text}; font-size: 12px; line-height: 1.45; }
+.deep-status[data-error="true"] { color: ${UV.amber}; }
+.link-btn { border: 0; background: none; padding: 0; color: ${UV.green}; font: inherit; text-decoration: underline; cursor: pointer; }
 .spin { display: inline-block; width: 11px; height: 11px; margin-right: 6px; vertical-align: -1px; border-radius: 50%;
   border: 2px solid rgba(255,255,255,.2); border-top-color: ${UV.green}; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }

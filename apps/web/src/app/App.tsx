@@ -199,8 +199,16 @@ function ChatProduct() {
 
 /** The chat inside the extension's side panel: panel layout, document and rules from the panel. */
 function EmbeddedChat({ runtime }: { runtime: EnvoyRuntime }) {
-  const { doc, rulesStore } = useExtensionBridge();
-  return <ChatApp runtime={runtime} layout="panel" incomingDoc={doc} rulesStore={rulesStore} />;
+  const { doc, rulesStore, openChromePage } = useExtensionBridge();
+  return (
+    <ChatApp
+      runtime={runtime}
+      layout="panel"
+      incomingDoc={doc}
+      rulesStore={rulesStore}
+      openChromePage={openChromePage}
+    />
+  );
 }
 
 function ProductApp() {
