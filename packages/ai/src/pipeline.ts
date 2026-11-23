@@ -152,6 +152,9 @@ function maskQuestion(
         found.push({ ...e, start: i, end: i + e.value.length });
     }
   }
+  // Names typed only in the question (not in the document) are masked too, the way Basic
+  // protection masks names: flagged by the name rules, shown in the approval card.
+  found.push(...flagNames(question, found));
   return maskText(question, found, tags);
 }
 
@@ -295,7 +298,7 @@ export async function analyze(
           );
         }
         const merged = mergeEntities(rules, nano);
-        const unselectedNames = flagNames(doc, merged);
+        const unselectedNames = flagNames(doc, merged, question);
         entities = mergeEntities(merged, unselectedNames);
         const routePrompt = buildRoutePrompt(question, selected);
         route =
@@ -369,7 +372,7 @@ export async function analyze(
   }
 
   if (mode === 'basic') {
-    flagged = flagNames(doc, rules);
+    flagged = flagNames(doc, rules, question);
     entities = mergeEntities(rules, flagged);
     steps.push({ step: 'detect', source: 'rules', ms: 0 });
   }

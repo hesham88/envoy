@@ -5,7 +5,7 @@
   "backend": "rules-only (LanguageModel unavailable)",
   "detectScope": "selected",
   "withAnswer": false,
-  "updatedAt": "2026-11-23T09:41:30.761Z",
+  "updatedAt": "2026-11-23T10:16:59.602Z",
   "nTotal": 36,
   "nMeasured": 36,
   "entries": {
@@ -15,11 +15,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:26.250Z",
+      "recordedAt": "2026-11-23T10:16:55.029Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 36,
+        "ms": 56,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -235,11 +235,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:26.405Z",
+      "recordedAt": "2026-11-23T10:16:55.176Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 18,
+        "ms": 22,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -455,11 +455,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:26.569Z",
+      "recordedAt": "2026-11-23T10:16:55.322Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 32,
+        "ms": 21,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -675,11 +675,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:26.734Z",
+      "recordedAt": "2026-11-23T10:16:55.457Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -810,11 +810,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:26.884Z",
+      "recordedAt": "2026-11-23T10:16:55.618Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 26,
+        "ms": 18,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -955,11 +955,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.021Z",
+      "recordedAt": "2026-11-23T10:16:55.776Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 10,
+        "ms": 14,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1069,11 +1069,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.162Z",
+      "recordedAt": "2026-11-23T10:16:55.912Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 15,
+        "ms": 17,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1220,11 +1220,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.303Z",
+      "recordedAt": "2026-11-23T10:16:56.050Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 11,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1341,11 +1341,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.439Z",
+      "recordedAt": "2026-11-23T10:16:56.195Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 15,
+        "ms": 18,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1480,11 +1480,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.570Z",
+      "recordedAt": "2026-11-23T10:16:56.331Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 10,
+        "ms": 14,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1602,7 +1602,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.693Z",
+      "recordedAt": "2026-11-23T10:16:56.460Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -1708,7 +1708,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.813Z",
+      "recordedAt": "2026-11-23T10:16:56.587Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -1732,14 +1732,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "annual performance",
-            "type": "PERSON",
-            "index": 29
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -1778,29 +1772,23 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Annual Performance",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "IBAN",
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Employee\").\n\nClause 2: 2. Base Salary. Monthly base salary is [AMOUNT].\n\nClause 3: 3. [PERSON_3] Bonus. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\nClause 4: 4. Payroll Account. IBAN [ACCOUNT].",
+        "outbound": "Question: What is my maximum annual performance bonus if I hit 100% of my targets?\n\nClause 1: 1. Parties. [PERSON] (\"Employer\") and [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Employee\").\n\nClause 2: 2. Base Salary. Monthly base salary is [AMOUNT].\n\nClause 3: 3. Annual Performance Bonus. At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary).\n\nClause 4: 4. Payroll Account. IBAN [ACCOUNT].",
         "receipt": {
           "found": {
-            "PERSON": 3,
+            "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 8,
+          "foundTotal": 7,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
@@ -1808,12 +1796,11 @@
             "[PHONE]",
             "[EMAIL]",
             "[AMOUNT]",
-            "[PERSON_3]",
             "[ACCOUNT]"
           ],
-          "keptTotal": 8,
+          "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 503,
+          "charsSent": 511,
           "clausesSent": 4,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1843,11 +1830,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:27.937Z",
+      "recordedAt": "2026-11-23T10:16:56.705Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -1965,11 +1952,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.058Z",
+      "recordedAt": "2026-11-23T10:16:56.830Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 5,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2084,11 +2071,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.200Z",
+      "recordedAt": "2026-11-23T10:16:56.968Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 21,
+        "ms": 19,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2242,11 +2229,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.326Z",
+      "recordedAt": "2026-11-23T10:16:57.096Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2363,7 +2350,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.448Z",
+      "recordedAt": "2026-11-23T10:16:57.218Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -2492,11 +2479,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.574Z",
+      "recordedAt": "2026-11-23T10:16:57.344Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 10,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -2620,7 +2607,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.697Z",
+      "recordedAt": "2026-11-23T10:16:57.470Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -2763,7 +2750,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.817Z",
+      "recordedAt": "2026-11-23T10:16:57.591Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -2878,7 +2865,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:28.928Z",
+      "recordedAt": "2026-11-23T10:16:57.716Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3000,7 +2987,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.052Z",
+      "recordedAt": "2026-11-23T10:16:57.842Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3122,7 +3109,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.165Z",
+      "recordedAt": "2026-11-23T10:16:57.969Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3251,11 +3238,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.293Z",
+      "recordedAt": "2026-11-23T10:16:58.093Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 7,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3365,11 +3352,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.412Z",
+      "recordedAt": "2026-11-23T10:16:58.237Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 15,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3476,11 +3463,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.542Z",
+      "recordedAt": "2026-11-23T10:16:58.399Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 4,
+        "ms": 21,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3581,11 +3568,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.664Z",
+      "recordedAt": "2026-11-23T10:16:58.511Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 3,
+        "ms": 2,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3699,11 +3686,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.789Z",
+      "recordedAt": "2026-11-23T10:16:58.622Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 1,
+        "ms": 3,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -3795,7 +3782,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:29.912Z",
+      "recordedAt": "2026-11-23T10:16:58.747Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -3817,14 +3804,8 @@
             "ms": 0
           }
         ],
-        "guardOk": false,
-        "leaks": [
-          {
-            "value": "common-area",
-            "type": "PERSON",
-            "index": 338
-          }
-        ],
+        "guardOk": true,
+        "leaks": [],
         "entities": [
           {
             "type": "PERSON",
@@ -3855,33 +3836,26 @@
             "value": "EGP 9,000",
             "role": null,
             "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Common Area",
-            "role": null,
-            "source": "rules"
           }
         ],
-        "outbound": "Question: Who pays for routine building elevator maintenance under this lease?\n\nClause 1: 1. Parties. Lease signed between [PERSON] (\"Landlord\") and [PERSON_2], phone [PHONE] (\"Tenant\"), witnessed by [PERSON_3]. Monthly rent is [AMOUNT].\n\nClause 2: 2. [PERSON_4] Maintenance. The Landlord pays for elevator servicing, stair lighting, and common-area repairs; the Tenant pays only metered apartment electricity and gas.",
+        "outbound": "Question: Who pays for routine building elevator maintenance under this lease?\n\nClause 1: 1. Parties. Lease signed between [PERSON] (\"Landlord\") and [PERSON_2], phone [PHONE] (\"Tenant\"), witnessed by [PERSON_3]. Monthly rent is [AMOUNT].\n\nClause 2: 2. Common Area Maintenance. The Landlord pays for elevator servicing, stair lighting, and common-area repairs; the Tenant pays only metered apartment electricity and gas.",
         "receipt": {
           "found": {
-            "PERSON": 4,
+            "PERSON": 3,
             "PHONE": 1,
             "MONEY": 1
           },
-          "foundTotal": 6,
+          "foundTotal": 5,
           "sharedTags": [
             "[PERSON]",
             "[PERSON_2]",
             "[PHONE]",
             "[PERSON_3]",
-            "[AMOUNT]",
-            "[PERSON_4]"
+            "[AMOUNT]"
           ],
-          "keptTotal": 6,
+          "keptTotal": 5,
           "sharedByUser": 0,
-          "charsSent": 418,
+          "charsSent": 419,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3911,7 +3885,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:30.025Z",
+      "recordedAt": "2026-11-23T10:16:58.874Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4007,7 +3981,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:30.151Z",
+      "recordedAt": "2026-11-23T10:16:58.999Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4111,11 +4085,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:30.284Z",
+      "recordedAt": "2026-11-23T10:16:59.129Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 9,
+        "ms": 6,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4229,7 +4203,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:30.398Z",
+      "recordedAt": "2026-11-23T10:16:59.243Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4337,11 +4311,11 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:30.508Z",
+      "recordedAt": "2026-11-23T10:16:59.360Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
-        "ms": 2,
+        "ms": 4,
         "mode": "basic",
         "fallbackReason": null,
         "selectedIds": [
@@ -4447,7 +4421,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:30.631Z",
+      "recordedAt": "2026-11-23T10:16:59.475Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
@@ -4574,7 +4548,7 @@
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-23T09:41:30.742Z",
+      "recordedAt": "2026-11-23T10:16:59.587Z",
       "result": {
         "ok": true,
         "deviceStatus": "unavailable",
