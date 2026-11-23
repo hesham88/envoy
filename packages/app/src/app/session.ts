@@ -4,7 +4,8 @@
  */
 import type { Analysis, answer } from '@envoy/ai';
 
-export type AnswerResult = Awaited<ReturnType<typeof answer>>;
+/** The answer, plus why the cloud step fell back to the device when it did. */
+export type AnswerResult = Awaited<ReturnType<typeof answer>> & { cloudProblem?: string };
 export type Phase = 'idle' | 'loaded' | 'analyzing' | 'review' | 'sending' | 'answered' | 'error';
 
 export interface SessionDoc {

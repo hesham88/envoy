@@ -6,6 +6,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PREF_KEYS, usePref } from '../lib/prefs';
 import { DETECT_SCHEMA, MINIMIZE_SCHEMA, ROUTE_SCHEMA, type Step } from '@envoy/core';
 import {
+  diagnoseCloud,
+  type CloudProblem,
   createStepModel,
   DEFAULT_SETTINGS,
   getDeviceStatus,
@@ -51,6 +53,8 @@ export interface EnvoyRuntime {
   /** The faster cloud model instead of the default (Gemini 4 Hydrogen). */
   fastCloud?: boolean;
   setFastCloud?: (fast: boolean) => void;
+  /** After the cloud step fell back to the device: why (App Check, offline, or the model). */
+  diagnoseCloud?: () => Promise<CloudProblem>;
 }
 
 /** Where the Firebase settings come from: each app reads its own build environment. */
@@ -69,7 +73,7 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
         error: null as string | null,
       };
     } catch (e) {
-      return { app: null, ai: null, error: (e as Error).message };
+      return { app: null, ai: null, appCheck: null, error: (e as Error).message };
     }
   }, []);
   const [status, setStatus] = useState<EnvoyStatus>('checking');
@@ -148,6 +152,7 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
     enablePrivateMode,
     refreshStatus,
     warmUp,
+    diagnoseCloud: () => diagnoseCloud(boot.appCheck ?? null),
     cancelPrivate: cancelPrivateSteps,
     fastCloud,
     setFastCloud,
