@@ -37,7 +37,7 @@ describe('code links', () => {
           ).toBeTruthy();
           expect(
             readFileSync(file, 'utf8').split('\n')[Number(line) - 1],
-            `${doc}: ${target}#L${line} should contain ${symbol}`,
+            `${doc}: ${target}#L${line} should contain ${symbol} (run node scripts/fix-anchors.mjs)`,
           ).toContain(symbol!);
         }
       }
@@ -48,7 +48,10 @@ describe('code links', () => {
     const refs: CodeRef[] = [...STEPS.map((s) => s.code), ...GUARD.map((g) => g[2])];
     for (const [path, line, symbol] of refs) {
       expect(existsSync(resolve(ROOT, path)), `${path} is missing`).toBe(true);
-      if (line) expect(lineOf(path, line), `${path}#L${line}`).toContain(symbol);
+      if (line)
+        expect(lineOf(path, line), `${path}#L${line} (run node scripts/fix-anchors.mjs)`).toContain(
+          symbol,
+        );
     }
   });
 });

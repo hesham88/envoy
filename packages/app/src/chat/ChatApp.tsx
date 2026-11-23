@@ -422,7 +422,7 @@ export function ChatApp({
 
   return (
     <div
-      className="envoy-uv flex min-h-screen font-sans"
+      className="envoy-uv flex min-h-screen overflow-x-clip font-sans"
       onDragOver={(e) => {
         e.preventDefault();
         setDragging(true);

@@ -161,6 +161,23 @@ function findCodes(text: string, value: string, type: EntityType): Leak[] {
   return leaks;
 }
 
+/**
+ * Part of a long identifier quoted on its own ("the ID ends in 20104839"): a run of 7+ digits that
+ * sits inside the protected value's digits. Runs of one repeated digit ("0000000") are ignored.
+ */
+const FRAGMENT_MIN = 7;
+function findDigitFragments(text: string, value: string, type: EntityType): Leak[] {
+  const digits = value.replace(/\D/g, '');
+  if (digits.length < 12) return [];
+  const leaks: Leak[] = [];
+  for (const m of text.matchAll(/\d(?:[ -]?\d)+/g)) {
+    const run = m[0].replace(/\D/g, '');
+    if (run.length < FRAGMENT_MIN || run.length >= digits.length || /^(\d)\1+$/.test(run)) continue;
+    if (digits.includes(run)) leaks.push({ value: m[0], type, index: m.index });
+  }
+  return leaks;
+}
+
 /** An email written defanged: "mona [dot] adel [at] example [dot] com". */
 function findDefanged(text: string, value: string): Leak[] {
   // Blank the bracketed words without changing lengths, then search the letters and digits only.
@@ -234,6 +251,8 @@ export function checkOutbound(
         case 'CARD':
         case 'SECRET':
           out.push(...findCodes(t, p.value, p.type));
+          if (p.type !== 'PHONE' && p.type !== 'SECRET')
+            out.push(...findDigitFragments(t, p.value, p.type));
           break;
         case 'MONEY':
           out.push(...findAmount(t, p.value));

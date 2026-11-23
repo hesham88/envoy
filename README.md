@@ -114,7 +114,7 @@ Five models, four on the device and one for the cloud, and where each piece live
 | Remote Config: `cloud_model`, `cloud_model_fast`, `cloud_default`, `prompt_version`                                   | [`getValue(rc, 'cloud_model')`](packages/ai/src/remote.ts#L36)                                                                                                                                                                                           |
 | On-device model download from a click (`initializeDeviceModel`)                                                       | [`initializeDeviceModel`](packages/app/src/app/useEnvoy.ts#L119)                                                                                                                                                                                         |
 | The device guard: availability check, network tripwire, `inferenceSource` assertion, session cleanup                  | [`getDeviceStatus`](packages/ai/src/device-guard.ts#L100), [`withCloudTripwire`](packages/ai/src/device-guard.ts#L131), [`InferenceSource.ON_DEVICE`](packages/ai/src/device-guard.ts#L210), [`withSessionCleanup`](packages/ai/src/device-guard.ts#L62) |
-| The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags)                         | [`analyze`](packages/ai/src/pipeline.ts#L220), [`answer`](packages/ai/src/pipeline.ts#L414), [`checkOutbound`](packages/ai/src/pipeline.ts#L433)                                                                                                         |
+| The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags)                         | [`analyze`](packages/ai/src/pipeline.ts#L223), [`answer`](packages/ai/src/pipeline.ts#L417), [`checkOutbound`](packages/ai/src/pipeline.ts#L14)                                                                                                         |
 
 To see the guard catch firebase-js-sdk #10635 yourself, open [`/dev`](https://envoy-hybrid-ai.web.app/dev) and press **Simulate missing LanguageModel**: the private step is blocked instead of silently going to the cloud.
 
@@ -171,7 +171,12 @@ Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic
 - It masks every private detail it detects, before anything is sent, and you approve the exact text.
 - It sends only what the question needs when the on-device model is available.
 - It blocks detected leaks, including disguised ones, and blocks text it can't check.
+- The network tripwire watches `fetch` requests to the Firebase AI Logic endpoint, which is how the SDK reaches the cloud. It's a safety net on top of `ONLY_ON_DEVICE` and the `inferenceSource` check, not a general firewall for the page.
 - It does **not** promise that nothing about you can be inferred: details that aren't identifying on their own (a city, an employer) can narrow things down together. The eval's attack test measures this, and you can hide any sentence in the approval card.
+
+### Who it's for
+
+Anyone who wants a strong cloud model's help with a document they shouldn't upload whole: a tenant with a lease, a new hire with an offer letter, a patient with a lab report, a developer with a config full of keys. Legal-aid and HR tools could run the same engine for their users, and teams could use the extension as a lightweight guard on the AI sites they already allow.
 
 ### Which on-device model?
 

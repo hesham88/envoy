@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-23T09:41:43.516Z",
-  "commit": "09ffe67",
+  "generatedAt": "2026-11-23T10:17:04.702Z",
+  "commit": "c453627",
   "arms": [
     {
       "id": "gemma4",
@@ -65,14 +65,14 @@
       "nTotal": 36,
       "metrics": {
         "maskRecall": 1,
-        "falseMaskRate": 0.0709,
+        "falseMaskRate": 0.0643,
         "outboundLeaks": 0,
         "clauseAccuracy": 1,
         "latencyMs": {
           "p50": 6,
-          "p95": 32
+          "p95": 22
         },
-        "minimizationRatio": 1.0761,
+        "minimizationRatio": 1.1193,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0.0968,
