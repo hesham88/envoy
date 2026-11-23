@@ -47,6 +47,11 @@ export interface Deps {
   runPrivate: typeof RunPrivate;
   models: Record<Step, GenerativeModel>;
   getDeviceStatus: () => Promise<DeviceStatus>;
+  /**
+   * Asked when the reasoning model fails (for example the capable model's free daily quota is used
+   * up): the fast cloud model, which itself falls back to the device.
+   */
+  reasonFallback?: GenerativeModel;
 }
 
 export interface Analysis {
@@ -427,6 +432,8 @@ export async function answer(
   withheld?: string[];
   source: 'on_device' | 'in_cloud';
   lighter: boolean;
+  /** The chosen cloud model failed and the fast model (deps.reasonFallback) answered instead. */
+  usedFallbackModel?: boolean;
   receipt: Receipt;
 }> {
   const shared = new Set(opts.sharedTags ?? []);
@@ -465,7 +472,23 @@ export async function answer(
   const prompt = buildReasonPrompt(approvedOutbound);
   const started = performance.now();
   // In the same queue as private steps, so it never runs while a private step's tripwire is up.
-  const res = await inAiQueue(() => deps.models.reason.generateContent(prompt));
+  let res;
+  let usedFallbackModel = false;
+  try {
+    res = await inAiQueue(() => deps.models.reason.generateContent(prompt));
+  } catch (e) {
+    if (!deps.reasonFallback) throw e;
+    // The refused request still left the device (masked, guard-checked): the ledger shows it.
+    networkLog.record({
+      at: Date.now(),
+      step: 'reason',
+      target: 'cloud',
+      blocked: false,
+      payload: prompt,
+    });
+    res = await inAiQueue(() => deps.reasonFallback!.generateContent(prompt));
+    usedFallbackModel = true;
+  }
   const ms = Math.round(performance.now() - started);
   const source =
     res.response.inferenceSource === InferenceSource.ON_DEVICE ? 'on_device' : 'in_cloud';
@@ -493,6 +516,7 @@ export async function answer(
     ...(restored.withheld.length ? { withheld: restored.withheld } : {}),
     source,
     lighter: source === 'on_device',
+    ...(usedFallbackModel ? { usedFallbackModel: true } : {}),
     receipt,
   };
 }

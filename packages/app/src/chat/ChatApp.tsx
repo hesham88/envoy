@@ -360,7 +360,13 @@ export function ChatApp({
             ...answered,
             cloudProblem: (await runtime.diagnoseCloud?.().catch(() => undefined))?.message,
           }
-        : answered;
+        : answered.usedFallbackModel
+          ? {
+              ...answered,
+              cloudModelUsed: runtime.settings.fastCloudModel,
+              cloudProblem: `${runtime.settings.cloudModel} didn't answer (its free daily limit may be used up), so ${runtime.settings.fastCloudModel} answered instead.`,
+            }
+          : answered;
       dispatch({ type: 'ANSWER_DONE', result });
     } catch (e) {
       dispatch({ type: 'FAIL', message: cloudErrorMessage(e) });
@@ -908,7 +914,7 @@ function TurnView({
             progress={turn.progress}
             analysis={s.analysis}
             result={s.result}
-            cloudModel={runtime.settings.cloudModel}
+            cloudModel={s.result?.cloudModelUsed ?? runtime.settings.cloudModel}
             localOnly={turn.localOnly}
             open={s.phase !== 'answered'}
           />
@@ -1109,7 +1115,7 @@ function AnswerBubble({ session }: { session: SessionState }) {
       <p className="m-0 text-[16.5px] leading-[1.75] whitespace-pre-wrap text-ink">
         <RestoredText text={result.text} spans={result.spans} />
       </p>
-      {result.lighter && result.cloudProblem && (
+      {result.cloudProblem && (
         <p
           role="note"
           className="m-0 rounded-[12px] border border-line px-4 py-3 text-[13.5px] text-ink"

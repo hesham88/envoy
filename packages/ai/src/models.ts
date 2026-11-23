@@ -40,9 +40,12 @@ export function createStepModel(
   step: Step,
   settings: RemoteSettings,
   schema?: JsonSchema,
+  /** Cloud only, with no on-device fallback: the capable model, which has a fast model behind it. */
+  cloudOnly = false,
 ): GenerativeModel {
   const params: HybridParams = {
-    mode: modeFor(step),
+    // Private steps stay ONLY_ON_DEVICE whatever the caller asks.
+    mode: cloudOnly && step === 'reason' ? InferenceMode.ONLY_IN_CLOUD : modeFor(step),
     inCloudParams: {
       model: settings.cloudModel,
       ...(schema

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The problem</title>
+    <!-- Film scene: what happens today. A neutral chat (no real product), everyone fictional.
+         Driven by time since load, so every recording is the same. -->
+    <style>
+      @font-face { font-family: Plex; font-weight: 500; src: url(/fonts-plex/ibm-plex-sans-latin-500-normal.woff2); }
+      @font-face { font-family: Plex; font-weight: 600; src: url(/fonts-plex/ibm-plex-sans-latin-600-normal.woff2); }
+      @font-face { font-family: Fraunces; src: url(/fonts/fraunces-latin-opsz-normal.woff2); }
+      html, body { margin: 0; width: 1600px; height: 900px; overflow: hidden; background: radial-gradient(1200px 700px at 30% 20%, #1c1640 0%, #0b0a1f 60%, #07061a 100%); color: #ece9ff; font: 500 22px/1.5 Plex, system-ui, sans-serif; }
+      .app { position: absolute; left: 140px; top: 150px; width: 820px; height: 640px; border-radius: 24px; background: #15141f; border: 1px solid #2c2a3d; box-shadow: 0 40px 120px -40px rgba(0,0,0,.8); overflow: hidden; }
+      .bar { display: flex; align-items: center; gap: 12px; padding: 18px 26px; border-bottom: 1px solid #2c2a3d; font-weight: 600; color: #b9b5d6; font-size: 19px; }
+      .bar i { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg, #6c6889, #3d3a55); }
+      .bubble { position: absolute; left: 26px; right: 26px; padding: 18px 22px; border-radius: 18px; background: #232136; border: 1px solid #353352; line-height: 1.6; transition: none; }
+      .compose { bottom: 26px; min-height: 150px; }
+      .sent { top: 90px; opacity: 0; }
+      mark { background: none; color: #ffb547; border-bottom: 2px solid rgba(255,181,71,.6); border-radius: 2px; }
+      .caret { display: inline-block; width: 2px; height: 1.1em; background: #ece9ff; vertical-align: -3px; margin-left: 1px; }
+      .send { position: absolute; right: 44px; bottom: 44px; width: 52px; height: 52px; border-radius: 50%; background: #3a3758; display: grid; place-items: center; }
+      .send svg { width: 24px; height: 24px; }
+      .cloud { position: absolute; left: 1150px; top: 120px; width: 330px; text-align: center; }
+      .cloud svg { width: 300px; height: 190px; filter: drop-shadow(0 0 30px rgba(255,181,71,0)); }
+      .cloud .label { margin-top: 6px; font: 600 24px Plex; color: #b9b5d6; }
+      .count { position: absolute; left: 1150px; width: 330px; top: 380px; text-align: center; font: 600 64px/1 Fraunces, serif; color: #ffb547; opacity: 0; }
+      .count small { display: block; margin-top: 10px; font: 500 22px Plex; color: #ece9ff; }
+      .chip { position: absolute; padding: 6px 14px; border-radius: 999px; background: rgba(255,181,71,.14); border: 1.5px solid #ffb547; color: #ffd28a; font: 600 18px Plex; white-space: nowrap; box-shadow: 0 0 22px -6px #ffb547; opacity: 0; }
+      .line { position: absolute; left: 140px; top: 820px; width: 1340px; font: 500 30px Fraunces, serif; color: #ece9ff; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="bar"><i></i> Any AI chat</div>
+      <div class="bubble sent" id="sent"></div>
+      <div class="bubble compose" id="compose"></div>
+      <div class="send"><svg viewBox="0 0 24 24" fill="none" stroke="#ece9ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+    </div>
+    <div class="cloud" id="cloud">
+      <svg viewBox="0 0 300 190"><path id="cloudpath" d="M80 160h150a50 50 0 0 0 8-99A70 70 0 0 0 104 58a52 52 0 0 0-24 102z" fill="#1f1c3a" stroke="#7aa7ff" stroke-width="4"/></svg>
+      <div class="label">The cloud</div>
+    </div>
+    <div class="count" id="count">0<small>private details sent</small></div>
+    <div class="line" id="line">Today, all of it leaves your device.</div>
+    <script>
+      // [text, isPrivate] runs. Private runs fly to the cloud on send.
+      const RUNS = [
+        ['Can you check my lease? Tenant ', 0], ['Mona Adel', 1], [', national ID ', 0], ['27506120104839', 1],
+        [', IBAN ', 0], ['EG38 0019 0005 0000 0000 2631 8000 2', 1], ['. Rent ', 0], ['EGP 8,500', 1],
+        [', phone ', 0], ['+20 100 555 0192', 1], ['. Can my landlord raise it 20%?', 0],
+      ];
+      const full = RUNS.map((r) => r[0]).join('');
+      const TYPE_END = 6.2, SEND = 6.9, FLY = 7.4, PER_CHIP = 0.42;
+      const compose = document.getElementById('compose');
+      const sent = document.getElementById('sent');
+      const cloud = document.getElementById('cloud').querySelector('svg');
+      const count = document.getElementById('count');
+      const line = document.getElementById('line');
+      const html = (n, caret) => {
+        let out = '', left = n;
+        for (const [t, p] of RUNS) {
+          if (left <= 0) break;
+          const part = t.slice(0, left); left -= t.length;
+          const esc = part.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+          out += p ? `<mark>${esc}</mark>` : esc;
+        }
+        return out + (caret ? '<span class="caret"></span>' : '');
+      };
+      // Chips start where each private value sits in the sent bubble.
+      const chips = [];
+      let built = false;
+      function buildChips() {
+        sent.innerHTML = html(full.length, false);
+        sent.style.opacity = '1';
+        const marks = [...sent.querySelectorAll('mark')];
+        const appBox = document.querySelector('.app').getBoundingClientRect();
+        marks.forEach((m) => {
+          const r = m.getBoundingClientRect();
+          const c = document.createElement('div');
+          c.className = 'chip';
+          c.textContent = m.textContent;
+          c.dataset.x = r.left; c.dataset.y = r.top;
+          document.body.appendChild(c);
+          chips.push(c);
+        });
+        void appBox;
+        built = true;
+      }
+      const ease = (x) => (x < 0 ? 0 : x > 1 ? 1 : 1 - Math.pow(1 - x, 3));
+      const t0 = performance.now();
+      function frame() {
+        const t = (performance.now() - t0) / 1000;
+        if (t < SEND) {
+          const n = Math.floor(full.length * Math.min(1, t / TYPE_END));
+          compose.innerHTML = html(n, Math.floor(t * 2) % 2 === 0 || t < TYPE_END);
+        } else {
+          if (!built) { compose.innerHTML = ''; buildChips(); }
+          const k = ease((t - SEND) / 0.5);
+          sent.style.transform = `translateY(${(1 - k) * 330}px)`;
+          let arrived = 0;
+          chips.forEach((c, i) => {
+            const start = FLY + i * PER_CHIP, p = ease((t - start) / 1.0);
+            if (t < start) { c.style.opacity = '0'; return; }
+            const x0 = +c.dataset.x, y0 = +c.dataset.y, x1 = 1255 + (i % 3) * 18, y1 = 190 + (i % 2) * 14;
+            const cx = (x0 + x1) / 2, cy = Math.min(y0, y1) - 160;
+            const x = (1 - p) * (1 - p) * x0 + 2 * (1 - p) * p * cx + p * p * x1;
+            const y = (1 - p) * (1 - p) * y0 + 2 * (1 - p) * p * cy + p * p * y1;
+            c.style.left = x + 'px'; c.style.top = y + 'px';
+            c.style.opacity = p >= 1 ? '0' : String(Math.min(1, (t - start) * 6));
+            c.style.transform = `scale(${1 - p * 0.45})`;
+            if (p >= 1) arrived++;
+          });
+          count.style.opacity = String(Math.min(1, (t - FLY) * 3));
+          count.firstChild.nodeValue = String(arrived);
+          const glow = Math.min(1, arrived / chips.length);
+          cloud.style.filter = `drop-shadow(0 0 ${10 + glow * 40}px rgba(255,181,71,${0.25 + glow * 0.6}))`;
+          document.getElementById('cloudpath').setAttribute('stroke', arrived ? '#ffb547' : '#7aa7ff');
+          line.style.opacity = String(ease((t - (FLY + chips.length * PER_CHIP + 0.8)) / 0.6));
+        }
+        if (t < 14) requestAnimationFrame(frame);
+      }
+      document.fonts.ready.then(() => requestAnimationFrame(frame));
+    </script>
+  </body>
+</html>

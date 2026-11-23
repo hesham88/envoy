@@ -117,8 +117,17 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
     const models = Object.fromEntries(
       STEPS.map((s) => [s, createStepModel(boot.ai!, s, settings, SCHEMAS[s])]),
     ) as Deps['models'];
-    return { runPrivate, models, getDeviceStatus };
-  }, [boot.ai, settings]);
+    if (fastCloud || settings.cloudModel === remote.fastCloudModel)
+      return { runPrivate, models, getDeviceStatus };
+    // The capable model (Gemini 4 Hydrogen) runs cloud-only: if it can't answer (its free daily
+    // quota is small), the fast model answers instead, and only then the device.
+    models.reason = createStepModel(boot.ai!, 'reason', settings, undefined, true);
+    const reasonFallback = createStepModel(boot.ai!, 'reason', {
+      ...settings,
+      cloudModel: remote.fastCloudModel,
+    });
+    return { runPrivate, models, getDeviceStatus, reasonFallback };
+  }, [boot.ai, settings, fastCloud, remote.fastCloudModel]);
 
   const enablePrivateMode = useCallback(() => {
     if (!deps) return;
