@@ -1,5 +1,5 @@
 /**
- * Fast, rules-only scan for live use (a text field as the user types, a CLI hook, a file before upload).
+ * Fast, rules-only scan for live use (a text field as the user types, a file before upload).
  * No model, no network: deterministic detectors, secrets and the user's own rules, in well under a
  * millisecond per kilobyte. Run the on-device model separately, on pause or on request.
  */

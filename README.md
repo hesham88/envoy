@@ -144,7 +144,7 @@ The guidebook's patterns show up throughout: **let users supervise automation** 
 
 ## Measured
 
-Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, measured 22 November 2026 on a 2018 laptop CPU. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
+Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, measured 22 November 2026 on a 2018 laptop CPU. **Times vary a lot by device:** these are CPU-only runs on an older laptop; a recent computer with a supported GPU should be much faster, and the first run after starting Chrome is slower while the model loads. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
 
 | Setup | On-device model | Private details masked | Raw details sent, after the guard | Text sent, of the whole document | Time, median |
 | --- | --- | --- | --- | --- | --- |

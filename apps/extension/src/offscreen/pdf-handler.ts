@@ -6,6 +6,7 @@ import { bytesToBase64, extractPdfText } from './pdf';
 
 declare const chrome: {
   runtime: {
+    id: string;
     onMessage: {
       addListener(
         fn: (
@@ -18,7 +19,8 @@ declare const chrome: {
   };
 };
 
-chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if ((sender as { id?: string }).id !== chrome.runtime.id) return false;
   if (msg?.type !== 'envoy:pdf-mask-internal') return false;
   (async () => {
     try {

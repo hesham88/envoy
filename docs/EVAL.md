@@ -1,6 +1,6 @@
 # Envoy — Empirical Security, Privacy & Utility Evaluation
 
-*Argon Eval Lane (`tests/eval/**`, `packages/cli/**`). Every number below comes from real runs via `scripts/lib/envoy-browser.mjs` (`analyze()` / `answer()` through Firebase AI Logic hybrid inference) or `@envoy/core` deterministic evaluators, stating exact model (`component` + `version`), date, and `n`. Machine-readable contract for the landing page & README: [`tests/eval/summary.json`](../tests/eval/summary.json).*
+*Argon Eval Lane (`tests/eval/**`). Every number below comes from real runs via `scripts/lib/envoy-browser.mjs` (`analyze()` / `answer()` through Firebase AI Logic hybrid inference) or `@envoy/core` deterministic evaluators, stating exact model (`component` + `version`), date, and `n`. Machine-readable contract for the landing page & README: [`tests/eval/summary.json`](../tests/eval/summary.json).*
 
 ---
 
@@ -85,18 +85,7 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 
 ---
 
-## 5. `envoy-guard` CLI Hook (`packages/cli`, Milestone 6)
-
-- **Package:** `@envoy/cli` (`packages/cli/dist/cli.mjs` → bin `envoy-guard`), rules-only **Basic protection** using `@envoy/core` `scanText()` + `~/.envoy/rules.json` (`CustomRule[]`).
-- **Verified agent hook contracts (`2026-11-22`):**
-  - **Claude Code:** `UserPromptSubmit` (blocks with finding summary + ready-to-paste masked copy; honestly documents that Claude Code cannot rewrite prompts inline) and `PreToolUse` (`WebFetch|Bash|Write|Edit` → `permissionDecision: "deny"`).
-  - **Gemini CLI:** `BeforeAgent` and `BeforeTool` (`web_fetch|run_shell_command|write_file|replace` → strict JSON `{"decision": "deny"|"allow"}`).
-- **`envoy-guard init claude|gemini`:** Prints the exact `.claude/settings.json` or `.gemini/settings.json` snippet without editing user settings automatically.
-- **Tests:** `packages/cli/src/hook.test.ts` (**9 / 9 passing**) + live stdin→stdout binary verification.
-
----
-
-## 6. Limitations
+## 5. Limitations
 
 1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`) / `67.5s` (`nano`); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
 2. **The red team is 28 cases.** All are blocked today, but 28 cases are not proof against every encoding or paraphrase. Envoy's claim is the measured one: it minimizes what leaves, masks what it detects, and blocks detected leaks, including disguised ones. Indirect identification (a combination of non-identifying details) is measured separately by the attribute-inference attack (section 3).

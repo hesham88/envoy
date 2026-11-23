@@ -16,6 +16,7 @@ import './pdf-handler';
 
 declare const chrome: {
   runtime: {
+    id: string;
     onMessage: {
       addListener(
         fn: (
@@ -35,7 +36,8 @@ try {
   ai = null;
 }
 
-chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if ((sender as { id?: string }).id !== chrome.runtime.id) return false;
   if (msg?.type !== 'envoy:deep-detect-internal') return false;
   (async () => {
     const status = await getDeviceStatus();

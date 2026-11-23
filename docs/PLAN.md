@@ -6,6 +6,16 @@ Design: `docs/superpowers/specs/2026-11-22-envoy-design.md` · Current plan: `do
 
 Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/16tr6t9mttMYwaWLdh8rkH) · [mockups](https://claude.ai/artifact/5jsHsbktxxskhCPpm69Pni) · [pitch deck](https://claude.ai/artifact/BF5tb3wC4S2ubRymjDqTv6)
 
+## Status 2026-11-23
+
+- **Extension end-to-end suite** (`npm run test:e2e -w @envoy/extension`): 20/20 on the real build. It found and fixed two bugs: PDF upload crashed (offscreen documents have no `chrome.storage`), and photo boxes drawn after choosing the file were never applied.
+- **Security sweep:** `docs/SECURITY.md`. Extension messages are now checked by sender, origin and payload.
+- **Firebase review:** `docs/FIREBASE_AI_LOGIC_REVIEW.md` and a new skill, `docs/skills/firebase-ai-logic-production`. Owner steps: restrict the API key, turn on AI monitoring, check the Hydrogen quota.
+- **Review points:** `docs/REVIEW_RESPONSE.md` maps every point of both ChatGPT reviews, Argon's audit and PAIR to its status.
+- **Latency:** an in-memory cache reuses the on-device result for the same document, question and rules in a tab. The README says times vary by device.
+- **The CLI hook (`packages/cli`, envoy-guard) was removed** on the owner's request.
+- **Video:** waiting for the owner's go-ahead.
+
 ## Foundation and privacy core (plan 1)
 
 | # | Task | Status |
@@ -39,7 +49,7 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 | 10 | Polish gate | in progress: Lighthouse a11y 100, best practices 100, SEO 91; dark-theme toggle, 1024px check and perf trace pending |
 
 ## Next plans
-Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 2026-11-22 on `lane/eval-harness`**: **full `36/36` live arms** for Default Gemini Nano `nano_v3_cpu_component 2025.8.21.1028` (`100%` recall, `0` leaks, `83.3%` clause acc, **`10.2%` min ratio / `89.8%` reduction**, `0%` Re-ID, `0%` attr inf, `100%` quality retained), Gemma 4 `gemma4_component 2026.11.3.1140` (`100%` recall, `0` leaks, `88.9%` clause acc, `21.9%` min ratio, `0%` Re-ID, `0%` attr inf, `100%` quality retained), and Basic `36/36`; Guard red-team `11/28 -> 17/28` post-PR #11; Secrets `100%` recall / `94.1%` precision + 6/6 CustomRule; `tests/eval/summary.json` stable contract; and `@envoy/cli` `envoy-guard` for Claude Code & Gemini CLI) → Chrome extension → launch (assets, README, video, Devpost).
+Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 2026-11-22 on `lane/eval-harness`**: **full `36/36` live arms** for Default Gemini Nano `nano_v3_cpu_component 2025.8.21.1028` (`100%` recall, `0` leaks, `83.3%` clause acc, **`10.2%` min ratio / `89.8%` reduction**, `0%` Re-ID, `0%` attr inf, `100%` quality retained), Gemma 4 `gemma4_component 2026.11.3.1140` (`100%` recall, `0` leaks, `88.9%` clause acc, `21.9%` min ratio, `0%` Re-ID, `0%` attr inf, `100%` quality retained), and Basic `36/36`; Guard red-team `11/28 -> 17/28` post-PR #11; Secrets `100%` recall / `94.1%` precision + 6/6 CustomRule; `tests/eval/summary.json` stable contract) → Chrome extension → launch (assets, README, video, Devpost).
 
 ## Chrome extension (Muse lane: lane/extension)
 - **Built and E2E verified (2026-11-22):** Vite + React package (@envoy/extension) on the shared @envoy/ui design system, reusing @envoy/core + @envoy/ai. F: profile E2E: Private mode, Clause 7 only, Guard clean, 235 chars sent, EGP 9,350 restored on-device.
@@ -70,7 +80,7 @@ Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 
   - `@envoy/core`: `scanText`, `SECRET`, `CustomRule`, `flagNames`.
   - Full README with UV-night art and real screenshots.
   - CI deploy skips with a notice until the deploy key exists.
-- **Argon (eval + packages/cli):** PR #2 must move to `runCase`/`analyze`, run all 36 cases on Gemma 4, default Nano and Basic, add a re-identification attack, a red-team and answer quality, write `tests/eval/summary.json` (the landing page renders it), and build `envoy-guard`.
+- **Argon (eval):** PR #2 must move to `runCase`/`analyze`, run all 36 cases on Gemma 4, default Nano and Basic, add a re-identification attack, a red-team and answer quality, write `tests/eval/summary.json` (the landing page renders it).
 - **Muse (extension):** PR #8 (draft). Before merge:
   - the pill must not claim "Gemini Nano" (the model can't be identified; say "Chrome's built-in model");
   - don't tell end users to enable the gemma4 developer flag;

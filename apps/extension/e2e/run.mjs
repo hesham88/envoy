@@ -329,6 +329,27 @@ try {
     pdf.receipt.slice(0, 160),
   );
 
+  // --- message security ---
+  const pageCanMessage = await page.evaluate(
+    () => typeof globalThis.chrome?.runtime?.sendMessage === 'function',
+  );
+  check('security: a web page cannot message the extension', !pageCanMessage);
+  const popupP = ctx.waitForEvent('page', { timeout: 15000 });
+  await cdp.send('Target.createTarget', { url: `chrome-extension://${extId}/popup.html` });
+  const popup = await popupP;
+  await popup.waitForLoadState();
+  const send = (m) => popup.evaluate((msg) => globalThis.chrome.runtime.sendMessage(msg), m);
+  const good = await send({
+    type: 'envoy:set-site',
+    origin: `http://127.0.0.1:${PORT}`,
+    enabled: true,
+  });
+  check('security: the popup can turn Envoy on for a site', good?.ok === true);
+  const bad = await send({ type: 'envoy:set-site', origin: 'javascript:alert(1)', enabled: true });
+  check('security: a non-web origin is refused', bad?.ok === false);
+  await send({ type: 'envoy:set-site', origin: `http://127.0.0.1:${PORT}`, enabled: false });
+  await popup.close();
+
   // --- side panel ---
   const pageP = ctx.waitForEvent('page', { timeout: 15000 });
   await cdp.send('Target.createTarget', { url: `chrome-extension://${extId}/sidepanel.html` });

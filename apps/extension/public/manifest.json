@@ -4,7 +4,7 @@
   "short_name": "Envoy",
   "version": "0.1.0",
   "description": "Ask cloud AI about private text. Envoy masks your details on your device, and you approve exactly what is sent.",
-  "minimum_chrome_version": "138",
+  "minimum_chrome_version": "139",
   "permissions": [
     "sidePanel",
     "contextMenus",
