@@ -15,6 +15,7 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 - **Latency:** an in-memory cache reuses the on-device result for the same document, question and rules in a tab. The README says times vary by device.
 - **The CLI hook (`packages/cli`, envoy-guard) was removed** on the owner's request.
 - **23 Nov reviews adopted** (`docs/REVIEW_RESPONSE.md`): history is opt-in; the cloud model is a saved setting (Remote Config `cloud_default = fast`); honest skipped rows in the flight recorder; code links tested; heading names, PDF offsets, receipt clause count, secret newline, offscreen schema fixed; `/studio` and `/classic` dev-only; e2e 23/23 incl. ProseMirror and Quill.
+- **Delivery (23 Nov):** PR #23 (Argon's eval upgrade) merged; merges to `main` deploy automatically through CI (least-privilege `github-deploy` service account); repo homepage set; the integration checkout and every lane branch are on `main` (old integration edits in `stash@{0}` and `_backup-1527/integration-2026-11-23`). Pending: re-measure the `nano` arm with answers after the heading fix (about an hour on the model Chrome).
 - **Video:** waiting for the owner's go-ahead.
 
 ## Foundation and privacy core (plan 1)
