@@ -32,7 +32,8 @@ declare const chrome: {
 
 let ai: ReturnType<typeof initEnvoy>['ai'] | null = null;
 try {
-  ai = initEnvoy(readFirebaseEnv(), { dev: isUnpacked() }).ai;
+  // On-device only: no App Check (and so no reCAPTCHA script, which extension pages can't load).
+  ai = initEnvoy(readFirebaseEnv(), { dev: isUnpacked(), appCheck: 'none' }).ai;
 } catch {
   ai = null;
 }

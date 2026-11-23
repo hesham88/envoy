@@ -30,10 +30,12 @@ All three arms were measured live on **`2026-11-22`** across all **36 benchmark 
 - **`gemma4` (Gemma 4 developer trial):** `gemma4_component` `2026.11.3.1140`, CPU backend (`OnDeviceModelForceCpuBackend` + `gemma4-for-built-in-ai`), **`36/36` Private, `0` fallbacks**.
 - **`basic` (Fallback when on-device model is unavailable):** Rules + Guard + Name Flags in headless Chromium (`LanguageModel` unavailable), **`36/36`**.
 
+> **Min Ratio** is the document's own text sent (without the question and the clause labels) over the whole document. Basic protection sends every clause, masked, so it reads about 90%: tags are shorter than the values they replace.
+
 | Arm          | Model (`component version`)                     | Backend                              |                    Date                     |  `n / 36`   |        Mask Recall        | False-Mask Rate | Outbound Leaks _(post-guard)_ |       Clause Acc       |     Min Ratio _(sent / doc)_      |    Latency `p50 / p95`    |
 | ------------ | ----------------------------------------------- | ------------------------------------ | :-----------------------------------------: | :---------: | :-----------------------: | :-------------: | :---------------------------: | :--------------------: | :-------------------------------: | :-----------------------: |
-| **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`) | CPU (`OnDeviceModelForceCpuBackend`) |                `2026-11-22`                 | **36 / 36** | **100.00%** _(263 / 263)_ |      18.1%      |             **0**             | **88.9%** _(32 / 36)_  | **21.9%** _(**78.1% reduction**)_ | **54,951 ms / 78,361 ms** |
-| **`basic`**  | _None_ (`LanguageModel` unavailable)            | rules + guard + name flags           | `2026-11-23` (re-run after the heading fix) | **36 / 36** | **100.00%** _(263 / 263)_ |      6.4%       |  **0** _(was 8, see below)_   | 100.0% _(all clauses)_ |               90.2%               |     **5 ms / 22 ms**      |
+| **`gemma4`** | **Gemma 4** (`gemma4_component 2026.11.3.1140`) | CPU (`OnDeviceModelForceCpuBackend`) |                `2026-11-22`                 | **36 / 36** | **100.00%** _(263 / 263)_ |      18.1%      |             **0**             | **88.9%** _(32 / 36)_  | **15.9%** _(**84.1% reduction**)_ | **54,951 ms / 78,361 ms** |
+| **`basic`**  | _None_ (`LanguageModel` unavailable)            | rules + guard + name flags           | `2026-11-23` (re-run after the heading fix) | **36 / 36** | **100.00%** _(263 / 263)_ |      6.4%       |  **0** _(was 8, see below)_   | 100.0% _(all clauses)_ |               90.6%               |     **6 ms / 21 ms**      |
 
 ### Basic protection leaks: found, fixed, re-measured ([Issue #7](https://github.com/hesham88/envoy/issues/7))
 
@@ -78,8 +80,8 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 ### 3.4 Secrets & CustomRule Evaluation (`tests/eval/run-secrets.mjs`)
 
 - **Target:** `@envoy/core` `scanText()` (`SECRET` + `CustomRule`) · **Date:** `2026-11-22` · **Cases:** `n = 24` (`16` runtime-constructed key-shaped positives + `8` negative controls; zero secret literals committed).
-- **Measured result:** **`100.0%` Recall (`16 / 16`)**, **`94.1%` Precision (`16 / 17`)**, **`6 / 6` CustomRule tests passing**.
-- **1 open precision finding ([Issue #7](https://github.com/hesham88/envoy/issues/7)):** `neg-07-env-template-empty` (`VITE_FIREBASE_API_KEY=\nAUTH_TOKEN=""`) matches across `\n`.
+- **Measured result:** **`100.0%` Recall (`16 / 16`)**, **`100.0%` Precision (`16 / 16`, 0 false positives)**, **`6 / 6` CustomRule tests passing**.
+- **Fixed on `2026-11-23` ([Issue #7](https://github.com/hesham88/envoy/issues/7)), the rule now allows only spaces or tabs after `=` or `:`; it used to match across a line break:** `neg-07-env-template-empty` (`VITE_FIREBASE_API_KEY=\nAUTH_TOKEN=""`) matches across `\n`.
 
 ---
 

@@ -19,7 +19,12 @@ const OUT = 'docs/img/brand';
 mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
-const page = await browser.newPage({ viewport: { width: 1700, height: 1000 }, deviceScaleFactor: 1.5, colorScheme: 'light', reducedMotion: 'no-preference' });
+const page = await browser.newPage({
+  viewport: { width: 1700, height: 1000 },
+  deviceScaleFactor: 1.5,
+  colorScheme: 'light',
+  reducedMotion: 'no-preference',
+});
 
 if (ONLY === 'all' || ONLY === 'banners') {
   await page.goto(`${APP}/studio/banners`, { waitUntil: 'networkidle' });
@@ -40,7 +45,10 @@ if (ONLY === 'all' || ONLY === 'emblems') {
   for (let i = 0; i < (await emblems.count()); i++) {
     await emblems.nth(i).screenshot({ path: join(OUT, `emblem-${keys[i]}.png`) });
   }
-  await page.locator('[data-plate=seal] [role=img]').first().screenshot({ path: join(OUT, 'seal.png') });
+  await page
+    .locator('[data-plate=seal] [role=img]')
+    .first()
+    .screenshot({ path: join(OUT, 'seal.png') });
   console.log('emblems + seal');
 }
 
@@ -50,14 +58,37 @@ if (ONLY === 'all' || ONLY === 'hero') {
   mkdirSync(tmp, { recursive: true });
   await page.setViewportSize({ width: 1280, height: 620 });
   for (let i = 0; i < FRAMES; i++) {
-    await page.goto(`${APP}/studio/scene?frame=${(i / FRAMES).toFixed(4)}`, { waitUntil: 'networkidle' });
+    await page.goto(`${APP}/studio/scene?frame=${(i / FRAMES).toFixed(4)}`, {
+      waitUntil: 'networkidle',
+    });
     await page.waitForTimeout(120);
-    await page.locator('[data-scene-frame]').screenshot({ path: join(tmp, `f-${String(i).padStart(3, '0')}.png`) });
+    await page
+      .locator('[data-scene-frame]')
+      .screenshot({ path: join(tmp, `f-${String(i).padStart(3, '0')}.png`) });
   }
   await page.goto(`${APP}/studio/scene?frame=0.5`, { waitUntil: 'networkidle' });
   await page.locator('[data-scene-frame]').screenshot({ path: join(OUT, 'hero.png') });
   const fps = (FRAMES / 10).toFixed(2); // the scene loops every 10 s
-  execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-framerate', fps, '-i', join(tmp, 'f-%03d.png'), '-vf', 'scale=1280:-1:flags=lanczos', '-loop', '0', '-c:v', 'libwebp', '-quality', '82', '-compression_level', '6', join(OUT, 'hero.webp')]);
+  execFileSync('ffmpeg', [
+    '-loglevel',
+    'error',
+    '-y',
+    '-framerate',
+    fps,
+    '-i',
+    join(tmp, 'f-%03d.png'),
+    '-vf',
+    'scale=1280:-1:flags=lanczos',
+    '-loop',
+    '0',
+    '-c:v',
+    'libwebp',
+    '-quality',
+    '82',
+    '-compression_level',
+    '6',
+    join(OUT, 'hero.webp'),
+  ]);
   rmSync(tmp, { recursive: true, force: true });
   console.log('hero.png + hero.webp');
 }

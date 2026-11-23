@@ -9,6 +9,8 @@ export type EntityType =
   | 'PHONE'
   | 'NATIONAL_ID'
   | 'IBAN'
+  /** An account, card, policy, passport or other ID number named as one in the text ("account number 1010192316"). */
+  | 'ACCOUNT'
   | 'CARD'
   | 'MONEY'
   | 'DATE'

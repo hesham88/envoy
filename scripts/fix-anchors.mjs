@@ -12,12 +12,18 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+/** An import line, or one name inside a multi-line import list ("  checkOutbound,"). */
+const isImport = (l) =>
+  /^\s*(?:import\b|export\s*\{[^}]*\}\s*from\b|\}\s*from\s)/.test(l) ||
+  /^\s+[A-Za-z_$][\w$]*,?\s*$/.test(l);
+
 /** The best line for a symbol: its declaration if there is one, else its first use. */
 function lineFor(file, symbol) {
   const lines = readFileSync(file, 'utf8').split('\n');
   const decl = new RegExp(`(?:function|const|class|let|interface|type)\\s+${esc(symbol)}\\b`);
   let i = lines.findIndex((l) => decl.test(l));
-  if (i === -1) i = lines.findIndex((l) => l.includes(symbol));
+  // Never an import line: a judge following "where getAI is called" should land on the call.
+  if (i === -1) i = lines.findIndex((l) => l.includes(symbol) && !isImport(l));
   return i === -1 ? null : i + 1;
 }
 
@@ -34,7 +40,7 @@ for (const doc of [
   const next = text.replace(/\[`([^`]+)`\]\(([^)\s#]+)#L(\d+)\)/g, (m, symbol, target, line) => {
     const file = resolve(base, target);
     const current = readFileSync(file, 'utf8').split('\n')[Number(line) - 1] ?? '';
-    if (current.includes(symbol)) return m;
+    if (current.includes(symbol) && !isImport(current)) return m;
     const fixed = lineFor(file, symbol);
     if (!fixed) {
       console.error(`${doc}: ${symbol} not found in ${relative(ROOT, file)}`);

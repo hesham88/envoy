@@ -13,6 +13,7 @@ vi.mock('firebase/app-check', () => ({
       Provider(key);
     }
   },
+  CustomProvider: class {},
 }));
 vi.mock('firebase/ai', async (orig) => ({
   ...(await orig<typeof import('firebase/ai')>()),
@@ -37,6 +38,19 @@ afterEach(() => {
 });
 
 describe('initEnvoy', () => {
+  it("in on-device-only extension pages ('none'), starts no App Check and so loads no reCAPTCHA script", () => {
+    const out = initEnvoy({ ...cfg, recaptchaSiteKey: '' }, { dev: false, appCheck: 'none' });
+    expect(initializeAppCheck).not.toHaveBeenCalled();
+    expect(Provider).not.toHaveBeenCalled();
+    expect(out.appCheck).toBeNull();
+  });
+
+  it("in extension pages ('no-script'), never uses the reCAPTCHA provider", () => {
+    initEnvoy({ ...cfg, recaptchaSiteKey: '' }, { dev: true, appCheck: 'no-script' });
+    expect(initializeAppCheck).toHaveBeenCalledTimes(1);
+    expect(Provider).not.toHaveBeenCalled();
+  });
+
   it('turns on App Check with reCAPTCHA Enterprise before creating the AI instance', () => {
     initEnvoy(cfg, { dev: false });
     expect(Provider).toHaveBeenCalledWith('site-key');

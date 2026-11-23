@@ -46,18 +46,50 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
   shadow.append(btn, card);
 
   let target: HTMLInputElement | null = null;
+  // The last element the person pressed outside Envoy (the "Add files" item that opened a hidden input).
+  let lastPointer: Element | null = null;
+  document.addEventListener(
+    'pointerdown',
+    (e) => {
+      const t = e.target;
+      if (t instanceof Element && !t.closest('#envoy-field-ui')) lastPointer = t;
+    },
+    true,
+  );
   let chosen: File | null = null;
   let boxes: Box[] = [];
   let receipt: UploadReceipt | null = null;
   let outFile: File | null = null;
 
+  /**
+   * Where to show the button. Many sites hide the real file input and open it from a menu item or
+   * a "+" button, so the input has no box (it sits at 0,0). Then anchor to what the person clicked,
+   * and failing that, to the bottom-right corner: never the top-left of the page.
+   */
+  function anchorRect(): DOMRect | null {
+    const visible = (r: DOMRect) =>
+      r.width > 4 && r.height > 4 && r.bottom > 0 && r.right > 0 && r.top < window.innerHeight;
+    const own = target?.getBoundingClientRect();
+    if (own && visible(own)) return own;
+    const clicked = lastPointer?.isConnected ? lastPointer.getBoundingClientRect() : null;
+    if (clicked && visible(clicked)) return clicked;
+    return null;
+  }
+
   function place() {
     if (!target) return;
-    const r = target.getBoundingClientRect();
+    const r = anchorRect();
+    if (!r) {
+      btn.style.left = `${window.innerWidth - 190}px`;
+      btn.style.top = `${window.innerHeight - 56}px`;
+      card.style.left = `${window.innerWidth - 392}px`;
+      card.style.top = `${Math.max(8, window.innerHeight - 480)}px`;
+      return;
+    }
     btn.style.left = `${Math.min(r.right + 8, window.innerWidth - 150)}px`;
-    btn.style.top = `${Math.max(8, r.top)}px`;
+    btn.style.top = `${Math.max(8, Math.min(r.top, window.innerHeight - 40))}px`;
     card.style.left = `${Math.min(Math.max(8, r.left), window.innerWidth - 376)}px`;
-    card.style.top = `${Math.min(r.bottom + 10, window.innerHeight - 420)}px`;
+    card.style.top = `${Math.max(8, Math.min(r.bottom + 10, window.innerHeight - 420))}px`;
   }
 
   function handOff(file: File) {

@@ -10,6 +10,7 @@ const LABELS: Record<EntityType, [string, string]> = {
   PHONE: ['Phone numbers', 'masked'],
   NATIONAL_ID: ['National IDs', 'masked'],
   IBAN: ['Bank accounts', 'masked'],
+  ACCOUNT: ['Account and ID numbers', 'masked'],
   CARD: ['Card numbers', 'masked'],
   MONEY: ['Amounts', 'masked; maths done on this device'],
   DATE: ['Dates', 'masked'],

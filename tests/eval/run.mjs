@@ -56,7 +56,10 @@ const caseById = new Map(cases.map((c) => [c.id, c]));
 
 function gitShortCommit() {
   try {
-    return execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
+    return execFileSync('git', ['rev-parse', '--short', 'HEAD'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+    }).trim();
   } catch {
     return 'unknown';
   }
@@ -112,6 +115,11 @@ function scoreArmFile(armId, filePath) {
   const scoredCases = [];
   const missingIds = [];
 
+  /** The document text in an outbound excerpt: without the question block and the clause labels. */
+  const documentTextSent = (outbound) =>
+    outbound
+      .replace(/^Question:[\s\S]*?(?:\n\n|$)/, '')
+      .replace(/^(?:Clause \d+|Preamble|Paragraph \d+): /gm, '');
   for (const tc of cases) {
     const entry = entries[tc.id];
     if (!entry || entry.source !== 'live' || !entry.result || !entry.result.ok) {
@@ -159,7 +167,9 @@ function scoreArmFile(armId, filePath) {
       fallbackReason: r.fallbackReason ?? null,
       ms: r.ms,
       docChars: tc.document.length,
-      outboundChars: transmittedOutbound.length,
+      // Document text only: the question and the "Clause 7:" labels aren't part of the document, so
+      // a run that sends every clause (Basic protection) reads about 100%, not more.
+      outboundChars: documentTextSent(transmittedOutbound).length,
       clausesTotal: r.receipt?.pagesTotal ?? null,
       selectedIds,
       expectedClauses: tc.expectedClauses,
@@ -193,9 +203,15 @@ function scoreArmFile(armId, filePath) {
   const routeHits = scoredCases.filter((c) => c.routeAccurate).length;
   const privateRuns = scoredCases.filter((c) => c.mode === 'private').length;
   const guardBlocks = scoredCases.filter((c) => !c.guardOk).length;
-  const leakCaseIds = scoredCases.filter((c) => c.finalLeakCount > 0).map((c) => ({ id: c.id, leaks: c.finalLeaks }));
+  const leakCaseIds = scoredCases
+    .filter((c) => c.finalLeakCount > 0)
+    .map((c) => ({ id: c.id, leaks: c.finalLeaks }));
   const latencies = scoredCases.map((c) => c.ms);
-  const dates = [...new Set(scoredCases.map((c) => (c.recordedAt ? c.recordedAt.slice(0, 10) : null)).filter(Boolean))];
+  const dates = [
+    ...new Set(
+      scoredCases.map((c) => (c.recordedAt ? c.recordedAt.slice(0, 10) : null)).filter(Boolean),
+    ),
+  ];
 
   return {
     id: armId,
@@ -239,10 +255,18 @@ function scoreArmFile(armId, filePath) {
 }
 
 // Merge optional Milestone 1, 3, 4 & 5 measured artifacts when present
-const attackData = existsSync(ATTACK_RESULTS_PATH) ? JSON.parse(readFileSync(ATTACK_RESULTS_PATH, 'utf8')) : null;
-const qualityData = existsSync(QUALITY_RESULTS_PATH) ? JSON.parse(readFileSync(QUALITY_RESULTS_PATH, 'utf8')) : null;
-const redteamData = existsSync(REDTEAM_RESULTS_PATH) ? JSON.parse(readFileSync(REDTEAM_RESULTS_PATH, 'utf8')) : null;
-const secretsData = existsSync(SECRETS_RESULTS_PATH) ? JSON.parse(readFileSync(SECRETS_RESULTS_PATH, 'utf8')) : null;
+const attackData = existsSync(ATTACK_RESULTS_PATH)
+  ? JSON.parse(readFileSync(ATTACK_RESULTS_PATH, 'utf8'))
+  : null;
+const qualityData = existsSync(QUALITY_RESULTS_PATH)
+  ? JSON.parse(readFileSync(QUALITY_RESULTS_PATH, 'utf8'))
+  : null;
+const redteamData = existsSync(REDTEAM_RESULTS_PATH)
+  ? JSON.parse(readFileSync(REDTEAM_RESULTS_PATH, 'utf8'))
+  : null;
+const secretsData = existsSync(SECRETS_RESULTS_PATH)
+  ? JSON.parse(readFileSync(SECRETS_RESULTS_PATH, 'utf8'))
+  : null;
 
 // Gemini Nano 3 (Chrome's earlier default) was dropped on 2026-11-23: it could not run reliably on the
 // measurement machine, and the contest model is Gemini Nano 4, built on Gemma 4.
@@ -285,8 +309,15 @@ for (const tc of cases) {
   const rules = core.detectWithRules(tc.document);
   const oracleEntities = tc.goldSensitive
     .filter((g) => ['PERSON', 'ORG', 'ADDRESS', 'MONEY'].includes(g.type))
-    .map((g) => ({ text: g.value, kind: g.type, role: g.role || (g.type === 'MONEY' ? 'fee' : 'other') }));
-  const parsed = core.parseDetectResponse(JSON.stringify({ entities: oracleEntities }), tc.document);
+    .map((g) => ({
+      text: g.value,
+      kind: g.type,
+      role: g.role || (g.type === 'MONEY' ? 'fee' : 'other'),
+    }));
+  const parsed = core.parseDetectResponse(
+    JSON.stringify({ entities: oracleEntities }),
+    tc.document,
+  );
   const merged = core.mergeEntities(rules, parsed);
   const tags = core.assignTags(merged);
   const selected = chunks.filter((c) => tc.expectedClauses.includes(c.id));
@@ -323,6 +354,8 @@ const summaryJson = {
     label: a.label,
     model: a.model,
     backend: a.backend,
+    // The days its cases were run (each row of the landing table shows its own).
+    measuredOn: a.dates,
     n: a.n,
     nTotal: a.nTotal,
     metrics: {
@@ -381,12 +414,18 @@ writeFileSync(RESULTS_PATH, JSON.stringify(resultsJson, null, 2) + '\n', 'utf8')
 
 console.log(`\n=== ENVOY LIVE EVALUATION SUMMARY (commit ${commit}) ===`);
 if (arms.length === 0) {
-  console.warn('No live arm caches found in tests/eval/probes/arms/*.json. Run `node tests/eval/collect-live.mjs --arm basic|gemma4`.');
+  console.warn(
+    'No live arm caches found in tests/eval/probes/arms/*.json. Run `node tests/eval/collect-live.mjs --arm basic|gemma4`.',
+  );
 } else {
   const table = {};
   for (const a of arms) {
-    const modelStr = a.model ? `${a.model.label} (${a.model.component} ${a.model.version})` : 'Rules + Guard only';
-    const partialTag = a.isPartial ? ` [PARTIAL n=${a.n}/${a.nTotal}]` : ` [FULL n=${a.n}/${a.nTotal}]`;
+    const modelStr = a.model
+      ? `${a.model.label} (${a.model.component} ${a.model.version})`
+      : 'Rules + Guard only';
+    const partialTag = a.isPartial
+      ? ` [PARTIAL n=${a.n}/${a.nTotal}]`
+      : ` [FULL n=${a.n}/${a.nTotal}]`;
     table[`${a.id}: ${modelStr}${partialTag}`] = {
       'n / 36': `${a.n}/${a.nTotal}`,
       'Mask Recall': `${(a.metrics.maskRecall * 100).toFixed(2)}%`,

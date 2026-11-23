@@ -20,13 +20,18 @@ const opt = (name, fallback) => {
 
 const model = opt('model');
 if (!model) {
-  console.error('Name the model under test: --model <component@version> (see chrome://on-device-internals).');
+  console.error(
+    'Name the model under test: --model <component@version> (see chrome://on-device-internals).',
+  );
   process.exit(2);
 }
 const variant = opt('variant', 'selected');
 const question = opt('question', 'Can my landlord raise the rent 20% this year?');
 const runs = Number(opt('runs', 1));
-const out = opt('out', `tests/eval/probes/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}-${variant}.json`);
+const out = opt(
+  'out',
+  `tests/eval/probes/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}-${variant}.json`,
+);
 
 const { page, close } = await connectEnvoyPage({ appUrl: opt('app', 'http://localhost:5173/') });
 const corePath = `/@fs/${resolve('packages/core/src/index.ts').replace(/\\/g, '/')}`;
@@ -34,18 +39,36 @@ const document = await page.evaluate(async (p) => (await import(p)).EN_LEASE.tex
 
 const results = [];
 for (let i = 0; i < runs; i++) {
-  const r = await runCase(page, { document, question, detectScope: variant, withAnswer: flag('answer') });
+  const r = await runCase(page, {
+    document,
+    question,
+    detectScope: variant,
+    withAnswer: flag('answer'),
+  });
   results.push(r);
   console.log(
     `run ${i + 1}/${runs} [${variant}] ok=${r.ok} mode=${r.mode} ${r.ms} ms`,
-    r.ok ? `selected=${r.selectedIds} guard=${r.guardOk} steps=${JSON.stringify(r.steps)}` : r.error,
+    r.ok
+      ? `selected=${r.selectedIds} guard=${r.guardOk} steps=${JSON.stringify(r.steps)}`
+      : r.error,
   );
 }
 await close();
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(
   out,
-  JSON.stringify({ model, variant, question, at: new Date().toISOString(), via: 'Firebase AI Logic hybrid inference (@envoy/ai analyze)', results }, null, 2),
+  JSON.stringify(
+    {
+      model,
+      variant,
+      question,
+      at: new Date().toISOString(),
+      via: 'Firebase AI Logic hybrid inference (@envoy/ai analyze)',
+      results,
+    },
+    null,
+    2,
+  ),
 );
 console.log(`saved ${out}`);
 process.exit(0);

@@ -25,6 +25,7 @@ const SECTIONS: [string, string[]][] = [
       "Only the text you approve: the masked excerpt shown in Envoy's approval card, with your details replaced by tags. It goes to Google's Gemini models through Firebase AI Logic (operated by Google) to produce an answer, which comes back to your device, where the tags are turned back into your details. Google's terms for the Gemini API apply to that request.",
       'Firebase App Check (reCAPTCHA Enterprise) and Firebase Remote Config are used to protect the service and choose the cloud model. They do not receive your documents.',
       'If you choose Local only, or a question can be answered from your document, nothing is sent at all.',
+      "Envoy runs on the Gemini Developer API's free tier, where Google may use the content it receives to improve its products. That content is only the masked excerpt you approved, never your document or the real values behind its tags.",
     ],
   ],
   [

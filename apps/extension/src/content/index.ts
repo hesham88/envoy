@@ -34,6 +34,7 @@ const KIND: Record<string, string> = {
   PHONE: 'Phone',
   NATIONAL_ID: 'National ID',
   IBAN: 'Bank account',
+  ACCOUNT: 'Account number',
   CARD: 'Card number',
   MONEY: 'Amount',
   DATE: 'Date',
@@ -102,7 +103,30 @@ async function loadRules() {
   }
 }
 void loadRules();
-chrome.storage.onChanged.addListener(() => void loadRules());
+
+// Switching Envoy off for this site in the popup unregisters the script for future page loads; the
+// copy already running here must stop too, at once. Only an explicit "off" for this origin counts.
+let siteOn = true;
+async function checkSite() {
+  try {
+    const v = await chrome.storage.local.get('envoySites');
+    const sites = (v.envoySites ?? {}) as Record<string, boolean>;
+    siteOn = sites[location.origin] !== false;
+  } catch {
+    siteOn = true;
+  }
+  host.style.display = siteOn ? '' : 'none';
+  if (!siteOn) {
+    if (protectionOn) setProtection(false);
+    activeField = null;
+    for (const n of [chip, ring, halo, card]) n.style.display = 'none';
+  }
+}
+void checkSite();
+chrome.storage.onChanged.addListener(() => {
+  void loadRules();
+  void checkSite();
+});
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string) => {
   const n = document.createElement(tag);
@@ -510,6 +534,7 @@ shadow.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('focusin', () => {
+  if (!siteOn) return;
   const t = document.activeElement as HTMLElement | null;
   if (!t || t === document.body || t === host) return;
   if (!isEnvoyField(fieldFromElement(t))) {
@@ -530,7 +555,7 @@ document.addEventListener('focusin', () => {
 document.addEventListener(
   'input',
   (e) => {
-    if (activeField && e.target === activeField) onFieldEvent();
+    if (siteOn && activeField && e.target === activeField) onFieldEvent();
   },
   true,
 );
