@@ -34,4 +34,11 @@ declare namespace chrome {
   namespace sidePanel {
     function open(o: { windowId: number }): Promise<void>;
   }
+  namespace scripting {
+    function executeScript<T>(o: {
+      target: { tabId: number };
+      files?: string[];
+      func?: () => T;
+    }): Promise<{ result?: T }[]>;
+  }
 }

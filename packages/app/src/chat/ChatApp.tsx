@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { analyze, answer, composeOutbound, type AnalyzeProgress } from '@envoy/ai';
 import { checkOutbound, EN_LEASE, validateCustomRule, type CustomRule } from '@envoy/core';
-import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill } from '@envoy/ui';
+import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill, UvRing } from '@envoy/ui';
 import { NOTICES } from '../app/actions';
 import {
   initialSession,
@@ -136,6 +136,7 @@ export function ChatApp({
   );
   const [rulesOpen, setRulesOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [composerFocus, setComposerFocus] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -319,7 +320,7 @@ export function ChatApp({
           <Plus size={16} aria-hidden="true" /> New chat
         </button>
         <div className="flex flex-col gap-2 rounded-[12px] border border-line p-3">
-          <StatusPill status={runtime.status} progress={runtime.progress} />
+          <StatusPill status={runtime.status} progress={runtime.progress} compact />
           {runtime.status !== 'available' && runtime.status !== 'checking' && (
             <button
               onClick={runtime.enablePrivateMode}
@@ -480,116 +481,126 @@ export function ChatApp({
 
         {/* ---------- composer ---------- */}
         <div className="sticky bottom-0 bg-gradient-to-t from-uv-dark via-uv-dark/95 to-transparent px-4 pt-6 pb-5 sm:px-6">
-          <form
-            className="mx-auto flex max-w-[860px] flex-col gap-2 rounded-[22px] border border-line bg-surface p-3 shadow-[0_20px_60px_-30px_rgba(61,255,176,0.35)] focus-within:border-device/50"
-            onSubmit={(e) => {
-              e.preventDefault();
-              void send();
-            }}
-          >
-            {(doc || imageNote || attachError) && (
-              <div className="flex flex-wrap items-center gap-2 px-1">
-                {doc && (
-                  <span className="inline-flex max-w-full items-center gap-2 rounded-[10px] border border-line bg-paper px-2.5 py-1.5 text-[13px] text-ink">
-                    <FileText size={14} aria-hidden="true" className="flex-none text-device" />
-                    <span className="truncate">{doc.title}</span>
-                    <span className="hidden text-muted sm:inline">stays on this device</span>
-                    <button
-                      type="button"
-                      onClick={() => setDoc(null)}
-                      aria-label={`Remove ${doc.title}`}
-                      className="text-muted hover:text-ink"
-                    >
-                      <X size={14} />
-                    </button>
-                  </span>
-                )}
-                {imageNote && (
-                  <span className="inline-flex items-center gap-2 text-[13px] text-muted">
-                    <ImageOff size={14} aria-hidden="true" /> {imageNote}
-                  </span>
-                )}
-                {attachError && (
-                  <span role="alert" className="text-[13px] text-danger">
-                    {attachError}
-                  </span>
-                )}
-              </div>
-            )}
-            <label htmlFor="envoy-composer" className="sr-only">
-              Message Envoy
-            </label>
-            <textarea
-              id="envoy-composer"
-              onFocus={() => void runtime.warmUp?.()}
-              value={draft}
-              rows={1}
-              placeholder={
-                doc ? `Ask about ${doc.title}` : 'Ask anything. Attach a document or paste one in.'
-              }
-              onChange={(e) => setDraft(e.target.value)}
-              onPaste={(e) => {
-                const pasted = e.clipboardData.getData('text');
-                if (pasted.length > PASTE_AS_FILE && !doc) {
-                  e.preventDefault();
-                  setDoc({
-                    title: `Pasted text (${pasted.length.toLocaleString()} characters)`,
-                    text: pasted,
-                    source: 'paste',
-                  });
-                }
+          {/* A soft neon rim around the composer while it has focus (it replaces the default focus outline). */}
+          <UvRing on={composerFocus} radius={22} className="mx-auto max-w-[860px]">
+            <form
+              className="flex flex-col gap-2 rounded-[22px] border border-line bg-surface p-3 shadow-[0_20px_60px_-30px_rgba(61,255,176,0.35)]"
+              onFocus={() => setComposerFocus(true)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null))
+                  setComposerFocus(false);
               }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
-                  e.preventDefault();
-                  void send();
-                }
+              onSubmit={(e) => {
+                e.preventDefault();
+                void send();
               }}
-              className="max-h-[40vh] min-h-[52px] resize-none bg-transparent px-2 py-2 text-[16px] leading-relaxed text-ink outline-none placeholder:text-muted"
-              style={{ fieldSizing: 'content' } as React.CSSProperties}
-            />
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-1">
-                <input
-                  ref={fileInput}
-                  type="file"
-                  hidden
-                  accept=".pdf,.txt,.md,.csv,application/pdf,text/plain,image/*"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) void attach(f);
-                    e.target.value = '';
-                  }}
-                />
+            >
+              {(doc || imageNote || attachError) && (
+                <div className="flex flex-wrap items-center gap-2 px-1">
+                  {doc && (
+                    <span className="inline-flex max-w-full items-center gap-2 rounded-[10px] border border-line bg-paper px-2.5 py-1.5 text-[13px] text-ink">
+                      <FileText size={14} aria-hidden="true" className="flex-none text-device" />
+                      <span className="truncate">{doc.title}</span>
+                      <span className="hidden text-muted sm:inline">stays on this device</span>
+                      <button
+                        type="button"
+                        onClick={() => setDoc(null)}
+                        aria-label={`Remove ${doc.title}`}
+                        className="text-muted hover:text-ink"
+                      >
+                        <X size={14} />
+                      </button>
+                    </span>
+                  )}
+                  {imageNote && (
+                    <span className="inline-flex items-center gap-2 text-[13px] text-muted">
+                      <ImageOff size={14} aria-hidden="true" /> {imageNote}
+                    </span>
+                  )}
+                  {attachError && (
+                    <span role="alert" className="text-[13px] text-danger">
+                      {attachError}
+                    </span>
+                  )}
+                </div>
+              )}
+              <label htmlFor="envoy-composer" className="sr-only">
+                Message Envoy
+              </label>
+              <textarea
+                id="envoy-composer"
+                onFocus={() => void runtime.warmUp?.()}
+                value={draft}
+                rows={1}
+                placeholder={
+                  doc
+                    ? `Ask about ${doc.title}`
+                    : 'Ask anything. Attach a document or paste one in.'
+                }
+                onChange={(e) => setDraft(e.target.value)}
+                onPaste={(e) => {
+                  const pasted = e.clipboardData.getData('text');
+                  if (pasted.length > PASTE_AS_FILE && !doc) {
+                    e.preventDefault();
+                    setDoc({
+                      title: `Pasted text (${pasted.length.toLocaleString()} characters)`,
+                      text: pasted,
+                      source: 'paste',
+                    });
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+                    e.preventDefault();
+                    void send();
+                  }
+                }}
+                className="max-h-[40vh] min-h-[52px] resize-none bg-transparent px-2 py-2 text-[16px] leading-relaxed text-ink outline-none placeholder:text-muted focus-visible:outline-none"
+                style={{ fieldSizing: 'content' } as React.CSSProperties}
+              />
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1">
+                  <input
+                    ref={fileInput}
+                    type="file"
+                    hidden
+                    accept=".pdf,.txt,.md,.csv,application/pdf,text/plain,image/*"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) void attach(f);
+                      e.target.value = '';
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInput.current?.click()}
+                    aria-label="Attach a document"
+                    className="rounded-full p-2 text-muted hover:bg-paper hover:text-ink"
+                  >
+                    <Paperclip size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={localOnly}
+                    onClick={() => setLocalOnly((v) => !v)}
+                    title="Answer on this device only. Nothing is sent to the cloud."
+                    className={`rounded-full border px-3 py-1.5 text-[13px] ${localOnly ? 'border-device/60 bg-device-tint text-device-on-tint' : 'border-line text-muted hover:text-ink'}`}
+                  >
+                    Local only
+                  </button>
+                </div>
                 <button
-                  type="button"
-                  onClick={() => fileInput.current?.click()}
-                  aria-label="Attach a document"
-                  className="rounded-full p-2 text-muted hover:bg-paper hover:text-ink"
+                  type="submit"
+                  disabled={!draft.trim() || busy}
+                  aria-label="Send"
+                  className="grid size-10 place-items-center rounded-full bg-device text-uv-deep transition-opacity disabled:opacity-35"
                 >
-                  <Paperclip size={18} />
-                </button>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={localOnly}
-                  onClick={() => setLocalOnly((v) => !v)}
-                  title="Answer on this device only. Nothing is sent to the cloud."
-                  className={`rounded-full border px-3 py-1.5 text-[13px] ${localOnly ? 'border-device/60 bg-device-tint text-device-on-tint' : 'border-line text-muted hover:text-ink'}`}
-                >
-                  Local only
+                  <ArrowUp size={19} strokeWidth={2.25} />
                 </button>
               </div>
-              <button
-                type="submit"
-                disabled={!draft.trim() || busy}
-                aria-label="Send"
-                className="grid size-10 place-items-center rounded-full bg-device text-uv-deep transition-opacity disabled:opacity-35"
-              >
-                <ArrowUp size={19} strokeWidth={2.25} />
-              </button>
-            </div>
-          </form>
+            </form>
+          </UvRing>
           <p className="mx-auto mt-2 mb-0 max-w-[860px] text-center text-[12px] text-muted">
             Envoy explains documents; it isn't legal or financial advice. Drop a PDF or text file
             anywhere to attach it.

@@ -10,7 +10,8 @@
     "contextMenus",
     "storage",
     "scripting",
-    "offscreen"
+    "offscreen",
+    "activeTab"
   ],
   "optional_host_permissions": [
     "http://*/*",
