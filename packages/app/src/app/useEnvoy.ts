@@ -45,6 +45,9 @@ export interface EnvoyRuntime {
   warmUp?: () => Promise<void>;
   /** Stops the on-device step that is running; the run then finishes in Basic protection. */
   cancelPrivate?: () => void;
+  /** The faster cloud model instead of the default (Gemini 4 Hydrogen). */
+  fastCloud?: boolean;
+  setFastCloud?: (fast: boolean) => void;
 }
 
 /** Where the Firebase settings come from: each app reads its own build environment. */
@@ -68,7 +71,13 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
   }, []);
   const [status, setStatus] = useState<EnvoyStatus>('checking');
   const [progress, setProgress] = useState<number | null>(null);
-  const [settings, setSettings] = useState<RemoteSettings>(DEFAULT_SETTINGS);
+  const [remote, setSettings] = useState<RemoteSettings>(DEFAULT_SETTINGS);
+  const [fastCloud, setFastCloud] = useState(false);
+  // The cloud model this run uses: Gemini 4 Hydrogen by default, or the fast model when chosen.
+  const settings = useMemo<RemoteSettings>(
+    () => ({ ...remote, cloudModel: fastCloud ? remote.fastCloudModel : remote.cloudModel }),
+    [remote, fastCloud],
+  );
   const polling = useRef<number | null>(null);
 
   const refreshStatus = useCallback(async () => setStatus(await getDeviceStatus()), []);
@@ -132,5 +141,7 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
     refreshStatus,
     warmUp,
     cancelPrivate: cancelPrivateSteps,
+    fastCloud,
+    setFastCloud,
   };
 }

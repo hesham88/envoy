@@ -14,7 +14,11 @@ function basicRuntime(reply = 'Yes. The cap is 10% a year.') {
   const runtime: EnvoyRuntime = {
     status: 'no-api',
     progress: null,
-    settings: { cloudModel: 'gemini-3.8-flash', promptVersion: 'v1' },
+    settings: {
+      cloudModel: 'gemini-3.8-flash',
+      fastCloudModel: 'gemini-3.5-flash-lite',
+      promptVersion: 'v1',
+    },
     deps: {
       runPrivate: vi.fn(),
       models: { reason: { generateContent } },

@@ -15,10 +15,16 @@ describe('loadRemoteSettings', () => {
   it('returns the remote values when the fetch works', async () => {
     fetchAndActivate.mockResolvedValueOnce(true);
     getValue.mockImplementation((key: string) => ({
-      asString: () => (key === 'cloud_model' ? 'gemini-3.5-flash-lite' : 'v2'),
+      asString: () =>
+        key === 'cloud_model'
+          ? 'gemini-4-hydrogen'
+          : key === 'cloud_model_fast'
+            ? 'gemini-3.5-flash-lite'
+            : 'v2',
     }));
     await expect(loadRemoteSettings(app)).resolves.toEqual({
-      cloudModel: 'gemini-3.5-flash-lite',
+      cloudModel: 'gemini-4-hydrogen',
+      fastCloudModel: 'gemini-3.5-flash-lite',
       promptVersion: 'v2',
     });
   });
@@ -35,6 +41,10 @@ describe('loadRemoteSettings', () => {
   });
 
   it('defaults to gemini-3.8-flash and prompt v1', () => {
-    expect(DEFAULT_SETTINGS).toEqual({ cloudModel: 'gemini-3.8-flash', promptVersion: 'v1' });
+    expect(DEFAULT_SETTINGS).toEqual({
+      cloudModel: 'gemini-4-hydrogen',
+      fastCloudModel: 'gemini-3.5-flash-lite',
+      promptVersion: 'v1',
+    });
   });
 });
