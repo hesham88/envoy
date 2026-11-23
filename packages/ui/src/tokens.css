@@ -81,9 +81,13 @@ body {
   line-height: 1.5;
 }
 
-:focus-visible {
-  outline: 2px solid var(--cloud);
-  outline-offset: 2px;
+/* In the base layer, so a utility like outline-none can replace it where focus is shown another
+   way (the composer's neon rim). Unlayered, it would beat every utility. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--cloud);
+    outline-offset: 2px;
+  }
 }
 
 /* ---------- UV night: the page under a UV lamp (landing, marketing, extension onboarding) ----------

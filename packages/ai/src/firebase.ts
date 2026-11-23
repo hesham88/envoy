@@ -1,5 +1,5 @@
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaEnterpriseProvider } from 'firebase/app-check';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider, type AppCheck } from 'firebase/app-check';
 import { getAI, GoogleAIBackend, type AI } from 'firebase/ai';
 
 export interface FirebaseEnv {
@@ -22,7 +22,10 @@ declare global {
  * Starts Firebase with App Check (required by AI Logic) and returns the AI instance.
  * `dev` comes from the app (`import.meta.env.DEV`); only then is the App Check debug provider enabled.
  */
-export function initEnvoy(cfg: FirebaseEnv, opts: { dev: boolean }): { app: FirebaseApp; ai: AI } {
+export function initEnvoy(
+  cfg: FirebaseEnv,
+  opts: { dev: boolean },
+): { app: FirebaseApp; ai: AI; appCheck: AppCheck } {
   if (!cfg.recaptchaSiteKey && !opts.dev) {
     throw new Error(
       'Missing VITE_RECAPTCHA_SITE_KEY: App Check cannot start, and AI Logic requires it.',
@@ -39,10 +42,10 @@ export function initEnvoy(cfg: FirebaseEnv, opts: { dev: boolean }): { app: Fire
     messagingSenderId: cfg.messagingSenderId,
     storageBucket: cfg.storageBucket,
   });
-  initializeAppCheck(app, {
+  const appCheck = initializeAppCheck(app, {
     provider: new ReCaptchaEnterpriseProvider(cfg.recaptchaSiteKey || 'debug-only'),
     isTokenAutoRefreshEnabled: true,
   });
   const ai = getAI(app, { backend: new GoogleAIBackend(), useLimitedUseAppCheckTokens: true });
-  return { app, ai };
+  return { app, ai, appCheck };
 }

@@ -341,10 +341,17 @@ export function ChatApp({
     const dispatch = dispatchTo(id);
     dispatch({ type: 'SEND_START' });
     try {
-      const result = await answer(analysis, outbound, runtime.deps, {
+      const answered = await answer(analysis, outbound, runtime.deps, {
         sharedTags,
         ...(selectedIds ? { selectedIds } : {}),
       });
+      // The cloud step fell back to the device: find out why, so the answer can say so.
+      const result = answered.lighter
+        ? {
+            ...answered,
+            cloudProblem: (await runtime.diagnoseCloud?.().catch(() => undefined))?.message,
+          }
+        : answered;
       dispatch({ type: 'ANSWER_DONE', result });
     } catch (e) {
       dispatch({ type: 'FAIL', message: cloudErrorMessage(e) });
@@ -1086,6 +1093,14 @@ function AnswerBubble({ session }: { session: SessionState }) {
       <p className="m-0 text-[16.5px] leading-[1.75] whitespace-pre-wrap text-ink">
         <RestoredText text={result.text} spans={result.spans} />
       </p>
+      {result.lighter && result.cloudProblem && (
+        <p
+          role="note"
+          className="m-0 rounded-[12px] border border-line px-4 py-3 text-[13.5px] text-ink"
+        >
+          {result.cloudProblem}
+        </p>
+      )}
       {result.withheld && result.withheld.length > 0 && (
         <p
           role="note"

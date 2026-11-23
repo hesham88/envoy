@@ -27,3 +27,4 @@ export {
   type Deps,
   type ReviewChoices,
 } from './pipeline';
+export { diagnoseCloud, CLOUD_PROBLEM_TEXT, type CloudProblem } from './cloud-check';
