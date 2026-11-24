@@ -1,6 +1,6 @@
 # What we did with each review point
 
-Status as of 23 November 2026. ✅ done (with where), ⚠️ owner step or partly done, ❌ not done (with why).
+Status as of 24 November 2026. ✅ done (with where), ⚠️ owner step or partly done, ❌ not done (with why).
 
 ## First judge review (ChatGPT, 7.75/10)
 
@@ -15,7 +15,7 @@ Status as of 23 November 2026. ✅ done (with where), ⚠️ owner step or partl
 | Architecture documentation                                       | ✅ README: diagram, the call sites with line links, the guard, what Envoy promises and doesn't                                                                                                   |
 | Automated tests and benchmarks                                   | ✅ 304 unit/integration tests, `npm run eval`, extension end-to-end suite on the real build (20/20: text box, rich editor, password fields, text/photo/PDF upload, message security, side panel) |
 | "Does privacy actually hold?" (logs, analytics, errors, history) | ✅ no analytics or logs leave the device; history is encrypted on the device; errors show only local text                                                                                        |
-| A three-minute video structure                                   | ⏳ waiting for your go-ahead (script and narration lines are drafted)                                                                                                                            |
+| A three-minute video structure                                   | ✅ rendered: 2:50, English subtitles; owner uploads to YouTube                                                                                                                                   |
 
 ## Second judge review (ChatGPT, 3.9/5)
 
@@ -87,10 +87,10 @@ The integration-checkout review was written against the stale `phase-3-product-u
 | Lint failure in `e2e/run.mjs`                                                                | ✅ Fixed earlier                                                                                                                                                                                           |
 | Merge PR #23 (Argon's eval upgrade)                                                          | ✅ Merged 23 Nov after merging `main` into it (CLI eval dropped) and re-measuring Basic with answers: 0 blocks, quality retained 97.5%                                                                     |
 | Replay a recorded on-device run for judges                                                   | ✅ Done: `/app?recorded=1`                                                                                                                                                                                 |
-| Answer-quality table is self-judged; tuning set = test set                                   | ⏳ Argon's lane (held-out set, different judge model)                                                                                                                                                      |
+| Answer-quality table is self-judged; tuning set = test set                                   | ✅ every answer also rated independently by Claude (24 Nov); ❌ no held-out set yet                                                                                                                        |
 | Cloud quota for judging; quota form by Wed 25 Nov, 10 AM PT                                  | ⚠️ Owner step                                                                                                                                                                                              |
 | Repo homepage URL, CI deploy secret                                                          | ✅ Done on the owner's request: homepage set; a least-privilege deploy service account; merges to `main` now deploy automatically (verified)                                                               |
-| Video and Devpost text                                                                       | ⏳ Waiting for the owner's go-ahead                                                                                                                                                                        |
+| Video and Devpost text                                                                       | ✅ video rendered, Devpost drafted; ⚠️ owner uploads and submits                                                                                                                                           |
 | Integration checkout `F:/Projects/Envoy` is stale with uncommitted lane files                | ✅ On the owner's request: old edits backed up (patch, tar and a named stash), checkout moved to `main`; all lane branches fast-forwarded to `main`                                                        |
 
 ### Re-checked line by line (owner request): ChatGPT's second round and Muse's review
@@ -110,3 +110,21 @@ Authors: the review in `F:/Projects/Envoy/reports` is Muse's; the docx is ChatGP
 | Get Firebase's confirmation on Gemini Nano 4 vs the default model                                                                                                        | ChatGPT                 | ⚠️ Owner: ask in the contest's Devpost discussion. The README explains what Envoy runs on and why it names no model it can't confirm                                                                                                                                                                |
 | GPU benchmark                                                                                                                                                            | ChatGPT B               | ❌ Not possible on this machine (its GPU can't run Chrome's model); not claimed                                                                                                                                                                                                                     |
 | Dark-theme toggle                                                                                                                                                        | Muse                    | n/a: the UV-night design is dark by intent and has light-mode tokens for the documents it renders                                                                                                                                                                                                   |
+
+## 24 November reviews (round 3: ChatGPT, Claude, Argon, Muse)
+
+| Point                                                                             | Status                                                                                                                                  |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Private mode (Gemma 4) has no measured answer quality                             | ✅ measured 24 Nov on the current pipeline: 95.0% retained (Flash-Lite judge), 87.5% independent; Basic 97.5%                           |
+| Gemma 4 privacy numbers predate the 23 Nov fixes                                  | ✅ re-measured 24 Nov (36/36, 0 leaks, 7.1% false masks, 14.5% sent)                                                                    |
+| `summary.json` shows an unmeasured 100% quality (ChatGPT)                         | ✅ stale read: it was `null`; now measured (0.95, n = 20)                                                                               |
+| README / EVAL still describe three arms or Nano 3                                 | ✅ two setups everywhere; Nano 3's removal dated and explained                                                                          |
+| DEVPOST: 22% sent, video field stale, no recorded-run link                        | ✅ 15%, video rendered, `/app?recorded=1`, exact answer-quality wording                                                                 |
+| Disclose Chatterbox TTS                                                           | ✅ README and DEVPOST                                                                                                                   |
+| Judges on Chrome's default model: say results may vary; flag is a developer trial | ✅ README, DEVPOST, the in-app guide; exact setup in `docs/GEMMA4_SETUP.md`                                                             |
+| Account-number gap found by hand, not by the eval                                 | ✅ EVAL limitation 5; ❌ not yet added to the 36 cases                                                                                  |
+| Recorded run predates the fixes                                                   | ✅ re-recorded 24 Nov with the film's question (EGP 9,350 worked out on the device)                                                     |
+| Stale README screenshot                                                           | ✅ retaken in Private mode on Gemma 4                                                                                                   |
+| Verify App Check and API-key restrictions                                         | ⚠️ verified by behaviour: App Check is **not enforced** for Firebase AI Logic and the key has **no referrer restriction**; owner action |
+| Test the hosted app and extension in a clean profile                              | ✅ `scripts/smoke-hosted.mjs` 12/12 (new window); extension e2e 32/32 (fresh profile)                                                   |
+| Quota form (closes Wed 25 Nov, 10 AM PT)                                          | ⚠️ owner decision (skipped on 23 Nov)                                                                                                   |

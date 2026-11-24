@@ -6,6 +6,15 @@ Design: `docs/superpowers/specs/2026-11-22-envoy-design.md` · Current plan: `do
 
 Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/16tr6t9mttMYwaWLdh8rkH) · [mockups](https://claude.ai/artifact/5jsHsbktxxskhCPpm69Pni) · [pitch deck](https://claude.ai/artifact/BF5tb3wC4S2ubRymjDqTv6)
 
+## Status 2026-11-24
+
+- **Gemma 4 re-measured with answers** (36/36 Private, 0 leaks, 7.1% false masks, 14.5% of the text sent, p50 72 s). Answer quality on 20 questions: 95.0% retained (Flash-Lite judge), 87.5% rated independently by Claude; Basic 97.5% both ways (`tests/eval/probes/quality-ratings-independent.json`). The weak Private answers are on-device answers to calculation questions; a routing fix is an open owner decision.
+- **Upload with Envoy fixed:** the button sits beside Envoy's chip on the field in use (it no longer anchors to a closed menu or jumps), appears as soon as the page has a file input, and the card fits the room above or below the field and scrolls inside. Statement headings are no longer flagged as names; "Grey Inc" is an organisation. Extension e2e 32/32 in a fresh profile.
+- **Clean-profile smoke test** of the hosted app (`scripts/smoke-hosted.mjs`): 12/12 in a new Chrome window, including a real cloud answer through App Check. Headless Chrome is refused at App Check's reCAPTCHA exchange (scored as automated), as expected; a failed cloud step now says why instead of showing raw SDK text.
+- **Security finding (owner action):** a direct request with only the public API key, no App Check token and no Referer, is answered: App Check is not enforced for Firebase AI Logic, and the browser key has no HTTP-referrer restriction. Enforce App Check (Firebase console → App Check → APIs → Firebase AI Logic) and restrict the key (GCP → Credentials: referrers + Firebase APIs).
+- **Judges:** `docs/GEMMA4_SETUP.md` gives the exact Gemma 4 setup (Chrome 158.0.8127.38, one developer-trial flag, model 2026.11.3.1140). The recorded run is at `/app?recorded=1`.
+- **Video:** v5 rendered (2:50, -16 LUFS, English .srt), narration names Fast, Gemini 4 Hydrogen and Local only. Owner uploads to YouTube; the site embeds it once the link exists.
+
 ## Status 2026-11-23
 
 - **Extension end-to-end suite** (`npm run test:e2e -w @envoy/extension`): 20/20 on the real build. It found and fixed two bugs: PDF upload crashed (offscreen documents have no `chrome.storage`), and photo boxes drawn after choosing the file were never applied.

@@ -568,4 +568,13 @@ document.addEventListener('focusout', () => {
   }, 120);
 });
 
-initUploadUi(shadow, () => customRules);
+const upload = initUploadUi(
+  shadow,
+  () => customRules,
+  () => ({ field: activeField, chip }),
+);
+// The upload button lives beside the chip: move it whenever the chip moves or hides.
+window.addEventListener('resize', () => upload.place());
+window.addEventListener('scroll', () => upload.place(), true);
+document.addEventListener('focusin', () => upload.place());
+document.addEventListener('focusout', () => window.setTimeout(() => upload.place(), 140));
