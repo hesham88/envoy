@@ -101,7 +101,7 @@ const shot = async (url, w, h, file, act, init) => {
   const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
   page.on('pageerror', (e) => console.log('page error', file, e.message.slice(0, 160)));
   if (init) await page.addInitScript(init);
-  await page.goto(`${BASE}/${url}`, { waitUntil: 'load' });
+  await page.goto(/^https?:/.test(url) ? url : `${BASE}/${url}`, { waitUntil: 'load' });
   await page.waitForTimeout(1500);
   if (act) await act(page);
   await page.screenshot({ path: file });
@@ -121,36 +121,46 @@ await shot('store/demo-page.html', 1280, 800, join(OUT, 'screenshot-2-replaced.p
   await p.waitForTimeout(1400);
 });
 
-// 3 + 4: the side panel next to the page: the selection arrives; then a turn with the recorder and approval.
+// 3: Upload with Envoy: a (fictional) ID-card photo, a black box drawn over the ID number.
+await shot('store/demo-page.html', 1280, 800, join(OUT, 'screenshot-3-upload.png'), async (p) => {
+  await p.focus('#t');
+  await p.waitForTimeout(400);
+  await p.locator('#envoy-field-ui .up-btn').click();
+  await p
+    .locator('#envoy-field-ui .up-card input[type=file]')
+    .setInputFiles(join(OUT, 'sample-id-card.jpg'));
+  await p.locator('#envoy-field-ui .up-card canvas').waitFor();
+  await p.waitForTimeout(800);
+  const c = await p.locator('#envoy-field-ui .up-card canvas').boundingBox();
+  // Over the ID number (the card's second detail line).
+  await p.mouse.move(c.x + c.width * 0.37, c.y + c.height * 0.41);
+  await p.mouse.down();
+  await p.mouse.move(c.x + c.width * 0.64, c.y + c.height * 0.49, { steps: 10 });
+  await p.mouse.up();
+  await p.locator('#envoy-field-ui .up-card button.primary').waitFor({ timeout: 20000 });
+  await p.waitForTimeout(600);
+});
+
+// 4: the side panel next to the page: a turn with the recorder and the approval card.
 await shot('store/demo-page.html', 860, 800, join(TMP, 'page.png'));
-await shot('sidepanel.html', 420, 800, join(TMP, 'panel-start.png'), null, panelStub);
+// The release side panel embeds the hosted Envoy chat (apps/extension/src/App.tsx), so that is
+// what is shown: the live app at side-panel size, the sample lease, waiting for approval.
 await shot(
-  'sidepanel.html',
+  'https://envoy-hybrid-ai.web.app/app?embed=extension&sample=lease',
   420,
   800,
   join(TMP, 'panel-turn.png'),
   async (p) => {
-    await p.getByLabel('Message Envoy').fill('Can my landlord raise the rent 20% this year?');
-    await p.getByRole('button', { name: 'Send' }).click();
-    await p
-      .getByRole('button', { name: /Continue in Envoy on the web|Approve and send/ })
-      .waitFor({ timeout: 30000 });
+    await p.locator('#envoy-composer').click();
+    await p.keyboard.press('End');
+    await p.keyboard.press('Enter');
+    await p.getByRole('button', { name: 'Approve and send' }).last().waitFor({ timeout: 60000 });
     await p
       .getByText('What the cloud will see')
-      .first()
-      .evaluate((el) => el.scrollIntoView({ block: 'center' }));
-    await p.waitForTimeout(600);
+      .last()
+      .evaluate((el) => el.scrollIntoView({ block: 'start' }));
+    await p.waitForTimeout(800);
   },
-  panelStub,
-);
-ff(
-  '-i',
-  join(TMP, 'page.png'),
-  '-i',
-  join(TMP, 'panel-start.png'),
-  '-filter_complex',
-  'hstack=inputs=2',
-  join(OUT, 'screenshot-3-side-panel.png'),
 );
 ff(
   '-i',
@@ -164,7 +174,7 @@ ff(
 
 // 5: the popup over the page.
 await shot('store/demo-page.html', 1280, 800, join(TMP, 'page-wide.png'));
-await shot('popup.html', 340, 470, join(TMP, 'popup.png'), null, panelStub);
+await shot('popup.html', 340, 352, join(TMP, 'popup.png'), null, panelStub);
 ff(
   '-i',
   join(TMP, 'page-wide.png'),
@@ -196,6 +206,20 @@ await shot(
   join(OUT, 'marquee-1400x560.png'),
   sizes('86px', '26px', '18px'),
 );
+
+// The store wants 24-bit PNG, no alpha: flatten every asset.
+for (const f of [
+  'screenshot-1-text-box.png',
+  'screenshot-2-replaced.png',
+  'screenshot-3-upload.png',
+  'screenshot-4-approval.png',
+  'screenshot-5-popup.png',
+  'promo-tile-440x280.png',
+  'marquee-1400x560.png',
+]) {
+  ff('-i', join(OUT, f), '-pix_fmt', 'rgb24', join(TMP, f));
+  ff('-i', join(TMP, f), '-c', 'copy', join(OUT, f));
+}
 
 await browser.close();
 server.close();
