@@ -2,7 +2,7 @@
 
 > **Current, paste-ready version: [SUBMISSION_KIT.md](SUBMISSION_KIT.md)** (24 Nov 2026). This file is the earlier draft.
 
-A draft for the owner to paste into the Devpost form. Every claim links to evidence in the repo. Nothing here has been submitted.
+The earlier draft of the Devpost entry, kept for the record. Every claim links to evidence in the repo. **Submitted on 24 November 2026**; the demo film is public at https://www.youtube.com/watch?v=yvChwFT2770.
 
 ## Field checklist
 
@@ -38,7 +38,7 @@ Envoy is your private AI agent to the cloud. You ask a question about a private 
 
 ## Built during the submission period, and with what
 
-The repository starts on 22 November 2026; no code predates it. Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the eval harness; both used the Firebase agent skills. All art is drawn in code. The demo video's narration is generated locally with Chatterbox TTS (Resemble AI, MIT licence); its music and sound effects are synthesised in code. Open-source libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts (OFL). Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
+The repository starts on 22 November 2026; no code predates it. Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the eval harness; both used the Firebase agent skills. An AI agent called Muse also worked on the extension at the very start, before Claude Code took the extension over on 22 November. ChatGPT, Claude and Antigravity were also used as outside reviewers, playing the judges. All art is drawn in code. The demo video's narration is generated locally with Chatterbox TTS (Resemble AI, MIT licence); its music and sound effects are synthesised in code. Open-source libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts (OFL). Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
 
 ## Testing instructions for judges
 

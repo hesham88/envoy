@@ -46,7 +46,7 @@ export async function readDocumentFile(
     throw new FileReadError('This file is larger than 10 MB. Try a shorter document.');
   const name = file.name.toLowerCase();
   const isPdf = file.type === 'application/pdf' || name.endsWith('.pdf');
-  const isText = file.type.startsWith('text/') || /\.(txt|md|text)$/.test(name);
+  const isText = file.type.startsWith('text/') || /\.(txt|md|csv|text)$/.test(name);
 
   if (isText) {
     const text = (await file.text()).replace(/\r\n/g, '\n');

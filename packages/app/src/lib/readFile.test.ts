@@ -9,6 +9,17 @@ describe('readDocumentFile', () => {
     expect(out).toEqual({ title: 'lease.txt', text: '1. Rent. EGP 100.', pages: 1 });
   });
 
+  it('reads .csv even when Windows labels it as an Excel file', async () => {
+    const out = await readDocumentFile(
+      file(
+        'name,rent' + String.fromCharCode(10) + 'Mona,8500',
+        'rents.csv',
+        'application/vnd.ms-excel',
+      ),
+    );
+    expect(out.text).toBe('name,rent' + String.fromCharCode(10) + 'Mona,8500');
+  });
+
   it('reads PDFs page by page with page markers', async () => {
     const out = await readDocumentFile(file('%PDF', 'lease.pdf', 'application/pdf'), {
       extractPdfPages: async () => [

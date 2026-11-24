@@ -331,7 +331,7 @@ Small on-device models are strong at finding and trimming but weaker at arithmet
 Faster on-device runs on GPUs, a held-out evaluation set written by someone other than the rule authors, Android with Gemini Nano, and more languages.
 
 ## Built during the submission period, and with what
-The repository starts on 22 November 2026; no code predates it. AI tools: Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the evaluation harness; both used the Firebase agent skills. The demo film's narration is Chatterbox TTS (Resemble AI, MIT licence). All art is drawn in code; libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts. Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
+The repository starts on 22 November 2026; no code predates it. AI tools: Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the evaluation harness; both used the Firebase agent skills. An AI agent called Muse also worked on the extension at the very start, before Claude Code took the extension over on 22 November. ChatGPT, Claude and Antigravity were also used as outside reviewers, playing the judges. The demo film's narration is Chatterbox TTS (Resemble AI, MIT licence). All art is drawn in code; libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts. Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
 ```
 
 ### 3. Built with, links and media
@@ -421,4 +421,4 @@ _Page 4_
 - **Terms:** Tick "I, and all of my team members, have read and agree…" after reading the Official Rules.
 - **Deadline:** Mon 30 Nov 2026, 2:00 PM PT (midnight Tue 1 Dec in Cairo). Commits after the deadline are not judged.
 
-One open question before you submit: if any AI tool besides Claude Code and Antigravity built part of Envoy (the extension’s first milestones came from an agent called Muse), add its name to the "Built during the submission period" paragraph.
+Muse is named in the disclosure above as an agent that worked on the extension at the start. If you know which product it ran on, add the product name there.
