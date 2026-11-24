@@ -27,7 +27,10 @@ const PARTS = join(OUT, 'scenes');
 const SFX = join(VIDEO, 'audio', 'out');
 mkdirSync(PARTS, { recursive: true });
 const draft = process.argv.includes('--draft');
-const reuse = process.argv.includes('--reuse'); // keep scenes already composed (pass 1)
+const reuse = process.argv.includes('--reuse');
+// --flash: the cut where Gemini 3.5 Flash-Lite answers (video/narration-flash.json overrides lines,
+// voice files <id>-flash.wav and captions cap-<id>-flash.png).
+const flash = process.argv.includes('--flash'); // keep scenes already composed (pass 1)
 const LEAD = 0.45;
 const TAIL = 0.65;
 const FPS = 30;
@@ -119,7 +122,11 @@ function sounds(id) {
 }
 
 // ---------- the running order and each scene's length ----------
-const lines = JSON.parse(readFileSync(join(VIDEO, 'narration.json'), 'utf8'));
+const overrides = flash ? JSON.parse(readFileSync(join(VIDEO, 'narration-flash.json'), 'utf8')) : [];
+const lines = JSON.parse(readFileSync(join(VIDEO, 'narration.json'), 'utf8')).map((l) => {
+  const o = overrides.find((x) => x.id === l.id);
+  return o ? { ...l, text: o.text, variant: '-flash' } : l;
+});
 const scenes = [];
 for (const l of lines) {
   if (CHAPTERS[l.id])
@@ -131,7 +138,7 @@ for (const l of lines) {
     });
   const dir = SCENES[l.id];
   if (!dir) throw new Error(`no direction for ${l.id}`);
-  const wav = join(VIDEO, 'wav3', `${l.id}.wav`);
+  const wav = join(VIDEO, 'wav3', `${l.id}${l.variant ?? ''}.wav`);
   if (!existsSync(wav)) throw new Error(`missing narration ${wav}`);
   const speech = probe(wav);
   const need = LEAD + speech + TAIL;
@@ -244,7 +251,7 @@ scenes.forEach((s, i) => {
       last = 'v0';
     }
     // Caption: slides in from its margin, leaves before the cut.
-    const capFile = join(OV, `cap-${s.id}.png`);
+    const capFile = join(OV, `cap-${s.id}${s.variant ?? ''}.png`);
     if (existsSync(capFile)) {
       const c = input(capFile);
       const cin = 0.35;
@@ -381,7 +388,7 @@ f.push(
 );
 f.push(`[mix]atrim=duration=${total.toFixed(3)},loudnorm=I=-16:TP=-1.5:LRA=11[audio]`);
 
-const outFile = join(OUT, draft ? 'envoy-demo-draft.mp4' : 'envoy-demo.mp4');
+const outFile = join(OUT, `envoy-demo${flash ? '-flash' : ''}${draft ? '-draft' : ''}.mp4`);
 writeFileSync(join(OUT, 'filter-final.txt'), f.join(';\n'));
 ffmpeg([
   ...args,

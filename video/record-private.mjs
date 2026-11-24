@@ -15,7 +15,7 @@
  */
 import { chromium } from 'playwright-core';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -54,6 +54,39 @@ const model = await page.evaluate(
 );
 const want = rehearse ? 'gemini-3.5-flash-lite' : 'gemini-4-hydrogen';
 if (model !== want) throw new Error(`cloud model is ${model}, not ${want}`);
+
+// Hydrogen budget (free tier: 20 requests a day per project, and FAILED requests count too).
+// A take spends exactly one. At most 2 takes a day, none after a Hydrogen failure that day, and
+// only after a successful rehearsal with Fast in the last 12 hours.
+const LEDGER = join(RAW, '..', 'hydrogen-ledger.json');
+const STAMP = join(RAW, 'rehearsal-ok.json');
+const pacificDay = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+const ledger = existsSync(LEDGER) ? JSON.parse(readFileSync(LEDGER, 'utf8')) : {};
+const today = (ledger[pacificDay] ??= { used: 0, failed: false });
+if (!rehearse) {
+  const ok =
+    existsSync(STAMP) && Date.now() - JSON.parse(readFileSync(STAMP, 'utf8')).at < 12 * 3600e3;
+  if (!ok)
+    throw new Error(
+      'no successful rehearsal (--rehearse) in the last 12 hours: not spending Hydrogen',
+    );
+  if (today.failed)
+    throw new Error(
+      `Hydrogen already failed today (${pacificDay}, Pacific): no retry until tomorrow`,
+    );
+  if (today.used >= 2)
+    throw new Error(`Hydrogen budget for ${pacificDay} spent (${today.used} takes): stop`);
+}
+const spendHydrogen = () => {
+  if (rehearse) return;
+  today.used += 1;
+  writeFileSync(LEDGER, JSON.stringify(ledger, null, 1));
+};
+const hydrogenFailed = () => {
+  if (rehearse) return;
+  today.failed = true;
+  writeFileSync(LEDGER, JSON.stringify(ledger, null, 1));
+};
 
 // Frames go straight to disk (a long on-device wait would otherwise fill Node's heap).
 const dir = join(RAW, '.private');
@@ -158,6 +191,7 @@ await wait(800);
 await center(approveBtn());
 await wait(1200);
 mark('approve');
+spendHydrogen(); // the one Hydrogen request of this take
 await approveBtn().click();
 await page
   .getByText(/Reasoned in the cloud over tags|Answered on this device|Lighter answer/)
@@ -166,8 +200,10 @@ await page
 mark('answer');
 // This take must show Gemini 4 Hydrogen itself answering: stop at once otherwise.
 const answerText = await page.locator('article').last().innerText();
-if (/Lighter answer|cloud unreachable|answered instead/.test(answerText))
+if (/Lighter answer|cloud unreachable|answered instead/.test(answerText)) {
+  hydrogenFailed();
   throw new Error(`${want} did not answer (quota or network): not a usable take`);
+}
 await center(page.locator('article').last().locator('p.whitespace-pre-wrap').last());
 await wait(9000);
 mark('answer-end');
@@ -224,10 +260,12 @@ mark('end');
 await cdp.send('Page.stopScreencast');
 await page.close();
 await browser.close();
-if (rehearse)
+if (rehearse) {
+  writeFileSync(STAMP, JSON.stringify({ at: Date.now() }));
   console.log(
     'rehearsal: every step ran; now encoding and cutting (the real take overwrites these)',
   );
+}
 
 // Encode the master at a constant 30 fps from the variable-rate frames (already on disk).
 const kept = frames.filter((f, i) => f.t >= t0 || frames[i + 1]?.t > t0);
