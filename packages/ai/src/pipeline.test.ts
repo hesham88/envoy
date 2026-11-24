@@ -135,6 +135,22 @@ describe('analyze', () => {
     expect(a.guard.ok).toBe(true);
   });
 
+  it('a calculation the model calls local still goes to the reasoning step; a lookup stays local', async () => {
+    const calc = await analyze(
+      EN_LEASE.text,
+      QUESTION,
+      fakeDeps('available', { local: true }).deps,
+    );
+    expect(calc.route.local).toBe(false);
+    expect(calc.route.reason).toMatch(/needs a calculation/);
+    const lookup = await analyze(
+      EN_LEASE.text,
+      'What is my monthly rent?',
+      fakeDeps('available', { local: true }).deps,
+    );
+    expect(lookup.route.local).toBe(true);
+  });
+
   it('writes a receipt: one clause from six pages, everything else kept', async () => {
     const a = await analyze(EN_LEASE.text, QUESTION, fakeDeps('available').deps);
     expect(a.receipt.clausesSent).toBe(1);

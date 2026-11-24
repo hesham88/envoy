@@ -69,7 +69,7 @@ export const STEPS: {
     where: 'This device',
     mode: 'ONLY_ON_DEVICE',
     body: 'The on-device model picks the clauses that answer your question. Everything else stays behind.',
-    code: ['packages/ai/src/pipeline.ts', 110, 'selectClausesBatched'],
+    code: ['packages/ai/src/pipeline.ts', 111, 'selectClausesBatched'],
   },
   {
     key: 'approve',
@@ -85,7 +85,7 @@ export const STEPS: {
     where: 'Cloud',
     mode: 'PREFER_IN_CLOUD',
     body: 'Gemini answers using [RENT] and [LANDLORD], and writes maths like {{RENT * 1.10}} instead of guessing numbers.',
-    code: ['packages/ai/src/pipeline.ts', 410, 'buildReasonPrompt'],
+    code: ['packages/ai/src/pipeline.ts', 413, 'buildReasonPrompt'],
   },
   {
     key: 'restore',

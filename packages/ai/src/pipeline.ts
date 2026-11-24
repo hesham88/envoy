@@ -22,6 +22,7 @@ import {
   parseDetectResponse,
   parseMinimizeResponse,
   parseRouteResponse,
+  guardRoute,
   restoreAnswer,
   splitChunk,
   type Chunk,
@@ -350,6 +351,8 @@ export async function analyze(
                 reason: 'Unclear, so it goes to the reasoning step.',
               });
       }
+      // A figure that must be worked out goes to the reasoning step whatever the model said.
+      route = guardRoute(question, route);
     } catch (e) {
       // A blocked cloud request is fatal however the SDK wraps the error (it rewraps fetch failures).
       const blockedNow = networkLog.entries.filter((x) => x.blocked).length;

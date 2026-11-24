@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  guardRoute,
+  needsCalculation,
   buildDetectPrompt,
   buildLocalAnswerPrompt,
   buildMinimizePrompt,
@@ -160,5 +162,39 @@ describe('parseRouteResponse', () => {
   it('returns null when the decision is missing', () => {
     expect(parseRouteResponse('{"reason":"x"}')).toBeNull();
     expect(parseRouteResponse('garbage')).toBeNull();
+  });
+});
+
+describe('needsCalculation and guardRoute', () => {
+  it.each([
+    'What is my maximum annual performance bonus if I hit 100% of my targets?',
+    'If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?',
+    'If I cancel 20 days before the event, how much of my deposit is refunded?',
+    'What percentage penalty applies?',
+  ])('sends a question that needs a figure worked out to the reasoning step: %s', (q) => {
+    expect(needsCalculation(q)).toBe(true);
+    expect(guardRoute(q, { local: true, reason: 'a lookup' })).toEqual({
+      local: false,
+      reason: expect.stringMatching(/needs a calculation/),
+    });
+  });
+
+  it.each([
+    'What is my monthly rent?',
+    'When does my contract end?',
+    "How many hours' notice must the landlord give before entering for repairs?",
+    'How long is my probationary period?',
+    'Within how many days of receiving an invoice must the client pay?',
+    'How much notice must I give to end the contract early?',
+    'What is the notification period?',
+  ])('leaves a plain lookup to the model: %s', (q) => {
+    expect(needsCalculation(q)).toBe(false);
+    const route = { local: true, reason: 'a lookup' };
+    expect(guardRoute(q, route)).toBe(route);
+  });
+
+  it('never turns a cloud route into a local one', () => {
+    const route = { local: false, reason: 'needs reasoning' };
+    expect(guardRoute('What is my monthly rent?', route)).toBe(route);
   });
 });
