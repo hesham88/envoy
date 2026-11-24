@@ -76,6 +76,8 @@ Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 
 
 Two cloud models through Remote Config: `cloud_model_fast` = `gemini-3.5-flash-lite` (about 1.4 s) and `cloud_model` = `gemini-4-hydrogen` (10–50 s, more careful). `cloud_default` = `fast` decides what people get until they choose in the composer; their choice is saved in the browser. Override locally with `VITE_CLOUD_MODEL`. Fallback chain (23 Nov): Hydrogen runs `ONLY_IN_CLOUD`; if it fails (free tier: 20 requests/day, it ran out on 23 Nov and showed "cloud unreachable"), `deps.reasonFallback` (Flash-Lite, `PREFER_IN_CLOUD`) answers and the answer says so; only then the device. A refused request is still listed in the ledger.
 
+**Demo film v4 (24 Nov):** 2:50, built by `video/film/build.mjs` from real takes (private scenes: Gemma 4 on this laptop, Flash-Lite answering; narration names all three choices: Fast, Gemini 4 Hydrogen, Local only). Smooth sub-pixel camera, Envoy mark in the opening. Output kept outside git (`_backup-1527/envoy-demo-v4.mp4`). Optional: a Hydrogen take, guarded by the Hydrogen ledger in `record-private.mjs` (20 requests/day, failures count). Next: owner uploads to YouTube (public, English subtitles from the .srt).
+
 **Recorded run (23 Nov):** `/app?recorded=1` replays the real Gemma 4 trace (`tests/eval/probes/demo-trace-gemma4.json`, recorded 22 Nov) for judges without the model: labelled as a recording, real step times, outbound text, answer, ledger. Linked from the Basic-protection status, the private-mode guide and the landing page's judges section. `RecordedRun.test.tsx` keeps the bundled copy identical to the trace.
 
 ## Judge experience (must-have)
