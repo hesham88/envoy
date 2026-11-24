@@ -203,19 +203,28 @@ scenes.forEach((s, i) => {
     if (s.clip) args.push('-i', s.clip);
     else args.push('-f', 'lavfi', '-i', `color=c=0x1c1a2b:s=1600x900:r=${FPS}:d=${D}`);
     const [cw, ch] = L.crop ? [L.crop[0], L.crop[1]] : [1600, 900];
-    const Z = s.move === 'in' ? 0.045 : 0.03;
-    const x =
-      s.move === 'right'
-        ? `(iw-iw/zoom)*on/${F}`
-        : s.move === 'left'
-          ? `(iw-iw/zoom)*(1-on/${F})`
-          : 'iw/2-(iw/zoom/2)';
+    // Camera move with sub-pixel precision: the crop window's corners are exact per frame and
+    // resampled (bicubic), so a slow push-in glides. (zoompan snaps to whole pixels: it shook.)
+    // Eased in and out (smoothstep) so it starts and settles gently.
+    const Z = s.move === 'in' ? 0.04 : 0.028;
+    const u = `min(1,on/${F})`;
+    const ease = `(${u}*${u}*(3-2*${u}))`;
+    const z = `(1+${Z}*${ease})`;
+    const fx = s.move === 'right' ? ease : s.move === 'left' ? `(1-${ease})` : '0.5';
+    const x0 = `(W-W/${z})*${fx}`;
+    const y0 = `(H-H/${z})*0.5`;
+    const x1 = `${x0}+W/${z}`;
+    const y2 = `${y0}+H/${z}`;
+    const move =
+      `perspective=x0='${x0}':y0='${y0}':x1='${x1}':y1='${y0}':x2='${x0}':y2='${y2}':x3='${x1}':y3='${y2}'` +
+      `:interpolation=cubic:sense=source:eval=frame`;
     const pad = Math.max(0, s.dur - s.clipLen + 0.2).toFixed(3);
     const crop = L.crop ? `crop=${L.crop[0]}:${L.crop[1]}:${L.crop[2]}:${L.crop[3]},` : '';
+    void cw;
+    void ch;
     f.push(
       `[${vi}:v]fps=${FPS},${crop}tpad=stop_mode=clone:stop_duration=${pad},trim=duration=${D},setpts=PTS-STARTPTS,` +
-        `zoompan=z='1+${Z}*on/${F}':x='${x}':y='ih/2-(ih/zoom/2)':d=1:s=${cw}x${ch}:fps=${FPS},` +
-        `scale=${L.w}:${L.h}:flags=lanczos,setsar=1,format=rgba[foot]`,
+        `${move},scale=${L.w}:${L.h}:flags=lanczos,setsar=1,format=rgba[foot]`,
     );
     if (L.frameless) {
       f.push(`[${last}][foot]overlay=0:0[v0]`);
