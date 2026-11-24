@@ -5,6 +5,7 @@ import {
   analyze,
   answer,
   composeOutbound,
+  fallbackCauseOf,
   OutboundBlockedError,
   selectClausesBatched,
   type Deps,
@@ -249,6 +250,7 @@ describe('answer', () => {
     expect(out.source).toBe('in_cloud');
     expect(out.lighter).toBe(false);
     expect(out.usedFallbackModel).toBe(true);
+    expect(out.fallbackCause).toBe('quota');
     expect(out.text).toBe('Karim Fathy may raise it by at most 10%.');
     // Both requests carried the same masked, guard-checked excerpt, and the ledger shows both.
     const sent = (fast.generateContent as ReturnType<typeof vi.fn>).mock.calls[0]![0] as string;
@@ -256,6 +258,17 @@ describe('answer', () => {
     expect(
       networkLog.entries.filter((e) => e.step === 'reason' && e.target === 'cloud'),
     ).toHaveLength(2);
+  });
+
+  it('names why the chosen model failed: its daily quota, busy, or other', () => {
+    expect(fallbackCauseOf(new Error('[429] RESOURCE_EXHAUSTED: quota exceeded'))).toBe('quota');
+    expect(
+      fallbackCauseOf(
+        new Error('[500] INTERNAL: This model is currently experiencing high demand'),
+      ),
+    ).toBe('busy');
+    expect(fallbackCauseOf(new Error('[503] UNAVAILABLE'))).toBe('busy');
+    expect(fallbackCauseOf(new Error('network down'))).toBe('other');
   });
 
   it('without a fallback model, a cloud error reaches the caller unchanged', async () => {

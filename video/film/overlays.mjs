@@ -20,6 +20,14 @@ const OUT = join(HERE, '../out/overlays');
 const RAW = join(HERE, '../out/raw');
 mkdirSync(OUT, { recursive: true });
 
+// The Envoy mark, read from its source so the film always shows the product's real logo.
+const LOGO_PATHS = [
+  ...readFileSync(join(REPO, 'packages/ui/src/Logo.tsx'), 'utf8')
+    .match(/LOGO_PATHS = \{([\s\S]*?)\}/)[1]
+    .matchAll(/'(M[^']+)'/g),
+].map((m) => m[1]);
+if (LOGO_PATHS.length !== 3) throw new Error('could not read the logo paths from Logo.tsx');
+
 const font = (pkg, file) =>
   `data:font/woff2;base64,${readFileSync(join(REPO, 'node_modules', pkg, 'files', file)).toString('base64')}`;
 const FONTS = `
@@ -129,7 +137,9 @@ for (const [id, s] of Object.entries(SCENES)) {
   if (L.caption === 'bottom') {
     html = `<div class="bottom"><div><h2>${esc(s.title)}</h2><p>${esc(s.sub)}</p></div>${pill(s.where)}</div>`;
   } else if (L.caption === 'open') {
-    html = `<div style="position:absolute;left:0;right:0;top:70px;text-align:center;font:400 120px/1 Fraunces,serif;letter-spacing:-.02em;color:#f4f2ff">${esc(s.title)}</div>
+    // The Envoy mark beside the name: the real logo paths from packages/ui (one source of truth).
+    const mark = `<svg width="118" height="118" viewBox="0 0 24 24" fill="none" stroke="#f4f2ff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 14px rgba(61,255,176,.55))">${LOGO_PATHS.map((d) => `<path d="${d}"/>`).join('')}</svg>`;
+    html = `<div style="position:absolute;left:0;right:0;top:56px;display:flex;align-items:center;justify-content:center;gap:30px;font:400 120px/1 Fraunces,serif;letter-spacing:-.02em;color:#f4f2ff">${mark}<span style="transform:translateY(-6px)">${esc(s.title)}</span></div>
       <div style="position:absolute;left:0;right:0;top:922px;text-align:center"><p style="font-size:32px;color:#d7d3ee">${esc(s.sub)}</p></div>`;
   } else {
     const { left, width } = column(L);

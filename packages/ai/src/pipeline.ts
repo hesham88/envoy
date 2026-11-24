@@ -419,6 +419,18 @@ Explain what the text says; don't give legal or financial advice.
 ${approvedOutbound}`;
 }
 
+export type FallbackCause = 'quota' | 'busy' | 'other';
+/** Reads a Firebase AI Logic error: 429 / RESOURCE_EXHAUSTED is the quota; 500/503 or "high demand" is busy. */
+export function fallbackCauseOf(e: unknown): FallbackCause {
+  const text =
+    e instanceof Error
+      ? `${e.message} ${String((e as { customErrorData?: unknown }).customErrorData ?? '')}`
+      : String(e);
+  if (/\b429\b|RESOURCE_EXHAUSTED|quota/i.test(text)) return 'quota';
+  if (/\b50[03]\b|UNAVAILABLE|INTERNAL|high demand|overloaded/i.test(text)) return 'busy';
+  return 'other';
+}
+
 export async function answer(
   analysis: Analysis,
   approvedOutbound: string,
@@ -434,6 +446,8 @@ export async function answer(
   lighter: boolean;
   /** The chosen cloud model failed and the fast model (deps.reasonFallback) answered instead. */
   usedFallbackModel?: boolean;
+  /** Why the chosen model didn't answer: its daily quota, it was busy, or something else. */
+  fallbackCause?: FallbackCause;
   receipt: Receipt;
 }> {
   const shared = new Set(opts.sharedTags ?? []);
@@ -474,10 +488,12 @@ export async function answer(
   // In the same queue as private steps, so it never runs while a private step's tripwire is up.
   let res;
   let usedFallbackModel = false;
+  let fallbackCause: FallbackCause | undefined;
   try {
     res = await inAiQueue(() => deps.models.reason.generateContent(prompt));
   } catch (e) {
     if (!deps.reasonFallback) throw e;
+    fallbackCause = fallbackCauseOf(e);
     // The refused request still left the device (masked, guard-checked): the ledger shows it.
     networkLog.record({
       at: Date.now(),
@@ -516,7 +532,7 @@ export async function answer(
     ...(restored.withheld.length ? { withheld: restored.withheld } : {}),
     source,
     lighter: source === 'on_device',
-    ...(usedFallbackModel ? { usedFallbackModel: true } : {}),
+    ...(usedFallbackModel ? { usedFallbackModel: true, fallbackCause } : {}),
     receipt,
   };
 }
