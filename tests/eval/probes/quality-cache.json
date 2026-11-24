@@ -484,20 +484,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:03:38.401Z",
-    "ms": 2332,
-    "text": "No, your landlord cannot raise the rent by 20% this year. \n\nThe agreement states that the landlord is only permitted to increase the rent once per contract year by a maximum of 10%, provided they give at least 60 days' written notice. \n\nCitation: Clause 7"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:20:17.192Z",
+    "ms": 4983,
+    "text": "No, your landlord cannot raise the rent 20% this year. \n\nThe document states that the landlord is only permitted to increase the rent once per contract year by a maximum of 10%, provided they give at least 60 days' written notice. \n\nCitation: Clause 7"
   },
   "sdk:raw:judge:lease-01-rent-cap": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:03:44.162Z",
-    "ms": 1544,
-    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites Clause 7's 10% maximum annual increase limit.\"\n}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:20:31.084Z",
+    "ms": 9673,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly states that the landlord cannot raise the rent by 20% because the maximum allowed increase is 10%, accurately citing Clause 7.\"\n}"
   },
   "sdk:real:basic:judge:lease-01-rent-cap:2026-11-22T20:57:27": {
     "source": "live",
@@ -514,20 +514,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:04:03.304Z",
-    "ms": 3530,
-    "text": "Your contract ends on 31 August 2027. \n\nThe agreement is for a term of three years starting on 1 September 2024 (Clause 2)."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:20:51.911Z",
+    "ms": 7060,
+    "text": "Your contract ends after a term of three years on 31 August 2027, unless terminated earlier in accordance with the agreement. This is because the lease is for a term of three years starting on 1 September 2024 (Clause 2)."
   },
   "sdk:raw:judge:lease-02-end-date-local": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:04:13.004Z",
-    "ms": 5486,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately calculated the end date based on the three-year term starting September 1, 2024, and correctly cited Clause 2.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:21:05.930Z",
+    "ms": 9788,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately calculates the contract end date based on the three-year term starting 1 September 2024 and correctly cites Clause 2.\"}"
   },
   "sdk:real:basic:judge:lease-02-end-date-local:2026-11-22T20:57:33": {
     "source": "live",
@@ -544,20 +544,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:04:31.514Z",
-    "ms": 2843,
-    "text": "If you leave early without the required notice, the Landlord may keep one month's rent from your deposit. This is stated in Clause 6."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:21:24.308Z",
+    "ms": 1193,
+    "text": "If you leave early without the required notice, the Landlord may keep one month's rent from your deposit. This is because Clause 6 states that if the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit."
   },
   "sdk:raw:judge:lease-03-early-exit-deposit": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:04:38.486Z",
-    "ms": 2757,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately answers what happens to the deposit upon early departure according to Clause 6.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:21:29.727Z",
+    "ms": 1207,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately explains the consequences for the deposit if leaving early based on the source document and correctly references the relevant clause.\"}"
   },
   "sdk:real:basic:judge:lease-03-early-exit-deposit:2026-11-22T20:57:45": {
     "source": "live",
@@ -574,20 +574,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:04:56.914Z",
-    "ms": 6917,
-    "text": "Yes, you do not owe the late fee if you pay rent on the 8th of the month. \n\nSince rent is due on the first day of each month, paying on the 8th is only 7 days late, whereas the late fee only applies to rent paid more than 10 days late. This is stated in Clause 8."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:21:46.159Z",
+    "ms": 6191,
+    "text": "Yes, you do not owe the late fee if you pay on the 8th of the month. \n\nSince rent is due on the first day of the month, paying on the 8th is only 7 days late, whereas the late fee only applies to rent paid more than 10 days late (Clause 8)."
   },
   "sdk:raw:judge:lease-04-late-fee-grace-period": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:05:05.615Z",
-    "ms": 4480,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately concludes that no late fee is owed because payment on the 8th is within the 10-day grace period, and correctly cites Clause 8.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:21:56.245Z",
+    "ms": 5860,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies that no late fee is owed because the payment on the 8th is within the 10-day grace period, correctly citing clause 8.\"}"
   },
   "sdk:real:basic:judge:lease-04-late-fee-grace-period:2026-11-22T20:57:51": {
     "source": "live",
@@ -604,9 +604,9 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:05:28.885Z",
-    "ms": 2388,
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:22:33.503Z",
+    "ms": 12709,
     "text": "No, you cannot rent out one bedroom on a short-term basis without asking the owner. \n\nThe document states that the tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord. This is outlined in Clause 3."
   },
   "sdk:raw:judge:lease-05-sublet-policy": {
@@ -614,9 +614,9 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:05:37.469Z",
-    "ms": 4375,
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:22:39.099Z",
+    "ms": 1379,
     "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states that short-term rentals require prior written authorization and accurately cites Clause 3.\"}"
   },
   "sdk:real:basic:judge:lease-05-sublet-policy:2026-11-22T20:57:58": {
@@ -634,9 +634,9 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:05:58.168Z",
-    "ms": 4909,
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:05.285Z",
+    "ms": 1512,
     "text": "The landlord must give at least 48 hours' written notice before entering for non-urgent repairs. This is because Clause 4 specifies that the Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs."
   },
   "sdk:raw:judge:lease-06-landlord-entry-notice-local": {
@@ -644,10 +644,10 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:06:07.957Z",
-    "ms": 5578,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the 48-hour notice requirement for non-urgent repairs and correctly reflects the contents of clause 4.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:11.068Z",
+    "ms": 1578,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the required notice period and correctly reflects the information in Clause 4.\"}"
   },
   "sdk:real:basic:judge:lease-06-landlord-entry-notice-local:2026-11-22T20:58:05": {
     "source": "live",
@@ -664,20 +664,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:06:33.553Z",
-    "ms": 4419,
-    "text": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nThe document states that annual increases to the service charge are strictly capped at a maximum of 8% per year. (Clause 3)"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:22.739Z",
+    "ms": 1722,
+    "text": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nThis is because annual increases to the service charge are strictly capped at 8% per year.\n\nClause 3."
   },
   "sdk:raw:judge:lease-07-commercial-cam-cap": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:06:40.335Z",
-    "ms": 2567,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states that a 15% increase is not allowed because annual increases are capped at 8%, correctly citing Clause 3.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:31.743Z",
+    "ms": 4794,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states that a 15% increase is not allowed because Clause 3 caps annual service charge increases at 8%.\"}"
   },
   "sdk:real:basic:judge:lease-07-commercial-cam-cap:2026-11-22T20:58:11": {
     "source": "live",
@@ -694,20 +694,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:06:52.722Z",
-    "ms": 2782,
-    "text": "The Landlord has to pay for the repair of the main water pipe inside the wall. \n\nThe document states that the Landlord is solely responsible for hidden plumbing and main risers (Clause 3)."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:47.208Z",
+    "ms": 5700,
+    "text": "The Landlord has to pay for the repair of the burst main water pipe inside the wall. \n\nThe Landlord is explicitly responsible for hidden plumbing and main risers.\n\nClause: 3"
   },
   "sdk:raw:judge:lease-08-plumbing-responsibility": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:06:58.382Z",
-    "ms": 1448,
-    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly identifies that the landlord is responsible for the repair and accurately cites Clause 3 regarding hidden plumbing.\"\n}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:53.126Z",
+    "ms": 1702,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly identifies that the Landlord is responsible for the repair based on Clause 3 regarding hidden plumbing.\"\n}"
   },
   "sdk:real:basic:judge:lease-08-plumbing-responsibility:2026-11-22T20:58:18": {
     "source": "live",
@@ -724,40 +724,40 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:07:09.524Z",
-    "ms": 1406,
-    "text": "If the company eliminates your role without cause after 18 months, you will receive severance equal to two months of gross salary in addition to a 60-day notice period. \n\nThis is because the termination occurs after the 3-month probation period, entitling you to severance as outlined in Clause 5."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:04.186Z",
+    "ms": 1293,
+    "text": "You will receive severance equal to two months of gross monthly salary plus a 60-day notice period. This is because termination without cause after the probation period entitles the employee to this specific severance and notice, as the 18-month mark falls after the 3-month probation period. This is governed by Clause 5."
   },
   "sdk:raw:judge:offer-01-severance-calculation": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:07:18.950Z",
-    "ms": 5216,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the severance and notice period outlined in Clause 5 for termination without cause after the probation period.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:09.640Z",
+    "ms": 1232,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly identifies the severance terms from Clause 5 and accurately applies them to the scenario where 18 months is past the probation period.\"\n}"
   },
   "sdk:raw:ans:offer-02-non-compete-scope": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:07:24.524Z",
-    "ms": 1347,
-    "text": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. \n\nThe non-competition restriction only applies to direct competitors in consumer payment gateway or mobile wallet services, and explicitly states that it does not apply to non-financial software industries such as healthcare. \n\n(Clause 4)"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:21.104Z",
+    "ms": 1613,
+    "text": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. \n\nThis is because the non-competition restriction explicitly states that it does not apply to non-financial software industries, such as healthcare. \n\n(Clause 4)"
   },
   "sdk:raw:judge:offer-02-non-compete-scope": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:07:29.910Z",
-    "ms": 1173,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly identifies that the healthcare software startup is exempt from the non-competition clause and cites the right clause.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:27.014Z",
+    "ms": 1700,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly answers the question and accurately cites clause 4 regarding the exemption for non-financial software industries like healthcare.\"}"
   },
   "sdk:real:basic:judge:offer-02-non-compete-scope:2026-11-22T20:58:35": {
     "source": "live",
@@ -774,20 +774,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:07:40.867Z",
-    "ms": 1316,
-    "text": "Your probationary period is ninety days long. \n\nThis is because the first ninety days of employment constitute the probationary period, during which either party may terminate the contract with seven days' written notice. \n\nClause 3"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:39.851Z",
+    "ms": 1827,
+    "text": "Your probationary period is ninety (90) days long. This means the first ninety days of employment are designated as a probationary period during which either party may terminate the contract with seven days' written notice. (Clause 3)"
   },
   "sdk:raw:judge:offer-03-probation-period-local": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:07:46.607Z",
-    "ms": 1521,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the length of the probationary period and correctly cites clause 3 as specified in the source document.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:46.093Z",
+    "ms": 2032,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the length of the probationary period and correctly cites Clause 3.\"}"
   },
   "sdk:real:basic:judge:offer-03-probation-period-local:2026-11-22T20:59:10": {
     "source": "live",
@@ -804,40 +804,40 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:00.071Z",
-    "ms": 1463,
-    "text": "Your maximum annual performance bonus for hitting 100% of your targets is EGP 144,000 (which is 15% of one monthly base salary multiplied by 12, or 1.8 times your monthly base salary of EGP 80,000). This is explained in Clause 3."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:57.226Z",
+    "ms": 1595,
+    "text": "Your maximum annual performance bonus for hitting 100% of your targets is EGP 144,000 (which is 15% of one monthly base salary multiplied by 12, or 1.8x your monthly base salary of EGP 80,000). This is outlined in Clause 3."
   },
   "sdk:raw:judge:offer-04-bonus-proration": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:06.437Z",
-    "ms": 2156,
-    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly calculates the bonus amount using the base salary and formula provided in the document and cites the appropriate clause.\"\n}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:02.876Z",
+    "ms": 1444,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly calculates the annual performance bonus using the provided base salary and cites the correct clause.\"\n}"
   },
   "sdk:raw:ans:offer-05-ip-side-project": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:11.897Z",
-    "ms": 1248,
-    "text": "No, the company does not own an unrelated hobby project you build on weekends on your personal laptop. \n\nAccording to the agreement, works created entirely on your own time without company equipment or confidential data, and which are unrelated to the company's business, remain your sole property. This is specified in Clause 4."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:14.357Z",
+    "ms": 1411,
+    "text": "No, the company does not own an unrelated hobby project you build on weekends on your personal laptop. \n\nSince the project is created entirely on your own time without company equipment or confidential data and is unrelated to the company's business, it remains your sole property (Clause 4)."
   },
   "sdk:raw:judge:offer-05-ip-side-project": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:21.526Z",
-    "ms": 5411,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states that the company does not own the project and accurately references Clause 4 and the conditions from the source document.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:23.359Z",
+    "ms": 4790,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately answers the question based on Clause 4 of the source document and explicitly cites the correct clause.\"}"
   },
   "sdk:real:basic:judge:offer-05-ip-side-project:2026-11-22T21:00:08": {
     "source": "live",
@@ -854,40 +854,40 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:37.293Z",
-    "ms": 2117,
-    "text": "The report classifies a fasting blood glucose of 114 mg/dL as impaired fasting glucose (prediabetes) and recommends repeating the HbA1c in 3 months along with a review of dietary and physical activity changes with the referring physician. This is based on clauses 3 and 4 of the document."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:39.755Z",
+    "ms": 1383,
+    "text": "A fasting blood glucose of 114 mg/dL is classified as impaired fasting glucose (prediabetes), and the report recommends repeating the HbA1c in 3 months and reviewing dietary and physical activity changes with the referring physician. \n\nThis is classified in clause 3 and explained with follow-up recommendations in clause 4."
   },
   "sdk:raw:judge:med-01-fasting-glucose-threshold": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:42.943Z",
-    "ms": 1429,
-    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately identifies the classification of the fasting blood glucose and the recommended follow-up from clauses 3 and 4 without any hallucinations.\"\n}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:45.383Z",
+    "ms": 1413,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the classification and follow-up recommendations while correctly referencing clauses 3 and 4.\"}"
   },
   "sdk:raw:ans:med-02-vitamin-d-dosage-local": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:48.754Z",
-    "ms": 1605,
-    "text": "The repeat vitamin D blood test should be scheduled in eight weeks. This is because the patient is instructed to schedule a repeat serum 25-OH Vitamin D blood test in eight weeks to monitor the deficiency. (Clause 3)"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:56.543Z",
+    "ms": 1304,
+    "text": "The repeat vitamin D blood test should be scheduled in eight weeks. \n\nThis is because the patient's plan states to schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks after supplementing with colecalciferol. \n\nCitation: Clause 3"
   },
   "sdk:raw:judge:med-02-vitamin-d-dosage-local": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:08:54.291Z",
-    "ms": 1322,
-    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately answers that the repeat test should be in eight weeks, reflecting the correct source clause.\"\n}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:08.427Z",
+    "ms": 7661,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately answered the question using the correct timeframe and correctly cited Clause 3.\"}"
   },
   "sdk:real:basic:judge:med-02-vitamin-d-dosage-local:2026-11-22T21:00:39": {
     "source": "live",
@@ -904,20 +904,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:09:11.296Z",
-    "ms": 2636,
-    "text": "Based on the document, your 20% out-of-pocket co-pay is EGP 5,000. \n\nThis is because the total approved package fee is EGP 25,000, and 20% of that amount is to be paid by the patient at admission, as stated in Clause 3."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:19.576Z",
+    "ms": 1518,
+    "text": "Your 20% out-of-pocket co-pay is EGP 5,000. \n\nSince the total approved package fee is EGP 25,000 and the insurer covers 80%, the remaining 20% patient co-payment amounts to EGP 5,000, which must be paid at admission as stated in Clause 3."
   },
   "sdk:raw:judge:med-03-insurance-copay-cap": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:09:17.234Z",
-    "ms": 1723,
-    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly calculates the 20% co-pay as EGP 5,000 based on the total fee of EGP 25,000 from Clause 3.\"\n}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:25.563Z",
+    "ms": 1749,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately calculates the co-pay as EGP 5,000 and correctly cites Clause 3.\"}"
   },
   "sdk:real:basic:judge:med-03-insurance-copay-cap:2026-11-22T21:00:48": {
     "source": "live",
@@ -934,40 +934,40 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:09:28.711Z",
-    "ms": 1740,
-    "text": "The client must pay 50% of the Milestone 2 fee. \n\nSince work had begun (canceling halfway through), the cancellation kill fee applies, requiring the client to pay half of the milestone's price within 14 days. \n\nThis is mandated by Clause 4."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:39.546Z",
+    "ms": 3463,
+    "text": "The client must pay 50% of the Milestone 2 fee. \n\nSince the project is cancelled halfway through the milestone (meaning work has begun), the cancellation policy applies, requiring a payment of half the milestone's total price within 14 days. This is mandated by Clause 4."
   },
   "sdk:raw:judge:freelance-01-kill-fee": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:09:34.334Z",
-    "ms": 1404,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly identifies that the client must pay 50% of the milestone fee based on the cancellation policy.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:47.438Z",
+    "ms": 3676,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly identifies that 50% of the Milestone 2 fee must be paid due to cancellation and accurately cites or reflects the relevant clauses.\"\n}"
   },
   "sdk:raw:ans:freelance-02-invoice-payment-net-local": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:09:39.752Z",
-    "ms": 1211,
-    "text": "The client must pay the invoice within fifteen (15) calendar days of receipt. This is because invoices must be paid in full within fifteen calendar days of receipt as stated in Clause 3."
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:02.389Z",
+    "ms": 1838,
+    "text": "The client must pay the invoice within fifteen (15) calendar days of receipt. \n\nThis is because invoices must be paid in full within fifteen (15) calendar days of receipt, as stated in Clause 3."
   },
   "sdk:raw:judge:freelance-02-invoice-payment-net-local": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:09:45.635Z",
-    "ms": 1509,
-    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately identifies the payment timeline and correctly references Clause 3 from the source document.\"\n}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:07.718Z",
+    "ms": 1107,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the payment timeline and correctly cites Clause 3 from the source document.\"}"
   },
   "sdk:real:basic:judge:freelance-02-invoice-payment-net-local:2026-11-22T21:01:03": {
     "source": "live",
@@ -984,20 +984,20 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:10:00.338Z",
-    "ms": 5000,
-    "text": "If you cancel 20 days before the event, you will receive a 50% refund of your deposit. \n\nThis is because cancellations made between 14 and 29 days before the event are eligible for a 50% refund of the deposit.\n\nClause: 3"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:26.554Z",
+    "ms": 9201,
+    "text": "You will receive a 50% refund of your deposit. \n\nSince you are canceling 20 days before the event, this falls into the window of between 14 and 29 days before the event, which entitles you to a 50% refund. \n\n(Clause 3)"
   },
   "sdk:raw:judge:freelance-03-card-hold-dispute": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:10:05.891Z",
-    "ms": 1334,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the correct refund percentage based on the cancellation schedule and correctly references the relevant clause content.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:35.561Z",
+    "ms": 4795,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the refund percentage and correctly cites the cancellation schedule clause.\"}"
   },
   "sdk:real:basic:judge:freelance-03-card-hold-dispute:2026-11-22T21:01:09": {
     "source": "live",
@@ -1014,9 +1014,9 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:10:17.962Z",
-    "ms": 1835,
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:49.392Z",
+    "ms": 3466,
     "text": "A 3% penalty applies if you pay off your remaining loan balance early. This is because an early-settlement administrative charge of 3% of the prepaid principal balance applies when settling the full remaining principal balance early. This is stated in clause 3."
   },
   "sdk:raw:judge:loan-01-early-payoff-penalty": {
@@ -1024,10 +1024,10 @@
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
     "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:10:23.789Z",
-    "ms": 1615,
-    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the 3% early-settlement administrative charge and correctly cites clause 3.\"}"
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:54.722Z",
+    "ms": 1122,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the 3% early-settlement charge and correctly cites clause 3.\"}"
   },
   "sdk:real:nano:judge:lease-01-rent-cap:2026-11-22T22:15:15": {
     "source": "live",
@@ -1558,5 +1558,205 @@
     "recordedAt": "2026-11-24T12:46:16.281Z",
     "ms": 7769,
     "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate answer accurately states the exact percentage penalty and correctly cites Clause 3 from the source document.\"}"
+  },
+  "sdk:real:gemma4:judge:lease-01-rent-cap:2026-11-24T19:27:12": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:20:40.630Z",
+    "ms": 5317,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites the 10% maximum increase rule from Clause 7.\"\n}"
+  },
+  "sdk:real:gemma4:judge:lease-02-end-date-local:2026-11-24T19:28:11": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:21:18.904Z",
+    "ms": 8764,
+    "text": "{\"verdict\": \"partially\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly explains the termination and notice conditions, but misses the specific end date (3 years from September 1, 2024, which is August 31, 2027) based on the lease term in Clause 2.\"}"
+  },
+  "sdk:real:gemma4:judge:lease-03-early-exit-deposit:2026-11-24T19:29:29": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:21:35.758Z",
+    "ms": 1817,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately explains the deposit consequence for leaving early and correctly references clauses 6 and 10.\"}"
+  },
+  "sdk:real:gemma4:judge:lease-04-late-fee-grace-period:2026-11-24T19:30:40": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:22:16.582Z",
+    "ms": 16120,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states that no late fee is owed because paying on the 8th is within the 10-day grace period outlined in Clause 8.\"}"
+  },
+  "sdk:real:gemma4:judge:lease-05-sublet-policy:2026-11-24T19:31:45": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:23:59.559Z",
+    "ms": 46216,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate correctly states that the tenant cannot list any room on short-term rental platforms without prior written authorization, accurately reflecting Clause 3.\"}"
+  },
+  "sdk:real:gemma4:judge:lease-06-landlord-entry-notice-local:2026-11-24T19:32:43": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:16.796Z",
+    "ms": 1515,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate answer accurately states the required notice period and correctly cites clause 4 from the source document.\"}"
+  },
+  "sdk:real:gemma4:judge:lease-07-commercial-cam-cap:2026-11-24T19:34:25": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:37.294Z",
+    "ms": 1343,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states that a 15% increase is not allowed because annual service charge increases are capped at 8% according to clause 3.\"}"
+  },
+  "sdk:real:gemma4:judge:lease-08-plumbing-responsibility:2026-11-24T19:36:09": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:24:58.672Z",
+    "ms": 1335,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately identifies that the landlord is responsible for the repair based on the clause concerning hidden plumbing.\"\n}"
+  },
+  "sdk:real:gemma4:judge:offer-01-severance-calculation:2026-11-24T19:38:21": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:15.275Z",
+    "ms": 1383,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the severance pay and notice period from Clause 5, correctly noting that 18 months falls after the 3-month probation period.\"}"
+  },
+  "sdk:real:gemma4:judge:offer-02-non-compete-scope:2026-11-24T19:39:49": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:33.802Z",
+    "ms": 2555,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly answers that the employee can immediately join a healthcare software startup by referencing the non-competition exception in clause 4.\"\n}"
+  },
+  "sdk:real:gemma4:judge:offer-03-probation-period-local:2026-11-24T19:41:05": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:25:51.422Z",
+    "ms": 1111,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the length of the probationary period and correctly references clause 3.\"}"
+  },
+  "sdk:real:gemma4:judge:offer-04-bonus-proration:2026-11-24T19:42:57": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:08.723Z",
+    "ms": 1610,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate accurately explains the calculation for the annual performance bonus using the correct clauses, though it leaves the monthly base salary as a variable placeholder.\"\n}"
+  },
+  "sdk:real:gemma4:judge:offer-05-ip-side-project:2026-11-24T19:44:44": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:34.122Z",
+    "ms": 6524,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately quotes Clause 4, which correctly answers that the employee retains ownership of unrelated projects built on their own time without company resources.\"}"
+  },
+  "sdk:real:gemma4:judge:med-01-fasting-glucose-threshold:2026-11-24T19:47:56": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:26:51.016Z",
+    "ms": 1415,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate answer accurately classifies the fasting blood glucose result based on clause 3 and correctly states the recommended follow-up from clause 4.\"}"
+  },
+  "sdk:real:gemma4:judge:med-02-vitamin-d-dosage-local:2026-11-24T19:49:26": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:13.848Z",
+    "ms": 1208,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately identifies the timeframe of eight weeks for the repeat test and correctly references clause 3.\"}"
+  },
+  "sdk:real:gemma4:judge:med-03-insurance-copay-cap:2026-11-24T19:50:55": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:31.866Z",
+    "ms": 2069,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly calculates the 20% co-pay as EGP 5,000 based on the total fee of EGP 25,000 and accurately cites Clause 3.\"\n}"
+  },
+  "sdk:real:gemma4:judge:freelance-01-kill-fee:2026-11-24T19:53:26": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:27:56.334Z",
+    "ms": 4672,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly calculates the fee and accurately cites the cancellation kill fee terms from clauses 2 and 4.\"\n}"
+  },
+  "sdk:real:gemma4:judge:freelance-02-invoice-payment-net-local:2026-11-24T19:54:33": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:13.141Z",
+    "ms": 1204,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate accurately states the payment timeframe from the correct clause.\"}"
+  },
+  "sdk:real:gemma4:judge:freelance-03-card-hold-dispute:2026-11-24T19:56:24": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:28:41.708Z",
+    "ms": 1874,
+    "text": "{\n  \"verdict\": \"correct\",\n  \"citesRightClause\": true,\n  \"rationale\": \"The candidate correctly determines the refund amount and accurately cites the relevant clause from the source document.\"\n}"
+  },
+  "sdk:real:gemma4:judge:loan-01-early-payoff-penalty:2026-11-24T19:59:13": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:29:00.146Z",
+    "ms": 1203,
+    "text": "{\"verdict\": \"correct\", \"citesRightClause\": true, \"rationale\": \"The candidate answer accurately identifies the 3% early-settlement administrative charge specified in clause 3, and correctly calculates the amount based on the principal balance.\"}"
   }
 }

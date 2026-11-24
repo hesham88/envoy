@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-24T12:49:59.816Z",
-  "commit": "12ac6c8",
+  "generatedAt": "2026-11-24T20:38:23.898Z",
+  "commit": "584cc81",
   "arms": [
     {
       "id": "gemma4",
@@ -18,18 +18,18 @@
       "nTotal": 36,
       "metrics": {
         "maskRecall": 1,
-        "falseMaskRate": 0.0709,
+        "falseMaskRate": 0.0609,
         "outboundLeaks": 0,
-        "clauseAccuracy": 0.8333,
+        "clauseAccuracy": 0.8611,
         "latencyMs": {
-          "p50": 72418,
-          "p95": 118251
+          "p50": 73491,
+          "p95": 118564
         },
-        "minimizationRatio": 0.1451,
+        "minimizationRatio": 0.2323,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": 0.95
+        "answerQualityRetained": 0.975
       },
       "metricsN": {
         "maskRecall": 36,
@@ -63,9 +63,9 @@
           "p95": 21
         },
         "minimizationRatio": 0.9065,
-        "reidRecoveryExact": 0,
-        "reidRecoveryPartial": 0,
-        "attributeInference": 0.039,
+        "reidRecoveryExact": null,
+        "reidRecoveryPartial": null,
+        "attributeInference": null,
         "answerQualityRetained": 0.975
       },
       "metricsN": {
@@ -75,8 +75,8 @@
         "clauseAccuracy": 36,
         "latencyMs": 36,
         "minimizationRatio": 36,
-        "reid": 36,
-        "attribute": 36,
+        "reid": 0,
+        "attribute": 0,
         "answerQuality": 20
       }
     }

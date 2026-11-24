@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-22T21:27:07.886Z",
+  "generatedAt": "2026-11-24T20:37:16.383Z",
   "source": "live",
   "sdk": "firebase/ai (ONLY_IN_CLOUD)",
   "attackerModel": "gemini-3.5-flash-lite",
@@ -8,7 +8,7 @@
     "gemma4": {
       "n": 36,
       "dates": [
-        "2026-11-22"
+        "2026-11-24"
       ],
       "totalGold": 263,
       "reidRecoveryExact": 0,
@@ -17,128 +17,6 @@
       "exactHits": 0,
       "partialHits": 0,
       "attrHits": 0,
-      "attrApplicable": 77,
-      "byType": {
-        "PERSON": {
-          "total": 68,
-          "exact": 0,
-          "partial": 0
-        },
-        "NATIONAL_ID": {
-          "total": 33,
-          "exact": 0,
-          "partial": 0
-        },
-        "ADDRESS": {
-          "total": 16,
-          "exact": 0,
-          "partial": 0
-        },
-        "PHONE": {
-          "total": 38,
-          "exact": 0,
-          "partial": 0
-        },
-        "EMAIL": {
-          "total": 25,
-          "exact": 0,
-          "partial": 0
-        },
-        "DATE": {
-          "total": 15,
-          "exact": 0,
-          "partial": 0
-        },
-        "MONEY": {
-          "total": 51,
-          "exact": 0,
-          "partial": 0
-        },
-        "IBAN": {
-          "total": 15,
-          "exact": 0,
-          "partial": 0
-        },
-        "CARD": {
-          "total": 2,
-          "exact": 0,
-          "partial": 0
-        }
-      }
-    },
-    "nano": {
-      "n": 36,
-      "dates": [
-        "2026-11-22"
-      ],
-      "totalGold": 263,
-      "reidRecoveryExact": 0,
-      "reidRecoveryPartial": 0,
-      "attributeInference": 0,
-      "exactHits": 0,
-      "partialHits": 0,
-      "attrHits": 0,
-      "attrApplicable": 77,
-      "byType": {
-        "PERSON": {
-          "total": 68,
-          "exact": 0,
-          "partial": 0
-        },
-        "NATIONAL_ID": {
-          "total": 33,
-          "exact": 0,
-          "partial": 0
-        },
-        "ADDRESS": {
-          "total": 16,
-          "exact": 0,
-          "partial": 0
-        },
-        "PHONE": {
-          "total": 38,
-          "exact": 0,
-          "partial": 0
-        },
-        "EMAIL": {
-          "total": 25,
-          "exact": 0,
-          "partial": 0
-        },
-        "DATE": {
-          "total": 15,
-          "exact": 0,
-          "partial": 0
-        },
-        "MONEY": {
-          "total": 51,
-          "exact": 0,
-          "partial": 0
-        },
-        "IBAN": {
-          "total": 15,
-          "exact": 0,
-          "partial": 0
-        },
-        "CARD": {
-          "total": 2,
-          "exact": 0,
-          "partial": 0
-        }
-      }
-    },
-    "basic": {
-      "n": 36,
-      "dates": [
-        "2026-11-22"
-      ],
-      "totalGold": 263,
-      "reidRecoveryExact": 0,
-      "reidRecoveryPartial": 0,
-      "attributeInference": 0.039,
-      "exactHits": 0,
-      "partialHits": 0,
-      "attrHits": 3,
       "attrApplicable": 77,
       "byType": {
         "PERSON": {

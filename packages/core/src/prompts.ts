@@ -106,6 +106,32 @@ answerable_locally is true only for such simple lookups. It is false for anythin
 ${clausesXml(chunks)}`;
 }
 
+/**
+ * True when a question asks for a figure that has to be worked out (a percentage, an amount, a cap,
+ * a what-if), not read off the page. Small on-device models state the formula instead of the number
+ * on these, so they always go to the reasoning step, which writes {{EXPR}} for local evaluation.
+ * Duration lookups ("how much notice") stay eligible for a local answer.
+ */
+export function needsCalculation(question: string): boolean {
+  const q = question.replace(/\bhow much (notice|time)\b/gi, '');
+  return /%|\bpercent(age)?\b|\bhow much\b|\b(maximum|minimum|most|least)\b|(^|[.?!]\s*)if\b/i.test(
+    q,
+  );
+}
+
+/** The model's route, overridden to the reasoning step when the question needs a calculation. */
+export function guardRoute(
+  question: string,
+  route: { local: boolean; reason: string },
+): { local: boolean; reason: string } {
+  if (!route.local || !needsCalculation(question)) return route;
+  return {
+    local: false,
+    reason:
+      'It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device.',
+  };
+}
+
 export function buildLocalAnswerPrompt(question: string, chunks: Chunk[]): string {
   return `## Task
 Answer the question in one or two sentences, using only these clauses. Name the clause you used. If the clauses do not say, reply exactly: The document does not say.

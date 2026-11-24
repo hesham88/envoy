@@ -5,10 +5,10 @@
   "arms": {
     "gemma4": {
       "n": 20,
-      "score": 0.875,
-      "correct": 16,
-      "partially": 3,
-      "wrong": 1,
+      "score": 0.95,
+      "correct": 18,
+      "partially": 2,
+      "wrong": 0,
       "rows": [
         {
           "id": "lease-01-rent-cap",
@@ -20,91 +20,91 @@
           "id": "lease-02-end-date-local",
           "verdict": "partially",
           "score": 0.5,
-          "rationale": "Gives the start date and early-exit terms but never the 3-year term or the end date (31 August 2027)."
+          "rationale": "Describes ending the lease by notice (Clause 10) but never gives the 3-year term or the end date (31 August 2027)."
         },
         {
           "id": "lease-03-early-exit-deposit",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Landlord may keep one month's rent if the tenant leaves without the Clause 10 notice."
+          "rationale": "The landlord may keep one month of rent if the tenant leaves without the Clause 10 notice."
         },
         {
           "id": "lease-04-late-fee-grace-period",
           "verdict": "correct",
           "score": 1,
-          "rationale": "No fee: only rent more than 10 days late is charged."
+          "rationale": "No fee: the 8th is within the 10-day grace period."
         },
         {
           "id": "lease-05-sublet-policy",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Not without prior written authorization (Clause 3)."
+          "rationale": "No: short-term listing needs the landlord written authorization (Clause 3)."
         },
         {
           "id": "lease-06-landlord-entry-notice-local",
           "verdict": "correct",
           "score": 1,
-          "rationale": "48 hours written notice."
+          "rationale": "48 hours written notice (Clause 4)."
         },
         {
           "id": "lease-07-commercial-cam-cap",
           "verdict": "correct",
           "score": 1,
-          "rationale": "No: increases capped at 8% a year."
+          "rationale": "No: increases are capped at 8% a year."
         },
         {
           "id": "lease-08-plumbing-responsibility",
           "verdict": "correct",
           "score": 1,
-          "rationale": "The landlord: hidden plumbing and main risers."
+          "rationale": "The landlord: hidden plumbing is the landlord responsibility."
         },
         {
           "id": "offer-01-severance-calculation",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Two months of gross salary (EGP 65,000 x 2) plus a 60-day notice period."
+          "rationale": "Two months of gross salary plus a 60-day notice period (Clause 5)."
         },
         {
           "id": "offer-02-non-compete-scope",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Yes: healthcare software is excluded from the non-compete."
+          "rationale": "Yes: the restriction excludes healthcare software."
         },
         {
           "id": "offer-03-probation-period-local",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Ninety days."
+          "rationale": "90 days (Clause 3)."
         },
         {
           "id": "offer-04-bonus-proration",
           "verdict": "partially",
           "score": 0.5,
-          "rationale": "Restates the formula (1.8x monthly base) but never computes the amount (EGP 144,000)."
+          "rationale": "Right formula (1.8x monthly base) but the cloud wrote {{MONTHLY_BASE_SALARY * 1.8}} with a tag name that is not in the tag map, so the amount (EGP 144,000) was never computed and the expression shows as is."
         },
         {
           "id": "offer-05-ip-side-project",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Own-time work without company equipment, unrelated to the business, stays the employee's."
+          "rationale": "No: off-hours work on personal equipment, unrelated to the business, stays the employee property (Clause 4)."
         },
         {
           "id": "med-01-fasting-glucose-threshold",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Impaired fasting glucose (prediabetes); repeat HbA1c in 3 months and review diet and activity."
+          "rationale": "Prediabetes range (100-125 mg/dL); repeat HbA1c in 3 months."
         },
         {
           "id": "med-02-vitamin-d-dosage-local",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Eight weeks."
+          "rationale": "Eight weeks (Clause 3)."
         },
         {
           "id": "med-03-insurance-copay-cap",
-          "verdict": "partially",
-          "score": 0.5,
-          "rationale": "Says \"a 20% co-payment\" but never gives the amount (EGP 5,000)."
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "EGP 5,000 (20% of EGP 25,000), worked out on the device."
         },
         {
           "id": "freelance-01-kill-fee",
@@ -116,19 +116,19 @@
           "id": "freelance-02-invoice-payment-net-local",
           "verdict": "correct",
           "score": 1,
-          "rationale": "Fifteen calendar days."
+          "rationale": "15 calendar days (Clause 3)."
         },
         {
           "id": "freelance-03-card-hold-dispute",
-          "verdict": "wrong",
-          "score": 0,
-          "rationale": "Quotes the 30+ day tier (100% refund); 20 days falls in the 14-29 day tier, a 50% refund (EGP 15,000)."
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "50% refund: 20 days falls in the 14-29 day tier. Routed to the cloud; the cloud call failed and the SDK answered on the device (PREFER_IN_CLOUD), which the receipt shows."
         },
         {
           "id": "loan-01-early-payoff-penalty",
           "verdict": "correct",
           "score": 1,
-          "rationale": "3% of the prepaid principal."
+          "rationale": "3% of the prepaid principal (EGP 12,000)."
         }
       ]
     },
