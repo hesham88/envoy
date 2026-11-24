@@ -109,6 +109,8 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 > 1. **5 / 20 unattended `OutboundBlockedError` blocks on both arms** (`offer-04`, `offer-05`/`offer-01`, `med-01`, `freelance-01`, `loan-01`): `flagNames()` flagged Title-Case headings (`"Base Salary"`, `"Referring Physician"`, `"Milestone Fee"`, `"Principal Balance"`, `"Without Cause"`) as `PERSON` entities, and `checkOutbound()` then blocked lowercase mentions of those exact phrases in the body text until the user clears them in the Review screen.
 >    **Fixed on `2026-11-23`** (`packages/core/src/names.ts`): a capitalised phrase also written in lowercase in the document or the question, across spaces or hyphens, is not a name. Basic re-measured with answers: **0 blocks**, quality retained **75.0% → 97.5%**; a unit test now runs all 36 cases in Basic protection and fails on any block. The Gemini Nano 3 row was removed with that arm (see the note at the top).
 
+> **About `tests/eval/answer-quality.json`.** This is an earlier harness (`run-answers.mjs`, 22 November, 10 questions, before the heading fix), kept for the record and replaced by the measurement above. Its one `zeroCloudLeak: false` row (`med-01`) means the guard **refused** to send: `flagNames()` had flagged the heading "Referring Physician" as a name, and the guard blocked the masked text. Nothing was sent. That false block is cause 1 in the history above, and it was fixed on 23 November.
+
 ---
 
 ## 5. Recorded On-Device Demo Traces for Judges (Milestone 4)
@@ -137,13 +139,13 @@ Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) now publish
   "minimizationRatio": 36,
   "reid": 36,
   "attribute": 36,
-  "answerQuality": 18
+  "answerQuality": 20
 }
 ```
 
 ### Limitations
 
-1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `54.9s` (`gemma4`); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
+1. **CPU latency on 2018 laptop hardware (`i7-8750H`, CPU-only backend because 2016 Pascal GTX 1050 Ti crashes Dawn):** `p50` is `72.4s` (`gemma4`, 24 Nov; `54.9s` on 22 Nov); GPU-backed systems should be much faster, but we have not measured one, so no GPU figure is claimed.
 2. **The red team is 28 cases + 10 false-positive controls.** All 28 are blocked today with 0 false blocks, but 28 cases are not proof against every encoding or paraphrase. Envoy's claim is the measured one: it minimizes what leaves, masks what it detects, and blocks detected leaks, including disguised ones. Indirect identification is measured separately by the 36-case attribute-inference attack (section 3).
 3. **Title-Case heading false flags in `flagNames()`:** fixed on `2026-11-23` (see §4). Basic now has 0 unattended blocks on the 36 cases. On the private path, the same day's live runs found two more false blocks (the model calling "the Company" an organisation and "90" in "ninety (90) days" money); model findings that are generic role words or bare numbers as money are now dropped.
 4. **Answer quality is measured on 20 of the 36 cases** (the cases with a single clear answer). Gemma 4's run on 24 November also re-measured its privacy numbers on the current pipeline; on-device timing that day was slower than on 22 November (p50 72 s against 55 s on the same laptop, which was also running other work).

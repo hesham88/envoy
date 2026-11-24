@@ -12,7 +12,10 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     target: 'es2022',
-    sourcemap: true,
-    rollupOptions: { input: { sidepanel: 'sidepanel.html', popup: 'popup.html', offscreen: 'offscreen.html' } },
+    // Maps are left out of the store zip anyway; building them cost Rolldown gigabytes on 16 GB machines.
+    sourcemap: process.env.EXT_SOURCEMAP === '1',
+    rollupOptions: {
+      input: { sidepanel: 'sidepanel.html', popup: 'popup.html', offscreen: 'offscreen.html' },
+    },
   },
 });

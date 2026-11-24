@@ -889,11 +889,14 @@ export function ChatApp({
       {rulesOpen && (
         <RulesDialog
           rules={rules}
+          locked={!store && vault.state !== 'unavailable'}
           onClose={() => setRulesOpen(false)}
           onChange={(r) => {
             setRules(r);
             if (store) void store.save(r);
-            else saveRules(r);
+            // Plain storage only where this browser can't encrypt at all. A locked vault keeps
+            // new rules for this tab rather than writing them unencrypted.
+            else if (vault.state === 'unavailable') saveRules(r);
           }}
         />
       )}
@@ -1206,10 +1209,13 @@ function AnswerBubble({ session }: { session: SessionState }) {
 
 function RulesDialog({
   rules,
+  locked = false,
   onClose,
   onChange,
 }: {
   rules: CustomRule[];
+  /** History has a passcode and is locked: changes can't be saved encrypted yet. */
+  locked?: boolean;
   onClose: () => void;
   onChange: (r: CustomRule[]) => void;
 }) {
@@ -1256,6 +1262,12 @@ function RulesDialog({
           Words only you know are private, like a project or a client. Envoy masks them everywhere,
           and the guard blocks them if they slip into what you send. Saved in this browser only.
         </p>
+        {locked && (
+          <p role="note" className="m-0 text-[14px] leading-relaxed text-ink">
+            History is locked, so changes here last for this tab only. Unlock History to save them
+            encrypted.
+          </p>
+        )}
         <ul className="m-0 flex list-none flex-col gap-2 p-0">
           {rules.length === 0 && <li className="text-[14px] text-muted">No rules yet.</li>}
           {rules.map((r, i) => (
