@@ -98,8 +98,8 @@ export const SCENES = {
   'n10-answer': {
     layout: 'right',
     where: 'cloud',
-    title: 'Gemini 4 Hydrogen reasons over tags',
-    sub: 'The maths and the real values come back on your device',
+    title: 'Flash-Lite or Gemini 4 Hydrogen',
+    sub: 'Your choice of cloud model. It sees tags; your details come back on your device',
     move: 'left',
     into: ['smoothleft', 0.6],
     wait: 'hydrogen',
@@ -108,7 +108,7 @@ export const SCENES = {
     layout: 'left',
     where: 'device',
     title: 'Answered on the device',
-    sub: '0 bytes left this laptop',
+    sub: '0 bytes left this laptop. Local only keeps every answer here',
     move: 'right',
     into: ['smoothup', 0.6],
     wait: 'local',
@@ -184,7 +184,7 @@ export const CHAPTERS = {
 export const WAIT_TEXT = {
   analysis: (s) =>
     `Wait cut: ${minutes(s)} of on-device work on this CPU-only laptop. Times vary a lot by device.`,
-  hydrogen: (s) => `Wait cut: Gemini 4 Hydrogen took ${Math.round(s)} seconds.`,
+  hydrogen: (s) => `Wait cut: the cloud model took ${Math.round(s)} seconds.`,
   local: (s) => `Wait cut: ${minutes(s)} on this CPU-only laptop.`,
 };
 function minutes(s) {
