@@ -76,6 +76,8 @@ Motion polish → eval and Harness² tuning (**ALL 6 ARGON MILESTONES COMPLETED 
 
 Two cloud models through Remote Config: `cloud_model_fast` = `gemini-3.5-flash-lite` (about 1.4 s) and `cloud_model` = `gemini-4-hydrogen` (10–50 s, more careful). `cloud_default` = `fast` decides what people get until they choose in the composer; their choice is saved in the browser. Override locally with `VITE_CLOUD_MODEL`. Fallback chain (23 Nov): Hydrogen runs `ONLY_IN_CLOUD`; if it fails (free tier: 20 requests/day, it ran out on 23 Nov and showed "cloud unreachable"), `deps.reasonFallback` (Flash-Lite, `PREFER_IN_CLOUD`) answers and the answer says so; only then the device. A refused request is still listed in the ledger.
 
+**Recorded run (23 Nov):** `/app?recorded=1` replays the real Gemma 4 trace (`tests/eval/probes/demo-trace-gemma4.json`, recorded 22 Nov) for judges without the model: labelled as a recording, real step times, outbound text, answer, ledger. Linked from the Basic-protection status, the private-mode guide and the landing page's judges section. `RecordedRun.test.tsx` keeps the bundled copy identical to the trace.
+
 ## Judge experience (must-have)
 
 - Many judges can't run the on-device model (one field study found about 41% of users could), and Chrome 157+ keeps on-device AI off until it's enabled in Settings → AI.

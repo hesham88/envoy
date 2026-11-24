@@ -51,7 +51,7 @@ Status as of 23 November 2026. ✅ done (with where), ⚠️ owner step or partl
 | Real eval numbers                                            | ✅ `docs/EVAL.md`, `tests/eval/summary.json`, landing page                |
 | "Why not just redact?"                                       | ✅ README                                                                 |
 | Basic protection first-class                                 | ✅                                                                        |
-| Replay a recorded on-device run for judges without the model | ⏳ waiting for Argon's recorded traces                                    |
+| Replay a recorded on-device run for judges without the model | ✅ `/app?recorded=1` (RecordedRun.tsx), linked from the app and landing   |
 
 ## PAIR quick wins
 
@@ -86,7 +86,7 @@ The integration-checkout review was written against the stale `phase-3-product-u
 | A quota error would show a raw SDK message                                                   | ✅ Plain message with what to do (switch model, Local only)                                                                                                                                                |
 | Lint failure in `e2e/run.mjs`                                                                | ✅ Fixed earlier                                                                                                                                                                                           |
 | Merge PR #23 (Argon's eval upgrade)                                                          | ✅ Merged 23 Nov after merging `main` into it (CLI eval dropped) and re-measuring Basic with answers: 0 blocks, quality retained 97.5%                                                                     |
-| Replay a recorded on-device run for judges                                                   | ⏳ Needs PR #23's traces                                                                                                                                                                                   |
+| Replay a recorded on-device run for judges                                                   | ✅ Done: `/app?recorded=1`                                                                                                                                                                                 |
 | Answer-quality table is self-judged; tuning set = test set                                   | ⏳ Argon's lane (held-out set, different judge model)                                                                                                                                                      |
 | Cloud quota for judging; quota form by Wed 25 Nov, 10 AM PT                                  | ⚠️ Owner step                                                                                                                                                                                              |
 | Repo homepage URL, CI deploy secret                                                          | ✅ Done on the owner's request: homepage set; a least-privilege deploy service account; merges to `main` now deploy automatically (verified)                                                               |

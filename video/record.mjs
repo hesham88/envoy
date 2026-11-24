@@ -58,7 +58,9 @@ const server = createServer(async (req, res) => {
   } catch {
     return void res.writeHead(404).end();
   }
-  res.writeHead(200, { 'content-type': TYPES[extname(path)] ?? 'application/octet-stream' }).end(body);
+  res
+    .writeHead(200, { 'content-type': TYPES[extname(path)] ?? 'application/octet-stream' })
+    .end(body);
 });
 await new Promise((r) => server.listen(5198, '127.0.0.1', r));
 const LOCAL = 'http://127.0.0.1:5198';
@@ -87,7 +89,12 @@ export async function screencast(page, id, run) {
     frames.push({ data: f.data, t: f.metadata.timestamp });
     cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }).catch(() => {});
   });
-  await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 92, maxWidth: W, maxHeight: H });
+  await cdp.send('Page.startScreencast', {
+    format: 'jpeg',
+    quality: 92,
+    maxWidth: W,
+    maxHeight: H,
+  });
   const start = Date.now() / 1000;
   const marks = [];
   await run((name) => marks.push({ name, at: Date.now() / 1000 - start }));
@@ -100,14 +107,32 @@ export async function screencast(page, id, run) {
     const name = `f${String(i).padStart(5, '0')}.jpg`;
     writeFileSync(join(dir, name), Buffer.from(f.data, 'base64'));
     const next = kept[i + 1]?.t ?? end;
-    lines.push(`file '${name}'`, `duration ${Math.max(0.001, next - Math.max(f.t, start)).toFixed(4)}`);
+    lines.push(
+      `file '${name}'`,
+      `duration ${Math.max(0.001, next - Math.max(f.t, start)).toFixed(4)}`,
+    );
   });
   lines.push(`file 'f${String(kept.length - 1).padStart(5, '0')}.jpg'`);
   writeFileSync(join(dir, 'list.txt'), lines.join('\n'));
   execFileSync('ffmpeg', [
-    '-loglevel', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', join(dir, 'list.txt'),
-    '-vf', `fps=30,scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:color=0x0b0a1f,format=yuv420p`,
-    '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', join(RAW, `${id}.mp4`),
+    '-loglevel',
+    'error',
+    '-y',
+    '-f',
+    'concat',
+    '-safe',
+    '0',
+    '-i',
+    join(dir, 'list.txt'),
+    '-vf',
+    `fps=30,scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:color=0x0b0a1f,format=yuv420p`,
+    '-c:v',
+    'libx264',
+    '-crf',
+    '16',
+    '-preset',
+    'medium',
+    join(RAW, `${id}.mp4`),
   ]);
   rmSync(dir, { recursive: true, force: true });
   writeFileSync(join(RAW, `${id}.marks.json`), JSON.stringify(marks, null, 1));
@@ -190,7 +215,12 @@ await scene('n04-live', `${SITE}/`, async (p, mark) => {
   const box = p.locator('textarea').first();
   await box.click();
   await box.fill('');
-  await type(p, mark, box, "Hi, I'm Mona Adel, mona.adel@example.com, +20 100 555 0192. Rent is EGP 8,500 on 1 March 2026.");
+  await type(
+    p,
+    mark,
+    box,
+    "Hi, I'm Mona Adel, mona.adel@example.com, +20 100 555 0192. Rent is EGP 8,500 on 1 March 2026.",
+  );
   await wait(3000);
 });
 
@@ -213,17 +243,25 @@ await scene('n05-usecases', `${SITE}/`, async (p, mark) => {
 });
 
 // 13. Hybrid inference, step by step: the landing page's how-it-works section.
-await scene('n13-hybrid', `${SITE}/#how`, async (p) => {
-  await wait(3500);
-  await smooth(p, (await p.evaluate(() => window.scrollY)) + 700);
-  await wait(7000);
+await scene('n13-hybrid', `${SITE}/`, async (p) => {
+  await p.locator('#how').evaluate((el) => el.scrollIntoView({ block: 'start' }));
+  await wait(600);
+  await wait(3000);
+  await smooth(p, (await p.evaluate(() => window.scrollY)) + 520);
+  await wait(7500);
 });
 
 // 14. The extension on a text box: a plain account number is found and replaced.
 await scene('n14-extension', `${LOCAL}/scenes/stand-in.html`, async (p, mark) => {
   const t = p.locator('#t');
   await t.click();
-  await type(p, mark, t, "My bank account number 1010192316 was charged twice by my phone company. Can you write the complaint? I'm Mona Adel, +20 100 555 0192.", 26);
+  await type(
+    p,
+    mark,
+    t,
+    "My bank account number 1010192316 was charged twice by my phone company. Can you write the complaint? I'm Mona Adel, +20 100 555 0192.",
+    26,
+  );
   await wait(900);
   await p.locator('#envoy-field-ui .chip').click();
   await wait(3800);
@@ -234,6 +272,9 @@ await scene('n14-extension', `${LOCAL}/scenes/stand-in.html`, async (p, mark) =>
 // 15. Upload with Envoy: a photo of an ID card, a box over the number, location data removed.
 const photo = only && !only.has('n15-upload') ? null : await idCardPhoto();
 await scene('n15-upload', `${LOCAL}/scenes/stand-in.html`, async (p) => {
+  // Lift the composer so the upload card (it opens below the button) fits in the frame.
+  await p.evaluate(() => (document.querySelector('.compose').style.marginTop = '40px'));
+  await wait(300);
   await p.locator('#plus').click();
   await wait(1200);
   await p.locator('#envoy-field-ui .up-btn').click();
@@ -254,16 +295,18 @@ await scene('n15-upload', `${LOCAL}/scenes/stand-in.html`, async (p) => {
 // 16. Private mode not on? The guide checks this computer and shows the steps.
 await scene('n16-guide', `${SITE}/app?guide=private`, async (p) => {
   await wait(4200);
-  await p.locator('dialog').evaluate((d) => d.firstElementChild?.scrollBy({ top: 420, behavior: 'smooth' }));
+  await p
+    .locator('dialog')
+    .evaluate((d) => d.firstElementChild?.scrollBy({ top: 420, behavior: 'smooth' }));
   await wait(4500);
 });
 
 // 17. Measured: the landing page's results table.
 await scene('n17-measured', `${SITE}/#guard`, async (p) => {
   await scrollTo(p, 'table', 'center');
-  await wait(900);
-  await smooth(p, (await p.evaluate(() => window.scrollY)) + 140);
-  await wait(8500);
+  await wait(800);
+  await smooth(p, (await p.evaluate(() => window.scrollY)) - 170);
+  await wait(8700);
 });
 
 // 18. End card.

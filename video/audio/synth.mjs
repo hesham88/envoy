@@ -120,7 +120,8 @@ function music(seconds) {
     for (let i = 0; i < dur && s0 + i < n; i++) {
       const t = i / SR;
       const env = Math.exp(-t * 4.5) * Math.min(1, t / 0.004);
-      x[s0 + i] += env * (Math.sin(TAU * f * t) + 0.25 * Math.sin(TAU * 2 * f * t)) * 0.028 * accent;
+      x[s0 + i] +=
+        env * (Math.sin(TAU * f * t) + 0.25 * Math.sin(TAU * 2 * f * t)) * 0.028 * accent;
     }
   }
   // Fade in and out.
@@ -140,7 +141,16 @@ function tone(seconds, fn) {
 }
 /** Soft glass tick: a detail turns into a tag. */
 const tick = () =>
-  normalize(reverb(tone(0.5, (t) => Math.exp(-t * 28) * (Math.sin(TAU * 2093 * t) + 0.4 * Math.sin(TAU * 3136 * t))), 0.2), 0.45);
+  normalize(
+    reverb(
+      tone(
+        0.5,
+        (t) => Math.exp(-t * 28) * (Math.sin(TAU * 2093 * t) + 0.4 * Math.sin(TAU * 3136 * t)),
+      ),
+      0.2,
+    ),
+    0.45,
+  );
 /** The seal: approve and send. Two rising notes, warm. */
 const seal = () =>
   normalize(
@@ -172,7 +182,8 @@ const block = () =>
   normalize(
     reverb(
       tone(0.7, (t) => {
-        const hit = (t0) => (t > t0 ? Math.exp(-(t - t0) * 18) * Math.sin(TAU * 110 * (t - t0)) : 0);
+        const hit = (t0) =>
+          t > t0 ? Math.exp(-(t - t0) * 18) * Math.sin(TAU * 110 * (t - t0)) : 0;
         return hit(0) + 0.6 * hit(0.11);
       }),
       0.2,
@@ -196,10 +207,54 @@ const restore = () =>
     0.4,
   );
 
+/**
+ * Typing: 40 s of keystrokes on a laptop keyboard (seeded, so every build is the same). Each key is
+ * a short band-limited click plus a soft low thock; the rhythm is uneven like a person typing, with
+ * a longer pause now and then (a space, a thought). The film trims it to each typing moment.
+ */
+const typing = () => {
+  // mulberry32: integer-exact, unlike an LCG multiplied in doubles (which loses precision and sticks).
+  let s = 424242;
+  const rnd = () => {
+    s = (s + 0x6d2b79f5) | 0;
+    let z = Math.imul(s ^ (s >>> 15), 1 | s);
+    z = (z + Math.imul(z ^ (z >>> 7), 61 | z)) ^ z;
+    return ((z ^ (z >>> 14)) >>> 0) / 4294967296;
+  };
+  const n = Math.round(40 * SR);
+  const l = new Float32Array(n);
+  const r = new Float32Array(n);
+  let t = 0.05;
+  let k = 0;
+  while (t < 39.8) {
+    const start = Math.round(t * SR);
+    const gain = 0.55 + 0.45 * rnd();
+    const pan = 0.35 + 0.3 * rnd();
+    const pitch = 0.85 + 0.3 * rnd();
+    let hp = 0;
+    let prev = 0;
+    const len = Math.round(0.06 * SR);
+    for (let i = 0; i < len && start + i < n; i++) {
+      const u = i / SR;
+      const noise = rnd() * 2 - 1;
+      hp = 0.82 * (hp + noise - prev); // high-pass: the click
+      prev = noise;
+      const click = hp * Math.exp(-u * 160) * 0.9;
+      const thock = Math.sin(TAU * 190 * pitch * u) * Math.exp(-u * 70) * 0.55;
+      const v = (click + thock) * gain;
+      l[start + i] += v * (1 - pan);
+      r[start + i] += v * pan;
+    }
+    k++;
+    t += 0.075 + 0.07 * rnd() + (k % (5 + Math.floor(rnd() * 4)) === 0 ? 0.12 + 0.15 * rnd() : 0);
+  }
+  return normalize([reverb(l, 0.08)[0], reverb(r, 0.08)[1]], 0.5);
+};
+
 const seconds = Number(process.argv[2] ?? 150);
 const [ml, mr] = music(seconds);
 wav('music', ml, mr);
-for (const [name, fx] of Object.entries({ tick, seal, whoosh, block, restore })) {
+for (const [name, fx] of Object.entries({ tick, seal, whoosh, block, restore, typing })) {
   const [l, r] = fx();
   wav(`sfx-${name}`, l, r);
 }

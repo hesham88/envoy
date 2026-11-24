@@ -1,51 +1,75 @@
 [
   {
-    "id": "n01-hook",
-    "text": "Cloud AI is brilliant. But to help with your lease, your contract or your medical letter, it asks you to hand over everything."
+    "id": "n01-open",
+    "text": "This is Envoy, your private AI agent to the cloud. Your device keeps the secrets. The cloud does the thinking."
   },
   {
-    "id": "n02-promise",
-    "text": "Envoy is your private agent to the cloud. Ask the cloud. Keep your secrets."
+    "id": "n02-problem",
+    "text": "Every day, people paste leases, offer letters, lab results and secret keys into cloud AI. Today, all of it leaves the device, and you can't take it back."
   },
   {
-    "id": "n03-live",
-    "text": "As you type, Envoy finds what is private, right here on your device. Names, emails, phone numbers and keys become tags that keep their meaning."
+    "id": "n03-promise",
+    "text": "Envoy changes the deal. The private steps run on Chrome's built-in model, right on your device, and the cloud only ever sees tags."
   },
   {
-    "id": "n04-chat",
-    "text": "Here is a real question, in private mode on Gemma four, the model Gemini Nano four is built on. Mona asks whether her landlord can raise her rent twenty percent this year.",
+    "id": "n04-live",
+    "text": "As you type, Envoy finds what is private, and turns names, emails, phone numbers and amounts into tags that keep their meaning."
+  },
+  {
+    "id": "n05-usecases",
+    "text": "It works for anyone. An HR manager checking an offer letter. A patient with lab results. A developer pasting a config with live keys. Each gets help, without handing over the details."
+  },
+  {
+    "id": "n06-chat",
+    "text": "Here is a real session in private mode, on Gemma four, the model Gemini Nano four is built on. Mona asks whether her landlord can raise her rent by twenty percent.",
     "cfg_weight": 0.3
   },
   {
-    "id": "n05-recorder",
-    "text": "Chrome's built-in model works through it on this laptop, step by step, and the privacy flight recorder shows where each step ran, which model, and how long it took. We have cut the wait."
+    "id": "n07-recorder",
+    "text": "Chrome's built-in model works through her lease on this laptop. The privacy flight recorder shows every step, where it ran, which model, and how long it took."
   },
   {
-    "id": "n06-approve",
-    "text": "Before anything leaves, Mona reads exactly what the cloud will see. Only the clauses her question needs, and every name, number and account is already a tag. Nothing is sent until she approves."
+    "id": "n08-approve",
+    "text": "Before anything leaves, Mona sees exactly what the cloud will see. Only the clauses her question needs, with every name and number already a tag. Nothing is sent until she approves."
   },
   {
-    "id": "n07-guard",
-    "text": "If a raw detail slips back in, even spaced out or disguised, the guard blocks the send."
+    "id": "n09-guard",
+    "text": "If a raw detail slips back in, like a bank account number pasted into the excerpt, the guard blocks the send."
   },
   {
-    "id": "n08-answer",
-    "text": "Gemini reasons over the tags, and writes the maths as an expression. Envoy works out the real amount on Mona's device, so the cloud never sees it."
+    "id": "n10-answer",
+    "text": "Gemini four Hydrogen reasons over the tags, and writes the maths as an expression. Envoy works out the real amounts on her device, and puts Mona's details back."
   },
   {
-    "id": "n09-hybrid",
-    "text": "This is Firebase AI Logic hybrid inference, chosen step by step. On the device for everything private, and in the cloud only for the reasoning, over tags. If the cloud can't be reached, Envoy answers on the device and tells you why."
+    "id": "n11-local",
+    "text": "Some questions never need the cloud. When does my lease end? Gemma four answers on the device, and zero bytes leave the laptop."
   },
   {
-    "id": "n10-extension",
-    "text": "In Chrome, Envoy guards the text boxes you choose. Turn it on, and private details light up. Replace them in one click, before you press send."
+    "id": "n12-ledger",
+    "text": "The network ledger lists every request, and exactly what reached the cloud."
   },
   {
-    "id": "n11-measured",
-    "text": "We measured it on thirty six documents with Gemma four. Every private detail was masked, with zero leaks, and all twenty eight disguise attacks were blocked."
+    "id": "n13-hybrid",
+    "text": "This is hybrid inference with Firebase AI Logic. Finding, trimming, routing and local answers run only on the device, with a guard that checks they really did. Only the reasoning goes to the cloud."
   },
   {
-    "id": "n12-end",
+    "id": "n14-extension",
+    "text": "The Chrome extension brings Envoy to any AI chat. A plain bank account number lights up as you type, and one click swaps every detail for a tag."
+  },
+  {
+    "id": "n15-upload",
+    "text": "Upload with Envoy rebuilds files on your device. Photos lose their location data, and you can black out an ID number before it goes."
+  },
+  {
+    "id": "n16-guide",
+    "text": "No on-device model yet? Envoy checks this computer and walks you through turning on private mode. Until then, Basic protection masks the details with local rules."
+  },
+  {
+    "id": "n17-measured",
+    "text": "We measured it. On thirty six documents, private mode on Gemma four found every planted detail, leaked none, and sent about sixteen percent of the text. The guard stopped all twenty eight attacks."
+  },
+  {
+    "id": "n18-end",
     "text": "Envoy. Ask the cloud. Keep your secrets."
   }
 ]

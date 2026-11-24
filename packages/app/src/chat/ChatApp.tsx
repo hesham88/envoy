@@ -41,6 +41,7 @@ import { FileReadError, readDocumentFile } from '../lib/readFile';
 import { FlightRecorder } from './FlightRecorder';
 import { HistoryDialog } from './History';
 import { PrivateModeGuide, type ChromePage } from './PrivateModeGuide';
+import { RecordedRun } from './RecordedRun';
 import { useVault } from '../lib/useVault';
 import { PREF_KEYS, usePref } from '../lib/prefs';
 
@@ -215,6 +216,9 @@ export function ChatApp({
     () =>
       typeof location !== 'undefined' &&
       new URLSearchParams(location.search).get('guide') === 'private',
+  );
+  const [recordedOpen, setRecordedOpen] = useState(
+    () => typeof location !== 'undefined' && new URLSearchParams(location.search).has('recorded'),
   );
   const [composerFocus, setComposerFocus] = useState(false);
   const analysisCache = useRef(new Map<string, NonNullable<SessionState['analysis']>>());
@@ -477,12 +481,20 @@ export function ChatApp({
         <div className="flex flex-col gap-2 rounded-[12px] border border-line p-3">
           <StatusPill status={runtime.status} progress={runtime.progress} compact />
           {runtime.status !== 'available' && runtime.status !== 'checking' && (
-            <button
-              onClick={() => setGuideOpen(true)}
-              className="text-left text-[13px] text-device-on-tint underline underline-offset-4"
-            >
-              Set up private mode
-            </button>
+            <>
+              <button
+                onClick={() => setGuideOpen(true)}
+                className="text-left text-[13px] text-device-on-tint underline underline-offset-4"
+              >
+                Set up private mode
+              </button>
+              <button
+                onClick={() => setRecordedOpen(true)}
+                className="text-left text-[13px] text-muted underline underline-offset-4 hover:text-ink"
+              >
+                See a recorded Private-mode run
+              </button>
+            </>
           )}
           <p className="m-0 text-[12.5px] leading-snug text-muted">
             Cloud model: <span className="font-mono">{runtime.settings.cloudModel}</span>
@@ -578,12 +590,20 @@ export function ChatApp({
           <div className="flex items-center justify-between gap-2">
             <StatusPill status={runtime.status} progress={runtime.progress} compact />
             {runtime.status !== 'available' && runtime.status !== 'checking' && (
-              <button
-                onClick={() => setGuideOpen(true)}
-                className="text-[12.5px] text-device-on-tint underline underline-offset-4"
-              >
-                Set up private mode
-              </button>
+              <span className="flex gap-3">
+                <button
+                  onClick={() => setRecordedOpen(true)}
+                  className="text-[12.5px] text-muted underline underline-offset-4 hover:text-ink"
+                >
+                  Recorded run
+                </button>
+                <button
+                  onClick={() => setGuideOpen(true)}
+                  className="text-[12.5px] text-device-on-tint underline underline-offset-4"
+                >
+                  Set up private mode
+                </button>
+              </span>
             )}
           </div>
         </header>
@@ -833,8 +853,13 @@ export function ChatApp({
           runtime={runtime}
           {...(openChromePage ? { openChromePage } : {})}
           onClose={() => setGuideOpen(false)}
+          onShowRecording={() => {
+            setGuideOpen(false);
+            setRecordedOpen(true);
+          }}
         />
       )}
+      {recordedOpen && <RecordedRun onClose={() => setRecordedOpen(false)} />}
       {rulesOpen && (
         <RulesDialog
           rules={rules}
