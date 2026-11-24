@@ -130,7 +130,14 @@ const column = (L) => {
   const width = L.caption === 'column-left' ? L.x - 80 - 44 : W - left - 80;
   return { left, width };
 };
-for (const [id, s] of Object.entries(SCENES)) {
+// Variant captions for the Flash-Lite cut (video/narration-flash.json), as cap-<id>-flash.png.
+const flashFile = join(REPO, 'video/narration-flash.json');
+const flash = existsSync(flashFile) ? JSON.parse(readFileSync(flashFile, 'utf8')) : [];
+const captioned = [
+  ...Object.entries(SCENES),
+  ...flash.filter((o) => o.caption).map((o) => [`${o.id}-flash`, { ...SCENES[o.id], ...o.caption }]),
+];
+for (const [id, s] of captioned) {
   const L = LAYOUTS[s.layout];
   if (L.caption === 'none') continue;
   let html;
