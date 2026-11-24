@@ -34,7 +34,7 @@ export function sealSvg(size = 18): string {
 }
 
 export const THEME_CSS = `
-:host { all: initial; }
+:host { all: initial; direction: ltr; text-align: left; } /* 'all' doesn't reset direction: an RTL page would mirror Envoy's English UI */
 * { box-sizing: border-box; }
 .uv { font: 13px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; color: ${UV.text}; -webkit-font-smoothing: antialiased; }
 .mono { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; }

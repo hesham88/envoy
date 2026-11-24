@@ -133,6 +133,19 @@ const PAGE = `<!doctype html><html><head><meta charset="utf-8"><title>Test chat<
 <div class="box"><label>Attach <input id="file" type="file"></label></div>
 <div class="box"><button id="plus" type="button" style="margin-top:20px">+ Add files</button><input id="hidden-file" type="file" style="display:none"></div>
 <div class="box" style="position:relative"><button id="menu-open" type="button">Menu</button><div id="menu" style="visibility:hidden;position:absolute;left:80px;top:0;background:#fff;border:1px solid #ccc;padding:6px"><button id="menu-item" type="button">Upload file</button></div><input id="menu-file" type="file" style="display:none"></div>
+<div class="box"><textarea id="dropbox" aria-label="Message box that takes dropped files"></textarea></div>
+<div class="box"><textarea id="pickbox" aria-label="Message box with its own attach button"></textarea><button id="attach" type="button">Attach</button></div>
+<script>
+const dropbox = document.getElementById("dropbox");
+dropbox.addEventListener("dragover", (e) => e.preventDefault());
+dropbox.addEventListener("drop", (e) => { e.preventDefault(); window.__dropped = e.dataTransfer.files[0]; });
+document.getElementById("attach").addEventListener("click", () => {
+  const i = document.createElement("input"); i.type = "file"; i.style.display = "none";
+  document.getElementById("attach").after(i);
+  i.addEventListener("change", () => { window.__picked = i.files[0]; i.remove(); });
+  i.click();
+});
+</script>
 <script>document.getElementById("plus").addEventListener("click", () => document.getElementById("hidden-file").click());
 document.getElementById("menu-open").addEventListener("click", () => { document.getElementById("menu").style.visibility = "visible"; });
 document.getElementById("menu-item").addEventListener("click", () => { document.getElementById("menu").style.visibility = "hidden"; document.getElementById("menu-file").click(); });</script>
@@ -491,6 +504,71 @@ try {
       !pdf.handed.latin.includes(RAW.email) &&
       !pdf.handed.latin.includes('2631'),
     pdf.receipt.slice(0, 160),
+  );
+
+  // --- a message box with no file input at all (as on Google): shown, and the file is dropped in ---
+  const readGiven = (key) =>
+    page.evaluate(async (k) => {
+      const f = window[k];
+      if (!f) return null;
+      const bytes = new Uint8Array(await f.arrayBuffer());
+      let latin = '';
+      for (const b of bytes) latin += String.fromCharCode(b);
+      return { name: f.name, latin };
+    }, key);
+  async function uploadFromBox(box, name) {
+    await page.focus(box);
+    await page.keyboard.type('Here is the file');
+    await page.waitForTimeout(400);
+    const shown = await ui('.up-btn').evaluate((el) => getComputedStyle(el).display !== 'none');
+    await ui('.up-btn').click();
+    await ui('.up-card input[type=file]').setInputFiles(join(WORK, name));
+    await ui('.up-card button.primary').waitFor({ timeout: 45000 });
+    await ui('.up-card button.primary').click();
+    await page.waitForTimeout(500);
+    const status = await ui('.up-card .up-status')
+      .innerText()
+      .catch(() => '');
+    return { shown, status };
+  }
+  const drop = await uploadFromBox('#dropbox', 'lease.txt');
+  check('upload button: shown on a message box with no file input', drop.shown);
+  const dropped = await readGiven('__dropped');
+  check(
+    'upload: dropped into a message box with no file input, masked',
+    !!dropped &&
+      !dropped.latin.includes(RAW.email) &&
+      dropped.latin.includes('[') &&
+      /dropped/i.test(drop.status),
+    `${drop.status} | ${dropped?.latin.slice(0, 60) ?? 'nothing dropped'}`,
+  );
+  await page.waitForTimeout(1800);
+
+  // --- a right-to-left page (Arabic UI): Envoy's English card stays left-to-right ---
+  await page.evaluate(() => (document.documentElement.dir = 'rtl'));
+  await page.focus('#dropbox');
+  await ui('.up-btn').click();
+  const dir = await ui('.up-card').evaluate((el) => getComputedStyle(el).direction);
+  check('right-to-left page: the Envoy card stays left-to-right', dir === 'ltr', dir);
+  await ui('.up-card button:has-text("Close")').click();
+  await page.evaluate(() => (document.documentElement.dir = ''));
+
+  // --- a box that ignores drop and paste: Envoy asks for the site's attach button, no dialog opens ---
+  let dialogs = 0;
+  page.on('filechooser', () => dialogs++);
+  const pick = await uploadFromBox('#pickbox', 'lease.txt');
+  check(
+    'upload: asks for the site’s attach button when drop and paste are ignored',
+    /attach/i.test(pick.status),
+    pick.status,
+  );
+  await page.click('#attach');
+  await page.waitForTimeout(600);
+  const picked = await readGiven('__picked');
+  check(
+    'upload: the site’s own attach button receives the rebuilt file, with no file dialog',
+    !!picked && !picked.latin.includes(RAW.email) && dialogs === 0,
+    `dialogs ${dialogs} | ${picked?.latin.slice(0, 60) ?? 'nothing received'}`,
   );
 
   // --- switching the site off in the popup stops the copy already running on the page ---

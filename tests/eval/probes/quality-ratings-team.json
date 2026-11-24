@@ -1,5 +1,5 @@
 {
-  "rater": "Claude Opus 5.5 (Anthropic), a different model family from the answering models (Gemma 4 on the device, Gemini 3.5 Flash-Lite in the cloud)",
+  "rater": "Checked by the team: each answer was rated by the team's AI coding assistant, Claude Code (Claude Opus 5.5, Anthropic), which also helped build Envoy. It is a different model family from the answering models (Gemma 4 on the device, Gemini 3.5 Flash-Lite in the cloud), so it is not the answerer grading itself, but it is not independent of the team, and it is not a human rating. Every verdict and its reason is here for anyone to check.",
   "method": "Each verbatim answer from tests/eval/probes/arms/<arm>.json read against the case document with the run-quality.mjs rubric: correct 1.0, partially 0.5, wrong 0.0. Not a human rating.",
   "date": "2026-11-24",
   "arms": {

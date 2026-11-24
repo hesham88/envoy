@@ -116,7 +116,11 @@ export function initUploadUi(
     const { field, chip } = getAnchor();
     const chipShown = !!field && chip.style.display !== 'none';
     const input = fileInput(chipShown ? field : null);
-    if (!input || (!chipShown && !target && !cardOpen)) {
+    // Chat composers (Google's AI Mode, ChatGPT, Gemini…) often have no file input in the page
+    // until their own "+" menu opens, so a composer always gets the button: Envoy hands the file
+    // over by drop or paste, the way a person would drag it in.
+    const offer = (chipShown && (isComposer(field) || !!input)) || !!target || cardOpen;
+    if (!offer) {
       btn.style.display = 'none';
       if (!cardOpen) return;
     } else {
@@ -162,14 +166,111 @@ export function initUploadUi(
   // The card grows when a preview or findings appear: re-fit it every time.
   new ResizeObserver(() => cardOpen && place()).observe(card);
 
-  function handOff(file: File) {
-    target = fileInput(getAnchor().field);
-    if (!target) return;
+  /** A file input that shares a container with the message box (not body or html). */
+  function nearInput(field: HTMLElement): HTMLInputElement | null {
+    const inputs = [...document.querySelectorAll<HTMLInputElement>('input[type=file]')];
+    for (
+      let p: HTMLElement | null = field.parentElement;
+      p && p !== document.body;
+      p = p.parentElement
+    ) {
+      const hit = inputs.find((i) => p!.contains(i));
+      if (hit) return hit;
+    }
+    return null;
+  }
+
+  /** A multi-line box people write messages in (not a one-line search or form field). */
+  function isComposer(el: HTMLElement | null): boolean {
+    if (!el) return false;
+    return (
+      el.tagName === 'TEXTAREA' || el.isContentEditable || el.getAttribute('role') === 'textbox'
+    );
+  }
+
+  const filesOf = (file: File) => {
     const dt = new DataTransfer();
     dt.items.add(file);
-    target.files = dt.files;
-    target.dispatchEvent(new Event('input', { bubbles: true }));
-    target.dispatchEvent(new Event('change', { bubbles: true }));
+    return dt;
+  };
+  function giveToInput(input: HTMLInputElement, file: File) {
+    input.files = filesOf(file).files;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  // When drop and paste are both ignored, the person presses the site's own attach button once:
+  // Envoy catches that one file-picker click and hands it the rebuilt file instead of a dialog.
+  let armed: File | null = null;
+  document.addEventListener(
+    'click',
+    (e) => {
+      const el = e.target;
+      if (!armed || !(el instanceof HTMLInputElement) || el.type !== 'file') return;
+      e.preventDefault(); // no file dialog: Envoy supplies the file
+      const file = armed;
+      armed = null;
+      giveToInput(el, file);
+      showStatus('Attached the rebuilt file through the site’s own button.');
+    },
+    true,
+  );
+
+  /**
+   * Hands the rebuilt file to the site, first route that works: the file input the person used,
+   * a drop onto the message box, a paste into it; else ask for the site's attach button (above).
+   * A route "works" when the site handles the event (cancels it), as sites do when they take a file.
+   */
+  function handOff(file: File): 'input' | 'drop' | 'paste' | 'armed' {
+    const field = workField?.isConnected ? workField : null;
+    // Started from a file input (no message box in use): give it back to that input.
+    if (!field && target?.isConnected) {
+      giveToInput(target, file);
+      return 'input';
+    }
+    if (field) {
+      const dt = filesOf(file);
+      field.dispatchEvent(
+        new DragEvent('dragenter', { bubbles: true, cancelable: true, dataTransfer: dt }),
+      );
+      field.dispatchEvent(
+        new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer: dt }),
+      );
+      const dropped = !field.dispatchEvent(
+        new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer: dt }),
+      );
+      if (dropped) return 'drop';
+      const pasted = !field.dispatchEvent(
+        new ClipboardEvent('paste', {
+          bubbles: true,
+          cancelable: true,
+          clipboardData: filesOf(file),
+        }),
+      );
+      if (pasted) return 'paste';
+    }
+    // A file input next to this message box (never just any input elsewhere on the page).
+    const input = field ? nearInput(field) : null;
+    if (input) {
+      giveToInput(input, file);
+      return 'input';
+    }
+    armed = file;
+    return 'armed';
+  }
+
+  let workField: HTMLElement | null = null;
+  let closeTimer: number | undefined;
+  function showStatus(text: string) {
+    let s = card.querySelector<HTMLParagraphElement>('.up-status');
+    if (!s) {
+      s = document.createElement('p');
+      s.className = 'up-muted up-status';
+      s.setAttribute('role', 'status');
+      card.append(s);
+    }
+    s.textContent = text;
+    place();
   }
 
   async function burnImage(file: File): Promise<File> {
@@ -215,12 +316,24 @@ export function initUploadUi(
     send.addEventListener('click', async () => {
       // Images: burn the boxes in now, so every box drawn after the file was chosen is applied.
       if (chosen && kindOf(chosen) === 'image') outFile = await burnImage(chosen);
-      if (outFile) {
-        handOff(outFile);
+      if (!outFile) return;
+      const how = handOff(outFile);
+      if (how === 'armed') {
+        showStatus(
+          'This site didn’t take the file directly. Now press the site’s own attach or "+" button and pick upload: Envoy hands it this rebuilt file, and no file dialog opens.',
+        );
+        return;
+      }
+      showStatus(
+        how === 'input'
+          ? 'Sent: the site received the rebuilt file.'
+          : 'Sent: dropped into the message box. Check that the site shows the attachment.',
+      );
+      closeTimer = window.setTimeout(() => {
         cardOpen = false;
         card.style.display = 'none';
         place();
-      }
+      }, 1600);
     });
     wrap.append(send);
     card.append(wrap);
@@ -315,7 +428,14 @@ export function initUploadUi(
     card.append(hint, canvas);
   }
 
+  // Remember the message box before the click moves focus into Envoy's card.
+  btn.addEventListener('pointerdown', () => {
+    workField = getAnchor().field;
+  });
   btn.addEventListener('click', () => {
+    workField = workField?.isConnected ? workField : getAnchor().field;
+    armed = null;
+    window.clearTimeout(closeTimer); // a new upload: don't let the last one's close timer shut it
     cardOpen = true;
     card.style.display = 'block';
     card.innerHTML = '';
