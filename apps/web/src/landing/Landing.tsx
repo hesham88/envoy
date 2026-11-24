@@ -22,11 +22,11 @@ const summaries = import.meta.glob<{ default: EvalSummary }>(
   { eager: true },
 );
 const evalSummary = Object.values(summaries)[0]?.default ?? null;
-// The independent answer ratings (a different model family from the answerers), when published.
+// The team's answer ratings (rated by its AI assistant, Claude Code; a different model family from the answerers).
 const ratingFiles = import.meta.glob<{
   default: { arms: Record<string, { n: number; score: number }> };
-}>('../../../../tests/eval/probes/quality-ratings-independent.json', { eager: true });
-const independent = Object.values(ratingFiles)[0]?.default.arms ?? null;
+}>('../../../../tests/eval/probes/quality-ratings-team.json', { eager: true });
+const teamRatings = Object.values(ratingFiles)[0]?.default.arms ?? null;
 
 export interface EvalSummary {
   generatedAt: string;
@@ -486,9 +486,9 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
           run; "text sent" counts only the document's own text, not the question. Answer quality is
           Envoy's answer graded by Gemini 3.5 Flash-Lite against an answer from the whole document,
           on 20 questions
-          {independent
-            ? `; rated independently by Claude, a different model family: ${Object.entries(
-                independent,
+          {teamRatings
+            ? `; checked by the team (rated by Claude Code, which also helped build Envoy; not a human rating): ${Object.entries(
+                teamRatings,
               )
                 .map(
                   ([id, r]) =>

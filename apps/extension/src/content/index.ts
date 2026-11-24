@@ -163,13 +163,44 @@ function updateChip() {
   halo.dataset.tone = ring.dataset.tone;
 }
 
+/**
+ * The rounded frame a chat draws around its text area (Google's AI Mode, ChatGPT…): the nearest
+ * rounded container, up to 5 parents up, that starts above the field and isn't much wider. Its
+ * outline may be drawn by a pseudo-element, so the corner radius is the signal.
+ */
+function composerFrame(field: HTMLElement): HTMLElement | null {
+  const r = field.getBoundingClientRect();
+  let el = field.parentElement;
+  for (let i = 0; el && el !== document.body && i < 5; i++, el = el.parentElement) {
+    const b = el.getBoundingClientRect();
+    if (b.width > r.width + 420 || b.height > r.height + 320) break;
+    if (parseFloat(getComputedStyle(el).borderTopLeftRadius) >= 10 && b.top < r.top - 4) return el;
+  }
+  return null;
+}
+// The frame grows when the site adds an attachment row: keep the chip above it.
+let watchedFrame: HTMLElement | null = null;
+let placeUpload: () => void = () => {};
+const frameWatch = new ResizeObserver(() => {
+  place();
+  placeUpload();
+});
+
 function place() {
   if (!activeField) return;
   const r = activeField.getBoundingClientRect();
+  const frameEl = composerFrame(activeField);
+  if (frameEl !== watchedFrame) {
+    if (watchedFrame) frameWatch.unobserve(watchedFrame);
+    if (frameEl) frameWatch.observe(frameEl);
+    watchedFrame = frameEl;
+  }
+  // Above the composer's visible box, so the chip never sits over the site's own attachments.
+  const frame = frameEl?.getBoundingClientRect() ?? r;
   chip.style.display = 'inline-flex';
   const chipW = chip.offsetWidth || 120;
-  chip.style.left = `${Math.min(Math.max(8, r.right - chipW), window.innerWidth - chipW - 8)}px`;
-  chip.style.top = `${r.top > 44 ? r.top - 38 : r.bottom + 6}px`;
+  chip.style.left = `${Math.min(Math.max(8, frame.right - chipW - 4), window.innerWidth - chipW - 8)}px`;
+  chip.style.top = `${frame.top > 44 ? frame.top - 38 : frame.bottom + 6}px`;
   if (!protectionOn) return;
   const radius = parseFloat(getComputedStyle(activeField).borderTopLeftRadius) || 8;
   for (const layer of [ring, halo]) {
@@ -573,6 +604,7 @@ const upload = initUploadUi(
   () => customRules,
   () => ({ field: activeField, chip }),
 );
+placeUpload = () => upload.place();
 // The upload button lives beside the chip: move it whenever the chip moves or hides.
 window.addEventListener('resize', () => upload.place());
 window.addEventListener('scroll', () => upload.place(), true);
