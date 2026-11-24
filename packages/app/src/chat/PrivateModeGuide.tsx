@@ -246,9 +246,11 @@ export function PrivateModeGuide({
           </li>
           <li>
             <b>Use Gemini Nano 4 (recommended).</b> Envoy is built and measured on Chrome's Gemma 4
-            model, which Gemini Nano 4 is built on. Turn on this flag, relaunch Chrome, and download
-            again. Chrome decides which model a page gets, and neither Chrome nor Firebase tells a
-            page which one answered, so Envoy says "Chrome's built-in model".
+            model, which Gemini Nano 4 is built on. It is a Chrome developer trial: turn on this
+            flag, relaunch Chrome, and download again. On Chrome's default model Envoy still works,
+            but its published numbers don't apply. Chrome decides which model a page gets, and
+            neither Chrome nor Firebase tells a page which one answered, so Envoy says "Chrome's
+            built-in model".
             <div className="mt-1.5">
               <ChromeLink page="flags-gemma4" open={openChromePage} />
             </div>
