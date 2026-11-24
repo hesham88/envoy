@@ -55,10 +55,16 @@ const model = await page.evaluate(
 const want = rehearse ? 'gemini-3.5-flash-lite' : 'gemini-4-hydrogen';
 if (model !== want) throw new Error(`cloud model is ${model}, not ${want}`);
 
+// Frames go straight to disk (a long on-device wait would otherwise fill Node's heap).
+const dir = join(RAW, '.private');
+rmSync(dir, { recursive: true, force: true });
+mkdirSync(dir, { recursive: true });
 const cdp = await ctx.newCDPSession(page);
 const frames = [];
 cdp.on('Page.screencastFrame', (f) => {
-  frames.push({ data: f.data, t: f.metadata.timestamp });
+  const name = `f${String(frames.length).padStart(5, '0')}.jpg`;
+  writeFileSync(join(dir, name), Buffer.from(f.data, 'base64'));
+  frames.push({ name, t: f.metadata.timestamp });
   cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }).catch(() => {});
 });
 await page.evaluate(() => window.scrollTo(0, 0));
@@ -79,16 +85,40 @@ const approveBtn = () => page.getByRole('button', { name: 'Approve and send' }).
 mark('loaded');
 await wait(2200);
 await page.locator('#envoy-composer').click();
-await wait(900);
-await page.keyboard.press('End');
-await wait(600);
+await wait(700);
+await page.keyboard.press('Control+A');
+// A question that needs working out, so the on-device router sends it to the cloud (a plain
+// "can my landlord raise it 20%?" is sometimes answered on the device, which is fine but not this scene).
+typing.push({ name: 'type-start', at: Date.now() / 1000 - t0 });
+await page.keyboard.type(
+  "Can my landlord raise my rent 20% this year? What's the most it can go up to?",
+  { delay: 42 },
+);
+typing.push({ name: 'type-end', at: Date.now() / 1000 - t0 });
+await wait(700);
 mark('send');
 await page.keyboard.press('Enter');
 await page.getByText('Privacy flight recorder').first().waitFor({ timeout: 30000 });
 await wait(800);
 await center(page.locator('details').last());
 mark('analysing');
-await approveBtn().waitFor({ timeout: 20 * 60 * 1000 });
+const first = await page.waitForFunction(
+  () => {
+    const turn = document.querySelector('article');
+    if (!turn) return false;
+    if (turn.innerText.includes('0 bytes left this device.')) return 'local';
+    const approve = [...turn.querySelectorAll('button')].some(
+      (x) => x.textContent?.trim() === 'Approve and send' && x.offsetParent !== null,
+    );
+    return approve ? 'cloud' : false;
+  },
+  null,
+  { timeout: 20 * 60 * 1000, polling: 500 },
+);
+if ((await first.jsonValue()) !== 'cloud')
+  throw new Error(
+    'the first question was answered on the device: not this scene (nothing was sent)',
+  );
 mark('analysed');
 await center(page.locator('details').last());
 await wait(5000);
@@ -199,20 +229,15 @@ if (rehearse)
     'rehearsal: every step ran; now encoding and cutting (the real take overwrites these)',
   );
 
-// Encode the master at a constant 30 fps from the variable-rate frames.
-const dir = join(RAW, '.private');
-rmSync(dir, { recursive: true, force: true });
-mkdirSync(dir, { recursive: true });
+// Encode the master at a constant 30 fps from the variable-rate frames (already on disk).
 const kept = frames.filter((f, i) => f.t >= t0 || frames[i + 1]?.t > t0);
 const end = t0 + marks.end;
 const list = [];
 kept.forEach((f, i) => {
-  const name = `f${String(i).padStart(5, '0')}.jpg`;
-  writeFileSync(join(dir, name), Buffer.from(f.data, 'base64'));
   const next = kept[i + 1]?.t ?? end;
-  list.push(`file '${name}'`, `duration ${Math.max(0.001, next - Math.max(f.t, t0)).toFixed(4)}`);
+  list.push(`file '${f.name}'`, `duration ${Math.max(0.001, next - Math.max(f.t, t0)).toFixed(4)}`);
 });
-list.push(`file 'f${String(kept.length - 1).padStart(5, '0')}.jpg'`);
+list.push(`file '${kept[kept.length - 1].name}'`);
 writeFileSync(join(dir, 'list.txt'), list.join('\n'));
 const master = join(RAW, 'private-master.mp4');
 execFileSync('ffmpeg', [

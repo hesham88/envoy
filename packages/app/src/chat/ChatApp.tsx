@@ -145,6 +145,12 @@ export interface ChatAppProps {
   openChromePage?: (page: ChromePage) => void;
 }
 
+const FALLBACK_TEXT = {
+  quota: 'has used up its free daily limit',
+  busy: 'is busy right now (Google reported high demand)',
+  other: "didn't answer",
+} as const;
+
 export function ChatApp({
   runtime,
   incomingDoc = null,
@@ -368,7 +374,7 @@ export function ChatApp({
           ? {
               ...answered,
               cloudModelUsed: runtime.settings.fastCloudModel,
-              cloudProblem: `${runtime.settings.cloudModel} didn't answer (its free daily limit may be used up), so ${runtime.settings.fastCloudModel} answered instead.`,
+              cloudProblem: `${runtime.settings.cloudModel} ${FALLBACK_TEXT[answered.fallbackCause ?? 'other']}, so ${runtime.settings.fastCloudModel} answered instead.`,
             }
           : answered;
       dispatch({ type: 'ANSWER_DONE', result });
