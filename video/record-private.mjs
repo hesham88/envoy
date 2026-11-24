@@ -6,7 +6,7 @@
  * Nothing is staged or sped up; long waits are cut, and the film says so.
  *
  * Take: rent question -> on-device analysis -> approval -> the guard blocks a pasted IBAN -> approve
- * -> Hydrogen answer, maths restored on the device -> "When does my lease end?" answered on the
+ * -> Hydrogen answer, maths restored on the device -> "What is my monthly rent?" answered on the
  * device (0 bytes sent) -> the network ledger.
  *
  * Prereqs: model Chrome on CDP 9333 with on-device AI ready; dev server on 5173 started WITHOUT a
@@ -24,6 +24,9 @@ const RAW = join(HERE, 'out', 'raw');
 const W = 1600;
 const H = 900;
 const APP = 'http://localhost:5173/app?sample=lease';
+// --rehearse: the same take with the Fast model, to check every step before spending a Hydrogen
+// request (its free tier allows 20 a day). It writes the same outputs; the real take overwrites them.
+const rehearse = process.argv.includes('--rehearse');
 mkdirSync(RAW, { recursive: true });
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -44,13 +47,13 @@ for (let i = 0; i < 15 && status !== 'available'; i++) {
 if (status !== 'available') throw new Error(`on-device model is "${status}": not recording`);
 
 // The cloud model for this take: Gemini 4 Hydrogen (the saved composer choice).
-await page.getByRole('radio', { name: 'Gemini 4 Hydrogen' }).click();
+await page.getByRole('radio', { name: rehearse ? /^Fast/ : 'Gemini 4 Hydrogen' }).click();
 await wait(1500);
 const model = await page.evaluate(
   () => document.body.innerText.match(/Cloud model: ([\w.-]+)/)?.[1],
 );
-if (model !== 'gemini-4-hydrogen')
-  throw new Error(`cloud model is ${model}, not gemini-4-hydrogen`);
+const want = rehearse ? 'gemini-3.5-flash-lite' : 'gemini-4-hydrogen';
+if (model !== want) throw new Error(`cloud model is ${model}, not ${want}`);
 
 const cdp = await ctx.newCDPSession(page);
 const frames = [];
@@ -134,40 +137,43 @@ mark('answer');
 // This take must show Gemini 4 Hydrogen itself answering: stop at once otherwise.
 const answerText = await page.locator('article').last().innerText();
 if (/Lighter answer|cloud unreachable|answered instead/.test(answerText))
-  throw new Error('Hydrogen did not answer (quota or network): not a usable take');
+  throw new Error(`${want} did not answer (quota or network): not a usable take`);
 await center(page.locator('article').last().locator('p.whitespace-pre-wrap').last());
 await wait(9000);
 mark('answer-end');
 
 // 5. A question the document answers: on the device, nothing sent.
-const zeroBytes = () =>
-  page.evaluate(() => document.body.innerText.split('0 bytes left this device.').length - 1);
-const before = await zeroBytes();
+const turnsBefore = await page.locator('article').count();
 await page.locator('#envoy-composer').click();
 mark('q2');
 typing.push({ name: 'type-start', at: Date.now() / 1000 - t0 });
-await page.keyboard.type('When does my lease end?', { delay: 55 });
+await page.keyboard.type('What is my monthly rent?', { delay: 55 });
 typing.push({ name: 'type-end', at: Date.now() / 1000 - t0 });
 await wait(500);
 await page.keyboard.press('Enter');
 await wait(1500);
 await center(page.locator('details').last());
 mark('analysing2');
-// Wait for THIS answer's receipt (not one already on screen), or for an approval card: if the
-// router sends this question to the cloud, stop (nothing is sent before approval).
-const approvalsBefore = await page.getByRole('button', { name: 'Approve and send' }).count();
+// Look only at the NEW turn: its own receipt ("0 bytes left this device.") means it was answered
+// on the device; its own approval card means the router sent it to the cloud. Then stop: nothing
+// is sent before approval.
 const outcome = await page.waitForFunction(
-  ([n, k]) => {
-    if (document.body.innerText.split('0 bytes left this device.').length - 1 > n) return 'local';
-    const approve = [...document.querySelectorAll('button')].filter(
-      (x) => x.textContent?.trim() === 'Approve and send',
+  (n) => {
+    const turns = document.querySelectorAll('article');
+    if (turns.length <= n) return false;
+    const turn = turns[turns.length - 1];
+    if (turn.innerText.includes('0 bytes left this device.')) return 'local';
+    const approve = [...turn.querySelectorAll('button')].some(
+      (x) => x.textContent?.trim() === 'Approve and send' && x.offsetParent !== null,
     );
-    return approve.length > k ? 'cloud' : false;
+    return approve ? 'cloud' : false;
   },
-  [before, approvalsBefore],
+  turnsBefore,
   { timeout: 20 * 60 * 1000, polling: 500 },
 );
-if ((await outcome.jsonValue()) !== 'local')
+const routed = await outcome.jsonValue();
+console.log(`second question: ${routed}`);
+if (routed !== 'local')
   throw new Error(
     'the second question was routed to the cloud: not a usable take (nothing was sent)',
   );
@@ -188,6 +194,10 @@ mark('end');
 await cdp.send('Page.stopScreencast');
 await page.close();
 await browser.close();
+if (rehearse)
+  console.log(
+    'rehearsal: every step ran; now encoding and cutting (the real take overwrites these)',
+  );
 
 // Encode the master at a constant 30 fps from the variable-rate frames.
 const dir = join(RAW, '.private');

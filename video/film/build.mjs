@@ -254,7 +254,8 @@ scenes.forEach((s, i) => {
     }
     // Wait-cut note: appears at the cut and stays.
     const waitFile = join(OV, `wait-${s.id}.png`);
-    if (s.wait && existsSync(waitFile)) {
+    // Only where a wait was really cut (a scene of the take made of more than one part).
+    if (s.wait && existsSync(waitFile) && (waitsCut(s.id) !== null || (draft && !cuts[s.id]))) {
       const w = input(waitFile);
       const at = Math.max(0.6, (waitsCut(s.id) ?? 1.2) - 0.3);
       f.push(
