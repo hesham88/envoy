@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Envoy: private AI agent to the cloud",
   "short_name": "Envoy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ask cloud AI about private text. Envoy masks your details on your device, and you approve exactly what is sent.",
   "minimum_chrome_version": "139",
   "permissions": [
