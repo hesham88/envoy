@@ -1,0 +1,265 @@
+{
+  "rater": "Claude Opus 5.5 (Anthropic), a different model family from the answering models (Gemma 4 on the device, Gemini 3.5 Flash-Lite in the cloud)",
+  "method": "Each verbatim answer from tests/eval/probes/arms/<arm>.json read against the case document with the run-quality.mjs rubric: correct 1.0, partially 0.5, wrong 0.0. Not a human rating.",
+  "date": "2026-11-24",
+  "arms": {
+    "gemma4": {
+      "n": 20,
+      "score": 0.875,
+      "correct": 16,
+      "partially": 3,
+      "wrong": 1,
+      "rows": [
+        {
+          "id": "lease-01-rent-cap",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "No: Clause 7 caps the increase at 10% a year with 60 days notice."
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "verdict": "partially",
+          "score": 0.5,
+          "rationale": "Gives the start date and early-exit terms but never the 3-year term or the end date (31 August 2027)."
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Landlord may keep one month's rent if the tenant leaves without the Clause 10 notice."
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "No fee: only rent more than 10 days late is charged."
+        },
+        {
+          "id": "lease-05-sublet-policy",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Not without prior written authorization (Clause 3)."
+        },
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "48 hours written notice."
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "No: increases capped at 8% a year."
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "The landlord: hidden plumbing and main risers."
+        },
+        {
+          "id": "offer-01-severance-calculation",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Two months of gross salary (EGP 65,000 x 2) plus a 60-day notice period."
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Yes: healthcare software is excluded from the non-compete."
+        },
+        {
+          "id": "offer-03-probation-period-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Ninety days."
+        },
+        {
+          "id": "offer-04-bonus-proration",
+          "verdict": "partially",
+          "score": 0.5,
+          "rationale": "Restates the formula (1.8x monthly base) but never computes the amount (EGP 144,000)."
+        },
+        {
+          "id": "offer-05-ip-side-project",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Own-time work without company equipment, unrelated to the business, stays the employee's."
+        },
+        {
+          "id": "med-01-fasting-glucose-threshold",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Impaired fasting glucose (prediabetes); repeat HbA1c in 3 months and review diet and activity."
+        },
+        {
+          "id": "med-02-vitamin-d-dosage-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Eight weeks."
+        },
+        {
+          "id": "med-03-insurance-copay-cap",
+          "verdict": "partially",
+          "score": 0.5,
+          "rationale": "Says \"a 20% co-payment\" but never gives the amount (EGP 5,000)."
+        },
+        {
+          "id": "freelance-01-kill-fee",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "50% of the milestone fee within 14 days."
+        },
+        {
+          "id": "freelance-02-invoice-payment-net-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Fifteen calendar days."
+        },
+        {
+          "id": "freelance-03-card-hold-dispute",
+          "verdict": "wrong",
+          "score": 0,
+          "rationale": "Quotes the 30+ day tier (100% refund); 20 days falls in the 14-29 day tier, a 50% refund (EGP 15,000)."
+        },
+        {
+          "id": "loan-01-early-payoff-penalty",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "3% of the prepaid principal."
+        }
+      ]
+    },
+    "basic": {
+      "n": 20,
+      "score": 0.975,
+      "correct": 19,
+      "partially": 1,
+      "wrong": 0,
+      "rows": [
+        {
+          "id": "lease-01-rent-cap",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "lease-02-end-date-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "lease-03-early-exit-deposit",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "lease-04-late-fee-grace-period",
+          "verdict": "partially",
+          "score": 0.5,
+          "rationale": "Opens with \"Yes, you do owe the late fee\", then corrects itself to no fee within the same answer."
+        },
+        {
+          "id": "lease-05-sublet-policy",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "lease-06-landlord-entry-notice-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "lease-07-commercial-cam-cap",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "lease-08-plumbing-responsibility",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "offer-01-severance-calculation",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "offer-02-non-compete-scope",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "offer-03-probation-period-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "offer-04-bonus-proration",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "offer-05-ip-side-project",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "med-01-fasting-glucose-threshold",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "med-02-vitamin-d-dosage-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "med-03-insurance-copay-cap",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "freelance-01-kill-fee",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "freelance-02-invoice-payment-net-local",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "freelance-03-card-hold-dispute",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        },
+        {
+          "id": "loan-01-early-payoff-penalty",
+          "verdict": "correct",
+          "score": 1,
+          "rationale": "Accurate verdict, numbers and conditions."
+        }
+      ]
+    }
+  }
+}

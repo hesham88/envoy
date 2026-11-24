@@ -32,7 +32,9 @@ export interface EvalSummary {
     measuredOn?: string[];
     n: number;
     nTotal: number;
-    metrics: Record<string, number | { p50: number; p95: number } | undefined>;
+    metrics: Record<string, number | { p50: number; p95: number } | null | undefined>;
+    /** How many cases each metric used (answer quality runs on 20 of the 36). */
+    metricsN?: Record<string, number>;
   }[];
 }
 
@@ -455,7 +457,8 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
       <table className="w-full min-w-[640px] border-collapse text-left text-[15px]">
         <caption className="px-5 pt-4 pb-2 text-left text-[14px] text-uv-muted">
           Measured through the real pipeline, on the dates in each row. n is the number of documents
-          run; "text sent" counts only the document's own text, not the question.{' '}
+          run; "text sent" counts only the document's own text, not the question. Answer quality is
+          Envoy's answer graded against an answer from the whole document, on 20 questions.{' '}
           <a href={src('docs/EVAL.md')} className="text-uv-blue underline underline-offset-4">
             full results
           </a>
@@ -470,6 +473,7 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
               'Private details masked',
               'Leaks after the guard',
               'Document text sent',
+              'Answer quality kept',
             ].map((h) => (
               <th key={h} scope="col" className="border-b border-uv-line px-5 py-3 font-medium">
                 {h}
@@ -504,6 +508,11 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
               </td>
               <td className="border-b border-uv-line/60 px-5 py-3 text-uv-text">
                 {pct(a.metrics.minimizationRatio)}
+              </td>
+              <td className="border-b border-uv-line/60 px-5 py-3 text-uv-text">
+                {typeof a.metrics.answerQualityRetained === 'number'
+                  ? `${(a.metrics.answerQualityRetained * 100).toFixed(1).replace(/\.0$/, '')}% (${a.metricsN?.answerQuality ?? '?'})`
+                  : 'not measured'}
               </td>
             </tr>
           ))}

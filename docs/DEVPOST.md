@@ -32,7 +32,7 @@ Envoy is your private AI agent to the cloud. You ask a question about a private 
 
 ## Measured
 
-36 test documents, 263 private details, run through the real pipeline on Chrome's Gemma 4 model (the model Gemini Nano 4 is built on) and in Basic protection: every detail masked and 0 raw details sent in both. With the on-device model, the cloud sees about 16% of the document's text. A 28-attack red team (encodings, homoglyphs, number words, reversed and split text) is fully blocked. Details: `docs/EVAL.md`.
+36 test documents, 263 private details, run through the real pipeline on Chrome's Gemma 4 model (the model Gemini Nano 4 is built on) and in Basic protection: every detail masked and 0 raw details sent in both. With the on-device model, the cloud sees about 15% of the document's text, and answers keep 95% of the quality of sending the whole document (87.5% when rated independently, against 97.5% for Basic protection), on 20 questions. A 28-attack red team (encodings, homoglyphs, number words, reversed and split text) is fully blocked. Details: `docs/EVAL.md`.
 
 ## Built during the submission period, and with what
 

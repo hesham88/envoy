@@ -31,7 +31,7 @@ Envoy works like any AI chat app: ask with a document or without one, attach a P
 - **An approval card.** The exact text the cloud will receive, with every detail already a tag. Share a value, hide a sentence, edit it, or stop. Nothing is sent until you approve.
 - **The answer, restored on your device.** Values restored locally are highlighted in green. Maths like `{{RENT * 1.10}}` is done on your device, so the cloud never sees the result either.
 
-<img src="docs/img/screens/chat-recorder.png" alt="A chat turn in Envoy: the privacy flight recorder lists each step with where it ran and the model, waiting for the user's approval" width="100%">
+<img src="docs/img/screens/chat-recorder.png" alt="A chat turn in Envoy, in Private mode on Gemma 4: the privacy flight recorder lists each step with where it ran, the model and how long it took, and waits for the user's approval" width="100%">
 
 You can also turn on **Local only** (answer on this device, no cloud call), add **your own rules** (words only you know are private; they stay in your browser), and open the **network ledger** to watch every request.
 
@@ -155,15 +155,15 @@ The guidebook's patterns show up throughout: **let users supervise automation** 
 
 ## Measured
 
-Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, measured 22 November 2026 on a 2018 laptop CPU. **Times vary a lot by device:** these are CPU-only runs on an older laptop; a recent computer with a supported GPU should be much faster, and the first run after starting Chrome is slower while the model loads. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
+Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, on a 2018 laptop CPU: Gemma 4 measured 24 November 2026 on the current pipeline, Basic protection 23 November. **Times vary a lot by device:** these are CPU-only runs on an older laptop; a recent computer with a supported GPU should be much faster, and the first run after starting Chrome is slower while the model loads. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
 
-| Setup                                        | On-device model                   | Private details masked | Raw details sent, after the guard | Document text sent         | Time, median |
-| -------------------------------------------- | --------------------------------- | ---------------------- | --------------------------------- | -------------------------- | ------------ |
-| Gemma 4, the model Gemini Nano 4 is built on | `gemma4_component` 2026.11.3.1140 | 263 / 263              | 0                                 | 16%                        | 55 s         |
-| Basic protection                             | none (local rules)                | 263 / 263              | 0                                 | 91% (every clause, masked) | 6 ms         |
+| Setup                                        | On-device model                   | Private details masked | Raw details sent, after the guard | Document text sent         | Answer quality (20 questions)                      | Time, median |
+| -------------------------------------------- | --------------------------------- | ---------------------- | --------------------------------- | -------------------------- | -------------------------------------------------- | ------------ |
+| Gemma 4, the model Gemini Nano 4 is built on | `gemma4_component` 2026.11.3.1140 | 263 / 263              | 0                                 | 15%                        | 95% (Flash-Lite judge), 87.5% (independent rating) | 72 s         |
+| Basic protection                             | none (local rules)                | 263 / 263              | 0                                 | 91% (every clause, masked) | 97.5% (both)                                       | 6 ms         |
 
 - **The guard red team:** 28 of 28 disguised leaks blocked: spaced, punctuated, invisible characters, lookalike letters, accents, defanged emails, numbers in words, split words, reversed text and base64. Text the guard can't read (an encoded blob) is blocked rather than trusted.
-- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (18% of its masks, measured before the 23 November fixes to how its findings are read), which you can unmask in the approval card. Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
+- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (7% of its masks), which you can unmask in the approval card. Private mode answers a little less well than Basic: on 20 questions its four weak answers all came from the on-device answer path on questions that need a calculation (it quoted the formula instead of the amount, or picked the wrong tier). Answer quality is graded twice: by Gemini 3.5 Flash-Lite, which also wrote the cloud answers, and independently by Claude, a different model family; every rating and its reason is in [`quality-ratings-independent.json`](tests/eval/probes/quality-ratings-independent.json). Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
 
 ### What Envoy promises, and what it doesn't
 

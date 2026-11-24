@@ -42,7 +42,8 @@ const arm = args.arm ?? 'gemma4';
 const port = Number(args.port ?? 5174);
 const appUrl = args.url ?? `http://localhost:${port}/`;
 const cdp = args.cdp ?? 'http://127.0.0.1:9333';
-const QUESTION = 'Can my landlord raise the rent 20% this year?';
+// --question overrides the default (the film asks for the maximum too, which invites the maths).
+const QUESTION = args.question ?? 'Can my landlord raise the rent 20% this year?';
 
 const ARM_MODELS = {
   gemma4: {
