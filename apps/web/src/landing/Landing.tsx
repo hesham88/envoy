@@ -21,6 +21,11 @@ const summaries = import.meta.glob<{ default: EvalSummary }>(
   { eager: true },
 );
 const evalSummary = Object.values(summaries)[0]?.default ?? null;
+// The independent answer ratings (a different model family from the answerers), when published.
+const ratingFiles = import.meta.glob<{
+  default: { arms: Record<string, { n: number; score: number }> };
+}>('../../../../tests/eval/probes/quality-ratings-independent.json', { eager: true });
+const independent = Object.values(ratingFiles)[0]?.default.arms ?? null;
 
 export interface EvalSummary {
   generatedAt: string;
@@ -458,7 +463,19 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
         <caption className="px-5 pt-4 pb-2 text-left text-[14px] text-uv-muted">
           Measured through the real pipeline, on the dates in each row. n is the number of documents
           run; "text sent" counts only the document's own text, not the question. Answer quality is
-          Envoy's answer graded against an answer from the whole document, on 20 questions.{' '}
+          Envoy's answer graded by Gemini 3.5 Flash-Lite against an answer from the whole document,
+          on 20 questions
+          {independent
+            ? `; rated independently by Claude, a different model family: ${Object.entries(
+                independent,
+              )
+                .map(
+                  ([id, r]) =>
+                    `${summary.arms.find((a) => a.id === id)?.model?.label ?? 'Basic protection'} ${(r.score * 100).toFixed(1).replace(/\.0$/, '')}%`,
+                )
+                .join(', ')}`
+            : ''}
+          .{' '}
           <a href={src('docs/EVAL.md')} className="text-uv-blue underline underline-offset-4">
             full results
           </a>
