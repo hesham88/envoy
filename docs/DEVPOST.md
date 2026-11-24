@@ -1,5 +1,7 @@
 # Devpost submission draft
 
+> **Current, paste-ready version: [SUBMISSION_KIT.md](SUBMISSION_KIT.md)** (24 Nov 2026). This file is the earlier draft.
+
 A draft for the owner to paste into the Devpost form. Every claim links to evidence in the repo. Nothing here has been submitted.
 
 ## Field checklist
@@ -12,7 +14,7 @@ A draft for the owner to paste into the Devpost form. Every claim links to evide
 | Public GitHub repo, AI Logic imported and called at runtime              | ✅                                                       | `packages/ai/src/firebase.ts` (`getAI`), `models.ts` (`getGenerativeModel`), `pipeline.ts` (`generateContent`) |
 | Open-source licence in the About section                                 | ✅ Apache-2.0                                            | `LICENSE`                                                                                                      |
 | App Check                                                                | ✅ reCAPTCHA Enterprise, limited-use tokens              | `packages/ai/src/firebase.ts`                                                                                  |
-| YouTube video, public, 3:00 or less, English                             | ⏳ Rendered (2:50, English subtitles); owner uploads     | —                                                                                                              |
+| YouTube video, public, 3:00 or less, English                             | ✅ https://www.youtube.com/watch?v=yvChwFT2770           | —                                                                                                              |
 | Hosted URL                                                               | ✅ https://envoy-hybrid-ai.web.app                       | Firebase Hosting                                                                                               |
 | No real personal data, secrets or third-party branding                   | ✅ Fictional samples; secrets scan in `docs/SECURITY.md` | —                                                                                                              |
 
@@ -32,7 +34,7 @@ Envoy is your private AI agent to the cloud. You ask a question about a private 
 
 ## Measured
 
-36 test documents, 263 private details, run through the real pipeline on Chrome's Gemma 4 model (the model Gemini Nano 4 is built on) and in Basic protection: every detail masked and 0 raw details sent in both. With the on-device model, the cloud sees about 15% of the document's text, Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 95% of that answer's quality; because it also wrote some of the answers, every answer was also checked by the team (rated by our AI coding assistant, Claude Code, against its document; not a human rating), which scored Private mode 87.5% and Basic protection 97.5%. Private mode's weak answers are on-device answers to questions that need a calculation. Measured 24 November 2026 on Gemma 4 (`gemma4_component` 2026.11.3.1140). A 28-attack red team (encodings, homoglyphs, number words, reversed and split text) is fully blocked. Details: `docs/EVAL.md`.
+36 test documents, 263 private details, run through the real pipeline on Chrome's Gemma 4 model (the model Gemini Nano 4 is built on) and in Basic protection: every detail masked and 0 raw details sent in both. With the on-device model, the cloud sees about 15% of the document's text. Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 95% of that answer's quality; because it also wrote some of the answers, every answer was also checked by the team (rated by our AI coding assistant, Claude Code, against its document; not a human rating), which scored Private mode 87.5% and Basic protection 97.5%. Private mode's weak answers are on-device answers to questions that need a calculation. Measured 24 November 2026 on Gemma 4 (`gemma4_component` 2026.11.3.1140). A 28-attack red team (encodings, homoglyphs, number words, reversed and split text) is fully blocked. Details: `docs/EVAL.md`.
 
 ## Built during the submission period, and with what
 

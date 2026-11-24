@@ -1,5 +1,7 @@
 # Chrome Web Store listing (ready to paste)
 
+> **Current version: [docs/SUBMISSION_KIT.md](../../../docs/SUBMISSION_KIT.md)** (24 Nov 2026, for 0.1.2: Upload with Envoy, new screenshots). This file is the earlier draft; its packaging steps still apply.
+
 ## Before you submit (owner)
 
 1. **Developer account:** register at https://chrome.google.com/webstore/devconsole with the project Google account (one-time registration fee, paid by you).

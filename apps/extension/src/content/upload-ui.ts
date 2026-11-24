@@ -124,7 +124,9 @@ export function initUploadUi(
       btn.style.display = 'none';
       if (!cardOpen) return;
     } else {
-      btn.style.display = 'block';
+      // With the card open and the chip hidden, the button has nothing to do: hide it rather than
+      // leave it in a corner.
+      btn.style.display = cardOpen && !chipShown ? 'none' : 'block';
     }
     const bw = btn.offsetWidth || 140;
     const bh = btn.offsetHeight || 30;
@@ -145,6 +147,9 @@ export function initUploadUi(
       }
     }
     if (!cardOpen) return;
+    // While the card is open it stays with the message box it was opened from, even if focus has
+    // moved into the card and Envoy's chip has hidden (otherwise it jumped to a corner).
+    if (workField?.isConnected) anchor = workField.getBoundingClientRect();
     const W = Math.min(380, window.innerWidth - 16);
     const gap = 10;
     if (!anchor) {
@@ -289,6 +294,9 @@ export function initUploadUi(
     });
   }
 
+  const receiptText = (r: UploadReceipt) =>
+    `Receipt: removed ${r.removed} item(s). Will send ${r.outBytes} bytes as ${r.outType}. ${r.note}`;
+
   function renderFindings() {
     card.querySelectorAll('.up-dynamic').forEach((n) => n.remove());
     const wrap = document.createElement('div');
@@ -307,7 +315,8 @@ export function initUploadUi(
       }
       const rec = document.createElement('p');
       rec.className = 'up-muted';
-      rec.textContent = `Receipt: removed ${receipt.removed} item(s). Will send ${receipt.outBytes} bytes as ${receipt.outType}. ${receipt.note}`;
+      rec.classList.add('up-receipt');
+      rec.textContent = receiptText(receipt);
       wrap.append(rec);
     }
     const send = document.createElement('button');
@@ -420,6 +429,12 @@ export function initUploadUi(
       });
       start = null;
       draw();
+      // Keep the receipt true: each box drawn is one more item removed when the file is sent.
+      if (receipt) {
+        receipt.removed = boxes.length;
+        const r = card.querySelector('.up-receipt');
+        if (r) r.textContent = receiptText(receipt);
+      }
     });
     const hint = document.createElement('p');
     hint.className = 'up-muted';

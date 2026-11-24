@@ -4,10 +4,15 @@
 
 <p align="center">
   <a href="https://envoy-hybrid-ai.web.app"><b>Open Envoy</b></a> &nbsp;·&nbsp;
+  <a href="https://www.youtube.com/watch?v=yvChwFT2770"><b>Watch the demo (2:50)</b></a> &nbsp;·&nbsp;
   <a href="https://envoy-hybrid-ai.web.app/app?sample=lease">Two-minute test for judges</a> &nbsp;·&nbsp;
   <a href="#how-envoy-uses-firebase-ai-logic">Hybrid inference</a> &nbsp;·&nbsp;
   <a href="#the-guard">The guard</a> &nbsp;·&nbsp;
   <a href="docs/MEASUREMENT.md">How it's measured</a>
+</p>
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=yvChwFT2770"><img src="docs/submission/youtube-thumbnail.jpg" alt="Watch the Envoy demo film on YouTube (2:50)" width="720"></a>
 </p>
 
 # Envoy

@@ -522,6 +522,14 @@ try {
     await page.waitForTimeout(400);
     const shown = await ui('.up-btn').evaluate((el) => getComputedStyle(el).display !== 'none');
     await ui('.up-btn').click();
+    await page.waitForTimeout(300);
+    const fieldBox = await page.locator(box).boundingBox();
+    const cardBox = await ui('.up-card').boundingBox();
+    const beside =
+      !!fieldBox &&
+      !!cardBox &&
+      (cardBox.y + cardBox.height <= fieldBox.y + 1 ||
+        cardBox.y >= fieldBox.y + fieldBox.height - 1);
     await ui('.up-card input[type=file]').setInputFiles(join(WORK, name));
     await ui('.up-card button.primary').waitFor({ timeout: 45000 });
     await ui('.up-card button.primary').click();
@@ -529,10 +537,11 @@ try {
     const status = await ui('.up-card .up-status')
       .innerText()
       .catch(() => '');
-    return { shown, status };
+    return { shown, status, beside };
   }
   const drop = await uploadFromBox('#dropbox', 'lease.txt');
   check('upload button: shown on a message box with no file input', drop.shown);
+  check('upload card: opens beside its message box, never over it', drop.beside);
   const dropped = await readGiven('__dropped');
   check(
     'upload: dropped into a message box with no file input, masked',
