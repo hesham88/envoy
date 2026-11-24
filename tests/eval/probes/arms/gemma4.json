@@ -9,7 +9,7 @@
   "backend": "cpu (OnDeviceModelForceCpuBackend)",
   "detectScope": "selected",
   "withAnswer": true,
-  "updatedAt": "2026-11-24T12:42:09.100Z",
+  "updatedAt": "2026-11-24T20:18:59.751Z",
   "nTotal": 36,
   "nMeasured": 36,
   "entries": {
@@ -23,11 +23,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T11:49:20.715Z",
+      "recordedAt": "2026-11-24T19:27:12.339Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 147532,
+        "ms": 129900,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -35,23 +35,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question asks if a specific increase (20%) is possible, which requires judgment based on the clause's limit (10%). This involves comparison/judgment, not a direct fact lookup."
+          "reason": "The question asks about a specific proposed percentage increase (20%), which requires judgment or interpretation against the stated limit of 10%. This is not a direct fact lookup."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 89530
+            "ms": 80527
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 32467
+            "ms": 33301
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 25501
+            "ms": 16042
           }
         ],
         "guardOk": true,
@@ -96,13 +96,13 @@
           {
             "type": "PHONE",
             "value": "+20 100 555 0192",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
             "type": "EMAIL",
             "value": "mona.adel@example.com",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
@@ -144,7 +144,7 @@
           {
             "type": "EMAIL",
             "value": "mona.adel@example.com",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
@@ -204,17 +204,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 89530
+              "ms": 80527
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 32467
+              "ms": 33301
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 25501
+              "ms": 16042
             }
           ],
           "mode": "private"
@@ -224,32 +224,32 @@
             "step": "rules",
             "part": 1,
             "parts": 1,
-            "at": 0
+            "at": 1
           },
           {
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 3
+            "at": 4
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 89533
+            "at": 80531
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 122006
+            "at": 113834
           }
         ],
         "answer": {
-          "text": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7, the landlord is only permitted to increase the rent once per contract year by a maximum of 10%, provided they give at least 60 days' written notice. Therefore, a 20% increase exceeds the allowed limit stated in the text.",
+          "text": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7, the landlord is only permitted to increase the rent once per contract year by a maximum of 10%, provided they give at least 60 days' written notice to the tenant.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 2025,
+          "ms": 3894,
           "receipt": {
             "found": {
               "DATE": 2,
@@ -275,22 +275,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 89530
+                "ms": 80527
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 32467
+                "ms": 33301
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 25501
+                "ms": 16042
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 2022
+                "ms": 3892
               }
             ],
             "mode": "private"
@@ -334,36 +334,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T11:51:31.128Z",
+      "recordedAt": "2026-11-24T19:28:11.833Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 107574,
+        "ms": 55767,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
-          2,
           10
         ],
         "route": {
-          "local": true,
-          "reason": "The clause mentions the lease term starting on 1 September 2024. While it doesn't state the exact end date, it provides the start date and the term duration (three years), which are factual elements related to the contract period. The question asks when it ends, which requires calculation/inference based on the clause, but the core term information is present."
+          "local": false,
+          "reason": "The question asks for a specific end date, which requires judgment or calculation based on the contract year and notice periods mentioned in the clause. It is not a direct, stated fact like a name or a simple amount."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 34950
+            "ms": 21270
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 37548
+            "ms": 18001
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 35054
+            "ms": 16480
           }
         ],
         "guardOk": true,
@@ -390,7 +389,7 @@
           {
             "type": "ADDRESS",
             "value": "3 Road 9, Maadi, Cairo",
-            "role": "landlord",
+            "role": null,
             "source": "rules"
           },
           {
@@ -490,7 +489,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: When does my contract end?\n\nClause 2: 2. Premises and term. The Landlord leases to the Tenant the apartment at [ADDRESS] (\"the Premises\") for a term of three (3) years starting [DATE_2].\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.",
+        "outbound": "Question: When does my contract end?\n\nClause 10: 10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.",
         "receipt": {
           "found": {
             "DATE": 2,
@@ -503,31 +502,28 @@
             "IBAN": 1
           },
           "foundTotal": 16,
-          "sharedTags": [
-            "[ADDRESS]",
-            "[DATE_2]"
-          ],
+          "sharedTags": [],
           "keptTotal": 16,
           "sharedByUser": 0,
-          "charsSent": 411,
-          "clausesSent": 2,
+          "charsSent": 251,
+          "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 34950
+              "ms": 21270
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 37548
+              "ms": 18001
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 35054
+              "ms": 16480
             }
           ],
           "mode": "private"
@@ -549,20 +545,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 34952
+            "at": 21271
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 72501
+            "at": 39272
           }
         ],
         "answer": {
-          "text": "The contract term starts on 1 September 2024. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\nClause used: Clause 2, Clause 10",
-          "source": "on_device",
+          "text": "Your contract ends at the end of a contract year, provided at least 60 days' written notice is given by either party, or the Tenant may end it early with 90 days' written notice subject to Clause 6. According to the text, either party can terminate the lease at the conclusion of a contract year by giving a minimum of 60 days of written notice. Additionally, the tenant has the option to end the lease earlier by providing 90 days of written notice, though this is subject to the conditions of Clause 6.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 20816,
+          "ms": 1715,
           "receipt": {
             "found": {
               "DATE": 2,
@@ -578,30 +574,30 @@
             "sharedTags": [],
             "keptTotal": 16,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 251,
+            "clausesSent": 1,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 34950
+                "ms": 21270
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 37548
+                "ms": 18001
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 35054
+                "ms": 16480
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 20809
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 1713
               }
             ],
             "mode": "private"
@@ -618,19 +614,19 @@
             "step": "detect",
             "target": "device",
             "blocked": false,
-            "chars": 1252
+            "chars": 1068
           },
           {
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 766
+            "chars": 559
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 681
+            "chars": 771
           }
         ]
       }
@@ -645,11 +641,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T11:53:49.045Z",
+      "recordedAt": "2026-11-24T19:29:29.989Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 118251,
+        "ms": 63256,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -658,23 +654,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The question asks what happens to the deposit if the tenant leaves early. Clause 6 states: 'If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.' This provides a direct statement of a consequence regarding the deposit based on a specific condition, which is fact-based within the clause."
+          "reason": "The question asks about a specific consequence (what happens to the deposit if leaving early), which is directly stated in Clause 6."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 38532
+            "ms": 25485
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 45217
+            "ms": 23549
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 34402
+            "ms": 14216
           }
         ],
         "guardOk": true,
@@ -719,13 +715,13 @@
           {
             "type": "PHONE",
             "value": "+20 100 555 0192",
-            "role": "tenant",
+            "role": null,
             "source": "rules"
           },
           {
             "type": "EMAIL",
             "value": "mona.adel@example.com",
-            "role": "tenant",
+            "role": null,
             "source": "rules"
           },
           {
@@ -767,7 +763,7 @@
           {
             "type": "EMAIL",
             "value": "mona.adel@example.com",
-            "role": "tenant",
+            "role": null,
             "source": "rules"
           },
           {
@@ -827,17 +823,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 38532
+              "ms": 25485
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 45217
+              "ms": 23549
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 34402
+              "ms": 14216
             }
           ],
           "mode": "private"
@@ -853,26 +849,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 4
+            "at": 1
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 38536
+            "at": 25486
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 83755
+            "at": 49036
           }
         ],
         "answer": {
           "text": "The Landlord may keep one month's rent from the deposit if the Tenant leaves before the end of the term without the notice required by Clause 10. (Clause 6, Clause 10)",
           "source": "on_device",
           "lighter": false,
-          "ms": 17615,
+          "ms": 12870,
           "receipt": {
             "found": {
               "DATE": 2,
@@ -896,22 +892,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 38532
+                "ms": 25485
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 45217
+                "ms": 23549
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 34402
+                "ms": 14216
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 17609
+                "ms": 12867
               }
             ],
             "mode": "private"
@@ -955,11 +951,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T11:55:24.816Z",
+      "recordedAt": "2026-11-24T19:30:40.409Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 91652,
+        "ms": 66387,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -967,23 +963,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question asks for advice or judgment about whether a specific payment date (8th) triggers a late fee, which requires interpretation or judgment based on the clause, rather than a direct, simple lookup of a fact (like a date or amount)."
+          "reason": "The question asks how to determine if a late fee is owed based on a payment date, which requires judgment or application of a rule, not a direct lookup of a specific fact like a date, name, or amount."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 16713
+            "ms": 14403
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 50499
+            "ms": 36150
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 24426
+            "ms": 15831
           }
         ],
         "guardOk": true,
@@ -1016,13 +1012,13 @@
           {
             "type": "PHONE",
             "value": "+20 100 555 0192",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
             "type": "EMAIL",
             "value": "mona.adel@example.com",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
@@ -1034,7 +1030,7 @@
           {
             "type": "IBAN",
             "value": "EG38 0019 0005 0000 0000 2631 8000 2",
-            "role": null,
+            "role": "rent",
             "source": "rules"
           },
           {
@@ -1044,7 +1040,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I pay rent on the 8th of the month, do I owe the late fee?\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [FEE].",
+        "outbound": "Question: If I pay rent on the 8th of the month, do I owe the late fee?\n\nClause 8: 8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [RENT]. Rent paid more than 10 days late carries a fee of [FEE].",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -1056,12 +1052,12 @@
           },
           "foundTotal": 9,
           "sharedTags": [
-            "[ACCOUNT]",
+            "[RENT]",
             "[FEE]"
           ],
           "keptTotal": 9,
           "sharedByUser": 0,
-          "charsSent": 248,
+          "charsSent": 245,
           "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1069,17 +1065,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 16713
+              "ms": 14403
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 50499
+              "ms": 36150
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 24426
+              "ms": 15831
             }
           ],
           "mode": "private"
@@ -1095,26 +1091,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 4
+            "at": 1
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 16717
+            "at": 14404
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 67218
+            "at": 50554
           }
         ],
         "answer": {
-          "text": "No, you do not owe the late fee if you pay rent on the 8th of the month. According to the text, a late fee is only incurred if the rent is paid more than 10 days late, and rent is due on the first day of the month.",
+          "text": "No, you do not owe the late fee if you pay on the 8th of the month. According to the text, rent is due on the first day of the month, but the late fee is only applied if the rent is paid more than 10 days late. Since the 8th is within 10 days of the first, no fee is incurred.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 2086,
+          "ms": 1998,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -1126,12 +1122,12 @@
             },
             "foundTotal": 9,
             "sharedTags": [
-              "[ACCOUNT]",
+              "[RENT]",
               "[FEE]"
             ],
             "keptTotal": 9,
             "sharedByUser": 0,
-            "charsSent": 248,
+            "charsSent": 245,
             "clausesSent": 1,
             "pagesTotal": 1,
             "pagesSent": 1,
@@ -1139,22 +1135,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 16713
+                "ms": 14403
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 50499
+                "ms": 36150
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 24426
+                "ms": 15831
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 2085
+                "ms": 1997
               }
             ],
             "mode": "private"
@@ -1183,7 +1179,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 768
+            "chars": 765
           }
         ]
       }
@@ -1198,11 +1194,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T11:57:04.499Z",
+      "recordedAt": "2026-11-24T19:31:45.220Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 79940,
+        "ms": 52029,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -1210,23 +1206,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The question asks about the rules regarding subletting a room on a short-term basis. Clause 3 directly addresses this, stating that a tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord. This is a direct look-up of a rule mentioned in the clauses."
+          "reason": "The question asks about a specific rule regarding short-term rentals (subletting/listing a room) and whether it requires prior permission. Clause 3 directly addresses this by stating that subletting or listing a room on short-term rental platforms requires prior written authorization from the Landlord. This is a direct look-up of a stated condition."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 18291
+            "ms": 13218
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 24772
+            "ms": 16799
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 36855
+            "ms": 22003
           }
         ],
         "guardOk": true,
@@ -1317,17 +1313,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 18291
+              "ms": 13218
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 24772
+              "ms": 16799
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 36855
+              "ms": 22003
             }
           ],
           "mode": "private"
@@ -1349,20 +1345,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 18292
+            "at": 13218
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 43065
+            "at": 30018
           }
         ],
         "answer": {
           "text": "The Tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord. (Clause 3)",
           "source": "on_device",
           "lighter": false,
-          "ms": 17691,
+          "ms": 10741,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -1386,22 +1382,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 18291
+                "ms": 13218
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 24772
+                "ms": 16799
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 36855
+                "ms": 22003
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 17685
+                "ms": 10740
               }
             ],
             "mode": "private"
@@ -1445,11 +1441,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T11:58:34.351Z",
+      "recordedAt": "2026-11-24T19:32:43.577Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 72214,
+        "ms": 47129,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -1457,23 +1453,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The clause directly states the required notice period: 'The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs.'"
+          "reason": "The question asks for a specific amount of notice required, which is directly stated in clause 4 ('at least 48 hours' written notice')."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 19168
+            "ms": 10738
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 27346
+            "ms": 23548
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 25682
+            "ms": 12836
           }
         ],
         "guardOk": true,
@@ -1505,12 +1501,6 @@
           },
           {
             "type": "ADDRESS",
-            "value": "Property",
-            "role": null,
-            "source": "nano"
-          },
-          {
-            "type": "ADDRESS",
             "value": "8 Hassan Sabry St, Zamalek, Cairo",
             "role": null,
             "source": "rules"
@@ -1520,30 +1510,22 @@
             "value": "EGP 18,500",
             "role": null,
             "source": "rules"
-          },
-          {
-            "type": "ADDRESS",
-            "value": "Property",
-            "role": null,
-            "source": "nano"
           }
         ],
-        "outbound": "Question: How many hours' notice must the landlord give before entering for repairs?\n\nClause 4: 4. Access and Inspection. The Landlord must give at least 48 hours' written notice before entering the [ADDRESS] for routine inspection or non-urgent repairs.",
+        "outbound": "Question: How many hours' notice must the landlord give before entering for repairs?\n\nClause 4: 4. Access and Inspection. The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs.",
         "receipt": {
           "found": {
             "PERSON": 2,
             "NATIONAL_ID": 1,
             "PHONE": 1,
-            "ADDRESS": 2,
+            "ADDRESS": 1,
             "MONEY": 1
           },
-          "foundTotal": 7,
-          "sharedTags": [
-            "[ADDRESS]"
-          ],
-          "keptTotal": 7,
+          "foundTotal": 6,
+          "sharedTags": [],
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 254,
+          "charsSent": 253,
           "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -1551,17 +1533,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 19168
+              "ms": 10738
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 27346
+              "ms": 23548
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 25682
+              "ms": 12836
             }
           ],
           "mode": "private"
@@ -1577,37 +1559,37 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 5
+            "at": 0
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 19173
+            "at": 10739
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 46522
+            "at": 34288
           }
         ],
         "answer": {
           "text": "The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs. (Clause 4)",
           "source": "on_device",
           "lighter": false,
-          "ms": 15600,
+          "ms": 9180,
           "receipt": {
             "found": {
               "PERSON": 2,
               "NATIONAL_ID": 1,
               "PHONE": 1,
-              "ADDRESS": 2,
+              "ADDRESS": 1,
               "MONEY": 1
             },
-            "foundTotal": 7,
+            "foundTotal": 6,
             "sharedTags": [],
-            "keptTotal": 7,
+            "keptTotal": 6,
             "sharedByUser": 0,
             "charsSent": 0,
             "clausesSent": 0,
@@ -1617,22 +1599,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 19168
+                "ms": 10738
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 27346
+                "ms": 23548
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 25682
+                "ms": 12836
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 15596
+                "ms": 9179
               }
             ],
             "mode": "private"
@@ -1676,11 +1658,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:00:10.415Z",
+      "recordedAt": "2026-11-24T19:34:25.607Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 88856,
+        "ms": 91668,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -1688,23 +1670,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question asks about a potential policy change or prediction (Can the building management increase...?), which requires judgment or policy interpretation, not a direct fact found in the clauses."
+          "reason": "The question asks about a potential, future action (increasing the charge by 15%), which requires judgment or an assessment of existing rules/projections, rather than a direct fact found in the clauses. The clause only states an 8% cap on annual increases, not whether a 15% increase is possible."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 20750
+            "ms": 15929
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 45597
+            "ms": 46433
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 22490
+            "ms": 29282
           }
         ],
         "guardOk": true,
@@ -1719,13 +1701,13 @@
           {
             "type": "PERSON",
             "value": "Omar Zaki",
-            "role": "tenant",
-            "source": "nano"
+            "role": null,
+            "source": "rules"
           },
           {
             "type": "NATIONAL_ID",
             "value": "28809100104412",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
@@ -1777,7 +1759,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: Can the building management increase our monthly service charge by 15% next year?\n\nClause 3: 3. [PERSON_2] Maintenance (CAM). The Tenant pays a monthly service charge of [RENT]. Annual increases to the service charge are capped at 8% per year.",
+        "outbound": "Question: Can the building management increase our monthly service charge by 15% next year?\n\nClause 3: 3. [PERSON_3] Maintenance (CAM). The Tenant pays a monthly service charge of [RENT]. Annual increases to the service charge are capped at 8% per year.",
         "receipt": {
           "found": {
             "PERSON": 4,
@@ -1790,7 +1772,7 @@
           },
           "foundTotal": 11,
           "sharedTags": [
-            "[PERSON_2]",
+            "[PERSON_3]",
             "[RENT]"
           ],
           "keptTotal": 11,
@@ -1803,17 +1785,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 20750
+              "ms": 15929
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 45597
+              "ms": 46433
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 22490
+              "ms": 29282
             }
           ],
           "mode": "private"
@@ -1829,26 +1811,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 3
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 20752
+            "at": 15933
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 66351
+            "at": 62368
           }
         ],
         "answer": {
           "text": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nAccording to the text, annual increases to the service charge are capped at 8% per year.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1846,
+          "ms": 2607,
           "receipt": {
             "found": {
               "PERSON": 4,
@@ -1861,7 +1843,7 @@
             },
             "foundTotal": 11,
             "sharedTags": [
-              "[PERSON_2]",
+              "[PERSON_3]",
               "[RENT]"
             ],
             "keptTotal": 11,
@@ -1874,22 +1856,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 20750
+                "ms": 15929
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 45597
+                "ms": 46433
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 22490
+                "ms": 29282
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1844
+                "ms": 2605
               }
             ],
             "mode": "private"
@@ -1933,36 +1915,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:01:33.608Z",
+      "recordedAt": "2026-11-24T19:36:09.238Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 79213,
+        "ms": 100035,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
-          1,
           3
         ],
         "route": {
           "local": false,
-          "reason": "The question asks who is responsible for payment for a repair, which requires judgment based on the clauses regarding responsibility for repairs. Clause 3 specifies responsibilities, but not definitively who pays for a burst main water pipe."
+          "reason": "The question asks who has to pay for a repair, which requires judgment about responsibility based on the provided clauses. Clause 3 only assigns responsibility for specific types of plumbing issues, but not the general responsibility for a burst pipe."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 20700
+            "ms": 18924
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 29182
+            "ms": 52063
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 29314
+            "ms": 29032
           }
         ],
         "guardOk": true,
@@ -1983,7 +1964,7 @@
           {
             "type": "EMAIL",
             "value": "MahmoudGamal@example.com",
-            "role": null,
+            "role": "landlord",
             "source": "rules"
           },
           {
@@ -1995,7 +1976,7 @@
           {
             "type": "PHONE",
             "value": "+20 106 777 5432",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
@@ -2011,7 +1992,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: A main water pipe inside the wall burst. Who has to pay for the repair?\n\nClause 1: 1. Parties. [LANDLORD], national ID [NATIONAL_ID], email [EMAIL] (\"Landlord\"), and [TENANT], phone [PHONE] (\"Tenant\"), for Flat 9 at [ADDRESS].\n\nClause 3: 3. Repairs and Plumbing. The Landlord is solely responsible for hidden plumbing, main risers, roof waterproofing, and structural walls. The Tenant is responsible only for internal tap washers and drain blockages caused by misuse.",
+        "outbound": "Question: A main water pipe inside the wall burst. Who has to pay for the repair?\n\nClause 3: 3. Repairs and Plumbing. The Landlord is solely responsible for hidden plumbing, main risers, roof waterproofing, and structural walls. The Tenant is responsible only for internal tap washers and drain blockages caused by misuse.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -2022,35 +2003,28 @@
             "MONEY": 1
           },
           "foundTotal": 7,
-          "sharedTags": [
-            "[LANDLORD]",
-            "[NATIONAL_ID]",
-            "[EMAIL]",
-            "[TENANT]",
-            "[PHONE]",
-            "[ADDRESS]"
-          ],
+          "sharedTags": [],
           "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 477,
-          "clausesSent": 2,
+          "charsSent": 322,
+          "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 20700
+              "ms": 18924
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 29182
+              "ms": 52063
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 29314
+              "ms": 29032
             }
           ],
           "mode": "private"
@@ -2072,20 +2046,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 20702
+            "at": 18926
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 49887
+            "at": 70991
           }
         ],
         "answer": {
-          "text": "The landlord has to pay for the repair of a main water pipe inside the wall. \n\nAccording to the text, the landlord is solely responsible for hidden plumbing and main risers, whereas the tenant's responsibility is limited to internal tap washers and drain blockages caused by misuse.",
+          "text": "The landlord has to pay for the repair of a main water pipe inside the wall. According to the text, the landlord is solely responsible for hidden plumbing.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1917,
+          "ms": 1576,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -2096,40 +2070,33 @@
               "MONEY": 1
             },
             "foundTotal": 7,
-            "sharedTags": [
-              "[LANDLORD]",
-              "[NATIONAL_ID]",
-              "[EMAIL]",
-              "[TENANT]",
-              "[PHONE]",
-              "[ADDRESS]"
-            ],
+            "sharedTags": [],
             "keptTotal": 7,
             "sharedByUser": 0,
-            "charsSent": 477,
-            "clausesSent": 2,
+            "charsSent": 322,
+            "clausesSent": 1,
             "pagesTotal": 1,
             "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 20700
+                "ms": 18924
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 29182
+                "ms": 52063
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 29314
+                "ms": 29032
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1915
+                "ms": 1575
               }
             ],
             "mode": "private"
@@ -2152,13 +2119,13 @@
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 846
+            "chars": 630
           },
           {
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 997
+            "chars": 842
           }
         ]
       }
@@ -2173,36 +2140,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:03:22.144Z",
+      "recordedAt": "2026-11-24T19:38:21.439Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 104588,
+        "ms": 118564,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
-          2,
           5
         ],
         "route": {
           "local": false,
-          "reason": "The question asks for a specific amount of severance pay based on a hypothetical scenario (elimination without cause after 18 months), which requires calculation or application of a rule (Clause 5) based on a variable (monthly salary found in Clause 2). While the calculation components exist in the clauses, determining the final amount requires judgment and calculation."
+          "reason": "The question asks for a specific amount of severance pay based on a hypothetical scenario (elimination without cause after 18 months), which requires judgment or calculation based on the given clause's terms, not a direct factual lookup of a date, name, amount, or period already stated in a simple manner."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 30236
+            "ms": 25433
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 37696
+            "ms": 62536
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 36640
+            "ms": 30578
           }
         ],
         "guardOk": true,
@@ -2247,13 +2213,13 @@
           {
             "type": "ADDRESS",
             "value": "22 Syria St, Mohandessin, Giza",
-            "role": "landlord",
+            "role": "tenant",
             "source": "rules"
           },
           {
             "type": "MONEY",
             "value": "EGP 65,000",
-            "role": "salary",
+            "role": null,
             "source": "rules"
           },
           {
@@ -2263,7 +2229,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 2: 2. Compensation. The Employee's gross monthly salary is [SALARY], paid on the 25th of each month.\n\nClause 5: 5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
+        "outbound": "Question: If the company eliminates my role without cause after 18 months, how much severance pay do I receive?\n\nClause 5: 5. Termination Without Cause. If the Employer terminates this Agreement without cause after the 3-month probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary plus a 60-day notice period.",
         "receipt": {
           "found": {
             "DATE": 1,
@@ -2276,30 +2242,28 @@
             "IBAN": 1
           },
           "foundTotal": 9,
-          "sharedTags": [
-            "[SALARY]"
-          ],
+          "sharedTags": [],
           "keptTotal": 9,
           "sharedByUser": 0,
-          "charsSent": 463,
-          "clausesSent": 2,
+          "charsSent": 354,
+          "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 30236
+              "ms": 25433
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 37696
+              "ms": 62536
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 36640
+              "ms": 30578
             }
           ],
           "mode": "private"
@@ -2321,20 +2285,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 30237
+            "at": 25434
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 67935
+            "at": 87971
           }
         ],
         "answer": {
-          "text": "If the company eliminates your role without cause after 18 months, you receive severance pay equal to two months of gross monthly salary plus a 60-day notice period. \n\nAccording to Clause 5, if the Employer terminates the agreement without cause after the 3-month probation period, they are required to pay severance equal to two (2) months of gross monthly salary (EGP 65,000 * 2) in addition to a 60-day notice period.",
+          "text": "If your company eliminates your role without cause after 18 months, you will receive severance equal to two months of gross monthly salary plus a 60-day notice period. \n\nAccording to Clause 5 of the excerpt, any termination without cause occurring after the initial 3-month probation period qualifies the employee for this exact compensation package, which consists of two (2) months of gross monthly salary and a 60-day notice period.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1920,
+          "ms": 11612,
           "receipt": {
             "found": {
               "DATE": 1,
@@ -2347,35 +2311,33 @@
               "IBAN": 1
             },
             "foundTotal": 9,
-            "sharedTags": [
-              "[SALARY]"
-            ],
+            "sharedTags": [],
             "keptTotal": 9,
             "sharedByUser": 0,
-            "charsSent": 463,
-            "clausesSent": 2,
+            "charsSent": 354,
+            "clausesSent": 1,
             "pagesTotal": 1,
             "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 30236
+                "ms": 25433
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 37696
+                "ms": 62536
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 36640
+                "ms": 30578
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1918
+                "ms": 11611
               }
             ],
             "mode": "private"
@@ -2392,19 +2354,19 @@
             "step": "detect",
             "target": "device",
             "blocked": false,
-            "chars": 1296
+            "chars": 1195
           },
           {
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 786
+            "chars": 662
           },
           {
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 983
+            "chars": 874
           }
         ]
       }
@@ -2419,11 +2381,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:05:18.337Z",
+      "recordedAt": "2026-11-24T19:39:49.404Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 111130,
+        "ms": 83960,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -2431,23 +2393,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question asks for advice or a judgment regarding the applicability of a non-compete clause to a specific situation (joining a startup), which requires interpretation of the clause's scope and context, rather than a direct, fact-based lookup of a date, name, amount, or period within the clause itself."
+          "reason": "The question asks about permission/possibility based on a clause, which requires judgement or interpretation of the clause's application rather than a direct lookup of a specific fact like a date or name. While clause 4 mentions a non-compete restriction, determining if this restriction applies to joining a healthcare startup requires judgement regarding the scope of 'direct competitor' and the exclusion of 'non-financial software industries', which goes beyond a simple fact lookup."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 21401
+            "ms": 17291
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 56240
+            "ms": 27549
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 33472
+            "ms": 39104
           }
         ],
         "guardOk": true,
@@ -2486,7 +2448,7 @@
           {
             "type": "ADDRESS",
             "value": "15 Makram Ebeid St, Nasr City, Cairo",
-            "role": "landlord",
+            "role": null,
             "source": "rules"
           },
           {
@@ -2518,17 +2480,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 21401
+              "ms": 17291
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 56240
+              "ms": 27549
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 33472
+              "ms": 39104
             }
           ],
           "mode": "private"
@@ -2544,26 +2506,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 1
+            "at": 4
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 21402
+            "at": 17295
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 77643
+            "at": 44845
           }
         ],
         "answer": {
           "text": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. The text states that the non-competition restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 3019,
+          "ms": 1961,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -2585,22 +2547,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 21401
+                "ms": 17291
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 56240
+                "ms": 27549
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 33472
+                "ms": 39104
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 3018
+                "ms": 1960
               }
             ],
             "mode": "private"
@@ -2644,11 +2606,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:06:39.090Z",
+      "recordedAt": "2026-11-24T19:41:05.320Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 67348,
+        "ms": 63828,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -2656,23 +2618,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The question asks for the duration of the probationary period, which is explicitly stated in clause 3 (ninety (90) days)."
+          "reason": "The clause directly states the duration of the probationary period: 'The first ninety (90) days of employment constitute a probationary period'."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 14166
+            "ms": 14525
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 33271
+            "ms": 29585
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 19903
+            "ms": 19706
           }
         ],
         "guardOk": true,
@@ -2730,17 +2692,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 14166
+              "ms": 14525
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 33271
+              "ms": 29585
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 19903
+              "ms": 19706
             }
           ],
           "mode": "private"
@@ -2762,20 +2724,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 14167
+            "at": 14526
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 47439
+            "at": 44112
           }
         ],
         "answer": {
           "text": "The first ninety (90) days of employment constitute a probationary period. (Clause 3)",
           "source": "on_device",
           "lighter": false,
-          "ms": 11372,
+          "ms": 10072,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -2796,22 +2758,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 14166
+                "ms": 14525
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 33271
+                "ms": 29585
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 19903
+                "ms": 19706
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 11367
+                "ms": 10067
               }
             ],
             "mode": "private"
@@ -2855,35 +2817,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:08:51.169Z",
+      "recordedAt": "2026-11-24T19:42:57.325Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 107586,
+        "ms": 107885,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
           3
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks for a specific amount (maximum annual performance bonus) based on a condition (100% target achievement). The clause (id=3) provides the formula/amount: '15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary)'. While it requires calculation based on an unknown 'monthly base salary', it describes a fixed relationship/formula for the bonus, making it a direct lookup/calculation based on the provided rule."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 18391
+            "ms": 18129
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 42468
+            "ms": 57862
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 46716
+            "ms": 31874
           }
         ],
         "guardOk": true,
@@ -2954,17 +2916,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 18391
+              "ms": 18129
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 42468
+              "ms": 57862
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 46716
+              "ms": 31874
             }
           ],
           "mode": "private"
@@ -2980,26 +2942,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 4
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 18393
+            "at": 18134
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 60863
+            "at": 76000
           }
         ],
         "answer": {
-          "text": "At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary). (Clause 3)",
-          "source": "on_device",
+          "text": "Your maximum annual performance bonus at 100% target achievement is {{MONTHLY_BASE_SALARY * 1.8}}. \n\nThe text explains that if you hit 100% of your targets, your annual bonus is calculated as 15% of one monthly base salary multiplied by 12, which equals 1.8 times your monthly base salary.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 22465,
+          "ms": 2091,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -3013,30 +2975,30 @@
             "sharedTags": [],
             "keptTotal": 7,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 273,
+            "clausesSent": 1,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 18391
+                "ms": 18129
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 42468
+                "ms": 57862
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 46716
+                "ms": 31874
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 22462
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 2089
               }
             ],
             "mode": "private"
@@ -3062,10 +3024,10 @@
             "chars": 581
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 496
+            "chars": 793
           }
         ]
       }
@@ -3080,11 +3042,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:10:43.105Z",
+      "recordedAt": "2026-11-24T19:44:44.238Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 87529,
+        "ms": 81665,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -3092,23 +3054,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The question asks about ownership of a personal project built on a personal laptop, which directly relates to clause 4 regarding works created entirely on the Employee's own time without Company equipment and unrelated to the Company's products. The clause states these works remain the sole property of the Employee, which is a direct statement of fact/rule from the text."
+          "reason": "The question asks about ownership of a personal project developed on personal equipment outside of work-related contexts. Clause 4 addresses intellectual property and states that works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee. This directly addresses the scenario described in the question."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 24738
+            "ms": 22258
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 23867
+            "ms": 25047
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 38904
+            "ms": 34330
           }
         ],
         "guardOk": true,
@@ -3141,7 +3103,7 @@
           {
             "type": "ADDRESS",
             "value": "19 Dokki St, Giza",
-            "role": null,
+            "role": "tenant",
             "source": "rules"
           },
           {
@@ -3181,17 +3143,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 24738
+              "ms": 22258
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 23867
+              "ms": 25047
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 38904
+              "ms": 34330
             }
           ],
           "mode": "private"
@@ -3207,26 +3169,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 6
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 24740
+            "at": 22267
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 48608
+            "at": 47318
           }
         ],
         "answer": {
-          "text": "Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
+          "text": "Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee. (Clause 4)",
           "source": "on_device",
           "lighter": false,
-          "ms": 18970,
+          "ms": 19049,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -3248,22 +3210,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 24738
+                "ms": 22258
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 23867
+                "ms": 25047
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 38904
+                "ms": 34330
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 18964
+                "ms": 19042
               }
             ],
             "mode": "private"
@@ -3307,11 +3269,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:11:53.678Z",
+      "recordedAt": "2026-11-24T19:46:23.167Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 66513,
+        "ms": 84863,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -3320,23 +3282,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question requires calculation (10% more than the stipend) and comparison to a limit, which is not a simple fact lookup."
+          "reason": "The question requires a calculation (10% increase on the stipend and comparison with the equipment allowance/limit) and judgment regarding coverage, which is beyond a simple factual lookup in the provided clauses."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 17710
+            "ms": 34408
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 31255
+            "ms": 28732
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 17529
+            "ms": 21710
           }
         ],
         "guardOk": true,
@@ -3375,17 +3337,17 @@
           {
             "type": "MONEY",
             "value": "EGP 3,000",
-            "role": null,
+            "role": "deposit",
             "source": "rules"
           },
           {
             "type": "MONEY",
             "value": "EGP 3,000",
-            "role": null,
+            "role": "deposit",
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 2: 2. Base Pay. [SALARY] monthly.\n\nClause 3: 3. Equipment Allowance. The Company provides a one-time home-office equipment allowance of up to [AMOUNT] upon submission of original receipts. Any amount above [AMOUNT] is paid by the Employee.",
+        "outbound": "Question: If I buy an ergonomic chair for 10% more than my monthly stipend, is the full amount covered by the single-purchase limit?\n\nClause 2: 2. Base Pay. [SALARY] monthly.\n\nClause 3: 3. Equipment Allowance. The Company provides a one-time home-office equipment allowance of up to [DEPOSIT] upon submission of original receipts. Any amount above [DEPOSIT] is paid by the Employee.",
         "receipt": {
           "found": {
             "PERSON": 1,
@@ -3397,11 +3359,11 @@
           "foundTotal": 6,
           "sharedTags": [
             "[SALARY]",
-            "[AMOUNT]"
+            "[DEPOSIT]"
           ],
           "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 380,
+          "charsSent": 382,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -3409,17 +3371,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 17710
+              "ms": 34408
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 31255
+              "ms": 28732
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 17529
+              "ms": 21710
             }
           ],
           "mode": "private"
@@ -3435,26 +3397,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 5
+            "at": 3
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 17716
+            "at": 34411
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 48973
+            "at": 63145
           }
         ],
         "answer": {
-          "text": "No, the full amount is not covered by the single-purchase limit. \n\nThe text states that the home-office equipment allowance is a one-time allowance of up to EGP 3,000. Therefore, any amount above EGP 3,000, such as a purchase for EGP 3,300, must be paid by the employee.",
+          "text": "No, the full amount is not covered by the single-purchase limit because any amount above the allowance must be paid by the employee. \n\nThe excerpt states that the company provides a one-time home-office equipment allowance of up to EGP 3,000. If you buy an ergonomic chair that costs EGP 3,300, the company will only cover up to EGP 3,000, and you are responsible for paying the amount above that limit.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 2038,
+          "ms": 12032,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -3466,11 +3428,11 @@
             "foundTotal": 6,
             "sharedTags": [
               "[SALARY]",
-              "[AMOUNT]"
+              "[DEPOSIT]"
             ],
             "keptTotal": 6,
             "sharedByUser": 0,
-            "charsSent": 380,
+            "charsSent": 382,
             "clausesSent": 2,
             "pagesTotal": 1,
             "pagesSent": 1,
@@ -3478,22 +3440,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 17710
+                "ms": 34408
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 31255
+                "ms": 28732
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 17529
+                "ms": 21710
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1991
+                "ms": 12013
               }
             ],
             "mode": "private"
@@ -3522,7 +3484,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 900
+            "chars": 902
           }
         ]
       }
@@ -3537,37 +3499,36 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:13:40.515Z",
+      "recordedAt": "2026-11-24T19:47:56.535Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 97092,
+        "ms": 89413,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
-          1,
           3,
           4
         ],
         "route": {
           "local": false,
-          "reason": "The question requires interpreting the classification of a specific result (114 mg/dL) and the recommendation, which involves judgment or inference based on the provided clauses. While the specific values and reference ranges are present, determining the 'classification' and 'recommendation' requires processing and synthesizing the information, which goes beyond a direct lookup."
+          "reason": "The question asks for an interpretation of the report and a recommendation, which requires judgment and synthesis of information from the clauses, not just a direct lookup of a single fact like a specific date or amount."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 26110
+            "ms": 25018
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 38424
+            "ms": 41156
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 32505
+            "ms": 23205
           }
         ],
         "guardOk": true,
@@ -3600,7 +3561,7 @@
           {
             "type": "ADDRESS",
             "value": "11 Tahrir St, Dokki, Giza",
-            "role": null,
+            "role": "patient",
             "source": "rules"
           },
           {
@@ -3646,7 +3607,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 1: 1. Patient Identification. Patient: [PATIENT], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Collected on [DATE_1].\n\nClause 3: 3. [PERSON_2] Results. [PERSON_3]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_4]. Values sit in the impaired fasting glucose (prediabetes) reference range. [PERSON_5]A1c in 3 months and review dietary and physical activity changes with the referring physician.",
+        "outbound": "Question: How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?\n\nClause 3: 3. [PERSON_2] Results. [PERSON_3]: 114 mg/dL (Reference interval: Normal 70–99 mg/dL; Impaired fasting glucose / prediabetes range 100–125 mg/dL; Provisional diabetes threshold >= 126 mg/dL). HbA1c: 5.9% (Reference: Normal < 5.7%; Prediabetes 5.7%–6.4%).\n\nClause 4: 4. [PERSON_4]. Values sit in the impaired fasting glucose (prediabetes) reference range. [PERSON_5]A1c in 3 months and review dietary and physical activity changes with the referring physician.",
         "receipt": {
           "found": {
             "PERSON": 6,
@@ -3659,12 +3620,6 @@
           },
           "foundTotal": 12,
           "sharedTags": [
-            "[PATIENT]",
-            "[NATIONAL_ID]",
-            "[PHONE]",
-            "[EMAIL]",
-            "[ADDRESS]",
-            "[DATE_1]",
             "[PERSON_2]",
             "[PERSON_3]",
             "[PERSON_4]",
@@ -3672,25 +3627,25 @@
           ],
           "keptTotal": 12,
           "sharedByUser": 0,
-          "charsSent": 755,
-          "clausesSent": 3,
+          "charsSent": 598,
+          "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 26110
+              "ms": 25018
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 38424
+              "ms": 41156
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 32505
+              "ms": 23205
             }
           ],
           "mode": "private"
@@ -3706,26 +3661,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 7
+            "at": 6
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 26117
+            "at": 25024
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 64546
+            "at": 66181
           }
         ],
         "answer": {
-          "text": "The report classifies a fasting blood glucose result of 114 mg/dL as impaired fasting glucose (prediabetes) and recommends repeating the A1c in 3 months while reviewing dietary and physical activity changes with the referring physician. \n\nThe excerpt shows that a result of 114 mg/dL falls within the reference range for impaired fasting glucose / prediabetes (100–125 mg/dL). Based on this, the note advises repeating Repeat HbA1c in 3 months and discussing lifestyle changes (dietary and physical activity) with the referring physician.",
+          "text": "The report classifies a fasting blood glucose result of 114 mg/dL as falling within the impaired fasting glucose / prediabetes range, and the note recommends repeating the HbA1c test in 3 months and reviewing dietary and physical activity changes with the referring physician. \n\nThe excerpt states that a value of 114 mg/dL sits in the impaired fasting glucose / prediabetes range (which is defined in Clause 3 as 100–125 mg/dL, compared to a normal range of 70–99 mg/dL and a provisional diabetes threshold of >= 126 mg/dL). For follow-up, the report advises obtaining an HbA1c value in 3 months and reviewing dietary and physical activity changes with the referring physician.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 7708,
+          "ms": 1921,
           "receipt": {
             "found": {
               "PERSON": 6,
@@ -3738,12 +3693,6 @@
             },
             "foundTotal": 12,
             "sharedTags": [
-              "[PATIENT]",
-              "[NATIONAL_ID]",
-              "[PHONE]",
-              "[EMAIL]",
-              "[ADDRESS]",
-              "[DATE_1]",
               "[PERSON_2]",
               "[PERSON_3]",
               "[PERSON_4]",
@@ -3751,30 +3700,30 @@
             ],
             "keptTotal": 12,
             "sharedByUser": 0,
-            "charsSent": 755,
-            "clausesSent": 3,
+            "charsSent": 598,
+            "clausesSent": 2,
             "pagesTotal": 1,
             "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 26110
+                "ms": 25018
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 38424
+                "ms": 41156
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 32505
+                "ms": 23205
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 7706
+                "ms": 1920
               }
             ],
             "mode": "private"
@@ -3797,13 +3746,13 @@
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 1167
+            "chars": 944
           },
           {
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 1275
+            "chars": 1118
           }
         ]
       }
@@ -3818,36 +3767,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:14:58.852Z",
+      "recordedAt": "2026-11-24T19:49:26.974Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 63861,
+        "ms": 75900,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
-          2,
           3
         ],
         "route": {
           "local": true,
-          "reason": "Clause 3 states to 'schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.', which directly answers the question about the scheduling period."
+          "reason": "The clause directly states the required interval for the repeat blood test: 'schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.'"
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 15909
+            "ms": 15550
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 29064
+            "ms": 39652
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 18875
+            "ms": 20681
           }
         ],
         "guardOk": true,
@@ -3892,11 +3840,11 @@
           {
             "type": "PERSON",
             "value": "Dr. Maged Rostom",
-            "role": "doctor",
-            "source": "nano"
+            "role": null,
+            "source": "rules"
           }
         ],
-        "outbound": "Question: In how many weeks should the repeat vitamin D blood test be scheduled?\n\nClause 2: 2. Clinician. Seen by [DOCTOR].\n\nClause 3: 3. Plan. Serum 25-OH Vitamin D measured 14 ng/mL (deficient < 20 ng/mL). Supplement with colecalciferol as prescribed and schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.",
+        "outbound": "Question: In how many weeks should the repeat vitamin D blood test be scheduled?\n\nClause 3: 3. Plan. Serum 25-OH Vitamin D measured 14 ng/mL (deficient < 20 ng/mL). Supplement with colecalciferol as prescribed and schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -3907,30 +3855,28 @@
             "MONEY": 1
           },
           "foundTotal": 7,
-          "sharedTags": [
-            "[DOCTOR]"
-          ],
+          "sharedTags": [],
           "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 327,
-          "clausesSent": 2,
+          "charsSent": 284,
+          "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 15909
+              "ms": 15550
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 29064
+              "ms": 39652
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 18875
+              "ms": 20681
             }
           ],
           "mode": "private"
@@ -3946,26 +3892,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 3
+            "at": 1
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 15912
+            "at": 15551
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 44977
+            "at": 55210
           }
         ],
         "answer": {
-          "text": "Schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks. (Clause 3)",
+          "text": "A repeat serum 25-OH Vitamin D blood test should be scheduled in eight weeks. Clause 3.",
           "source": "on_device",
           "lighter": false,
-          "ms": 12457,
+          "ms": 12521,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -3987,22 +3933,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 15909
+                "ms": 15550
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 29064
+                "ms": 39652
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 18875
+                "ms": 20681
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 12452
+                "ms": 12517
               }
             ],
             "mode": "private"
@@ -4019,19 +3965,19 @@
             "step": "detect",
             "target": "device",
             "blocked": false,
-            "chars": 1112
+            "chars": 1071
           },
           {
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 656
+            "chars": 592
           },
           {
             "step": "answerLocal",
             "target": "device",
             "blocked": false,
-            "chars": 571
+            "chars": 507
           }
         ]
       }
@@ -4046,35 +3992,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:16:19.927Z",
+      "recordedAt": "2026-11-24T19:50:55.438Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 68133,
+        "ms": 64435,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
           3
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks for a specific calculated amount (20% out-of-pocket co-pay) based on the conditions mentioned in the clause, which is directly computable from the provided information (25,000 EGP fee, 20% co-payment)."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 18162
+            "ms": 18745
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 24611
+            "ms": 21816
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 25345
+            "ms": 23859
           }
         ],
         "guardOk": true,
@@ -4153,17 +4099,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 18162
+              "ms": 18745
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 24611
+              "ms": 21816
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 25345
+              "ms": 23859
             }
           ],
           "mode": "private"
@@ -4185,20 +4131,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 18165
+            "at": 18749
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 42778
+            "at": 40566
           }
         ],
         "answer": {
-          "text": "You are responsible for a 20% co-payment at admission. (Clause 3)",
-          "source": "on_device",
+          "text": "Your 20% out-of-pocket co-pay is EGP 5,000. \n\nBased on Clause 3 of the text, the total approved outpatient arthroscopy package fee is listed as EGP 25,000, and the patient is required to pay a 20% co-payment at admission.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 10914,
+          "ms": 22000,
           "receipt": {
             "found": {
               "PERSON": 3,
@@ -4209,33 +4155,35 @@
               "IBAN": 1
             },
             "foundTotal": 8,
-            "sharedTags": [],
+            "sharedTags": [
+              "[FEE]"
+            ],
             "keptTotal": 8,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 290,
+            "clausesSent": 1,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 18162
+                "ms": 18745
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 24611
+                "ms": 21816
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 25345
+                "ms": 23859
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 10910
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 21997
               }
             ],
             "mode": "private"
@@ -4261,10 +4209,10 @@
             "chars": 603
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 518
+            "chars": 810
           }
         ]
       }
@@ -4279,11 +4227,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:17:33.681Z",
+      "recordedAt": "2026-11-24T19:52:05.277Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 69988,
+        "ms": 65748,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -4291,23 +4239,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question asks for advice regarding a specific timing (2 hours before the MRI) which requires judgment or interpretation of the provided instructions (which state water is permitted up to 1 hour before arrival). This is not a direct, simple fact lookup."
+          "reason": "The question asks for medical advice regarding a specific timing (2 hours before) for drinking water related to an MRI. While the clause mentions water limits, the question requires judgment/interpretation of the given instructions relative to the request, and does not present a direct, simple fact lookup. It involves interpreting preparation instructions for a medical procedure."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 14636
+            "ms": 15419
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 31444
+            "ms": 20139
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 23889
+            "ms": 30171
           }
         ],
         "guardOk": true,
@@ -4386,17 +4334,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 14636
+              "ms": 15419
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 31444
+              "ms": 20139
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 23889
+              "ms": 30171
             }
           ],
           "mode": "private"
@@ -4412,26 +4360,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 3
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 14638
+            "at": 15422
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 46084
+            "at": 35562
           }
         ],
         "answer": {
-          "text": "Yes, you can drink water 2 hours before your abdominal MRI with contrast. Plain water is permitted up to 1 hour before arrival, so 2 hours before falls within the allowed timeframe.",
+          "text": "Yes, you can drink plain water 2 hours before your abdominal MRI with contrast. \n\nThe text states that plain water is permitted up to 1 hour before arrival.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1737,
+          "ms": 2076,
           "receipt": {
             "found": {
               "PERSON": 3,
@@ -4455,22 +4403,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 14636
+                "ms": 15419
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 31444
+                "ms": 20139
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 23889
+                "ms": 30171
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1735
+                "ms": 2075
               }
             ],
             "mode": "private"
@@ -4514,35 +4462,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:19:06.512Z",
+      "recordedAt": "2026-11-24T19:53:26.889Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 77259,
+        "ms": 73149,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
           4
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks for a specific amount/payment obligation based on a given condition, which is directly addressed by clause 4 of the provided text."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 15770
+            "ms": 15651
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 42549
+            "ms": 37200
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 18917
+            "ms": 20277
           }
         ],
         "guardOk": true,
@@ -4551,13 +4499,13 @@
           {
             "type": "PERSON",
             "value": "Bassem Fouad",
-            "role": "tenant",
+            "role": "employer",
             "source": "nano"
           },
           {
             "type": "PERSON",
             "value": "Mariam Rizk",
-            "role": "employer",
+            "role": "employee",
             "source": "nano"
           },
           {
@@ -4633,17 +4581,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 15770
+              "ms": 15651
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 42549
+              "ms": 37200
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 18917
+              "ms": 20277
             }
           ],
           "mode": "private"
@@ -4653,32 +4601,32 @@
             "step": "rules",
             "part": 1,
             "parts": 1,
-            "at": 0
+            "at": 1
           },
           {
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 1
+            "at": 2
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 15772
+            "at": 15654
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 58322
+            "at": 52857
           }
         ],
         "answer": {
-          "text": "The client shall pay 50% of that milestone's fee within 14 days. Clause 4",
-          "source": "on_device",
+          "text": "If the client cancels the project halfway through Milestone 2, they must pay half of that milestone's fee. According to the text, if the client cancels an active milestone after work has begun, they are required to pay 50% of the milestone's fee within 14 days.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 10056,
+          "ms": 2076,
           "receipt": {
             "found": {
               "PERSON": 5,
@@ -4689,33 +4637,35 @@
               "IBAN": 1
             },
             "foundTotal": 10,
-            "sharedTags": [],
+            "sharedTags": [
+              "[PERSON_3]"
+            ],
             "keptTotal": 10,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 276,
+            "clausesSent": 1,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 15770
+                "ms": 15651
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 42549
+                "ms": 37200
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 18917
+                "ms": 20277
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 10051
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 2073
               }
             ],
             "mode": "private"
@@ -4741,10 +4691,10 @@
             "chars": 591
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 506
+            "chars": 796
           }
         ]
       }
@@ -4759,36 +4709,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:20:23.999Z",
+      "recordedAt": "2026-11-24T19:54:33.350Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 63469,
+        "ms": 53994,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
-          2,
           3
         ],
         "route": {
           "local": true,
-          "reason": "The question asks for a specific time period (within how many days) related to payment terms, which is directly stated in clause 3: 'must be paid in full within fifteen (15) calendar days of receipt.'"
+          "reason": "The question asks for a specific amount of days (a period) within which payment must be made, and this information is directly stated in clause 3."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 15311
+            "ms": 13193
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 25304
+            "ms": 20884
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 22841
+            "ms": 19908
           }
         ],
         "guardOk": true,
@@ -4821,7 +4770,7 @@
           {
             "type": "MONEY",
             "value": "USD 3,500",
-            "role": "salary",
+            "role": null,
             "source": "rules"
           },
           {
@@ -4837,7 +4786,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: Within how many days of receiving an invoice must the client pay?\n\nClause 2: 2. Retainer. Monthly retainer is [SALARY].\n\nClause 3: 3. Invoicing Terms. Invoices are submitted on the last business day of the month and must be paid in full within [RENT] of receipt.",
+        "outbound": "Question: Within how many days of receiving an invoice must the client pay?\n\nClause 3: 3. Invoicing Terms. Invoices are submitted on the last business day of the month and must be paid in full within [RENT] of receipt.",
         "receipt": {
           "found": {
             "PERSON": 1,
@@ -4849,30 +4798,29 @@
           },
           "foundTotal": 7,
           "sharedTags": [
-            "[SALARY]",
             "[RENT]"
           ],
           "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 272,
-          "clausesSent": 2,
+          "charsSent": 218,
+          "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 15311
+              "ms": 13193
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 25304
+              "ms": 20884
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 22841
+              "ms": 19908
             }
           ],
           "mode": "private"
@@ -4888,26 +4836,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 5
+            "at": 1
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 15317
+            "at": 13194
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 40622
+            "at": 34079
           }
         ],
         "answer": {
-          "text": "Invoices must be paid in full within fifteen (15) calendar days of receipt. (Clause 3)",
+          "text": "The client must pay in full within fifteen (15) calendar days of receipt. (Clause 3)",
           "source": "on_device",
           "lighter": false,
-          "ms": 11990,
+          "ms": 10437,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -4929,22 +4877,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 15311
+                "ms": 13193
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 25304
+                "ms": 20884
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 22841
+                "ms": 19908
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 11988
+                "ms": 10433
               }
             ],
             "mode": "private"
@@ -4961,19 +4909,19 @@
             "step": "detect",
             "target": "device",
             "blocked": false,
-            "chars": 1006
+            "chars": 961
           },
           {
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 614
+            "chars": 546
           },
           {
             "step": "answerLocal",
             "target": "device",
             "blocked": false,
-            "chars": 529
+            "chars": 461
           }
         ]
       }
@@ -4988,35 +4936,36 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:21:39.582Z",
+      "recordedAt": "2026-11-24T19:56:24.853Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 58908,
+        "ms": 68717,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
+          2,
           3
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks for a specific refund amount based on a given cancellation timeframe (20 days before). The clause provides rules for different timeframes (30+ days, 14-29 days, 13 days), allowing for a direct, local lookup to determine the applicable refund percentage."
+          "local": false,
+          "reason": "The question requires calculating a refund based on a specific cancellation timing (20 days before the event) and applying a rule from the clauses. This requires judgment/application of a rule, not just a direct lookup of a pre-stated fact like a date, name, or amount."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 13425
+            "ms": 20351
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 17920
+            "ms": 21340
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 27546
+            "ms": 27012
           }
         ],
         "guardOk": true,
@@ -5061,11 +5010,11 @@
           {
             "type": "MONEY",
             "value": "EGP 30,000",
-            "role": null,
+            "role": "deposit",
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I cancel 20 days before the event, how much of my deposit is refunded?\n\nClause 3: 3. Cancellation Schedule. Cancellations made 30 or more days before the event receive a 100% refund. Cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Cancellations within 13 days are non-refundable.",
+        "outbound": "Question: If I cancel 20 days before the event, how much of my deposit is refunded?\n\nClause 2: 2. Booking Deposit. The Client paid an upfront deposit of [DEPOSIT].\n\nClause 3: 3. Cancellation Schedule. Cancellations made 30 or more days before the event receive a 100% refund. Cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Cancellations within 13 days are non-refundable.",
         "receipt": {
           "found": {
             "PERSON": 1,
@@ -5077,28 +5026,30 @@
             "MONEY": 1
           },
           "foundTotal": 7,
-          "sharedTags": [],
+          "sharedTags": [
+            "[DEPOSIT]"
+          ],
           "keptTotal": 7,
           "sharedByUser": 0,
-          "charsSent": 340,
-          "clausesSent": 1,
+          "charsSent": 420,
+          "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 13425
+              "ms": 20351
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 17920
+              "ms": 21340
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 27546
+              "ms": 27012
             }
           ],
           "mode": "private"
@@ -5114,26 +5065,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 6
+            "at": 2
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 13431
+            "at": 20354
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 31352
+            "at": 41695
           }
         ],
         "answer": {
-          "text": "Cancellations made 30 or more days before the event receive a 100% refund of the deposit. This is stated in clause 3.",
+          "text": "If you cancel 20 days before the event, you will receive a 50% refund of your deposit.\n\nThis is because Clause 3 of the document states that cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Since 20 days falls within this range, a 50% refund is applicable.",
           "source": "on_device",
-          "lighter": false,
-          "ms": 14640,
+          "lighter": true,
+          "ms": 40739,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -5156,22 +5107,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 13425
+                "ms": 20351
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 17920
+                "ms": 21340
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 27546
+                "ms": 27012
               },
               {
-                "step": "answerLocal",
+                "step": "reason",
                 "source": "on_device",
-                "ms": 14635
+                "ms": 40738
               }
             ],
             "mode": "private"
@@ -5188,19 +5139,19 @@
             "step": "detect",
             "target": "device",
             "blocked": false,
-            "chars": 1142
+            "chars": 1213
           },
           {
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 648
+            "chars": 742
           },
           {
-            "step": "answerLocal",
+            "step": "reason",
             "target": "device",
             "blocked": false,
-            "chars": 563
+            "chars": 940
           }
         ]
       }
@@ -5215,35 +5166,36 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:22:54.815Z",
+      "recordedAt": "2026-11-24T19:57:41.498Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 56229,
+        "ms": 72252,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
+          2,
           4
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks for a specific financial limit mentioned in the contract (maximum damages liability), which is directly specified in Clause 4 (exceed 100% of the Total Contract Fee)."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 18000
+            "ms": 18294
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 18875
+            "ms": 22777
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 19336
+            "ms": 31169
           }
         ],
         "guardOk": true,
@@ -5276,13 +5228,7 @@
           {
             "type": "MONEY",
             "value": "EGP 120,000",
-            "role": null,
-            "source": "rules"
-          },
-          {
-            "type": "PERSON",
-            "value": "Bank Details",
-            "role": null,
+            "role": "fee",
             "source": "rules"
           },
           {
@@ -5292,39 +5238,41 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: What is the maximum damages liability the consultant can be held responsible for under the contract?\n\nClause 4: 4. Limitation of Liability. Neither party's aggregate liability under this Agreement shall exceed 100% of the Total Contract Fee paid under Clause 2, and neither party shall be liable for indirect or consequential damages.",
+        "outbound": "Question: What is the maximum damages liability the consultant can be held responsible for under the contract?\n\nClause 2: 2. Total Contract Fee. The fixed fee for the engagement is [FEE].\n\nClause 4: 4. Limitation of Liability. Neither party's aggregate liability under this Agreement shall exceed 100% of the Total Contract Fee paid under Clause 2, and neither party shall be liable for indirect or consequential damages.",
         "receipt": {
           "found": {
-            "PERSON": 2,
+            "PERSON": 1,
             "NATIONAL_ID": 1,
             "PHONE": 1,
             "EMAIL": 1,
             "MONEY": 1,
             "IBAN": 1
           },
-          "foundTotal": 7,
-          "sharedTags": [],
-          "keptTotal": 7,
+          "foundTotal": 6,
+          "sharedTags": [
+            "[FEE]"
+          ],
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 344,
-          "clausesSent": 1,
+          "charsSent": 421,
+          "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 18000
+              "ms": 18294
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 18875
+              "ms": 22777
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 19336
+              "ms": 31169
             }
           ],
           "mode": "private"
@@ -5340,63 +5288,65 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 4
+            "at": 3
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 18005
+            "at": 18297
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 36882
+            "at": 41074
           }
         ],
         "answer": {
-          "text": "Neither party's aggregate liability under this Agreement shall exceed 100% of the Total Contract Fee paid under Clause 2, and neither party shall be liable for indirect or consequential damages. Clause 4",
-          "source": "on_device",
+          "text": "The maximum damages liability the consultant can be held responsible for is EGP 120,000. \n\nUnder Clause 4, neither party's aggregate liability under the agreement can exceed 100% of the Total Contract Fee paid under Clause 2, which is defined as EGP 120,000 in Clause 2.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 16964,
+          "ms": 2359,
           "receipt": {
             "found": {
-              "PERSON": 2,
+              "PERSON": 1,
               "NATIONAL_ID": 1,
               "PHONE": 1,
               "EMAIL": 1,
               "MONEY": 1,
               "IBAN": 1
             },
-            "foundTotal": 7,
-            "sharedTags": [],
-            "keptTotal": 7,
+            "foundTotal": 6,
+            "sharedTags": [
+              "[FEE]"
+            ],
+            "keptTotal": 6,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 421,
+            "clausesSent": 2,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 18000
+                "ms": 18294
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 18875
+                "ms": 22777
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 19336
+                "ms": 31169
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 16958
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 2342
               }
             ],
             "mode": "private"
@@ -5413,19 +5363,19 @@
             "step": "detect",
             "target": "device",
             "blocked": false,
-            "chars": 1072
+            "chars": 1145
           },
           {
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 652
+            "chars": 748
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 567
+            "chars": 941
           }
         ]
       }
@@ -5440,11 +5390,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:24:28.077Z",
+      "recordedAt": "2026-11-24T19:59:13.627Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 73623,
+        "ms": 86527,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -5452,24 +5402,24 @@
           3
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks about a specific percentage penalty. Clause 3 explicitly mentions an 'early-settlement administrative charge of 3% of the prepaid principal balance,' which directly answers the question."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 20397
+            "ms": 24179
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 31461
+            "ms": 32731
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 21751
+            "ms": 29605
           }
         ],
         "guardOk": true,
@@ -5502,7 +5452,7 @@
           {
             "type": "ADDRESS",
             "value": "16 El-Merghany St, Heliopolis, Cairo",
-            "role": "landlord",
+            "role": null,
             "source": "rules"
           },
           {
@@ -5514,7 +5464,7 @@
           {
             "type": "MONEY",
             "value": "EGP 400,000",
-            "role": "rent",
+            "role": null,
             "source": "rules"
           },
           {
@@ -5524,7 +5474,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 2: 2. Principal Balance. Remaining principal balance is [RENT].\n\nClause 3: 3. [PERSON]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
+        "outbound": "Question: If I pay off my remaining loan balance early, what percentage penalty applies?\n\nClause 2: 2. Principal Balance. Remaining principal balance is [AMOUNT].\n\nClause 3: 3. [PERSON]. The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -5537,12 +5487,12 @@
           },
           "foundTotal": 8,
           "sharedTags": [
-            "[RENT]",
+            "[AMOUNT]",
             "[PERSON]"
           ],
           "keptTotal": 8,
           "sharedByUser": 0,
-          "charsSent": 372,
+          "charsSent": 374,
           "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -5550,17 +5500,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 20397
+              "ms": 24179
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 31461
+              "ms": 32731
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 21751
+              "ms": 29605
             }
           ],
           "mode": "private"
@@ -5576,26 +5526,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 1
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 20400
+            "at": 24179
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 51862
+            "at": 56911
           }
         ],
         "answer": {
-          "text": "The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance. (Clause 3)",
-          "source": "on_device",
+          "text": "An early-settlement administrative charge of EGP 12,000 applies if you pay off your remaining loan balance early. \n\nThe text states that the borrower can settle the full remaining principal balance at any time with 15 days' notice, subject to an administrative charge of 3% of the prepaid principal balance.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 17618,
+          "ms": 3545,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -5607,33 +5557,36 @@
               "MONEY": 1
             },
             "foundTotal": 8,
-            "sharedTags": [],
+            "sharedTags": [
+              "[AMOUNT]",
+              "[PERSON]"
+            ],
             "keptTotal": 8,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 374,
+            "clausesSent": 2,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 20397
+                "ms": 24179
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 31461
+                "ms": 32731
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 21751
+                "ms": 29605
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 17615
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 3544
               }
             ],
             "mode": "private"
@@ -5659,10 +5612,10 @@
             "chars": 706
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 621
+            "chars": 894
           }
         ]
       }
@@ -5677,11 +5630,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:25:54.034Z",
+      "recordedAt": "2026-11-24T20:00:29.882Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 72418,
+        "ms": 68544,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -5689,23 +5642,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The clause directly states the coverage period for the lithium battery pack: 'the lithium battery pack is covered for ten (10) years or 6,000 charge cycles.' which answers the question about the warranty period."
+          "reason": "The clause explicitly states the warranty period for the lithium battery pack is ten (10) years, which directly answers the question."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 19734
+            "ms": 20141
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 29911
+            "ms": 31254
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 22757
+            "ms": 17137
           }
         ],
         "guardOk": true,
@@ -5770,17 +5723,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 19734
+              "ms": 20141
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 29911
+              "ms": 31254
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 22757
+              "ms": 17137
             }
           ],
           "mode": "private"
@@ -5796,26 +5749,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 6
+            "at": 1
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 19741
+            "at": 20142
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 49652
+            "at": 51396
           }
         ],
         "answer": {
-          "text": "The lithium battery pack is covered for ten (10) years or 6,000 charge cycles. Clause id=\"3\".",
+          "text": "The document does not say.",
           "source": "on_device",
           "lighter": false,
-          "ms": 11520,
+          "ms": 5697,
           "receipt": {
             "found": {
               "PERSON": 1,
@@ -5837,22 +5790,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 19734
+                "ms": 20141
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 29911
+                "ms": 31254
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 22757
+                "ms": 17137
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 11515
+                "ms": 5692
               }
             ],
             "mode": "private"
@@ -5896,11 +5849,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:27:05.094Z",
+      "recordedAt": "2026-11-24T20:02:22.268Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 63699,
+        "ms": 96128,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -5908,23 +5861,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question asks about the possibility of an increase (15%) when the clause specifies a strict cap (10%). This requires judgment/comparison against the clause, not just a simple look-up of a stated fact."
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 17888
+            "ms": 15440
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 24189
+            "ms": 25480
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 21605
+            "ms": 55194
           }
         ],
         "guardOk": true,
@@ -5990,17 +5943,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 17888
+              "ms": 15440
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 24189
+              "ms": 25480
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 21605
+              "ms": 55194
             }
           ],
           "mode": "private"
@@ -6022,20 +5975,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 17891
+            "at": 15443
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 42081
+            "at": 40925
           }
         ],
         "answer": {
-          "text": "No, the landlord cannot increase the rent by 15% at renewal because the increase is strictly capped at 10%. According to Clause 2, any annual rent increase at renewal is capped at 10%, meaning the maximum allowable increase would be EGP 850.",
+          "text": "No, the landlord cannot increase the rent by 15% at renewal. \n\nClause 2 states that any annual rent increase at renewal is strictly capped at 10%. Therefore, the maximum allowable increase is EGP 850.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1889,
+          "ms": 7985,
           "receipt": {
             "found": {
               "PERSON": 3,
@@ -6058,22 +6011,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 17888
+                "ms": 15440
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 24189
+                "ms": 25480
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 21605
+                "ms": 55194
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1873
+                "ms": 7970
               }
             ],
             "mode": "private"
@@ -6117,35 +6070,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:28:09.456Z",
+      "recordedAt": "2026-11-24T20:03:46.072Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 59100,
+        "ms": 69365,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
-          2
+          3
         ],
         "route": {
-          "local": false,
-          "reason": "The question asks about a specific legal requirement (number of days' notice for lease termination) which requires judgment or external knowledge/policy, not a direct fact listed in the provided clauses (which only contain rent information)."
+          "local": true,
+          "reason": "The question asks for a specific piece of information (a period/amount of notice) regarding lease termination, which is directly stated in clause 3."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 14835
+            "ms": 17476
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 23400
+            "ms": 31960
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 20854
+            "ms": 19911
           }
         ],
         "guardOk": true,
@@ -6178,11 +6131,11 @@
           {
             "type": "MONEY",
             "value": "EGP 11,000",
-            "role": "rent",
+            "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: How many days' notice is required to terminate the lease at the end of a contract year?\n\nClause 2: 2. Rent. Monthly rent is [RENT].",
+        "outbound": "Question: How many days' notice is required to terminate the lease at the end of a contract year?\n\nClause 3: 3. Notice. Either party may terminate at the end of a contract year by giving sixty (60) days' written notice.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -6191,12 +6144,10 @@
             "MONEY": 1
           },
           "foundTotal": 5,
-          "sharedTags": [
-            "[RENT]"
-          ],
+          "sharedTags": [],
           "keptTotal": 5,
           "sharedByUser": 0,
-          "charsSent": 141,
+          "charsSent": 219,
           "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -6204,17 +6155,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 14835
+              "ms": 17476
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 23400
+              "ms": 31960
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 20854
+              "ms": 19911
             }
           ],
           "mode": "private"
@@ -6230,26 +6181,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 4
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 14837
+            "at": 17481
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 38238
+            "at": 49444
           }
         ],
         "answer": {
-          "text": "The excerpt does not state how many days' notice is required to terminate the lease at the end of a contract year. The provided text only mentions the monthly rent amount (EGP 11,000) in Clause 2 and contains no information regarding lease termination notice periods.",
-          "source": "in_cloud",
+          "text": "Either party may terminate at the end of a contract year by giving sixty (60) days' written notice. (Clause 3)",
+          "source": "on_device",
           "lighter": false,
-          "ms": 3228,
+          "ms": 12411,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -6258,35 +6209,33 @@
               "MONEY": 1
             },
             "foundTotal": 5,
-            "sharedTags": [
-              "[RENT]"
-            ],
+            "sharedTags": [],
             "keptTotal": 5,
             "sharedByUser": 0,
-            "charsSent": 141,
-            "clausesSent": 1,
+            "charsSent": 0,
+            "clausesSent": 0,
             "pagesTotal": 1,
-            "pagesSent": 1,
+            "pagesSent": 0,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 14835
+                "ms": 17476
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 23400
+                "ms": 31960
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 20854
+                "ms": 19911
               },
               {
-                "step": "reason",
-                "source": "in_cloud",
-                "ms": 3227
+                "step": "answerLocal",
+                "source": "on_device",
+                "ms": 12407
               }
             ],
             "mode": "private"
@@ -6303,19 +6252,19 @@
             "step": "detect",
             "target": "device",
             "blocked": false,
-            "chars": 863
+            "chars": 937
           },
           {
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 453
+            "chars": 527
           },
           {
-            "step": "reason",
-            "target": "cloud",
+            "step": "answerLocal",
+            "target": "device",
             "blocked": false,
-            "chars": 661
+            "chars": 442
           }
         ]
       }
@@ -6330,11 +6279,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:29:42.476Z",
+      "recordedAt": "2026-11-24T20:05:59.428Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 76409,
+        "ms": 92363,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -6342,23 +6291,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The question asks about a specific consequence (a late fee) based on a condition (transfer arriving 12 days after the due date). Clause 2 states that payments received more than 10 days after the due date incur a late fee of EGP 250. Since 12 days is more than 10 days, the information needed to answer the question is directly present in the clause."
+          "reason": "The question asks what happens under a specific condition (transfer arriving 12 days after the 1st of the month), which can be answered by looking up the rule in clause 2. Clause 2 specifies a late fee if payments are received more than 10 days after the due date. 12 days is more than 10 days, so the late fee applies."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 14934
+            "ms": 17130
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 29021
+            "ms": 42449
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 32442
+            "ms": 32768
           }
         ],
         "guardOk": true,
@@ -6432,17 +6381,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 14934
+              "ms": 17130
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 29021
+              "ms": 42449
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 32442
+              "ms": 32768
             }
           ],
           "mode": "private"
@@ -6458,26 +6407,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 1
+            "at": 2
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 14935
+            "at": 17132
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 43958
+            "at": 59586
           }
         ],
         "answer": {
-          "text": "Payments received more than 10 days after the due date incur a late fee of EGP 250. (Clause 2)",
+          "text": "Payments received more than 10 days after the due date incur a late fee of EGP 250.\n\nClause used: 2. Payment & Late Penalty. Monthly rent of EGP 8,500 is payable on the 1st of each month to IBAN EG380019000500000000263180002. Payments received more than 10 days after the due date incur a late fee of EGP 250.",
           "source": "on_device",
           "lighter": false,
-          "ms": 14588,
+          "ms": 38945,
           "receipt": {
             "found": {
               "PERSON": 3,
@@ -6497,22 +6446,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 14934
+                "ms": 17130
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 29021
+                "ms": 42449
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 32442
+                "ms": 32768
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 14586
+                "ms": 38941
               }
             ],
             "mode": "private"
@@ -6556,35 +6505,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:31:11.372Z",
+      "recordedAt": "2026-11-24T20:07:10.413Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 70542,
+        "ms": 61679,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
           2
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks for a specific amount that can be kept by the landlord based on a condition described in the clauses. The clause directly states: 'If the Tenant leaves early without giving 90 days' written notice, the Landlord may retain one month's rent from the deposit.' This is a direct fact stated in the clauses."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 13910
+            "ms": 14682
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 27397
+            "ms": 27715
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 29222
+            "ms": 19267
           }
         ],
         "guardOk": true,
@@ -6635,17 +6584,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 13910
+              "ms": 14682
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 27397
+              "ms": 27715
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 29222
+              "ms": 19267
             }
           ],
           "mode": "private"
@@ -6661,59 +6610,61 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 6
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 13913
+            "at": 14689
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 41311
+            "at": 42405
           }
         ],
         "answer": {
-          "text": "The Landlord may retain one month's rent from the deposit if the Tenant leaves early without giving 90 days' written notice. Clause 2. Deposit.",
-          "source": "on_device",
+          "text": "If you leave without giving the 90-day early termination notice, the landlord can keep one month's rent from your security deposit. The text states that if the tenant leaves early without providing the required 90 days' written notice, the landlord is permitted to retain one month's rent from the 17,000 LE.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 16315,
+          "ms": 7277,
           "receipt": {
             "found": {
               "PERSON": 2,
               "MONEY": 2
             },
             "foundTotal": 4,
-            "sharedTags": [],
+            "sharedTags": [
+              "[DEPOSIT]"
+            ],
             "keptTotal": 4,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 325,
+            "clausesSent": 1,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 13910
+                "ms": 14682
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 27397
+                "ms": 27715
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 29222
+                "ms": 19267
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 16314
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 7276
               }
             ],
             "mode": "private"
@@ -6739,10 +6690,10 @@
             "chars": 633
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 548
+            "chars": 845
           }
         ]
       }
@@ -6757,11 +6708,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:32:28.740Z",
+      "recordedAt": "2026-11-24T20:08:40.647Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 67861,
+        "ms": 74444,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -6769,23 +6720,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "Clause 2 directly states that 'The Landlord pays for elevator servicing', which is a factual statement answering the question about who pays."
+          "reason": "The clause directly states that the Landlord pays for elevator servicing, which answers the question about who pays for routine building elevator maintenance under this lease."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 12755
+            "ms": 15435
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 36685
+            "ms": 41411
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 18402
+            "ms": 17586
           }
         ],
         "guardOk": true,
@@ -6841,17 +6792,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 12755
+              "ms": 15435
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 36685
+              "ms": 41411
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 18402
+              "ms": 17586
             }
           ],
           "mode": "private"
@@ -6867,26 +6818,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 3
+            "at": 2
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 12759
+            "at": 15437
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 49445
+            "at": 56849
           }
         ],
         "answer": {
-          "text": "The Landlord pays for elevator servicing. (Clause 2)",
+          "text": "The Landlord pays for elevator servicing, stair lighting, and common-area repairs; the Tenant pays only metered apartment electricity and gas. (Clause id=\"2\")",
           "source": "on_device",
           "lighter": false,
-          "ms": 7488,
+          "ms": 13756,
           "receipt": {
             "found": {
               "PERSON": 3,
@@ -6905,22 +6856,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 12755
+                "ms": 15435
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 36685
+                "ms": 41411
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 18402
+                "ms": 17586
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 7485
+                "ms": 13750
               }
             ],
             "mode": "private"
@@ -6964,35 +6915,36 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:33:48.752Z",
+      "recordedAt": "2026-11-24T20:10:10.952Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 76154,
+        "ms": 86336,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
+          1,
           2
         ],
         "route": {
           "local": false,
-          "reason": "The question asks for an assessment or advice on whether a rent increase is possible given the rent regulations, which requires judgment and comparison with the provided clause, rather than a direct fact lookup like a date, name, or amount."
+          "reason": "The question asks for an assessment of a specific future action (raising the rent by 20%) based on the rules defined in the clauses, which requires judgment and comparison against the stated rent cap (10% increase allowed per year). This is not a direct fact lookup."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 21198
+            "ms": 21875
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 32507
+            "ms": 33069
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 22440
+            "ms": 31372
           }
         ],
         "guardOk": true,
@@ -7023,7 +6975,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: I am [TENANT] ([PHONE]) — can [LANDLORD] raise my [RENT] rent by 20% this year?\n\nClause 2: 2. Rent Cap. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice.",
+        "outbound": "Question: I am [TENANT] ([PHONE]) — can [LANDLORD] raise my [RENT] rent by 20% this year?\n\nClause 1: 1. Parties. [LANDLORD] (\"Landlord\") and [TENANT], phone [PHONE] (\"Tenant\").\n\nClause 2: 2. Rent Cap. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -7039,25 +6991,25 @@
           ],
           "keptTotal": 4,
           "sharedByUser": 0,
-          "charsSent": 259,
-          "clausesSent": 1,
+          "charsSent": 346,
+          "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 21198
+              "ms": 21875
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 32507
+              "ms": 33069
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 22440
+              "ms": 31372
             }
           ],
           "mode": "private"
@@ -7073,26 +7025,26 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 1
+            "at": 6
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 21199
+            "at": 21882
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 53707
+            "at": 54953
           }
         ],
         "answer": {
-          "text": "No, Karim Fathy cannot raise your rent by 20% this year. \n\nAccording to the text, the rent cap limits the Karim Fathy to increasing the rent by no more than 10% once per contract year. Therefore, the maximum allowable increase based on the excerpt would be EGP 850.",
+          "text": "No, Karim Fathy cannot raise your EGP 8,500 rent by 20% this year. \n\nAccording to Clause 2 of the text, the Landlord is only permitted to increase the rent once per contract year by a maximum of 10% (which would be EGP 9,350), provided they give at least 60 days' written notice.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1828,
+          "ms": 1943,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -7108,30 +7060,30 @@
             ],
             "keptTotal": 4,
             "sharedByUser": 0,
-            "charsSent": 259,
-            "clausesSent": 1,
+            "charsSent": 346,
+            "clausesSent": 2,
             "pagesTotal": 1,
             "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 21198
+                "ms": 21875
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 32507
+                "ms": 33069
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 22440
+                "ms": 31372
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1827
+                "ms": 1942
               }
             ],
             "mode": "private"
@@ -7154,13 +7106,13 @@
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 584
+            "chars": 695
           },
           {
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 779
+            "chars": 866
           }
         ]
       }
@@ -7175,11 +7127,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:35:39.377Z",
+      "recordedAt": "2026-11-24T20:11:48.836Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 89772,
+        "ms": 76425,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -7187,23 +7139,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The question asks if the tenant can assign the lease to a sister company without a fee. Clause 2 states: \"The Tenant may assign this Lease to a wholly-owned affiliate upon 30 days' written notice without paying an assignment fee, provided the original Tenant remains guarantor.\" This directly answers the question based on the text."
+          "reason": "The question asks about the condition under which a tenant can assign a lease (a specific contractual provision) and the clause directly addresses this by mentioning assignment, an affiliate, and no fee."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 20415
+            "ms": 19169
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 38898
+            "ms": 34769
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 30439
+            "ms": 22467
           }
         ],
         "guardOk": true,
@@ -7230,7 +7182,7 @@
           {
             "type": "PHONE",
             "value": "+20 100 600 7000",
-            "role": "tenant",
+            "role": null,
             "source": "rules"
           },
           {
@@ -7260,17 +7212,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 20415
+              "ms": 19169
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 38898
+              "ms": 34769
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 30439
+              "ms": 22467
             }
           ],
           "mode": "private"
@@ -7280,32 +7232,32 @@
             "step": "rules",
             "part": 1,
             "parts": 1,
-            "at": 1
+            "at": 0
           },
           {
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 2
+            "at": 5
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 20419
+            "at": 19176
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 59323
+            "at": 53947
           }
         ],
         "answer": {
-          "text": "The Tenant may assign this Lease to a wholly-owned affiliate upon 30 days' written notice without paying an assignment fee, provided the original Tenant remains guarantor. (Clause id=\"2\")",
+          "text": "The Tenant may assign this Lease to a wholly-owned affiliate upon 30 days' written notice without paying an assignment fee, provided the original Tenant remains guarantor. (Clause 2)",
           "source": "on_device",
           "lighter": false,
-          "ms": 15204,
+          "ms": 14971,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -7325,22 +7277,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 20415
+                "ms": 19169
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 38898
+                "ms": 34769
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 30439
+                "ms": 22467
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 15198
+                "ms": 14967
               }
             ],
             "mode": "private"
@@ -7384,11 +7336,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:36:49.132Z",
+      "recordedAt": "2026-11-24T20:13:08.883Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 65876,
+        "ms": 73491,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -7396,23 +7348,23 @@
         ],
         "route": {
           "local": false,
-          "reason": "The question requires an interpretation and application of the cooling-off period clause to determine a specific outcome (whether a full refund is granted under the given condition), which involves judgement rather than a direct factual lookup."
+          "reason": "The question asks about the conditionality of a full refund based on a specific timeline (10 days vs. 14 days in the clause). Determining if a specific cancellation falls under the provided terms requires judgment based on the input provided, not just a direct lookup of a pre-stated fact like a date or name."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 22028
+            "ms": 16654
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 21039
+            "ms": 26079
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 22789
+            "ms": 30739
           }
         ],
         "guardOk": true,
@@ -7449,34 +7401,27 @@
             "source": "rules"
           },
           {
-            "type": "PERSON",
-            "value": "Cooling-Off Period",
-            "role": null,
-            "source": "rules"
-          },
-          {
             "type": "MONEY",
             "value": "EGP 0",
             "role": null,
             "source": "rules"
           }
         ],
-        "outbound": "Question: If I cancel my annual gym membership within 10 days of signing, do I get a full refund?\n\nClause 2: 2. [PERSON]. The Member may cancel within 14 calendar days of the start date for a 100% refund minus [AMOUNT] if no personal training sessions were used.",
+        "outbound": "Question: If I cancel my annual gym membership within 10 days of signing, do I get a full refund?\n\nClause 2: 2. Cooling-Off Period. The Member may cancel within 14 calendar days of the start date for a 100% refund minus [AMOUNT] if no personal training sessions were used.",
         "receipt": {
           "found": {
-            "PERSON": 2,
+            "PERSON": 1,
             "CARD": 1,
             "DATE": 2,
             "MONEY": 2
           },
-          "foundTotal": 7,
+          "foundTotal": 6,
           "sharedTags": [
-            "[PERSON]",
             "[AMOUNT]"
           ],
-          "keptTotal": 7,
+          "keptTotal": 6,
           "sharedByUser": 0,
-          "charsSent": 262,
+          "charsSent": 272,
           "clausesSent": 1,
           "pagesTotal": 1,
           "pagesSent": 1,
@@ -7484,17 +7429,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 22028
+              "ms": 16654
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 21039
+              "ms": 26079
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 22789
+              "ms": 30739
             }
           ],
           "mode": "private"
@@ -7510,41 +7455,40 @@
             "step": "minimize",
             "part": 1,
             "parts": 1,
-            "at": 6
+            "at": 2
           },
           {
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 22035
+            "at": 16657
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 43078
+            "at": 42738
           }
         ],
         "answer": {
-          "text": "Yes, you can cancel your annual gym membership within 10 days of signing for a full refund minus a deduction, provided no personal training sessions were used. The text states that a member may cancel within 14 calendar days of the start date for a 100% refund minus EGP 0 if no personal training sessions were used. Since 10 days falls within the 14-day window, this cancellation policy applies.",
+          "text": "No, you do not get a full refund within 10 days of signing because the policy specifies a 14-day cooling-off period with a deduction. \n\nThe text states that members may cancel within 14 calendar days of the start date for a 100% refund minus EGP 0, provided no personal training sessions were used.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1852,
+          "ms": 4533,
           "receipt": {
             "found": {
-              "PERSON": 2,
+              "PERSON": 1,
               "CARD": 1,
               "DATE": 2,
               "MONEY": 2
             },
-            "foundTotal": 7,
+            "foundTotal": 6,
             "sharedTags": [
-              "[PERSON]",
               "[AMOUNT]"
             ],
-            "keptTotal": 7,
+            "keptTotal": 6,
             "sharedByUser": 0,
-            "charsSent": 262,
+            "charsSent": 272,
             "clausesSent": 1,
             "pagesTotal": 1,
             "pagesSent": 1,
@@ -7552,22 +7496,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 22028
+                "ms": 16654
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 21039
+                "ms": 26079
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 22789
+                "ms": 30739
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1850
+                "ms": 4531
               }
             ],
             "mode": "private"
@@ -7596,7 +7540,7 @@
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 782
+            "chars": 792
           }
         ]
       }
@@ -7611,35 +7555,36 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:37:59.765Z",
+      "recordedAt": "2026-11-24T20:14:19.399Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 66708,
+        "ms": 66671,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
+          1,
           2
         ],
         "route": {
           "local": false,
-          "reason": "The question requires calculation (finding the rent after a percentage increase), which is not a simple lookup of an explicitly stated fact like a date, name, amount, or period. While the initial rent and the percentage increase are stated, the final calculated maximum rent is not directly present."
+          "reason": "The question requires a calculation (starting rent * 1.10) after applying a percentage increase, which involves judgment/calculation rather than a direct lookup of a written fact like a name, date, or a specific static amount."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 17341
+            "ms": 15603
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 23854
+            "ms": 25227
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 25501
+            "ms": 25832
           }
         ],
         "guardOk": true,
@@ -7682,7 +7627,7 @@
             "source": "rules"
           }
         ],
-        "outbound": "Question: What is the maximum rent after the first annual increase?\n\nClause 2: 2. Rent Escalation. The starting rent is [RENT] (also stated as [RENT]). After 12 months, the Landlord may raise the rent by at most 10%.",
+        "outbound": "Question: What is the maximum rent after the first annual increase?\n\nClause 1: 1. Contact. Landlord [LANDLORD] leases to Tenant [TENANT] (primary phone [PHONE], SMS number [PHONE]).\n\nClause 2: 2. Rent Escalation. The starting rent is [RENT] (also stated as [RENT]). After 12 months, the Landlord may raise the rent by at most 10%.",
         "receipt": {
           "found": {
             "PERSON": 2,
@@ -7691,29 +7636,32 @@
           },
           "foundTotal": 4,
           "sharedTags": [
+            "[LANDLORD]",
+            "[TENANT]",
+            "[PHONE]",
             "[RENT]"
           ],
           "keptTotal": 4,
           "sharedByUser": 0,
-          "charsSent": 216,
-          "clausesSent": 1,
+          "charsSent": 330,
+          "clausesSent": 2,
           "pagesTotal": 1,
           "pagesSent": 1,
           "steps": [
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 17341
+              "ms": 15603
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 23854
+              "ms": 25227
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 25501
+              "ms": 25832
             }
           ],
           "mode": "private"
@@ -7735,20 +7683,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 17342
+            "at": 15604
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 41197
+            "at": 40832
           }
         ],
         "answer": {
-          "text": "The maximum rent after the first annual increase is EGP 9,350. \n\nThe text states that the starting rent is EGP 8,500 and that after 12 months, the Landlord has the right to raise that rent by a maximum of 10%.",
+          "text": "The maximum rent after the first annual increase is EGP 9,350. \n\nAfter 12 months, the text states that the Landlord is permitted to raise the starting rent, which is EGP 8,500, by a maximum of 10%.",
           "source": "in_cloud",
           "lighter": false,
-          "ms": 1900,
+          "ms": 1834,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -7757,34 +7705,37 @@
             },
             "foundTotal": 4,
             "sharedTags": [
+              "[LANDLORD]",
+              "[TENANT]",
+              "[PHONE]",
               "[RENT]"
             ],
             "keptTotal": 4,
             "sharedByUser": 0,
-            "charsSent": 216,
-            "clausesSent": 1,
+            "charsSent": 330,
+            "clausesSent": 2,
             "pagesTotal": 1,
             "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 17341
+                "ms": 15603
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 23854
+                "ms": 25227
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 25501
+                "ms": 25832
               },
               {
                 "step": "reason",
                 "source": "in_cloud",
-                "ms": 1883
+                "ms": 1819
               }
             ],
             "mode": "private"
@@ -7807,13 +7758,13 @@
             "step": "route",
             "target": "device",
             "blocked": false,
-            "chars": 529
+            "chars": 671
           },
           {
             "step": "reason",
             "target": "cloud",
             "blocked": false,
-            "chars": 736
+            "chars": 850
           }
         ]
       }
@@ -7828,35 +7779,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:39:33.155Z",
+      "recordedAt": "2026-11-24T20:15:59.635Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 80661,
+        "ms": 88559,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
           2
         ],
         "route": {
-          "local": true,
-          "reason": "The question asks about the landlord's right to demand the full amount from one tenant for unpaid rent. Clause 2 explicitly states, \"All Co-Tenants are jointly and severally liable for the full monthly rent; the Landlord may recover any unpaid balance from either Co-Tenant.\" This is a direct statement of a condition/fact about the liability described in the clauses."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 19809
+            "ms": 20581
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 28644
+            "ms": 45437
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 32195
+            "ms": 22525
           }
         ],
         "guardOk": true,
@@ -7920,17 +7871,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 19809
+              "ms": 20581
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 28644
+              "ms": 45437
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 32195
+              "ms": 22525
             }
           ],
           "mode": "private"
@@ -7952,20 +7903,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 19811
+            "at": 20582
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 48456
+            "at": 66022
           }
         ],
         "answer": {
-          "text": "The Landlord may recover any unpaid balance from either Co-Tenant. Clause 2.",
-          "source": "on_device",
+          "text": "Yes, the landlord can demand the full amount from you if your flatmate misses their half of the rent. \n\nAccording to Clause 2, all co-tenants are jointly and severally liable for the full monthly rent of EGP 12,000, which means the landlord has the right to recover any unpaid balance from either co-tenant.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 10679,
+          "ms": 9661,
           "receipt": {
             "found": {
               "PERSON": 3,
@@ -7973,33 +7924,35 @@
               "MONEY": 1
             },
             "foundTotal": 6,
-            "sharedTags": [],
+            "sharedTags": [
+              "[RENT]"
+            ],
             "keptTotal": 6,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 323,
+            "clausesSent": 1,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 19809
+                "ms": 20581
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 28644
+                "ms": 45437
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 32195
+                "ms": 22525
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 10675
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 9659
               }
             ],
             "mode": "private"
@@ -8025,10 +7978,10 @@
             "chars": 635
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 550
+            "chars": 843
           }
         ]
       }
@@ -8043,11 +7996,11 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:40:44.263Z",
+      "recordedAt": "2026-11-24T20:17:11.629Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 56801,
+        "ms": 56915,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
@@ -8055,23 +8008,23 @@
         ],
         "route": {
           "local": true,
-          "reason": "The question asks for a specific amount of notice required to end a contract early, which is a direct fact stated in the clause."
+          "reason": "The question asks for a specific piece of information (notice period) that is directly stated in Clause 4."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 15311
+            "ms": 16181
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 23403
+            "ms": 24572
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 18073
+            "ms": 16150
           }
         ],
         "guardOk": true,
@@ -8146,17 +8099,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 15311
+              "ms": 16181
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 23403
+              "ms": 24572
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 18073
+              "ms": 16150
             }
           ],
           "mode": "private"
@@ -8178,20 +8131,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 15315
+            "at": 16185
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 38719
+            "at": 40758
           }
         ],
         "answer": {
           "text": "The Tenant may end the Lease early by providing at least ninety (90) days' prior written notice to the Landlord. (Clause 4)",
           "source": "on_device",
           "lighter": false,
-          "ms": 12274,
+          "ms": 13063,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -8211,22 +8164,22 @@
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 15311
+                "ms": 16181
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 23403
+                "ms": 24572
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 18073
+                "ms": 16150
               },
               {
                 "step": "answerLocal",
                 "source": "on_device",
-                "ms": 12273
+                "ms": 13058
               }
             ],
             "mode": "private"
@@ -8270,35 +8223,35 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "detectScope": "selected",
-      "recordedAt": "2026-11-24T12:42:09.067Z",
+      "recordedAt": "2026-11-24T20:18:59.723Z",
       "result": {
         "ok": true,
         "deviceStatus": "available",
-        "ms": 69220,
+        "ms": 94301,
         "mode": "private",
         "fallbackReason": null,
         "selectedIds": [
           2
         ],
         "route": {
-          "local": true,
-          "reason": "The answer directly states the royalty percentage that applies when the condition (annual gross revenue exceeding the threshold) is met, found within clause 2."
+          "local": false,
+          "reason": "It needs a calculation, so it goes to the reasoning step, masked; the numbers are worked out on this device."
         },
         "steps": [
           {
             "step": "minimize",
             "source": "on_device",
-            "ms": 15911
+            "ms": 16609
           },
           {
             "step": "detect",
             "source": "on_device",
-            "ms": 34163
+            "ms": 50198
           },
           {
             "step": "route",
             "source": "on_device",
-            "ms": 19132
+            "ms": 27478
           }
         ],
         "guardOk": true,
@@ -8363,17 +8316,17 @@
             {
               "step": "minimize",
               "source": "on_device",
-              "ms": 15911
+              "ms": 16609
             },
             {
               "step": "detect",
               "source": "on_device",
-              "ms": 34163
+              "ms": 50198
             },
             {
               "step": "route",
               "source": "on_device",
-              "ms": 19132
+              "ms": 27478
             }
           ],
           "mode": "private"
@@ -8395,20 +8348,20 @@
             "step": "detect",
             "part": 1,
             "parts": 1,
-            "at": 15917
+            "at": 16616
           },
           {
             "step": "route",
             "part": 1,
             "parts": 1,
-            "at": 50081
+            "at": 66816
           }
         ],
         "answer": {
-          "text": "The Licensee shall pay a quarterly royalty of 6% on revenue above that threshold when annual gross revenue exceeds $250,000. Clause 2.",
-          "source": "on_device",
+          "text": "A royalty percentage of 6% applies to revenue above the threshold once annual gross revenue exceeds $250,000. The agreement states that the Licensee must pay this quarterly royalty specifically on the revenue that goes beyond the specified $250,000.",
+          "source": "in_cloud",
           "lighter": false,
-          "ms": 13560,
+          "ms": 11766,
           "receipt": {
             "found": {
               "PERSON": 2,
@@ -8417,33 +8370,35 @@
               "MONEY": 2
             },
             "foundTotal": 6,
-            "sharedTags": [],
+            "sharedTags": [
+              "[AMOUNT]"
+            ],
             "keptTotal": 6,
             "sharedByUser": 0,
-            "charsSent": 0,
-            "clausesSent": 0,
+            "charsSent": 240,
+            "clausesSent": 1,
             "pagesTotal": 1,
-            "pagesSent": 0,
+            "pagesSent": 1,
             "steps": [
               {
                 "step": "minimize",
                 "source": "on_device",
-                "ms": 15911
+                "ms": 16609
               },
               {
                 "step": "detect",
                 "source": "on_device",
-                "ms": 34163
+                "ms": 50198
               },
               {
                 "step": "route",
                 "source": "on_device",
-                "ms": 19132
+                "ms": 27478
               },
               {
-                "step": "answerLocal",
-                "source": "on_device",
-                "ms": 13559
+                "step": "reason",
+                "source": "in_cloud",
+                "ms": 11766
               }
             ],
             "mode": "private"
@@ -8469,10 +8424,10 @@
             "chars": 548
           },
           {
-            "step": "answerLocal",
-            "target": "device",
+            "step": "reason",
+            "target": "cloud",
             "blocked": false,
-            "chars": 463
+            "chars": 760
           }
         ]
       }

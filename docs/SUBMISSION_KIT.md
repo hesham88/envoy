@@ -25,7 +25,7 @@ _Details page_
 Envoy: your private AI agent to the cloud | Firebase AI Logic hybrid inference | #BuildHybridAI
 ```
 
-**Description** (2078 / 5000)
+**Description** (2093 / 5000)
 
 ```text
 Envoy is your private AI agent to the cloud. Ask cloud AI about a lease, an offer letter or a lab report without handing over your private details.
@@ -48,7 +48,7 @@ Chapters
 2:02 The Chrome extension and Upload with Envoy
 2:23 Set up private mode, and the measured results
 
-Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about 15% of the document text sent; 28 of 28 guard attacks blocked. Full results: https://github.com/hesham88/envoy/blob/main/docs/EVAL.md
+Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about a quarter of the document text sent (masked); 28 of 28 guard attacks blocked. Full results: https://github.com/hesham88/envoy/blob/main/docs/EVAL.md
 
 About this video: a real session on a CPU-only laptop. Long on-device waits are cut, and the film says where. Everyone in it is fictional. Narration: Chatterbox TTS (Resemble AI, MIT licence), an AI voice. Music and sound effects are original, made in code.
 
@@ -313,7 +313,7 @@ Envoy is built on **Firebase AI Logic hybrid inference** in Chrome:
 - React + Vite + Tailwind for the web app and a Manifest V3 extension that embeds the same chat in Chrome's side panel. A deterministic core (rules, tags, guard, restore) is shared by both.
 
 ## Measured
-Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about 15% of the document text sent; 28 of 28 guard attacks blocked. Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 95%. Because it also wrote some of the answers, every answer was also checked by the team (rated by our AI coding assistant, Claude Code; not a human rating): Private mode 87.5%, Basic protection 97.5%. Every number names its model, date and sample size: [EVAL.md](https://github.com/hesham88/envoy/blob/main/docs/EVAL.md).
+Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about a quarter of the document text sent (masked); 28 of 28 guard attacks blocked. Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 97.5%. Because it also wrote some of the answers, every answer was also checked by the team (rated by our AI coding assistant, Claude Code; not a human rating): Private mode 87.5%, Basic protection 97.5%. Every number names its model, date and sample size: [EVAL.md](https://github.com/hesham88/envoy/blob/main/docs/EVAL.md).
 
 ## Challenges we ran into
 - **Trusting "on device".** The SDK bug above meant "private" steps could reach the cloud; the device guard and its tests made the boundary checkable.
@@ -322,7 +322,7 @@ Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private
 - **Real-world shapes.** Real use found a plain bank account number the 36 cases missed, and a site (Google's AI Mode) whose upload button only exists while its menu is open. Both are fixed and now tested.
 
 ## Accomplishments that we're proud of
-0 raw details sent across 36 documents and 263 private details, 28 of 28 disguised leaks blocked, about 15% of the document sent, and a privacy boundary a user can actually see: the recorder, the approval card and the ledger.
+0 raw details sent across 36 documents and 263 private details, 28 of 28 disguised leaks blocked, about a quarter of the document sent, and a privacy boundary a user can actually see: the recorder, the approval card and the ledger.
 
 ## What we learned
 Small on-device models are strong at finding and trimming but weaker at arithmetic, so the cloud should do the reasoning over tags while the device does the maths with the real values. Measuring with the real pipeline, and dating every number, kept us honest.

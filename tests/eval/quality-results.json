@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-24T12:49:07.557Z",
+  "generatedAt": "2026-11-24T20:31:49.750Z",
   "source": "live",
   "answerMethod": "Real product answer() collected via runCase({ withAnswer: true }) through Firebase AI Logic in Chrome (no regenerated answers, no extra prompt lines)",
   "judgeModel": "gemini-3.5-flash-lite",
@@ -14,118 +14,118 @@
       ],
       "answerOrigin": "verbatim runCase({ withAnswer: true }) via @envoy/ai answer()",
       "answerSources": {
-        "on_device": 13,
-        "in_cloud": 7,
+        "on_device": 8,
+        "in_cloud": 12,
         "guard_blocked": 0
       },
-      "envoyScore": 0.95,
-      "unblockedEnvoyScore": 0.95,
+      "envoyScore": 0.975,
+      "unblockedEnvoyScore": 0.975,
       "rawCeilingScore": 1,
-      "answerQualityRetained": 0.95,
+      "answerQualityRetained": 0.975,
       "clauseCiteRate": 1,
       "verdicts": {
         "correct": 19,
-        "partially": 0,
-        "wrong": 1
+        "partially": 1,
+        "wrong": 0
       },
       "rows": [
         {
           "id": "lease-01-rent-cap",
           "question": "Can my landlord raise the rent 20% this year?",
-          "recordedAt": "2026-11-24T11:49:20.715Z",
+          "recordedAt": "2026-11-24T19:27:12.339Z",
           "answerSource": "in_cloud",
-          "answerMs": 2025,
+          "answerMs": 3894,
           "guardOk": true,
-          "envoyAnswer": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7, the landlord is only permitted to increase the rent once per contract year by a maximum of 10%, provided they give at least 60 days' written notice. Therefore, a 20% increase exceeds the allowed limit stated in the text.",
+          "envoyAnswer": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7, the landlord is only permitted to increase the rent once per contract year by a maximum of 10%, provided they give at least 60 days' written notice to the tenant.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly states that a 20% rent increase is not allowed and accurately cites Clause 7's 10% maximum annual increase limit."
+            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites the 10% maximum increase rule from Clause 7."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites Clause 7's 10% maximum annual increase limit."
+            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% because the maximum allowed increase is 10%, accurately citing Clause 7."
           }
         },
         {
           "id": "lease-02-end-date-local",
           "question": "When does my contract end?",
-          "recordedAt": "2026-11-24T11:51:31.128Z",
-          "answerSource": "on_device",
-          "answerMs": 20816,
+          "recordedAt": "2026-11-24T19:28:11.833Z",
+          "answerSource": "in_cloud",
+          "answerMs": 1715,
           "guardOk": true,
-          "envoyAnswer": "The contract term starts on 1 September 2024. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\nClause used: Clause 2, Clause 10",
+          "envoyAnswer": "Your contract ends at the end of a contract year, provided at least 60 days' written notice is given by either party, or the Tenant may end it early with 90 days' written notice subject to Clause 6. According to the text, either party can terminate the lease at the conclusion of a contract year by giving a minimum of 60 days of written notice. Additionally, the tenant has the option to end the lease earlier by providing 90 days of written notice, though this is subject to the conditions of Clause 6.",
           "envoyJudge": {
-            "verdict": "correct",
-            "score": 1,
+            "verdict": "partially",
+            "score": 0.5,
             "citesRightClause": true,
-            "rationale": "The candidate correctly states the start date from Clause 2 and termination rules from Clause 10, addressing the user's question about the contract term."
+            "rationale": "The candidate correctly explains the termination and notice conditions, but misses the specific end date (3 years from September 1, 2024, which is August 31, 2027) based on the lease term in Clause 2."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately calculated the end date based on the three-year term starting September 1, 2024, and correctly cited Clause 2."
+            "rationale": "The candidate accurately calculates the contract end date based on the three-year term starting 1 September 2024 and correctly cites Clause 2."
           }
         },
         {
           "id": "lease-03-early-exit-deposit",
           "question": "What happens to my deposit if I leave early?",
-          "recordedAt": "2026-11-24T11:53:49.045Z",
+          "recordedAt": "2026-11-24T19:29:29.989Z",
           "answerSource": "on_device",
-          "answerMs": 17615,
+          "answerMs": 12870,
           "guardOk": true,
           "envoyAnswer": "The Landlord may keep one month's rent from the deposit if the Tenant leaves before the end of the term without the notice required by Clause 10. (Clause 6, Clause 10)",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies the condition under which the landlord may keep one month's rent from the deposit for early departure and cites the appropriate clauses."
+            "rationale": "The candidate accurately explains the deposit consequence for leaving early and correctly references clauses 6 and 10."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately answers what happens to the deposit upon early departure according to Clause 6."
+            "rationale": "The candidate accurately explains the consequences for the deposit if leaving early based on the source document and correctly references the relevant clause."
           }
         },
         {
           "id": "lease-04-late-fee-grace-period",
           "question": "If I pay rent on the 8th of the month, do I owe the late fee?",
-          "recordedAt": "2026-11-24T11:55:24.816Z",
+          "recordedAt": "2026-11-24T19:30:40.409Z",
           "answerSource": "in_cloud",
-          "answerMs": 2086,
+          "answerMs": 1998,
           "guardOk": true,
-          "envoyAnswer": "No, you do not owe the late fee if you pay rent on the 8th of the month. According to the text, a late fee is only incurred if the rent is paid more than 10 days late, and rent is due on the first day of the month.",
+          "envoyAnswer": "No, you do not owe the late fee if you pay on the 8th of the month. According to the text, rent is due on the first day of the month, but the late fee is only applied if the rent is paid more than 10 days late. Since the 8th is within 10 days of the first, no fee is incurred.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly determines that no late fee is owed because payment on the 8th is within the 10-day grace period from the first of the month."
+            "rationale": "The candidate correctly states that no late fee is owed because paying on the 8th is within the 10-day grace period outlined in Clause 8."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately concludes that no late fee is owed because payment on the 8th is within the 10-day grace period, and correctly cites Clause 8."
+            "rationale": "The candidate accurately identifies that no late fee is owed because the payment on the 8th is within the 10-day grace period, correctly citing clause 8."
           }
         },
         {
           "id": "lease-05-sublet-policy",
           "question": "Can I rent out one bedroom on a short-term basis without asking the owner?",
-          "recordedAt": "2026-11-24T11:57:04.499Z",
+          "recordedAt": "2026-11-24T19:31:45.220Z",
           "answerSource": "on_device",
-          "answerMs": 17691,
+          "answerMs": 10741,
           "guardOk": true,
           "envoyAnswer": "The Tenant may not sublet, assign, or list any room on short-term rental platforms without prior written authorization from the Landlord. (Clause 3)",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly answers that the tenant cannot do so without prior written authorization, accurately reflecting Clause 3."
+            "rationale": "The candidate correctly states that the tenant cannot list any room on short-term rental platforms without prior written authorization, accurately reflecting Clause 3."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
@@ -137,316 +137,316 @@
         {
           "id": "lease-06-landlord-entry-notice-local",
           "question": "How many hours' notice must the landlord give before entering for repairs?",
-          "recordedAt": "2026-11-24T11:58:34.351Z",
+          "recordedAt": "2026-11-24T19:32:43.577Z",
           "answerSource": "on_device",
-          "answerMs": 15600,
+          "answerMs": 9180,
           "guardOk": true,
           "envoyAnswer": "The Landlord must give at least 48 hours' written notice before entering the Property for routine inspection or non-urgent repairs. (Clause 4)",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the required notice period and correctly cites clause 4 from the source document."
+            "rationale": "The candidate answer accurately states the required notice period and correctly cites clause 4 from the source document."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the 48-hour notice requirement for non-urgent repairs and correctly reflects the contents of clause 4."
+            "rationale": "The candidate accurately states the required notice period and correctly reflects the information in Clause 4."
           }
         },
         {
           "id": "lease-07-commercial-cam-cap",
           "question": "Can the building management increase our monthly service charge by 15% next year?",
-          "recordedAt": "2026-11-24T12:00:10.415Z",
+          "recordedAt": "2026-11-24T19:34:25.607Z",
           "answerSource": "in_cloud",
-          "answerMs": 1846,
+          "answerMs": 2607,
           "guardOk": true,
           "envoyAnswer": "No, the building management cannot increase your monthly service charge by 15% next year. \n\nAccording to the text, annual increases to the service charge are capped at 8% per year.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly states that the service charge cannot be increased by 15% because annual increases are capped at 8% per year as per the source document."
+            "rationale": "The candidate accurately states that a 15% increase is not allowed because annual service charge increases are capped at 8% according to clause 3."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states that a 15% increase is not allowed because annual increases are capped at 8%, correctly citing Clause 3."
+            "rationale": "The candidate accurately states that a 15% increase is not allowed because Clause 3 caps annual service charge increases at 8%."
           }
         },
         {
           "id": "lease-08-plumbing-responsibility",
           "question": "A main water pipe inside the wall burst. Who has to pay for the repair?",
-          "recordedAt": "2026-11-24T12:01:33.608Z",
+          "recordedAt": "2026-11-24T19:36:09.238Z",
           "answerSource": "in_cloud",
-          "answerMs": 1917,
+          "answerMs": 1576,
           "guardOk": true,
-          "envoyAnswer": "The landlord has to pay for the repair of a main water pipe inside the wall. \n\nAccording to the text, the landlord is solely responsible for hidden plumbing and main risers, whereas the tenant's responsibility is limited to internal tap washers and drain blockages caused by misuse.",
+          "envoyAnswer": "The landlord has to pay for the repair of a main water pipe inside the wall. According to the text, the landlord is solely responsible for hidden plumbing.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies that the landlord is responsible for the repair of hidden plumbing such as a main water pipe inside the wall, as stated in clause 3."
+            "rationale": "The candidate accurately identifies that the landlord is responsible for the repair based on the clause concerning hidden plumbing."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies that the landlord is responsible for the repair and accurately cites Clause 3 regarding hidden plumbing."
+            "rationale": "The candidate correctly identifies that the Landlord is responsible for the repair based on Clause 3 regarding hidden plumbing."
           }
         },
         {
           "id": "offer-01-severance-calculation",
           "question": "If the company eliminates my role without cause after 18 months, how much severance pay do I receive?",
-          "recordedAt": "2026-11-24T12:03:22.144Z",
+          "recordedAt": "2026-11-24T19:38:21.439Z",
           "answerSource": "in_cloud",
-          "answerMs": 1920,
+          "answerMs": 11612,
           "guardOk": true,
-          "envoyAnswer": "If the company eliminates your role without cause after 18 months, you receive severance pay equal to two months of gross monthly salary plus a 60-day notice period. \n\nAccording to Clause 5, if the Employer terminates the agreement without cause after the 3-month probation period, they are required to pay severance equal to two (2) months of gross monthly salary (EGP 65,000 * 2) in addition to a 60-day notice period.",
+          "envoyAnswer": "If your company eliminates your role without cause after 18 months, you will receive severance equal to two months of gross monthly salary plus a 60-day notice period. \n\nAccording to Clause 5 of the excerpt, any termination without cause occurring after the initial 3-month probation period qualifies the employee for this exact compensation package, which consists of two (2) months of gross monthly salary and a 60-day notice period.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the correct severance terms and correctly cites the relevant clause."
+            "rationale": "The candidate accurately identifies the severance pay and notice period from Clause 5, correctly noting that 18 months falls after the 3-month probation period."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the severance and notice period outlined in Clause 5 for termination without cause after the probation period."
+            "rationale": "The candidate correctly identifies the severance terms from Clause 5 and accurately applies them to the scenario where 18 months is past the probation period."
           }
         },
         {
           "id": "offer-02-non-compete-scope",
           "question": "If I resign, can I immediately join a healthcare software startup in Cairo?",
-          "recordedAt": "2026-11-24T12:05:18.337Z",
+          "recordedAt": "2026-11-24T19:39:49.404Z",
           "answerSource": "in_cloud",
-          "answerMs": 3019,
+          "answerMs": 1961,
           "guardOk": true,
           "envoyAnswer": "Yes, you can immediately join a healthcare software startup in Cairo if you resign. The text states that the non-competition restriction does not apply to non-financial software industries such as healthcare, education, or logistics.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately concludes that the user can immediately join a healthcare software startup and correctly cites the exception in Clause 4 regarding non-financial software industries."
+            "rationale": "The candidate correctly answers that the employee can immediately join a healthcare software startup by referencing the non-competition exception in clause 4."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies that the healthcare software startup is exempt from the non-competition clause and cites the right clause."
+            "rationale": "The candidate correctly answers the question and accurately cites clause 4 regarding the exemption for non-financial software industries like healthcare."
           }
         },
         {
           "id": "offer-03-probation-period-local",
           "question": "How long is my probationary period?",
-          "recordedAt": "2026-11-24T12:06:39.090Z",
+          "recordedAt": "2026-11-24T19:41:05.320Z",
           "answerSource": "on_device",
-          "answerMs": 11372,
+          "answerMs": 10072,
           "guardOk": true,
           "envoyAnswer": "The first ninety (90) days of employment constitute a probationary period. (Clause 3)",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the duration of the probationary period and correctly cites Clause 3."
+            "rationale": "The candidate accurately states the length of the probationary period and correctly references clause 3."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the length of the probationary period and correctly cites clause 3 as specified in the source document."
+            "rationale": "The candidate accurately states the length of the probationary period and correctly cites Clause 3."
           }
         },
         {
           "id": "offer-04-bonus-proration",
           "question": "What is my maximum annual performance bonus if I hit 100% of my targets?",
-          "recordedAt": "2026-11-24T12:08:51.169Z",
-          "answerSource": "on_device",
-          "answerMs": 22465,
+          "recordedAt": "2026-11-24T19:42:57.325Z",
+          "answerSource": "in_cloud",
+          "answerMs": 2091,
           "guardOk": true,
-          "envoyAnswer": "At 100% target achievement, the Employee earns an annual bonus equal to 15% of one monthly base salary multiplied by 12 (or 1.8x monthly base salary). (Clause 3)",
+          "envoyAnswer": "Your maximum annual performance bonus at 100% target achievement is {{MONTHLY_BASE_SALARY * 1.8}}. \n\nThe text explains that if you hit 100% of your targets, your annual bonus is calculated as 15% of one monthly base salary multiplied by 12, which equals 1.8 times your monthly base salary.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the bonus calculation from Clause 3 without any errors or hallucinations."
+            "rationale": "The candidate accurately explains the calculation for the annual performance bonus using the correct clauses, though it leaves the monthly base salary as a variable placeholder."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly calculates the bonus amount using the base salary and formula provided in the document and cites the appropriate clause."
+            "rationale": "The candidate correctly calculates the annual performance bonus using the provided base salary and cites the correct clause."
           }
         },
         {
           "id": "offer-05-ip-side-project",
           "question": "Does the company own an unrelated hobby project I build on weekends on my personal laptop?",
-          "recordedAt": "2026-11-24T12:10:43.105Z",
+          "recordedAt": "2026-11-24T19:44:44.238Z",
           "answerSource": "on_device",
-          "answerMs": 18970,
+          "answerMs": 19049,
           "guardOk": true,
-          "envoyAnswer": "Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee.",
+          "envoyAnswer": "Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's current or planned products remain the sole property of the Employee. (Clause 4)",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately quotes Clause 4 to directly answer that the employee owns the unrelated weekend hobby project."
+            "rationale": "The candidate accurately quotes Clause 4, which correctly answers that the employee retains ownership of unrelated projects built on their own time without company resources."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly states that the company does not own the project and accurately references Clause 4 and the conditions from the source document."
+            "rationale": "The candidate accurately answers the question based on Clause 4 of the source document and explicitly cites the correct clause."
           }
         },
         {
           "id": "med-01-fasting-glucose-threshold",
           "question": "How does the report classify a fasting blood glucose result of 114 mg/dL, and what follow-up does the note recommend?",
-          "recordedAt": "2026-11-24T12:13:40.515Z",
+          "recordedAt": "2026-11-24T19:47:56.535Z",
           "answerSource": "in_cloud",
-          "answerMs": 7708,
+          "answerMs": 1921,
           "guardOk": true,
-          "envoyAnswer": "The report classifies a fasting blood glucose result of 114 mg/dL as impaired fasting glucose (prediabetes) and recommends repeating the A1c in 3 months while reviewing dietary and physical activity changes with the referring physician. \n\nThe excerpt shows that a result of 114 mg/dL falls within the reference range for impaired fasting glucose / prediabetes (100–125 mg/dL). Based on this, the note advises repeating Repeat HbA1c in 3 months and discussing lifestyle changes (dietary and physical activity) with the referring physician.",
+          "envoyAnswer": "The report classifies a fasting blood glucose result of 114 mg/dL as falling within the impaired fasting glucose / prediabetes range, and the note recommends repeating the HbA1c test in 3 months and reviewing dietary and physical activity changes with the referring physician. \n\nThe excerpt states that a value of 114 mg/dL sits in the impaired fasting glucose / prediabetes range (which is defined in Clause 3 as 100–125 mg/dL, compared to a normal range of 70–99 mg/dL and a provisional diabetes threshold of >= 126 mg/dL). For follow-up, the report advises obtaining an HbA1c value in 3 months and reviewing dietary and physical activity changes with the referring physician.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately reflects clauses 3 and 4 by correctly identifying the classification for 114 mg/dL as impaired fasting glucose (prediabetes) and stating the exact recommended follow-up."
+            "rationale": "The candidate answer accurately classifies the fasting blood glucose result based on clause 3 and correctly states the recommended follow-up from clause 4."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the classification of the fasting blood glucose and the recommended follow-up from clauses 3 and 4 without any hallucinations."
+            "rationale": "The candidate accurately identifies the classification and follow-up recommendations while correctly referencing clauses 3 and 4."
           }
         },
         {
           "id": "med-02-vitamin-d-dosage-local",
           "question": "In how many weeks should the repeat vitamin D blood test be scheduled?",
-          "recordedAt": "2026-11-24T12:14:58.852Z",
+          "recordedAt": "2026-11-24T19:49:26.974Z",
           "answerSource": "on_device",
-          "answerMs": 12457,
+          "answerMs": 12521,
           "guardOk": true,
-          "envoyAnswer": "Schedule a repeat serum 25-OH Vitamin D blood test in eight (8) weeks. (Clause 3)",
+          "envoyAnswer": "A repeat serum 25-OH Vitamin D blood test should be scheduled in eight weeks. Clause 3.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately provides the number of weeks for the repeat test and correctly cites Clause 3."
+            "rationale": "The candidate accurately identifies the timeframe of eight weeks for the repeat test and correctly references clause 3."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately answers that the repeat test should be in eight weeks, reflecting the correct source clause."
+            "rationale": "The candidate accurately answered the question using the correct timeframe and correctly cited Clause 3."
           }
         },
         {
           "id": "med-03-insurance-copay-cap",
           "question": "If the insurer covers 80% of the procedure fee, what is my 20% out-of-pocket co-pay?",
-          "recordedAt": "2026-11-24T12:16:19.927Z",
-          "answerSource": "on_device",
-          "answerMs": 10914,
+          "recordedAt": "2026-11-24T19:50:55.438Z",
+          "answerSource": "in_cloud",
+          "answerMs": 22000,
           "guardOk": true,
-          "envoyAnswer": "You are responsible for a 20% co-payment at admission. (Clause 3)",
+          "envoyAnswer": "Your 20% out-of-pocket co-pay is EGP 5,000. \n\nBased on Clause 3 of the text, the total approved outpatient arthroscopy package fee is listed as EGP 25,000, and the patient is required to pay a 20% co-payment at admission.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the co-payment responsibility and correctly cites Clause 3."
+            "rationale": "The candidate correctly calculates the 20% co-pay as EGP 5,000 based on the total fee of EGP 25,000 and accurately cites Clause 3."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly calculates the 20% co-pay as EGP 5,000 based on the total fee of EGP 25,000 from Clause 3."
+            "rationale": "The candidate accurately calculates the co-pay as EGP 5,000 and correctly cites Clause 3."
           }
         },
         {
           "id": "freelance-01-kill-fee",
           "question": "If the client cancels the project halfway through Milestone 2, how much of the milestone fee must they pay?",
-          "recordedAt": "2026-11-24T12:19:06.512Z",
-          "answerSource": "on_device",
-          "answerMs": 10056,
+          "recordedAt": "2026-11-24T19:53:26.889Z",
+          "answerSource": "in_cloud",
+          "answerMs": 2076,
           "guardOk": true,
-          "envoyAnswer": "The client shall pay 50% of that milestone's fee within 14 days. Clause 4",
+          "envoyAnswer": "If the client cancels the project halfway through Milestone 2, they must pay half of that milestone's fee. According to the text, if the client cancels an active milestone after work has begun, they are required to pay 50% of the milestone's fee within 14 days.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states that the client must pay 50% of the milestone fee based on Clause 4."
+            "rationale": "The candidate correctly calculates the fee and accurately cites the cancellation kill fee terms from clauses 2 and 4."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies that the client must pay 50% of the milestone fee based on the cancellation policy."
+            "rationale": "The candidate correctly identifies that 50% of the Milestone 2 fee must be paid due to cancellation and accurately cites or reflects the relevant clauses."
           }
         },
         {
           "id": "freelance-02-invoice-payment-net-local",
           "question": "Within how many days of receiving an invoice must the client pay?",
-          "recordedAt": "2026-11-24T12:20:23.999Z",
+          "recordedAt": "2026-11-24T19:54:33.350Z",
           "answerSource": "on_device",
-          "answerMs": 11990,
+          "answerMs": 10437,
           "guardOk": true,
-          "envoyAnswer": "Invoices must be paid in full within fifteen (15) calendar days of receipt. (Clause 3)",
+          "envoyAnswer": "The client must pay in full within fifteen (15) calendar days of receipt. (Clause 3)",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate answer accurately states the payment period of fifteen calendar days from receipt as outlined in clause 3."
+            "rationale": "The candidate accurately states the payment timeframe from the correct clause."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the payment timeline and correctly references Clause 3 from the source document."
+            "rationale": "The candidate accurately identifies the payment timeline and correctly cites Clause 3 from the source document."
           }
         },
         {
           "id": "freelance-03-card-hold-dispute",
           "question": "If I cancel 20 days before the event, how much of my deposit is refunded?",
-          "recordedAt": "2026-11-24T12:21:39.582Z",
+          "recordedAt": "2026-11-24T19:56:24.853Z",
           "answerSource": "on_device",
-          "answerMs": 14640,
+          "answerMs": 40739,
           "guardOk": true,
-          "envoyAnswer": "Cancellations made 30 or more days before the event receive a 100% refund of the deposit. This is stated in clause 3.",
+          "envoyAnswer": "If you cancel 20 days before the event, you will receive a 50% refund of your deposit.\n\nThis is because Clause 3 of the document states that cancellations made between 14 and 29 days before the event receive a 50% refund of the deposit. Since 20 days falls within this range, a 50% refund is applicable.",
           "envoyJudge": {
-            "verdict": "wrong",
-            "score": 0,
+            "verdict": "correct",
+            "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate answer applies the 30-day rule instead of addressing the 20-day cancellation window asked in the user question."
+            "rationale": "The candidate correctly determines the refund amount and accurately cites the relevant clause from the source document."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the correct refund percentage based on the cancellation schedule and correctly references the relevant clause content."
+            "rationale": "The candidate accurately states the refund percentage and correctly cites the cancellation schedule clause."
           }
         },
         {
           "id": "loan-01-early-payoff-penalty",
           "question": "If I pay off my remaining loan balance early, what percentage penalty applies?",
-          "recordedAt": "2026-11-24T12:24:28.077Z",
-          "answerSource": "on_device",
-          "answerMs": 17618,
+          "recordedAt": "2026-11-24T19:59:13.627Z",
+          "answerSource": "in_cloud",
+          "answerMs": 3545,
           "guardOk": true,
-          "envoyAnswer": "The Borrower may settle the full remaining principal balance at any time upon 15 days' notice, subject to an early-settlement administrative charge of 3% of the prepaid principal balance. (Clause 3)",
+          "envoyAnswer": "An early-settlement administrative charge of EGP 12,000 applies if you pay off your remaining loan balance early. \n\nThe text states that the borrower can settle the full remaining principal balance at any time with 15 days' notice, subject to an administrative charge of 3% of the prepaid principal balance.",
           "envoyJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate answer accurately states the exact percentage penalty and correctly cites Clause 3 from the source document."
+            "rationale": "The candidate answer accurately identifies the 3% early-settlement administrative charge specified in clause 3, and correctly calculates the amount based on the principal balance."
           },
           "rawCeilingJudge": {
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the 3% early-settlement administrative charge and correctly cites clause 3."
+            "rationale": "The candidate accurately identifies the 3% early-settlement charge and correctly cites clause 3."
           }
         }
       ]
@@ -493,7 +493,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% and accurately cites Clause 7's 10% maximum annual increase limit."
+            "rationale": "The candidate correctly states that the landlord cannot raise the rent by 20% because the maximum allowed increase is 10%, accurately citing Clause 7."
           }
         },
         {
@@ -514,7 +514,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately calculated the end date based on the three-year term starting September 1, 2024, and correctly cited Clause 2."
+            "rationale": "The candidate accurately calculates the contract end date based on the three-year term starting 1 September 2024 and correctly cites Clause 2."
           }
         },
         {
@@ -535,7 +535,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately answers what happens to the deposit upon early departure according to Clause 6."
+            "rationale": "The candidate accurately explains the consequences for the deposit if leaving early based on the source document and correctly references the relevant clause."
           }
         },
         {
@@ -556,7 +556,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately concludes that no late fee is owed because payment on the 8th is within the 10-day grace period, and correctly cites Clause 8."
+            "rationale": "The candidate accurately identifies that no late fee is owed because the payment on the 8th is within the 10-day grace period, correctly citing clause 8."
           }
         },
         {
@@ -598,7 +598,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the 48-hour notice requirement for non-urgent repairs and correctly reflects the contents of clause 4."
+            "rationale": "The candidate accurately states the required notice period and correctly reflects the information in Clause 4."
           }
         },
         {
@@ -619,7 +619,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states that a 15% increase is not allowed because annual increases are capped at 8%, correctly citing Clause 3."
+            "rationale": "The candidate accurately states that a 15% increase is not allowed because Clause 3 caps annual service charge increases at 8%."
           }
         },
         {
@@ -640,7 +640,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies that the landlord is responsible for the repair and accurately cites Clause 3 regarding hidden plumbing."
+            "rationale": "The candidate correctly identifies that the Landlord is responsible for the repair based on Clause 3 regarding hidden plumbing."
           }
         },
         {
@@ -661,7 +661,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the severance and notice period outlined in Clause 5 for termination without cause after the probation period."
+            "rationale": "The candidate correctly identifies the severance terms from Clause 5 and accurately applies them to the scenario where 18 months is past the probation period."
           }
         },
         {
@@ -682,7 +682,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies that the healthcare software startup is exempt from the non-competition clause and cites the right clause."
+            "rationale": "The candidate correctly answers the question and accurately cites clause 4 regarding the exemption for non-financial software industries like healthcare."
           }
         },
         {
@@ -703,7 +703,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the length of the probationary period and correctly cites clause 3 as specified in the source document."
+            "rationale": "The candidate accurately states the length of the probationary period and correctly cites Clause 3."
           }
         },
         {
@@ -724,7 +724,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly calculates the bonus amount using the base salary and formula provided in the document and cites the appropriate clause."
+            "rationale": "The candidate correctly calculates the annual performance bonus using the provided base salary and cites the correct clause."
           }
         },
         {
@@ -745,7 +745,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly states that the company does not own the project and accurately references Clause 4 and the conditions from the source document."
+            "rationale": "The candidate accurately answers the question based on Clause 4 of the source document and explicitly cites the correct clause."
           }
         },
         {
@@ -766,7 +766,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the classification of the fasting blood glucose and the recommended follow-up from clauses 3 and 4 without any hallucinations."
+            "rationale": "The candidate accurately identifies the classification and follow-up recommendations while correctly referencing clauses 3 and 4."
           }
         },
         {
@@ -787,7 +787,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately answers that the repeat test should be in eight weeks, reflecting the correct source clause."
+            "rationale": "The candidate accurately answered the question using the correct timeframe and correctly cited Clause 3."
           }
         },
         {
@@ -808,7 +808,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly calculates the 20% co-pay as EGP 5,000 based on the total fee of EGP 25,000 from Clause 3."
+            "rationale": "The candidate accurately calculates the co-pay as EGP 5,000 and correctly cites Clause 3."
           }
         },
         {
@@ -829,7 +829,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate correctly identifies that the client must pay 50% of the milestone fee based on the cancellation policy."
+            "rationale": "The candidate correctly identifies that 50% of the Milestone 2 fee must be paid due to cancellation and accurately cites or reflects the relevant clauses."
           }
         },
         {
@@ -850,7 +850,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately identifies the payment timeline and correctly references Clause 3 from the source document."
+            "rationale": "The candidate accurately identifies the payment timeline and correctly cites Clause 3 from the source document."
           }
         },
         {
@@ -871,7 +871,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the correct refund percentage based on the cancellation schedule and correctly references the relevant clause content."
+            "rationale": "The candidate accurately states the refund percentage and correctly cites the cancellation schedule clause."
           }
         },
         {
@@ -892,7 +892,7 @@
             "verdict": "correct",
             "score": 1,
             "citesRightClause": true,
-            "rationale": "The candidate accurately states the 3% early-settlement administrative charge and correctly cites clause 3."
+            "rationale": "The candidate accurately identifies the 3% early-settlement charge and correctly cites clause 3."
           }
         }
       ]

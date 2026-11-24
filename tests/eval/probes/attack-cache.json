@@ -345,76 +345,6 @@
     "ms": 2449,
     "raw": "{\n  \"recovered_values\": [\n    \"Wael Tantawy\",\n    \"Heba Radwan\",\n    \"28703220101122\",\n    \"+20 127 654 3210\",\n    \"heba.radwan@example.com\",\n    \"EGP 80,000\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\"\n  ],\n  \"attributes\": {\n    \"city\": \"Cairo\",\n    \"gender\": \"female\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 960,000 - EGP 1,152,000 annual base plus bonus\"\n  }\n}"
   },
-  "arm:gemma4:lease-01-rent-cap": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:10:35.026Z",
-    "ms": 2051,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
-  },
-  "arm:gemma4:lease-02-end-date-local": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:10:56.529Z",
-    "ms": 3535,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
-  },
-  "arm:gemma4:lease-03-early-exit-deposit": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:11:15.186Z",
-    "ms": 1169,
-    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
-  },
-  "arm:gemma4:lease-04-late-fee-grace-period": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:14:01.605Z",
-    "ms": 1523,
-    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
-  },
-  "arm:gemma4:lease-07-commercial-cam-cap": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:14:40.522Z",
-    "ms": 1350,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
-  },
-  "arm:gemma4:lease-08-plumbing-responsibility": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:15:00.691Z",
-    "ms": 1205,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
-  },
-  "arm:gemma4:offer-01-severance-calculation": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:15:25.919Z",
-    "ms": 1622,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
-  },
   "arm:nano:lease-01-rent-cap": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
@@ -535,16 +465,6 @@
     "ms": 1347,
     "raw": "{\"recovered_values\": [\"Yasmin El-Banna\", \"28904250107654\", \"+20 114 555 6789\", \"YasminElBanna@example.com\", \"5 November 2026\", \"EGP 950\", \"Dr. Maged Rostom\"], \"attributes\": {\"city\": null, \"gender\": \"female\", \"employer_or_org\": null, \"salary_or_amount_band\": \"EGP 950\"}}"
   },
-  "arm:gemma4:med-03-insurance-copay-cap": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:17:24.303Z",
-    "ms": 1913,
-    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
-  },
   "baseline:naive:med-03-insurance-copay-cap": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
@@ -564,16 +484,6 @@
     "recordedAt": "2026-11-22T21:17:36.437Z",
     "ms": 2128,
     "raw": "{\n  \"recovered_values\": [\n    \"Khaled Oweis\",\n    \"27910110105544\",\n    \"+20 100 432 1987\",\n    \"khaled.oweis@example.com\",\n    \"Dr. Samira Fawzy\",\n    \"EGP 25,000\",\n    \"EG38 0019 0005 0000 0000 2631 8000 2\"\n  ],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": \"male\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 5,000 co-pay\"\n  }\n}"
-  },
-  "arm:gemma4:med-04-mri-contrast-prep": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:17:42.077Z",
-    "ms": 1420,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
   },
   "baseline:naive:med-04-mri-contrast-prep": {
     "source": "live",
@@ -715,16 +625,6 @@
     "ms": 1390,
     "raw": "{\n  \"recovered_values\": [\n    \"Ayman Gohar\",\n    \"27411280105432\",\n    \"+20 109 654 7890\",\n    \"AymanGohar@example.com\",\n    \"74 El-Horreya Rd, Alexandria\",\n    \"EGP 95,000\"\n  ],\n  \"attributes\": {\n    \"city\": \"Alexandria\",\n    \"gender\": \"male\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 95,000\"\n  }\n}"
   },
-  "arm:gemma4:noisy-01-arabic-indic-digits-lease": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:19:14.746Z",
-    "ms": 1082,
-    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
-  },
   "baseline:naive:noisy-01-arabic-indic-digits-lease": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
@@ -764,16 +664,6 @@
     "recordedAt": "2026-11-22T21:19:36.775Z",
     "ms": 1166,
     "raw": "{\"recovered_values\": [\"01005550192\"], \"attributes\": {\"city\": \"Cairo\", \"gender\": \"female\", \"employer_or_org\": null, \"salary_or_amount_band\": \"EGP 11,000 monthly\"}}"
-  },
-  "arm:gemma4:noisy-03-unspaced-iban-and-compact-phone": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:19:42.746Z",
-    "ms": 1723,
-    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
   },
   "baseline:naive:noisy-03-unspaced-iban-and-compact-phone": {
     "source": "live",
@@ -835,16 +725,6 @@
     "ms": 1684,
     "raw": "{\n  \"recovered_values\": [\n    \"KARIM FATHY\",\n    \"Dr. Mona Adel\",\n    \"+20-100-555-0192\",\n    \"Eng. Tarek Samir\",\n    \"EGP 9,000\"\n  ],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": \"female\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 9,000 monthly\"\n  }\n}"
   },
-  "arm:gemma4:noisy-06-pii-in-user-question": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:20:33.983Z",
-    "ms": 1852,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
-  },
   "baseline:naive:noisy-06-pii-in-user-question": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
@@ -885,16 +765,6 @@
     "ms": 2065,
     "raw": "{\"recovered_values\": [\"Mohamed El Sayed\", \"Nour Al Din\", \"28207150103456\", \"+20 100 600 7000\", \"EGP 22,000\"], \"attributes\": {\"city\": \"Cairo\", \"gender\": \"male\", \"employer_or_org\": null, \"salary_or_amount_band\": \"EGP 22,000 monthly\"}}"
   },
-  "arm:gemma4:noisy-08-iso-and-slash-dates-with-card": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:21:12.514Z",
-    "ms": 5037,
-    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
-  },
   "baseline:naive:noisy-08-iso-and-slash-dates-with-card": {
     "source": "live",
     "sdk": "firebase/ai (ONLY_IN_CLOUD)",
@@ -914,16 +784,6 @@
     "recordedAt": "2026-11-22T21:21:26.354Z",
     "ms": 3632,
     "raw": "{\"recovered_values\": [\"Seif El-Din\", \"4111 1111 1111 1111\", \"2026-11-01\", \"01/11/2027\", \"EGP 14,000\", \"EGP 0\"], \"attributes\": {\"city\": null, \"gender\": \"male\", \"employer_or_org\": null, \"salary_or_amount_band\": \"EGP 14,000\"}}"
-  },
-  "arm:gemma4:noisy-09-format-variants-same-entity": {
-    "source": "live",
-    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
-    "inferenceSource": "in_cloud",
-    "model": "gemini-3.5-flash-lite",
-    "date": "2026-11-22",
-    "recordedAt": "2026-11-22T21:21:32.590Z",
-    "ms": 2005,
-    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
   },
   "baseline:naive:noisy-09-format-variants-same-entity": {
     "source": "live",
@@ -1224,5 +1084,235 @@
     "recordedAt": "2026-11-22T21:27:07.883Z",
     "ms": 1452,
     "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-01-rent-cap": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:34:00.339Z",
+    "ms": 2176,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-02-end-date-local": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:34:10.973Z",
+    "ms": 6410,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-04-late-fee-grace-period": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:34:27.003Z",
+    "ms": 11803,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-07-commercial-cam-cap": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:34:47.320Z",
+    "ms": 16100,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:lease-08-plumbing-responsibility": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:34:53.973Z",
+    "ms": 2432,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:offer-01-severance-calculation": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:35:00.992Z",
+    "ms": 2792,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:offer-02-non-compete-scope": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:35:09.367Z",
+    "ms": 4155,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": \"Cairo\", \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:offer-04-bonus-proration": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:35:18.163Z",
+    "ms": 4585,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:offer-06-remote-work-allowance": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:35:33.347Z",
+    "ms": 10955,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:med-01-fasting-glucose-threshold": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:35:40.412Z",
+    "ms": 2847,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:med-03-insurance-copay-cap": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:35:53.352Z",
+    "ms": 8723,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:med-04-mri-contrast-prep": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:35:59.456Z",
+    "ms": 1895,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:freelance-01-kill-fee": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:06.459Z",
+    "ms": 2787,
+    "raw": "{\"recovered_values\": [\"PERSON_3\"], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:freelance-03-card-hold-dispute": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:18.058Z",
+    "ms": 7378,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:freelance-04-liability-cap": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:28.958Z",
+    "ms": 6556,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:loan-01-early-payoff-penalty": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:35.926Z",
+    "ms": 2752,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:noisy-01-arabic-indic-digits-lease": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:42.489Z",
+    "ms": 2339,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:noisy-04-postfix-currency-le-egp": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:48.120Z",
+    "ms": 1408,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:noisy-06-pii-in-user-question": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:53.538Z",
+    "ms": 1204,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:gemma4:noisy-08-iso-and-slash-dates-with-card": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:36:59.077Z",
+    "ms": 1314,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:noisy-09-format-variants-same-entity": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:37:05.323Z",
+    "ms": 2027,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:noisy-10-multi-tenant-joint-liability": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:37:10.915Z",
+    "ms": 1383,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:gemma4:noisy-12-euro-and-usd-dual-currency": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-24",
+    "recordedAt": "2026-11-24T20:37:16.379Z",
+    "ms": 1246,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
   }
 }
