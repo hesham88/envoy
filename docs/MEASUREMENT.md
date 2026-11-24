@@ -29,7 +29,7 @@ The eval harness (`tests/eval`, run with `npm run eval`) runs 36 cases through t
 - **Answer quality:** Envoy's answers compared with sending the whole document to the cloud, the privacy-utility trade-off that PAPILLON reports.
 - **Cost of privacy:** time per step, and characters sent compared with the whole document.
 
-Rules for every number: it comes from a real run, never from gold labels; it names the model (component and version from `chrome://on-device-internals`), the date and the number of cases; and it's reported separately for Gemma 4 (our development model, behind a developer-trial flag), Chrome's default Gemini Nano (what most people have), and Basic protection (no model). Firebase AI Logic doesn't report which on-device model Chrome used, which is why each run records it.
+Rules for every number: it comes from a real run, never from gold labels; it names the model (component and version from `chrome://on-device-internals`), the date and the number of cases; and it's reported separately for Gemma 4 (the model Gemini Nano 4 is built on, behind a developer-trial flag) and Basic protection (no model). Chrome's earlier default model (Gemini Nano 3) was measured on 22 November and dropped on 23 November after it crashed mid-run on the current pipeline (see EVAL.md). Firebase AI Logic doesn't report which on-device model Chrome used, which is why each run records it.
 
 **Results:** [docs/EVAL.md](EVAL.md), with the machine-readable summary in [`tests/eval/summary.json`](../tests/eval/summary.json), which the [landing page](https://envoy-hybrid-ai.web.app/#guard) reads directly. The privacy matrix and the re-identification attacks cover all 36 cases on each setup; answer quality ran on 20 cases. Each number states its sample size.
 

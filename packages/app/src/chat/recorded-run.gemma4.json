@@ -9,44 +9,44 @@
   },
   "cloudModel": "gemini-3.5-flash-lite",
   "backend": "cpu (OnDeviceModelForceCpuBackend)",
-  "recordedAt": "2026-11-22T22:53:55.832Z",
+  "recordedAt": "2026-11-24T12:55:41.758Z",
   "documentTitle": "Residential lease, Cairo",
-  "question": "Can my landlord raise the rent 20% this year?",
+  "question": "Can my landlord raise my rent 20% this year? What's the most it can go up to?",
   "deviceStatus": "available",
   "mode": "private",
   "fallbackReason": null,
-  "analyzeMs": 151728,
+  "analyzeMs": 87364,
   "steps": [
     {
       "step": "minimize",
       "source": "on_device",
-      "ms": 89626
+      "ms": 34321
     },
     {
       "step": "detect",
       "source": "on_device",
-      "ms": 34925
+      "ms": 29566
     },
     {
       "step": "route",
       "source": "on_device",
-      "ms": 27127
+      "ms": 23438
     },
     {
       "step": "reason",
       "source": "in_cloud",
-      "ms": 2095
+      "ms": 1913
     }
   ],
   "selectedIds": [
     7
   ],
-  "selectionReason": "Clause 7 specifies the limit for rent increases, stating the Landlord may increase the rent once per contract year by no more than 10%.",
+  "selectionReason": "Clause 7 states that the Landlord may increase the rent once per contract year by no more than 10%.",
   "route": {
     "local": false,
-    "reason": "The question asks about a potential future rent increase of 20%, which requires judgment or interpretation against the stipulated limits (a 10% cap in clause 7). It is not a direct fact listed in the text."
+    "reason": "The question asks for advice/judgment ('Can my landlord raise my rent 20% this year? What's the most it can go up to?'), which requires interpretation of the clause (10% maximum allowed) rather than a direct fact lookup."
   },
-  "outbound": "Question: Can my landlord raise the rent 20% this year?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
+  "outbound": "Question: Can my landlord raise my rent 20% this year? What's the most it can go up to?\n\nClause 7: 7. Rent. The monthly rent is [RENT]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.",
   "guardOk": true,
   "leaks": [],
   "entities": [
@@ -71,7 +71,7 @@
     {
       "type": "ADDRESS",
       "value": "3 Road 9, Maadi, Cairo",
-      "role": null,
+      "role": "landlord",
       "source": "rules"
     },
     {
@@ -188,7 +188,7 @@
     ],
     "keptTotal": 16,
     "sharedByUser": 0,
-    "charsSent": 235,
+    "charsSent": 267,
     "clausesSent": 1,
     "pagesTotal": 6,
     "pagesSent": 1,
@@ -196,40 +196,40 @@
       {
         "step": "minimize",
         "source": "on_device",
-        "ms": 89626
+        "ms": 34321
       },
       {
         "step": "detect",
         "source": "on_device",
-        "ms": 34925
+        "ms": 29566
       },
       {
         "step": "route",
         "source": "on_device",
-        "ms": 27127
+        "ms": 23438
       },
       {
         "step": "reason",
         "source": "in_cloud",
-        "ms": 2095
+        "ms": 1913
       }
     ],
     "mode": "private"
   },
   "answer": {
-    "text": "No, your landlord cannot raise the rent 20% this year. \n\nAccording to Clause 7, the landlord is only permitted to increase the rent once per contract year by no more than EGP 850 (which is a maximum of 10%).",
+    "text": "No, your landlord cannot raise your rent 20% this year, as the maximum increase allowed is 10%. \n\nAccording to Clause 7, the landlord is permitted to increase the rent only once per contract year by a maximum of 10% (which would be calculated as EGP 9,350), and they must provide you with at least 60 days' written notice.",
     "spans": [
       {
-        "start": 171,
-        "end": 178,
-        "tag": "{{RENT * 0.10}}",
-        "value": "EGP 850",
+        "start": 246,
+        "end": 255,
+        "tag": "{{RENT * 1.10}}",
+        "value": "EGP 9,350",
         "computed": true
       }
     ],
     "source": "in_cloud",
     "lighter": false,
-    "ms": 2114,
+    "ms": 1933,
     "receipt": {
       "found": {
         "DATE": 2,
@@ -247,7 +247,7 @@
       ],
       "keptTotal": 16,
       "sharedByUser": 0,
-      "charsSent": 235,
+      "charsSent": 267,
       "clausesSent": 1,
       "pagesTotal": 6,
       "pagesSent": 1,
@@ -255,22 +255,22 @@
         {
           "step": "minimize",
           "source": "on_device",
-          "ms": 89626
+          "ms": 34321
         },
         {
           "step": "detect",
           "source": "on_device",
-          "ms": 34925
+          "ms": 29566
         },
         {
           "step": "route",
           "source": "on_device",
-          "ms": 27127
+          "ms": 23438
         },
         {
           "step": "reason",
           "source": "in_cloud",
-          "ms": 2095
+          "ms": 1913
         }
       ],
       "mode": "private"
@@ -281,25 +281,25 @@
       "step": "minimize",
       "target": "device",
       "blocked": false,
-      "chars": 2972
+      "chars": 3004
     },
     {
       "step": "detect",
       "target": "device",
       "blocked": false,
-      "chars": 1056
+      "chars": 1088
     },
     {
       "step": "route",
       "target": "device",
       "blocked": false,
-      "chars": 546
+      "chars": 578
     },
     {
       "step": "reason",
       "target": "cloud",
       "blocked": false,
-      "chars": 616
+      "chars": 787
     }
   ],
   "events": [
@@ -307,25 +307,25 @@
       "step": "rules",
       "part": 1,
       "parts": 1,
-      "at": 0
+      "at": 1
     },
     {
       "step": "minimize",
       "part": 1,
       "parts": 1,
-      "at": 3
+      "at": 4
     },
     {
       "step": "detect",
       "part": 1,
       "parts": 1,
-      "at": 89629
+      "at": 34331
     },
     {
       "step": "route",
       "part": 1,
       "parts": 1,
-      "at": 124556
+      "at": 63899
     }
   ]
 }

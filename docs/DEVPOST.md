@@ -12,7 +12,7 @@ A draft for the owner to paste into the Devpost form. Every claim links to evide
 | Public GitHub repo, AI Logic imported and called at runtime              | ✅                                                       | `packages/ai/src/firebase.ts` (`getAI`), `models.ts` (`getGenerativeModel`), `pipeline.ts` (`generateContent`) |
 | Open-source licence in the About section                                 | ✅ Apache-2.0                                            | `LICENSE`                                                                                                      |
 | App Check                                                                | ✅ reCAPTCHA Enterprise, limited-use tokens              | `packages/ai/src/firebase.ts`                                                                                  |
-| YouTube video, public, 3:00 or less, English                             | ⏳ Waiting for the owner's go-ahead                      | —                                                                                                              |
+| YouTube video, public, 3:00 or less, English                             | ⏳ Rendered (2:50, English subtitles); owner uploads     | —                                                                                                              |
 | Hosted URL                                                               | ✅ https://envoy-hybrid-ai.web.app                       | Firebase Hosting                                                                                               |
 | No real personal data, secrets or third-party branding                   | ✅ Fictional samples; secrets scan in `docs/SECURITY.md` | —                                                                                                              |
 
@@ -32,15 +32,16 @@ Envoy is your private AI agent to the cloud. You ask a question about a private 
 
 ## Measured
 
-36 test documents, 263 private details, run through the real pipeline on Chrome's Gemma 4 model (the model Gemini Nano 4 is built on) and in Basic protection: every detail masked and 0 raw details sent in both. With the on-device model, the cloud sees about 22% of the document. A 28-attack red team (encodings, homoglyphs, number words, reversed and split text) is fully blocked. Details: `docs/EVAL.md`.
+36 test documents, 263 private details, run through the real pipeline on Chrome's Gemma 4 model (the model Gemini Nano 4 is built on) and in Basic protection: every detail masked and 0 raw details sent in both. With the on-device model, the cloud sees about 15% of the document's text, and answers keep 95% of the quality of sending the whole document (87.5% when rated independently, against 97.5% for Basic protection), on 20 questions. A 28-attack red team (encodings, homoglyphs, number words, reversed and split text) is fully blocked. Details: `docs/EVAL.md`.
 
 ## Built during the submission period, and with what
 
-The repository starts on 22 November 2026; no code predates it. Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the eval harness; both used the Firebase agent skills. All art is drawn in code. Open-source libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts (OFL). Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
+The repository starts on 22 November 2026; no code predates it. Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the eval harness; both used the Firebase agent skills. All art is drawn in code. The demo video's narration is generated locally with Chatterbox TTS (Resemble AI, MIT licence); its music and sound effects are synthesised in code. Open-source libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts (OFL). Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
 
 ## Testing instructions for judges
 
 1. Open https://envoy-hybrid-ai.web.app/app?sample=lease (the sample lease and everyone in it are fictional).
 2. Ask "Can my landlord raise the rent 20% this year?" and watch the flight recorder: each step says where it ran.
 3. Read what the cloud will see, then approve. Add `?inspect=1` to the address to see the network ledger.
-4. Private mode needs desktop Chrome with on-device AI turned on (`chrome://settings/ai`, then `chrome://on-device-internals`). Without it, Envoy runs in Basic protection and says so. On-device steps can take about a minute on a CPU-only laptop; times vary a lot by device.
+4. No on-device model on your computer? Open https://envoy-hybrid-ai.web.app/app?recorded=1 to watch a real, recorded Private-mode run on Gemma 4, labelled as a recording, with the real step times.
+5. Private mode needs desktop Chrome with on-device AI turned on (`chrome://settings/ai`, then `chrome://on-device-internals`). Without it, Envoy runs in Basic protection and says so. Private mode was measured on Gemma 4 (Gemini Nano 4); on Chrome's default model, results may vary. On-device steps can take about a minute on a CPU-only laptop; times vary a lot by device.

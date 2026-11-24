@@ -25,4 +25,5 @@ dist-dev/
 # Video renders and narration audio (built locally; the film goes to YouTube)
 video/out/
 video/wav/
+video/wav3/
 video/audio/out/

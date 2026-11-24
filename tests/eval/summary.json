@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-23T19:14:50.335Z",
-  "commit": "afeb3e2",
+  "generatedAt": "2026-11-24T12:49:59.816Z",
+  "commit": "12ac6c8",
   "arms": [
     {
       "id": "gemma4",
@@ -12,24 +12,24 @@
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
       "measuredOn": [
-        "2026-11-22"
+        "2026-11-24"
       ],
       "n": 36,
       "nTotal": 36,
       "metrics": {
         "maskRecall": 1,
-        "falseMaskRate": 0.1812,
+        "falseMaskRate": 0.0709,
         "outboundLeaks": 0,
-        "clauseAccuracy": 0.8889,
+        "clauseAccuracy": 0.8333,
         "latencyMs": {
-          "p50": 54951,
-          "p95": 78361
+          "p50": 72418,
+          "p95": 118251
         },
-        "minimizationRatio": 0.1587,
+        "minimizationRatio": 0.1451,
         "reidRecoveryExact": 0,
         "reidRecoveryPartial": 0,
         "attributeInference": 0,
-        "answerQualityRetained": null
+        "answerQualityRetained": 0.95
       },
       "metricsN": {
         "maskRecall": 36,
@@ -40,7 +40,7 @@
         "minimizationRatio": 36,
         "reid": 36,
         "attribute": 36,
-        "answerQuality": 0
+        "answerQuality": 20
       }
     },
     {

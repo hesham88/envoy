@@ -31,7 +31,7 @@ Envoy works like any AI chat app: ask with a document or without one, attach a P
 - **An approval card.** The exact text the cloud will receive, with every detail already a tag. Share a value, hide a sentence, edit it, or stop. Nothing is sent until you approve.
 - **The answer, restored on your device.** Values restored locally are highlighted in green. Maths like `{{RENT * 1.10}}` is done on your device, so the cloud never sees the result either.
 
-<img src="docs/img/screens/chat-recorder.png" alt="A chat turn in Envoy: the privacy flight recorder lists each step with where it ran and the model, waiting for the user's approval" width="100%">
+<img src="docs/img/screens/chat-recorder.png" alt="A chat turn in Envoy, in Private mode on Gemma 4: the privacy flight recorder lists each step with where it ran, the model and how long it took, and waits for the user's approval" width="100%">
 
 You can also turn on **Local only** (answer on this device, no cloud call), add **your own rules** (words only you know are private; they stay in your browser), and open the **network ledger** to watch every request.
 
@@ -155,15 +155,15 @@ The guidebook's patterns show up throughout: **let users supervise automation** 
 
 ## Measured
 
-Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, measured 22 November 2026 on a 2018 laptop CPU. **Times vary a lot by device:** these are CPU-only runs on an older laptop; a recent computer with a supported GPU should be much faster, and the first run after starting Chrome is slower while the model loads. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
+Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic) on 36 test documents and questions, 263 private details in all, on a 2018 laptop CPU: Gemma 4 measured 24 November 2026 on the current pipeline, Basic protection 23 November. **Times vary a lot by device:** these are CPU-only runs on an older laptop; a recent computer with a supported GPU should be much faster, and the first run after starting Chrome is slower while the model loads. The full method and every table: [docs/EVAL.md](docs/EVAL.md). What every commit checks: [docs/MEASUREMENT.md](docs/MEASUREMENT.md).
 
-| Setup                                        | On-device model                   | Private details masked | Raw details sent, after the guard | Document text sent         | Time, median |
-| -------------------------------------------- | --------------------------------- | ---------------------- | --------------------------------- | -------------------------- | ------------ |
-| Gemma 4, the model Gemini Nano 4 is built on | `gemma4_component` 2026.11.3.1140 | 263 / 263              | 0                                 | 16%                        | 55 s         |
-| Basic protection                             | none (local rules)                | 263 / 263              | 0                                 | 91% (every clause, masked) | 6 ms         |
+| Setup                                        | On-device model                   | Private details masked | Raw details sent, after the guard | Document text sent         | Answer quality (20 questions)                      | Time, median |
+| -------------------------------------------- | --------------------------------- | ---------------------- | --------------------------------- | -------------------------- | -------------------------------------------------- | ------------ |
+| Gemma 4, the model Gemini Nano 4 is built on | `gemma4_component` 2026.11.3.1140 | 263 / 263              | 0                                 | 15%                        | 95% (Flash-Lite judge), 87.5% (independent rating) | 72 s         |
+| Basic protection                             | none (local rules)                | 263 / 263              | 0                                 | 91% (every clause, masked) | 97.5% (both)                                       | 6 ms         |
 
 - **The guard red team:** 28 of 28 disguised leaks blocked: spaced, punctuated, invisible characters, lookalike letters, accents, defanged emails, numbers in words, split words, reversed text and base64. Text the guard can't read (an encoded blob) is blocked rather than trusted.
-- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (18% of its masks, measured before the 23 November fixes to how its findings are read), which you can unmask in the approval card. Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
+- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (7% of its masks), which you can unmask in the approval card. Private mode answers a little less well than Basic: on 20 questions its four weak answers all came from the on-device answer path on questions that need a calculation (it quoted the formula instead of the amount, or picked the wrong tier). Answer quality is graded twice: by Gemini 3.5 Flash-Lite, which also wrote the cloud answers, and independently by Claude, a different model family; every rating and its reason is in [`quality-ratings-independent.json`](tests/eval/probes/quality-ratings-independent.json). Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
 
 ### What Envoy promises, and what it doesn't
 
@@ -179,7 +179,7 @@ Anyone who wants a strong cloud model's help with a document they shouldn't uplo
 
 ### Which on-device model?
 
-The contest names Gemini Nano 4 for Web/Chrome. Google builds Gemini Nano 4 on Gemma 4, and Chrome's Gemma 4 built-in model is `gemma4_component`, still behind the developer-trial flag `chrome://flags/#gemma4-for-built-in-ai`. **Envoy is built, measured and demonstrated on it.** Envoy doesn't pick the model: Firebase AI Logic's `ONLY_ON_DEVICE` runs on whichever model Chrome provides, and the private-mode guide in the app shows how to turn on the Gemma 4 model. We dropped measurements on Chrome's earlier default (Gemini Nano 3): it couldn't run reliably next to the rest of the stack on our 16 GB test laptop. Neither Firebase AI Logic nor the Prompt API says which model answered, so Envoy's interface says "Chrome's built-in model" and never names one it can't confirm.
+The contest names Gemini Nano 4 for Web/Chrome. Google builds Gemini Nano 4 on Gemma 4, and Chrome's Gemma 4 built-in model is `gemma4_component`, still behind the developer-trial flag `chrome://flags/#gemma4-for-built-in-ai`. **Envoy is built, measured and demonstrated on it.** Envoy doesn't pick the model: Firebase AI Logic's `ONLY_ON_DEVICE` runs on whichever model Chrome provides, and the private-mode guide in the app shows how to turn on the Gemma 4 model. Chrome's earlier default model (Gemini Nano 3, `nano_v3_cpu_component`) ran all 36 cases cleanly on 22 November, but a re-measure on the current pipeline crashed after 12 cases on our 16 GB laptop on 23 November, so we removed its numbers rather than publish stale ones (they stay in the git history). Envoy still runs on it, and the guard still holds; if the model stops mid-run, Envoy switches to Basic protection and says why. The Gemma 4 flag is a Chrome developer trial. Neither Firebase AI Logic nor the Prompt API says which model answered, so Envoy's interface says "Chrome's built-in model" and never names one it can't confirm.
 
 <img src="docs/img/brand/section-judges.png" alt="Judges: try it" width="100%">
 
@@ -192,7 +192,7 @@ The contest names Gemini Nano 4 for Web/Chrome. Google builds Gemini Nano 4 on G
 
 The cloud model is a setting in the composer: **Fast** (Gemini 3.5 Flash-Lite, about a second) is the default, and **Gemini 4 Hydrogen** reasons more carefully but can take 10 to 50 seconds. Your choice is saved in your browser. If Hydrogen refuses a request (its free tier allows about 20 a day), Flash-Lite answers instead and the answer says so; only if the cloud is unreachable altogether does Chrome's built-in model give a lighter answer on the device. Either way the guard has already checked the excerpt, and the network ledger lists every request that left, including a refused one. History is off unless you turn it on.
 
-Private mode needs a desktop Chrome with the built-in model (check `chrome://on-device-internals`); Envoy offers the download from a click. Without it, everything above still works in Basic protection, and the app says which mode ran. To see Private mode on a computer that can't run it, open the [recorded run](https://envoy-hybrid-ai.web.app/app?recorded=1): a real run on Gemma 4, word for word (the steps and their real times, what the cloud saw, the answer and the ledger), clearly labelled as a recording. Its data is [`demo-trace-gemma4.json`](tests/eval/probes/demo-trace-gemma4.json), and a test keeps the app's copy identical to it.
+Private mode needs a desktop Chrome with the built-in model (check `chrome://on-device-internals`); Envoy offers the download from a click. Private mode was measured on Gemma 4 (Gemini Nano 4); on Chrome's default model, results may vary. Without it, everything above still works in Basic protection, and the app says which mode ran. To see Private mode on a computer that can't run it, open the [recorded run](https://envoy-hybrid-ai.web.app/app?recorded=1): a real run on Gemma 4, word for word (the steps and their real times, what the cloud saw, the answer and the ledger), clearly labelled as a recording. Its data is [`demo-trace-gemma4.json`](tests/eval/probes/demo-trace-gemma4.json), and a test keeps the app's copy identical to it.
 
 ## Run it yourself
 
@@ -224,6 +224,7 @@ Inspired by **PAPILLON: Privacy Preservation from Internet-based and Local Langu
 
 - **When:** the repository starts on 22 November 2026 (first commit `8aa77f6`), inside the submission period. No code predates it.
 - **AI coding assistants:** Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity. Antigravity (Google, Gemini) built the eval harness. Both used the Firebase agent skills. Every change went through review, tests and CI.
+- **Demo video:** the narration is generated with [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) (Resemble AI, MIT licence, default voice) running locally; music and sound effects are synthesised in code (`video/audio/synth.mjs`); the footage is real screen recordings of Envoy.
 - **Art:** the logo, seal, banners and scenes are drawn in code (SVG and canvas), rendered to images by our own scripts. No generated images are used.
 - **Open-source libraries:** Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, and the Fraunces and IBM Plex fonts (SIL Open Font License).
 
