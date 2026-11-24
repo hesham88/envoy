@@ -11,6 +11,7 @@ import {
   StepEmblem,
 } from '@envoy/ui';
 import { UvDemo } from './UvDemo';
+import { DEMO_VIDEO_ID } from './demo-video';
 
 const REPO = 'https://github.com/hesham88/envoy';
 const src = (path: string, line?: number) => `${REPO}/blob/main/${path}${line ? `#L${line}` : ''}`;
@@ -263,6 +264,26 @@ export function Landing() {
             </div>
           </div>
         </section>
+
+        {/* ---------- the demo film (shown once it's on YouTube) ---------- */}
+        {DEMO_VIDEO_ID && (
+          <Section
+            id="film"
+            title="See it in under three minutes."
+            lede="A real session on Gemma 4 in Chrome, the extension, and the measured results. The on-device waits are cut, and the film says so."
+          >
+            <div className="aspect-video overflow-hidden rounded-[22px] border border-uv-line bg-uv-deep">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${DEMO_VIDEO_ID}?rel=0`}
+                title="Envoy demo film"
+                loading="lazy"
+                allow="encrypted-media; picture-in-picture; fullscreen"
+                referrerPolicy="strict-origin-when-cross-origin"
+                className="h-full w-full"
+              />
+            </div>
+          </Section>
+        )}
 
         {/* ---------- how it works ---------- */}
         <Section

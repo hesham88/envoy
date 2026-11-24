@@ -1,4 +1,4 @@
-/* global console, process, document, setTimeout, Buffer, getComputedStyle, createImageBitmap, OffscreenCanvas */
+/* global console, process, document, window, setTimeout, Buffer, getComputedStyle, createImageBitmap, OffscreenCanvas */
 /**
  * End-to-end test of the REAL built extension in Chrome: the text-box widget (textarea and a rich
  * contenteditable editor), password fields left alone, Upload with Envoy for a text file, a photo
@@ -132,7 +132,10 @@ const PAGE = `<!doctype html><html><head><meta charset="utf-8"><title>Test chat<
 <div class="box"><label>Password <input id="pw" type="password"></label></div>
 <div class="box"><label>Attach <input id="file" type="file"></label></div>
 <div class="box"><button id="plus" type="button" style="margin-top:20px">+ Add files</button><input id="hidden-file" type="file" style="display:none"></div>
-<script>document.getElementById("plus").addEventListener("click", () => document.getElementById("hidden-file").click());</script>
+<div class="box" style="position:relative"><button id="menu-open" type="button">Menu</button><div id="menu" style="visibility:hidden;position:absolute;left:80px;top:0;background:#fff;border:1px solid #ccc;padding:6px"><button id="menu-item" type="button">Upload file</button></div><input id="menu-file" type="file" style="display:none"></div>
+<script>document.getElementById("plus").addEventListener("click", () => document.getElementById("hidden-file").click());
+document.getElementById("menu-open").addEventListener("click", () => { document.getElementById("menu").style.visibility = "visible"; });
+document.getElementById("menu-item").addEventListener("click", () => { document.getElementById("menu").style.visibility = "hidden"; document.getElementById("menu-file").click(); });</script>
 </body></html>`;
 const EDITORS_PAGE = `<!doctype html><html><head><meta charset="utf-8"><title>Editors</title>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
@@ -334,6 +337,47 @@ try {
     .catch(() => undefined);
   await page.waitForTimeout(200);
 
+  // --- in a field on a page with a file input: the upload button sits beside Envoy's chip ---
+  await page.focus('#ta');
+  await page.waitForTimeout(400);
+  const besideChip = async () => {
+    const c = await ui('.chip').boundingBox();
+    const u = await ui('.up-btn').boundingBox();
+    return {
+      ok:
+        !!c &&
+        !!u &&
+        u.x + u.width <= c.x + 1 &&
+        Math.abs(u.y + u.height / 2 - (c.y + c.height / 2)) < 6,
+      at:
+        u && c
+          ? `button ${Math.round(u.x)},${Math.round(u.y)}; chip ${Math.round(c.x)},${Math.round(c.y)}`
+          : 'missing',
+    };
+  };
+  const b1 = await besideChip();
+  check('upload button: shown beside the chip while typing in a field', b1.ok, b1.at);
+  await page.evaluate(() => window.scrollBy(0, 120));
+  await page.waitForTimeout(300);
+  const b2 = await besideChip();
+  check('upload button: moves with the field when the page scrolls', b2.ok, b2.at);
+  await page.evaluate(() => window.scrollTo(0, 0));
+
+  // --- a menu item opened the input, then the menu closed (as on Google): no stranded button ---
+  await page.click('#menu-open');
+  await page.click('#menu-item');
+  await page.waitForTimeout(500);
+  const item = await page.locator('#menu-item').boundingBox();
+  const up2 = await ui('.up-btn').boundingBox();
+  check(
+    'upload button: not stranded where a closed menu was',
+    !!up2 &&
+      (!item ||
+        !(Math.abs(up2.x - (item.x + item.width + 8)) < 24 && Math.abs(up2.y - item.y) < 24)),
+    up2 ? `button at ${Math.round(up2.x)},${Math.round(up2.y)}` : 'no button',
+  );
+  await page.keyboard.press('Escape');
+
   // --- a hidden file input opened from a "+" button: the upload button sits by the "+" ---
   await page.click('#plus');
   await page.waitForTimeout(600);
@@ -400,6 +444,17 @@ try {
   const img = await upload('photo.jpg', async () => {
     const canvas = ui('.up-card canvas');
     const b = await canvas.boundingBox();
+    // The card holds an image preview now: it must still fit on screen (it scrolls inside).
+    await page.waitForTimeout(300);
+    const cardBox = await ui('.up-card').boundingBox();
+    const vh = await page.evaluate(() => window.innerHeight);
+    check(
+      'upload card: fits on screen with an image preview',
+      !!cardBox && cardBox.y >= 0 && cardBox.y + cardBox.height <= vh + 1,
+      cardBox
+        ? `top ${Math.round(cardBox.y)}, bottom ${Math.round(cardBox.y + cardBox.height)}, viewport ${vh}`
+        : 'no card',
+    );
     await page.mouse.move(b.x + 10, b.y + 10);
     await page.mouse.down();
     await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 5 });

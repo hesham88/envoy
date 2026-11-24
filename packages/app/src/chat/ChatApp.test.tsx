@@ -42,6 +42,25 @@ beforeEach(() => {
 });
 
 describe('ChatApp', () => {
+  it('a failed cloud step is explained in plain words (App Check refused), never as raw SDK text', async () => {
+    const user = userEvent.setup();
+    const { runtime, generateContent } = basicRuntime();
+    generateContent.mockRejectedValueOnce(
+      new Error(
+        'AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/x/models/y:generateContent: [403 ]',
+      ),
+    );
+    runtime.diagnoseCloud = async () => ({ kind: 'app-check', message: 'unused' });
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    render(<ChatApp runtime={runtime} />);
+    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    await user.click(await screen.findByRole('button', { name: 'Approve and send' }));
+    expect(
+      (await screen.findAllByText(/Firebase App Check didn't accept this browser/)).length,
+    ).toBeGreaterThan(0);
+    expect(screen.queryByText(/Error fetching from/)).toBeNull();
+  });
+
   it('nothing reaches the cloud until the user approves the exact excerpt', async () => {
     const user = userEvent.setup();
     const { runtime, generateContent } = basicRuntime();

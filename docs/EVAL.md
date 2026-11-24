@@ -4,7 +4,7 @@ _Argon Eval Lane (`tests/eval/**`, `docs/EVAL.md`). Every number below comes fro
 
 ---
 
-> **23 November 2026: the Gemini Nano 3 arm was dropped.** Chrome's earlier default model (`nano_v3_cpu_component`) could not run reliably next to the rest of the stack on the 16 GB measurement laptop (repeated model crashes), and the contest model is Gemini Nano 4, built on Gemma 4. Envoy is measured and demonstrated on Gemma 4 (`gemma4_component`) and on Basic protection. Its 22 November numbers stay in the git history.
+> **Measured setups: Gemma 4 and Basic protection.** Chrome's earlier default model (Gemini Nano 3, `nano_v3_cpu_component`) ran all 36 cases cleanly on 22 November 2026, but a re-measure on the current pipeline crashed after 12 cases on the 16 GB measurement laptop on 23 November, so its numbers were removed rather than published stale (they stay in the git history). The contest model is Gemini Nano 4, built on Gemma 4; Envoy is measured and demonstrated on Gemma 4 (`gemma4_component`, re-measured 24 November) and on Basic protection (23 November).
 
 ## 1. Method & One-Command Reproduction
 
@@ -104,7 +104,7 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 
 > **Where Private mode loses quality:** all four weak Gemma 4 answers came from the on-device answer path on questions that need a calculation or a comparison: the bonus (quoted "1.8x monthly base", not EGP 144,000), the co-pay ("a 20% co-payment", not EGP 5,000), the contract end (gave the start date, not 31 August 2027) and the cancellation tier (quoted the 30+ day tier; 20 days is the 50% tier). The on-device router is told to send calculations to the cloud but sent these four to the device (route accuracy 55.6% over the 36 cases). Basic protection sends every question to the cloud, so it never takes that path.
 
-> **Honest drop from the prior `n = 10` regenerated estimate (`100%` → `66.7%` Nano / `75.0%` Basic) — two real product causes uncovered:**
+> **History (22–23 November), kept for the record. Honest drop from the prior `n = 10` regenerated estimate (`100%` → `66.7%` Nano / `75.0%` Basic) — two real product causes uncovered:**
 >
 > 1. **5 / 20 unattended `OutboundBlockedError` blocks on both arms** (`offer-04`, `offer-05`/`offer-01`, `med-01`, `freelance-01`, `loan-01`): `flagNames()` flagged Title-Case headings (`"Base Salary"`, `"Referring Physician"`, `"Milestone Fee"`, `"Principal Balance"`, `"Without Cause"`) as `PERSON` entities, and `checkOutbound()` then blocked lowercase mentions of those exact phrases in the body text until the user clears them in the Review screen.
 >    **Fixed on `2026-11-23`** (`packages/core/src/names.ts`): a capitalised phrase also written in lowercase in the document or the question, across spaces or hyphens, is not a name. Basic re-measured with answers: **0 blocks**, quality retained **75.0% → 97.5%**; a unit test now runs all 36 cases in Basic protection and fails on any block. The Gemini Nano 3 row was removed with that arm (see the note at the top).

@@ -5,7 +5,7 @@
 import type { Entity } from './types';
 
 const NAME_STOPWORDS = new Set(
-  'the this that these those either each any both all residential lease agreement landlord tenant premises arab republic egypt cairo maadi road street clause clauses rent deposit utilities maintenance payment entry termination notices governing signed building flat use parties term contract notice page january february march april may june july august september october november december monday tuesday wednesday thursday friday saturday sunday patient record member billing contractor client company employee employer section schedule annex appendix subject terms conditions invoice account statement policy dear hello hi thanks thank regards best kind please our your my we you they he she it its can could would should will may might also reach about from with google chrome envoy firebase gemini nano gmail chatgpt claude project salary base bonus fee fees balance principal interest loan amount total due price tax cause without with physician referring diagnosis treatment medication results report summary notes milestone milestones scope services delivery warranty liability confidentiality insurance benefits compensation position title offer letter leave probation duties hours start end effective date law laws general provisions definitions overview purpose responsibilities obligations confidential'.split(
+  'the this that these those either each any both all residential lease agreement landlord tenant premises arab republic egypt cairo maadi road street clause clauses rent deposit utilities maintenance payment entry termination notices governing signed building flat use parties term contract notice page january february march april may june july august september october november december monday tuesday wednesday thursday friday saturday sunday patient record member billing contractor client company employee employer section schedule annex appendix subject terms conditions invoice account statement policy dear hello hi thanks thank regards best kind please our your my we you they he she it its can could would should will may might also reach about from with google chrome envoy firebase gemini nano gmail chatgpt claude project salary base bonus fee fees balance principal interest loan amount total due price tax cause without with physician referring diagnosis treatment medication results report summary notes milestone milestones scope services delivery warranty liability confidentiality insurance benefits compensation position title offer letter leave probation duties hours start end effective date law laws general provisions definitions overview purpose responsibilities obligations confidential period currency opening closing transaction transactions description debit credit withdrawal withdrawals deposits reference number details type usd eur egp gbp aed sar inc ltd llc corp co gmbh plc llp sae'.split(
     ' ',
   ),
 );
@@ -23,12 +23,28 @@ const NAME_PATTERNS: RegExp[] = [
   /\b[A-Z]{3,}(?:[ \t]+[A-Z]{3,})+\b/g,
 ];
 
+const COMPANY =
+  /\b[A-Z][A-Za-z&'-]+(?:[ \t]+[A-Z][A-Za-z&'-]+)*[ \t]+(?:Inc|Ltd|LLC|Corp|GmbH|PLC|LLP|S\.?A\.?E)\b\.?/g;
+
 /**
  * @param context Other text that goes out with `text` (the question), also searched for lowercase
  *   uses of a candidate.
  */
 export function flagNames(text: string, taken: Entity[], context = ''): Entity[] {
   const out: Entity[] = [];
+  // A company: one or more capitalised words and a legal suffix ("Grey Inc", "Nile Telecom Ltd.").
+  // Masked like a name, but labelled as an organisation.
+  for (const m of text.matchAll(COMPANY)) {
+    const e: Entity = {
+      type: 'ORG',
+      value: m[0],
+      start: m.index,
+      end: m.index + m[0].length,
+      confidence: 0.5,
+      source: 'rules',
+    };
+    if (![...taken, ...out].some((t) => t.start < e.end && e.start < t.end)) out.push(e);
+  }
   // A real name is never also written in lowercase in the same text; a heading like "Base Salary"
   // usually is ("the base salary is ..."). Such phrases are ordinary words, not names. Words may be
   // joined by any separator ("Common Area" / "common-area"), the way the outbound guard matches.

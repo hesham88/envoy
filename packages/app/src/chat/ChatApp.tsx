@@ -145,6 +145,16 @@ export interface ChatAppProps {
   openChromePage?: (page: ChromePage) => void;
 }
 
+/** When the cloud step fails outright (Basic protection has no on-device answer to fall back on). */
+export const CLOUD_FAILED_TEXT = {
+  offline:
+    "You're offline, so the cloud couldn't answer. Nothing was sent. Reconnect and try again, or turn on Local only.",
+  'app-check':
+    "Firebase App Check didn't accept this browser, so the cloud refused the request and nothing was answered. A browser started for testing or remote debugging is scored as automated: open Envoy in an ordinary Chrome window.",
+  model:
+    "The cloud model didn't answer (it may be busy). The guard had already checked your excerpt. Try again, or switch the cloud model in the composer.",
+} as const;
+
 const FALLBACK_TEXT = {
   quota: 'has used up its free daily limit',
   busy: 'is busy right now (Google reported high demand)',
@@ -379,7 +389,17 @@ export function ChatApp({
           : answered;
       dispatch({ type: 'ANSWER_DONE', result });
     } catch (e) {
-      dispatch({ type: 'FAIL', message: cloudErrorMessage(e) });
+      // A known cause gets its own words; anything else is diagnosed (offline, App Check refused,
+      // or the model), never shown as raw SDK text.
+      const raw = e instanceof Error ? e.message : String(e);
+      const known = cloudErrorMessage(e);
+      let message = known;
+      if (known === raw) {
+        console.warn('Envoy: the cloud step failed:', raw);
+        const d = await runtime.diagnoseCloud?.().catch(() => undefined);
+        message = CLOUD_FAILED_TEXT[d?.kind ?? 'model'];
+      }
+      dispatch({ type: 'FAIL', message });
     }
   }
 

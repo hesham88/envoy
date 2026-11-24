@@ -14,7 +14,17 @@ interface Box {
   h: number;
 }
 
-export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): void {
+/** Where Envoy is working: the protected text field and Envoy's own chip above it. */
+export interface UploadAnchor {
+  field: HTMLElement | null;
+  chip: HTMLElement;
+}
+
+export function initUploadUi(
+  shadow: ShadowRoot,
+  getRules: () => CustomRule[],
+  getAnchor: () => UploadAnchor,
+): { place(): void } {
   const style = document.createElement('style');
   // The same UV-night look as the field card (content/theme.ts).
   style.textContent = `
@@ -61,38 +71,99 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
   let receipt: UploadReceipt | null = null;
   let outFile: File | null = null;
 
-  /**
-   * Where to show the button. Many sites hide the real file input and open it from a menu item or
-   * a "+" button, so the input has no box (it sits at 0,0). Then anchor to what the person clicked,
-   * and failing that, to the bottom-right corner: never the top-left of the page.
-   */
-  function anchorRect(): DOMRect | null {
-    const visible = (r: DOMRect) =>
-      r.width > 4 && r.height > 4 && r.bottom > 0 && r.right > 0 && r.top < window.innerHeight;
-    const own = target?.getBoundingClientRect();
-    if (own && visible(own)) return own;
-    const clicked = lastPointer?.isConnected ? lastPointer.getBoundingClientRect() : null;
-    if (clicked && visible(clicked)) return clicked;
-    return null;
+  let cardOpen = false;
+
+  /** Really on screen: has a box, isn't hidden or transparent, and isn't covered (a closed menu). */
+  function onScreen(el: Element | null | undefined): DOMRect | null {
+    if (!el?.isConnected) return null;
+    const r = el.getBoundingClientRect();
+    if (r.width < 4 || r.height < 4 || r.bottom <= 0 || r.right <= 0) return null;
+    if (r.top >= window.innerHeight || r.left >= window.innerWidth) return null;
+    const check = (el as Element & { checkVisibility?: (o: object) => boolean }).checkVisibility;
+    if (check && !check.call(el, { opacityProperty: true, visibilityProperty: true })) return null;
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    if (hit && hit !== el && !el.contains(hit) && !hit.contains(el)) return null;
+    return r;
   }
 
+  /** The site's file input Envoy hands the file to: the one clicked, else the one nearest the field. */
+  function fileInput(field: HTMLElement | null): HTMLInputElement | null {
+    if (target?.isConnected) return target;
+    const all = [...document.querySelectorAll<HTMLInputElement>('input[type=file]')];
+    if (!all.length) return null;
+    if (!field) return all[0]!;
+    const depth = (n: Node) => {
+      let d = 0;
+      for (let p: Node | null = n; p; p = p.parentNode) d++;
+      return d;
+    };
+    const shared = (a: Node, b: Node) => {
+      let p: Node | null = a;
+      while (p && !p.contains(b)) p = p.parentNode;
+      return p ? depth(p) : 0;
+    };
+    return all.reduce((best, el) => (shared(el, field) > shared(best, field) ? el : best));
+  }
+
+  /**
+   * One fixed place, tied to the field Envoy is protecting: the button sits on the chip's row, just
+   * left of Envoy's chip, so it moves only when the field moves. With no field in use (the person
+   * clicked a file input directly), it sits beside that input, or beside the "+" that opened it
+   * while that is really on screen, else in the bottom-right corner. The card opens above or below
+   * the field, whichever has more room, sized to that room and scrolling inside it.
+   */
   function place() {
-    if (!target) return;
-    const r = anchorRect();
-    if (!r) {
-      btn.style.left = `${window.innerWidth - 190}px`;
-      btn.style.top = `${window.innerHeight - 56}px`;
-      card.style.left = `${window.innerWidth - 392}px`;
-      card.style.top = `${Math.max(8, window.innerHeight - 480)}px`;
+    const { field, chip } = getAnchor();
+    const chipShown = !!field && chip.style.display !== 'none';
+    const input = fileInput(chipShown ? field : null);
+    if (!input || (!chipShown && !target && !cardOpen)) {
+      btn.style.display = 'none';
+      if (!cardOpen) return;
+    } else {
+      btn.style.display = 'block';
+    }
+    const bw = btn.offsetWidth || 140;
+    const bh = btn.offsetHeight || 30;
+    let anchor: DOMRect | null;
+    if (chipShown) {
+      const c = chip.getBoundingClientRect();
+      btn.style.left = `${Math.max(8, c.left - bw - 8)}px`;
+      btn.style.top = `${c.top + (c.height - bh) / 2}px`;
+      anchor = field!.getBoundingClientRect();
+    } else {
+      anchor = onScreen(target) ?? onScreen(lastPointer);
+      if (anchor) {
+        btn.style.left = `${Math.min(anchor.right + 8, window.innerWidth - bw - 8)}px`;
+        btn.style.top = `${Math.max(8, Math.min(anchor.top, window.innerHeight - bh - 8))}px`;
+      } else {
+        btn.style.left = `${window.innerWidth - bw - 16}px`;
+        btn.style.top = `${window.innerHeight - bh - 16}px`;
+      }
+    }
+    if (!cardOpen) return;
+    const W = Math.min(380, window.innerWidth - 16);
+    const gap = 10;
+    if (!anchor) {
+      card.style.maxHeight = `${window.innerHeight - 16}px`;
+      const h = Math.min(card.scrollHeight, window.innerHeight - 16);
+      card.style.left = `${window.innerWidth - W - 8}px`;
+      card.style.top = `${window.innerHeight - h - 8}px`;
       return;
     }
-    btn.style.left = `${Math.min(r.right + 8, window.innerWidth - 150)}px`;
-    btn.style.top = `${Math.max(8, Math.min(r.top, window.innerHeight - 40))}px`;
-    card.style.left = `${Math.min(Math.max(8, r.left), window.innerWidth - 376)}px`;
-    card.style.top = `${Math.max(8, Math.min(r.bottom + 10, window.innerHeight - 420))}px`;
+    const below = window.innerHeight - anchor.bottom - gap - 8;
+    const above = anchor.top - gap - 8;
+    const down = below >= above;
+    const room = Math.max(160, down ? below : above);
+    card.style.maxHeight = `${room}px`;
+    const h = Math.min(card.scrollHeight, room);
+    card.style.left = `${Math.min(Math.max(8, anchor.left), window.innerWidth - W - 8)}px`;
+    card.style.top = `${Math.max(8, down ? anchor.bottom + gap : anchor.top - gap - h)}px`;
   }
+  // The card grows when a preview or findings appear: re-fit it every time.
+  new ResizeObserver(() => cardOpen && place()).observe(card);
 
   function handOff(file: File) {
+    target = fileInput(getAnchor().field);
     if (!target) return;
     const dt = new DataTransfer();
     dt.items.add(file);
@@ -146,8 +217,9 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
       if (chosen && kindOf(chosen) === 'image') outFile = await burnImage(chosen);
       if (outFile) {
         handOff(outFile);
+        cardOpen = false;
         card.style.display = 'none';
-        btn.style.display = 'none';
+        place();
       }
     });
     wrap.append(send);
@@ -244,6 +316,7 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
   }
 
   btn.addEventListener('click', () => {
+    cardOpen = true;
     card.style.display = 'block';
     card.innerHTML = '';
     boxes = [];
@@ -268,7 +341,9 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
     const close = document.createElement('button');
     close.textContent = 'Close';
     close.addEventListener('click', () => {
+      cardOpen = false;
       card.style.display = 'none';
+      place();
     });
     card.append(h, sub, picker, close);
     place();
@@ -278,7 +353,6 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
     const el = document.activeElement;
     if (el instanceof HTMLInputElement && el.type === 'file') {
       target = el;
-      btn.style.display = 'block';
       place();
     }
   });
@@ -288,7 +362,6 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
       const el = e.target;
       if (el instanceof HTMLInputElement && el.type === 'file') {
         target = el;
-        btn.style.display = 'block';
         place();
       }
     },
@@ -296,4 +369,5 @@ export function initUploadUi(shadow: ShadowRoot, getRules: () => CustomRule[]): 
   );
   window.addEventListener('scroll', place, true);
   window.addEventListener('resize', place);
+  return { place };
 }

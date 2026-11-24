@@ -67,4 +67,15 @@ describe('flagNames (Basic protection)', () => {
       'AHMED HASSAN',
     ]);
   });
+
+  it('bank-statement headings are not names; a company is an organisation, not a person', () => {
+    const text =
+      'Statement for Samer Fawzy\nTIME PERIOD 01/04/2026 - 21/07/2026\nCURRENCY USD OPENING BALANCE $5.00\nPaid to Grey Inc and Nile Telecom Ltd.';
+    const found = flagNames(text, []);
+    expect(found.filter((e) => e.type === 'PERSON').map((e) => e.value)).toEqual(['Samer Fawzy']);
+    expect(found.filter((e) => e.type === 'ORG').map((e) => e.value)).toEqual([
+      'Grey Inc',
+      'Nile Telecom Ltd.',
+    ]);
+  });
 });
