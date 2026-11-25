@@ -1,5 +1,5 @@
 {
-  "rater": "Checked by the team: our AI coding assistants and human reviewers. The raters did not write the answers (Gemma 4 on the device, Gemini 3.5 Flash-Lite in the cloud), but they are not independent of the team. Every verdict, its reason and the SHA-256 of the exact answer it rates are here for anyone to check.",
+  "rater": "Checked by the team: our AI coding assistants and human reviewer. The raters did not write the answers (Gemma 4 on the device, Gemini 3.5 Flash-Lite in the cloud), but they are not independent of the team. Every verdict, its reason and the SHA-256 of the exact answer it rates are here for anyone to check.",
   "method": "Each verbatim answer from tests/eval/probes/arms/<arm>.json (identified by answerSha256) read against the case document with the run-quality.mjs rubric: correct 1.0, partially 0.5, wrong 0.0.",
   "date": "2026-11-24",
   "arms": {
