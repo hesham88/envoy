@@ -16,6 +16,7 @@ const lineOf = (path: string, n: number) =>
 describe('code links', () => {
   for (const doc of [
     'README.md',
+    'docs/BRING_YOUR_OWN.md',
     'docs/MEASUREMENT.md',
     'docs/EVAL.md',
     'apps/extension/README.md',

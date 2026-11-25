@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-25T08:21:24.827Z",
-  "commit": "3388ae4",
+  "generatedAt": "2026-11-25T09:55:27.939Z",
+  "commit": "db708f2",
   "nTotal": 36,
   "arms": [
     {
@@ -2278,9 +2278,9 @@
           "p95": 21
         },
         "minimizationRatio": 0.9065,
-        "reidRecoveryExact": null,
-        "reidRecoveryPartial": null,
-        "attributeInference": null,
+        "reidRecoveryExact": 0,
+        "reidRecoveryPartial": 0,
+        "attributeInference": 0.039,
         "answerQualityRetained": 0.975
       },
       "counts": {
@@ -3942,8 +3942,8 @@
         "clauseAccuracy": 36,
         "latencyMs": 36,
         "minimizationRatio": 36,
-        "reid": 0,
-        "attribute": 0,
+        "reid": 36,
+        "attribute": 36,
         "answerQuality": 20
       }
     }

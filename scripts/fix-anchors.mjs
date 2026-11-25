@@ -30,6 +30,7 @@ function lineFor(file, symbol) {
 let changed = 0;
 for (const doc of [
   'README.md',
+  'docs/BRING_YOUR_OWN.md',
   'docs/MEASUREMENT.md',
   'docs/EVAL.md',
   'apps/extension/README.md',

@@ -85,4 +85,16 @@ describe('upload processing privacy', () => {
     expect(await first.file.text()).toContain('[EMAIL]');
     expect(first.receipt.findings.length).toBe(2);
   });
+
+  it('rejects a corrupt ZIP with out-of-bounds offsets cleanly', async () => {
+    const eocd = new Uint8Array(22);
+    const ed = new DataView(eocd.buffer);
+    ed.setUint32(0, 0x06054b50, true);
+    ed.setUint16(10, 1, true);
+    ed.setUint32(16, 99999, true);
+    const bad = new File([eocd], 'corrupt.docx', {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+    await expect(processTextUpload(bad, [], new Set())).rejects.toThrow(/Corrupt ZIP/);
+  });
 });

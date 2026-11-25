@@ -147,6 +147,20 @@ try {
   check('guide: opens with the setup steps', guide);
   await r.waitForTimeout(2500);
 
+  // 4. /dev page: UV theme, navigation links, and live #10635 device-guard simulation.
+  await r.goto(`${URL0}/dev`, { waitUntil: 'domcontentloaded' });
+  const devTheme = await r.locator('.envoy-uv').count();
+  check('/dev: renders in UV-night theme with navigation links', devTheme > 0);
+  await r.getByRole('button', { name: 'Simulate missing LanguageModel' }).click();
+  const guardBlocked = await r
+    .getByText(/Guard blocked the request before any call: DeviceUnavailableError/)
+    .waitFor({ timeout: 10000 })
+    .then(
+      () => true,
+      () => false,
+    );
+  check('/dev: Simulate missing LanguageModel (#10635) blocks before any call', guardBlocked);
+
   check(
     'no console errors or CSP violations',
     problems.length === 0,

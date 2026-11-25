@@ -45,6 +45,17 @@ describe('restoreAnswer', () => {
     expect(out.spans[1]).toMatchObject({ value: 'EGP 9,350', computed: true });
   });
 
+  it('resolves aliased money tag names like MONTHLY_BASE_SALARY to [SALARY]', () => {
+    const salaryTags = assignTags([ent('MONEY', 'EGP 80,000', 0, 'salary')]);
+    const out = restoreAnswer('Your bonus is {{MONTHLY_BASE_SALARY * 1.8}}.', salaryTags);
+    expect(out.text).toBe('Your bonus is EGP 144,000.');
+    expect(out.spans[0]).toMatchObject({
+      tag: '{{MONTHLY_BASE_SALARY * 1.8}}',
+      value: 'EGP 144,000',
+      computed: true,
+    });
+  });
+
   it('gives span offsets into the restored text', () => {
     const out = restoreAnswer('Rent: [RENT]; max {{RENT*1.1}}.', tags);
     for (const s of out.spans) expect(out.text.slice(s.start, s.end)).toBe(s.value);

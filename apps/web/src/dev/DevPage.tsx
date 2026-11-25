@@ -166,17 +166,26 @@ export function DevPage() {
     });
 
   return (
-    <main style={{ maxWidth: 1100, margin: '0 auto', padding: 32, display: 'grid', gap: 20 }}>
-      <header
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: 12,
-        }}
-      >
-        <h1 style={{ margin: 0, fontSize: 28 }}>Envoy · /dev</h1>
+    <div className="envoy-uv min-h-screen font-sans">
+      <main style={{ maxWidth: 1100, margin: '0 auto', padding: 32, display: 'grid', gap: 20 }}>
+        <header
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: 12,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <h1 style={{ margin: 0, fontSize: 28 }}>Envoy · /dev</h1>
+            <a href="/" style={{ fontSize: 14, color: 'var(--device-on-tint)' }}>
+              ← Home
+            </a>
+            <a href="/app" style={{ fontSize: 14, color: 'var(--device-on-tint)' }}>
+              Open Envoy (/app)
+            </a>
+          </div>
         <span
           role="status"
           style={{
@@ -279,7 +288,8 @@ export function DevPage() {
             {e.blocked ? ' · BLOCKED' : ''} · {e.payload.slice(0, 120)}
           </div>
         ))}
-      </section>
-    </main>
+        </section>
+      </main>
+    </div>
   );
 }

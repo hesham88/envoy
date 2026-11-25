@@ -91,6 +91,7 @@ describe('ChatApp', () => {
     const turn = await screen.findByRole('article');
     await within(turn).findByRole('button', { name: 'Approve and send' });
     const recorder = within(turn).getByText('Privacy flight recorder').closest('details')!;
+    expect(recorder.open).toBe(false);
     expect(recorder.querySelector('[data-row="rules"]')).toHaveAttribute('data-state', 'done');
     expect(recorder.querySelector('[data-row="detect"]')).toHaveAttribute('data-state', 'skipped');
     // A skipped on-device step must not read as if the model ran.

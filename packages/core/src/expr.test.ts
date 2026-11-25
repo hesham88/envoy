@@ -18,6 +18,12 @@ describe('evaluate', () => {
     expect(evaluate('[RENT] * 1.1', v)).toBe(9350);
   });
 
+  it('accepts percentages and comma-formatted numbers inside expressions', () => {
+    expect(evaluate('RENT * 110%', v)).toBe(9350);
+    expect(evaluate('RENT * (1 + 10%)', v)).toBe(9350);
+    expect(evaluate('RENT + 1,000', v)).toBe(9500);
+  });
+
   it('rounds away floating-point noise to cents', () => {
     expect(evaluate('0.1 + 0.2', v)).toBe(0.3);
   });

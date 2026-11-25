@@ -10,14 +10,15 @@ type Token =
 
 function tokenize(src: string): Token[] | null {
   const tokens: Token[] = [];
-  const re = /\s*(?:(\d+(?:\.\d+)?)|\[?([A-Z][A-Z0-9_]*)\]?|([+\-*/×÷()]))/y;
+  const re =
+    /\s*(?:(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)|\[?([A-Z][A-Z0-9_]*)\]?|([+\-*/×÷()%]))/y;
   let i = 0;
   while (i < src.length) {
     if (/^\s*$/.test(src.slice(i))) break;
     re.lastIndex = i;
     const m = re.exec(src);
     if (!m) return null;
-    if (m[1] !== undefined) tokens.push({ kind: 'num', value: Number(m[1]) });
+    if (m[1] !== undefined) tokens.push({ kind: 'num', value: Number(m[1].replace(/,/g, '')) });
     else if (m[2] !== undefined) tokens.push({ kind: 'id', name: m[2] });
     else tokens.push({ kind: 'op', op: m[3] === '×' ? '*' : m[3] === '÷' ? '/' : m[3]! });
     i = re.lastIndex;
@@ -36,7 +37,7 @@ export function evaluate(expr: string, values: Record<string, number>): number |
     return t?.kind === 'op' && t.op === op;
   };
 
-  function factor(): number {
+  function primary(): number {
     const t = tokens[pos++];
     if (!t) throw new Error('end');
     if (t.kind === 'num') return t.value;
@@ -52,6 +53,14 @@ export function evaluate(expr: string, values: Record<string, number>): number |
       return v;
     }
     throw new Error('unexpected');
+  }
+  function factor(): number {
+    let v = primary();
+    while (isOp('%')) {
+      pos++;
+      v /= 100;
+    }
+    return v;
   }
   function product(): number {
     let v = factor();
