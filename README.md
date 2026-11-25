@@ -213,6 +213,8 @@ npm run dev                                     # http://localhost:5173
 npm run verify                                  # lint, typecheck, tests, build
 ```
 
+**Your own keys and models:** [docs/BRING_YOUR_OWN.md](docs/BRING_YOUR_OWN.md) covers running Envoy on your own Firebase project: App Check, key restrictions, choosing the cloud models through Remote Config, quota, and what stays private whatever model you choose.
+
 | Path                               | What it is                                                                                                                                     |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`packages/core`](packages/core)   | The privacy engine, pure TypeScript with no network: rules, secrets, your own rules, tags, the outbound guard, expressions, restore, receipts. |
