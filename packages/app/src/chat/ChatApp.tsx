@@ -970,7 +970,7 @@ function TurnView({
             result={s.result}
             cloudModel={s.result?.cloudModelUsed ?? runtime.settings.cloudModel}
             localOnly={turn.localOnly}
-            open={s.phase !== 'answered'}
+            open={s.phase === 'analyzing' || s.phase === 'sending'}
           />
         )}
         {s.notice && (

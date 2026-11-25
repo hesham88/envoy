@@ -6,6 +6,8 @@ export interface ZipEntry {
   size: number;
 }
 
+const MAX_UNCOMPRESSED_BYTES = 10 * 1024 * 1024;
+
 export function readZipEntries(buf: ArrayBuffer): ZipEntry[] {
   const b = new Uint8Array(buf);
   const dv = new DataView(buf);
@@ -21,7 +23,8 @@ export function readZipEntries(buf: ArrayBuffer): ZipEntry[] {
   let off = dv.getUint32(eocd + 16, true);
   const out: ZipEntry[] = [];
   for (let n = 0; n < count; n++) {
-    if (dv.getUint32(off, true) !== 0x02014b50) break;
+    if (off < 0 || off + 46 > b.length || dv.getUint32(off, true) !== 0x02014b50)
+      throw new Error('Corrupt ZIP central directory.');
     const method = dv.getUint16(off + 10, true);
     const csize = dv.getUint32(off + 20, true);
     const size = dv.getUint32(off + 24, true);
@@ -29,10 +32,14 @@ export function readZipEntries(buf: ArrayBuffer): ZipEntry[] {
     const extra = dv.getUint16(off + 30, true);
     const comment = dv.getUint16(off + 32, true);
     const localOff = dv.getUint32(off + 42, true);
+    if (off + 46 + nameLen > b.length || localOff < 0 || localOff + 30 > b.length)
+      throw new Error('Corrupt ZIP entry header.');
     const name = new TextDecoder().decode(b.slice(off + 46, off + 46 + nameLen));
     const lname = dv.getUint16(localOff + 26, true);
     const lextra = dv.getUint16(localOff + 28, true);
     const dataStart = localOff + 30 + lname + lextra;
+    if (dataStart < 0 || dataStart + csize > b.length)
+      throw new Error('Corrupt ZIP entry data.');
     out.push({ name, method, size, compressed: b.slice(dataStart, dataStart + csize) });
     off += 46 + nameLen + extra + comment;
   }
@@ -40,12 +47,16 @@ export function readZipEntries(buf: ArrayBuffer): ZipEntry[] {
 }
 
 export async function inflate(entry: ZipEntry): Promise<string> {
+  if (entry.size > MAX_UNCOMPRESSED_BYTES || entry.compressed.byteLength > MAX_UNCOMPRESSED_BYTES)
+    throw new Error('This file is larger than 10 MB.');
   if (entry.method === 0) return new TextDecoder().decode(entry.compressed);
   if (entry.method !== 8) throw new Error(`Unsupported ZIP method ${entry.method}.`);
   const stream = new Blob([entry.compressed as BlobPart])
     .stream()
     .pipeThrough(new DecompressionStream('deflate-raw'));
-  return new Response(stream).text();
+  const text = await new Response(stream).text();
+  if (text.length > MAX_UNCOMPRESSED_BYTES) throw new Error('This file is larger than 10 MB.');
+  return text;
 }
 
 /** DOCX -> plain text: paragraphs from word/document.xml, tags stripped, entities decoded. */

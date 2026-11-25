@@ -348,10 +348,16 @@ export function initUploadUi(
     card.append(wrap);
   }
 
+  const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
   async function processChosen() {
     if (!chosen) return;
     const status = document.createElement('p');
     status.className = 'up-muted';
+    if (chosen.size > MAX_UPLOAD_BYTES) {
+      status.textContent = 'This file is larger than 10 MB. Nothing was sent.';
+      card.append(status);
+      return;
+    }
     status.textContent = 'Working on this device…';
     card.append(status);
     const kind = kindOf(chosen);

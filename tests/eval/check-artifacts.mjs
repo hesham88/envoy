@@ -242,6 +242,16 @@ function runChecks() {
         `${sArm.id}: metricsN.answerQuality (${sArm.metricsN?.answerQuality}) !== ${tArm.n}`,
       );
     }
+    for (const mKey of ['reidRecoveryExact', 'reidRecoveryPartial', 'attributeInference']) {
+      if (typeof sArm.metrics?.[mKey] !== 'number') {
+        failuresC.push(`${sArm.id}: metrics.${mKey} is ${sArm.metrics?.[mKey]} (expected number)`);
+      }
+    }
+    if (sArm.metricsN?.reid !== sArm.n || sArm.metricsN?.attribute !== sArm.n) {
+      failuresC.push(
+        `${sArm.id}: metricsN.reid/attribute (${sArm.metricsN?.reid}/${sArm.metricsN?.attribute}) !== ${sArm.n}`,
+      );
+    }
     if (sArm.runId !== armCache.updatedAt) {
       failuresC.push(`${sArm.id}: runId (${sArm.runId}) !== ${armCache.updatedAt}`);
     }

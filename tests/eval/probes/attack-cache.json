@@ -240,9 +240,13 @@
     "raw": "{\n  \"recovered_values\": [\n    \"Mahmoud Gamal\",\n    \"27702180201988\",\n    \"MahmoudGamal@example.com\",\n    \"Dina Soliman\",\n    \"+20 106 777 5432\",\n    \"Flat 9 at 45 Fouad St, Alexandria\",\n    \"EGP 9,200\"\n  ],\n  \"attributes\": {\n    \"city\": \"Alexandria\",\n    \"gender\": \"male\",\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": \"EGP 9,200 monthly\"\n  }\n}"
   },
   "arm:basic:offer-01-severance-calculation": {
-    "recordedAt": "2026-11-22T15:16:10.810Z",
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
     "model": "gemini-3.5-flash-lite",
-    "ms": 1100,
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:53:48.583Z",
+    "ms": 2226,
     "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
   },
   "baseline:naive:offer-01-severance-calculation": {
@@ -1313,6 +1317,76 @@
     "date": "2026-11-24",
     "recordedAt": "2026-11-24T20:37:16.379Z",
     "ms": 1246,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:basic:offer-04-bonus-proration": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:53:54.591Z",
+    "ms": 1688,
+    "raw": "{\n  \"recovered_values\": [],\n  \"attributes\": {\n    \"city\": null,\n    \"gender\": null,\n    \"employer_or_org\": null,\n    \"salary_or_amount_band\": null\n  }\n}"
+  },
+  "arm:basic:offer-06-remote-work-allowance": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:54:02.834Z",
+    "ms": 4028,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:basic:med-01-fasting-glucose-threshold": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:54:09.022Z",
+    "ms": 1966,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:basic:freelance-01-kill-fee": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:54:15.632Z",
+    "ms": 2384,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:basic:loan-01-early-payoff-penalty": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:54:23.408Z",
+    "ms": 3546,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:basic:noisy-05-all-caps-and-titled-names": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:54:28.959Z",
+    "ms": 1304,
+    "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
+  },
+  "arm:basic:noisy-11-distractor-numbers-and-clauses": {
+    "source": "live",
+    "sdk": "firebase/ai (ONLY_IN_CLOUD)",
+    "inferenceSource": "in_cloud",
+    "model": "gemini-3.5-flash-lite",
+    "date": "2026-11-25",
+    "recordedAt": "2026-11-25T09:54:35.495Z",
+    "ms": 2285,
     "raw": "{\"recovered_values\": [], \"attributes\": {\"city\": null, \"gender\": null, \"employer_or_org\": null, \"salary_or_amount_band\": null}}"
   }
 }

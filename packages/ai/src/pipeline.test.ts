@@ -171,6 +171,16 @@ describe('analyze', () => {
     expect(detectPrompt).not.toContain('8. Payment.');
     expect(a.guard.ok).toBe(true);
   });
+
+  it("includes Preamble (id 0) as well as Clause 1 in detectScope='selected'", async () => {
+    const docWithPreamble =
+      'THIS LEASE is made between Karim Fathy and Mona Adel.\n\n1. Term. 3 years.\n\n7. Rent. The monthly rent is EGP 8,500.';
+    const { deps, runPrivate } = fakeDeps('available');
+    await analyze(docWithPreamble, QUESTION, deps, { detectScope: 'selected' });
+    const detectPrompt = runPrivate.mock.calls.find((c) => c[2] === 'detect')?.[1] as string;
+    expect(detectPrompt).toContain('THIS LEASE is made between Karim Fathy');
+    expect(detectPrompt).toContain('7. Rent.');
+  });
 });
 
 describe('selectClausesBatched', () => {

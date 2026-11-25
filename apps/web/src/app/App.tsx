@@ -98,6 +98,7 @@ export function AppShell({ runtime }: { runtime: EnvoyRuntime }) {
     try {
       const result = await answer(state.analysis, outbound, runtime.deps, {
         sharedTags: state.sharedTags,
+        ...(state.selectedIds ? { selectedIds: state.selectedIds } : {}),
       });
       dispatch({ type: 'ANSWER_DONE', result });
     } catch (e) {

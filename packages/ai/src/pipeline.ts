@@ -285,7 +285,9 @@ export async function analyze(
       if (detectScope === 'selected') {
         selection = await selectClausesBatched(chunks, question, (p) => run('minimize', p));
         const selected = chunks.filter((c) => selection.ids.includes(c.id));
-        const detectChunks = chunks.filter((c) => selection.ids.includes(c.id) || c.id === 1);
+        const detectChunks = chunks.filter(
+          (c) => selection.ids.includes(c.id) || c.id === 0 || c.id === 1,
+        );
         const detectBatches = batchChunks(
           detectChunks,
           (b) => buildDetectPrompt(b.map((c) => c.text).join('\n\n'), question),

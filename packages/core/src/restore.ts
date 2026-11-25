@@ -43,6 +43,26 @@ export function restoreAnswer(
     currencies[name] = parsed.currency;
   }
 
+  const knownMoney = Object.keys(amounts);
+  const resolveForExpr = (expr: string) => {
+    const map = { ...amounts };
+    const curr = { ...currencies };
+    for (const idMatch of expr.matchAll(/\b([A-Z][A-Z0-9_]*)\b/g)) {
+      const id = idMatch[1]!;
+      if (id in map) continue;
+      const parts = id.split('_');
+      const match =
+        knownMoney.find(
+          (k) => parts.includes(k) || k.split('_').some((p) => p.length >= 3 && parts.includes(p)),
+        ) ?? (knownMoney.length === 1 ? knownMoney[0] : undefined);
+      if (match) {
+        map[id] = amounts[match]!;
+        curr[id] = currencies[match]!;
+      }
+    }
+    return { map, curr };
+  };
+
   const spans: RestoredSpan[] = [];
   let text = '';
   let last = 0;
@@ -54,13 +74,12 @@ export function restoreAnswer(
     } else if (m[2] !== undefined) {
       replacement = tags.valueOf(`[${m[2]}]`) ?? null;
     } else {
-      const result = evaluate(m[1]!, amounts);
+      const { map, curr } = resolveForExpr(m[1]!);
+      const result = evaluate(m[1]!, map);
       if (result !== null) {
-        const currency = Object.keys(currencies).find((name) =>
-          new RegExp(`\\b${name}\\b`).test(m[1]!),
-        );
+        const currency = Object.keys(curr).find((name) => new RegExp(`\\b${name}\\b`).test(m[1]!));
         replacement =
-          currency && currencies[currency] ? `${currencies[currency]} ${fmt(result)}` : fmt(result);
+          currency && curr[currency] ? `${curr[currency]} ${fmt(result)}` : fmt(result);
         computed = true;
       }
     }
