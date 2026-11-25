@@ -95,12 +95,22 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 | **`basic`** (Rules + Guard + Name Flags) _(re-measured `2026-11-23`, after the heading fix)_ | **20** |                `0 / 20 / 0`                | **97.5%** _(19.5 / 20)_ |       **97.5%** _(19.5 / 20)_        |     100.0%      |          **97.5%**          |        100.0%        |       `19 / 1 / 0`        |
 | **`gemma4`** (`gemma4_component 2026.11.3.1140`) _(`2026-11-24`, current pipeline)_          | **20** |                `8 / 12 / 0`                | **97.5%** _(19.5 / 20)_ |       **97.5%** _(19.5 / 20)_        |     100.0%      |          **97.5%**          |        100.0%        |       `19 / 1 / 0`        |
 
-**Checked by the team.** The team's AI coding assistant, Claude Code (Claude Opus 5.5, Anthropic), which also helped build Envoy, read every verbatim answer against its document with the same rubric. It is a different model family from both answerers, so the answerer doesn't grade itself; it is not independent of the team, and it is not a human rating. Every verdict and its reason: [`quality-ratings-team.json`](../tests/eval/probes/quality-ratings-team.json). Not a human rating.
+**Checked by the team: our AI coding assistants and human reviewers.** Every verbatim answer was read against its document with the same rubric (correct 1.0, partly right 0.5, wrong 0.0). The raters didn't write the answers, so the answerer doesn't grade itself, but they are not independent of the team. Every verdict, its reason and the SHA-256 of the exact answer it rates: [`quality-ratings-team.json`](../tests/eval/probes/quality-ratings-team.json). `npm run eval:check` recomputes these scores and checks each rating still matches its answer.
 
 | Arm      | `n` |   Score   | Correct / Partial / Wrong |
 | -------- | :-: | :-------: | :-----------------------: |
 | `basic`  | 20  | **97.5%** |       `19 / 1 / 0`        |
 | `gemma4` | 20  | **95.0%** |       `18 / 2 / 0`        |
+
+#### Where each number comes from
+
+| Number                                           | File                                                                          | Field                                                                          | Run ID / Date                                                         |
+| ------------------------------------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------- |
+| Gemma 4 answers (36 cases, 20 answered)          | [`probes/arms/gemma4.json`](../tests/eval/probes/arms/gemma4.json)            | `updatedAt`, `entries[id].result.answer.text`                                  | `2026-11-24T20:18:59.751Z` (product commit `584cc81`)                 |
+| Basic answers (36 cases, 20 answered)            | [`probes/arms/basic.json`](../tests/eval/probes/arms/basic.json)              | `updatedAt`, `entries[id].result.answer.text`                                  | `2026-11-23T10:34:55.104Z`                                            |
+| Flash-Lite judge (Gemma 4 & Basic)               | [`quality-results.json`](../tests/eval/quality-results.json)                  | `byArm.gemma4`, `byArm.basic`                                                  | `generatedAt` `2026-11-24T20:31:49.750Z` (`2026-11-24`, `2026-11-23`) |
+| Checked by the team (Gemma 4 95.0%, Basic 97.5%) | [`quality-ratings-team.json`](../tests/eval/probes/quality-ratings-team.json) | `arms[].score`, `answersFrom.runId`, `rows[].answerSha256`                     | `2026-11-24`                                                          |
+| Published contract                               | [`summary.json`](../tests/eval/summary.json)                                  | `arms[].runId`, `arms[].metrics.answerQualityRetained`, `arms[].answerQuality` | Recomputed by `npm run eval`, checked by `npm run eval:check`         |
 
 > **Where Private mode lost quality, and the fix:** on the first 24 November run, all four weak Gemma 4 answers came from the on-device answer path on questions that need a calculation (the bonus, the co-pay, the contract end, the cancellation tier); the router had sent them to the device (route accuracy 55.6%). Envoy now sends any question that needs a figure worked out (a percentage, an amount, a cap, a what-if) to the reasoning step, whatever the router says (`guardRoute`, `packages/core/src/prompts.ts`); the cloud writes `{{EXPR}}` and the numbers are still computed on the device. Re-measured the same evening: route accuracy 80.6%, team check 87.5% → 95.0%, judge 95.0% → 97.5%. The cost: 23.2% of the text is sent instead of 14.5% (those questions now send a masked excerpt), and re-identification and attribute inference, re-run on the new outbounds, stay at 0.0%. Two answers are still partly right: the contract end date isn't given, and the cloud wrote the bonus as `{{MONTHLY_BASE_SALARY * 1.8}}` with a tag name Envoy didn't have, so it couldn't be computed. In one case (`freelance-03`) the cloud call failed and the SDK answered on the device (`PREFER_IN_CLOUD`); the answer was right and the receipt says where it came from.
 
@@ -125,11 +135,12 @@ The trace includes `steps` (`step`, `source`, `ms`), `selectedIds`, `selectionRe
 
 ---
 
-## 6. `summary.json` `metricsN` Contract & Known Limitations
+## 6. `summary.json` `metricsN` & Traceability Contract, and Known Limitations
 
-Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) now publishes per-metric sample sizes so the landing page never hides or conflates `n`:
+Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) publishes its source `runId`, per-metric sample sizes (`metricsN`) and both `judge` and `team` answer-quality breakdowns so the landing page never hides or conflates `n`:
 
 ```json
+"runId": "2026-11-24T20:18:59.751Z",
 "metricsN": {
   "maskRecall": 36,
   "falseMaskRate": 36,
@@ -140,6 +151,10 @@ Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) now publish
   "reid": 36,
   "attribute": 36,
   "answerQuality": 20
+},
+"answerQuality": {
+  "judge": { "score": 0.975, "n": 20, "model": "gemini-3.5-flash-lite", "dates": ["2026-11-24"] },
+  "team": { "score": 0.95, "n": 20, "correct": 18, "partially": 2, "wrong": 0, "ratedOn": "2026-11-24", "source": "tests/eval/probes/quality-ratings-team.json" }
 }
 ```
 
@@ -150,6 +165,7 @@ Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) now publish
 3. **Title-Case heading false flags in `flagNames()`:** fixed on `2026-11-23` (see §4). Basic now has 0 unattended blocks on the 36 cases. On the private path, the same day's live runs found two more false blocks (the model calling "the Company" an organisation and "90" in "ninety (90) days" money); model findings that are generic role words or bare numbers as money are now dropped.
 4. **Answer quality is measured on 20 of the 36 cases** (the cases with a single clear answer). Gemma 4's run on 24 November also re-measured its privacy numbers on the current pipeline; on-device timing that day was slower than on 22 November (p50 73 s against 55 s on the same laptop, which was also running other work).
 5. **The 36 cases didn't contain every ordinary shape.** On 23 November real use found that a plain bank account number written as "my bank account number 1010192316" went out unmasked: the rules knew IBANs but not plain account numbers, and the eval had no such case. Fixed the same day with an `ACCOUNT` rule (a 6+ digit number the text calls an account, card, policy, passport, ID or routing number), now unit-tested. "Every private detail masked" means every detail in these 36 cases; Envoy masks what it detects.
+6. **Benchmark scope:** 36 English test documents, 263 planted details and 28 red-team attacks are a finite benchmark, not a universal privacy guarantee. Next we'll expand the suite with multilingual documents, unusual account-number formats and ambiguous references to people.
 
 ---
 

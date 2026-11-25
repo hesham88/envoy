@@ -31,6 +31,7 @@ const REDTEAM_RESULTS_PATH = resolve(__dirname, 'redteam-results.json');
 const SECRETS_RESULTS_PATH = resolve(__dirname, 'secrets-results.json');
 const ATTACK_RESULTS_PATH = resolve(__dirname, 'attack-results.json');
 const QUALITY_RESULTS_PATH = resolve(__dirname, 'quality-results.json');
+const TEAM_RATINGS_PATH = resolve(__dirname, 'probes/quality-ratings-team.json');
 
 if (process.argv.includes('--live')) {
   const passArgs = process.argv.slice(2).filter((a) => a !== '--live');
@@ -218,6 +219,7 @@ function scoreArmFile(armId, filePath) {
     label: raw.label ?? armId,
     model: raw.model ?? null,
     backend: raw.backend ?? 'unknown',
+    runId: raw.updatedAt ?? null,
     dates,
     n,
     nTotal: cases.length,
@@ -261,6 +263,9 @@ const attackData = existsSync(ATTACK_RESULTS_PATH)
 const qualityData = existsSync(QUALITY_RESULTS_PATH)
   ? JSON.parse(readFileSync(QUALITY_RESULTS_PATH, 'utf8'))
   : null;
+const teamRatingsData = existsSync(TEAM_RATINGS_PATH)
+  ? JSON.parse(readFileSync(TEAM_RATINGS_PATH, 'utf8'))
+  : null;
 const redteamData = existsSync(REDTEAM_RESULTS_PATH)
   ? JSON.parse(readFileSync(REDTEAM_RESULTS_PATH, 'utf8'))
   : null;
@@ -277,6 +282,7 @@ for (const armId of ARM_ORDER) {
   if (!scored) continue;
   const attackArm = attackData?.byArm?.[armId] ?? null;
   const qualityArm = qualityData?.byArm?.[armId] ?? null;
+  const teamArm = teamRatingsData?.arms?.[armId] ?? null;
   if (attackArm) {
     scored.metrics.reidRecoveryExact = attackArm.reidRecoveryExact ?? null;
     scored.metrics.reidRecoveryPartial = attackArm.reidRecoveryPartial ?? null;
@@ -285,6 +291,30 @@ for (const armId of ARM_ORDER) {
   if (qualityArm) {
     scored.metrics.answerQualityRetained = qualityArm.answerQualityRetained ?? null;
   }
+  scored.answerQuality =
+    qualityArm || teamArm
+      ? {
+          judge: qualityArm
+            ? {
+                score: qualityArm.answerQualityRetained ?? null,
+                n: qualityArm.n ?? 0,
+                model: qualityData.judgeModel ?? null,
+                dates: qualityArm.dates ?? [],
+              }
+            : null,
+          team: teamArm
+            ? {
+                score: teamArm.score,
+                n: teamArm.n,
+                correct: teamArm.correct,
+                partially: teamArm.partially,
+                wrong: teamArm.wrong,
+                ratedOn: teamRatingsData.date ?? null,
+                source: 'tests/eval/probes/quality-ratings-team.json',
+              }
+            : null,
+        }
+      : null;
   scored.metricsN = {
     maskRecall: scored.n,
     falseMaskRate: scored.n,
@@ -354,6 +384,7 @@ const summaryJson = {
     label: a.label,
     model: a.model,
     backend: a.backend,
+    runId: a.runId,
     // The days its cases were run (each row of the landing table shows its own).
     measuredOn: a.dates,
     n: a.n,
@@ -371,6 +402,7 @@ const summaryJson = {
       answerQualityRetained: a.metrics.answerQualityRetained,
     },
     metricsN: a.metricsN,
+    answerQuality: a.answerQuality,
   })),
   redteam: redteamData
     ? {

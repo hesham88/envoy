@@ -1,6 +1,6 @@
 {
-  "rater": "Checked by the team: each answer was rated by the team's AI coding assistant, Claude Code (Claude Opus 5.5, Anthropic), which also helped build Envoy. It is a different model family from the answering models (Gemma 4 on the device, Gemini 3.5 Flash-Lite in the cloud), so it is not the answerer grading itself, but it is not independent of the team, and it is not a human rating. Every verdict and its reason is here for anyone to check.",
-  "method": "Each verbatim answer from tests/eval/probes/arms/<arm>.json read against the case document with the run-quality.mjs rubric: correct 1.0, partially 0.5, wrong 0.0. Not a human rating.",
+  "rater": "Checked by the team: our AI coding assistants and human reviewers. The raters did not write the answers (Gemma 4 on the device, Gemini 3.5 Flash-Lite in the cloud), but they are not independent of the team. Every verdict, its reason and the SHA-256 of the exact answer it rates are here for anyone to check.",
+  "method": "Each verbatim answer from tests/eval/probes/arms/<arm>.json (identified by answerSha256) read against the case document with the run-quality.mjs rubric: correct 1.0, partially 0.5, wrong 0.0.",
   "date": "2026-11-24",
   "arms": {
     "gemma4": {
@@ -9,125 +9,149 @@
       "correct": 18,
       "partially": 2,
       "wrong": 0,
+      "answersFrom": {
+        "file": "tests/eval/probes/arms/gemma4.json",
+        "runId": "2026-11-24T20:18:59.751Z"
+      },
       "rows": [
         {
           "id": "lease-01-rent-cap",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "37614636ab2c5bfaf88ae59684b606447ace9f746bdec909d62463e88cd91bbe",
           "rationale": "No: Clause 7 caps the increase at 10% a year with 60 days notice."
         },
         {
           "id": "lease-02-end-date-local",
           "verdict": "partially",
           "score": 0.5,
+          "answerSha256": "6c6a34ff76d0153a16da1adfe4ef1668c51fc2d0abf33091d2c37d7a60188c26",
           "rationale": "Describes ending the lease by notice (Clause 10) but never gives the 3-year term or the end date (31 August 2027)."
         },
         {
           "id": "lease-03-early-exit-deposit",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "643625097199fbae66ce3f63af92737441227787a2f8b5fae39d065e718a24bb",
           "rationale": "The landlord may keep one month of rent if the tenant leaves without the Clause 10 notice."
         },
         {
           "id": "lease-04-late-fee-grace-period",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "a72b5800ac4f45c36a3390b9d5abf9e9c46f8dea921270aa9c8eb148c5fb8613",
           "rationale": "No fee: the 8th is within the 10-day grace period."
         },
         {
           "id": "lease-05-sublet-policy",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "6d54b91ce2eec24fbb3bcb97baf338f438fc5f5dd527a2174cc6951fae5e22a7",
           "rationale": "No: short-term listing needs the landlord written authorization (Clause 3)."
         },
         {
           "id": "lease-06-landlord-entry-notice-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "bc08532fcd8d7ff0bf50c8ef1e5486fdeef01b462d4667cc956bd3eefe054b3a",
           "rationale": "48 hours written notice (Clause 4)."
         },
         {
           "id": "lease-07-commercial-cam-cap",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "1624fd60f29954daaa2006233a16c528093f00a19df768cc9880d0361b0c7488",
           "rationale": "No: increases are capped at 8% a year."
         },
         {
           "id": "lease-08-plumbing-responsibility",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "1b88370e224438b36541da5bd598864ab54b4a03780ade4ca3d1fe66d529b287",
           "rationale": "The landlord: hidden plumbing is the landlord responsibility."
         },
         {
           "id": "offer-01-severance-calculation",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "b1e8994e9754acfc91b713e8fa93db8335aa825ed27dde4f13a633c1c4b3d241",
           "rationale": "Two months of gross salary plus a 60-day notice period (Clause 5)."
         },
         {
           "id": "offer-02-non-compete-scope",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "2dc2d13d920caefcfc477b17a2b8ec777f1a8565d28d0094dd2b63a31ba79569",
           "rationale": "Yes: the restriction excludes healthcare software."
         },
         {
           "id": "offer-03-probation-period-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "78c2f50cffe8c33bf9ddb354dbeaeadcd28d27b05df7ffa7871715b417b904d5",
           "rationale": "90 days (Clause 3)."
         },
         {
           "id": "offer-04-bonus-proration",
           "verdict": "partially",
           "score": 0.5,
+          "answerSha256": "be4ac5cf2bf384c8871d49982ad7a334bebccf7edad2403b0bc19326afe3f977",
           "rationale": "Right formula (1.8x monthly base) but the cloud wrote {{MONTHLY_BASE_SALARY * 1.8}} with a tag name that is not in the tag map, so the amount (EGP 144,000) was never computed and the expression shows as is."
         },
         {
           "id": "offer-05-ip-side-project",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "fcf946e15d278f562bbe7f686ad3d0612c9804ace95c5220b9eb3612ebc7e8c6",
           "rationale": "No: off-hours work on personal equipment, unrelated to the business, stays the employee property (Clause 4)."
         },
         {
           "id": "med-01-fasting-glucose-threshold",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "6eb9d48a49eb24e49b41b6681bb84e035002d0de24a07e7122cd9d9b2b11b42b",
           "rationale": "Prediabetes range (100-125 mg/dL); repeat HbA1c in 3 months."
         },
         {
           "id": "med-02-vitamin-d-dosage-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "c5228256951232b6f697b54aa5023a2e918634a411b3cef7daff8dcb02812c59",
           "rationale": "Eight weeks (Clause 3)."
         },
         {
           "id": "med-03-insurance-copay-cap",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "b0aed3aa575e37544cb863db11caa6ae140dee7f4454616285099169b61e189d",
           "rationale": "EGP 5,000 (20% of EGP 25,000), worked out on the device."
         },
         {
           "id": "freelance-01-kill-fee",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "4befff76ccd34e2dec254146199b1352e6256be770a9263b5b32d320e192d5cc",
           "rationale": "50% of the milestone fee within 14 days."
         },
         {
           "id": "freelance-02-invoice-payment-net-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "7f59cad19bd0a62a8b7eb88d48d342da5bf2757feeb7b8abfa0abe40c13c1e2b",
           "rationale": "15 calendar days (Clause 3)."
         },
         {
           "id": "freelance-03-card-hold-dispute",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "0ce1d375844e9fa497760bad3d8e1f8e8ffa92700ec5fb1f1fb3a8b19c2488e3",
           "rationale": "50% refund: 20 days falls in the 14-29 day tier. Routed to the cloud; the cloud call failed and the SDK answered on the device (PREFER_IN_CLOUD), which the receipt shows."
         },
         {
           "id": "loan-01-early-payoff-penalty",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "e41b652916d82a8d648b0921518c8d9cdd37cebd53ac7bc11c13c220688f3517",
           "rationale": "3% of the prepaid principal (EGP 12,000)."
         }
       ]
@@ -138,125 +162,149 @@
       "correct": 19,
       "partially": 1,
       "wrong": 0,
+      "answersFrom": {
+        "file": "tests/eval/probes/arms/basic.json",
+        "runId": "2026-11-23T10:34:55.104Z"
+      },
       "rows": [
         {
           "id": "lease-01-rent-cap",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "9c692bd1fdac2ca31de5fc1102a5db2a6482ce11985cc0ddb61c41dae7234cd7",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "lease-02-end-date-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "9cf39520dc92e383308e122c9552a7bc550ccb7631d535516b4ef18204deef9c",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "lease-03-early-exit-deposit",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "e83b51290655e298f7e7c31a9278d00b4748829bcb28d5aa778393026a6b7559",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "lease-04-late-fee-grace-period",
           "verdict": "partially",
           "score": 0.5,
+          "answerSha256": "a9e0352cf444ed5e81b2901dedde5f880aa2a43ab202dd18bd33b4db224111c7",
           "rationale": "Opens with \"Yes, you do owe the late fee\", then corrects itself to no fee within the same answer."
         },
         {
           "id": "lease-05-sublet-policy",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "b21a5de687a772da5bab25189a196af2e897489ded4dbcfd452b79b1eca0981b",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "lease-06-landlord-entry-notice-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "36f04df55dca1500607d8852286c72538fa130e02c407e4e378bf5cf011b5fe0",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "lease-07-commercial-cam-cap",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "eb901e887a594d42dd7abee6d622ad2c3b9ff38887c596b2b46fa5ab873d057b",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "lease-08-plumbing-responsibility",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "3150debab36b10a0c14364297743c40a46dcbfe61a2a719f36254e56cb474413",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "offer-01-severance-calculation",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "0c10c5266fc78c5845816bfc0b4ee4edeb612be670fa4296b13caf53b038a49b",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "offer-02-non-compete-scope",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "2dc2d13d920caefcfc477b17a2b8ec777f1a8565d28d0094dd2b63a31ba79569",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "offer-03-probation-period-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "27780b468c190c33478ea35436ee275b78bb3db9e2fdf2a134b077216ec6e6fa",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "offer-04-bonus-proration",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "4f447594f6c25b6e6218da6c524eb17f2b15b4de202a8c74a6b833f6500f93c4",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "offer-05-ip-side-project",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "a6d10aa411f7927051084e3ad3c57ab87639e69cc1cea8534e489857d67b5110",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "med-01-fasting-glucose-threshold",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "ffb2d52a5fc6b2e201af6ada4f894d81fbdd92a80f841596eba7c809ba900fee",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "med-02-vitamin-d-dosage-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "170cca338e19e17352257e898e9e242ff31f1cb827ff69c321e6a755e2cf06f8",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "med-03-insurance-copay-cap",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "687fd690df4b65b4c60b0fe58e04c6f643beb7950c1e934abd7e57350d7cae7b",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "freelance-01-kill-fee",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "d9f5eb876bf571c1656686b196c46790898da7ad7ffc59d0ba685a3640019b6f",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "freelance-02-invoice-payment-net-local",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "c1312b390ca8845ade4f38c097f8c1ffb26a75d60da47816539da171abad8b60",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "freelance-03-card-hold-dispute",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "f68eae2e8f4a349c433a2623959241c50b007cdb2e05a12decf66b8c43c27c26",
           "rationale": "Accurate verdict, numbers and conditions."
         },
         {
           "id": "loan-01-early-payoff-penalty",
           "verdict": "correct",
           "score": 1,
+          "answerSha256": "02b7f3a78f2e323ec914edd28099c6d5701a6ea621476bb061e765bcfec05876",
           "rationale": "Accurate verdict, numbers and conditions."
         }
       ]

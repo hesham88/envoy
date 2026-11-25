@@ -19,6 +19,8 @@ Envoy's claims are about what leaves your device, so every claim needs evidence 
 | Detectors validate what they find (IBAN checksum, Luhn for cards, the structure of Egyptian national IDs) to keep false alarms down.                                                                              | [`packages/core/src/rules.test.ts`](../packages/core/src/rules.test.ts)                                                                                          |
 | The App Check debug token can never be part of a production build.                                                                                                                                                | [`apps/web/src/env.test.ts`](../apps/web/src/env.test.ts)                                                                                                        |
 
+`npm run eval:check` (part of `npm run verify`) recomputes the answer-quality scores from the committed team ratings (`tests/eval/probes/quality-ratings-team.json`), verifies each rating's SHA-256 against the verbatim answer and checks that every published number in `summary.json` and the docs agrees.
+
 ## 2. Real-model evaluation
 
 The eval harness (`tests/eval`, run with `npm run eval`) runs 36 cases through the real pipeline in the Chrome that has the on-device model. It measures:

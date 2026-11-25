@@ -22,7 +22,7 @@ const summaries = import.meta.glob<{ default: EvalSummary }>(
   { eager: true },
 );
 const evalSummary = Object.values(summaries)[0]?.default ?? null;
-// The team's answer ratings (rated by its AI assistant, Claude Code; a different model family from the answerers).
+// The team's answer ratings (our AI coding assistants and human reviewers).
 const ratingFiles = import.meta.glob<{
   default: { arms: Record<string, { n: number; score: number }> };
 }>('../../../../tests/eval/probes/quality-ratings-team.json', { eager: true });
@@ -487,7 +487,7 @@ export function Measured({ summary }: { summary: EvalSummary | null }) {
           Envoy's answer graded by Gemini 3.5 Flash-Lite against an answer from the whole document,
           on 20 questions
           {teamRatings
-            ? `; checked by the team (rated by Claude Code, which also helped build Envoy; not a human rating): ${Object.entries(
+            ? `; checked by the team (our AI coding assistants and human reviewers): ${Object.entries(
                 teamRatings,
               )
                 .map(
