@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-24T20:38:23.898Z",
-  "commit": "584cc81",
+  "generatedAt": "2026-11-25T08:21:24.827Z",
+  "commit": "3388ae4",
   "nTotal": 36,
   "arms": [
     {
@@ -12,6 +12,7 @@
         "label": "Gemma 4"
       },
       "backend": "cpu (OnDeviceModelForceCpuBackend)",
+      "runId": "2026-11-24T20:18:59.751Z",
       "dates": [
         "2026-11-24"
       ],
@@ -2219,6 +2220,25 @@
           ]
         }
       ],
+      "answerQuality": {
+        "judge": {
+          "score": 0.975,
+          "n": 20,
+          "model": "gemini-3.5-flash-lite",
+          "dates": [
+            "2026-11-24"
+          ]
+        },
+        "team": {
+          "score": 0.95,
+          "n": 20,
+          "correct": 18,
+          "partially": 2,
+          "wrong": 0,
+          "ratedOn": "2026-11-24",
+          "source": "tests/eval/probes/quality-ratings-team.json"
+        }
+      },
       "metricsN": {
         "maskRecall": 36,
         "falseMaskRate": 36,
@@ -2236,6 +2256,7 @@
       "label": "Basic protection (rules + guard, no on-device model)",
       "model": null,
       "backend": "rules-only (LanguageModel unavailable)",
+      "runId": "2026-11-23T10:34:55.104Z",
       "dates": [
         "2026-11-23"
       ],
@@ -3895,6 +3916,25 @@
           ]
         }
       ],
+      "answerQuality": {
+        "judge": {
+          "score": 0.975,
+          "n": 20,
+          "model": "gemini-3.5-flash-lite",
+          "dates": [
+            "2026-11-23"
+          ]
+        },
+        "team": {
+          "score": 0.975,
+          "n": 20,
+          "correct": 19,
+          "partially": 1,
+          "wrong": 0,
+          "ratedOn": "2026-11-24",
+          "source": "tests/eval/probes/quality-ratings-team.json"
+        }
+      },
       "metricsN": {
         "maskRecall": 36,
         "falseMaskRate": 36,

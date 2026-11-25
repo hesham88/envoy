@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://envoy-hybrid-ai.web.app"><b>Open Envoy</b></a> &nbsp;·&nbsp;
   <a href="https://www.youtube.com/watch?v=yvChwFT2770"><b>Watch the demo (2:50)</b></a> &nbsp;·&nbsp;
-  <a href="https://envoy-hybrid-ai.web.app/app?sample=lease">Two-minute test for judges</a> &nbsp;·&nbsp;
+  <a href="#judges-a-two-minute-test">Two-minute test for judges</a> &nbsp;·&nbsp;
   <a href="#how-envoy-uses-firebase-ai-logic">Hybrid inference</a> &nbsp;·&nbsp;
   <a href="#the-guard">The guard</a> &nbsp;·&nbsp;
   <a href="docs/MEASUREMENT.md">How it's measured</a>
@@ -168,7 +168,7 @@ Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic
 | Basic protection                             | none (local rules)                | 263 / 263              | 0                                 | 90.6% (every clause, masked) | 97.5% (both)                                        | 6 ms         |
 
 - **The guard red team:** 28 of 28 disguised leaks blocked: spaced, punctuated, invisible characters, lookalike letters, accents, defanged emails, numbers in words, split words, reversed text and base64. Text the guard can't read (an encoded blob) is blocked rather than trusted.
-- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (6% of its masks), which you can unmask in the approval card. Questions that need a figure worked out (a percentage, an amount, a cap, a what-if) always go to the reasoning step, whatever the on-device router says: on 24 November the router sent four of them to the device, which quoted the formula instead of the amount. With that check, Private mode sends a little more text (23.2% of the document, up from 14.5%, all masked) and answers as well as Basic on the judge, with two partly right answers on the team check (an end date it didn't give, and an amount the cloud wrote under a tag name Envoy didn't have). The film was recorded before this check and says "about fifteen percent". Answer quality is graded twice: by Gemini 3.5 Flash-Lite, which also wrote the cloud answers, and checked by the team: the team's AI coding assistant, Claude Code (which also helped build Envoy, and is a different model family from the answerers), rated every answer against its document. It is not a human rating; every rating and its reason is in [`quality-ratings-team.json`](tests/eval/probes/quality-ratings-team.json). Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
+- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (6% of its masks), which you can unmask in the approval card. Questions that need a figure worked out (a percentage, an amount, a cap, a what-if) always go to the reasoning step, whatever the on-device router says: on 24 November the router sent four of them to the device, which quoted the formula instead of the amount. With that check, Private mode sends a little more text (23.2% of the document, up from 14.5%, all masked) and answers as well as Basic on the judge, with two partly right answers on the team check (an end date it didn't give, and an amount the cloud wrote under a tag name Envoy didn't have). The film was recorded before this check and says "about fifteen percent". Answer quality is graded twice: by Gemini 3.5 Flash-Lite, which also wrote the cloud answers, and checked by the team (our AI coding assistants and human reviewers), who read every answer against its document. Every rating, its reason and a hash of the exact answer it rates are in [`quality-ratings-team.json`](tests/eval/probes/quality-ratings-team.json), and `npm run eval:check` recomputes the scores from it. Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
 
 ### What Envoy promises, and what it doesn't
 
@@ -177,6 +177,8 @@ Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic
 - It blocks detected leaks, including disguised ones, and blocks text it can't check.
 - The network tripwire watches `fetch` requests to the Firebase AI Logic endpoint, which is how the SDK reaches the cloud. It's a safety net on top of `ONLY_ON_DEVICE` and the `inferenceSource` check, not a general firewall for the page.
 - It does **not** promise that nothing about you can be inferred: details that aren't identifying on their own (a city, an employer) can narrow things down together. The eval's attack test measures this, and you can hide any sentence in the approval card.
+- These numbers are a benchmark, not a guarantee: 36 English test documents, 263 planted details and 28 red-team attacks. They don't prove that no personal detail can ever escape. Next we'll add more cases, especially documents in other languages, unusual account-number formats and ambiguous references to people.
+- The Chrome extension doesn't find private regions in images: you draw the boxes. PDFs come back as simplified text PDFs, because a box over PDF text doesn't remove the text underneath. Its cloud answers run in the hosted Envoy web app embedded in the side panel, because Firebase App Check can't attest a `chrome-extension://` page (details: [apps/extension/README.md](apps/extension/README.md)).
 
 ### Who it's for
 
@@ -190,6 +192,8 @@ The contest names Gemini Nano 4 for Web/Chrome. Google builds Gemini Nano 4 on G
 
 ## Judges: a two-minute test
 
+**Before you start (Chrome setup):** Any desktop Chrome runs this test. Without Chrome's on-device model, Envoy uses Basic protection (local rules) and says so. Private mode needs desktop Chrome with the built-in model: check `chrome://on-device-internals`, or follow [docs/GEMMA4_SETUP.md](docs/GEMMA4_SETUP.md) for our exact Gemma 4 setup (Chrome 158, one developer-trial flag, about 10 minutes plus the model download). Can't run it? Open the [recorded run](https://envoy-hybrid-ai.web.app/app?recorded=1): a real Gemma 4 run, word for word, labelled as a recording.
+
 1. Open [envoy-hybrid-ai.web.app/app?sample=lease](https://envoy-hybrid-ai.web.app/app?sample=lease). The sample lease and everyone in it are fictional.
 2. Ask _"Can my landlord raise the rent 20% this year?"_ and watch the flight recorder: each step says where it ran.
 3. Read **What the cloud will see**. Names, IDs, the IBAN and the rent are tags. Share or hide something, then approve.
@@ -197,7 +201,7 @@ The contest names Gemini Nano 4 for Web/Chrome. Google builds Gemini Nano 4 on G
 
 The cloud model is a setting in the composer: **Fast** (Gemini 3.5 Flash-Lite, about a second) is the default, and **Gemini 4 Hydrogen** reasons more carefully but can take 10 to 50 seconds. Your choice is saved in your browser. If Hydrogen refuses a request (its free tier allows about 20 a day), Flash-Lite answers instead and the answer says so; only if the cloud is unreachable altogether does Chrome's built-in model give a lighter answer on the device. Either way the guard has already checked the excerpt, and the network ledger lists every request that left, including a refused one. History is off unless you turn it on.
 
-Private mode needs a desktop Chrome with the built-in model (check `chrome://on-device-internals`); Envoy offers the download from a click. Private mode was measured on Gemma 4 (Gemini Nano 4); on Chrome's default model, results may vary. To reproduce our exact setup (Chrome 158, one developer-trial flag, about 10 minutes plus the download), follow [docs/GEMMA4_SETUP.md](docs/GEMMA4_SETUP.md). Without it, everything above still works in Basic protection, and the app says which mode ran. To see Private mode on a computer that can't run it, open the [recorded run](https://envoy-hybrid-ai.web.app/app?recorded=1): a real run on Gemma 4, word for word (the steps and their real times, what the cloud saw, the answer and the ledger), clearly labelled as a recording. Its data is [`demo-trace-gemma4.json`](tests/eval/probes/demo-trace-gemma4.json), and a test keeps the app's copy identical to it.
+Private mode was measured on Gemma 4 (Gemini Nano 4); on Chrome's default model, results may vary. Once Chrome's on-device AI is enabled, Envoy offers the download from a click. The recorded run replays [`demo-trace-gemma4.json`](tests/eval/probes/demo-trace-gemma4.json) (the steps and their real times, what the cloud saw, the answer and the ledger), and a test keeps the app's copy identical to it.
 
 ## Run it yourself
 
@@ -228,7 +232,7 @@ Inspired by **PAPILLON: Privacy Preservation from Internet-based and Local Langu
 ### Built during the contest, and with what
 
 - **When:** the repository starts on 22 November 2026 (first commit `8aa77f6`), inside the submission period. No code predates it.
-- **AI coding assistants:** Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity. Antigravity (Google, Gemini) built the eval harness. Both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. ChatGPT, Claude and Antigravity were also used as outside reviewers, playing the judges. Every change went through review, tests and CI.
+- **AI coding assistants:** Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity. Antigravity (Google, Gemini) built the eval harness. Both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. Codex Astra (OpenAI), Claude and Antigravity were also used as outside reviewers, playing the judges. Every change went through review, tests and CI.
 - **Demo video:** the narration is generated with [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) (Resemble AI, MIT licence, default voice) running locally; music and sound effects are synthesised in code (`video/audio/synth.mjs`); the footage is real screen recordings of Envoy.
 - **Art:** the logo, seal, banners and scenes are drawn in code (SVG and canvas), rendered to images by our own scripts. No generated images are used.
 - **Open-source libraries:** Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, and the Fraunces and IBM Plex fonts (SIL Open Font License).

@@ -301,7 +301,7 @@ Envoy is your private AI agent to the cloud. You ask a question about a private 
 - **Approval card:** the exact excerpt, editable; a guard blocks raw details even when spaced out, encoded or disguised.
 - **Network ledger:** every request and what it carried.
 - **Choice of cloud:** Local only, Fast (Gemini 3.5 Flash-Lite) or Gemini 4 Hydrogen, with Flash-Lite answering if Hydrogen is busy or out of quota.
-- **Chrome extension:** a chip on text boxes of sites you switch on (details light up, Replace swaps them for tags) and Upload with Envoy, which rebuilds files on the device before a site gets them (masked text and PDFs, photos without location data, black boxes on images).
+- **Chrome extension:** a chip on text boxes of sites you switch on (details light up, Replace swaps them for tags) and Upload with Envoy, which rebuilds files on the device before a site gets them (masked text and PDFs, photos without location data, black boxes on images; you draw the boxes on images, and PDFs come back as simplified text PDFs).
 - **No model yet?** A guide checks the computer and walks through turning on private mode; Basic protection (local rules) still masks the details meanwhile, and a recorded Private-mode run shows the full experience.
 
 ## How we built it
@@ -313,7 +313,7 @@ Envoy is built on **Firebase AI Logic hybrid inference** in Chrome:
 - React + Vite + Tailwind for the web app and a Manifest V3 extension that embeds the same chat in Chrome's side panel. A deterministic core (rules, tags, guard, restore) is shared by both.
 
 ## Measured
-Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about a quarter of the document text sent (masked); 28 of 28 guard attacks blocked. Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 97.5%. Because it also wrote some of the answers, every answer was also checked by the team (rated by our AI coding assistant, Claude Code; not a human rating): Private mode 87.5%, Basic protection 97.5%. Every number names its model, date and sample size: [EVAL.md](https://github.com/hesham88/envoy/blob/main/docs/EVAL.md).
+Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about a quarter of the document text sent (masked); 28 of 28 guard attacks blocked. Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 97.5%. Because it also wrote some of the answers, every answer was also checked by the team (our AI coding assistants and human reviewers, reading each answer against its document): Private mode 95%, Basic protection 97.5%. Every number names its model, date and sample size: [EVAL.md](https://github.com/hesham88/envoy/blob/main/docs/EVAL.md).
 
 ## Challenges we ran into
 - **Trusting "on device".** The SDK bug above meant "private" steps could reach the cloud; the device guard and its tests made the boundary checkable.
@@ -322,16 +322,16 @@ Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private
 - **Real-world shapes.** Real use found a plain bank account number the 36 cases missed, and a site (Google's AI Mode) whose upload button only exists while its menu is open. Both are fixed and now tested.
 
 ## Accomplishments that we're proud of
-0 raw details sent across 36 documents and 263 private details, 28 of 28 disguised leaks blocked, about a quarter of the document sent, and a privacy boundary a user can actually see: the recorder, the approval card and the ledger.
+0 raw details sent across 36 documents and 263 private details on our benchmark, 28 of 28 disguised leaks blocked, about a quarter of the document sent, and a privacy boundary a user can actually see: the recorder, the approval card and the ledger.
 
 ## What we learned
 Small on-device models are strong at finding and trimming but weaker at arithmetic, so the cloud should do the reasoning over tags while the device does the maths with the real values. Measuring with the real pipeline, and dating every number, kept us honest.
 
 ## What's next
-Faster on-device runs on GPUs, a held-out evaluation set written by someone other than the rule authors, Android with Gemini Nano, and more languages.
+Faster on-device runs on GPUs, a held-out evaluation set written by someone other than the rule authors, more benchmark cases (other languages, unusual account-number formats, ambiguous references to people), Android with Gemini Nano, and more languages.
 
 ## Built during the submission period, and with what
-The repository starts on 22 November 2026; no code predates it. AI tools: Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the evaluation harness; both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. ChatGPT, Claude and Antigravity were also used as outside reviewers, playing the judges. The demo film's narration is Chatterbox TTS (Resemble AI, MIT licence). All art is drawn in code; libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts. Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
+The repository starts on 22 November 2026; no code predates it. AI tools: Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the evaluation harness; both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. Codex Astra (OpenAI), Claude and Antigravity were also used as outside reviewers, playing the judges. The demo film's narration is Chatterbox TTS (Resemble AI, MIT licence). All art is drawn in code; libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts. Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
 ```
 
 ### 3. Built with, links and media
@@ -400,12 +400,12 @@ https://envoy-hybrid-ai.web.app
 
 ```text
 No login or credentials are needed. The sample lease and everyone in it are fictional.
+Before you start (Chrome setup): any desktop Chrome runs this test. Without Chrome's on-device model, Envoy uses Basic protection (local rules) and says so. Private mode needs desktop Chrome with the built-in model: check chrome://on-device-internals, or follow https://github.com/hesham88/envoy/blob/main/docs/GEMMA4_SETUP.md for our exact Gemma 4 setup (Chrome 158, one developer-trial flag, about 10 minutes plus the model download). Private mode was measured on Gemma 4 (Gemini Nano 4); on Chrome's default model, results may vary. On-device steps can take about a minute on a CPU-only laptop.
 1. Open https://envoy-hybrid-ai.web.app/app?sample=lease and ask: "Can my landlord raise the rent 20% this year?"
 2. Watch the flight recorder: each step says where it ran (this device or the cloud), which model and how long.
 3. Read "What the cloud will see": names, IDs, the IBAN and the rent are tags. Approve to get the answer, with your real numbers put back on your device. Add ?inspect=1 to the address to see the network ledger.
 4. No on-device model on your computer? Open https://envoy-hybrid-ai.web.app/app?recorded=1 to watch a real, recorded Private-mode run on Gemma 4, labelled as a recording, with the real step times.
-5. Private mode needs desktop Chrome with on-device AI turned on. Without it, Envoy runs in Basic protection and says so. Private mode was measured on Gemma 4 (Gemini Nano 4); on Chrome's default model, results may vary. Exact setup: https://github.com/hesham88/envoy/blob/main/docs/GEMMA4_SETUP.md
-6. The Chrome extension (optional): https://github.com/hesham88/envoy/tree/main/apps/extension. On-device steps can take about a minute on a CPU-only laptop.
+5. The Chrome extension (optional): https://github.com/hesham88/envoy/tree/main/apps/extension.
 ```
 
 **Open-source license URL**
