@@ -300,9 +300,11 @@ Envoy is your private AI agent to the cloud. You ask a question about a private 
 
 - **Privacy flight recorder:** every step, where it ran, which model, how long it took.
 - **Approval card:** the exact excerpt, editable; a guard blocks raw details even when spaced out, encoded or disguised.
-- **Network ledger:** every request and what it carried.
+- **What you see / What leaves:** your document on one side; on the other, the exact text Envoy handed to Firebase AI Logic, what came back, and each `{{EXPR}}` worked out on your device. A script checks it against the real network request.
+- **One-click samples:** five real situations (a lease, a job offer, lab results and a bill, a freelance contract, a loan), each with questions answered on the device and questions for the cloud.
+- **Offline, then online:** with no network, Envoy keeps answering on the device; a question that needs the cloud can wait, approved and masked, and is sent once when the network is back.
 - **Choice of cloud:** Local only, Fast (Gemini 3.5 Flash-Lite) or Gemini 4 Hydrogen, with Flash-Lite answering if Hydrogen is busy or out of quota.
-- **Chrome extension:** a chip on text boxes of sites you switch on (details light up, Replace swaps them for tags) and Upload with Envoy, which rebuilds files on the device before a site gets them (masked text and PDFs, photos without location data, photos masked automatically on the device, names, IDs, account and record numbers, barcodes and QR codes, each mask switchable; PDFs come back as simplified text PDFs).
+- **Chrome extension:** a chip on text boxes of sites you switch on (details light up, Replace swaps them for tags) and Upload with Envoy, which rebuilds files on the device before a site gets them: masked text and PDFs, and photos read on the device, with names, IDs, account and record numbers, barcodes and QR codes masked before you press anything (press a mask to keep that part) and location data removed.
 - **No model yet?** A guide checks the computer and walks through turning on private mode; Basic protection (local rules) still masks the details meanwhile, and a recorded Private-mode run shows the full experience.
 
 ## How we built it
@@ -314,16 +316,17 @@ Envoy is built on **Firebase AI Logic hybrid inference** in Chrome:
 - React + Vite + Tailwind for the web app and a Manifest V3 extension that embeds the same chat in Chrome's side panel. A deterministic core (rules, tags, guard, restore) is shared by both.
 
 ## Measured
-Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about a quarter of the document text sent (masked); 28 of 28 guard attacks blocked. Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 97.5%. Because it also wrote some of the answers, every answer was also checked by the team (our AI coding assistants and human reviewer, reading each answer against its document): Private mode 95%, Basic protection 97.5%. Every number names its model, date and sample size: [EVAL.md](https://github.com/hesham88/envoy/blob/main/docs/EVAL.md).
+Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about a quarter of the document text sent (masked); 28 of 28 guard attacks blocked. Answer quality on 20 questions: Gemini 3.5 Flash-Lite, grading against an answer from the whole document, scored Private mode at 97.5%. Because it also wrote some of the answers, every answer was also checked by the team (our AI coding assistants and human reviewer, reading each answer against its document): Private mode 95%, Basic protection 97.5%. Photos (26 Nov): on six of these documents in four looks (serif, sans, tilted, low contrast), on-device OCR boxed 203 of 208 private details (97.6%), about 1.4 s a page. Every number names its model, date and sample size: [EVAL.md](https://github.com/hesham88/envoy/blob/main/docs/EVAL.md).
 
 ## Challenges we ran into
 - **Trusting "on device".** The SDK bug above meant "private" steps could reach the cloud; the device guard and its tests made the boundary checkable.
 - **CPU-only latency.** On our laptop's CPU the on-device steps take one to two and a half minutes. We added an in-memory cache, honest progress, a "Don't wait" option, and cut the waits in the film and said so.
 - **A model that crashed.** Chrome's earlier default model ran all 36 cases on 22 November but crashed after 12 on the current pipeline the next day, so we removed its numbers rather than publish stale ones.
 - **Real-world shapes.** Real use found a plain bank account number the 36 cases missed, and a site (Google's AI Mode) whose upload button only exists while its menu is open. Both are fixed and now tested.
+- **The Chrome Web Store.** Version 0.1.2 was rejected for "remotely hosted code": script URLs inside the bundled Firebase SDK that Envoy never loads. 0.1.3 removes them at build time, and every build now fails if any remain.
 
 ## Accomplishments that we're proud of
-0 raw details sent across 36 documents and 263 private details on our benchmark, 28 of 28 disguised leaks blocked, about a quarter of the document sent, and a privacy boundary a user can actually see: the recorder, the approval card and the ledger.
+0 raw details sent across 36 documents and 263 private details on our benchmark, 28 of 28 disguised leaks blocked, about a quarter of the document sent, and a privacy boundary a user can actually see: the recorder, the approval card, and What leaves beside your document.
 
 ## What we learned
 Small on-device models are strong at finding and trimming but weaker at arithmetic, so the cloud should do the reasoning over tags while the device does the maths with the real values. Measuring with the real pipeline, and dating every number, kept us honest.
@@ -332,7 +335,7 @@ Small on-device models are strong at finding and trimming but weaker at arithmet
 Faster on-device runs on GPUs, a held-out evaluation set written by someone other than the rule authors, more benchmark cases (other languages, unusual account-number formats, ambiguous references to people), Android with Gemini Nano, and more languages.
 
 ## Built during the submission period, and with what
-The repository starts on 22 November 2026; no code predates it. AI tools: Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the evaluation harness; both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. Codex Astra (OpenAI), Claude and Antigravity were also used as outside reviewers, playing the judges. The demo film's narration is Chatterbox TTS (Resemble AI, MIT licence). All art is drawn in code; libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, Fraunces and IBM Plex fonts. Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
+The repository starts on 22 November 2026; no code predates it. AI tools: Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity; Antigravity (Google, Gemini) built the evaluation harness; both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. Codex Astra (OpenAI), Claude and Antigravity were also used as outside reviewers, playing the judges. The demo film's narration is Chatterbox TTS (Resemble AI, MIT licence). All art is drawn in code; libraries: Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Tesseract.js and zxing-wasm (self-hosted, for photos), Lucide icons, Fraunces and IBM Plex fonts. Inspired by PAPILLON (Li et al., NAACL 2025) and designed with Google PAIR's People + AI Guidebook.
 ```
 
 ### 3. Built with, links and media
@@ -344,7 +347,7 @@ _Page 2: Built with, Try it out, Project media_
 **Built with (type each, press Enter)**
 
 ```text
-firebase-ai-logic, firebase, firebase-app-check, firebase-remote-config, firebase-hosting, gemini, gemini-nano, gemma, chrome-built-in-ai, prompt-api, chrome-extension, recaptcha-enterprise, react, typescript, vite, tailwindcss, pdf.js, playwright, vitest, github-actions, node.js
+firebase-ai-logic, firebase, firebase-app-check, firebase-remote-config, firebase-hosting, gemini, gemini-nano, gemma, chrome-built-in-ai, prompt-api, chrome-extension, recaptcha-enterprise, react, typescript, vite, tailwindcss, pdf.js, tesseract.js, zxing-wasm, webassembly, playwright, vitest, github-actions, node.js
 ```
 
 **"Try it out" link 1**
@@ -372,6 +375,8 @@ https://envoy-hybrid-ai.web.app
 - Gallery 5: the Chrome extension: `F:\Projects\Envoy-wt\claude\docs\submission\gallery-5-extension.jpg`
 - Gallery 6: Upload with Envoy: `F:\Projects\Envoy-wt\claude\docs\submission\gallery-6-upload.jpg`
 - Gallery 7: measured, not promised: `F:\Projects\Envoy-wt\claude\docs\submission\gallery-7-measured.jpg`
+- Gallery 8: what you see, and what leaves (the cloud's {{RENT * 1.10}} worked out on the device): `F:\Projects\Envoy-wt\claude\docs\submission\gallery-8-what-leaves.jpg`
+- Gallery 9: a photo masked on the device, one detail kept: `F:\Projects\Envoy-wt\claude\docs\submission\gallery-9-photo-masks.jpg`
 
 ### 4. Additional info for judges
 
