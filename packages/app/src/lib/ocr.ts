@@ -4,11 +4,14 @@
  * zxing's default CDN `locateFile` are both overridden). Nothing is cached or sent.
  */
 import type { MaskBox, OcrWord } from '@envoy/core';
+import { readFaceBoxes } from './faces';
 
 export interface PhotoRead {
   words: OcrWord[];
   /** Barcodes and QR codes, as boxes. What they encode is never kept. */
   barcodes: MaskBox[];
+  /** Faces, as boxes (src/lib/faces.ts). */
+  faces?: MaskBox[];
   width: number;
   height: number;
 }
@@ -93,5 +96,9 @@ export async function recognizeImage(image: Blob, base: string): Promise<PhotoRe
     await worker.terminate();
   }
   words = words.filter((w) => w.bbox.x1 > w.bbox.x0);
-  return { words, barcodes: await readBarcodeBoxes(pixels ?? image, base), width, height };
+  const [barcodes, faces] = await Promise.all([
+    readBarcodeBoxes(pixels ?? image, base),
+    readFaceBoxes(image, base),
+  ]);
+  return { words, barcodes, faces, width, height };
 }

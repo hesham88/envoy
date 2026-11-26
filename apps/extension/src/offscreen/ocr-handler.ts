@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       const { boxes } = ocrMask(read.words, { custom });
       sendResponse({
         ok: true,
-        boxes: [...boxes, ...read.barcodes],
+        boxes: [...boxes, ...read.barcodes, ...(read.faces ?? [])],
         width: read.width,
         height: read.height,
       });

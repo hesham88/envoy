@@ -6,6 +6,8 @@
  *   <public>/ocr/core/*-lstm.wasm.js      Tesseract core, LSTM engine (relaxed-SIMD, SIMD, plain)
  *   <public>/ocr/lang/eng.traineddata.gz  English LSTM data (4.0.0_best_int)
  *   <public>/ocr/zxing_reader.wasm        zxing-wasm 3.1.6 barcode reader
+ *   <public>/ocr/vision/vision_wasm_internal.{js,wasm}  MediaPipe tasks-vision 1.2.3 (face detector)
+ *   <public>/ocr/face.tflite              BlazeFace short-range model (packages/app/models, Apache-2.0)
  * The worker's own CDN defaults (cdn.jsdelivr.net) are rewritten to a path that does not exist:
  * we always pass our paths, and a Manifest V3 package must not even name remote code (Web Store
  * rejection, 26 Nov 2026; apps/extension/scripts/check-remote-code.mjs).
@@ -22,6 +24,7 @@ const pkgDir = (name) => {
   const dir = [
     resolve(ROOT, 'node_modules', name),
     resolve(ROOT, 'packages/app/node_modules', name),
+    resolve(ROOT, 'apps/web/node_modules', name),
   ].find((d) => existsSync(resolve(d, 'package.json')));
   if (!dir) throw new Error(`${name} is not installed (npm install)`);
   return dir;
@@ -38,6 +41,11 @@ const files = [
     'lang/eng.traineddata.gz',
   ],
   [resolve(pkgDir('zxing-wasm'), 'dist/reader/zxing_reader.wasm'), 'zxing_reader.wasm'],
+  ...['js', 'wasm'].map((ext) => [
+    resolve(pkgDir('@mediapipe/tasks-vision'), `wasm/vision_wasm_internal.${ext}`),
+    `vision/vision_wasm_internal.${ext}`,
+  ]),
+  [resolve(ROOT, 'packages/app/models/blaze_face_short_range.tflite'), 'face.tflite'],
 ];
 
 let total = 0;

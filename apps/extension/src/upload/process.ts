@@ -1,9 +1,8 @@
-﻿import { maskFindings, scanText, type CustomRule } from '@envoy/core';
-import { docxToText } from './zip';
+﻿import { maskFindings, officeKindOf, officeToText, scanText, type CustomRule } from '@envoy/core';
 import { buildTextPdf } from './pdf';
 
 export interface UploadReceipt {
-  kind: 'text' | 'docx' | 'pdf' | 'image' | 'other';
+  kind: 'text' | 'docx' | 'xlsx' | 'pptx' | 'pdf' | 'image' | 'other';
   removed: number;
   findings: { type: string; value: string; tag: string }[];
   inBytes: number;
@@ -15,7 +14,8 @@ export interface UploadReceipt {
 const TEXT_EXT = /\.(txt|md|csv|text)$/i;
 
 export function kindOf(file: { name: string; type: string }): UploadReceipt['kind'] {
-  if (/\.docx$/i.test(file.name)) return 'docx';
+  const office = officeKindOf(file.name);
+  if (office) return office;
   if (/\.pdf$/i.test(file.name) || file.type === 'application/pdf') return 'pdf';
   if (file.type.startsWith('image/')) return 'image';
   if (TEXT_EXT.test(file.name) || file.type.startsWith('text/')) return 'text';
@@ -29,11 +29,14 @@ export async function processTextUpload(
   keep: ReadonlySet<string>,
 ): Promise<{ file: File; receipt: UploadReceipt }> {
   const kind = kindOf(file);
-  const raw = kind === 'docx' ? await docxToText(await file.arrayBuffer()) : await file.text();
+  const office = officeKindOf(file.name);
+  const raw = office
+    ? (await officeToText(await file.arrayBuffer(), office)).text
+    : await file.text();
   const scan = scanText(raw, { custom });
   const masked = maskFindings(raw, scan, keep);
   const removed = scan.findings.filter((f) => !keep.has(f.tag)).length;
-  const outName = file.name.replace(/\.docx$/i, '.txt');
+  const outName = file.name.replace(/\.(docx|xlsx|pptx)$/i, '.txt');
   const out = new File([masked], outName, { type: 'text/plain' });
   return {
     file: out,
@@ -45,8 +48,8 @@ export async function processTextUpload(
       outBytes: out.size,
       outType: out.type,
       note:
-        kind === 'docx'
-          ? 'DOCX rebuilt as plain text with masked values.'
+        office
+          ? `${office.toUpperCase()} rebuilt as plain text with masked values.`
           : 'Text rebuilt with masked values.',
     },
   };

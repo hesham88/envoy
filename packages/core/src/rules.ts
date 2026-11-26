@@ -225,6 +225,35 @@ const DETECTORS: Detector[] = [
   },
   { type: 'DATE', priority: 6, confidence: 0.8, pattern: /\b\d{1,2}\/\d{1,2}\/\d{4}\b/g },
   { type: 'DATE', priority: 6, confidence: 0.8, pattern: /\b\d{4}-\d{2}-\d{2}\b/g },
+  // Vehicle plates. Named ones in any format ("plate no. 7ABC123", "vehicle registration KA-01 1234"),
+  // and three strict national formats on their own: UK (AB12 CDE), France (AB-123-CD), Germany (B-MW 1234).
+  {
+    type: 'PLATE',
+    priority: 7,
+    confidence: 0.85,
+    pattern:
+      // Case-sensitive on purpose: the labels allow a capital first letter, the plate must be upper case.
+      /(?<!\p{L})(?:(?:[Ll]icen[cs]e|[Nn]umber|[Vv]ehicle|[Cc]ar)\s+)?(?:[Pp]late|[Rr]egistration|[Rr]eg\.?|[Vv]ehicle|[Cc]ar)(?:\s+(?:[Nn]umber|[Nn]o\.?|[Nn]um|#|[Mm]ark|[Pp]late))?\s*(?:is\s+|:\s*|#\s*)?([A-Z0-9]{1,4}(?:[ -]?[A-Z0-9]{1,4}){1,3})(?![\p{L}\p{N}])/gu,
+    group: 1,
+    accept: (v) => {
+      // Plates are upper case with letters and digits: "red", "2024" and "Toyota" are not plates.
+      const alnum = v.replace(/[^A-Z0-9]/g, '');
+      return alnum.length >= 4 &&
+        alnum.length <= 9 &&
+        alnum.length === v.replace(/[ -]/g, '').length &&
+        /\d/.test(alnum) &&
+        /[A-Z]/.test(alnum)
+        ? v.trim()
+        : null;
+    },
+  },
+  {
+    type: 'PLATE',
+    priority: 7,
+    confidence: 0.8,
+    pattern:
+      /(?<![A-Z0-9-])(?:[A-Z]{2}\d{2} ?[A-Z]{3}|[A-Z]{2}-\d{3}-[A-Z]{2}|[A-ZÄÖÜ]{1,3}-[A-Z]{1,2} \d{1,4}[EH]?)(?![A-Z0-9-])/g,
+  },
   {
     type: 'ADDRESS',
     priority: 7,

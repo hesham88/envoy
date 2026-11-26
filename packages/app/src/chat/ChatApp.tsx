@@ -11,6 +11,7 @@ import {
   FileText,
   ImageOff,
   Lock,
+  Mic,
   Paperclip,
   Plus,
   History,
@@ -47,6 +48,12 @@ import { CloudPreview } from '../components/review/CloudPreview';
 import { DocumentViewer } from '../components/review/DocumentViewer';
 import { FoundList } from '../components/review/FoundList';
 import { FileReadError, readDocumentFile } from '../lib/readFile';
+import {
+  localDictationStatus,
+  speakLocally,
+  startLocalDictation,
+  voicesReady,
+} from '../lib/voice';
 import { FlightRecorder } from './FlightRecorder';
 import { HistoryDialog } from './History';
 import { PrivateModeGuide, type ChromePage } from './PrivateModeGuide';
@@ -878,7 +885,7 @@ export function ChatApp({
                     ref={fileInput}
                     type="file"
                     hidden
-                    accept=".pdf,.txt,.md,.csv,.png,.jpg,.jpeg,.webp,application/pdf,text/plain,image/png,image/jpeg,image/webp"
+                    accept=".pdf,.docx,.xlsx,.pptx,.txt,.md,.csv,.png,.jpg,.jpeg,.webp,application/pdf,text/plain,image/png,image/jpeg,image/webp,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation"
                     onChange={(e) => {
                       const f = e.target.files?.[0];
                       if (f) void attach(f);
@@ -893,6 +900,7 @@ export function ChatApp({
                   >
                     <Paperclip size={18} />
                   </button>
+                  <DictateButton draft={draft} onText={setDraft} />
                   <button
                     type="button"
                     role="switch"
@@ -1353,16 +1361,88 @@ function AnswerBubble({ session }: { session: SessionState }) {
             ? '0 bytes left this device.'
             : `${result.receipt.charsSent.toLocaleString()} characters left this device, ${result.receipt.keptTotal} private details stayed.`}
         </span>
+        <ReadAloud text={result.text} />
         <button
           onClick={() =>
             void navigator.clipboard?.writeText(result.text).then(() => setCopied(true))
           }
-          className="ml-auto rounded-full border border-line px-3 py-1 text-ink hover:border-device/60"
+          className="rounded-full border border-line px-3 py-1 text-ink hover:border-device/60"
         >
           {copied ? 'Copied' : 'Copy answer'}
         </button>
       </div>
     </div>
+  );
+}
+
+/** Reads the restored answer with an on-device voice only (src/lib/voice.ts says why). */
+function ReadAloud({ text }: { text: string }) {
+  const [state, setState] = useState<'idle' | 'speaking' | 'no-voice'>('idle');
+  if (typeof speechSynthesis === 'undefined') return null;
+  if (state === 'no-voice')
+    return (
+      <span role="note" className="ml-auto text-[12.5px]">
+        No on-device voice here, so Envoy won&apos;t read it aloud: an online voice would send your
+        details.
+      </span>
+    );
+  return (
+    <button
+      type="button"
+      className="ml-auto rounded-full border border-line px-3 py-1 text-ink hover:border-device/60"
+      onClick={() => {
+        if (state === 'speaking') {
+          speechSynthesis.cancel();
+          setState('idle');
+          return;
+        }
+        void voicesReady().then(() => {
+          const ok = speakLocally(text, { onEnd: () => setState('idle') });
+          setState(ok ? 'speaking' : 'no-voice');
+        });
+      }}
+      title="Spoken by a voice on this device. Nothing is sent."
+    >
+      {state === 'speaking' ? 'Stop reading' : 'Read aloud'}
+    </button>
+  );
+}
+
+/** Dictation on this device only; the button doesn't exist where Chrome can't promise that. */
+function DictateButton({ draft, onText }: { draft: string; onText: (text: string) => void }) {
+  const [status, setStatus] = useState<'unknown' | 'ready' | 'listening' | 'none'>('unknown');
+  const stop = useRef<(() => void) | null>(null);
+  useEffect(() => {
+    let live = true;
+    void localDictationStatus().then((s) => live && setStatus(s === 'unavailable' ? 'none' : 'ready'));
+    return () => {
+      live = false;
+      stop.current?.();
+    };
+  }, []);
+  if (status === 'none' || status === 'unknown') return null;
+  return (
+    <button
+      type="button"
+      aria-label={status === 'listening' ? 'Stop dictating' : 'Dictate on this device'}
+      title="Speech is turned into text on this device. No audio is sent."
+      onClick={async () => {
+        if (status === 'listening') {
+          stop.current?.();
+          return;
+        }
+        setStatus('listening');
+        // Dictation adds to what is already typed.
+        const base = draft.trim();
+        stop.current = await startLocalDictation((t) => onText(base ? `${base} ${t}` : t), {
+          onEnd: () => setStatus('ready'),
+        });
+        if (!stop.current) setStatus('none');
+      }}
+      className={`rounded-full p-2 ${status === 'listening' ? 'bg-device-tint text-device-on-tint' : 'text-muted hover:bg-paper hover:text-ink'}`}
+    >
+      <Mic size={18} />
+    </button>
   );
 }
 

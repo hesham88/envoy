@@ -433,8 +433,23 @@ try {
       throw new Error(
         `${name}: no Send button. Card: ${(await ui('.up-card').evaluate((el) => el.innerHTML)).replace(/\s+/g, ' ').slice(0, 700)}`,
       );
+    const sig = () => {
+      const f = document.getElementById('file').files[0];
+      return f ? `${f.name}|${f.size}|${f.lastModified}` : '';
+    };
+    const before = await page.evaluate(sig);
     await ui('.up-card button.primary').click();
-    await page.waitForTimeout(800);
+    // Wait for the hand-off itself (a fixed pause was too short on a loaded machine).
+    await page
+      .waitForFunction(
+        (prev) => {
+          const f = document.getElementById('file').files[0];
+          return !!f && `${f.name}|${f.size}|${f.lastModified}` !== prev;
+        },
+        before,
+        { timeout: 10000 },
+      )
+      .catch(() => undefined);
     const handed = await page.evaluate(async () => {
       const f = document.getElementById('file').files[0];
       if (!f) return null;
@@ -603,7 +618,7 @@ try {
       pdf.handed.latin.startsWith('%PDF') &&
       !pdf.handed.latin.includes(RAW.email) &&
       !pdf.handed.latin.includes('2631'),
-    pdf.receipt.slice(0, 160),
+    `${pdf.receipt.slice(0, 160)} | handed: ${pdf.handed ? `${pdf.handed.name} ${pdf.handed.type} ${pdf.handed.size} B ${JSON.stringify(pdf.handed.latin.slice(0, 12))}` : 'nothing'}`,
   );
 
   // --- a message box with no file input at all (as on Google): shown, and the file is dropped in ---

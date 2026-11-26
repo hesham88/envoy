@@ -1,5 +1,5 @@
 /** Reads a user's document on the device. Nothing here touches the network. */
-import { ocrMask, type MaskBox } from '@envoy/core';
+import { officeKindOf, officeToText, OfficeReadError, ocrMask, type MaskBox } from '@envoy/core';
 import type { PhotoRead } from './ocr';
 
 export class FileReadError extends Error {
@@ -63,6 +63,18 @@ export async function readDocumentFile(
   const isPdf = file.type === 'application/pdf' || name.endsWith('.pdf');
   const isText = file.type.startsWith('text/') || /\.(txt|md|csv|text)$/.test(name);
 
+  const office = officeKindOf(name);
+  if (office) {
+    try {
+      const { text, parts } = await officeToText(await file.arrayBuffer(), office);
+      if (!text.trim()) throw new FileReadError('Envoy found no text in this file.');
+      return { title: file.name, text, pages: parts };
+    } catch (e) {
+      if (e instanceof OfficeReadError) throw new FileReadError(e.message);
+      throw e;
+    }
+  }
+
   if (isText) {
     const text = (await file.text()).replace(/\r\n/g, '\n');
     if (!text.trim()) throw new FileReadError('This file is empty.');
@@ -92,9 +104,13 @@ export async function readDocumentFile(
       title: file.name,
       text,
       pages: 1,
-      photo: { boxes: [...boxes, ...read.barcodes], width: read.width, height: read.height },
+      photo: {
+        boxes: [...boxes, ...read.barcodes, ...(read.faces ?? [])],
+        width: read.width,
+        height: read.height,
+      },
     };
   }
 
-  throw new FileReadError('Envoy reads PDF, TXT and photo files (PNG, JPG, WebP), or pasted text.');
+  throw new FileReadError('Envoy reads PDF, Word, Excel, PowerPoint, TXT and photo files (PNG, JPG, WebP), or pasted text.');
 }

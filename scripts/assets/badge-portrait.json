@@ -1,0 +1,8 @@
+{
+  "file": "badge-portrait.webp",
+  "model": "muse-image-1.0",
+  "endpoint": "images/generations",
+  "generated": "2026-11-27 (UTC)",
+  "prompt": "Head-and-shoulders ID photo of a fictional adult woman in her thirties, dark shoulder-length hair, neutral friendly expression, looking at the camera, plain light grey-blue studio backdrop, even soft lighting, realistic photograph, centered, square crop. Not a real or famous person. No text, no logos, no watermark, no jewelry with brands.",
+  "note": "AI-generated with Meta Muse Image (Meta); a fictional person, not a real one. Used only in the sample staff-badge photo (scripts/make-sample-badge.mjs). Scaled from 1024 px to 420 px."
+}
