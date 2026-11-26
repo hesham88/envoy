@@ -384,7 +384,7 @@ export function initUploadUi(
     card.append(status);
     const kind = kindOf(chosen);
     try {
-      if (kind === 'text' || kind === 'docx') {
+      if (kind === 'text' || kind === 'docx' || kind === 'xlsx' || kind === 'pptx') {
         const res = await processTextUpload(chosen, getRules(), new Set());
         outFile = res.file;
         receipt = res.receipt;

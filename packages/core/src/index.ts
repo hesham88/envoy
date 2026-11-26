@@ -16,3 +16,4 @@ export * from './scan';
 export * from './names';
 export * from './guard-variants';
 export * from './ocr-mask';
+export * from './office';

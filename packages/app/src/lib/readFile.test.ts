@@ -84,16 +84,50 @@ describe('readDocumentFile', () => {
     ).rejects.toThrow(/no selectable text/i);
   });
 
-  it('rejects DOCX and other formats with a helpful message', async () => {
-    const err = await readDocumentFile(
-      file(
-        'x',
-        'lease.docx',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      ),
-    ).catch((e) => e);
+  it('reads a Word file on the device, and says plainly when one is broken', async () => {
+    // A stored ZIP holding only word/document.xml (the reader itself is tested in @envoy/core).
+    const enc = new TextEncoder();
+    const xml = enc.encode('<w:document><w:body><w:p><w:r><w:t>Tenant: Mona Adel</w:t></w:r></w:p></w:body></w:document>');
+    const name = enc.encode('word/document.xml');
+    const local = new Uint8Array(30 + name.length + xml.length);
+    const lv = new DataView(local.buffer);
+    lv.setUint32(0, 0x04034b50, true);
+    lv.setUint32(18, xml.length, true);
+    lv.setUint32(22, xml.length, true);
+    lv.setUint16(26, name.length, true);
+    local.set(name, 30);
+    local.set(xml, 30 + name.length);
+    const central = new Uint8Array(46 + name.length);
+    const cv = new DataView(central.buffer);
+    cv.setUint32(0, 0x02014b50, true);
+    cv.setUint32(20, xml.length, true);
+    cv.setUint32(24, xml.length, true);
+    cv.setUint16(28, name.length, true);
+    central.set(name, 46);
+    const eocd = new Uint8Array(22);
+    const ev = new DataView(eocd.buffer);
+    ev.setUint32(0, 0x06054b50, true);
+    ev.setUint16(8, 1, true);
+    ev.setUint16(10, 1, true);
+    ev.setUint32(12, central.length, true);
+    ev.setUint32(16, local.length, true);
+    const docx = new File([local, central, eocd], 'lease.docx', {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+    expect(await readDocumentFile(docx)).toEqual({
+      title: 'lease.docx',
+      text: 'Tenant: Mona Adel',
+      pages: 1,
+    });
+    const broken = await readDocumentFile(file('x', 'lease.docx', '')).catch((e) => e);
+    expect(broken).toBeInstanceOf(FileReadError);
+    expect(broken.message).toMatch(/Not a ZIP file/);
+  });
+
+  it('rejects other formats with a helpful message', async () => {
+    const err = await readDocumentFile(file('x', 'old.doc', 'application/msword')).catch((e) => e);
     expect(err).toBeInstanceOf(FileReadError);
-    expect(err.message).toMatch(/PDF, TXT and photo files/);
+    expect(err.message).toMatch(/PDF, Word, Excel, PowerPoint, TXT and photo files/);
   });
 
   it('rejects files over 10 MB', async () => {
