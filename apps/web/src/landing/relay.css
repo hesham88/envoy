@@ -1,0 +1,543 @@
+/*
+ * StepRelay: the "Five steps" walkthrough on the landing page.
+ * Every change is a CSS transition on transform/opacity, driven by data attributes React sets per
+ * step, so a jump (step chip, loop) retargets smoothly from wherever the element is. Movement is
+ * opt-in under prefers-reduced-motion: no-preference; with reduced motion only opacity and colour
+ * change, and nothing plays until the viewer presses Play.
+ */
+.relay {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --t: 520ms;
+  /* travel direction across the guard: right on wide screens, down on phones */
+  --go-x: 28px;
+  --go-y: 0px;
+  color: var(--uv-text);
+}
+@media (max-width: 767px) {
+  .relay {
+    --go-x: 0px;
+    --go-y: 22px;
+  }
+}
+
+.relay-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr);
+  gap: 0;
+  border: 1px solid var(--uv-line);
+  border-radius: 22px;
+  background: var(--uv-deep);
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .relay-stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 26px auto;
+  }
+}
+
+.relay-zone {
+  position: relative;
+  padding: 22px 22px 26px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (max-width: 767px) {
+  .relay-zone {
+    padding: 16px 14px 18px;
+    min-height: 0;
+  }
+}
+.relay-zone--device {
+  background: radial-gradient(120% 90% at 0% 0%, rgba(61, 255, 176, 0.07), transparent 60%);
+}
+.relay-zone--cloud {
+  background: radial-gradient(120% 90% at 100% 0%, rgba(125, 149, 255, 0.1), transparent 60%);
+}
+.relay-zone-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.relay-zone--device .relay-zone-label {
+  color: var(--uv-green);
+}
+.relay-zone--cloud .relay-zone-label {
+  color: var(--uv-blue);
+}
+.relay-bytes {
+  color: var(--uv-muted);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t) ease;
+}
+.relay-bytes[data-on='true'] {
+  color: var(--uv-blue);
+}
+
+/* ---------- the question and the document ---------- */
+.relay-q {
+  align-self: flex-end;
+  max-width: 92%;
+  border-radius: 14px 14px 4px 14px;
+  background: var(--uv-panel);
+  border: 1px solid var(--uv-line);
+  padding: 7px 11px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.relay-doc {
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid var(--uv-line);
+  background: #0f0e26;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.75;
+  transition: opacity var(--t) ease;
+}
+.relay-doc[data-dim='true'] {
+  opacity: 0.32;
+}
+.relay-doc-title {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--uv-muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+}
+.relay-line {
+  position: relative;
+  padding-left: 10px;
+  transition:
+    opacity var(--t) ease,
+    color var(--t) ease;
+}
+.relay-line::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  bottom: 0.35em;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--uv-green);
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition:
+    opacity var(--t) ease,
+    transform var(--t) var(--ease-out);
+}
+.relay-line[data-state='kept']::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+.relay-line[data-state='left'] {
+  opacity: 0.28;
+}
+
+/* a detail: raw text and its tag share one slot, crossfading */
+.relay-tok {
+  position: relative;
+  display: inline-grid;
+  vertical-align: baseline;
+}
+.relay-tok > span {
+  grid-area: 1 / 1;
+  transition:
+    opacity var(--t) ease,
+    transform var(--t) var(--ease-out),
+    background-color var(--t) ease,
+    color var(--t) ease;
+}
+.relay-raw {
+  border-radius: 3px;
+  padding: 0 2px;
+}
+.relay-tok[data-state='found'] .relay-raw {
+  background: rgba(255, 181, 71, 0.2);
+  color: var(--uv-amber);
+  box-shadow: inset 0 -1.5px 0 var(--uv-amber);
+}
+.relay-tag {
+  justify-self: start;
+  align-self: center;
+  border-radius: 4px;
+  background: var(--uv-text);
+  color: var(--uv-deep);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  padding: 0 4px;
+  white-space: nowrap;
+  opacity: 0;
+}
+/* once tagged, the raw value leaves the flow so the tag alone sets the width */
+.relay-tok[data-state='tag'] .relay-raw {
+  position: absolute;
+  inset-inline-start: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.relay-tok[data-state='tag'] .relay-tag {
+  opacity: 1;
+}
+
+/* ---------- cards that appear in a zone ---------- */
+.relay-card {
+  border-radius: 12px;
+  border: 1px solid var(--uv-line);
+  background: var(--uv-panel);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0;
+  transition:
+    opacity var(--t) ease,
+    transform var(--t) var(--ease-out),
+    border-color var(--t) ease;
+}
+.relay-card[data-on='true'] {
+  opacity: 1;
+}
+.relay-card-head {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--uv-muted);
+  margin-bottom: 4px;
+}
+.relay-chip {
+  border-radius: 4px;
+  background: var(--uv-text);
+  color: var(--uv-deep);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+.relay-expr {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--uv-blue);
+  white-space: nowrap;
+}
+.relay-restored {
+  border-radius: 4px;
+  background: rgba(61, 255, 176, 0.16);
+  color: var(--uv-green);
+  font-weight: 600;
+  padding: 0 3px;
+  white-space: nowrap;
+}
+
+/* the packet in the device zone, before and while it's approved */
+.relay-packet {
+  border-color: rgba(125, 149, 255, 0.5);
+}
+.relay-approve {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--uv-green);
+  color: var(--uv-deep);
+  transition:
+    background-color var(--t) ease,
+    color var(--t) ease,
+    transform 160ms var(--ease-out);
+}
+.relay-approve[data-done='true'] {
+  background: transparent;
+  color: var(--uv-green);
+  box-shadow: inset 0 0 0 1px var(--uv-green);
+}
+
+.relay-empty {
+  margin: auto 0;
+  text-align: center;
+  color: var(--uv-muted);
+  font-size: 13px;
+  transition: opacity var(--t) ease;
+}
+.relay-empty[data-on='false'] {
+  opacity: 0;
+}
+
+/* the raw value that tries to leave, and is blocked at the guard */
+.relay-intruder {
+  align-self: flex-end;
+  border-radius: 6px;
+  border: 1px solid var(--uv-danger);
+  background: rgba(255, 93, 122, 0.12);
+  color: var(--uv-danger);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 2px 8px;
+  opacity: 0;
+  transition:
+    opacity 300ms ease,
+    transform 420ms var(--ease-out);
+}
+.relay-intruder[data-on='true'] {
+  opacity: 1;
+}
+
+/* ---------- the guard between the zones ---------- */
+.relay-guard {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 5px,
+    rgba(236, 233, 255, 0.07) 5px 6px
+  );
+  border-inline: 1px solid var(--uv-line);
+  transition:
+    background-color var(--t) ease,
+    box-shadow var(--t) ease;
+}
+@media (max-width: 767px) {
+  .relay-guard {
+    border-inline: 0;
+    border-block: 1px solid var(--uv-line);
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0 5px,
+      rgba(236, 233, 255, 0.07) 5px 6px
+    );
+  }
+}
+.relay-guard[data-state='pass'] {
+  background-color: rgba(61, 255, 176, 0.1);
+  box-shadow: inset 0 0 18px rgba(61, 255, 176, 0.25);
+}
+.relay-guard[data-state='block'] {
+  background-color: rgba(255, 93, 122, 0.12);
+  box-shadow: inset 0 0 18px rgba(255, 93, 122, 0.3);
+}
+.relay-guard-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--uv-muted);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+@media (max-width: 767px) {
+  .relay-guard-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+}
+
+/* ---------- movement, only when the viewer allows it ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .relay-tok[data-state='tag'] .relay-raw {
+    transform: translateY(-4px);
+  }
+  .relay-tag {
+    transform: translateY(5px) scale(0.96);
+  }
+  .relay-tok[data-state='tag'] .relay-tag {
+    transform: none;
+  }
+  .relay-card {
+    transform: translateY(8px) scale(0.98);
+  }
+  .relay-card[data-on='true'] {
+    transform: none;
+  }
+  /* the packet leaves the device toward the guard ... */
+  .relay-packet[data-gone='true'] {
+    opacity: 0;
+    transform: translate(var(--go-x), var(--go-y)) scale(0.96);
+  }
+  /* ... and arrives in the cloud from the guard's side */
+  .relay-arrive {
+    transform: translate(calc(var(--go-x) * -1), calc(var(--go-y) * -1)) scale(0.96);
+  }
+  .relay-answer {
+    transform: translate(var(--go-x), var(--go-y)) scale(0.96);
+  }
+  .relay-intruder[data-on='true'] {
+    animation: relay-bounce 900ms var(--ease-out) both;
+  }
+  .relay-approve[data-done='true'] {
+    transform: scale(0.97);
+  }
+}
+@keyframes relay-bounce {
+  0% {
+    transform: translate(0, 0);
+  }
+  45% {
+    transform: translate(var(--go-x), var(--go-y));
+  }
+  60% {
+    transform: translate(calc(var(--go-x) * 0.6), calc(var(--go-y) * 0.6)) rotate(-2deg);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* ---------- step chips and the play control ---------- */
+.relay-controls {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.relay-steps {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.relay-step {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  border-radius: 12px;
+  border: 1px solid var(--uv-line);
+  background: transparent;
+  color: var(--uv-muted);
+  padding: 7px 10px 8px;
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.25;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 200ms ease,
+    color 200ms ease,
+    background-color 200ms ease;
+}
+.relay-step:focus-visible,
+.relay-play:focus-visible {
+  outline: 2px solid var(--uv-text);
+  outline-offset: 2px;
+}
+.relay-step-where {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+.relay-step[data-where='cloud'] .relay-step-where {
+  color: var(--uv-blue);
+}
+.relay-step[data-where='device'] .relay-step-where {
+  color: var(--uv-green);
+}
+.relay-step[data-where='you'] .relay-step-where {
+  color: var(--uv-amber);
+}
+.relay-step[aria-current='step'] {
+  color: var(--uv-text);
+  border-color: rgba(236, 233, 255, 0.45);
+  background: var(--uv-panel);
+}
+/* time left on the current step, while playing */
+.relay-step-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--uv-text);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.relay[data-playing='true'] .relay-step[aria-current='step'] .relay-step-progress {
+  animation: relay-progress var(--step-ms) linear both;
+}
+@keyframes relay-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+.relay-play {
+  flex: none;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--uv-line);
+  background: transparent;
+  color: var(--uv-text);
+  font: inherit;
+  font-size: 13px;
+  padding: 0 14px;
+  cursor: pointer;
+}
+.relay-play:hover,
+.relay-step:hover {
+  border-color: rgba(236, 233, 255, 0.45);
+}
+.relay-caption {
+  margin: 14px 0 0;
+  min-height: 3em;
+  color: var(--uv-muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.relay-caption strong {
+  color: var(--uv-text);
+  font-weight: 600;
+}
+@media (max-width: 767px) {
+  .relay-controls {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .relay-steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .relay-step {
+    padding: 6px 6px 8px;
+    align-items: center;
+    text-align: center;
+  }
+  /* titles stay readable to screen readers; the caption below shows the current one */
+  .relay-step-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .relay-play {
+    align-self: flex-start;
+  }
+}
+.relay-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

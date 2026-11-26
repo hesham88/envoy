@@ -121,7 +121,7 @@ Five task-specific model configurations (four use Chrome's on-device model, one 
 | The device guard: availability check, network tripwire, `inferenceSource` assertion, session cleanup                  | [`getDeviceStatus`](packages/ai/src/device-guard.ts#L100), [`withCloudTripwire`](packages/ai/src/device-guard.ts#L131), [`InferenceSource.ON_DEVICE`](packages/ai/src/device-guard.ts#L210), [`withSessionCleanup`](packages/ai/src/device-guard.ts#L62) |
 | The pipeline: `analyze` (private steps), `answer` (local answer or cloud reasoning over tags)                         | [`analyze`](packages/ai/src/pipeline.ts#L229), [`answer`](packages/ai/src/pipeline.ts#L439), [`checkOutbound`](packages/ai/src/pipeline.ts#L208)                                                                                                         |
 
-To see the guard catch firebase-js-sdk #10635 yourself, open [`/dev`](https://envoy-hybrid-ai.web.app/dev) and press **Simulate missing LanguageModel**: the private step is blocked instead of silently going to the cloud.
+To see the guard handle the case described in firebase-js-sdk #10635, open [`/dev`](https://envoy-hybrid-ai.web.app/dev) and press **Simulate missing LanguageModel**: the private step is blocked before any call is made.
 
 ### Why not just redact?
 
@@ -132,11 +132,11 @@ A typical scrubber replaces everything with `[REDACTED]` and still sends the who
 - **The cloud never sees the result either.** It writes `{{RENT * 1.10}}` and Envoy works out EGP 9,350 on your device ([`expr.ts`](packages/core/src/expr.ts)).
 - **Some questions never go to the cloud.** "When does my lease end?" is answered on the device, with 0 bytes sent.
 
-<img src="docs/img/brand/section-guard.png" alt="We don't trust the default." width="100%">
+<img src="docs/img/brand/section-guard.png" alt="Every private step is checked twice." width="100%">
 
 ## The guard
 
-`ONLY_ON_DEVICE` can silently call the cloud when Chrome's `LanguageModel` API is missing ([firebase-js-sdk #10635](https://github.com/firebase/firebase-js-sdk/issues/10635), open). A privacy product can't rely on that, so every private step goes through [`runPrivate`](packages/ai/src/device-guard.ts):
+An open report on the Firebase JS SDK ([firebase-js-sdk #10635](https://github.com/firebase/firebase-js-sdk/issues/10635)) describes `ONLY_ON_DEVICE` requests reaching the cloud when Chrome's `LanguageModel` API is missing. We haven't run into it ourselves, but a privacy promise shouldn't rest on any one layer, so every private step goes through [`runPrivate`](packages/ai/src/device-guard.ts):
 
 1. **Check first:** `LanguageModel` must exist and report `available`, or Envoy switches to Basic protection.
 2. **Fence the network:** while a private step runs, any request to the Firebase AI endpoint is blocked, and the run stops with a privacy error instead of falling back.

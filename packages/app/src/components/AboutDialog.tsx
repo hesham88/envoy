@@ -75,11 +75,11 @@ export function AboutDialog({ open, onClose }: { open: boolean; onClose: () => v
           </tbody>
         </table>
         <p className="m-0 text-sm leading-relaxed text-muted">
-          <strong className="text-ink">We don't trust the default.</strong> A known SDK issue
-          (firebase-js-sdk #10635) can send "on-device only" requests to the cloud in browsers
-          without Chrome's built-in model. Envoy checks the model before every private step, blocks
-          the cloud endpoint while one runs, and discards any answer that didn't come from the
-          device.
+          <strong className="text-ink">Every private step is checked twice.</strong> An open SDK
+          report (firebase-js-sdk #10635) describes "on-device only" requests reaching the cloud in
+          browsers without Chrome's built-in model. We haven't seen it ourselves, but Envoy doesn't
+          rely on any one layer: it checks the model before every private step, blocks the cloud
+          endpoint while one runs, and discards any answer that didn't come from the device.
         </p>
         <p className="m-0 text-sm text-muted">
           Inspired by PAPILLON (Li et al., NAACL 2025),{' '}
