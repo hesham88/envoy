@@ -9,7 +9,8 @@ import type { RestoredSpan } from '@envoy/core';
 export type WiretapCard =
   | { kind: 'device'; step: string; payload: string }
   | { kind: 'blocked'; step: string; payload: string }
-  | { kind: 'out'; model: string; payload: string; refused: boolean }
+  /** `payload` is the person's excerpt; `instructions` are Envoy's fixed lines sent with it. */
+  | { kind: 'out'; model: string; payload: string; refused: boolean; instructions?: string }
   | { kind: 'in'; payload: string }
   /** An expression the cloud wrote; `value` is what the device worked out, or null if it couldn't. */
   | { kind: 'worked'; expr: string; value: string | null };
@@ -20,6 +21,9 @@ export interface WiretapView {
   sentChars: number;
   nothingLeft: boolean;
 }
+
+/** Where Envoy's fixed instructions end and the approved excerpt begins (buildReasonPrompt). */
+const EXCERPT = '\n\n## Excerpt\n';
 
 export function buildWiretap(
   entries: readonly NetworkEntry[],
@@ -52,13 +56,17 @@ export function buildWiretap(
       // A request followed by another before any reply was refused (the fallback was asked).
       const next = turn.slice(i + 1).find((n) => n.target === 'cloud' && !n.blocked);
       const refused = e.refused === true || (next !== undefined && next.direction !== 'in');
+      const cut = e.payload.indexOf(EXCERPT);
+      const excerpt = cut >= 0 ? e.payload.slice(cut + EXCERPT.length) : e.payload;
       cards.push({
         kind: 'out',
         model: afterRefusal ? (opts.fallbackModel ?? opts.cloudModel) : opts.cloudModel,
-        payload: e.payload,
+        ...(cut >= 0 ? { instructions: e.payload.slice(0, cut) } : {}),
+        payload: excerpt,
         refused,
       });
-      sentChars += e.payload.length;
+      // Counted like the receipt: the person's (masked) excerpt, not Envoy's fixed instructions.
+      sentChars += excerpt.length;
       afterRefusal = refused;
     }
   });

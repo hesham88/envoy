@@ -61,6 +61,19 @@ describe('buildWiretap', () => {
     });
   });
 
+  it("separates Envoy's fixed instructions from the excerpt, and counts only the excerpt", () => {
+    const prompt = '## Instructions\nKeep every tag.\n\n## Excerpt\nClause 7: [RENT] a month.';
+    const v = buildWiretap([out(110, prompt)], opts);
+    expect(v.cards[0]).toEqual({
+      kind: 'out',
+      model: 'gemini-4-hydrogen',
+      instructions: '## Instructions\nKeep every tag.',
+      payload: 'Clause 7: [RENT] a month.',
+      refused: false,
+    });
+    expect(v.sentChars).toBe('Clause 7: [RENT] a month.'.length);
+  });
+
   it('fallback-two-out: the refused request and the one that answered both left', () => {
     const v = buildWiretap([out(110, 'q'), out(111, 'q'), inn(120, 'a')], {
       ...opts,
@@ -76,9 +89,9 @@ describe('buildWiretap', () => {
 
   it('marks the first of two outbound requests refused when the log says so', () => {
     const v = buildWiretap([out(110, 'q', true), out(111, 'q')], opts);
-    expect(v.cards.filter((c) => c.kind === 'out').map((c) => c.kind === 'out' && c.refused)).toEqual(
-      [true, false],
-    );
+    expect(
+      v.cards.filter((c) => c.kind === 'out').map((c) => c.kind === 'out' && c.refused),
+    ).toEqual([true, false]);
   });
 
   it('unevaluated-expression: an expression the device could not work out has no value', () => {
