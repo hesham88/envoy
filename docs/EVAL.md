@@ -48,7 +48,7 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 
 ---
 
-> **Video figure:** the demo video (recorded 23–24 November) says Private mode sent "about 15%" of the text; that was before the routing fix. The current measured figure is 23.2% (about a quarter), with better answers (judge 97.5%). The next video cut uses the current figure.
+> **Video figure:** the demo film (v7, recorded 26 November) says Private mode sent "about a quarter" of the text, the current measured figure (23.2%). The earlier cut (v6, 23–24 November) said "about 15%", measured before the routing fix.
 
 ## 3. Privacy Attacks & Guard Hardening
 
