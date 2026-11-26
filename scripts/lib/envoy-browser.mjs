@@ -28,7 +28,15 @@ export async function connectEnvoyPage({
     throw new Error(`No browser context at ${cdp}. Start the model Chrome first (docs/PLAN.md).`);
   const page = await context.newPage();
   await page.goto(appUrl, { waitUntil: 'networkidle' });
-  return { page, close: () => page.close() };
+  // Close the tab, then drop the CDP connection (Chrome keeps running). Without the disconnect the
+  // open socket keeps Node alive after the script has finished (seen 26 Nov: two runs never exited).
+  return {
+    page,
+    close: async () => {
+      await page.close().catch(() => undefined);
+      await browser.close();
+    },
+  };
 }
 
 /**

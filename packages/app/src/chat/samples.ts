@@ -53,7 +53,7 @@ export const SAMPLES: readonly Sample[] = [
         text: 'If they let me go without cause after 18 months, how much severance do I get?',
         where: 'cloud',
       },
-      { text: 'Can I join a healthcare software startup right after I resign?', where: 'cloud' },
+      { text: 'Can I join a healthcare software startup right after I resign?', where: 'device' },
     ],
   },
   {
