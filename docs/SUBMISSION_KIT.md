@@ -32,8 +32,8 @@ Envoy is your private AI agent to the cloud. Ask cloud AI about a lease, an offe
 
 Chrome's built-in model (Gemma 4, the model Gemini Nano 4 is built on) runs on your device through Firebase AI Logic hybrid inference. It finds names, IDs, accounts and amounts, keeps only the parts of the document your question needs, and turns private details into tags like [LANDLORD] and [RENT]. You see exactly what the cloud will see, and nothing is sent until you approve. Gemini in the cloud reasons over tags only (Fast: Gemini 3.5 Flash-Lite, or Gemini 4 Hydrogen), and Envoy puts your real details and the worked-out amounts back on your device. Local only keeps every answer on the device.
 
-Try it: https://envoy-hybrid-ai.web.app
-No on-device model? Watch a recorded Private-mode run: https://envoy-hybrid-ai.web.app/app?recorded=1
+Watch a real Private-mode run (recorded on Gemma 4, no setup): https://envoy-hybrid-ai.web.app/app?recorded=1
+Try it live: https://envoy-hybrid-ai.web.app
 Code (Apache-2.0): https://github.com/hesham88/envoy
 
 Chapters
@@ -349,7 +349,7 @@ firebase-ai-logic, firebase, firebase-app-check, firebase-remote-config, firebas
 **"Try it out" link 1**
 
 ```text
-https://envoy-hybrid-ai.web.app
+https://envoy-hybrid-ai.web.app/app?recorded=1
 ```
 
 **"Try it out" link 2**
@@ -361,7 +361,7 @@ https://github.com/hesham88/envoy
 **"Try it out" link 3**
 
 ```text
-https://envoy-hybrid-ai.web.app/app?recorded=1
+https://envoy-hybrid-ai.web.app
 ```
 
 - Gallery 1: private details become tags: `F:\Projects\Envoy-wt\claude\docs\submission\gallery-1-tags.jpg`

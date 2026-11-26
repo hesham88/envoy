@@ -235,6 +235,7 @@ Inspired by **PAPILLON: Privacy Preservation from Internet-based and Local Langu
 
 - **When:** the repository starts on 22 November 2026 (first commit `8aa77f6`), inside the submission period. No code predates it.
 - **AI coding assistants:** Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity. Antigravity (Google, Gemini) built the eval harness. Both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. Codex Astra (OpenAI), Claude and Antigravity were also used as outside reviewers, playing the judges. Every change went through review, tests and CI.
+- **Demo video figure:** the video says Private mode sent "about 15%" of the text; that was measured before the 24 November routing fix. Today's figure is 23.2%, about a quarter ([EVAL §2](docs/EVAL.md)).
 - **Demo video:** the narration is generated with [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) (Resemble AI, MIT licence, default voice) running locally; music and sound effects are synthesised in code (`video/audio/synth.mjs`); the footage is real screen recordings of Envoy.
 - **Art:** the logo, seal, banners and scenes are drawn in code (SVG and canvas), rendered to images by our own scripts. No generated images are used.
 - **Open-source libraries:** Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, and the Fraunces and IBM Plex fonts (SIL Open Font License).

@@ -48,6 +48,8 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 
 ---
 
+> **Video figure:** the demo video (recorded 23–24 November) says Private mode sent "about 15%" of the text; that was before the routing fix. The current measured figure is 23.2% (about a quarter), with better answers (judge 97.5%). The next video cut uses the current figure.
+
 ## 3. Privacy Attacks & Guard Hardening
 
 ### 3.1 & 3.2 Re-Identification & Attribute Inference (`FULL n = 36 / 36`, In-Browser Firebase AI Logic SDK)
@@ -56,11 +58,11 @@ The first Basic run (no on-device model) let **8 person names across 7 cases** r
 - **Attacker model & transport:** Cloud **`gemini-3.5-flash-lite`** called **inside Chromium via the Firebase AI Logic SDK** (`getGenerativeModel` with `InferenceMode.ONLY_IN_CLOUD`, Remote Config `cloud_model` / `VITE_CLOUD_MODEL`, and App Check; `inferenceSource === 'in_cloud'` asserted on every call), dates **`2026-11-22`–`2026-11-25`**, **`n = 36 / 36`** (`263` gold sensitive entities · `77` ground-truth attributes: city, gender, employer/org, salary/amount band · `122` live SDK calls cached with `source: 'live'`).
 
 | Observed Input Given to Cloud Adversary (`gemini-3.5-flash-lite` via Firebase AI Logic SDK `ONLY_IN_CLOUD`, `2026-11-22`–`2026-11-25`, `n = 36 / 36`) |      Exact Re-ID %      | Partial + Exact Re-ID % | Attribute Inference % |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | :---------------------: | :---------------------: | :-------------------: |
-| **Envoy (`gemma4`: Gemma 4 `gemma4_component 2026.11.3.1140`)**                                                                          |  **0.0%** _(0 / 263)_   |        **0.0%**         |  **0.0%** _(0 / 77)_  |
-| **Envoy (`basic`: Rules + Guard + Name Flags, full doc)**                                                                                |  **0.0%** _(0 / 263)_   |        **0.0%**         |  **3.9%** _(3 / 77)_  |
-| **Baseline: `[REDACTED]` everywhere (full doc)**                                                                                         |    1.5% _(4 / 263)_     |          1.5%           |    6.5% _(5 / 77)_    |
-| **Ceiling: Raw Unmasked Document**                                                                                                       | **85.5%** _(225 / 263)_ |        **87.5%**        | **67.5%** _(52 / 77)_ |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------: | :---------------------: | :-------------------: |
+| **Envoy (`gemma4`: Gemma 4 `gemma4_component 2026.11.3.1140`)**                                                                                       |  **0.0%** _(0 / 263)_   |        **0.0%**         |  **0.0%** _(0 / 77)_  |
+| **Envoy (`basic`: Rules + Guard + Name Flags, full doc)**                                                                                             |  **0.0%** _(0 / 263)_   |        **0.0%**         |  **3.9%** _(3 / 77)_  |
+| **Baseline: `[REDACTED]` everywhere (full doc)**                                                                                                      |    1.5% _(4 / 263)_     |          1.5%           |    6.5% _(5 / 77)_    |
+| **Ceiling: Raw Unmasked Document**                                                                                                                    | **85.5%** _(225 / 263)_ |        **87.5%**        | **67.5%** _(52 / 77)_ |
 
 > **Finding:** Across all **36 / 36** cases (`263` gold entities, `77` attributes), naive `[REDACTED]`-everywhere over the full document still leaks **1.5% (`4 / 263`)** exact values and **6.5% (`5 / 77`)** hidden attributes from surrounding context. **The on-device Envoy arm (`gemma4`) drives exact re-identification, partial re-identification, AND attribute inference to `0.0%` (`0 / 263` and `0 / 77`) — strictly beating `[REDACTED]`-everywhere.**
 
