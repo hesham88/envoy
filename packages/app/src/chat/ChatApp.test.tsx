@@ -53,7 +53,9 @@ describe('ChatApp', () => {
     runtime.diagnoseCloud = async () => ({ kind: 'app-check', message: 'unused' });
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     render(<ChatApp runtime={runtime} />);
-    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    await user.click(
+      screen.getByRole('button', { name: /Can my landlord raise the rent 20% this year\?/ }),
+    );
     await user.click(await screen.findByRole('button', { name: 'Approve and send' }));
     expect(
       (await screen.findAllByText(/Firebase App Check didn't accept this browser/)).length,
@@ -65,7 +67,9 @@ describe('ChatApp', () => {
     const user = userEvent.setup();
     const { runtime, generateContent } = basicRuntime();
     render(<ChatApp runtime={runtime} />);
-    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    await user.click(
+      screen.getByRole('button', { name: /Can my landlord raise the rent 20% this year\?/ }),
+    );
 
     const approve = await screen.findByRole('button', { name: 'Approve and send' });
     expect(generateContent).not.toHaveBeenCalled();
@@ -198,7 +202,9 @@ describe('explanations and before/after', () => {
     const user = userEvent.setup();
     const { runtime } = basicRuntime();
     render(<ChatApp runtime={runtime} />);
-    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    await user.click(
+      screen.getByRole('button', { name: /Can my landlord raise the rent 20% this year\?/ }),
+    );
     const group = await screen.findByRole('group', { name: 'Before and after' });
     expect(group.textContent).toMatch(/On this device.*characters, \d+ private details/);
     expect(group.textContent).toMatch(/Would leave, after you approve.*0 raw details/);
@@ -238,7 +244,9 @@ describe('the mode is said plainly before anything is sent', () => {
     const user = userEvent.setup();
     const { runtime } = basicRuntime();
     const { container } = render(<ChatApp runtime={runtime} />);
-    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    await user.click(
+      screen.getByRole('button', { name: /Can my landlord raise the rent 20% this year\?/ }),
+    );
     await screen.findByRole('button', { name: 'Approve and send' });
     const note = container.querySelector('[data-mode="basic"]');
     expect(note?.textContent).toMatch(/Basic protection\..*whole text/);

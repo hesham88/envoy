@@ -171,6 +171,26 @@ Every arm in [`tests/eval/summary.json`](../tests/eval/summary.json) publishes i
 
 ---
 
+## 7. Photos: on-device OCR boxes (`npm run eval:ocr`)
+
+Does a photo of a document come back with every private detail boxed before the person touches it? `tests/eval/run-ocr.mjs` measures the product's own photo path (`recognizeImage` then `ocrMask`, the code the web app and the extension run) on six of the eval documents (lease, job offer, medical, freelance, loan, and the noisy IBAN case), each rendered in four looks: serif, sans, tilted 2°, and low contrast.
+
+- **Gold** comes from the rendered page itself: one rectangle per word of every occurrence of each planted detail. A detail counts as boxed only when every one of its words is at least 60% covered by masks, so an OCR misread counts as a miss, not as "nothing to find".
+- **Engine:** Tesseract.js 7.0.0 (LSTM, English `4.0.0_best_int`) and zxing-wasm 3.1.6, served from Envoy's own origin. No model and no cloud call: any Chrome works. Outside hosts contacted during the run: none.
+
+| Measured 26 Nov 2026, Chrome 158 (headless), i7-8750H CPU | Result |
+| --- | --- |
+| Private details boxed | **203 / 208 (97.6%)** |
+| By look | serif 51/52 · sans 51/52 · tilted 50/52 · low contrast 51/52 |
+| Over-masking (masked area that is not a planted detail) | 0.30 of the masked area |
+| Time per page (OCR + boxes), median | 1.4 s |
+
+**What it missed (5):** two IBANs on the tilted pages, where OCR read "IBAN EG38" as "BAN G38" so the checksum fails; one compact phone number (`00201005550192`) in serif; one address in the sans and low-contrast looks. On a real photo the person checks the boxes and draws any missing one by hand before anything is sent.
+
+**Found and fixed by this eval (26 Nov):** a date, an amount or an address that wraps onto the next line was boxed on neither line (first run: 189/208, 90.9%). Dates and amounts are now also searched across line breaks, and addresses when the line ends with a comma, so a label on the next line is never taken in (unit tests in `packages/core/src/ocr-mask.test.ts`). Over-masking includes the 4-pixel padding around each word and headings read as names (on the sample lab-bill photo, the lab's name). It errs toward hiding, and pressing a mask keeps that part visible.
+
+---
+
 ## Appendix A — Oracle Model (Upper Bound) _(Synthetic Gold Ceiling — NOT a Real Model)_
 
 _Computed purely in-memory by `tests/eval/run.mjs` from gold labels across all 36 cases (`263` gold items). Excluded from `tests/eval/summary.json` `arms[]` and never called Nano._

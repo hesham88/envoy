@@ -1,0 +1,258 @@
+{
+  "generatedAt": "2026-11-26T09:31:42.387Z",
+  "engine": "tesseract.js 7.0.0 (LSTM, eng 4.0.0_best_int) + zxing-wasm 3.1.6, self-hosted",
+  "chrome": "158.0.8127.38",
+  "method": "product path (recognizeImage + ocrMask) on screenshots of eval documents; gold rectangles from the rendered page; boxed = every word of every occurrence at least 60% covered",
+  "recall": 0.976,
+  "boxed": 203,
+  "gold": 208,
+  "overMaskingMean": 0.3,
+  "msMedian": 1394,
+  "byVariant": {
+    "serif": {
+      "boxed": 51,
+      "gold": 52
+    },
+    "sans": {
+      "boxed": 51,
+      "gold": 52
+    },
+    "tilted": {
+      "boxed": 50,
+      "gold": 52
+    },
+    "low-contrast": {
+      "boxed": 51,
+      "gold": 52
+    }
+  },
+  "externalHostsRefused": [],
+  "rows": [
+    {
+      "case": "lease-01-rent-cap",
+      "variant": "serif",
+      "gold": 16,
+      "boxed": 16,
+      "overMasking": 0.26,
+      "ms": 4988,
+      "missed": []
+    },
+    {
+      "case": "lease-01-rent-cap",
+      "variant": "sans",
+      "gold": 16,
+      "boxed": 16,
+      "overMasking": 0.28,
+      "ms": 4915,
+      "missed": []
+    },
+    {
+      "case": "lease-01-rent-cap",
+      "variant": "tilted",
+      "gold": 16,
+      "boxed": 15,
+      "overMasking": 0.23,
+      "ms": 5133,
+      "missed": [
+        "IBAN:EG38 0019 0005 0000 0000 2631 8000 2 (8 word boxes, covered 0)"
+      ]
+    },
+    {
+      "case": "lease-01-rent-cap",
+      "variant": "low-contrast",
+      "gold": 16,
+      "boxed": 16,
+      "overMasking": 0.28,
+      "ms": 4835,
+      "missed": []
+    },
+    {
+      "case": "offer-01-severance-calculation",
+      "variant": "serif",
+      "gold": 9,
+      "boxed": 9,
+      "overMasking": 0.22,
+      "ms": 1868,
+      "missed": []
+    },
+    {
+      "case": "offer-01-severance-calculation",
+      "variant": "sans",
+      "gold": 9,
+      "boxed": 8,
+      "overMasking": 0.2,
+      "ms": 1846,
+      "missed": [
+        "ADDRESS:22 Syria St, Mohandessin, Giza (5 word boxes, covered 0)"
+      ]
+    },
+    {
+      "case": "offer-01-severance-calculation",
+      "variant": "tilted",
+      "gold": 9,
+      "boxed": 9,
+      "overMasking": 0.26,
+      "ms": 1720,
+      "missed": []
+    },
+    {
+      "case": "offer-01-severance-calculation",
+      "variant": "low-contrast",
+      "gold": 9,
+      "boxed": 8,
+      "overMasking": 0.24,
+      "ms": 1984,
+      "missed": [
+        "ADDRESS:22 Syria St, Mohandessin, Giza (5 word boxes, covered 0)"
+      ]
+    },
+    {
+      "case": "med-03-insurance-copay-cap",
+      "variant": "serif",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.37,
+      "ms": 1330,
+      "missed": []
+    },
+    {
+      "case": "med-03-insurance-copay-cap",
+      "variant": "sans",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.32,
+      "ms": 1311,
+      "missed": []
+    },
+    {
+      "case": "med-03-insurance-copay-cap",
+      "variant": "tilted",
+      "gold": 7,
+      "boxed": 6,
+      "overMasking": 0.28,
+      "ms": 1302,
+      "missed": [
+        "IBAN:EG38 0019 0005 0000 0000 2631 8000 2 (8 word boxes, covered 0)"
+      ]
+    },
+    {
+      "case": "med-03-insurance-copay-cap",
+      "variant": "low-contrast",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.32,
+      "ms": 1026,
+      "missed": []
+    },
+    {
+      "case": "freelance-01-kill-fee",
+      "variant": "serif",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.43,
+      "ms": 1427,
+      "missed": []
+    },
+    {
+      "case": "freelance-01-kill-fee",
+      "variant": "sans",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.41,
+      "ms": 1384,
+      "missed": []
+    },
+    {
+      "case": "freelance-01-kill-fee",
+      "variant": "tilted",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.41,
+      "ms": 1373,
+      "missed": []
+    },
+    {
+      "case": "freelance-01-kill-fee",
+      "variant": "low-contrast",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.41,
+      "ms": 1436,
+      "missed": []
+    },
+    {
+      "case": "loan-01-early-payoff-penalty",
+      "variant": "serif",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.35,
+      "ms": 1408,
+      "missed": []
+    },
+    {
+      "case": "loan-01-early-payoff-penalty",
+      "variant": "sans",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.3,
+      "ms": 1394,
+      "missed": []
+    },
+    {
+      "case": "loan-01-early-payoff-penalty",
+      "variant": "tilted",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.31,
+      "ms": 1295,
+      "missed": []
+    },
+    {
+      "case": "loan-01-early-payoff-penalty",
+      "variant": "low-contrast",
+      "gold": 7,
+      "boxed": 7,
+      "overMasking": 0.3,
+      "ms": 1393,
+      "missed": []
+    },
+    {
+      "case": "noisy-03-unspaced-iban-and-compact-phone",
+      "variant": "serif",
+      "gold": 6,
+      "boxed": 5,
+      "overMasking": 0.29,
+      "ms": 1086,
+      "missed": [
+        "PHONE:00201005550192 (1 word box, covered 0)"
+      ]
+    },
+    {
+      "case": "noisy-03-unspaced-iban-and-compact-phone",
+      "variant": "sans",
+      "gold": 6,
+      "boxed": 6,
+      "overMasking": 0.26,
+      "ms": 1219,
+      "missed": []
+    },
+    {
+      "case": "noisy-03-unspaced-iban-and-compact-phone",
+      "variant": "tilted",
+      "gold": 6,
+      "boxed": 6,
+      "overMasking": 0.2,
+      "ms": 1089,
+      "missed": []
+    },
+    {
+      "case": "noisy-03-unspaced-iban-and-compact-phone",
+      "variant": "low-contrast",
+      "gold": 6,
+      "boxed": 6,
+      "overMasking": 0.26,
+      "ms": 1285,
+      "missed": []
+    }
+  ]
+}

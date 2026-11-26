@@ -5,7 +5,9 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
+    "predev": "node ../../scripts/copy-ocr-assets.mjs public",
     "dev": "vite",
+    "prebuild": "node ../../scripts/copy-ocr-assets.mjs public",
     "build": "vite build",
     "preview": "vite preview"
   },

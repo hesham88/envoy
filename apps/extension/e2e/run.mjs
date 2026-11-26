@@ -120,6 +120,8 @@ const files = {
     `Account: ${RAW.iban}`,
   ]),
   'photo.jpg': jpegWithExif(),
+  // The sample "phone photo" of a fictional lab bill (scripts/make-sample-photo.mjs).
+  'lab-bill.webp': readFileSync(resolve(EXT, '../web/public/samples/lab-bill.webp')),
 };
 for (const [n, b] of Object.entries(files)) writeFileSync(join(WORK, n), b);
 
@@ -495,6 +497,104 @@ try {
   });
   check('upload photo: the drawn box is burned into the pixels', boxBlack);
 
+  // --- Upload with Envoy: a photo of a lab bill is masked automatically, on the device ---
+  let masks = [];
+  let previewW = 0;
+  let afterClick = [];
+  const bill = await upload('lab-bill.webp', async () => {
+    await ui('.up-card .up-mask').first().waitFor({ timeout: 60000 });
+    await page.waitForTimeout(1500); // the masks land one after another
+    previewW = await ui('.up-card .up-photo canvas').evaluate((c) => c.width);
+    masks = await ui('.up-card .up-mask').evaluateAll((els) =>
+      els.map((el) => ({
+        label: el.querySelector('span')?.textContent ?? '',
+        left: parseFloat(el.style.left),
+        top: parseFloat(el.style.top),
+        width: parseFloat(el.style.width),
+        height: parseFloat(el.style.height),
+      })),
+    );
+    // Keep the email visible: press its mask. (`ui()` takes a selector only, so filter here.)
+    await ui('.up-card .up-mask').filter({ hasText: 'Email' }).first().click();
+    afterClick = await ui('.up-card .up-mask[aria-pressed=false]').evaluateAll((els) =>
+      els.map((el) => el.querySelector('span')?.textContent ?? ''),
+    );
+  });
+  check(
+    'photo masking: pressing a mask keeps exactly that detail visible',
+    afterClick.length === 1 && afterClick[0] === 'Email kept',
+    JSON.stringify(afterClick),
+  );
+  const labels = masks.map((m) => m.label);
+  check(
+    'photo masking: private details are boxed before the person does anything',
+    ['Name', 'National ID', 'Phone', 'Email', 'Bank account (IBAN)'].every((l) =>
+      labels.includes(l),
+    ) && labels.filter((l) => l === 'Account or record no.').length >= 3,
+    labels.join(', '),
+  );
+  check(
+    'photo masking: the QR code and the barcode are boxed',
+    labels.includes('QR code') && labels.includes('Barcode'),
+  );
+  const photoStatus = (await ui('.up-card .up-photo-summary').innerText()).trim();
+  check(
+    'photo masking: the summary counts what is masked and what is kept',
+    /^Found \d+ private details on this device\. \d+ masked, 1 kept visible\.$/.test(photoStatus),
+    photoStatus,
+  );
+  if (process.env.E2E_DUMP && bill.handed)
+    writeFileSync(
+      join(process.env.E2E_DUMP, 'handed-lab-bill.jpg'),
+      Buffer.from(bill.handed.latin, 'latin1'),
+    );
+  const pixels = await page.evaluate(
+    async ({ masks, previewW }) => {
+      const f = document.getElementById('file').files[0];
+      const bmp = await createImageBitmap(f);
+      const c = new OffscreenCanvas(bmp.width, bmp.height);
+      const g = c.getContext('2d');
+      g.drawImage(bmp, 0, 0);
+      // Mask positions are preview pixels; the preview is the photo scaled down to the card.
+      const s = bmp.width / previewW;
+      // Mean brightness (r+g+b, 0–765) over the whole box: a burned box is ~0; visible text on
+      // paper stays bright on average even though single pixels on a letter are dark.
+      const at = (m) => {
+        const d = g.getImageData(
+          Math.round(m.left * s),
+          Math.round(m.top * s),
+          Math.max(1, Math.round(m.width * s)),
+          Math.max(1, Math.round(m.height * s)),
+        ).data;
+        let sum = 0;
+        for (let i = 0; i < d.length; i += 4) sum += d[i] + d[i + 1] + d[i + 2];
+        return Math.round(sum / (d.length / 4));
+      };
+      const by = (l) => masks.find((m) => m.label === l);
+      return {
+        id: at(by('National ID')),
+        qr: at(by('QR code')),
+        email: at(by('Email')),
+        // Controls: a strip of plain paper near the top, and the whole image.
+        paper: at({ left: previewW * 0.4, top: 4, width: previewW * 0.2, height: 6 }),
+        whole: at({ left: 0, top: 0, width: previewW, height: (bmp.height / s) | 0 }),
+        size: `${bmp.width}x${bmp.height}`,
+        type: f.type,
+      };
+    },
+    { masks, previewW },
+  );
+  check(
+    'photo masking: the site receives the ID and the QR code burned black',
+    !!bill.handed && pixels.id < 60 && pixels.qr < 60,
+    JSON.stringify(pixels),
+  );
+  check(
+    'photo masking: the email the person chose to keep stays visible',
+    pixels.email > 300,
+    JSON.stringify(pixels),
+  );
+
   // --- Upload with Envoy: PDF ---
   const pdf = await upload('lease.pdf');
   check(
@@ -626,11 +726,27 @@ try {
   const pageP = ctx.waitForEvent('page', { timeout: 15000 });
   await cdp.send('Target.createTarget', { url: `chrome-extension://${extId}/sidepanel.html` });
   const panel = await pageP;
-  await panel.waitForTimeout(9000);
-  const frame = panel
-    .frames()
-    .find((f) => f.url().startsWith('https://envoy-hybrid-ai.web.app/app'));
-  check('side panel: embeds the Envoy chat', !!frame);
+  // The panel embeds the hosted app over the network: poll for its frame (up to 30 s) instead of
+  // one fixed wait, which flaked on a slow connection.
+  const findFrame = () =>
+    panel.frames().find((f) => f.url().startsWith('https://envoy-hybrid-ai.web.app/app'));
+  let frame = findFrame();
+  for (let t = 0; !frame && t < 30; t++) {
+    await panel.waitForTimeout(1000);
+    frame = findFrame();
+  }
+  if (frame)
+    await frame
+      .locator('#envoy-composer')
+      .waitFor({ timeout: 20000 })
+      .catch(() => undefined);
+  check(
+    'side panel: embeds the Envoy chat',
+    !!frame,
+    frame
+      ? ''
+      : `frames: ${panel.frames().map((f) => f.url()).join(' , ')} text: ${(await panel.locator('body').innerText().catch(() => '')).slice(0, 300)}`,
+  );
   if (frame)
     check(
       'side panel: the chat composer is ready',

@@ -38,8 +38,7 @@ export function readZipEntries(buf: ArrayBuffer): ZipEntry[] {
     const lname = dv.getUint16(localOff + 26, true);
     const lextra = dv.getUint16(localOff + 28, true);
     const dataStart = localOff + 30 + lname + lextra;
-    if (dataStart < 0 || dataStart + csize > b.length)
-      throw new Error('Corrupt ZIP entry data.');
+    if (dataStart < 0 || dataStart + csize > b.length) throw new Error('Corrupt ZIP entry data.');
     out.push({ name, method, size, compressed: b.slice(dataStart, dataStart + csize) });
     off += 46 + nameLen + extra + comment;
   }

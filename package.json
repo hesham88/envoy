@@ -24,6 +24,7 @@
     "verify": "npm run lint && npm run typecheck && npm test && npm run eval:check && npm run build",
     "eval": "node tests/eval/run.mjs",
     "eval:check": "node tests/eval/check-artifacts.mjs",
+    "eval:ocr": "node tests/eval/run-ocr.mjs",
     "verify:wiretap": "node scripts/verify-wiretap.mjs",
     "deploy": "firebase deploy --only hosting"
   },

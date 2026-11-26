@@ -1,12 +1,14 @@
 {
   "name": "@envoy/extension",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
+    "predev": "node ../../scripts/copy-ocr-assets.mjs public",
     "dev": "vite build --watch --mode extensiondev --outDir dist-dev",
-    "build": "vite build && vite build --config vite.content.config.ts",
+    "prebuild": "node ../../scripts/copy-ocr-assets.mjs public",
+    "build": "vite build && vite build --config vite.content.config.ts && node scripts/check-remote-code.mjs dist",
     "build:dev": "vite build --mode extensiondev --outDir dist-dev && vite build --mode extensiondev --outDir dist-dev --config vite.content.config.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "check:dist": "node ./scripts/verify-dist.mjs",

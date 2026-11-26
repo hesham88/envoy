@@ -37,7 +37,9 @@ try {
   });
 
   await page.goto(`${base}/app`, { waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'Try the sample lease' }).click();
+  await page
+    .getByRole('button', { name: /Can my landlord raise the rent 20% this year\?/ })
+    .click();
   await page.getByRole('button', { name: 'Approve and send' }).click({ timeout: 60_000 });
   await page.waitForSelector('[data-wiretap-out]', { timeout: 90_000 });
   await page.waitForSelector('[data-testid=wiretap-worked], [role=alert]', { timeout: 90_000 });

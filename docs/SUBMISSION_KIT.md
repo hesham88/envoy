@@ -255,7 +255,7 @@ _Build → Test instructions_
 No account or login is needed. All sample details are fictional.
 1. Click the Envoy toolbar icon on any website with a text box and switch on "Envoy on this site". Chrome asks for access to that one site.
 2. Click in a text box: a small "Envoy off" chip appears. Click it to turn protection on, then type: Hi, I'm Mona Adel (mona.adel@example.com, +20 100 555 0192), my bank account number 1010192316. The details light up. Press Replace to swap them for tags; Undo puts the text back.
-3. Click "Upload with Envoy" beside the chip, choose a .txt file or a photo, draw a box on the photo, and press Send. Envoy rebuilds the file on the device and hands it to the site.
+3. Click "Upload with Envoy" beside the chip, choose a .txt file or a photo (the sample photo is at https://envoy-hybrid-ai.web.app/samples/lab-bill.webp): Envoy reads the photo on the device and masks every private detail it finds, QR code included; press a mask to keep that part visible, then press Send. Envoy rebuilds the file on the device and hands it to the site.
 4. Open the side panel (toolbar icon → Open Envoy panel), choose "Try the sample lease", and press Approve and send to see a cloud answer over tags.
 Chrome 139 or later. Chrome's on-device AI is optional: without it Envoy uses Basic protection (local rules) and says so.
 ```
@@ -301,7 +301,7 @@ Envoy is your private AI agent to the cloud. You ask a question about a private 
 - **Approval card:** the exact excerpt, editable; a guard blocks raw details even when spaced out, encoded or disguised.
 - **Network ledger:** every request and what it carried.
 - **Choice of cloud:** Local only, Fast (Gemini 3.5 Flash-Lite) or Gemini 4 Hydrogen, with Flash-Lite answering if Hydrogen is busy or out of quota.
-- **Chrome extension:** a chip on text boxes of sites you switch on (details light up, Replace swaps them for tags) and Upload with Envoy, which rebuilds files on the device before a site gets them (masked text and PDFs, photos without location data, black boxes on images; you draw the boxes on images, and PDFs come back as simplified text PDFs).
+- **Chrome extension:** a chip on text boxes of sites you switch on (details light up, Replace swaps them for tags) and Upload with Envoy, which rebuilds files on the device before a site gets them (masked text and PDFs, photos without location data, photos masked automatically on the device, names, IDs, account and record numbers, barcodes and QR codes, each mask switchable; PDFs come back as simplified text PDFs).
 - **No model yet?** A guide checks the computer and walks through turning on private mode; Basic protection (local rules) still masks the details meanwhile, and a recorded Private-mode run shows the full experience.
 
 ## How we built it

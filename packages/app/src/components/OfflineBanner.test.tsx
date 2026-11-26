@@ -13,7 +13,11 @@ describe('OfflineBanner', () => {
     online.mockReturnValue(false);
     act(() => void window.dispatchEvent(new Event('offline')));
     expect(screen.getByText(/You're offline/)).toBeInTheDocument();
-    expect(screen.getByText(/lighter on-device answer/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /can wait here until you're back online, or get a lighter answer on this device now/,
+      ),
+    ).toBeInTheDocument();
 
     online.mockReturnValue(true);
     act(() => void window.dispatchEvent(new Event('online')));

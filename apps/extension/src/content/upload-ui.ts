@@ -1,18 +1,19 @@
 ﻿/* "Upload with Envoy": beside the site's own file input (opt-in sites only).
  * The user picks a file in Envoy's dialog, sees findings, and only the rebuilt
  * file is handed to the site through DataTransfer. */
-import type { CustomRule } from '@envoy/core';
+import type { CustomRule, MaskBox } from '@envoy/core';
+import { boxLabel, summarize, toggle, toImageBox } from '../upload/boxes';
 import { kindOf, processTextUpload, type UploadReceipt } from '../upload/process';
 import { UV } from './theme';
 
 declare const chrome: { runtime: { sendMessage(msg: unknown): Promise<unknown> } };
 
-interface Box {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
+const toBase64 = (buf: Uint8Array) => {
+  let bin = '';
+  for (let i = 0; i < buf.length; i += 8192)
+    bin += String.fromCharCode(...buf.subarray(i, i + 8192));
+  return btoa(bin);
+};
 
 /** Where Envoy is working: the protected text field and Envoy's own chip above it. */
 export interface UploadAnchor {
@@ -45,7 +46,27 @@ export function initUploadUi(
       border: 1px solid ${UV.line}; background: rgba(255,255,255,.02); }
     .up-tag { display: inline-block; padding: 0 6px; border-radius: 6px; border: 1px solid rgba(61,255,176,.45); background: rgba(61,255,176,.1);
       color: ${UV.green}; font: 11.5px/1.6 ui-monospace, Consolas, monospace; }
-    .up-card input[type=checkbox] { accent-color: ${UV.green}; }`;
+    .up-card input[type=checkbox] { accent-color: ${UV.green}; }
+    .up-card.up-wide { width: 720px; }
+    .up-photo { position: relative; margin-top: 8px; overflow: clip; border-radius: 12px; cursor: crosshair; touch-action: none; }
+    .up-photo canvas { display: block; max-width: none; height: auto; border: 0; border-radius: 12px; }
+    .up-layer { position: absolute; inset: 0; }
+    /* A mask over one private detail: solid while it hides it, dashed amber when kept visible. */
+    .up-card .up-mask { position: absolute; min-height: 0; padding: 0 3px; margin: 0; border-radius: 3px; display: flex; align-items: center;
+      background: #04050b; border: 1px solid rgba(61,255,176,.8); color: ${UV.green}; font: 600 9.5px/1 system-ui, sans-serif;
+      overflow: hidden; white-space: nowrap; cursor: pointer; box-shadow: 0 0 10px -3px rgba(61,255,176,.7); }
+    .up-card .up-mask[aria-pressed=false] { background: transparent; border-style: dashed; border-color: rgba(255,181,71,.9); color: #ffb547; box-shadow: none; }
+    .up-card .up-mask[aria-pressed=false] span { background: rgba(4,5,11,.75); padding: 0 2px; border-radius: 2px; }
+    .up-card .up-mask:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+    .up-scan { position: absolute; inset: 0; pointer-events: none; transform: translateY(-100%);
+      background: linear-gradient(to bottom, transparent calc(100% - 26px), rgba(61,255,176,.16) calc(100% - 2px), ${UV.green} calc(100% - 2px)); }
+    @media (prefers-reduced-motion: no-preference) {
+      .up-scan { animation: up-scan 1.5s cubic-bezier(.45,0,.55,1) infinite; }
+      .up-card .up-mask.up-in { animation: up-mask-in 180ms cubic-bezier(.2,.8,.2,1) both; }
+    }
+    @media (prefers-reduced-motion: reduce) { .up-scan { display: none; } }
+    @keyframes up-scan { to { transform: translateY(0); } }
+    @keyframes up-mask-in { from { opacity: 0; transform: scale(.96); } }`;
   shadow.appendChild(style);
   const btn = document.createElement('button');
   btn.className = 'up-btn';
@@ -67,7 +88,7 @@ export function initUploadUi(
     true,
   );
   let chosen: File | null = null;
-  let boxes: Box[] = [];
+  let boxes: MaskBox[] = [];
   let receipt: UploadReceipt | null = null;
   let outFile: File | null = null;
 
@@ -286,7 +307,8 @@ export function initUploadUi(
     const ctx = canvas.getContext('2d')!;
     ctx.drawImage(bmp, 0, 0);
     ctx.fillStyle = '#000';
-    for (const b of boxes) ctx.fillRect(b.x, b.y, b.w, b.h);
+    // Only the boxes still masking: a box the person switched off stays visible.
+    for (const b of boxes) if (b.on) ctx.fillRect(b.x, b.y, b.w, b.h);
     const type = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
     const blob = await new Promise<Blob>((res) => canvas.toBlob((bb) => res(bb!), type, 0.92));
     return new File([blob], file.name.replace(/\.\w+$/, type === 'image/png' ? '.png' : '.jpg'), {
@@ -387,12 +409,12 @@ export function initUploadUi(
         outFile = await burnImage(chosen);
         receipt = {
           kind,
-          removed: boxes.length,
+          removed: boxes.filter((b) => b.on).length,
           findings: [],
           inBytes: chosen.size,
           outBytes: outFile.size,
           outType: outFile.type,
-          note: 'Image re-encoded (EXIF/GPS stripped) with your boxes burned into the pixels.',
+          note: 'Image re-encoded (EXIF/GPS stripped) with the masked boxes burned into the pixels.',
         };
       } else {
         status.textContent = 'Envoy cannot rebuild this file type yet. Nothing was sent.';
@@ -405,48 +427,130 @@ export function initUploadUi(
     }
   }
 
+  /**
+   * The photo editor: the photo is read on this device (offscreen document: Tesseract.js and
+   * zxing-wasm from the extension package), and every private detail found gets a mask already
+   * drawn. Each mask is a button: press it to keep that part visible, press again to mask it.
+   * Dragging on the photo adds a box of your own.
+   */
   async function setupImageEditor(file: File) {
     const bmp = await createImageBitmap(file);
+    card.classList.add('up-wide');
+    place();
+    const maxW = Math.min(692, window.innerWidth - 52);
+    const scale = Math.min(1, maxW / bmp.width);
+    const wrap = document.createElement('div');
+    wrap.className = 'up-photo';
     const canvas = document.createElement('canvas');
-    const scale = Math.min(1, 328 / bmp.width);
     canvas.width = Math.round(bmp.width * scale);
     canvas.height = Math.round(bmp.height * scale);
-    const ctx = canvas.getContext('2d')!;
-    const draw = () => {
-      ctx.drawImage(bmp, 0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#000';
-      for (const b of boxes) ctx.fillRect(b.x * scale, b.y * scale, b.w * scale, b.h * scale);
-    };
-    draw();
-    let start: { x: number; y: number } | null = null;
-    canvas.addEventListener('pointerdown', (e) => {
-      const r = canvas.getBoundingClientRect();
-      start = { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale };
-    });
-    canvas.addEventListener('pointerup', (e) => {
-      if (!start) return;
-      const r = canvas.getBoundingClientRect();
-      const end = { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale };
-      boxes.push({
-        x: Math.min(start.x, end.x),
-        y: Math.min(start.y, end.y),
-        w: Math.abs(end.x - start.x),
-        h: Math.abs(end.y - start.y),
-      });
-      start = null;
-      draw();
-      // Keep the receipt true: each box drawn is one more item removed when the file is sent.
-      if (receipt) {
-        receipt.removed = boxes.length;
-        const r = card.querySelector('.up-receipt');
-        if (r) r.textContent = receiptText(receipt);
-      }
-    });
+    canvas.getContext('2d')!.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    // One CSS pixel per canvas pixel, so the masks (placed at photo × scale) sit exactly on it.
+    canvas.style.width = `${canvas.width}px`;
+    wrap.style.width = `${canvas.width}px`;
+    const layer = document.createElement('div');
+    layer.className = 'up-layer';
+    const scan = document.createElement('div');
+    scan.className = 'up-scan';
+    scan.setAttribute('aria-hidden', 'true');
+    wrap.append(canvas, layer, scan);
+    const summary = document.createElement('p');
+    summary.className = 'up-muted up-photo-summary';
+    summary.setAttribute('role', 'status');
+    summary.textContent = 'Reading this photo on your device. Nothing is sent.';
     const hint = document.createElement('p');
     hint.className = 'up-muted';
     hint.textContent =
-      'Drag on the image to draw black boxes. Sending re-encodes the image, which strips EXIF/GPS.';
-    card.append(hint, canvas);
+      'Drag on the photo to add a box. Sending re-encodes the image, which strips EXIF/GPS.';
+    card.append(summary, wrap, hint);
+
+    // Keep the summary and the receipt true: each masked box is one item removed when sent.
+    const update = () => {
+      summary.textContent = summarize(boxes);
+      if (receipt) {
+        receipt.removed = boxes.filter((b) => b.on).length;
+        const r = card.querySelector('.up-receipt');
+        if (r) r.textContent = receiptText(receipt);
+      }
+    };
+    const renderMasks = (arriving: boolean) => {
+      layer.replaceChildren(
+        ...boxes.map((b, i) => {
+          const m = document.createElement('button');
+          m.type = 'button';
+          m.className = arriving ? 'up-mask up-in' : 'up-mask';
+          m.style.left = `${b.x * scale}px`;
+          m.style.top = `${b.y * scale}px`;
+          m.style.width = `${Math.max(6, b.w * scale)}px`;
+          m.style.height = `${Math.max(6, b.h * scale)}px`;
+          // One after another, so the eye follows the masks landing on the page.
+          if (arriving) m.style.animationDelay = `${Math.min(i, 24) * 45}ms`;
+          const label = boxLabel(b);
+          m.setAttribute('aria-pressed', String(b.on));
+          m.setAttribute(
+            'aria-label',
+            `${label}: ${b.on ? 'masked' : 'kept visible'}. Press to ${b.on ? 'keep it visible' : 'mask it'}.`,
+          );
+          const tag = document.createElement('span');
+          tag.textContent = b.on ? label : `${label} kept`;
+          m.append(tag);
+          m.addEventListener('pointerdown', (e) => e.stopPropagation());
+          m.addEventListener('click', (e) => {
+            e.stopPropagation();
+            boxes = toggle(boxes, i);
+            renderMasks(false);
+            update();
+            (layer.children[i] as HTMLElement | undefined)?.focus();
+          });
+          return m;
+        }),
+      );
+    };
+
+    let start: { x: number; y: number } | null = null;
+    const at = (e: PointerEvent) => {
+      const r = canvas.getBoundingClientRect();
+      return { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale };
+    };
+    wrap.addEventListener('pointerdown', (e) => {
+      start = at(e);
+    });
+    wrap.addEventListener('pointerup', (e) => {
+      if (!start) return;
+      const end = at(e);
+      const w = Math.abs(end.x - start.x);
+      const h = Math.abs(end.y - start.y);
+      if (w * scale > 4 && h * scale > 4) {
+        boxes = [
+          ...boxes,
+          toImageBox({ x: Math.min(start.x, end.x), y: Math.min(start.y, end.y), w, h }),
+        ];
+        renderMasks(false);
+        update();
+      }
+      start = null;
+    });
+
+    const failed = "Couldn't read text in this photo on this device. Drag to draw boxes by hand.";
+    try {
+      const res = (await chrome.runtime.sendMessage({
+        type: 'envoy:ocr-boxes',
+        base64: toBase64(new Uint8Array(await file.arrayBuffer())),
+        mime: file.type,
+        custom: getRules(),
+      })) as { ok: true; boxes: MaskBox[] } | { ok: false; error: string };
+      scan.remove();
+      if (!res?.ok) {
+        summary.textContent = failed;
+        return;
+      }
+      boxes = [...res.boxes, ...boxes];
+      renderMasks(true);
+      update();
+    } catch {
+      scan.remove();
+      summary.textContent = failed;
+    }
   }
 
   // Remember the message box before the click moves focus into Envoy's card.
@@ -459,7 +563,8 @@ export function initUploadUi(
     window.clearTimeout(closeTimer); // a new upload: don't let the last one's close timer shut it
     cardOpen = true;
     card.style.display = 'block';
-    card.innerHTML = '';
+    card.replaceChildren();
+    card.classList.remove('up-wide');
     boxes = [];
     outFile = null;
     receipt = null;

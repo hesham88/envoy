@@ -2,6 +2,25 @@
 
 What was checked, what was found, and what was fixed. Re-run the checks before each release.
 
+## Extension: no remotely hosted code (26 November 2026, Web Store rejection fixed)
+
+The Chrome Web Store rejected extension 0.1.2 (violation reference "Blue Argon": Manifest V3, "Including remotely hosted code"). The flagged strings were in the bundled Firebase SDK, never executed by Envoy: `@firebase/app`'s Trusted Types script allowlist (`googletagmanager.com/gtag/js`, `apis.google.com/js/api.js`, `google.com/recaptcha/api.js` and `enterprise.js`) and App Check's reCAPTCHA loader. A full scan of the package found more of the same kind: Tesseract.js's and zxing-wasm's CDN defaults (`cdn.jsdelivr.net`, `fastly.jsdelivr.net`), which Envoy always overrides with packaged files.
+
+- **Release builds use an inert App Check stub** (`apps/extension/src/stubs/app-check.ts`, aliased in `vite.config.ts`). The release extension runs Firebase AI Logic on the device only and opens the web app for cloud questions, so it never needs a token; asking for one fails with a clear message. Developer builds (`extensiondev`, never shipped) keep the real module for the debug token.
+- **Remote defaults are removed at build time** (`apps/extension/no-remote-code.ts`): Firebase's script allowlist is emptied, so the SDK cannot create a script URL at all, and CDN defaults point to a path inside the package where nothing exists, so an accidental use fails locally instead of fetching code. The copied Tesseract worker gets the same rewrite (`scripts/copy-ocr-assets.mjs`). Unit tests: `apps/extension/src/no-remote-code.test.ts`.
+- **Every build is checked** (`apps/extension/scripts/check-remote-code.mjs`, run by `npm run build`): it fails if the package contains any absolute URL of a script, module or WebAssembly file, a CDN or tag-manager host, a reCAPTCHA script or the Google API loader. It found 16 references in the rejected build and finds none now. Extension E2E: 44/44.
+- The extension's `extension_pages` CSP (`script-src 'self' 'wasm-unsafe-eval'`) already blocked loading any of these at run time; the store's rule is about what the package contains, which is what the check enforces.
+
+## WebAssembly for on-device photo masking (26 November 2026, owner approved)
+
+Photo masking reads text (Tesseract.js 7.0.0) and barcodes (zxing-wasm 3.1.6) on the device, in WebAssembly. Both security policies gained one keyword, `'wasm-unsafe-eval'`, in `script-src` only: the hosting CSP (`firebase.json`) and the extension's `extension_pages` CSP (`apps/extension/public/manifest.json`).
+
+- **What it allows:** compiling WebAssembly. MDN: it "controls WebAssembly execution" and is "a much safer alternative to 'unsafe-eval', since it does not enable general evaluation of JavaScript". `eval()` and `new Function()` stay blocked.
+- **Extension:** Chrome's MV3 rules accept only `'self'` and `'wasm-unsafe-eval'` in `script-src` for extension pages (`'unsafe-eval'` is refused at install).
+- **No CDN, no Blob worker:** both engines are served from our own origin or extension package (`scripts/copy-ocr-assets.mjs` copies them from `node_modules` at build time into `public/ocr/`). Tesseract runs with `workerBlobURL: false` (a Blob worker would inherit the page's CSP and need `blob:`), `cacheMethod: 'none'`; zxing's default `locateFile`, which points at a CDN, is overridden. `connect-src` and `worker-src` are unchanged.
+- **Nothing kept:** the photo, its OCR text and what a barcode encodes stay in memory; a barcode is masked by its position, and only its format ("QR code") is shown.
+- Not added, and never to add: `'unsafe-eval'`, `blob:` or any CDN in `script-src`.
+
 ## Wiretap check
 
 The chat's **What leaves** pane shows "the exact text Envoy handed to Firebase AI Logic". `npm run verify:wiretap` (`scripts/verify-wiretap.mjs`) proves it against the real network request instead of trusting the page: it drives the app in Chrome (Basic protection, so any Chrome works), approves the sample lease question, reads the request body from Chrome's network layer, and passes only if exactly one request went to `firebasevertexai.googleapis.com`, the excerpt shown in the pane appears verbatim inside that request, and none of the real values the pane highlights appear anywhere in it. `--self-test` tampers with the shown text and must fail.

@@ -31,8 +31,8 @@ export function OfflineBanner() {
         <WifiOff size={20} strokeWidth={1.75} aria-hidden="true" />
         <strong>You're offline.</strong>
         <span className="opacity-80">
-          Envoy keeps working with your on-device model. Questions that need the cloud get a lighter
-          on-device answer, labelled as such.
+          Envoy keeps answering on this device. Questions that need the cloud can wait here until
+          you're back online, or get a lighter answer on this device now.
         </span>
       </p>
     </div>

@@ -1,4 +1,6 @@
 /** Reads a user's document on the device. Nothing here touches the network. */
+import { ocrMask, type MaskBox } from '@envoy/core';
+import type { PhotoRead } from './ocr';
 
 export class FileReadError extends Error {
   override name = 'FileReadError';
@@ -8,9 +10,19 @@ export interface ReadDocument {
   title: string;
   text: string;
   pages: number;
+  /** A photo: its size and one box per private detail found in it (text and barcodes). */
+  photo?: { boxes: MaskBox[]; width: number; height: number };
 }
 
 const MAX_BYTES = 10 * 1024 * 1024;
+const MAX_SIDE = 6000;
+const IMAGE = /^image\/(png|jpeg|webp)$/;
+
+/** Default photo reading: Tesseract.js and zxing-wasm from our own /ocr folder (loaded on demand). */
+async function readWithOcr(file: Blob): Promise<PhotoRead> {
+  const { recognizeImage } = await import('./ocr');
+  return recognizeImage(file, '/ocr');
+}
 
 /** Default PDF text extraction with pdf.js (text PDFs only; loaded on demand). */
 async function extractWithPdfJs(file: File): Promise<string[]> {
@@ -40,7 +52,10 @@ async function extractWithPdfJs(file: File): Promise<string[]> {
 
 export async function readDocumentFile(
   file: File,
-  opts: { extractPdfPages?: (file: File) => Promise<string[]> } = {},
+  opts: {
+    extractPdfPages?: (file: File) => Promise<string[]>;
+    readPhoto?: (file: Blob) => Promise<PhotoRead>;
+  } = {},
 ): Promise<ReadDocument> {
   if (file.size > MAX_BYTES)
     throw new FileReadError('This file is larger than 10 MB. Try a shorter document.');
@@ -65,5 +80,21 @@ export async function readDocumentFile(
     return { title: file.name, text, pages: pages.length };
   }
 
-  throw new FileReadError('Envoy reads PDF or TXT files, or pasted text.');
+  if (IMAGE.test(file.type) || /\.(png|jpe?g|webp)$/.test(name)) {
+    const read = await (opts.readPhoto ?? readWithOcr)(file);
+    if (read.width > MAX_SIDE || read.height > MAX_SIDE)
+      throw new FileReadError(
+        'This image is too large to read on this device. Try a photo under 6000 pixels wide.',
+      );
+    const { text, boxes } = ocrMask(read.words);
+    if (!text.trim()) throw new FileReadError("Envoy couldn't find any text in this image.");
+    return {
+      title: file.name,
+      text,
+      pages: 1,
+      photo: { boxes: [...boxes, ...read.barcodes], width: read.width, height: read.height },
+    };
+  }
+
+  throw new FileReadError('Envoy reads PDF, TXT and photo files (PNG, JPG, WebP), or pasted text.');
 }
