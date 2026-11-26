@@ -4,13 +4,14 @@ Paste-ready fields and assets for the YouTube upload, the Chrome Web Store listi
 
 ## Envoy YouTube upload
 
-Done: the film is public at https://www.youtube.com/watch?v=yvChwFT2770 and embedded on the Envoy website. Kept for reference: what was uploaded and how.
+**v7 (26 Nov) to upload.** v6 is public at https://www.youtube.com/watch?v=yvChwFT2770 and embedded on the Envoy website until v7's link replaces it. v7 adds the sample cards, the What you see / What leaves view, offline answering and the held question, and photo masking in the extension; the guard scene is kept.
 
 ### 1. Upload the film
 
 _studio.youtube.com → Create → Upload videos_
 
-- Video: `F:\Projects\Envoy-wt\_backup-1527\envoy-demo-v6.mp4` (2:50, 1920×1080, 30 fps, -16 LUFS, 76 MB)
+- Video: `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v7.mp4` (2:58, 1920×1080, 30 fps, -16 LUFS, 80 MB)
+- Subtitles (optional, _Subtitles → Upload file → With timing_): `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v7.srt`
 
 ### 2. Details
 
@@ -25,12 +26,12 @@ _Details page_
 Envoy: your private AI agent to the cloud | Firebase AI Logic hybrid inference | #BuildHybridAI
 ```
 
-**Description** (2093 / 5000)
+**Description** (2461 / 5000)
 
 ```text
 Envoy is your private AI agent to the cloud. Ask cloud AI about a lease, an offer letter or a lab report without handing over your private details.
 
-Chrome's built-in model (Gemma 4, the model Gemini Nano 4 is built on) runs on your device through Firebase AI Logic hybrid inference. It finds names, IDs, accounts and amounts, keeps only the parts of the document your question needs, and turns private details into tags like [LANDLORD] and [RENT]. You see exactly what the cloud will see, and nothing is sent until you approve. Gemini in the cloud reasons over tags only (Fast: Gemini 3.5 Flash-Lite, or Gemini 4 Hydrogen), and Envoy puts your real details and the worked-out amounts back on your device. Local only keeps every answer on the device.
+Chrome's built-in model (Gemma 4, the model Gemini Nano 4 is built on) runs on your device through Firebase AI Logic hybrid inference. It finds names, IDs, accounts and amounts, keeps only the parts of the document your question needs, and turns private details into tags like [LANDLORD] and [RENT]. You see exactly what the cloud will see, and nothing is sent until you approve. Gemini in the cloud reasons over tags only (Fast: Gemini 3.5 Flash-Lite, or Gemini 4 Hydrogen), and Envoy puts your real details and the worked-out amounts back on your device. Local only keeps every answer on the device. The What leaves view shows the exact text that left, beside your document. Offline, Envoy keeps answering on the device and can hold an approved cloud question until the network is back. The Chrome extension masks photos on your device before you upload them.
 
 Watch a real Private-mode run (recorded on Gemma 4, no setup): https://envoy-hybrid-ai.web.app/app?recorded=1
 Try it live: https://envoy-hybrid-ai.web.app
@@ -38,19 +39,19 @@ Code (Apache-2.0): https://github.com/hesham88/envoy
 
 Chapters
 0:00 Everything you paste leaves your device
-0:19 Private details become tags, on your device
-0:35 Who it's for
-0:46 A real Private-mode session on Gemma 4 (Gemini Nano 4)
-1:07 You approve what leaves; the guard blocks raw details
-1:24 Fast (Gemini 3.5 Flash-Lite) or Gemini 4 Hydrogen
-1:35 Answered on the device: 0 bytes sent
-1:46 Network ledger and hybrid inference with Firebase AI Logic
-2:02 The Chrome extension and Upload with Envoy
-2:23 Set up private mode, and the measured results
+0:19 Private details become tags; five real situations, one click
+0:39 A real Private-mode session on Gemma 4 (Gemini Nano 4)
+0:59 You approve what leaves; the guard blocks raw details
+1:16 What you see, what leaves, and the answer
+1:39 Offline: answered on the device; a cloud question held, sent once
+2:01 Hybrid inference with Firebase AI Logic
+2:11 The Chrome extension
+2:23 Photos masked on the device
+2:40 Measured results
 
 Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and about a quarter of the document text sent (masked); 28 of 28 guard attacks blocked. Full results: https://github.com/hesham88/envoy/blob/main/docs/EVAL.md
 
-About this video: a real session on a CPU-only laptop. Long on-device waits are cut, and the film says where. Everyone in it is fictional. Narration: Chatterbox TTS (Resemble AI, MIT licence), an AI voice. Music and sound effects are original, made in code.
+About this video: a real session on a CPU-only laptop, with Gemini 3.5 Flash-Lite as the cloud model. Long on-device waits are cut, and the film says where; the network is switched off with Chrome's own network emulation. Everyone in it is fictional. Narration: Chatterbox TTS (Resemble AI, MIT licence), an AI voice. Music and sound effects are original, made in code.
 
 Made for the Firebase #BuildHybridAI 2026 hackathon.
 
@@ -98,7 +99,7 @@ Fill the tabs in this order, then Save draft and Submit for review. Review can t
 
 _Build → Package → Upload new package_
 
-- Store package (version 0.1.2): `F:\Projects\Envoy-wt\claude\apps\extension\envoy-extension-0.1.2-store.zip` (Holds key.pem so the store keeps the extension ID ekmjefnebmjbeahkadaheapbgpgkabkd. Upload it only to the Web Store.)
+- Store package (version 0.1.3, uploaded 26 Nov): `F:\Projects\Envoy-wt\claude\apps\extension\envoy-extension-0.1.3-store.zip` (Holds key.pem so the store keeps the extension ID ekmjefnebmjbeahkadaheapbgpgkabkd. Upload it only to the Web Store.)
 
 ### 2. Store listing: product details
 
@@ -207,10 +208,10 @@ Keeps the user’s own privacy rules and the list of sites they switched Envoy o
 Adds Envoy’s text-box and upload helpers to the sites the user switches on, one site at a time.
 ```
 
-**offscreen justification** (94 / 1000)
+**offscreen justification** (168 / 1000, updated for 0.1.3: the offscreen page also reads photos)
 
 ```text
-Runs the on-device AI check for text boxes in an extension page instead of inside the website.
+Runs Envoy's on-device checks in an extension page instead of inside the website: the AI check for text boxes, and reading text and barcodes in photos the user uploads.
 ```
 
 **activeTab justification** (140 / 1000)
@@ -225,7 +226,7 @@ When the user switches Envoy on for the current site from the toolbar popup, add
 Optional host access is requested only when the user switches Envoy on for a site, so the text-box and upload helpers can run there. No site is enabled by default.
 ```
 
-**Remote code: No (justification if asked)** (211 / 1000)
+**Remote code** (no field on the Privacy page as of 26 Nov 2026: the store checks the package itself; 0.1.2 was rejected for Firebase script URLs in the bundle, fixed in 0.1.3, `docs/SECURITY.md`). If a reviewer asks:
 
 ```text
 All code ships in the package. The side panel shows Envoy’s own web app (https://envoy-hybrid-ai.web.app) in a frame so cloud requests are protected by Firebase App Check; no remote script runs in the extension.

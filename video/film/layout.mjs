@@ -28,6 +28,7 @@ export const LABEL = {
 /**
  * Per scene: layout, caption, camera move ('in' push-in, 'left'/'right' drift) and the transition
  * INTO the scene (ffmpeg xfade name and seconds). Within the one private take the cuts are quick.
+ * full: play the whole clip even past the narration (its ending is the point of the scene).
  */
 export const SCENES = {
   'n01-open': {
@@ -161,6 +162,61 @@ export const SCENES = {
     move: 'in',
     into: ['fadeblack', 0.8],
   },
+  // ---- v7 (26 Nov): scenes added for the samples, the wiretap, offline and photo masking ----
+  'n04-samples': {
+    layout: 'left',
+    where: 'device',
+    title: 'Five real situations, one click',
+    sub: 'Each with questions for the device and for the cloud',
+    move: 'right',
+    into: ['smoothup', 0.7],
+  },
+  'n08g-guard': {
+    layout: 'left',
+    where: 'guard',
+    title: 'Raw details are blocked',
+    sub: 'A bank account typed into the excerpt stops the send',
+    move: 'in',
+    into: ['hblur', 0.5],
+  },
+  'n09-wiretap': {
+    full: true,
+    layout: 'wide',
+    where: 'cloud',
+    title: 'What you see, and what leaves',
+    sub: 'The exact text handed to Firebase AI Logic, beside your document',
+    move: 'in',
+    into: ['smoothleft', 0.6],
+  },
+  'n11-offline': {
+    full: true,
+    layout: 'left',
+    where: 'device',
+    title: 'Offline: answered on the device',
+    sub: 'No network, and nothing is sent',
+    move: 'right',
+    into: ['smoothup', 0.6],
+    wait: 'local',
+  },
+  'n12-held': {
+    full: true,
+    layout: 'right',
+    where: 'you',
+    title: 'Approved, held, sent once',
+    sub: 'A cloud question waits on the device until the network is back',
+    move: 'left',
+    into: ['smoothleft', 0.6],
+    wait: 'held',
+  },
+  'n15-photo': {
+    full: true,
+    layout: 'right',
+    where: 'device',
+    title: 'Photos, masked on the device',
+    sub: 'Every box drawn before you press anything; press one to keep that part',
+    move: 'left',
+    into: ['slideleft', 0.7],
+  },
   'n18-end': { layout: 'bleed', move: 'in', into: ['circlecrop', 1.0] },
 };
 
@@ -186,6 +242,7 @@ export const WAIT_TEXT = {
     `Wait cut: ${minutes(s)} of on-device work on this CPU-only laptop. Times vary a lot by device.`,
   hydrogen: (s) => `Wait cut: the cloud model took ${Math.round(s)} seconds.`,
   local: (s) => `Wait cut: ${minutes(s)} on this CPU-only laptop.`,
+  held: (s) => `Wait cut: ${minutes(s)} of on-device work on this CPU-only laptop.`,
 };
 function minutes(s) {
   if (s < 90) return `about ${Math.round(s)} seconds`;

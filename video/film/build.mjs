@@ -8,7 +8,7 @@
  *     (ducked under the voice), keyboard sounds at the recorded typing moments, and effects are mixed
  *     and normalised to -16 LUFS. English subtitles (.srt) come from the narration.
  *
- * Usage: node video/film/build.mjs [--draft] [--reuse]   (draft: a missing clip becomes a placeholder
+ * Usage: node video/film/build.mjs [--v7] [--draft] [--reuse]   (draft: a missing clip becomes a placeholder
  *        card; reuse: keep scenes already composed and only redo pass 2)
  * Output: video/out/envoy-demo.mp4 (+ .srt), or envoy-demo-draft.mp4
  */
@@ -23,7 +23,7 @@ const VIDEO = resolve(HERE, '..');
 const OUT = join(VIDEO, 'out');
 const RAW = join(OUT, 'raw');
 const OV = join(OUT, 'overlays');
-const PARTS = join(OUT, 'scenes');
+const PARTS = join(OUT, process.argv.includes('--v7') ? 'scenes-v7' : 'scenes');
 const SFX = join(VIDEO, 'audio', 'out');
 mkdirSync(PARTS, { recursive: true });
 const draft = process.argv.includes('--draft');
@@ -31,6 +31,10 @@ const reuse = process.argv.includes('--reuse');
 // --flash: the cut where Gemini 3.5 Flash-Lite answers (video/narration-flash.json overrides lines,
 // voice files <id>-flash.wav and captions cap-<id>-flash.png).
 const flash = process.argv.includes('--flash'); // keep scenes already composed (pass 1)
+// --v7: the 26 Nov cut (narration-v7.json, voices in wav7/, out/envoy-demo-v7.mp4); v6 stays as it is.
+const v7 = process.argv.includes('--v7');
+const NARRATION = v7 ? 'narration-v7.json' : 'narration.json';
+const VOICES = v7 ? 'wav7' : 'wav3';
 const LEAD = 0.45;
 const TAIL = 0.65;
 const FPS = 30;
@@ -122,8 +126,10 @@ function sounds(id) {
 }
 
 // ---------- the running order and each scene's length ----------
-const overrides = flash ? JSON.parse(readFileSync(join(VIDEO, 'narration-flash.json'), 'utf8')) : [];
-const lines = JSON.parse(readFileSync(join(VIDEO, 'narration.json'), 'utf8')).map((l) => {
+const overrides = flash
+  ? JSON.parse(readFileSync(join(VIDEO, 'narration-flash.json'), 'utf8'))
+  : [];
+const lines = JSON.parse(readFileSync(join(VIDEO, NARRATION), 'utf8')).map((l) => {
   const o = overrides.find((x) => x.id === l.id);
   return o ? { ...l, text: o.text, variant: '-flash' } : l;
 });
@@ -138,7 +144,7 @@ for (const l of lines) {
     });
   const dir = SCENES[l.id];
   if (!dir) throw new Error(`no direction for ${l.id}`);
-  const wav = join(VIDEO, 'wav3', `${l.id}${l.variant ?? ''}.wav`);
+  const wav = join(VIDEO, VOICES, `${l.id}${l.variant ?? ''}.wav`);
   if (!existsSync(wav)) throw new Error(`missing narration ${wav}`);
   const speech = probe(wav);
   const need = LEAD + speech + TAIL;
@@ -150,6 +156,7 @@ for (const l of lines) {
     clipLen = need;
   } else throw new Error(`missing clip ${clip}`);
   let dur = Math.max(3, need, Math.min(clipLen, need + 1.2));
+  if (dir.full && clip) dur = Math.max(need, clipLen); // the clip's ending matters: play it all
   if (l.id === 'n02-problem') dur = Math.max(need, 12.8); // let the closing line land
   if (l.id === 'n18-end') dur = Math.max(need, 6);
   scenes.push({ ...l, ...dir, wav, speech, clip, clipLen, dur });
@@ -388,7 +395,10 @@ f.push(
 );
 f.push(`[mix]atrim=duration=${total.toFixed(3)},loudnorm=I=-16:TP=-1.5:LRA=11[audio]`);
 
-const outFile = join(OUT, `envoy-demo${flash ? '-flash' : ''}${draft ? '-draft' : ''}.mp4`);
+const outFile = join(
+  OUT,
+  `envoy-demo${v7 ? '-v7' : ''}${flash ? '-flash' : ''}${draft ? '-draft' : ''}.mp4`,
+);
 writeFileSync(join(OUT, 'filter-final.txt'), f.join(';\n'));
 ffmpeg([
   ...args,
