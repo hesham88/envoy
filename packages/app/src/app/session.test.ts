@@ -73,6 +73,17 @@ describe('sessionReducer', () => {
     expect([s.phase, s.error, s.doc?.title]).toEqual(['error', 'Network error', doc.title]);
   });
 
+  it('offline: an approved request can be held, then sent, or released back to review', () => {
+    const held = sessionReducer(reviewState(), { type: 'HOLD' });
+    expect(held.phase).toBe('held');
+    expect(sessionReducer(held, { type: 'SEND_START' }).phase).toBe('sending');
+    expect(sessionReducer(held, { type: 'RELEASE' }).phase).toBe('review');
+    // Nothing to hold before review, and review edits are frozen while held.
+    const loaded = sessionReducer(initialSession, { type: 'LOAD_DOC', doc });
+    expect(sessionReducer(loaded, { type: 'HOLD' })).toBe(loaded);
+    expect(sessionReducer(held, { type: 'EDIT_OUTBOUND', text: 'changed' })).toBe(held);
+  });
+
   it('CLEAR wipes the document, analysis and outbound from memory', () => {
     const s = sessionReducer(sessionReducer(reviewState(), { type: 'EDIT_OUTBOUND', text: 'x' }), {
       type: 'CLEAR',

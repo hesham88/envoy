@@ -16,11 +16,20 @@ import {
   History,
   ScrollText,
   ShieldCheck,
+  WifiOff,
   X,
 } from 'lucide-react';
 import { analyze, answer, composeOutbound, networkLog, type AnalyzeProgress } from '@envoy/ai';
 import { checkOutbound, validateCustomRule, type CustomRule } from '@envoy/core';
-import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill, UvRing } from '@envoy/ui';
+import {
+  Logo,
+  ModeChip,
+  RestoredText,
+  SecurityFibers,
+  StatusPill,
+  TaggedText,
+  UvRing,
+} from '@envoy/ui';
 import { NOTICES } from '../app/actions';
 import {
   initialSession,
@@ -33,7 +42,7 @@ import type { EnvoyRuntime } from '../app/useEnvoy';
 import { AboutDialog } from '../components/AboutDialog';
 import { LiveRegion } from '../components/LiveRegion';
 import { NetworkInspector } from '../components/NetworkInspector';
-import { OfflineBanner } from '../components/OfflineBanner';
+import { OfflineBanner, useOnline } from '../components/OfflineBanner';
 import { CloudPreview } from '../components/review/CloudPreview';
 import { DocumentViewer } from '../components/review/DocumentViewer';
 import { FoundList } from '../components/review/FoundList';
@@ -48,6 +57,14 @@ import { sampleFromUrl } from './samples';
 import { buildWiretap } from './wiretap';
 import { useVault } from '../lib/useVault';
 import { PREF_KEYS, usePref } from '../lib/prefs';
+
+/** Sends one approved, masked excerpt (or holds it until the network returns). */
+type ApproveFn = (
+  analysis: NonNullable<SessionState['analysis']>,
+  outbound: string,
+  sharedTags: string[],
+  selectedIds?: number[],
+) => void;
 
 interface Turn {
   id: number;
@@ -388,6 +405,29 @@ export function ChatApp({
     }
   }
 
+  // Approved while offline: the masked request waits here, in memory only, until the network is
+  // back; then it is sent once, exactly as approved. Closing the tab discards it.
+  const held = useRef(new Map<number, Parameters<ApproveFn>>());
+  const approveRef = useRef(approve);
+  approveRef.current = approve;
+  useEffect(() => {
+    const send = () => {
+      const waiting = [...held.current];
+      held.current.clear();
+      for (const [id, args] of waiting) void approveRef.current(id, ...args);
+    };
+    window.addEventListener('online', send);
+    return () => window.removeEventListener('online', send);
+  }, []);
+  const hold = (id: number, ...args: Parameters<ApproveFn>) => {
+    held.current.set(id, args);
+    dispatchTo(id)({ type: 'HOLD' });
+  };
+  const release = (id: number) => {
+    held.current.delete(id);
+    dispatchTo(id)({ type: 'RELEASE' });
+  };
+
   async function approve(
     id: number,
     analysis: NonNullable<SessionState['analysis']>,
@@ -727,6 +767,8 @@ export function ChatApp({
                 runtime={runtime}
                 dispatch={dispatchTo(t.id)}
                 onApprove={(a, o, s, ids) => void approve(t.id, a, o, s, ids)}
+                onHold={(a, o, s, ids) => hold(t.id, a, o, s, ids)}
+                onRelease={() => release(t.id)}
                 handoff={cloudHandoff}
               />
             ))
@@ -964,18 +1006,17 @@ function TurnView({
   runtime,
   dispatch,
   onApprove,
+  onHold,
+  onRelease,
   handoff,
 }: {
   handoff: { url: string } | null;
   turn: Turn;
   runtime: EnvoyRuntime;
   dispatch: (a: SessionAction) => void;
-  onApprove: (
-    analysis: NonNullable<SessionState['analysis']>,
-    outbound: string,
-    sharedTags: string[],
-    selectedIds?: number[],
-  ) => void;
+  onApprove: ApproveFn;
+  onHold: ApproveFn;
+  onRelease: () => void;
 }) {
   const s = turn.session;
   return (
@@ -1028,13 +1069,15 @@ function TurnView({
             {s.notice}
           </p>
         )}
-        {(s.phase === 'review' || s.phase === 'sending') &&
+        {(s.phase === 'review' || s.phase === 'held' || s.phase === 'sending') &&
           s.analysis &&
           !(s.analysis.mode === 'private' && (s.analysis.route.local || turn.localOnly)) && (
             <Approval
               session={s}
               dispatch={dispatch}
               onApprove={onApprove}
+              onHold={onHold}
+              onRelease={onRelease}
               localOnly={turn.localOnly}
               handoff={handoff}
             />
@@ -1057,20 +1100,20 @@ function Approval({
   session,
   dispatch,
   onApprove,
+  onHold,
+  onRelease,
   localOnly,
   handoff,
 }: {
   handoff: { url: string } | null;
   session: SessionState;
   dispatch: (a: SessionAction) => void;
-  onApprove: (
-    analysis: NonNullable<SessionState['analysis']>,
-    outbound: string,
-    sharedTags: string[],
-    selectedIds?: number[],
-  ) => void;
+  onApprove: ApproveFn;
+  onHold: ApproveFn;
+  onRelease: () => void;
   localOnly: boolean;
 }) {
+  const online = useOnline();
   const analysis = session.analysis!;
   const composed = useMemo(
     () =>
@@ -1151,6 +1194,55 @@ function Approval({
           </div>
         </div>
       </div>
+      {session.phase === 'held' && (
+        <div className="flex flex-col gap-3 rounded-[16px] border-2 border-dashed border-cloud/70 bg-surface p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p
+              role="status"
+              className="m-0 flex items-center gap-2 text-[15px] font-semibold text-ink"
+            >
+              <WifiOff size={17} className="text-cloud" aria-hidden="true" />
+              Held on this device: waiting for the network
+            </p>
+            <button
+              type="button"
+              onClick={onRelease}
+              className="rounded-full border border-line px-3.5 py-1.5 text-[13.5px] text-ink hover:border-danger/60"
+            >
+              Cancel
+            </button>
+          </div>
+          <p className="m-0 text-[13.5px] text-muted">
+            This masked excerpt goes to the cloud the moment you're back online, exactly as you
+            approved it. If you close this tab, the held question is discarded.
+          </p>
+          <div className="max-h-56 overflow-auto rounded-[10px] bg-paper p-3 font-mono text-[12.5px] leading-relaxed whitespace-pre-wrap text-ink">
+            <TaggedText text={outbound} />
+          </div>
+        </div>
+      )}
+      {session.phase === 'review' && !online && !handoff && guard.ok && (
+        <div className="flex flex-col gap-3 rounded-[16px] border border-cloud/60 bg-cloud-tint/30 p-4">
+          <p className="m-0 text-[14px] leading-relaxed text-ink">
+            <strong>You're offline.</strong> Envoy can keep this approved, masked excerpt on this
+            device and send it when the network comes back.
+          </p>
+          <button
+            type="button"
+            onClick={() =>
+              onHold(
+                analysis,
+                outbound,
+                session.sharedTags,
+                session.selectedIds ?? analysis.selectedIds,
+              )
+            }
+            className="self-start rounded-full bg-cloud px-4 py-2 text-[14px] font-semibold text-paper hover:bg-cloud/90"
+          >
+            Send when I'm back online
+          </button>
+        </div>
+      )}
       {handoff && (
         <p className="m-0 rounded-[12px] border border-cloud/50 bg-cloud-tint/40 px-4 py-3 text-[14px] leading-relaxed text-ink">
           This question needs cloud reasoning, which this build of the extension doesn't call.
@@ -1158,25 +1250,27 @@ function Approval({
           check and shows you this excerpt again before anything is sent.
         </p>
       )}
-      <CloudPreview
-        outbound={outbound}
-        guard={guard}
-        receipt={composed.receipt}
-        edited={session.editedOutbound !== null}
-        sending={session.phase === 'sending'}
-        dispatch={dispatch}
-        onApprove={() =>
-          handoff
-            ? void window.open(handoff.url, '_blank', 'noopener')
-            : onApprove(
-                analysis,
-                outbound,
-                session.sharedTags,
-                session.selectedIds ?? analysis.selectedIds,
-              )
-        }
-        approveLabel={handoff ? 'Continue in Envoy on the web' : 'Approve and send'}
-      />
+      {session.phase !== 'held' && (
+        <CloudPreview
+          outbound={outbound}
+          guard={guard}
+          receipt={composed.receipt}
+          edited={session.editedOutbound !== null}
+          sending={session.phase === 'sending'}
+          dispatch={dispatch}
+          onApprove={() =>
+            handoff
+              ? void window.open(handoff.url, '_blank', 'noopener')
+              : onApprove(
+                  analysis,
+                  outbound,
+                  session.sharedTags,
+                  session.selectedIds ?? analysis.selectedIds,
+                )
+          }
+          approveLabel={handoff ? 'Continue in Envoy on the web' : 'Approve and send'}
+        />
+      )}
       <details className="rounded-[16px] border border-line bg-surface/60">
         <summary className="cursor-pointer px-4 py-3 text-[14px] font-semibold text-ink">
           Before and after: your document, and what was found

@@ -10,7 +10,16 @@ export type AnswerResult = Awaited<ReturnType<typeof answer>> & {
   /** The cloud model that actually answered, when it wasn't the chosen one. */
   cloudModelUsed?: string;
 };
-export type Phase = 'idle' | 'loaded' | 'analyzing' | 'review' | 'sending' | 'answered' | 'error';
+/** `held`: approved while offline; the masked request waits in memory for the network. */
+export type Phase =
+  | 'idle'
+  | 'loaded'
+  | 'analyzing'
+  | 'review'
+  | 'held'
+  | 'sending'
+  | 'answered'
+  | 'error';
 
 export interface SessionDoc {
   title: string;
@@ -41,6 +50,8 @@ export type SessionAction =
   | { type: 'TOGGLE_TAG'; tag: string; mode: 'hide' | 'share' | 'default' }
   | { type: 'SET_CLAUSES'; ids: number[] }
   | { type: 'EDIT_OUTBOUND'; text: string }
+  | { type: 'HOLD' }
+  | { type: 'RELEASE' }
   | { type: 'SEND_START' }
   | { type: 'ANSWER_DONE'; result: AnswerResult }
   | { type: 'FAIL'; message: string }
@@ -118,8 +129,14 @@ export function sessionReducer(state: SessionState, action: SessionAction): Sess
     case 'EDIT_OUTBOUND':
       if (state.phase !== 'review') return state;
       return { ...state, editedOutbound: action.text };
-    case 'SEND_START':
+    case 'HOLD':
       if (state.phase !== 'review') return state;
+      return { ...state, phase: 'held' };
+    case 'RELEASE':
+      if (state.phase !== 'held') return state;
+      return { ...state, phase: 'review' };
+    case 'SEND_START':
+      if (state.phase !== 'review' && state.phase !== 'held') return state;
       return { ...state, phase: 'sending' };
     case 'ANSWER_DONE':
       if (state.phase !== 'sending') return state;
