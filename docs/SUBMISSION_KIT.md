@@ -4,7 +4,7 @@ Paste-ready fields and assets for the YouTube upload, the Chrome Web Store listi
 
 ## Envoy YouTube upload
 
-**v7 (26 Nov) to upload.** v6 is public at https://www.youtube.com/watch?v=yvChwFT2770 and embedded on the Envoy website until v7's link replaces it. v7 adds the sample cards, the What you see / What leaves view, offline answering and the held question, and photo masking in the extension; the guard scene is kept.
+Done: v7 is public at https://www.youtube.com/watch?v=ZO1DbGUI4Mk (26 Nov) and embedded on the Envoy website; it replaces v6 (yvChwFT2770). v7 adds the sample cards, the What you see / What leaves view, offline answering and the held question, and photo masking in the extension; the guard scene is kept.
 
 ### 1. Upload the film
 
@@ -81,7 +81,7 @@ Envoy, Firebase AI Logic, hybrid inference, Gemini Nano, Gemma 4, Chrome built-i
 
 _Video elements → Add subtitles → Upload file → With timing_
 
-- English subtitles (.srt): `F:\Projects\Envoy-wt\_backup-1527\envoy-demo-v6.srt` (The rules accept English or English subtitles; this adds both.)
+- English subtitles (.srt): `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v7.srt` (The rules accept English or English subtitles; this adds both.)
 
 ### 5. Publish and share the link
 
@@ -150,7 +150,7 @@ _Build → Store listing → Graphic assets_
 - Small promo tile (440×280): `F:\Projects\Envoy-wt\claude\apps\extension\store\promo-tile-440x280.png`
 - Marquee promo tile (1400×560, optional): `F:\Projects\Envoy-wt\claude\apps\extension\store\marquee-1400x560.png`
 
-Screenshots are 1280×800, 24-bit PNG with no transparency, rendered from the real 0.1.2 build. Upload them in this order. Global promo video: https://www.youtube.com/watch?v=yvChwFT2770
+Screenshots are 1280×800, 24-bit PNG with no transparency, rendered from the real 0.1.2 build. Upload them in this order. Global promo video: https://www.youtube.com/watch?v=ZO1DbGUI4Mk
 
 ### 4. Store listing: additional fields
 
@@ -339,7 +339,7 @@ The repository starts on 22 November 2026; no code predates it. AI tools: Claude
 
 _Page 2: Built with, Try it out, Project media_
 
-- **Demo video URL:** https://www.youtube.com/watch?v=yvChwFT2770
+- **Demo video URL:** https://www.youtube.com/watch?v=ZO1DbGUI4Mk
 
 **Built with (type each, press Enter)**
 

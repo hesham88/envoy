@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://envoy-hybrid-ai.web.app"><b>Open Envoy</b></a> &nbsp;·&nbsp;
-  <a href="https://www.youtube.com/watch?v=yvChwFT2770"><b>Watch the demo (2:50)</b></a> &nbsp;·&nbsp;
+  <a href="https://www.youtube.com/watch?v=ZO1DbGUI4Mk"><b>Watch the demo (2:58)</b></a> &nbsp;·&nbsp;
   <a href="#judges-a-two-minute-test">Two-minute test for judges</a> &nbsp;·&nbsp;
   <a href="#how-envoy-uses-firebase-ai-logic">Hybrid inference</a> &nbsp;·&nbsp;
   <a href="#the-guard">The guard</a> &nbsp;·&nbsp;
@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=yvChwFT2770"><img src="docs/submission/youtube-thumbnail.jpg" alt="Watch the Envoy demo film on YouTube (2:50)" width="720"></a>
+  <a href="https://www.youtube.com/watch?v=ZO1DbGUI4Mk"><img src="docs/submission/youtube-thumbnail.jpg" alt="Watch the Envoy demo film on YouTube (2:58)" width="720"></a>
 </p>
 
 # Envoy
@@ -168,7 +168,7 @@ Real runs of the real pipeline (`analyze` and `answer` through Firebase AI Logic
 | Basic protection                             | none (local rules)                | 263 / 263              | 0                                 | 90.6% (every clause, masked) | 97.5% (both)                                        | 6 ms         |
 
 - **The guard red team:** 28 of 28 disguised leaks blocked: spaced, punctuated, invisible characters, lookalike letters, accents, defanged emails, numbers in words, split words, reversed text and base64. Text the guard can't read (an encoded blob) is blocked rather than trusted.
-- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (6% of its masks), which you can unmask in the approval card. Questions that need a figure worked out (a percentage, an amount, a cap, a what-if) always go to the reasoning step, whatever the on-device router says: on 24 November the router sent four of them to the device, which quoted the formula instead of the amount. With that check, Private mode sends a little more text (23.2% of the document, up from 14.5%, all masked) and answers as well as Basic on the judge, with two partly right answers on the team check (an end date it didn't give, and an amount the cloud wrote under a tag name Envoy didn't have). The film was recorded before this check and says "about fifteen percent". Answer quality is graded twice: by Gemini 3.5 Flash-Lite, which also wrote the cloud answers, and checked by the team (our AI coding assistants and human reviewer), who read every answer against its document. Every rating, its reason and a hash of the exact answer it rates are in [`quality-ratings-team.json`](tests/eval/probes/quality-ratings-team.json), and `npm run eval:check` recomputes the scores from it. Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
+- **The trade-offs, plainly:** the on-device steps are slow on a CPU (a GPU should be much faster, but we haven't measured one); the model also masks some harmless words (6% of its masks), which you can unmask in the approval card. Questions that need a figure worked out (a percentage, an amount, a cap, a what-if) always go to the reasoning step, whatever the on-device router says: on 24 November the router sent four of them to the device, which quoted the formula instead of the amount. With that check, Private mode sends a little more text (23.2% of the document, up from 14.5%, all masked) and answers as well as Basic on the judge, with two partly right answers on the team check (an end date it didn't give, and an amount the cloud wrote under a tag name Envoy didn't have). The film (v7, 26 November) uses the current figure, "about a quarter". Answer quality is graded twice: by Gemini 3.5 Flash-Lite, which also wrote the cloud answers, and checked by the team (our AI coding assistants and human reviewer), who read every answer against its document. Every rating, its reason and a hash of the exact answer it rates are in [`quality-ratings-team.json`](tests/eval/probes/quality-ratings-team.json), and `npm run eval:check` recomputes the scores from it. Basic protection masks as well but sends the whole text, masked, because it can't tell which parts the question needs.
 
 ### What Envoy promises, and what it doesn't
 
@@ -235,7 +235,7 @@ Inspired by **PAPILLON: Privacy Preservation from Internet-based and Local Langu
 
 - **When:** the repository starts on 22 November 2026 (first commit `8aa77f6`), inside the submission period. No code predates it.
 - **AI coding assistants:** Claude Code (Anthropic) built the core, the AI layer, the web app, the extension and the visual identity. Antigravity (Google, Gemini) built the eval harness. Both used the Firebase agent skills. Meta Muse Wonder (Meta) did the extension's early development; on 22 November Claude Code (Claude Opus) and Antigravity's Gemini Neon coding agent took it over. Codex Astra (OpenAI), Claude and Antigravity were also used as outside reviewers, playing the judges. Every change went through review, tests and CI.
-- **Demo video figure:** the video says Private mode sent "about 15%" of the text; that was measured before the 24 November routing fix. Today's figure is 23.2%, about a quarter ([EVAL §2](docs/EVAL.md)).
+- **Demo video figure:** the film (v7, 26 November) says Private mode sent "about a quarter" of the text: 23.2%, measured after the 24 November routing fix ([EVAL §2](docs/EVAL.md)). The earlier cut (v6) said "about 15%", measured before that fix.
 - **Demo video:** the narration is generated with [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) (Resemble AI, MIT licence, default voice) running locally; music and sound effects are synthesised in code (`video/audio/synth.mjs`); the footage is real screen recordings of Envoy.
 - **Art:** the logo, seal, banners and scenes are drawn in code (SVG and canvas), rendered to images by our own scripts. No generated images are used.
 - **Open-source libraries:** Firebase JS SDK, React, Vite, Tailwind CSS, pdf.js, Lucide icons, and the Fraunces and IBM Plex fonts (SIL Open Font License).
