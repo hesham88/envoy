@@ -11,7 +11,7 @@ A judge has about three minutes of video and two minutes in the hosted app. Envo
 3. **Offline, then online:** with no network, Envoy still answers locally; a question that needs the cloud is held on the device, then sent (masked, approved) when the network returns.
 4. **Photos masked automatically:** a photo or screenshot of a document gets boxes over the private details before the person sees it, recognised on the device; they toggle boxes and send.
 
-Then a new video cut (v7) that shows these and fixes the "about 15%" line (today's measured figure is 23.2%, "about a quarter").
+Then a new video cut (v7, **target 2:45**) that shows these and fixes the "about 15%" line (today's measured figure is 23.2%, "about a quarter").
 
 **Success:** a judge who watches the video, or clicks one sample in the hosted app, sees raw values stay left and tags cross right, without opening a drawer or reading docs. Nothing shown is staged.
 
@@ -22,7 +22,7 @@ Then a new video cut (v7) that shows these and fixes the "about 15%" line (today
 - G3. Offline handoff: hold an approved cloud request while offline and send it on reconnect; local answers work with no network.
 - G4. Auto-masking of document photos on the device (OCR + Envoy's existing detectors), in the extension's upload flow and in the web app.
 - G5. Review fixes: document the device-guard queue, put the recorded Private-mode run first in the Devpost text, explain the video's 15% vs 23.2%.
-- G6. Video v7, ≤ 3:00, then the final release record and the judging tag on the final commit.
+- G6. Video v7, target 2:45 (hard limit 3:00), then the final release record and the judging tag on the final commit.
 
 ## Non-goals
 
@@ -46,7 +46,9 @@ Then a new video cut (v7) that shows these and fixes the "about 15%" line (today
 - Hard rules in `CLAUDE.md` stand: private steps `ONLY_ON_DEVICE` behind the device guard; no secrets or real personal data; evals use the real pipeline.
 - Hydrogen: never probe or retry (20/day, failures count). Video takes go through the take ledger. Evals pin `VITE_CLOUD_MODEL=gemini-3.5-flash-lite`.
 - One model Chrome (CDP 9333) at a time; model Chrome and Chatterbox can't run together on this machine. C: has ~1.6 GB free: tools and caches go on F:.
-- CSP: the hosting CSP and the extension's `extension_pages` CSP have no `'wasm-unsafe-eval'`; WebAssembly OCR needs it (and `worker-src 'self'`, already set for hosting).
+- CSP (owner approved 26 Nov): add `'wasm-unsafe-eval'` to `script-src` in the hosting CSP and in the extension's `extension_pages` CSP. Checked against primary sources: MDN says it "controls WebAssembly execution" and is "a much safer alternative to 'unsafe-eval', since it does not enable general evaluation of JavaScript"; Chrome's MV3 CSP page lists `script-src 'self' 'wasm-unsafe-eval'` as the most permissive allowed extension policy (`'unsafe-eval'` is refused at install). Never add `'unsafe-eval'`, `blob:` or a CDN. Tesseract.js creates its worker from a Blob URL by default, and blob workers inherit the page CSP, so set `workerBlobURL: false` and load the worker from our own file (`worker-src 'self'` is already set for hosting).
+- Permissions-Policy stays `camera=()`: the photo path is a file picker, not live camera capture.
+- Web guidance: `modern-web-guidance` (Google Chrome's plugin, installed) is consulted at the start of each UI or client-JS task in this batch and disclosed in each PR. Its legacy scan of our code (26 Nov) found 10 deterministic items; 9 are `toSorted`/`findLast` style that our `ES2022` lib setting excludes (dropped by the guide's own rubric), and 1 is real: `card.innerHTML = ''` in `apps/extension/src/content/upload-ui.ts:462` → `replaceChildren()` (fixed in part 4, which edits that file).
 - The Chrome Web Store review of 0.1.2 is pending. A 0.1.3 with OCR may not clear review before judging: the repo's release zip is the judged artifact for the extension; say so in the docs.
 - Lanes: Claude owns `packages/*`, `apps/web`, `apps/extension`. `tests/eval/**` and `docs/EVAL.md` are Argon's lane: small, focused edits only (new OCR eval file and one EVAL section), as in earlier batches.
 
@@ -72,7 +74,8 @@ Within G4, OCR engine options: Chrome `TextDetector` (Shape Detection API) needs
   - Empty state: "Nothing has left this device."
 - **Narrow screens and the side panel:** a toggle in the toolbar ("What leaves"); the pane opens over the thread, same content.
 - **Data:** extend `NetworkEntry` (`packages/ai/src/network-log.ts`) with `direction: 'out' | 'in'` (default `'out'`) and record the cloud reply text as an `'in'` entry in the pipeline's cloud step. Restored expressions come from the answer's `spans` (`computed: true`). No new storage: the log stays in memory for the tab.
-- **Honest label:** the pane says "The exact text Envoy handed to Firebase AI Logic." It does not claim to show HTTP bytes; the SDK wraps the text in its own JSON request.
+- **Honest label:** the pane says "The exact text Envoy handed to Firebase AI Logic." The SDK wraps that text in its own JSON request; capturing the real HTTP body at run time would need another global `fetch` patch (what the reviewer flagged) or a service worker (a caching and lifecycle risk days before judging), so the page does not do it.
+- **Proof that the label is true (researched call, 26 Nov):** an end-to-end check, `scripts/verify-wiretap.mjs`, drives the real app in Chrome over CDP, enables `Network`, captures the actual request to `firebasevertexai.googleapis.com` (`Network.getRequestPostData`), and asserts that the text shown in the pane appears verbatim inside the real request body and that no tagged value's real text does. Run before each release and in the video take. The pane links to this check ("How we know this is what left").
 - **Default:** open by default on wide screens in the web app; remembered per viewer in `localStorage` (try/catch).
 
 ### 2. One-click samples (G2)
@@ -101,9 +104,9 @@ Today: `OfflineBanner` shows; a cloud-routed question falls back to a "lighter a
 
 **Extension (`apps/extension/src/content/upload-ui.ts`):** when an image is chosen, the content script sends the bytes to the offscreen document (it already hosts the model and PDF handling) which runs OCR + `ocr-mask` and returns boxes. The image editor opens with those boxes pre-drawn; click a box to toggle it, drag to add one (as today). Status line: "Found 6 private details on this device. Click a box to keep it visible." Burn and re-encode as today.
 
-**Web app:** the composer accepts images (`.png`, `.jpg`, `.webp`). The photo opens in a preview with the same pre-drawn boxes (toggle as above). The OCR text becomes the session document, so the normal pipeline runs on it (review card, approval, What leaves). The photo itself is never sent; the masked text is. A fourth sample, "Photo of a lab bill", is an image of the fictional lab sample drawn on a canvas in the browser when clicked (no image file to ship; *my call*), labelled "sample photo", so a judge can try it without their own photo. OCR text reaches `readDocumentFile` callers the same way a text file does (`packages/app/src/lib/readFile.ts` gains an image branch returning text plus boxes; *my call*).
+**Web app:** the composer accepts images (`.png`, `.jpg`, `.webp`). The photo opens in a preview with the same pre-drawn boxes (toggle as above). The OCR text becomes the session document, so the normal pipeline runs on it (review card, approval, What leaves). The photo itself is never sent; the masked text is. A fourth sample, "Photo of a lab bill", is a **shipped image file** (researched call, 26 Nov, replacing "draw it in the browser"): `apps/web/public/samples/lab-bill.webp`, generated once by our own script (`scripts/make-sample-photo.mjs`: render the fictional lab document as HTML in headless Chrome, then add a slight rotation, perspective, paper tone and noise, so it reads as a phone photo, under ~300 KB). Why: one click feeds it through **the same file path as a real photo** (no special code path), it is identical in the app and the video, it can be downloaded and dropped onto any site's upload box to try the extension, and a clean canvas render would make OCR look easier than it is. OCR text reaches `readDocumentFile` callers the same way a text file does (`packages/app/src/lib/readFile.ts` gains an image branch returning text plus boxes; *my call*).
 
-**Measured:** a small eval, `tests/eval/run-ocr.mjs`: render 6 case documents to images (two fonts, one rotated 2°, one low contrast) and run the **product's** OCR + `ocr-mask` code in a browser page driven by `scripts/lib/envoy-browser.mjs` (no model needed, so any Chrome works; *my call*, so the eval runs the same code path as the app). It reports box recall (detected PII spans that got a box) and over-masking. Results dated and labelled with the Tesseract version. One section in `docs/EVAL.md`.
+**Measured:** a small eval, `tests/eval/run-ocr.mjs`: render 6 case documents to images (two fonts, one rotated 2°, one low contrast) and run the **product's** OCR + `ocr-mask` code in a browser page driven by `scripts/lib/envoy-browser.mjs` (no model needed, so any Chrome works; *my call*, so the eval runs the same code path as the app). Gold boxes come from the **renderer** (DOM range rectangles of each gold sensitive value in the rendered page), not from running the detectors on the OCR text; otherwise an OCR misread that hides a phone number would also hide the miss (researched call, 26 Nov). Images use the same photo-like distortions as the sample. It reports box recall against those gold boxes, over-masking, and OCR time per page. Results dated and labelled with the Tesseract version. One section in `docs/EVAL.md`.
 
 ### 5. Review fixes (G5)
 
@@ -113,7 +116,7 @@ Today: `OfflineBanner` shows; a cloud-routed question falls back to a "lighter a
 
 ### 6. Video v7 and release (G6)
 
-- Reuse the v2 pipeline (`video/`: record scenes, private take through the ledger, Chatterbox narration, `film/build.mjs`). New scenes: split view on a sample, offline hold and reconnect, photo auto-masking in the extension. Narration says "about a quarter of the text". ≤ 3:00.
+- Reuse the v2 pipeline (`video/`: record scenes, private take through the ledger, Chatterbox narration, `film/build.mjs`). New scenes: split view on a sample, offline hold and reconnect, photo auto-masking in the extension. Narration says "about a quarter of the text". **Target 2:45** (hard limit 3:00).
 - The owner uploads v7 to YouTube; then update `apps/web/src/landing/demo-video.ts`, README and the Devpost text with the new link.
 - Release re-check (`docs/SECURITY.md` list), `npm run eval:check`, then move `judging-2026-11-25` to the final commit. `working-web-extension-2026-11-26` stays where it is.
 
