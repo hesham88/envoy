@@ -10,14 +10,12 @@
  * Note: reCAPTCHA can score an automated browser as a bot, so App Check may refuse the cloud step
  * here even though it works for people; the script reports that case separately.
  */
+import { removeScratch, scratchDir } from './lib/scratch.mjs';
 import { chromium } from 'playwright-core';
-import { mkdtempSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
 
 const arg = (k, d) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : d);
 const URL0 = arg('--url', 'https://envoy-hybrid-ai.web.app');
-const profile = mkdtempSync(join(tmpdir(), 'envoy-clean-'));
+const profile = scratchDir('envoy-clean');
 const ctx = await chromium.launchPersistentContext(profile, {
   channel: 'chrome',
   headless: !process.argv.includes('--headful'),
@@ -182,8 +180,7 @@ try {
   );
 } finally {
   await ctx.close();
-  await new Promise((res) => setTimeout(res, 500));
-  rmSync(profile, { recursive: true, force: true });
+  removeScratch(profile);
 }
 console.log(`${pass}/${pass + fail} passed`);
 process.exit(fail ? 1 : 0);

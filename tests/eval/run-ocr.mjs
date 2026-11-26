@@ -12,6 +12,7 @@
  * No model and no cloud: any Chrome works. Needs the dev server (apps/web) on 5173.
  * Usage: node tests/eval/run-ocr.mjs → tests/eval/ocr-results.json
  */
+import '../../scripts/lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';

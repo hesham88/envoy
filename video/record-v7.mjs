@@ -11,11 +11,11 @@
  * Usage: node video/record-v7.mjs [--only n04-samples|n15-photo]
  * Output: video/out/raw/<id>.mp4 (1600x900) + <id>.marks.json
  */
+import { removeScratch, scratchDir, stopChrome } from '../scripts/lib/scratch.mjs';
 import { chromium } from 'playwright-core';
 import { execFileSync, spawn } from 'node:child_process';
 import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -141,7 +141,7 @@ if (!only || only === 'n04-samples') {
 if (!only || only === 'n15-photo') {
   const PORT = 5196;
   const CDP = 9338;
-  const WORK = join(tmpdir(), `envoy-film-${Date.now()}`);
+  const WORK = scratchDir('envoy-film');
   const EXT = join(WORK, 'ext');
   cpSync(join(REPO, 'apps/extension/dist'), EXT, { recursive: true });
   const manifest = JSON.parse(readFileSync(join(EXT, 'manifest.json'), 'utf8'));
@@ -193,8 +193,9 @@ if (!only || only === 'n15-photo') {
     await wait(500);
     browser = await chromium.connectOverCDP(`http://127.0.0.1:${CDP}`).catch(() => undefined);
   }
+  let bcdp;
   try {
-    const bcdp = await browser.newBrowserCDPSession();
+    bcdp = await browser.newBrowserCDPSession();
     await bcdp.send('Extensions.loadUnpacked', { path: EXT });
     const page = await browser.contexts()[0].newPage();
     // A 1100 px wide page at 1.45x: the frames are still 1600x900, and the photo card reads
@@ -231,10 +232,10 @@ if (!only || only === 'n15-photo') {
       await wait(2600);
     });
   } finally {
+    await stopChrome(chrome, bcdp);
     await browser?.close().catch(() => undefined);
-    chrome.kill();
     server.close();
-    setTimeout(() => rmSync(WORK, { recursive: true, force: true }), 800);
+    removeScratch(WORK);
   }
 }
 console.log('footage in', RAW);

@@ -9,16 +9,17 @@
  *
  * Usage (after `npm run build -w @envoy/extension`): node apps/extension/e2e/run.mjs
  */
+import { removeScratch, scratchDir, stopChrome } from '../../../scripts/lib/scratch.mjs';
 import { chromium } from 'playwright-core';
 import { execFileSync, spawn } from 'node:child_process';
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, readFileSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const EXT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const WORK = join(tmpdir(), `envoy-e2e-${Date.now()}`);
+// On the repo's drive, not C:\...\Temp, and removed before exit (scripts/lib/scratch.mjs).
+const WORK = scratchDir('envoy-e2e');
 const TEST_EXT = join(WORK, 'ext');
 const PROFILE = join(WORK, 'profile');
 const PORT = 5197;
@@ -30,7 +31,6 @@ const check = (name, ok, detail = '') => {
 };
 
 // ---------- the test copy of the extension ----------
-mkdirSync(WORK, { recursive: true });
 cpSync(join(EXT, 'dist'), TEST_EXT, { recursive: true });
 const manifest = JSON.parse(readFileSync(join(TEST_EXT, 'manifest.json'), 'utf8'));
 manifest.content_scripts = [
@@ -755,10 +755,10 @@ try {
 } catch (e) {
   check('run completed', false, e.message.split('\n')[0]);
 } finally {
+  await stopChrome(chrome, cdp);
   await browser.close().catch(() => undefined);
-  chrome.kill();
   server.close();
-  setTimeout(() => rmSync(WORK, { recursive: true, force: true }), 500);
+  removeScratch(WORK);
 }
 const failed = results.filter((r) => !r.ok);
 console.log(`\n${results.length - failed.length}/${results.length} passed`);

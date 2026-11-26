@@ -4,6 +4,7 @@
  * tile, inside a guilloche ring at the larger sizes. Writes apps/extension/public/icons/icon-<n>.png.
  * Usage: node apps/extension/scripts/render-icons.mjs
  */
+import '../../../scripts/lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
