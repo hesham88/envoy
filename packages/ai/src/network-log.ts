@@ -6,8 +6,12 @@ export interface NetworkEntry {
   step: Step | 'tripwire';
   target: 'device' | 'cloud';
   blocked: boolean;
-  /** The exact text sent (or attempted). Kept in memory only. */
+  /** The exact text sent (or attempted), or for `direction: 'in'` the reply. Memory only. */
   payload: string;
+  /** 'in' is the cloud's reply coming back; absent means outbound. */
+  direction?: 'out' | 'in';
+  /** The model refused this request (quota, busy), so another model was asked. */
+  refused?: boolean;
 }
 
 type Listener = (entries: readonly NetworkEntry[]) => void;

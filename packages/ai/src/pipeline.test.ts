@@ -281,9 +281,48 @@ describe('answer', () => {
     // Both requests carried the same masked, guard-checked excerpt, and the ledger shows both.
     const sent = (fast.generateContent as ReturnType<typeof vi.fn>).mock.calls[0]![0] as string;
     expect(sent).not.toMatch(/8,500|Karim Fathy|EG38/);
-    expect(
-      networkLog.entries.filter((e) => e.step === 'reason' && e.target === 'cloud'),
-    ).toHaveLength(2);
+    const outs = networkLog.entries.filter(
+      (e) => e.step === 'reason' && e.target === 'cloud' && e.direction !== 'in',
+    );
+    expect(outs).toHaveLength(2);
+    // The wiretap needs to tell them apart: the first was refused, the second answered.
+    expect(outs[0]).toMatchObject({ refused: true });
+    expect(outs[1]!.refused).toBeFalsy();
+    const ins = networkLog.entries.filter((e) => e.direction === 'in');
+    expect(ins).toEqual([
+      expect.objectContaining({
+        step: 'reason',
+        target: 'cloud',
+        payload: '[LANDLORD] may raise it by at most 10%.',
+      }),
+    ]);
+  });
+
+  it('records the cloud reply as an incoming entry, after the outbound one', async () => {
+    const { deps } = fakeDeps('available', { reasonText: 'Up to {{RENT * 1.10}}.' });
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    await answer(a, a.outbound, deps);
+    const last2 = networkLog.entries.slice(-2);
+    expect(last2[0]).toMatchObject({ step: 'reason', target: 'cloud' });
+    expect(last2[0]!.direction ?? 'out').toBe('out');
+    expect(last2[1]).toMatchObject({
+      direction: 'in',
+      target: 'cloud',
+      blocked: false,
+      payload: 'Up to {{RENT * 1.10}}.',
+    });
+  });
+
+  it('an answer the SDK produced on the device records no incoming cloud entry', async () => {
+    const { deps, models } = fakeDeps('available');
+    (models.reason.generateContent as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      response: { text: () => 'On this device.', inferenceSource: InferenceSource.ON_DEVICE },
+    });
+    const a = await analyze(EN_LEASE.text, QUESTION, deps);
+    await answer(a, a.outbound, deps);
+    expect(networkLog.entries.some((e) => e.direction === 'in' && e.target === 'cloud')).toBe(
+      false,
+    );
   });
 
   it('names why the chosen model failed: its daily quota, busy, or other', () => {

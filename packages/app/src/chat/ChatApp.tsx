@@ -5,7 +5,7 @@
  * your details restored on this device. Chats are kept only if you turn on History (encrypted on
  * this device); otherwise closing the tab forgets everything.
  */
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import {
   ArrowUp,
   FileText,
@@ -18,7 +18,7 @@ import {
   ShieldCheck,
   X,
 } from 'lucide-react';
-import { analyze, answer, composeOutbound, type AnalyzeProgress } from '@envoy/ai';
+import { analyze, answer, composeOutbound, networkLog, type AnalyzeProgress } from '@envoy/ai';
 import { checkOutbound, EN_LEASE, validateCustomRule, type CustomRule } from '@envoy/core';
 import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill, UvRing } from '@envoy/ui';
 import { NOTICES } from '../app/actions';
@@ -42,6 +42,8 @@ import { FlightRecorder } from './FlightRecorder';
 import { HistoryDialog } from './History';
 import { PrivateModeGuide, type ChromePage } from './PrivateModeGuide';
 import { RecordedRun } from './RecordedRun';
+import { WiretapPane } from './WiretapPane';
+import { buildWiretap } from './wiretap';
 import { useVault } from '../lib/useVault';
 import { PREF_KEYS, usePref } from '../lib/prefs';
 
@@ -161,6 +163,28 @@ const FALLBACK_TEXT = {
   other: "didn't answer",
 } as const;
 
+const WIRETAP_KEY = 'envoy.wiretap.open';
+const WIDE = '(min-width: 1280px)';
+function useWide(): boolean {
+  return useSyncExternalStore(
+    (cb) => {
+      if (typeof matchMedia !== 'function') return () => {};
+      const m = matchMedia(WIDE);
+      m.addEventListener?.('change', cb);
+      return () => m.removeEventListener?.('change', cb);
+    },
+    () => typeof matchMedia === 'function' && matchMedia(WIDE).matches,
+    () => false,
+  );
+}
+function useNetworkLog() {
+  return useSyncExternalStore(
+    (cb) => networkLog.subscribe(cb),
+    () => networkLog.entries.length,
+    () => 0,
+  );
+}
+
 export function ChatApp({
   runtime,
   incomingDoc = null,
@@ -223,6 +247,27 @@ export function ChatApp({
   const [ledgerOpen, setLedgerOpen] = useState(
     () => typeof location !== 'undefined' && new URLSearchParams(location.search).has('inspect'),
   );
+  const wideScreen = useWide();
+  // The wiretap: beside the thread on a wide page by default; the person's choice is remembered.
+  const [wiretapOpen, setWiretapOpen] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem(WIRETAP_KEY);
+      if (saved === 'on' || saved === 'off') return saved === 'on';
+    } catch {
+      /* storage blocked: use the default */
+    }
+    return !panel && typeof matchMedia === 'function' && matchMedia(WIDE).matches;
+  });
+  const toggleWiretap = () =>
+    setWiretapOpen((v) => {
+      try {
+        localStorage.setItem(WIRETAP_KEY, v ? 'off' : 'on');
+      } catch {
+        /* not remembered */
+      }
+      return !v;
+    });
+  const logSize = useNetworkLog();
   const [rulesOpen, setRulesOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
   const chatId = useRef(newChatId());
@@ -472,6 +517,33 @@ export function ChatApp({
             ? (last.error ?? '')
             : '';
 
+  // The wiretap follows the latest turn: its document, its real values, and what it put on the wire.
+  const lastTurn = turns.at(-1);
+  const wireDoc = lastTurn
+    ? (lastTurn.session.doc ??
+      (lastTurn.session.question
+        ? { title: 'Your message', text: lastTurn.session.question, source: 'paste' as const }
+        : null))
+    : doc;
+  const wireView = useMemo(
+    () =>
+      lastTurn
+        ? buildWiretap(networkLog.entries, {
+            docText: wireDoc?.text ?? '',
+            cloudModel:
+              lastTurn.session.result?.cloudModelUsed && !lastTurn.session.result.usedFallbackModel
+                ? lastTurn.session.result.cloudModelUsed
+                : runtime.settings.cloudModel,
+            fallbackModel: runtime.settings.fastCloudModel,
+            ...(lastTurn.session.result ? { spans: lastTurn.session.result.spans } : {}),
+            since: lastTurn.startedAt,
+          })
+        : { cards: [], docChars: wireDoc?.text.length ?? 0, sentChars: 0, nothingLeft: true },
+    // logSize changes whenever the network log does.
+    [lastTurn, logSize, wireDoc, runtime.settings],
+  );
+  const wireValues = lastTurn?.session.analysis?.entities.map((e) => e.value) ?? [];
+
   return (
     <div
       className="envoy-uv flex min-h-screen overflow-x-clip font-sans"
@@ -533,11 +605,11 @@ export function ChatApp({
           <Lock size={15} aria-hidden="true" /> Your rules {rules.length ? `(${rules.length})` : ''}
         </button>
         <button
-          onClick={() => setLedgerOpen((v) => !v)}
-          aria-pressed={ledgerOpen}
+          onClick={toggleWiretap}
+          aria-pressed={wiretapOpen}
           className="flex items-center gap-2 rounded-[10px] px-2 py-2 text-left text-[14px] text-ink hover:bg-surface"
         >
-          <ScrollText size={15} aria-hidden="true" /> Network ledger
+          <ScrollText size={15} aria-hidden="true" /> What leaves
         </button>
         <button
           onClick={() => setAboutOpen(true)}
@@ -582,10 +654,10 @@ export function ChatApp({
                   onClick: () => setRulesOpen(true),
                 },
                 {
-                  label: 'Network ledger',
+                  label: 'What leaves',
                   Icon: ScrollText,
-                  onClick: () => setLedgerOpen((v) => !v),
-                  pressed: ledgerOpen,
+                  onClick: toggleWiretap,
+                  pressed: wiretapOpen,
                 },
                 {
                   label: 'History',
@@ -857,6 +929,14 @@ export function ChatApp({
         </div>
       </div>
 
+      <WiretapPane
+        doc={wireDoc}
+        values={wireValues}
+        view={wireView}
+        open={wiretapOpen}
+        onClose={toggleWiretap}
+        overlay={panel || !wideScreen}
+      />
       {dragging && (
         <div
           aria-hidden="true"

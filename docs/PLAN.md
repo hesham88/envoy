@@ -6,6 +6,12 @@ Design: `docs/superpowers/specs/2026-11-22-envoy-design.md` · Current plan: `do
 
 Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/16tr6t9mttMYwaWLdh8rkH) · [mockups](https://claude.ai/artifact/5jsHsbktxxskhCPpm69Pni) · [pitch deck](https://claude.ai/artifact/BF5tb3wC4S2ubRymjDqTv6)
 
+## Status 2026-11-26 (final batch: `docs/superpowers/plans/2026-11-26-show-the-boundary.md`)
+
+- **Checkpoint:** tag `working-web-extension-2026-11-26` (main `59a32e1`), the working web app + extension before this batch.
+- **Fix (#55):** an unknown tag name in a cloud expression no longer borrows another amount (`{{DEPOSIT * 2}}` with only `[RENT]` stays unevaluated).
+- **What you see / What leaves (wired):** split view in the chat (`WiretapPane.tsx`, `wiretap.ts`): the document with real values highlighted on this device's side; on the wire side the exact excerpt handed to Firebase AI Logic, Envoy's fixed instructions (collapsed), what came back, and each `{{EXPR}}` worked out on the device. The network log now records the cloud's reply and refused requests. Proven against the real request by `npm run verify:wiretap` (`docs/SECURITY.md#wiretap-check`).
+
 ## Status 2026-11-25
 
 - **Evaluation artifacts synchronized & verified (PR #48; tag `judging-2026-11-25` moved to the final commit on 25 Nov):** added `tests/eval/check-artifacts.mjs` (`npm run eval:check`, wired into `npm run verify`) to verify team rating math, exact `sha256(envoyAnswer)` hashes and `answersFrom.runId` in `tests/eval/probes/quality-ratings-team.json`, `runId` and `answerQuality.{judge,team}` in `tests/eval/summary.json`, doc numbers (`docs/SUBMISSION_KIT.md` stale `87.5%` updated to `95%`), and forbidden-wording checks. Re-ran offline `npm run eval` with zero metric drift.
