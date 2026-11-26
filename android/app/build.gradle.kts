@@ -10,7 +10,7 @@ if (file("google-services.json").exists()) apply(plugin = "com.google.gms.google
 
 android {
     namespace = "app.envoy.hybrid"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "app.envoy.hybrid"
