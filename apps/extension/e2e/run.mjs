@@ -500,6 +500,7 @@ try {
   // --- Upload with Envoy: a photo of a lab bill is masked automatically, on the device ---
   let masks = [];
   let previewW = 0;
+  let afterClick = [];
   const bill = await upload('lab-bill.webp', async () => {
     await ui('.up-card .up-mask').first().waitFor({ timeout: 60000 });
     await page.waitForTimeout(1500); // the masks land one after another
@@ -513,9 +514,17 @@ try {
         height: parseFloat(el.style.height),
       })),
     );
-    // Keep the email visible: press its mask.
-    await ui('.up-card .up-mask', { hasText: 'Email' }).first().click();
+    // Keep the email visible: press its mask. (`ui()` takes a selector only, so filter here.)
+    await ui('.up-card .up-mask').filter({ hasText: 'Email' }).first().click();
+    afterClick = await ui('.up-card .up-mask[aria-pressed=false]').evaluateAll((els) =>
+      els.map((el) => el.querySelector('span')?.textContent ?? ''),
+    );
   });
+  check(
+    'photo masking: pressing a mask keeps exactly that detail visible',
+    afterClick.length === 1 && afterClick[0] === 'Email kept',
+    JSON.stringify(afterClick),
+  );
   const labels = masks.map((m) => m.label);
   check(
     'photo masking: private details are boxed before the person does anything',
@@ -528,12 +537,17 @@ try {
     'photo masking: the QR code and the barcode are boxed',
     labels.includes('QR code') && labels.includes('Barcode'),
   );
-  const status = (await ui('.up-card [role=status]').innerText()).trim();
+  const photoStatus = (await ui('.up-card .up-photo-summary').innerText()).trim();
   check(
     'photo masking: the summary counts what is masked and what is kept',
-    /^Found \d+ private details on this device\. \d+ masked, 1 kept visible\.$/.test(status),
-    status,
+    /^Found \d+ private details on this device\. \d+ masked, 1 kept visible\.$/.test(photoStatus),
+    photoStatus,
   );
+  if (process.env.E2E_DUMP && bill.handed)
+    writeFileSync(
+      join(process.env.E2E_DUMP, 'handed-lab-bill.jpg'),
+      Buffer.from(bill.handed.latin, 'latin1'),
+    );
   const pixels = await page.evaluate(
     async ({ masks, previewW }) => {
       const f = document.getElementById('file').files[0];
@@ -543,17 +557,30 @@ try {
       g.drawImage(bmp, 0, 0);
       // Mask positions are preview pixels; the preview is the photo scaled down to the card.
       const s = bmp.width / previewW;
+      // Mean brightness (r+g+b, 0–765) over the whole box: a burned box is ~0; visible text on
+      // paper stays bright on average even though single pixels on a letter are dark.
       const at = (m) => {
-        const [r, gg, b] = g.getImageData(
-          Math.round((m.left + m.width / 2) * s),
-          Math.round((m.top + m.height / 2) * s),
-          1,
-          1,
+        const d = g.getImageData(
+          Math.round(m.left * s),
+          Math.round(m.top * s),
+          Math.max(1, Math.round(m.width * s)),
+          Math.max(1, Math.round(m.height * s)),
         ).data;
-        return r + gg + b;
+        let sum = 0;
+        for (let i = 0; i < d.length; i += 4) sum += d[i] + d[i + 1] + d[i + 2];
+        return Math.round(sum / (d.length / 4));
       };
       const by = (l) => masks.find((m) => m.label === l);
-      return { id: at(by('National ID')), qr: at(by('QR code')), email: at(by('Email')) };
+      return {
+        id: at(by('National ID')),
+        qr: at(by('QR code')),
+        email: at(by('Email')),
+        // Controls: a strip of plain paper near the top, and the whole image.
+        paper: at({ left: previewW * 0.4, top: 4, width: previewW * 0.2, height: 6 }),
+        whole: at({ left: 0, top: 0, width: previewW, height: (bmp.height / s) | 0 }),
+        size: `${bmp.width}x${bmp.height}`,
+        type: f.type,
+      };
     },
     { masks, previewW },
   );

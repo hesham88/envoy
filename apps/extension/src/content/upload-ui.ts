@@ -455,7 +455,7 @@ export function initUploadUi(
     scan.setAttribute('aria-hidden', 'true');
     wrap.append(canvas, layer, scan);
     const summary = document.createElement('p');
-    summary.className = 'up-muted';
+    summary.className = 'up-muted up-photo-summary';
     summary.setAttribute('role', 'status');
     summary.textContent = 'Reading this photo on your device. Nothing is sent.';
     const hint = document.createElement('p');

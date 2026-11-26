@@ -44,5 +44,5 @@ Desktop Chrome with the built-in model for Private mode; `chrome://on-device-int
 
 ## Limits
 
-- Image uploads: Envoy doesn't detect private regions in images; you draw the boxes. PDFs are rebuilt as simple text PDFs ("layout simplified"), because a box drawn over PDF text doesn't remove the text underneath.
+- Image uploads: Envoy reads the photo in the offscreen document (Tesseract.js 7.0.0 for printed English text, zxing-wasm 3.1.6 for barcodes and QR codes, both shipped in the package under `ocr/`) and masks every private detail it finds; each mask is a button that keeps that part visible, and dragging adds a box. Handwriting, very small text and other languages aren't read yet. Version 0.1.3 adds this; the Chrome Web Store may still serve 0.1.2 while its review is pending, so the release zip in the repo is the version to judge. PDFs are rebuilt as simple text PDFs ("layout simplified"), because a box drawn over PDF text doesn't remove the text underneath.
 - Rich editors receive replaced text through the same input events typing produces. The end-to-end suite checks that it reaches the editor's own document in ProseMirror and Quill, not just the screen. A site that blocks those events may need you to paste the masked text yourself.
