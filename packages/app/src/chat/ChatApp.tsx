@@ -19,7 +19,7 @@ import {
   X,
 } from 'lucide-react';
 import { analyze, answer, composeOutbound, networkLog, type AnalyzeProgress } from '@envoy/ai';
-import { checkOutbound, EN_LEASE, validateCustomRule, type CustomRule } from '@envoy/core';
+import { checkOutbound, validateCustomRule, type CustomRule } from '@envoy/core';
 import { Logo, ModeChip, RestoredText, SecurityFibers, StatusPill, UvRing } from '@envoy/ui';
 import { NOTICES } from '../app/actions';
 import {
@@ -43,6 +43,8 @@ import { HistoryDialog } from './History';
 import { PrivateModeGuide, type ChromePage } from './PrivateModeGuide';
 import { RecordedRun } from './RecordedRun';
 import { WiretapPane } from './WiretapPane';
+import { SampleCards } from './SampleCards';
+import { sampleFromUrl } from './samples';
 import { buildWiretap } from './wiretap';
 import { useVault } from '../lib/useVault';
 import { PREF_KEYS, usePref } from '../lib/prefs';
@@ -93,19 +95,8 @@ const newChatId = () => `c-${Date.now().toString(36)}-${Math.random().toString(3
 const RULES_KEY = 'envoy.rules.v1';
 const ON_OFF = ['on', 'off'] as const;
 const PASTE_AS_FILE = 1500;
-const SUGGESTIONS = [
-  {
-    label: 'Try the sample lease',
-    question: 'Can my landlord raise the rent 20% this year?',
-    sample: true,
-  },
-  {
-    label: 'Ask about a private email',
-    question:
-      'Hi, I am Mona Adel (mona.adel@example.com, +20 100 555 0192). Write a polite reply to my landlord Karim Fathy saying I can pay EGP 8,500 on 1 March 2026.',
-    sample: false,
-  },
-];
+const PRIVATE_EMAIL =
+  'Hi, I am Mona Adel (mona.adel@example.com, +20 100 555 0192). Write a polite reply to my landlord Karim Fathy saying I can pay EGP 8,500 on 1 March 2026.';
 
 function loadRules(): CustomRule[] {
   try {
@@ -289,17 +280,10 @@ export function ChatApp({
   const busy = turns.some((t) => t.session.phase === 'analyzing' || t.session.phase === 'sending');
 
   useEffect(() => {
-    if (
-      typeof location !== 'undefined' &&
-      new URLSearchParams(location.search).get('sample') === 'lease'
-    ) {
-      setDoc({
-        title: EN_LEASE.title,
-        text: EN_LEASE.text,
-        source: 'sample',
-        notice: EN_LEASE.notice,
-      });
-      setDraft('Can my landlord raise the rent 20% this year?');
+    const s = typeof location !== 'undefined' ? sampleFromUrl(location.search) : null;
+    if (s) {
+      setDoc(s.doc);
+      setDraft(s.questions.find((q) => q.where === 'cloud')?.text ?? s.questions[0]!.text);
     }
   }, []);
 
@@ -726,28 +710,14 @@ export function ChatApp({
                 device, shows you exactly what the cloud will see, and only sends it when you
                 approve.
               </p>
-              <div className="flex flex-wrap gap-2.5">
-                {SUGGESTIONS.map((s) => (
-                  <button
-                    key={s.label}
-                    onClick={() => {
-                      if (s.sample) {
-                        const d: SessionDoc = {
-                          title: EN_LEASE.title,
-                          text: EN_LEASE.text,
-                          source: 'sample',
-                          notice: EN_LEASE.notice,
-                        };
-                        setDoc(d);
-                        void send(s.question, d);
-                      } else void send(s.question, null);
-                    }}
-                    className="rounded-full border border-line px-4 py-2 text-[14.5px] text-ink hover:border-device/60"
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
+              <SampleCards
+                compact={panel}
+                onAsk={(s, q) => {
+                  setDoc(s.doc);
+                  void send(q, s.doc);
+                }}
+                onEmail={() => void send(PRIVATE_EMAIL, null)}
+              />
             </div>
           ) : (
             turns.map((t) => (

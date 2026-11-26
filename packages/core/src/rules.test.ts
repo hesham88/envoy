@@ -161,6 +161,15 @@ describe('account and ID numbers named in the text', () => {
     expect(accounts('passport #A12345678 expires')).toEqual(['A12345678']);
   });
 
+  it('finds medical and insurance identifiers: MRN, patient ID, claim and accession numbers', () => {
+    expect(accounts('MRN: 4471-2093-88')).toEqual(['4471-2093-88']);
+    expect(accounts('Medical record number 30017742')).toEqual(['30017742']);
+    expect(accounts('Patient ID 77120934 (outpatient)')).toEqual(['77120934']);
+    expect(accounts('Claim no. 2026-118843 was approved')).toEqual(['2026-118843']);
+    expect(accounts('Accession #LB 5520918 received')).toEqual(['LB 5520918']);
+    expect(accounts('Member ID: 4410 2093 7712')).toEqual(['4410 2093 7712']);
+  });
+
   it('leaves short numbers, clauses and ordinary prose alone', () => {
     expect(accounts('See clause 7 of the contract 2024.')).toEqual([]);
     expect(accounts('Invoice 4410 is due.')).toEqual([]);

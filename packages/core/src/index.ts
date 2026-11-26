@@ -3,6 +3,7 @@ export * from './types';
 export * from './normalize';
 export * from './chunk';
 export * from './samples/en-lease';
+export * from './samples/en-more';
 export * from './samples/questions';
 export * from './rules';
 export * from './prompts';

@@ -74,7 +74,9 @@ describe('ChatApp wiretap', () => {
     wide(true);
     const user = userEvent.setup();
     render(<ChatApp runtime={runtime()} />);
-    await user.click(screen.getByRole('button', { name: 'Try the sample lease' }));
+    await user.click(
+      screen.getByRole('button', { name: /Can my landlord raise the rent 20% this year\?/ }),
+    );
     await user.click(await screen.findByRole('button', { name: 'Approve and send' }));
     const leaves = await screen.findByRole('region', { name: 'What leaves' });
     await waitFor(() => expect(leaves.querySelector('[data-wiretap-out]')).not.toBeNull());
