@@ -3,13 +3,13 @@
  * in one page; the product itself lives at /app.
  */
 import {
-  DelegationScene,
   EnvoySeal,
   Logo,
   SecurityFibers,
   STEP_EMBLEMS,
   StepEmblem,
 } from '@envoy/ui';
+import { StepRelay } from './StepRelay';
 import { UvDemo } from './UvDemo';
 import { DEMO_VIDEO_ID } from './demo-video';
 
@@ -221,9 +221,11 @@ export function Landing() {
               <div>
                 <h1
                   id="hero-h"
-                  className="m-0 max-w-[14ch] font-display text-[clamp(3rem,1.6rem+5.4vw,6.4rem)] leading-[0.95] font-[600] tracking-[-0.02em] text-uv-text"
+                  className="m-0 font-display text-[clamp(2.1rem,0.9rem+6vw,6.4rem)] leading-[0.95] font-[600] tracking-[-0.02em] text-uv-text"
                 >
-                  Ask the cloud. Keep your secrets.
+                  {/* One sentence per line, never split inside a sentence (owner, 26 Nov). */}
+                  <span className="block whitespace-nowrap">Ask the cloud.</span>{' '}
+                  <span className="block whitespace-nowrap">Keep your secrets.</span>
                 </h1>
                 <p className="mt-7 mb-0 max-w-[56ch] text-[19px] leading-relaxed text-uv-muted">
                   Envoy is your private agent to cloud AI. AI on your own device decides what the
@@ -291,9 +293,7 @@ export function Landing() {
           title="Five steps. Only one touches the cloud."
           lede="Envoy runs your request through Firebase AI Logic hybrid inference and picks the mode per step: on the device for anything private, the cloud only for the reasoning, over tags."
         >
-          <div className="overflow-hidden rounded-[22px] border border-uv-line bg-uv-deep">
-            <DelegationScene />
-          </div>
+          <StepRelay steps={STEPS} />
           <ol className="m-0 mt-12 grid list-none gap-x-8 gap-y-10 p-0 md:grid-cols-2 lg:grid-cols-3">
             {STEPS.map((s, i) => {
               const emblem = STEP_EMBLEMS.find((e) => e.key === s.key);
@@ -330,8 +330,8 @@ export function Landing() {
         {/* ---------- the guard ---------- */}
         <Section
           id="guard"
-          title="We don't trust the default."
-          lede="Firebase AI Logic's on-device-only mode can silently use the cloud when Chrome's model is missing (firebase-js-sdk #10635). So every private step is checked, fenced and verified, and every outgoing excerpt is checked again."
+          title="Every private step is checked twice."
+          lede="An open report on the Firebase JS SDK (issue #10635) describes on-device-only requests reaching the cloud in browsers without Chrome's built-in model. We haven't run into it ourselves, but a privacy promise shouldn't rest on one layer. So each private step is checked before it runs, fenced off from the network while it runs, and verified after, and every outgoing excerpt is checked once more."
         >
           <ul className="m-0 grid list-none gap-px overflow-hidden rounded-[22px] border border-uv-line bg-uv-line p-0 md:grid-cols-2">
             {GUARD.map(([title, body, [path, line]]) => (
