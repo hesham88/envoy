@@ -8,7 +8,7 @@
     "predev": "node ../../scripts/copy-ocr-assets.mjs public",
     "dev": "vite build --watch --mode extensiondev --outDir dist-dev",
     "prebuild": "node ../../scripts/copy-ocr-assets.mjs public",
-    "build": "vite build && vite build --config vite.content.config.ts",
+    "build": "vite build && vite build --config vite.content.config.ts && node scripts/check-remote-code.mjs dist",
     "build:dev": "vite build --mode extensiondev --outDir dist-dev && vite build --mode extensiondev --outDir dist-dev --config vite.content.config.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "check:dist": "node ./scripts/verify-dist.mjs",

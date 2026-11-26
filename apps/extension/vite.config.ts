@@ -1,11 +1,21 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { noRemoteCode } from './no-remote-code';
+
+// Manifest V3: no remotely hosted code, not even an unused script URL (Web Store rejection, 26 Nov).
+// Release builds never use App Check (on-device only; cloud questions open the web app), so
+// `firebase/app-check` is an inert local stub. Developer builds keep it for the debug token.
+export const noRemoteAlias = (mode: string): Record<string, string> =>
+  mode === 'extensiondev'
+    ? {}
+    : { 'firebase/app-check': '/src/stubs/app-check.ts' };
 
 // Firebase config is shared with the web app: env vars are read from apps/web/.env.local.
 // dist/ only ever holds the release build (no App Check debug token); dev builds go to dist-dev/.
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
+export default defineConfig(({ mode }) => ({
+  plugins: [noRemoteCode(), react(), tailwindcss()],
+  resolve: { alias: noRemoteAlias(mode) },
   base: './',
   envDir: '../web',
   build: {
@@ -18,4 +28,4 @@ export default defineConfig({
       input: { sidepanel: 'sidepanel.html', popup: 'popup.html', offscreen: 'offscreen.html' },
     },
   },
-});
+}));

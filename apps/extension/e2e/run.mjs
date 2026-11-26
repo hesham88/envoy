@@ -726,11 +726,27 @@ try {
   const pageP = ctx.waitForEvent('page', { timeout: 15000 });
   await cdp.send('Target.createTarget', { url: `chrome-extension://${extId}/sidepanel.html` });
   const panel = await pageP;
-  await panel.waitForTimeout(9000);
-  const frame = panel
-    .frames()
-    .find((f) => f.url().startsWith('https://envoy-hybrid-ai.web.app/app'));
-  check('side panel: embeds the Envoy chat', !!frame);
+  // The panel embeds the hosted app over the network: poll for its frame (up to 30 s) instead of
+  // one fixed wait, which flaked on a slow connection.
+  const findFrame = () =>
+    panel.frames().find((f) => f.url().startsWith('https://envoy-hybrid-ai.web.app/app'));
+  let frame = findFrame();
+  for (let t = 0; !frame && t < 30; t++) {
+    await panel.waitForTimeout(1000);
+    frame = findFrame();
+  }
+  if (frame)
+    await frame
+      .locator('#envoy-composer')
+      .waitFor({ timeout: 20000 })
+      .catch(() => undefined);
+  check(
+    'side panel: embeds the Envoy chat',
+    !!frame,
+    frame
+      ? ''
+      : `frames: ${panel.frames().map((f) => f.url()).join(' , ')} text: ${(await panel.locator('body').innerText().catch(() => '')).slice(0, 300)}`,
+  );
   if (frame)
     check(
       'side panel: the chat composer is ready',

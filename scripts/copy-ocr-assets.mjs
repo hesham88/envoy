@@ -6,9 +6,12 @@
  *   <public>/ocr/core/*-lstm.wasm.js      Tesseract core, LSTM engine (relaxed-SIMD, SIMD, plain)
  *   <public>/ocr/lang/eng.traineddata.gz  English LSTM data (4.0.0_best_int)
  *   <public>/ocr/zxing_reader.wasm        zxing-wasm 3.1.6 barcode reader
+ * The worker's own CDN defaults (cdn.jsdelivr.net) are rewritten to a path that does not exist:
+ * we always pass our paths, and a Manifest V3 package must not even name remote code (Web Store
+ * rejection, 26 Nov 2026; apps/extension/scripts/check-remote-code.mjs).
  * Usage: node scripts/copy-ocr-assets.mjs <public dir>. The copies are gitignored.
  */
-import { copyFileSync, existsSync, mkdirSync, statSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -41,7 +44,15 @@ let total = 0;
 for (const [from, to] of files) {
   const dest = resolve(out, to);
   mkdirSync(dirname(dest), { recursive: true });
-  copyFileSync(from, dest);
+  if (to.endsWith('.js'))
+    writeFileSync(
+      dest,
+      readFileSync(from, 'utf8').replace(
+        /https:\/\/(?:cdn|fastly)\.jsdelivr\.net\//g,
+        '/no-remote-code/',
+      ),
+    );
+  else copyFileSync(from, dest);
   total += statSync(dest).size;
 }
 console.log(`ocr assets: ${files.length} files, ${(total / 1048576).toFixed(1)} MB → ${out}`);
