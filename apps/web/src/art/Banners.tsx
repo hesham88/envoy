@@ -41,8 +41,8 @@ export const BANNERS: {
   {
     slug: 'guard',
     eyebrow: 'The guard',
-    title: "We don't trust the default.",
-    sub: 'Every private step is checked, fenced and verified on the device.',
+    title: 'Every private step is checked twice.',
+    sub: 'Before it runs, while it runs, and after it runs, on your device.',
     tone: 'device',
     art: 'bands',
   },

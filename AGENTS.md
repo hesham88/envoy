@@ -15,8 +15,8 @@ Envoy is our entry for the Firebase **#BuildHybridAI 2026** hackathon. Hard dead
 `packages/core` (pure TS privacy engine, no network) · `packages/ai` (Firebase AI Logic, App Check, Remote Config, device guard) · `apps/web` (Vite React SPA) · `apps/extension` (stretch) · `tests/eval` · `docs/`
 
 ## Decisions already made (don't reopen)
-- Web app first (Best Web/Chrome). The Chrome extension is a stretch goal; Android is a later stretch.
-- English only for now.
+- Web app first (Best Web/Chrome), plus the Chrome extension. **Owner decision 26 Nov 2026 (final batch): an Android companion (`android/`, Kotlin + Compose, `firebase-ai` + `firebase-ai-ondevice`) is now in scope.** Android SDK, Gradle cache and AVDs live on F: only (`F:/Android`).
+- English first. **Owner decision 26 Nov 2026: masking adds more languages** — only those Chrome's Prompt API lists (en, ja, es, de, fr), each with its own local rules; the app, docs and video stay in English.
 - GitHub account `hesham88`; commit author `Hesham Aboul-Fetouh <hesham1988@gmail.com>`. Google/Firebase account: `hesham1988@gmail.com` only. Never use a work account.
 - No backend server of our own. The only network calls are to Firebase services.
 
@@ -44,7 +44,7 @@ Shared files (`docs/PLAN.md`, `AGENTS.md`, root `package.json`): small, focused 
 ## Hard rules
 - Never commit secrets, `.env`, API keys, App Check debug tokens, or real personal data. Sample people and IDs are fictional.
 - Private steps (detect, minimize, route, local answer) use `InferenceMode.ONLY_ON_DEVICE`. They must never fall back to the cloud, and raw document text never goes to the cloud.
-- **Known SDK bug (firebase-js-sdk #10635, open):** `ONLY_ON_DEVICE` silently calls the cloud when Chrome's `LanguageModel` API is missing. Before every private step, check that `'LanguageModel' in self` and `await LanguageModel.availability() === 'available'`; otherwise use Basic protection (local rules only). After the call, assert `response.inferenceSource === InferenceSource.ON_DEVICE`. Keep the tests for this guard green.
+- **Known SDK bug (firebase-js-sdk #10635, open):** the issue reports `ONLY_ON_DEVICE` requests reaching the cloud when Chrome's `LanguageModel` API is missing (we haven't reproduced it ourselves; in public copy, describe it as an open report, never as a fault of the SDK team). Before every private step, check that `'LanguageModel' in self` and `await LanguageModel.availability() === 'available'`; otherwise use Basic protection (local rules only). After the call, assert `response.inferenceSource === InferenceSource.ON_DEVICE`. Keep the tests for this guard green.
 - Don't guess Firebase AI Logic APIs. Check the installed typings in `node_modules/@firebase/ai`.
 - **Evals and probes measure the real product:** every on-device or cloud result must come from the real pipeline (`analyze` / `answer` in `@envoy/ai`) running through **Firebase AI Logic hybrid inference** (`initEnvoy` → `createStepModel` with `ONLY_ON_DEVICE` / `PREFER_IN_CLOUD` → `runPrivate` and the device guard) inside the Chrome that has the model. Use `scripts/lib/envoy-browser.mjs`. Never synthesize model outputs from gold labels; an "oracle" upper bound may exist only if it is labelled as such and kept out of headline numbers. Every result names the model (component and version) and the date.
 - When you finish a task, update `docs/PLAN.md`.
