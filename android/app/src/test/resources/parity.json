@@ -1,0 +1,594 @@
+{
+ "generatedFrom": "@envoy/core",
+ "rules": [
+  {
+   "text": "RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on 15 August 2024 between the parties named in Clause 1.\n\n--- Page 1 ---\n1. Parties. Karim Fathy, national ID 27506120104839, of 3 Road 9, Maadi, Cairo (\"the Landlord\"), and Mona Adel, national ID 29503140101234, phone +20 100 555 0192, email mona.adel@example.com (\"the Tenant\").\n\n2. Premises and term. The Landlord leases to the Tenant the apartment at 14 El-Nadi St, Flat 7, Maadi, Cairo (\"the Premises\") for a term of three (3) years starting 1 September 2024.\n\n--- Page 2 ---\n3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\n4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\n5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\n--- Page 3 ---\n6. Deposit. The Tenant pays a security deposit of EGP 17,000 on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\n7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\n--- Page 4 ---\n8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account EG38 0019 0005 0000 0000 2631 8000 2. Rent paid more than 10 days late carries a fee of EGP 250.\n\n9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\n--- Page 5 ---\n10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\n11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at mona.adel@example.com.\n\n--- Page 6 ---\n12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on 15 August 2024 by Karim Fathy (Landlord) and Mona Adel (Tenant), witnessed by Sara Nabil, phone 0122 555 0148.",
+   "entities": [
+    {
+     "type": "DATE",
+     "value": "15 August 2024",
+     "start": 117,
+     "end": 131
+    },
+    {
+     "type": "NATIONAL_ID",
+     "value": "27506120104839",
+     "start": 224,
+     "end": 238
+    },
+    {
+     "type": "ADDRESS",
+     "value": "3 Road 9, Maadi, Cairo",
+     "start": 243,
+     "end": 265
+    },
+    {
+     "type": "NATIONAL_ID",
+     "value": "29503140101234",
+     "start": 311,
+     "end": 325
+    },
+    {
+     "type": "PHONE",
+     "value": "+20 100 555 0192",
+     "start": 333,
+     "end": 349
+    },
+    {
+     "type": "EMAIL",
+     "value": "mona.adel@example.com",
+     "start": 357,
+     "end": 378
+    },
+    {
+     "type": "ADDRESS",
+     "value": "14 El-Nadi St, Flat 7, Maadi, Cairo",
+     "start": 469,
+     "end": 504
+    },
+    {
+     "type": "DATE",
+     "value": "1 September 2024",
+     "start": 561,
+     "end": 577
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 17,000",
+     "start": 1141,
+     "end": 1151
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 8,500",
+     "start": 1484,
+     "end": 1493
+    },
+    {
+     "type": "IBAN",
+     "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+     "start": 1741,
+     "end": 1777
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 250",
+     "start": 1829,
+     "end": 1836
+    },
+    {
+     "type": "EMAIL",
+     "value": "mona.adel@example.com",
+     "start": 2326,
+     "end": 2347
+    },
+    {
+     "type": "DATE",
+     "value": "15 August 2024",
+     "start": 2454,
+     "end": 2468
+    },
+    {
+     "type": "PHONE",
+     "value": "0122 555 0148",
+     "start": 2550,
+     "end": 2563
+    }
+   ]
+  },
+  {
+   "text": "EMPLOYMENT OFFER AND AGREEMENT\nGiza, Arab Republic of Egypt\n\nThis Employment Agreement is signed on 1 November 2025.\n\n1. Parties. Between Ramy Lotfy, for Nile Ledger Systems (\"Employer\"), and Salma Mostafa, national ID 29605210104321, phone +20 101 333 8899, email salma.mostafa@example.com, residing at 22 Syria St, Mohandessin, Giza (\"Employee\").\n\n2. Compensation. The Employee's gross monthly salary is EGP 65,000, paid on the 25th of each month.\n\n3. Direct Deposit. Salary will be transferred to the Employee's IBAN EG38 0019 0005 0000 0000 2631 8000 2.\n\n4. Probation. The first ninety (90) days of employment are a probationary period during which either party may end the contract with seven (7) days' written notice.\n\n5. Annual Leave. The Employee receives twenty-one (21) working days of paid annual leave.\n\n6. Annual Performance Bonus. At 100% target achievement, the Employee earns an annual bonus equal to 1.8 times the gross monthly salary.\n\n7. Equipment Allowance. The Employer provides a one-time home-office equipment allowance of up to EGP 3,000 on submission of original receipts. Any amount above EGP 3,000 is paid by the Employee.\n\n8. Intellectual Property. Inventions made with Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's products remain the Employee's property.\n\n9. Non-Competition. For six (6) months after termination, the Employee may not work for a direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This does not apply to non-financial software such as healthcare, education or logistics.\n\n10. Termination Without Cause. If the Employer ends this Agreement without cause after the probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary, plus a 60-day notice period.",
+   "entities": [
+    {
+     "type": "DATE",
+     "value": "1 November 2025",
+     "start": 100,
+     "end": 115
+    },
+    {
+     "type": "NATIONAL_ID",
+     "value": "29605210104321",
+     "start": 219,
+     "end": 233
+    },
+    {
+     "type": "PHONE",
+     "value": "+20 101 333 8899",
+     "start": 241,
+     "end": 257
+    },
+    {
+     "type": "EMAIL",
+     "value": "salma.mostafa@example.com",
+     "start": 265,
+     "end": 290
+    },
+    {
+     "type": "ADDRESS",
+     "value": "22 Syria St, Mohandessin, Giza",
+     "start": 304,
+     "end": 334
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 65,000",
+     "start": 406,
+     "end": 416
+    },
+    {
+     "type": "IBAN",
+     "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+     "start": 520,
+     "end": 556
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 3,000",
+     "start": 1052,
+     "end": 1061
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 3,000",
+     "start": 1115,
+     "end": 1124
+    }
+   ]
+  },
+  {
+   "text": "NILE VALLEY LABORATORIES\nPatient report and invoice\n\n1. Patient. Adel Mansour, national ID 26809120103456, phone +20 100 901 2345, email adel.mansour@example.com, address 11 Tahrir St, Dokki, Giza. MRN: 4471-2093-88. Accession #LB 5520918. Collected on 12 October 2026.\n\n2. Referring Physician. Ordered by Dr. Hany Selim.\n\n3. Metabolic Panel. Fasting plasma glucose: 114 mg/dL (normal 70–99 mg/dL; impaired fasting glucose, prediabetes range 100–125 mg/dL; provisional diabetes threshold 126 mg/dL or more). HbA1c: 5.9% (normal below 5.7%; prediabetes 5.7%–6.4%).\n\n4. Vitamin D. Serum 25-OH vitamin D: 14 ng/mL (deficient below 20 ng/mL). Supplement with colecalciferol as prescribed.\n\n5. Pathologist Comment. Glucose values sit in the impaired fasting glucose (prediabetes) range. Repeat HbA1c in three (3) months and review diet and physical activity with the referring physician. Schedule a repeat vitamin D blood test in eight (8) weeks.\n\n6. Fees. Metabolic panel EGP 950; vitamin D test EGP 500. Total lab fee: EGP 1,450.\n\n7. Insurance. Member ID: 4410 2093 7712, Policy Plan B. The insurer reimburses 80% of laboratory fees directly; the patient pays a 20% co-payment at the desk. Claim no. 2026-118843.\n\n8. Refunds. Overpayments are refunded to the patient's IBAN EG38 0019 0005 0000 0000 2631 8000 2 within 14 days.",
+   "entities": [
+    {
+     "type": "NATIONAL_ID",
+     "value": "26809120103456",
+     "start": 91,
+     "end": 105
+    },
+    {
+     "type": "PHONE",
+     "value": "+20 100 901 2345",
+     "start": 113,
+     "end": 129
+    },
+    {
+     "type": "EMAIL",
+     "value": "adel.mansour@example.com",
+     "start": 137,
+     "end": 161
+    },
+    {
+     "type": "ADDRESS",
+     "value": "11 Tahrir St, Dokki, Giza",
+     "start": 171,
+     "end": 196
+    },
+    {
+     "type": "ACCOUNT",
+     "value": "4471-2093-88",
+     "start": 203,
+     "end": 215
+    },
+    {
+     "type": "ACCOUNT",
+     "value": "LB 5520918",
+     "start": 228,
+     "end": 238
+    },
+    {
+     "type": "DATE",
+     "value": "12 October 2026",
+     "start": 253,
+     "end": 268
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 950",
+     "start": 968,
+     "end": 975
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 500",
+     "start": 992,
+     "end": 999
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 1,450",
+     "start": 1016,
+     "end": 1025
+    },
+    {
+     "type": "ACCOUNT",
+     "value": "4410 2093 7712",
+     "start": 1053,
+     "end": 1067
+    },
+    {
+     "type": "ACCOUNT",
+     "value": "2026-118843",
+     "start": 1197,
+     "end": 1208
+    },
+    {
+     "type": "IBAN",
+     "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+     "start": 1271,
+     "end": 1307
+    }
+   ]
+  },
+  {
+   "text": "CONSULTING AGREEMENT\n\nThis Consulting Agreement is made on 3 September 2026.\n\n1. Parties. Between Bassem Fouad, for Delta Mobility (\"Client\"), and Mariam Rizk, national ID 29311090106677, phone +20 106 111 2233, email mariam.rizk@example.com (\"Consultant\").\n\n2. Scope. The Consultant designs and delivers the Client's mobile design system in three milestones.\n\n3. Milestone Fees. Milestone 1 (Research) USD 3,000; Milestone 2 (Design System Delivery) USD 6,000; Milestone 3 (Handover) USD 2,000. Total contract fee: USD 11,000.\n\n4. Invoicing. Invoices are submitted on the last business day of each month and must be paid in full within fifteen (15) calendar days of receipt.\n\n5. Payment Account. The Client pays the Consultant via IBAN EG38 0019 0005 0000 0000 2631 8000 2.\n\n6. Cancellation Kill Fee. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days.\n\n7. Limitation of Liability. Neither party's total liability under this Agreement shall exceed 100% of the total contract fee in Clause 3, and neither party is liable for indirect or consequential damages.\n\n8. Ownership. The Client owns the final delivered designs once every invoice is paid. The Consultant may show the work in a portfolio after public launch.",
+   "entities": [
+    {
+     "type": "DATE",
+     "value": "3 September 2026",
+     "start": 59,
+     "end": 75
+    },
+    {
+     "type": "NATIONAL_ID",
+     "value": "29311090106677",
+     "start": 172,
+     "end": 186
+    },
+    {
+     "type": "PHONE",
+     "value": "+20 106 111 2233",
+     "start": 194,
+     "end": 210
+    },
+    {
+     "type": "EMAIL",
+     "value": "mariam.rizk@example.com",
+     "start": 218,
+     "end": 241
+    },
+    {
+     "type": "MONEY",
+     "value": "USD 3,000",
+     "start": 403,
+     "end": 412
+    },
+    {
+     "type": "MONEY",
+     "value": "USD 6,000",
+     "start": 451,
+     "end": 460
+    },
+    {
+     "type": "MONEY",
+     "value": "USD 2,000",
+     "start": 485,
+     "end": 494
+    },
+    {
+     "type": "MONEY",
+     "value": "USD 11,000",
+     "start": 516,
+     "end": 526
+    },
+    {
+     "type": "IBAN",
+     "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+     "start": 737,
+     "end": 773
+    }
+   ]
+  },
+  {
+   "text": "SOLAR SYSTEM PURCHASE AND FINANCING AGREEMENT\n\n1. Borrower. Samer Fawzy, national ID 28103170102345, phone +20 100 321 6549, email samer.fawzy@example.com, address 16 El-Merghany St, Heliopolis, Cairo. Direct debit IBAN: EG38 0019 0005 0000 0000 2631 8000 2. Account number 1010192316.\n\n2. Purchase. A 10 kW hybrid solar system with a lithium battery pack, installed at the address above. Total system cost: EGP 495,000, with a down payment of EGP 95,000.\n\n3. Financing. The remaining principal balance of EGP 400,000 is repaid in 48 monthly instalments of EGP 10,450 on the 5th of each month.\n\n4. Early Prepayment. The Borrower may settle the full remaining principal at any time on 15 days' written notice, subject to an early-settlement charge of 3% of the prepaid principal.\n\n5. Late Payment. An instalment paid more than 10 days late incurs a late fee of EGP 250.\n\n6. Warranty. The hybrid inverter is warranted for five (5) years. The lithium battery pack is covered for ten (10) years or 6,000 charge cycles, whichever comes first.",
+   "entities": [
+    {
+     "type": "NATIONAL_ID",
+     "value": "28103170102345",
+     "start": 85,
+     "end": 99
+    },
+    {
+     "type": "PHONE",
+     "value": "+20 100 321 6549",
+     "start": 107,
+     "end": 123
+    },
+    {
+     "type": "EMAIL",
+     "value": "samer.fawzy@example.com",
+     "start": 131,
+     "end": 154
+    },
+    {
+     "type": "ADDRESS",
+     "value": "16 El-Merghany St, Heliopolis, Cairo",
+     "start": 164,
+     "end": 200
+    },
+    {
+     "type": "IBAN",
+     "value": "EG38 0019 0005 0000 0000 2631 8000 2",
+     "start": 221,
+     "end": 257
+    },
+    {
+     "type": "ACCOUNT",
+     "value": "1010192316",
+     "start": 274,
+     "end": 284
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 495,000",
+     "start": 408,
+     "end": 419
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 95,000",
+     "start": 444,
+     "end": 454
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 400,000",
+     "start": 506,
+     "end": 517
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 10,450",
+     "start": 557,
+     "end": 567
+    },
+    {
+     "type": "MONEY",
+     "value": "EGP 250",
+     "start": 860,
+     "end": 867
+    }
+   ]
+  },
+  {
+   "text": "Call +20 100 555 0192 or 0020 100 555 0192, office (02) 2735 1100.",
+   "entities": [
+    {
+     "type": "PHONE",
+     "value": "+20 100 555 0192",
+     "start": 5,
+     "end": 21
+    },
+    {
+     "type": "PHONE",
+     "value": "0020 100 555 0192",
+     "start": 25,
+     "end": 42
+    },
+    {
+     "type": "PHONE",
+     "value": "(02) 2735 1100",
+     "start": 51,
+     "end": 65
+    }
+   ]
+  },
+  {
+   "text": "Card 4532 0151 1283 0366 and 4532015112830367 (not Luhn).",
+   "entities": [
+    {
+     "type": "CARD",
+     "value": "4532 0151 1283 0366",
+     "start": 5,
+     "end": 24
+    }
+   ]
+  },
+  {
+   "text": "IBAN EG380019000500000000263180002 and DE89 3704 0044 0532 0130 00.",
+   "entities": [
+    {
+     "type": "IBAN",
+     "value": "EG380019000500000000263180002",
+     "start": 5,
+     "end": 34
+    },
+    {
+     "type": "IBAN",
+     "value": "DE89 3704 0044 0532 0130 00",
+     "start": 39,
+     "end": 66
+    }
+   ]
+  },
+  {
+   "text": "National ID 29503140101234 and 2950 3140 1012 34.",
+   "entities": [
+    {
+     "type": "NATIONAL_ID",
+     "value": "29503140101234",
+     "start": 12,
+     "end": 26
+    },
+    {
+     "type": "NATIONAL_ID",
+     "value": "2950 3140 1012 34",
+     "start": 31,
+     "end": 48
+    }
+   ]
+  },
+  {
+   "text": "Pay EGP 8,500 or USD 1,200.50, or 9,350 pounds.",
+   "entities": [
+    {
+     "type": "MONEY",
+     "value": "EGP 8,500",
+     "start": 4,
+     "end": 13
+    },
+    {
+     "type": "MONEY",
+     "value": "USD 1,200.50",
+     "start": 17,
+     "end": 29
+    },
+    {
+     "type": "MONEY",
+     "value": "9,350 pounds",
+     "start": 34,
+     "end": 46
+    }
+   ]
+  },
+  {
+   "text": "Signed 15 August 2024, due March 3, 2025, 01/09/2024, 2024-09-01.",
+   "entities": [
+    {
+     "type": "DATE",
+     "value": "15 August 2024",
+     "start": 7,
+     "end": 21
+    },
+    {
+     "type": "DATE",
+     "value": "March 3, 2025",
+     "start": 27,
+     "end": 40
+    },
+    {
+     "type": "DATE",
+     "value": "01/09/2024",
+     "start": 42,
+     "end": 52
+    },
+    {
+     "type": "DATE",
+     "value": "2024-09-01",
+     "start": 54,
+     "end": 64
+    }
+   ]
+  },
+  {
+   "text": "Vehicle registration: 7ABC123. Parked: AB12 CDE. Le véhicule AB-123-CD.",
+   "entities": [
+    {
+     "type": "PLATE",
+     "value": "7ABC123",
+     "start": 22,
+     "end": 29
+    },
+    {
+     "type": "PLATE",
+     "value": "AB12 CDE",
+     "start": 39,
+     "end": 47
+    },
+    {
+     "type": "PLATE",
+     "value": "AB-123-CD",
+     "start": 61,
+     "end": 70
+    }
+   ]
+  },
+  {
+   "text": "api_key = sk-test-51HfakeFAKEfake0000 and policy no. 88-4410-2093.",
+   "entities": [
+    {
+     "type": "SECRET",
+     "value": "sk-test-51HfakeFAKEfake0000",
+     "start": 10,
+     "end": 37
+    },
+    {
+     "type": "ACCOUNT",
+     "value": "88-4410-2093",
+     "start": 53,
+     "end": 65
+    }
+   ]
+  },
+  {
+   "text": "mona.adel@example.com lives at 14 El Nasr St, Maadi, Cairo.",
+   "entities": [
+    {
+     "type": "EMAIL",
+     "value": "mona.adel@example.com",
+     "start": 0,
+     "end": 21
+    },
+    {
+     "type": "ADDRESS",
+     "value": "14 El Nasr St, Maadi, Cairo",
+     "start": 31,
+     "end": 58
+    }
+   ]
+  }
+ ],
+ "guard": {
+  "lease": "RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt\n\nThis Residential Lease Agreement (\"the Lease\") is made on 15 August 2024 between the parties named in Clause 1.\n\n--- Page 1 ---\n1. Parties. Karim Fathy, national ID 27506120104839, of 3 Road 9, Maadi, Cairo (\"the Landlord\"), and Mona Adel, national ID 29503140101234, phone +20 100 555 0192, email mona.adel@example.com (\"the Tenant\").\n\n2. Premises and term. The Landlord leases to the Tenant the apartment at 14 El-Nadi St, Flat 7, Maadi, Cairo (\"the Premises\") for a term of three (3) years starting 1 September 2024.\n\n--- Page 2 ---\n3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent.\n\n4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent.\n\n5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests.\n\n--- Page 3 ---\n6. Deposit. The Tenant pays a security deposit of EGP 17,000 on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit.\n\n7. Rent. The monthly rent is EGP 8,500. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant.\n\n--- Page 4 ---\n8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account EG38 0019 0005 0000 0000 2631 8000 2. Rent paid more than 10 days late carries a fee of EGP 250.\n\n9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency.\n\n--- Page 5 ---\n10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6.\n\n11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at mona.adel@example.com.\n\n--- Page 6 ---\n12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on 15 August 2024 by Karim Fathy (Landlord) and Mona Adel (Tenant), witnessed by Sara Nabil, phone 0122 555 0148.",
+  "cases": [
+   {
+    "outbound": "Rent is [RENT] and the landlord is [LANDLORD].",
+    "leaks": []
+   },
+   {
+    "outbound": "Rent is EGP 8,500.",
+    "leaks": [
+     "MONEY"
+    ]
+   },
+   {
+    "outbound": "Account EG38 0019 0005 0000 0000 2631 8000 2",
+    "leaks": [
+     "IBAN"
+    ]
+   },
+   {
+    "outbound": "Account EG3800190005000000002631 80002",
+    "leaks": [
+     "IBAN"
+    ]
+   },
+   {
+    "outbound": "Phone +20-100-555-0192",
+    "leaks": [
+     "PHONE"
+    ]
+   },
+   {
+    "outbound": "Phone +2 0 1 0 0 5 5 5 0 1 9 2",
+    "leaks": [
+     "PHONE"
+    ]
+   },
+   {
+    "outbound": "Write to mona.adel@example.com",
+    "leaks": [
+     "EMAIL"
+    ]
+   }
+  ]
+ }
+}
