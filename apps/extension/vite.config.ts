@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { noTelemetry } from '../../packages/app/src/build/no-telemetry';
 import { noRemoteCode } from './no-remote-code';
 
 // Manifest V3: no remotely hosted code, not even an unused script URL (Web Store rejection, 26 Nov).
@@ -14,7 +15,8 @@ export const noRemoteAlias = (mode: string): Record<string, string> =>
 // Firebase config is shared with the web app: env vars are read from apps/web/.env.local.
 // dist/ only ever holds the release build (no App Check debug token); dev builds go to dist-dev/.
 export default defineConfig(({ mode }) => ({
-  plugins: [noRemoteCode(), react(), tailwindcss()],
+  plugins: [noTelemetry(), noRemoteCode(), react(), tailwindcss()],
+  optimizeDeps: { exclude: ['@mediapipe/tasks-vision'] },
   resolve: { alias: noRemoteAlias(mode) },
   base: './',
   envDir: '../web',

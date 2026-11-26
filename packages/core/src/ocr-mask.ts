@@ -19,8 +19,8 @@ export interface MaskBox {
   y: number;
   w: number;
   h: number;
-  /** What was found; BARCODE comes from the barcode reader, not the text. */
-  type: EntityType | 'BARCODE';
+  /** What was found; BARCODE comes from the barcode reader and FACE from the face detector, not the text. */
+  type: EntityType | 'BARCODE' | 'FACE';
   value: string;
   /** Burned in when sent. The person can switch a box off to keep that text visible. */
   on: boolean;
@@ -66,7 +66,7 @@ const MASK_LABEL: Record<string, string> = {
 
 /** What a mask hides, in plain words ("National ID", "QR code", "Your box"). */
 export function maskLabel(b: MaskBox): string {
-  if (b.type === 'BARCODE') return b.value;
+  if (b.type === 'BARCODE' || b.type === 'FACE') return b.value;
   if (b.type === 'CUSTOM' && b.value === 'Your box') return 'Your box';
   return MASK_LABEL[b.type] ?? 'Private detail';
 }

@@ -30,6 +30,7 @@ export function canonical(value: string, type: EntityType): string {
     case 'NATIONAL_ID':
     case 'CARD':
     case 'SECRET':
+    case 'PLATE':
       return value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
     case 'EMAIL':
       return value.trim().toLowerCase();
@@ -75,6 +76,7 @@ const TYPE_BASE: Record<EntityType, string> = {
   MONEY: 'AMOUNT',
   DATE: 'DATE',
   SECRET: 'SECRET',
+  PLATE: 'PLATE',
   CUSTOM: 'PRIVATE',
 };
 

@@ -2,9 +2,12 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { noTelemetry } from '../../packages/app/src/build/no-telemetry';
 
 export default defineConfig({
   plugins: [
+    // MediaPipe (face detector) phones home every minute; removed at build (packages/app/src/build).
+    noTelemetry(),
     react(),
     tailwindcss(),
     // Precaches the app shell so Envoy opens offline; on-device answers then need no network at all.
@@ -31,5 +34,7 @@ export default defineConfig({
     }),
   ],
   build: { sourcemap: true, target: 'es2022' },
+  // Pre-bundled deps skip plugins: keep MediaPipe out so the telemetry patch applies in dev too.
+  optimizeDeps: { exclude: ['@mediapipe/tasks-vision'] },
   server: { port: 5173, strictPort: true },
 });

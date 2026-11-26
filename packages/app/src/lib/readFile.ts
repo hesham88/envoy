@@ -104,7 +104,11 @@ export async function readDocumentFile(
       title: file.name,
       text,
       pages: 1,
-      photo: { boxes: [...boxes, ...read.barcodes], width: read.width, height: read.height },
+      photo: {
+        boxes: [...boxes, ...read.barcodes, ...(read.faces ?? [])],
+        width: read.width,
+        height: read.height,
+      },
     };
   }
 

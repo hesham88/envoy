@@ -15,6 +15,7 @@ const LABELS: Record<EntityType, [string, string]> = {
   MONEY: ['Amounts', 'masked; maths done on this device'],
   DATE: ['Dates', 'masked'],
   SECRET: ['Secrets and keys', 'masked; never sent'],
+  PLATE: ['Vehicle plates', 'masked'],
   CUSTOM: ['Your own rules', 'masked'],
 };
 

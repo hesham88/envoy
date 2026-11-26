@@ -16,6 +16,8 @@ export type EntityType =
   | 'DATE'
   /** API keys, tokens, private keys and password assignments. */
   | 'SECRET'
+  /** A vehicle licence plate: named as one, or in a strict national format (UK, France, Germany). */
+  | 'PLATE'
   /** Matched by one of the user's own rules; `role` holds the rule's label. */
   | 'CUSTOM';
 

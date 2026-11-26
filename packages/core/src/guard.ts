@@ -251,8 +251,9 @@ export function checkOutbound(
         case 'NATIONAL_ID':
         case 'CARD':
         case 'SECRET':
+        case 'PLATE':
           out.push(...findCodes(t, p.value, p.type));
-          if (p.type !== 'PHONE' && p.type !== 'SECRET')
+          if (p.type !== 'PHONE' && p.type !== 'SECRET' && p.type !== 'PLATE')
             out.push(...findDigitFragments(t, p.value, p.type));
           break;
         case 'MONEY':

@@ -6,6 +6,9 @@ vi.mock('tesseract.js', () => ({ createWorker }));
 const readBarcodes = vi.fn();
 const prepareZXingModule = vi.fn();
 vi.mock('zxing-wasm/reader', () => ({ readBarcodes, prepareZXingModule }));
+// The face detector (MediaPipe wasm) has its own tests (faces.test.ts) and a live check.
+const readFaceBoxes = vi.fn(async () => [] as unknown[]);
+vi.mock('./faces', () => ({ readFaceBoxes }));
 
 const { recognizeImage } = await import('./ocr');
 
@@ -39,6 +42,14 @@ afterEach(() => {
 });
 
 describe('recognizeImage', () => {
+  it('adds the faces it finds, from our own files', async () => {
+    const face = { x: 240, y: 325, w: 163, h: 180, type: 'FACE', value: 'Face', on: true };
+    readFaceBoxes.mockResolvedValueOnce([face]);
+    const r = await recognizeImage(new Blob(['x']), '/ocr');
+    expect(readFaceBoxes).toHaveBeenCalledWith(expect.any(Blob), '/ocr');
+    expect(r.faces).toEqual([face]);
+  });
+
   it('runs Tesseract from our own files only: no Blob worker, no CDN, nothing cached', async () => {
     await recognizeImage(new Blob(['x']), '/ocr');
     expect(createWorker).toHaveBeenCalledWith('eng', 1, {
