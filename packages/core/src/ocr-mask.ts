@@ -72,7 +72,7 @@ export function maskLabel(b: MaskBox): string {
 }
 
 /** Details that can wrap onto the next line of a page. */
-const WRAPS = new Set<string>(['IBAN', 'CARD', 'ACCOUNT', 'PHONE', 'EMAIL']);
+const WRAPS = new Set<string>(['IBAN', 'CARD', 'ACCOUNT', 'PHONE', 'EMAIL', 'DATE', 'MONEY', 'ADDRESS']);
 
 export function ocrMask(
   words: readonly OcrWord[],
@@ -87,7 +87,13 @@ export function ocrMask(
   // spaces: same length, so offsets still map to words.
   const inLine = scanText(text, opts).findings;
   const wrapped = scanText(text.replace(/\n/g, ' '), { ...opts, names: false }).findings.filter(
-    (f) => WRAPS.has(f.type) && text.slice(f.start, f.end).includes('\n'),
+    (f) => {
+      const span = text.slice(f.start, f.end);
+      if (!WRAPS.has(f.type) || !span.includes('\n')) return false;
+      // An address continues on the next line only after a comma ("Maadi,\nCairo"), so the
+      // label on the line below ("Cairo\nMRN") is never taken into it.
+      return f.type !== 'ADDRESS' || /^[^\n]*(,\n[^\n]*)+$/.test(span);
+    },
   );
   const findings = [
     ...inLine.filter((k) => !wrapped.some((w) => w.start < k.end && k.start < w.end)),

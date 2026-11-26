@@ -81,6 +81,33 @@ describe('ocrMask', () => {
     expect(people.map((b) => b.value)).toEqual(['Adel Mansour']);
   });
 
+  it('a date, an amount and an address wrapped across lines are boxed on both lines (OCR eval, lease)', () => {
+    const words = [
+      ...line(0, 'Signed on 15 August'),
+      ...line(1, '2024 by both parties. A late fee of EGP'),
+      ...line(2, '250 applies. The flat at 14 El-Nadi St, Flat 7, Maadi,'),
+      ...line(3, 'Cairo is let furnished.'),
+    ];
+    const { boxes } = ocrMask(words, { pad: 0 });
+    const lines = (type: string) => boxes.filter((b) => b.type === type).map((b) => b.y / 30);
+    expect(lines('DATE')).toEqual([0, 1]);
+    expect(lines('MONEY')).toEqual([1, 2]);
+    expect(lines('ADDRESS')).toEqual([2, 3]);
+    // The address box on the next line covers "Cairo" only, not the rest of that line.
+    const cairo = boxes.find((b) => b.type === 'ADDRESS' && b.y === 90)!;
+    expect(cairo.w).toBe(50);
+  });
+
+  it('an address line followed by a label line does not take the label (real photo layout)', () => {
+    const words = [
+      ...line(0, 'Address 14 El-Nadi St, Maadi, Cairo'),
+      ...line(1, 'MRN 4471-2093-88'),
+    ];
+    const addr = ocrMask(words, { pad: 0 }).boxes.filter((b) => b.type === 'ADDRESS');
+    expect(addr).toHaveLength(1);
+    expect(addr[0]!.y).toBe(0);
+  });
+
   it('table headings on a lab bill are not names', () => {
     const words = [
       ...line(0, 'Accession Accession #LB 5520918'),
