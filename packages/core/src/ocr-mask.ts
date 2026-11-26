@@ -33,12 +33,23 @@ export function ocrText(words: readonly OcrWord[]): {
   let text = '';
   const offsets: Array<{ start: number; end: number; word: number }> = [];
   words.forEach((w, i) => {
-    if (i > 0) text += words[i - 1]!.line === w.line ? ' ' : '\n';
+    const prev = words[i - 1];
+    // OCR reads a tight kerning gap as a space: "adel. mansour@example.com". Pieces of an email
+    // are glued back together so the email is found whole.
+    const glue =
+      prev?.line === w.line &&
+      ((/[._-]$/.test(prev.text) && w.text.includes('@')) ||
+        prev.text.endsWith('@') ||
+        w.text.startsWith('@'));
+    if (prev) text += prev.line !== w.line ? '\n' : glue ? '' : ' ';
     offsets.push({ start: text.length, end: text.length + w.text.length, word: i });
     text += w.text;
   });
   return { text, offsets };
 }
+
+/** Details that can wrap onto the next line of a page. */
+const WRAPS = new Set<string>(['IBAN', 'CARD', 'ACCOUNT', 'PHONE', 'EMAIL']);
 
 export function ocrMask(
   words: readonly OcrWord[],
@@ -48,9 +59,19 @@ export function ocrMask(
   if (!text.trim()) return { text, boxes: [] };
   const pad = opts.pad ?? 4;
   const boxes: MaskBox[] = [];
-  // Line breaks read as spaces (same length, so offsets still map to words): a photo wraps an IBAN
-  // or an address across lines, and each half alone may not look like one.
-  for (const f of scanText(text.replace(/\n/g, ' '), opts).findings) {
+  // Names and addresses end at a line break. Numbers and emails can wrap (an IBAN across two lines,
+  // each half alone not looking like one), so those are also searched with line breaks read as
+  // spaces: same length, so offsets still map to words.
+  const inLine = scanText(text, opts).findings;
+  const wrapped = scanText(text.replace(/\n/g, ' '), { ...opts, names: false }).findings.filter(
+    (f) => WRAPS.has(f.type) && text.slice(f.start, f.end).includes('\n'),
+  );
+  const findings = [
+    ...inLine.filter((k) => !wrapped.some((w) => w.start < k.end && k.start < w.end)),
+    ...wrapped,
+  ];
+  const seen = new Set<string>();
+  for (const f of findings) {
     // Words this detail covers, grouped by line: one box per line, so a wrapped detail never
     // turns into one big box over the text between its lines.
     const byLine = new Map<number, OcrWord['bbox'][]>();
@@ -64,6 +85,9 @@ export function ocrMask(
       const y0 = Math.max(0, Math.min(...bbs.map((b) => b.y0)) - pad);
       const x1 = Math.max(...bbs.map((b) => b.x1)) + pad;
       const y1 = Math.max(...bbs.map((b) => b.y1)) + pad;
+      const key = `${x0},${y0},${x1},${y1}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
       boxes.push({ x: x0, y: y0, w: x1 - x0, h: y1 - y0, type: f.type, value: f.value, on: true });
     }
   }

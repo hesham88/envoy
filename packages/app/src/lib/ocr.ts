@@ -21,7 +21,7 @@ const FORMAT_LABEL: Record<string, string> = {
   Aztec: 'Aztec code',
 };
 
-async function readBarcodeBoxes(image: Blob, base: string): Promise<MaskBox[]> {
+async function readBarcodeBoxes(image: Blob | ImageData, base: string): Promise<MaskBox[]> {
   try {
     const z = await import('zxing-wasm/reader');
     z.prepareZXingModule({
@@ -50,8 +50,9 @@ async function readBarcodeBoxes(image: Blob, base: string): Promise<MaskBox[]> {
           on: true,
         };
       });
-  } catch {
+  } catch (e) {
     // A barcode reader problem must never stop the text masks.
+    console.warn('Envoy: barcode reading failed:', e instanceof Error ? e.message : e);
     return [];
   }
 }
@@ -59,6 +60,15 @@ async function readBarcodeBoxes(image: Blob, base: string): Promise<MaskBox[]> {
 export async function recognizeImage(image: Blob, base: string): Promise<PhotoRead> {
   const bmp = await createImageBitmap(image);
   const { width, height } = bmp;
+  // zxing decodes a raw file with its own decoder, which can't read WebP: give it pixels instead.
+  let pixels: ImageData | null = null;
+  if (typeof OffscreenCanvas !== 'undefined') {
+    const ctx = new OffscreenCanvas(width, height).getContext('2d');
+    if (ctx) {
+      ctx.drawImage(bmp, 0, 0);
+      pixels = ctx.getImageData(0, 0, width, height);
+    }
+  }
   bmp.close?.();
   const { createWorker } = await import('tesseract.js');
   const worker = await createWorker('eng', 1, {
@@ -83,5 +93,5 @@ export async function recognizeImage(image: Blob, base: string): Promise<PhotoRe
     await worker.terminate();
   }
   words = words.filter((w) => w.bbox.x1 > w.bbox.x0);
-  return { words, barcodes: await readBarcodeBoxes(image, base), width, height };
+  return { words, barcodes: await readBarcodeBoxes(pixels ?? image, base), width, height };
 }

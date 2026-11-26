@@ -54,6 +54,20 @@ describe('recognizeImage', () => {
     );
   });
 
+  it('gives the barcode reader decoded pixels, not the file (its decoder cannot read WebP)', async () => {
+    const pixels = { width: 800, height: 600, data: new Uint8ClampedArray(4) };
+    vi.stubGlobal(
+      'OffscreenCanvas',
+      class {
+        getContext() {
+          return { drawImage: () => {}, getImageData: () => pixels };
+        }
+      },
+    );
+    await recognizeImage(new Blob(['x'], { type: 'image/webp' }), '/ocr');
+    expect(readBarcodes.mock.calls[0]![0]).toBe(pixels);
+  });
+
   it('returns the words line by line, with the image size', async () => {
     const r = await recognizeImage(new Blob(['x']), '/ocr');
     expect(r.width).toBe(800);

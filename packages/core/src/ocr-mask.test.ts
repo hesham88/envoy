@@ -68,6 +68,35 @@ describe('ocrMask', () => {
     expect(b!.w).toBe(160 + 2 + 4);
   });
 
+  it('rejoins an email that OCR split at the dot (real photo: "adel. mansour@example.com")', () => {
+    const words = line(0, 'Email adel. mansour@example.com');
+    const email = ocrMask(words, { pad: 0 }).boxes.filter((b) => b.type === 'EMAIL');
+    expect(email).toHaveLength(1);
+    expect(email[0]).toMatchObject({ value: 'adel.mansour@example.com', x: 70 });
+  });
+
+  it('a name stops at the end of its line (real photo: "Adel Mansour" then "National ID")', () => {
+    const words = [...line(0, 'Patient Adel Mansour'), ...line(1, 'National ID 26809120103456')];
+    const people = ocrMask(words, { pad: 0 }).boxes.filter((b) => b.type === 'PERSON');
+    expect(people.map((b) => b.value)).toEqual(['Adel Mansour']);
+  });
+
+  it('table headings on a lab bill are not names', () => {
+    const words = [
+      ...line(0, 'Accession Accession #LB 5520918'),
+      ...line(1, 'Test Result Reference'),
+    ];
+    const { boxes } = ocrMask(words, { pad: 0 });
+    expect(boxes.map((b) => `${b.type}:${b.value}`)).toEqual(['ACCOUNT:LB 5520918']);
+  });
+
+  it('the same detail found twice gets one box', () => {
+    const words = line(0, 'Dr. Hany Selim signed');
+    const { boxes } = ocrMask(words, { pad: 0 });
+    const keys = boxes.map((b) => `${b.x},${b.y},${b.w},${b.h}`);
+    expect(new Set(keys).size).toBe(keys.length);
+  });
+
   it('no words: no text and no boxes', () => {
     expect(ocrMask([])).toEqual({ text: '', boxes: [] });
   });
