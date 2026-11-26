@@ -3,6 +3,7 @@
  * Nothing here is persisted; CLEAR (and closing the tab) drops it all.
  */
 import type { Analysis, answer } from '@envoy/ai';
+import type { SessionPhoto } from '../components/PhotoPreview';
 
 /** The answer, plus why the cloud step fell back to the device when it did. */
 export type AnswerResult = Awaited<ReturnType<typeof answer>> & {
@@ -12,20 +13,15 @@ export type AnswerResult = Awaited<ReturnType<typeof answer>> & {
 };
 /** `held`: approved while offline; the masked request waits in memory for the network. */
 export type Phase =
-  | 'idle'
-  | 'loaded'
-  | 'analyzing'
-  | 'review'
-  | 'held'
-  | 'sending'
-  | 'answered'
-  | 'error';
+  'idle' | 'loaded' | 'analyzing' | 'review' | 'held' | 'sending' | 'answered' | 'error';
 
 export interface SessionDoc {
   title: string;
   text: string;
   source: 'sample' | 'file' | 'paste';
   notice?: string;
+  /** A photo read on the device: `text` is what OCR read. The photo itself is never sent. */
+  photo?: SessionPhoto;
 }
 
 export interface SessionState {

@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { ArrowDownLeft, ArrowUpRight, Check, Cpu, ShieldAlert, X } from 'lucide-react';
 import type { SessionDoc } from '../app/session';
+import { PhotoPreview } from '../components/PhotoPreview';
 import type { WiretapCard, WiretapView } from './wiretap';
 
 const STEP_LABEL: Record<string, string> = {
@@ -216,6 +217,14 @@ export function WiretapPane({
           )}
         </div>
         <div className="min-h-0 overflow-auto rounded-[10px] border border-line/70 bg-uv-dark/60 px-3 py-2.5 text-[13px] leading-relaxed whitespace-pre-wrap text-ink">
+          {doc?.photo && (
+            <div className="mb-2.5 whitespace-normal">
+              <PhotoPreview photo={doc.photo} />
+              <p className="m-0 mt-1.5 text-[12px] text-muted">
+                The photo stays on this device. Below: the text read from it.
+              </p>
+            </div>
+          )}
           {doc ? (
             markValues(doc.text, values)
           ) : (

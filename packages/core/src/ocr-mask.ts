@@ -48,6 +48,29 @@ export function ocrText(words: readonly OcrWord[]): {
   return { text, offsets };
 }
 
+const MASK_LABEL: Record<string, string> = {
+  PERSON: 'Name',
+  ORG: 'Organisation',
+  ADDRESS: 'Address',
+  EMAIL: 'Email',
+  PHONE: 'Phone',
+  NATIONAL_ID: 'National ID',
+  IBAN: 'Bank account (IBAN)',
+  ACCOUNT: 'Account or record no.',
+  CARD: 'Card number',
+  MONEY: 'Amount',
+  DATE: 'Date',
+  SECRET: 'Key or password',
+  CUSTOM: 'Your rule',
+};
+
+/** What a mask hides, in plain words ("National ID", "QR code", "Your box"). */
+export function maskLabel(b: MaskBox): string {
+  if (b.type === 'BARCODE') return b.value;
+  if (b.type === 'CUSTOM' && b.value === 'Your box') return 'Your box';
+  return MASK_LABEL[b.type] ?? 'Private detail';
+}
+
 /** Details that can wrap onto the next line of a page. */
 const WRAPS = new Set<string>(['IBAN', 'CARD', 'ACCOUNT', 'PHONE', 'EMAIL']);
 

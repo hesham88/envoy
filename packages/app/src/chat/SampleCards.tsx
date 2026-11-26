@@ -1,6 +1,7 @@
 import { useId } from 'react';
 import {
   Briefcase,
+  Camera,
   Cloud,
   Cpu,
   FlaskConical,
@@ -20,7 +21,15 @@ const ICON: Record<SampleId, LucideIcon> = {
   loan: Sun,
 };
 
-function Card({ sample, onAsk }: { sample: Sample; onAsk: (s: Sample, q: string) => void }) {
+function Card({
+  sample,
+  onAsk,
+  onPhoto,
+}: {
+  sample: Sample;
+  onAsk: (s: Sample, q: string) => void;
+  onPhoto?: () => void;
+}) {
   const id = useId();
   const Icon = ICON[sample.id];
   return (
@@ -70,6 +79,16 @@ function Card({ sample, onAsk }: { sample: Sample; onAsk: (s: Sample, q: string)
           );
         })}
       </ul>
+      {onPhoto && (
+        <button
+          type="button"
+          onClick={onPhoto}
+          className="flex items-center gap-2 self-start rounded-full border border-dashed border-device/60 px-3 py-1.5 text-[13px] text-device-on-tint hover:border-device"
+        >
+          <Camera size={14} aria-hidden="true" />
+          Try a photo of this bill
+        </button>
+      )}
     </div>
   );
 }
@@ -78,10 +97,13 @@ function Card({ sample, onAsk }: { sample: Sample; onAsk: (s: Sample, q: string)
 export function SampleCards({
   onAsk,
   onEmail,
+  onPhoto,
   compact,
 }: {
   onAsk: (s: Sample, question: string) => void;
   onEmail: () => void;
+  /** Loads the sample photo of the lab bill (web app only: it ships the samples folder). */
+  onPhoto?: () => void;
   /** The extension side panel: one column. */
   compact: boolean;
 }) {
@@ -89,7 +111,12 @@ export function SampleCards({
     <div className="flex w-full flex-col gap-3">
       <div className={`grid gap-3 ${compact ? '' : 'md:grid-cols-2'}`}>
         {SAMPLES.map((s) => (
-          <Card key={s.id} sample={s} onAsk={onAsk} />
+          <Card
+            key={s.id}
+            sample={s}
+            onAsk={onAsk}
+            {...(s.id === 'lab' && onPhoto ? { onPhoto } : {})}
+          />
         ))}
         <div className="flex flex-col justify-between gap-3 rounded-[16px] border border-dashed border-line p-4">
           <p className="m-0 text-[13.5px] text-muted">
@@ -106,9 +133,10 @@ export function SampleCards({
         </div>
       </div>
       <p className="m-0 text-[12px] leading-snug text-muted">
-        All people, IDs and numbers are fictional. In Private mode, Gemma 4 answered the green
-        questions on this device in our test run; the blue ones send a masked excerpt. Without the
-        on-device model, Basic protection sends every question, masked.
+        All people, IDs and numbers are fictional. In Private mode, Gemma 4 decides each time where
+        to answer: in our test runs it usually answered the green questions on this device, and the
+        blue ones sent a masked excerpt. Without the on-device model, Basic protection sends every
+        question, masked.
       </p>
     </div>
   );

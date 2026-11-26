@@ -315,22 +315,27 @@ export function ChatApp({
 
   async function attach(file: File) {
     setAttachError(null);
-    setImageNote(null);
-    if (file.type.startsWith('image/')) {
-      setImageNote(
-        `${file.name} stays on this device. Envoy can't read text in images yet, so it isn't sent anywhere.`,
-      );
-      return;
-    }
+    setImageNote(
+      file.type.startsWith('image/')
+        ? `Reading ${file.name} on this device. The photo is never sent.`
+        : null,
+    );
     try {
       const r = await readDocumentFile(file);
-      setDoc({ title: r.title, text: r.text, source: 'file' });
+      setDoc({
+        title: r.title,
+        text: r.text,
+        source: 'file',
+        ...(r.photo ? { photo: { blob: file, ...r.photo } } : {}),
+      });
     } catch (e) {
       setAttachError(
         e instanceof FileReadError
           ? e.message
-          : 'This file could not be read. Try a PDF with selectable text, or a .txt file.',
+          : 'This file could not be read. Try a PDF with selectable text, a .txt file or a clear photo.',
       );
+    } finally {
+      setImageNote(null);
     }
   }
 
@@ -757,6 +762,18 @@ export function ChatApp({
                   void send(q, s.doc);
                 }}
                 onEmail={() => void send(PRIVATE_EMAIL, null)}
+                {...(panel
+                  ? {}
+                  : {
+                      // The sample photo goes through the same path as a person's own photo.
+                      onPhoto: async () => {
+                        const blob = await (await fetch('/samples/lab-bill.webp')).blob();
+                        await attach(
+                          new File([blob], 'Photo of a lab bill.webp', { type: 'image/webp' }),
+                        );
+                        setDraft('If insurance covers 80% of the lab fee, how much do I pay?');
+                      },
+                    })}
               />
             </div>
           ) : (
@@ -861,7 +878,7 @@ export function ChatApp({
                     ref={fileInput}
                     type="file"
                     hidden
-                    accept=".pdf,.txt,.md,.csv,application/pdf,text/plain,image/*"
+                    accept=".pdf,.txt,.md,.csv,.png,.jpg,.jpeg,.webp,application/pdf,text/plain,image/png,image/jpeg,image/webp"
                     onChange={(e) => {
                       const f = e.target.files?.[0];
                       if (f) void attach(f);
