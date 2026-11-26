@@ -6,7 +6,11 @@ const CONTENT_ID = 'envoy-content';
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: false }).catch(() => {});
-  chrome.contextMenus.create({ id: 'envoy-ask-selection', title: 'Ask Envoy about this selection', contexts: ['selection'] });
+  chrome.contextMenus.create({
+    id: 'envoy-ask-selection',
+    title: 'Ask Envoy about this selection',
+    contexts: ['selection'],
+  });
 });
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
@@ -20,11 +24,19 @@ async function setSiteEnabled(origin, enabled) {
   const sites = { ...(stored.envoySites ?? {}), [origin]: enabled };
   await chrome.storage.local.set({ envoySites: sites });
   const match = `${origin}/*`;
-  const existing = await chrome.scripting.getRegisteredContentScripts({ ids: [CONTENT_ID + ':' + origin] }).catch(() => []);
+  const existing = await chrome.scripting
+    .getRegisteredContentScripts({ ids: [CONTENT_ID + ':' + origin] })
+    .catch(() => []);
   if (enabled && existing.length === 0) {
     // Host permission is granted by the popup itself (needs the click gesture); here we only register.
     await chrome.scripting.registerContentScripts([
-      { id: CONTENT_ID + ':' + origin, js: ['content.js'], matches: [match], runAt: 'document_idle', persistAcrossSessions: true },
+      {
+        id: CONTENT_ID + ':' + origin,
+        js: ['content.js'],
+        matches: [match],
+        runAt: 'document_idle',
+        persistAcrossSessions: true,
+      },
     ]);
   }
   if (!enabled && existing.length > 0) {
@@ -35,11 +47,21 @@ async function setSiteEnabled(origin, enabled) {
 
 let offscreenCreating = null;
 async function ensureOffscreen() {
-  const contexts = await chrome.runtime.getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'] }).catch(() => []);
+  const contexts = await chrome.runtime
+    .getContexts({ contextTypes: ['OFFSCREEN_DOCUMENT'] })
+    .catch(() => []);
   if (contexts.length > 0) return;
   if (!offscreenCreating) {
-    offscreenCreating = chrome.offscreen.createDocument({ url: 'offscreen.html', reasons: ['WORKERS'], justification: 'Run on-device AI detection with Firebase AI Logic outside the page context.' })
-      .finally(() => { offscreenCreating = null; });
+    offscreenCreating = chrome.offscreen
+      .createDocument({
+        url: 'offscreen.html',
+        reasons: ['WORKERS'],
+        justification:
+          'Run on-device AI detection with Firebase AI Logic outside the page context.',
+      })
+      .finally(() => {
+        offscreenCreating = null;
+      });
   }
   await offscreenCreating;
 }
@@ -48,14 +70,29 @@ async function ensureOffscreen() {
 // - the site switch may only be changed from the extension's own pages (the popup), never from a
 //   content script running inside a web page, and only for a real http(s) origin;
 // - content-script requests must carry the expected payload types.
-const fromExtensionPage = (sender) => sender.id === chrome.runtime.id && typeof sender.url === 'string' && sender.url.startsWith(`chrome-extension://${chrome.runtime.id}/`);
-const isWebOrigin = (o) => { try { const u = new URL(o); return (u.protocol === 'https:' || u.protocol === 'http:') && u.origin === o; } catch { return false; } };
+const fromExtensionPage = (sender) =>
+  sender.id === chrome.runtime.id &&
+  typeof sender.url === 'string' &&
+  sender.url.startsWith(`chrome-extension://${chrome.runtime.id}/`);
+const isWebOrigin = (o) => {
+  try {
+    const u = new URL(o);
+    return (u.protocol === 'https:' || u.protocol === 'http:') && u.origin === o;
+  } catch {
+    return false;
+  }
+};
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (sender.id !== chrome.runtime.id) return false;
   if (msg?.type === 'envoy:set-site') {
-    if (!fromExtensionPage(sender) || !isWebOrigin(msg.origin)) { sendResponse({ ok: false, error: 'Not allowed.' }); return false; }
-    setSiteEnabled(msg.origin, !!msg.enabled).then((sites) => sendResponse({ ok: true, sites })).catch((e) => sendResponse({ ok: false, error: String(e) }));
+    if (!fromExtensionPage(sender) || !isWebOrigin(msg.origin)) {
+      sendResponse({ ok: false, error: 'Not allowed.' });
+      return false;
+    }
+    setSiteEnabled(msg.origin, !!msg.enabled)
+      .then((sites) => sendResponse({ ok: true, sites }))
+      .catch((e) => sendResponse({ ok: false, error: String(e) }));
     return true;
   }
   if (msg?.type === 'envoy:open-ai-setup') {
@@ -65,11 +102,23 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return false;
   }
   if (msg?.type === 'envoy:pdf-mask') {
-    if (typeof msg.base64 !== 'string' || msg.base64.length > 40_000_000 || (msg.custom !== undefined && !Array.isArray(msg.custom))) { sendResponse({ ok: false, error: 'Bad request.' }); return false; }
+    if (
+      typeof msg.base64 !== 'string' ||
+      msg.base64.length > 40_000_000 ||
+      (msg.custom !== undefined && !Array.isArray(msg.custom))
+    ) {
+      sendResponse({ ok: false, error: 'Bad request.' });
+      return false;
+    }
     (async () => {
       try {
         await ensureOffscreen();
-        const res = await chrome.runtime.sendMessage({ type: 'envoy:pdf-mask-internal', base64: msg.base64, name: msg.name, custom: msg.custom });
+        const res = await chrome.runtime.sendMessage({
+          type: 'envoy:pdf-mask-internal',
+          base64: msg.base64,
+          name: msg.name,
+          custom: msg.custom,
+        });
         sendResponse(res ?? { ok: false, error: 'No response from the PDF checker.' });
       } catch (e) {
         sendResponse({ ok: false, error: String(e) });
@@ -77,12 +126,43 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     })();
     return true;
   }
-  if (msg?.type === 'envoy:deep-check') {
-    if (typeof msg.text !== 'string' || msg.text.length > 200_000) { sendResponse({ ok: false, error: 'Bad request.' }); return false; }
+  if (msg?.type === 'envoy:ocr-boxes') {
+    if (
+      typeof msg.base64 !== 'string' ||
+      msg.base64.length > 14_000_000 ||
+      (msg.custom !== undefined && !Array.isArray(msg.custom))
+    ) {
+      sendResponse({ ok: false, error: 'Bad request.' });
+      return false;
+    }
     (async () => {
       try {
         await ensureOffscreen();
-        const res = await chrome.runtime.sendMessage({ type: 'envoy:deep-detect-internal', text: msg.text });
+        const res = await chrome.runtime.sendMessage({
+          type: 'envoy:ocr-boxes-internal',
+          base64: msg.base64,
+          mime: msg.mime,
+          custom: msg.custom,
+        });
+        sendResponse(res ?? { ok: false, error: 'No response from the photo reader.' });
+      } catch (e) {
+        sendResponse({ ok: false, error: String(e) });
+      }
+    })();
+    return true;
+  }
+  if (msg?.type === 'envoy:deep-check') {
+    if (typeof msg.text !== 'string' || msg.text.length > 200_000) {
+      sendResponse({ ok: false, error: 'Bad request.' });
+      return false;
+    }
+    (async () => {
+      try {
+        await ensureOffscreen();
+        const res = await chrome.runtime.sendMessage({
+          type: 'envoy:deep-detect-internal',
+          text: msg.text,
+        });
         sendResponse(res ?? { ok: false, error: 'No response from the on-device checker.' });
       } catch (e) {
         sendResponse({ ok: false, error: String(e) });

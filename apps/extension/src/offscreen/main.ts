@@ -14,6 +14,7 @@ import {
 } from '@envoy/ai';
 import { isUnpacked, readFirebaseEnv } from '../env';
 import './pdf-handler';
+import './ocr-handler';
 
 declare const chrome: {
   runtime: {

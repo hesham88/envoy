@@ -120,6 +120,8 @@ const files = {
     `Account: ${RAW.iban}`,
   ]),
   'photo.jpg': jpegWithExif(),
+  // The sample "phone photo" of a fictional lab bill (scripts/make-sample-photo.mjs).
+  'lab-bill.webp': readFileSync(resolve(EXT, '../web/public/samples/lab-bill.webp')),
 };
 for (const [n, b] of Object.entries(files)) writeFileSync(join(WORK, n), b);
 
@@ -494,6 +496,77 @@ try {
     return r + gg + b < 60;
   });
   check('upload photo: the drawn box is burned into the pixels', boxBlack);
+
+  // --- Upload with Envoy: a photo of a lab bill is masked automatically, on the device ---
+  let masks = [];
+  let previewW = 0;
+  const bill = await upload('lab-bill.webp', async () => {
+    await ui('.up-card .up-mask').first().waitFor({ timeout: 60000 });
+    await page.waitForTimeout(1500); // the masks land one after another
+    previewW = await ui('.up-card .up-photo canvas').evaluate((c) => c.width);
+    masks = await ui('.up-card .up-mask').evaluateAll((els) =>
+      els.map((el) => ({
+        label: el.querySelector('span')?.textContent ?? '',
+        left: parseFloat(el.style.left),
+        top: parseFloat(el.style.top),
+        width: parseFloat(el.style.width),
+        height: parseFloat(el.style.height),
+      })),
+    );
+    // Keep the email visible: press its mask.
+    await ui('.up-card .up-mask', { hasText: 'Email' }).first().click();
+  });
+  const labels = masks.map((m) => m.label);
+  check(
+    'photo masking: private details are boxed before the person does anything',
+    ['Name', 'National ID', 'Phone', 'Email', 'Bank account (IBAN)'].every((l) =>
+      labels.includes(l),
+    ) && labels.filter((l) => l === 'Account or record no.').length >= 3,
+    labels.join(', '),
+  );
+  check(
+    'photo masking: the QR code and the barcode are boxed',
+    labels.includes('QR code') && labels.includes('Barcode'),
+  );
+  const status = (await ui('.up-card [role=status]').innerText()).trim();
+  check(
+    'photo masking: the summary counts what is masked and what is kept',
+    /^Found \d+ private details on this device\. \d+ masked, 1 kept visible\.$/.test(status),
+    status,
+  );
+  const pixels = await page.evaluate(
+    async ({ masks, previewW }) => {
+      const f = document.getElementById('file').files[0];
+      const bmp = await createImageBitmap(f);
+      const c = new OffscreenCanvas(bmp.width, bmp.height);
+      const g = c.getContext('2d');
+      g.drawImage(bmp, 0, 0);
+      // Mask positions are preview pixels; the preview is the photo scaled down to the card.
+      const s = bmp.width / previewW;
+      const at = (m) => {
+        const [r, gg, b] = g.getImageData(
+          Math.round((m.left + m.width / 2) * s),
+          Math.round((m.top + m.height / 2) * s),
+          1,
+          1,
+        ).data;
+        return r + gg + b;
+      };
+      const by = (l) => masks.find((m) => m.label === l);
+      return { id: at(by('National ID')), qr: at(by('QR code')), email: at(by('Email')) };
+    },
+    { masks, previewW },
+  );
+  check(
+    'photo masking: the site receives the ID and the QR code burned black',
+    !!bill.handed && pixels.id < 60 && pixels.qr < 60,
+    JSON.stringify(pixels),
+  );
+  check(
+    'photo masking: the email the person chose to keep stays visible',
+    pixels.email > 300,
+    JSON.stringify(pixels),
+  );
 
   // --- Upload with Envoy: PDF ---
   const pdf = await upload('lease.pdf');
