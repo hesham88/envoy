@@ -91,10 +91,24 @@ try {
     () => false,
   );
   check('app: shows exactly what the cloud will see, and waits for approval', approveShown);
-  const preview = await p.locator('body').innerText();
+  // The excerpt itself, inside the approval card. Not the whole page: the card's clause list and
+  // the side pane's "What you see" show the real document on purpose (both stay on this device).
+  const excerpt = await p
+    .getByRole('region', { name: 'What the cloud will see' })
+    .last()
+    .locator('div.font-mono')
+    .first()
+    .innerText()
+    .catch(() => '');
+  const raw = excerpt.match(/EG38 0019|27506120104839|mona\.adel@/);
   check(
     'app: no raw private details in the excerpt',
-    !/EG38 0019|27506120104839|mona\.adel@/.test(preview.split('What the cloud will see')[1] ?? ''),
+    excerpt.length > 0 && !raw,
+    excerpt.length
+      ? raw
+        ? `found ${raw[0]}`
+        : `${excerpt.length} characters, all masked`
+      : 'excerpt not found',
   );
   if (approveShown) {
     await approve.click();
