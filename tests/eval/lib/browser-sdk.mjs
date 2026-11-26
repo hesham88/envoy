@@ -11,6 +11,7 @@
  * - Also bootstraps `globalThis.__envoyEval` on any page with `loadRemoteSettings(app)` +
  *   `cloudModelOverride()` (matching `packages/app/src/app/useEnvoy.ts`) before `runCase()` runs.
  */
+import '../../../scripts/lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';

@@ -8,6 +8,7 @@
  *
  * Usage: node video/film/overlays.mjs  ->  video/out/overlays/*.png
  */
+import '../../scripts/lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';

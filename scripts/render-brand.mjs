@@ -5,6 +5,7 @@
  *   hero.webp (animated loop of the DelegationScene, from frame-exact renders + ffmpeg).
  * Usage: node scripts/render-brand.mjs [--app http://localhost:5173] [--frames 60] [--only banners|emblems|hero]
  */
+import './lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, rmSync } from 'node:fs';

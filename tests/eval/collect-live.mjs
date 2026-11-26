@@ -16,6 +16,7 @@
  *   node tests/eval/collect-live.mjs --arm basic --port 5174
  *   node tests/eval/collect-live.mjs --arm gemma4 --component gemma4_component --version 2026.11.3.1140 --label "Gemma 4" --port 5174 [--with-answer] [--cooldown 2000]
  */
+import '../../scripts/lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';

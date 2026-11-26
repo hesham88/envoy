@@ -12,6 +12,7 @@
  * then: node scripts/verify-wiretap.mjs [--url http://localhost:5173]
  * Costs one Flash-Lite request. Never point it at Hydrogen.
  */
+import './lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 
 const arg = (k, d) => {

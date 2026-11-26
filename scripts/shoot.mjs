@@ -3,6 +3,7 @@
  * Renders a page (or one element) of the running app to PNG with the installed Chrome, headless.
  * Usage: node scripts/shoot.mjs <url> <out.png> [--selector css] [--width 1280] [--height 900] [--wait 2500] [--dark] [--scale 2]
  */
+import './lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';

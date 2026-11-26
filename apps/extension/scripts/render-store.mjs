@@ -7,6 +7,7 @@
  * Usage (from the repo root, after `npm run build -w @envoy/extension`):
  *   node apps/extension/scripts/render-store.mjs
  */
+import '../../../scripts/lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { execFileSync } from 'node:child_process';
 import { createServer } from 'node:http';

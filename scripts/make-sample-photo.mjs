@@ -7,6 +7,7 @@
  * meets what a real photo looks like. Everything in it is fictional.
  * Usage: node scripts/make-sample-photo.mjs
  */
+import './lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';

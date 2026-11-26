@@ -8,6 +8,7 @@
  * Usage: node video/record.mjs [--only n02-problem,n14-extension]   (dev server on 5173 for n01)
  * Output: video/out/raw/<id>.mp4 (1600x900) + <id>.marks.json
  */
+import '../scripts/lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { createServer } from 'node:http';
 import { execFileSync } from 'node:child_process';

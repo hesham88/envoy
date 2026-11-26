@@ -9,6 +9,7 @@
  *
  * Usage: node scripts/render-submission.mjs [path/to/film.mp4]
  */
+import './lib/scratch.mjs'; // Chrome temp files and profiles on the repo's drive, not C:
 import { chromium } from 'playwright-core';
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync } from 'node:fs';
