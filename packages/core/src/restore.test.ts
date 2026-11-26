@@ -56,6 +56,32 @@ describe('restoreAnswer', () => {
     });
   });
 
+  it('never guesses an amount for a tag name it does not know', () => {
+    // Only [RENT] exists: a cloud-invented DEPOSIT must not borrow the rent.
+    const out = restoreAnswer('The deposit is {{DEPOSIT * 2}}.', tags);
+    expect(out.text).toBe('The deposit is {{DEPOSIT * 2}}.');
+    expect(out.spans).toHaveLength(0);
+  });
+
+  it('does not match on a shared word alone (MONTHLY_SALARY is not [MONTHLY_RENT])', () => {
+    const rent = assignTags([ent('MONEY', 'EGP 8,500', 0, 'monthly rent')]);
+    expect(rent.entries().map((e) => e.tag)).toEqual(['[MONTHLY_RENT]']);
+    expect(restoreAnswer('{{MONTHLY_SALARY * 2}}', rent).spans).toHaveLength(0);
+    // Every word of the real tag present still resolves.
+    expect(restoreAnswer('{{NEW_MONTHLY_RENT * 2}}', rent).text).toBe('EGP 17,000');
+  });
+
+  it('leaves an alias unevaluated when it fits more than one amount', () => {
+    const two = assignTags([
+      ent('MONEY', 'EGP 80,000', 0, 'salary'),
+      ent('MONEY', 'EGP 90,000', 20, 'salary'),
+    ]);
+    expect(two.entries().map((e) => e.tag)).toEqual(['[SALARY]', '[SALARY_2]']);
+    expect(restoreAnswer('{{MONTHLY_SALARY * 2}}', two).spans).toHaveLength(0);
+    // Exact names still work.
+    expect(restoreAnswer('{{SALARY_2 * 2}}', two).text).toBe('EGP 180,000');
+  });
+
   it('gives span offsets into the restored text', () => {
     const out = restoreAnswer('Rent: [RENT]; max {{RENT*1.1}}.', tags);
     for (const s of out.spans) expect(out.text.slice(s.start, s.end)).toBe(s.value);
