@@ -18,6 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import type { AnalyzeProgress, Analysis } from '@envoy/ai';
 import type { ReceiptStep, Step } from '@envoy/core';
+import { useAiRequestCount } from '../lib/request-counter';
 import type { AnswerResult, Phase } from '../app/session';
 
 type RowState = 'waiting' | 'running' | 'done' | 'skipped';
@@ -290,6 +291,26 @@ export function FlightRecorder(props: FlightInput & { open?: boolean; startedAt?
           );
         })}
       </ol>
+      <BrowserCount since={props.startedAt} />
     </details>
+  );
+}
+
+/** Independent of Envoy's own log: what the browser itself saw go to the AI endpoint. */
+function BrowserCount({ since }: { since?: number }) {
+  const n = useAiRequestCount(since);
+  if (n === null) return null;
+  return (
+    <p
+      data-testid="browser-count"
+      className="m-0 border-t border-line px-4 py-2.5 text-[12.5px] text-muted"
+      title="Counted with the browser's Resource Timing (PerformanceObserver), not by Envoy."
+    >
+      Counted by your browser:{' '}
+      <strong className={n === 0 ? 'text-device-on-tint' : 'text-cloud-on-tint'}>
+        {n} {n === 1 ? 'request' : 'requests'}
+      </strong>{' '}
+      to Firebase AI Logic since you asked.
+    </p>
   );
 }
