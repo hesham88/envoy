@@ -27,3 +27,6 @@ video/out/
 video/wav/
 video/wav3/
 video/audio/out/
+
+# On-device OCR engines, copied from node_modules at build time (scripts/copy-ocr-assets.mjs)
+apps/*/public/ocr/

@@ -2,6 +2,16 @@
 
 What was checked, what was found, and what was fixed. Re-run the checks before each release.
 
+## WebAssembly for on-device photo masking (26 November 2026, owner approved)
+
+Photo masking reads text (Tesseract.js 7.0.0) and barcodes (zxing-wasm 3.1.6) on the device, in WebAssembly. Both security policies gained one keyword, `'wasm-unsafe-eval'`, in `script-src` only: the hosting CSP (`firebase.json`) and the extension's `extension_pages` CSP (`apps/extension/public/manifest.json`).
+
+- **What it allows:** compiling WebAssembly. MDN: it "controls WebAssembly execution" and is "a much safer alternative to 'unsafe-eval', since it does not enable general evaluation of JavaScript". `eval()` and `new Function()` stay blocked.
+- **Extension:** Chrome's MV3 rules accept only `'self'` and `'wasm-unsafe-eval'` in `script-src` for extension pages (`'unsafe-eval'` is refused at install).
+- **No CDN, no Blob worker:** both engines are served from our own origin or extension package (`scripts/copy-ocr-assets.mjs` copies them from `node_modules` at build time into `public/ocr/`). Tesseract runs with `workerBlobURL: false` (a Blob worker would inherit the page's CSP and need `blob:`), `cacheMethod: 'none'`; zxing's default `locateFile`, which points at a CDN, is overridden. `connect-src` and `worker-src` are unchanged.
+- **Nothing kept:** the photo, its OCR text and what a barcode encodes stay in memory; a barcode is masked by its position, and only its format ("QR code") is shown.
+- Not added, and never to add: `'unsafe-eval'`, `blob:` or any CDN in `script-src`.
+
 ## Wiretap check
 
 The chat's **What leaves** pane shows "the exact text Envoy handed to Firebase AI Logic". `npm run verify:wiretap` (`scripts/verify-wiretap.mjs`) proves it against the real network request instead of trusting the page: it drives the app in Chrome (Basic protection, so any Chrome works), approves the sample lease question, reads the request body from Chrome's network layer, and passes only if exactly one request went to `firebasevertexai.googleapis.com`, the excerpt shown in the pane appears verbatim inside that request, and none of the real values the pane highlights appear anywhere in it. `--self-test` tampers with the shown text and must fail.

@@ -8,6 +8,8 @@ export default tseslint.config(
       '**/dist/**',
       '**/node_modules/**',
       '**/coverage/**',
+      // Third-party OCR engines copied in at build time (scripts/copy-ocr-assets.mjs).
+      'apps/*/public/ocr/**',
       'research_notes/**',
       'reports/**',
       '.superpowers/**',
