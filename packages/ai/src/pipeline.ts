@@ -506,6 +506,7 @@ export async function answer(
       target: 'cloud',
       blocked: false,
       payload: prompt,
+      refused: true,
     });
     res = await inAiQueue(() => deps.reasonFallback!.generateContent(prompt));
     usedFallbackModel = true;
@@ -520,8 +521,19 @@ export async function answer(
     blocked: false,
     payload: prompt,
   });
+  const reply = res.response.text();
+  // What came back over the wire: masked text and {{EXPR}}s, before anything is restored.
+  if (source === 'in_cloud')
+    networkLog.record({
+      at: Date.now(),
+      step: 'reason',
+      target: 'cloud',
+      blocked: false,
+      payload: reply,
+      direction: 'in',
+    });
   steps.push({ step: 'reason', source, ms });
-  const restored = restoreAnswer(res.response.text(), analysis.tags);
+  const restored = restoreAnswer(reply, analysis.tags);
   const receipt = buildReceipt({
     entities: analysis.entities,
     outbound: source === 'in_cloud' ? approvedOutbound : null,

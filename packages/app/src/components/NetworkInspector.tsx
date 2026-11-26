@@ -40,7 +40,11 @@ export function NetworkInspector({ open, onClose }: { open: boolean; onClose: ()
                     : 'font-semibold text-device-on-tint'
                 }
               >
-                {e.target === 'cloud' ? '→ Cloud' : '→ Device'}
+                {e.direction === 'in'
+                  ? '← From the cloud'
+                  : e.target === 'cloud'
+                    ? '→ Cloud'
+                    : '→ Device'}
               </span>
               {e.blocked && (
                 <span className="rounded bg-danger-tint px-1.5 font-semibold text-danger">
