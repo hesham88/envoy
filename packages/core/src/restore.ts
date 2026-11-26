@@ -43,7 +43,14 @@ export function restoreAnswer(
     currencies[name] = parsed.currency;
   }
 
+  /**
+   * The cloud sometimes renames a tag ({{MONTHLY_BASE_SALARY}} for [SALARY]). An unknown name is
+   * resolved only when every word of exactly one amount's tag appears in it, and no other amount
+   * shares that tag's base ([SALARY] and [SALARY_2]). Anything else stays unevaluated: a visible
+   * {{DEPOSIT * 2}} is honest; rent × 2 presented as the deposit is a wrong answer that looks right.
+   */
   const knownMoney = Object.keys(amounts);
+  const base = (k: string) => k.replace(/_\d+$/, '');
   const resolveForExpr = (expr: string) => {
     const map = { ...amounts };
     const curr = { ...currencies };
@@ -51,10 +58,11 @@ export function restoreAnswer(
       const id = idMatch[1]!;
       if (id in map) continue;
       const parts = id.split('_');
+      const fits = knownMoney.filter((k) => k.split('_').every((p) => parts.includes(p)));
       const match =
-        knownMoney.find(
-          (k) => parts.includes(k) || k.split('_').some((p) => p.length >= 3 && parts.includes(p)),
-        ) ?? (knownMoney.length === 1 ? knownMoney[0] : undefined);
+        fits.length === 1 && knownMoney.filter((k) => base(k) === base(fits[0]!)).length === 1
+          ? fits[0]
+          : undefined;
       if (match) {
         map[id] = amounts[match]!;
         curr[id] = currencies[match]!;
