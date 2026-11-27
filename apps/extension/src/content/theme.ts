@@ -80,6 +80,7 @@ export const THEME_CSS = `
 .card-head .seal { color: ${UV.green}; margin-top: 2px; }
 .card-title { margin: 0; font-size: 14px; font-weight: 650; letter-spacing: -.005em; }
 .card-sub { margin: 2px 0 0; color: ${UV.muted}; font-size: 12px; }
+.card-held { margin: 0 0 6px; padding: 6px 8px; border-radius: 8px; border: 1px solid rgba(255,181,71,.55); color: ${UV.amber}; font-size: 12px; line-height: 1.4; }
 .icon-btn { margin-left: auto; flex: none; width: 28px; height: 28px; border-radius: 8px; border: 0; background: transparent; color: ${UV.muted}; cursor: pointer; font-size: 16px; line-height: 1; }
 .icon-btn:hover { background: rgba(255,255,255,.06); color: ${UV.text}; }
 
