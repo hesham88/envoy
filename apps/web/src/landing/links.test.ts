@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { GUARD, STEPS, type CodeRef } from './Landing';
+import { FIREBASE, GUARD, STEPS, type CodeRef } from './Landing';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const lineOf = (path: string, n: number) =>
@@ -51,7 +51,11 @@ describe('code links', () => {
   }
 
   it('the landing page links land on their symbols', () => {
-    const refs: CodeRef[] = [...STEPS.map((s) => s.code), ...GUARD.map((g) => g[2])];
+    const refs: CodeRef[] = [
+      ...STEPS.map((s) => s.code),
+      ...GUARD.map((g) => g[2]),
+      ...FIREBASE.map((f) => f[2]),
+    ];
     for (const [path, line, symbol] of refs) {
       expect(existsSync(resolve(ROOT, path)), `${path} is missing`).toBe(true);
       if (line)
