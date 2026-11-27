@@ -209,7 +209,18 @@ fun EnvoyScreen(vm: EnvoyViewModel) {
                     }) else null,
                 )
                 Stage.LEAVES -> LeavesStep(s)
-                Stage.ANSWER -> AnswerStep(s, speakerReady, onRead = { s.answer?.let { speaker.speak(it.text) } })
+                Stage.ANSWER -> AnswerStep(s, speakerReady, onRead = { s.answer?.let { speaker.speak(it.text) } }, onReport = {
+                    s.answer?.let { a ->
+                        val (subject, body) = reportEmail(a)
+                        val mail = android.content.Intent(android.content.Intent.ACTION_SENDTO, android.net.Uri.parse("mailto:")).apply {
+                            putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf(REPORT_ADDRESS))
+                            putExtra(android.content.Intent.EXTRA_SUBJECT, subject)
+                            putExtra(android.content.Intent.EXTRA_TEXT, body)
+                        }
+                        runCatching { context.startActivity(mail) }
+                            .onFailure { vm.showError("No email app on this phone. Report answers to $REPORT_ADDRESS.") }
+                    }
+                })
             }
             Spacer(Modifier.height(8.dp))
         }
@@ -325,7 +336,7 @@ private fun LeavesStep(s: UiState) {
 // ---------- step 3: the answer, restored on this phone ----------
 
 @Composable
-private fun AnswerStep(s: UiState, speakerReady: Boolean?, onRead: () -> Unit) {
+private fun AnswerStep(s: UiState, speakerReady: Boolean?, onRead: () -> Unit, onReport: () -> Unit) {
     val a = s.answer ?: return
     Heading("Your answer", "Your real details were put back on this phone.")
     Panel(accent = Uv.green.copy(alpha = 0.7f)) {
@@ -347,6 +358,10 @@ private fun AnswerStep(s: UiState, speakerReady: Boolean?, onRead: () -> Unit) {
             true -> OutlinedButton(onClick = onRead, modifier = Modifier.heightIn(min = 48.dp)) { Text("Read aloud on this phone", color = Uv.text) }
             false -> Text("No on-device voice, so Envoy won't read it aloud: an online voice would send your details.", color = Uv.muted, fontSize = 12.sp)
             null -> {}
+        }
+        // Google Play's AI-content policy: report an offensive answer (tags only, never your details).
+        androidx.compose.material3.TextButton(onClick = onReport, modifier = Modifier.heightIn(min = 48.dp)) {
+            Text("Report this answer", color = Uv.muted, fontSize = 13.sp)
         }
     }
     if (s.steps.isNotEmpty()) {

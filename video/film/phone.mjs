@@ -30,7 +30,7 @@ const SEGMENTS = [
   { from: 4.0, to: 6.6, stage: 1 },
   { from: 10.3, to: 14.5, stage: 2 },
   { from: 16.2, to: 20.0, stage: 2 },
-  { from: 23.0, to: 25.2, stage: 2 },
+  { from: 21.6, to: 24.2, stage: 2 }, // the tap is at 22.5: show the press
   { from: 28.7, to: 33.4, stage: 3, waitCut: true },
   { from: 34.6, to: 37.4, stage: 3 },
 ];
@@ -175,7 +175,7 @@ const at = (rec) => {
 const marks = [
   { name: 'sample', at: at(5.0) },
   { name: 'leaves', at: at(11.0) },
-  { name: 'approve', at: at(23.5) },
+  { name: 'approve', at: at(22.5) },
   { name: 'answer', at: +(w.start + 0.1).toFixed(2) },
 ];
 writeFileSync(join(RAW, 'n16-android.marks.json'), JSON.stringify(marks, null, 1));

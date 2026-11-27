@@ -129,7 +129,11 @@ function sounds(id) {
       break;
     }
     case 'n16-android':
-      fx.push(['seal', 7.8], ['restore', 11.5]); // Approve, then the answer (the cut's own times)
+      {
+        const mk = (n) => local.find((x) => x.name === n)?.at;
+        if (mk('approve') != null) fx.push(['seal', mk('approve')]);
+        if (mk('answer') != null) fx.push(['restore', mk('answer') + 0.15]);
+      } // Approve, then the answer: the composed clip's own marks (film/phone.mjs)
       break;
     case 'n16r-receipt': {
       const saved = local.find((x) => x.name === 'saved')?.at;
