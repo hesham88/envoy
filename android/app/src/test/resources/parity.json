@@ -695,6 +695,84 @@
     }
    ],
    "names": []
+  },
+  {
+   "text": "Inquilino con DNI 12345678-Z y NIE X1234567L; firmado el 15 de agosto de 2024.",
+   "entities": [
+    {
+     "type": "NATIONAL_ID",
+     "value": "12345678-Z",
+     "start": 18,
+     "end": 28
+    },
+    {
+     "type": "NATIONAL_ID",
+     "value": "X1234567L",
+     "start": 35,
+     "end": 44
+    },
+    {
+     "type": "DATE",
+     "value": "15 de agosto de 2024",
+     "start": 57,
+     "end": 77
+    }
+   ],
+   "names": []
+  },
+  {
+   "text": "Sécurité sociale 1 84 12 76 451 089 46, tél. 06 12 34 56 78, signé le 1er septembre 2024.",
+   "entities": [
+    {
+     "type": "NATIONAL_ID",
+     "value": "1 84 12 76 451 089 46",
+     "start": 17,
+     "end": 38
+    },
+    {
+     "type": "PHONE",
+     "value": "06 12 34 56 78",
+     "start": 45,
+     "end": 59
+    },
+    {
+     "type": "DATE",
+     "value": "1er septembre 2024",
+     "start": 70,
+     "end": 88
+    }
+   ],
+   "names": []
+  },
+  {
+   "text": "Miete 1.250,50 € im Monat, Kaution 3 750 EUR, unterschrieben am 15. August 2024 (15.08.2024).",
+   "entities": [
+    {
+     "type": "MONEY",
+     "value": "1.250,50 €",
+     "start": 6,
+     "end": 16
+    },
+    {
+     "type": "MONEY",
+     "value": "3 750 EUR",
+     "start": 35,
+     "end": 44
+    },
+    {
+     "type": "DATE",
+     "value": "15. August 2024",
+     "start": 64,
+     "end": 79
+    },
+    {
+     "type": "DATE",
+     "value": "15.08.2024",
+     "start": 81,
+     "end": 91
+    }
+   ],
+   "names": []
   }
  ],
  "guard": {

@@ -379,14 +379,16 @@ export function ChatApp({
     try {
       // Same document, question, rules and mode as earlier in this tab: reuse the on-device result
       // instead of running the model again (it stays in memory only, never stored).
-      const cacheKey = `${runtime.status}|${question}|${fingerprint(turnDoc.text)}|${JSON.stringify(rules)}`;
+      // The organisation's rules (Remote Config policy_pack) apply with the person's own.
+      const allRules = [...(runtime.settings.policyPack?.rules ?? []), ...rules];
+      const cacheKey = `${runtime.status}|${question}|${fingerprint(turnDoc.text)}|${JSON.stringify(allRules)}`;
       const cached = analysisCache.current.get(cacheKey);
       let analysis = cached;
       if (!analysis) {
         await runtime.warmUp?.(); // never two on-device sessions at once
         analysis = await analyze(turnDoc.text, question, runtime.deps, {
           onProgress: (p) => update(id, (t) => ({ ...t, progress: p })),
-          customRules: rules,
+          customRules: allRules,
         });
         if (analysis.mode === 'private') analysisCache.current.set(cacheKey, analysis);
       }
@@ -1003,6 +1005,7 @@ export function ChatApp({
       {rulesOpen && (
         <RulesDialog
           rules={rules}
+          orgPack={runtime.settings.policyPack}
           locked={!store && vault.state !== 'unavailable'}
           onClose={() => setRulesOpen(false)}
           onChange={(r) => {
@@ -1028,6 +1031,14 @@ export function ChatApp({
                 cloudModel: runtime.settings.cloudModel,
                 cloudDefault: runtime.settings.cloudDefault,
                 promptVersion: runtime.settings.promptVersion,
+                ...(runtime.settings.policyPack
+                  ? {
+                      policyPack: {
+                        name: runtime.settings.policyPack.name,
+                        rules: runtime.settings.policyPack.rules.length,
+                      },
+                    }
+                  : {}),
               }
             : undefined
         }
@@ -1518,11 +1529,14 @@ function DictateButton({ draft, onText }: { draft: string; onText: (text: string
 
 function RulesDialog({
   rules,
+  orgPack,
   locked = false,
   onClose,
   onChange,
 }: {
   rules: CustomRule[];
+  /** The organisation's rules from Remote Config: shown, applied, not editable here. */
+  orgPack?: { name: string; rules: CustomRule[] };
   /** History has a passcode and is locked: changes can't be saved encrypted yet. */
   locked?: boolean;
   onClose: () => void;
@@ -1571,6 +1585,26 @@ function RulesDialog({
           Words only you know are private, like a project or a client. Envoy masks them everywhere,
           and the guard blocks them if they slip into what you send. Saved in this browser only.
         </p>
+        {orgPack && (
+          <section
+            aria-label={`Rules from ${orgPack.name}`}
+            className="rounded-[12px] border border-cloud/40 bg-cloud-tint/40 px-3 py-2.5"
+          >
+            <p className="m-0 text-[13.5px] text-ink">
+              <strong>From {orgPack.name}</strong>, through Firebase Remote Config. Applied to every
+              document; your organisation manages them.
+            </p>
+            <ul className="m-0 mt-1.5 flex list-none flex-col gap-1 p-0 text-[13.5px]">
+              {orgPack.rules.map((r, i) => (
+                <li key={i}>
+                  <span className="font-mono text-cloud-on-tint">[{r.label}]</span>{' '}
+                  {r.terms?.join(', ')}
+                  {r.pattern ? <span className="font-mono text-muted"> /{r.pattern}/</span> : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         {locked && (
           <p role="note" className="m-0 text-[14px] leading-relaxed text-ink">
             History is locked, so changes here last for this tab only. Unlock History to save them

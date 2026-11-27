@@ -73,6 +73,28 @@ object Rules {
         return s.substring(7, 9) in GOVERNORATES
     }
 
+    private const val DNI_LETTERS = "TRWAGMYFPDXBNJZSQVHLCKE"
+
+    /** Spanish DNI (8 digits + letter) or NIE (X/Y/Z + 7 digits + letter), with its check letter. */
+    fun isSpanishId(raw: String): Boolean {
+        val s = raw.replace(Regex("[\\s-]+"), "").uppercase()
+        val m = Regex("^([XYZ]?)(\\d{7,8})([A-Z])$").find(s) ?: return false
+        val (prefix, num, letter) = m.destructured
+        val digits = if (prefix.isNotEmpty()) "${"XYZ".indexOf(prefix)}$num" else num
+        if (digits.length != 8) return false
+        return DNI_LETTERS[(digits.toLong() % 23).toInt()].toString() == letter
+    }
+
+    /** French social security number (NIR) with its key, 97 - n mod 97 (Corsica 2A/2B). */
+    fun isFrenchNir(raw: String): Boolean {
+        val s = raw.replace(Regex("\\s+"), "").uppercase()
+        val m = Regex("^([12]\\d{4})(\\d{2}|2A|2B)(\\d{6})(\\d{2})$").find(s) ?: return false
+        val (a, d, b, key) = m.destructured
+        val dept = when (d) { "2A" -> "19"; "2B" -> "18"; else -> d }
+        val n = java.math.BigInteger("$a$dept$b")
+        return 97 - n.mod(java.math.BigInteger.valueOf(97)).toInt() == key.toInt()
+    }
+
     private const val MONTHS =
         "(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Sep|Oct|Nov|Dec)"
     private const val NUMBER = "(?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d+)?"
@@ -128,6 +150,38 @@ object Rules {
         Detector(EntityType.DATE, 6, Regex("\\b$MONTHS \\d{1,2}, \\d{4}\\b")),
         Detector(EntityType.DATE, 6, Regex("\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b")),
         Detector(EntityType.DATE, 6, Regex("\\b\\d{4}-\\d{2}-\\d{2}\\b")),
+        // ---------- Spanish, French and German formats ----------
+        Detector(
+            EntityType.NATIONAL_ID, 1, Regex("(?<![A-Za-z0-9])(?:[XYZ][ -]?\\d{7}|\\d{8})[ -]?[A-Z](?![A-Za-z0-9])"),
+            accept = { v -> if (isSpanishId(v)) v else null },
+        ),
+        Detector(
+            EntityType.NATIONAL_ID, 1, Regex("(?<!\\d)[12] ?\\d{2} ?\\d{2} ?(?:\\d{2}|2[AB]) ?\\d{3} ?\\d{3} ?\\d{2}(?!\\d)"),
+            accept = { v -> if (isFrenchNir(v)) v else null },
+        ),
+        Detector(EntityType.PHONE, 3, Regex("(?<![\\d+])0[1-9](?:[ .-]\\d{2}){4}(?![\\d])")),
+        Detector(
+            EntityType.MONEY, 5,
+            Regex("(?<![\\d.,])\\d{1,3}(?:[. \\u00a0\\u202f]\\d{3})*(?:,\\d{1,2})? ?(?:€|EUR|euros?)(?![A-Za-z])"),
+        ),
+        Detector(
+            EntityType.DATE, 6,
+            // (?iu): Unicode case folding, like the TypeScript engine's `iu` flags ("Décembre", "AOÛT").
+            Regex(
+                "(?iu)\\b\\d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre) de \\d{4}\\b",
+            ),
+        ),
+        Detector(
+            EntityType.DATE, 6,
+            Regex(
+                "(?iu)(?<![\\p{L}\\d])(?:1er|\\d{1,2}) (?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) \\d{4}\\b",
+            ),
+        ),
+        Detector(
+            EntityType.DATE, 6,
+            Regex("(?<![\\p{L}\\d])\\d{1,2}\\. (?:Januar|Jänner|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember) \\d{4}\\b"),
+        ),
+        Detector(EntityType.DATE, 6, Regex("\\b\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\b")),
         Detector(
             EntityType.PLATE, 7,
             Regex(

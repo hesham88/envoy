@@ -19,6 +19,8 @@ export interface FirebaseStack {
   cloudModel: string;
   cloudDefault: 'fast' | 'capable';
   promptVersion: string;
+  /** The organisation policy pack, if Remote Config publishes one. */
+  policyPack?: { name: string; rules: number };
 }
 
 function StackTable({ stack }: { stack: FirebaseStack }) {
@@ -39,9 +41,9 @@ function StackTable({ stack }: { stack: FirebaseStack }) {
     ],
     [
       'Remote Config',
-      'Chooses the cloud models and the on-device prompt version without a redeploy.',
+      "Chooses the cloud models and the on-device prompt version, and delivers an organisation's masking rules (a policy pack), without a redeploy.",
       stack.remoteConfigAt
-        ? `Fast: ${stack.fastCloudModel}; careful: ${stack.cloudModel}; default ${stack.cloudDefault}; prompts ${stack.promptVersion} (fetched ${new Date(stack.remoteConfigAt).toLocaleTimeString()})`
+        ? `Fast: ${stack.fastCloudModel}; careful: ${stack.cloudModel}; default ${stack.cloudDefault}; prompts ${stack.promptVersion}${stack.policyPack ? `; policy pack "${stack.policyPack.name}" (${stack.policyPack.rules} rules)` : ''} (fetched ${new Date(stack.remoteConfigAt).toLocaleTimeString()})`
         : 'Using built-in defaults (not fetched yet)',
     ],
     [

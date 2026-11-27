@@ -75,6 +75,28 @@ export function isEgyptianNationalId(raw: string): boolean {
   return GOVERNORATES.has(s.slice(7, 9));
 }
 
+const DNI_LETTERS = 'TRWAGMYFPDXBNJZSQVHLCKE';
+
+/** Spanish DNI (8 digits + letter) or NIE (X/Y/Z + 7 digits + letter), with its check letter. */
+export function isSpanishId(raw: string): boolean {
+  const s = raw.replace(/[\s-]+/g, '').toUpperCase();
+  const m = /^([XYZ]?)(\d{7,8})([A-Z])$/.exec(s);
+  if (!m) return false;
+  const digits = m[1] ? `${'XYZ'.indexOf(m[1])}${m[2]}` : m[2]!;
+  if (digits.length !== 8) return false;
+  return DNI_LETTERS[Number(digits) % 23] === m[3];
+}
+
+/** French social security number (NIR): 13 characters (Corsica 2A/2B) and a 2-digit key, 97 - n mod 97. */
+export function isFrenchNir(raw: string): boolean {
+  const s = raw.replace(/\s+/g, '').toUpperCase();
+  const m = /^([12]\d{4})(\d{2}|2A|2B)(\d{6})(\d{2})$/.exec(s);
+  if (!m) return false;
+  const dept = m[2] === '2A' ? '19' : m[2] === '2B' ? '18' : m[2]!;
+  const n = BigInt(`${m[1]}${dept}${m[3]}`);
+  return Number(97n - (n % 97n)) === Number(m[4]);
+}
+
 // ---------- detectors ----------
 
 interface Detector {
@@ -225,6 +247,59 @@ const DETECTORS: Detector[] = [
   },
   { type: 'DATE', priority: 6, confidence: 0.8, pattern: /\b\d{1,2}\/\d{1,2}\/\d{4}\b/g },
   { type: 'DATE', priority: 6, confidence: 0.8, pattern: /\b\d{4}-\d{2}-\d{2}\b/g },
+  // ---------- Spanish, French and German formats ----------
+  {
+    // DNI / NIE with the right check letter.
+    type: 'NATIONAL_ID',
+    priority: 1,
+    confidence: 0.97,
+    pattern: /(?<![A-Za-z0-9])(?:[XYZ][ -]?\d{7}|\d{8})[ -]?[A-Z](?![A-Za-z0-9])/g,
+    accept: (v) => (isSpanishId(v) ? v : null),
+  },
+  {
+    // French NIR (numéro de sécurité sociale) with its key.
+    type: 'NATIONAL_ID',
+    priority: 1,
+    confidence: 0.97,
+    pattern: /(?<!\d)[12] ?\d{2} ?\d{2} ?(?:\d{2}|2[AB]) ?\d{3} ?\d{3} ?\d{2}(?!\d)/g,
+    accept: (v) => (isFrenchNir(v) ? v : null),
+  },
+  {
+    // French numbers written the French way: 06 12 34 56 78, 01.23.45.67.89.
+    type: 'PHONE',
+    priority: 3,
+    confidence: 0.85,
+    pattern: /(?<![\d+])0[1-9](?:[ .-]\d{2}){4}(?![\d])/g,
+  },
+  {
+    // European amounts: 8.500,00 €, 1 200,50 EUR, 12.500 euros.
+    type: 'MONEY',
+    priority: 5,
+    confidence: 0.9,
+    pattern: /(?<![\d.,])\d{1,3}(?:[. \u00a0\u202f]\d{3})*(?:,\d{1,2})? ?(?:€|EUR|euros?)(?![A-Za-z])/g,
+  },
+  {
+    type: 'DATE',
+    priority: 6,
+    confidence: 0.85,
+    pattern:
+      /\b\d{1,2} de (?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre) de \d{4}\b/giu,
+  },
+  {
+    type: 'DATE',
+    priority: 6,
+    confidence: 0.85,
+    pattern:
+      /(?<![\p{L}\d])(?:1er|\d{1,2}) (?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) \d{4}\b/giu,
+  },
+  {
+    type: 'DATE',
+    priority: 6,
+    confidence: 0.85,
+    pattern:
+      /(?<![\p{L}\d])\d{1,2}\. (?:Januar|Jänner|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember) \d{4}\b/gu,
+  },
+  { type: 'DATE', priority: 6, confidence: 0.8, pattern: /\b\d{1,2}\.\d{1,2}\.\d{4}\b/g },
   // Vehicle plates. Named ones in any format ("plate no. 7ABC123", "vehicle registration KA-01 1234"),
   // and three strict national formats on their own: UK (AB12 CDE), France (AB-123-CD), Germany (B-MW 1234).
   {

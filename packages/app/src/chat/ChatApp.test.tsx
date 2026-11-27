@@ -83,6 +83,24 @@ describe('ChatApp', () => {
       expect(sent).not.toContain(raw);
   });
 
+  it("an organisation's policy pack (Remote Config) masks its words in what is sent", async () => {
+    const user = userEvent.setup();
+    const { runtime, generateContent } = basicRuntime();
+    runtime.settings = {
+      ...runtime.settings,
+      policyPack: { name: 'Nilebridge Logistics', rules: [{ label: 'COUNTRY', terms: ['Egypt'] }] },
+    };
+    render(<ChatApp runtime={runtime} />);
+    await user.click(
+      screen.getByRole('button', { name: /Can my landlord raise the rent 20% this year\?/ }),
+    );
+    await user.click(await screen.findByRole('button', { name: 'Approve and send' }));
+    await screen.findByText(/The cap is 10% a year/);
+    const sent = generateContent.mock.calls[0]![0];
+    expect(sent).not.toMatch(/Egypt/);
+    expect(sent).toContain('[COUNTRY]');
+  });
+
   it('a message without a document is protected too, and the recorder names where each step ran', async () => {
     const user = userEvent.setup();
     const { runtime, generateContent } = basicRuntime('Draft: Dear [PERSON], ...');

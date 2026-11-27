@@ -11,6 +11,21 @@ const CURRENCY_CODES: [RegExp, string][] = [
   [/EGP|L\.E\.|\bLE\b|pounds?|ج\.م|جنيه/i, 'EGP'],
 ];
 
+/**
+ * The number in an amount, in English or European notation: "8,500.50", "8.500,50" and
+ * "8 500,50" are all 8500.5; "8,500" and "8.500" are both 8500 (a thousands group, not decimals).
+ */
+export function parseAmountNumber(value: string): number {
+  const m = value.match(/\d{1,3}(?:[.,\u00a0\u202f ]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?/);
+  if (!m) return NaN;
+  const s = m[0].replace(/[\u00a0\u202f ]/g, '');
+  const dec = Math.max(s.lastIndexOf('.'), s.lastIndexOf(','));
+  // A separator followed by exactly one or two digits at the end is the decimal mark.
+  if (dec !== -1 && s.length - dec - 1 <= 2)
+    return Number(`${s.slice(0, dec).replace(/[.,]/g, '')}.${s.slice(dec + 1)}`);
+  return Number(s.replace(/[.,]/g, ''));
+}
+
 /** A comparison key, so the same value in different formats gets the same tag (and is caught by the guard). */
 export function canonical(value: string, type: EntityType): string {
   switch (type) {
@@ -22,8 +37,7 @@ export function canonical(value: string, type: EntityType): string {
     }
     case 'MONEY': {
       const currency = CURRENCY_CODES.find(([re]) => re.test(value))?.[1] ?? '';
-      const num = value.match(/(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?/)?.[0] ?? '';
-      return `${currency}:${Number(num.replace(/,/g, ''))}`;
+      return `${currency}:${parseAmountNumber(value)}`;
     }
     case 'IBAN':
     case 'ACCOUNT':
