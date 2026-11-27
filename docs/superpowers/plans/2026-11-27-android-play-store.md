@@ -24,6 +24,14 @@
 | Data safety form                                                                                                                                                          | —                                              | Declare as below                                                                                                                                                           |
 | Content rating (IARC), target audience, ads, app access                                                                                                                   | —                                              | Questionnaires as below                                                                                                                                                    |
 
+## Done in the repo (27 Nov)
+
+- **targetSdk 36** (`android/app/build.gradle.kts`). Debug and release builds pass, and so does Google's release lint (lintVital).
+- **Release signing:** read from `ENVOY_UPLOAD_KEYSTORE`, `ENVOY_UPLOAD_KEY_ALIAS`, `ENVOY_UPLOAD_STORE_PASSWORD` and `ENVOY_UPLOAD_KEY_PASSWORD`. Without them the bundle is unsigned, and nothing is in the repo.
+- **`gradlew bundleRelease`** builds `app-release.aab` (30.6 MB).
+- **16 KB pages:** every 64-bit native library (arm64-v8a, x86_64: androidx.graphics.path, datastore, ML Kit OCR) has 16 KB-aligned load segments. The 32-bit ML Kit copies are 4 KB-aligned, which 32-bit devices use. Checked by reading the ELF program headers in the bundle.
+- **Still open (owner decision):** how "Report this answer" reaches the developer (see Risks).
+
 ## Steps
 
 **Owner-only actions:** payment, identity, legal declarations and Play Console clicks. Claude prepares every file and text, and runs CLI steps after showing each command.
@@ -79,6 +87,8 @@
 10. **After launch:** a Play badge on the landing page and README, and a Play link in the Devpost story.
 
 ## Risks
+
+- **AI-content reporting:** the policy asks for in-app reporting without leaving the app. Envoy has no backend and no database, by design. The choices are an email draft (simple, but it leaves the app) or a Firebase product to receive reports (in-app, but a new data store). The owner decides.
 
 - **The 12-tester rule** (above).
 - **App Check:** Play Integrity fails until the app signing key is registered, and the app explains this in plain words (already implemented).
