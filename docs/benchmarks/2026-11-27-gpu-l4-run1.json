@@ -1,0 +1,518 @@
+{
+  "label": "gpu-l4",
+  "measuredAt": "2026-11-26T23:20:15.012Z",
+  "env": {
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "cores": 4,
+    "memoryGB": 16,
+    "availability": "downloadable"
+  },
+  "gpu": {
+    "renderer": null,
+    "vendor": null,
+    "webgpu": null,
+    "vulkan": null,
+    "gpu0": null
+  },
+  "onDeviceInternals": "Internal debugging pages are currently disabled.\n\nThese pages are intended for use by Chrome developers, and may not be actively maintained or tested. To enable them, navigate to chrome://chrome-urls, click the button to enable debug pages, and then navigate to this page again.",
+  "micro": {
+    "createMs": 6690,
+    "runs": [
+      {
+        "ttftMs": 5214,
+        "totalMs": 5814,
+        "approxTokens": 30,
+        "tokPerSec": 50
+      },
+      {
+        "ttftMs": 28,
+        "totalMs": 849,
+        "approxTokens": 34,
+        "tokPerSec": 41.4
+      },
+      {
+        "ttftMs": 28,
+        "totalMs": 854,
+        "approxTokens": 39,
+        "tokPerSec": 47.2
+      }
+    ]
+  },
+  "summary": {
+    "questions": 17,
+    "ok": 17,
+    "private": 16,
+    "cloudCalls": 0,
+    "analyzeMedianMs": 10704,
+    "analyzeMinMs": 2826,
+    "analyzeMaxMs": 153994
+  },
+  "rows": [
+    {
+      "sample": "lease",
+      "question": "What is my monthly rent?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 4128,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 2330
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 1200
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 549
+        }
+      ],
+      "localAnswerMs": 244,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "lease",
+      "question": "How much notice does my landlord need before entering?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 2826,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 1092
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 924
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 801
+        }
+      ],
+      "localAnswerMs": 477,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "lease",
+      "question": "Can my landlord raise the rent 20% this year?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 2951,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 1022
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 1223
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 699
+        }
+      ],
+      "localAnswerMs": null,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "offer",
+      "question": "How long is my probation period?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 4020,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 652
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 1952
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 1389
+        }
+      ],
+      "localAnswerMs": 292,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "offer",
+      "question": "How many days of paid leave do I get?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 3952,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 633
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 2686
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 618
+        }
+      ],
+      "localAnswerMs": 320,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "offer",
+      "question": "If they let me go without cause after 18 months, how much severance do I get?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 4398,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 696
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 2512
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 1181
+        }
+      ],
+      "localAnswerMs": null,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "offer",
+      "question": "Can I join a healthcare software startup right after I resign?",
+      "ok": true,
+      "mode": "basic",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 153994,
+      "steps": [
+        {
+          "step": "detect",
+          "source": "rules",
+          "ms": 0
+        }
+      ],
+      "localAnswerMs": 1672,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "lab",
+      "question": "When should I repeat the vitamin D test?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 13441,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3948
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 5820
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3642
+        }
+      ],
+      "localAnswerMs": 3052,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "lab",
+      "question": "What was my HbA1c?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 10575,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3325
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 3847
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3362
+        }
+      ],
+      "localAnswerMs": 3443,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "lab",
+      "question": "If insurance covers 80% of the lab fee, how much do I pay?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 12753,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3553
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 5436
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3737
+        }
+      ],
+      "localAnswerMs": null,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "lab",
+      "question": "Is my fasting glucose in the prediabetes range, and what should I do next?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 13036,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 4153
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 5020
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3825
+        }
+      ],
+      "localAnswerMs": null,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "freelance",
+      "question": "Within how many days must the client pay an invoice?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 11803,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3548
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 4755
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3474
+        }
+      ],
+      "localAnswerMs": 3072,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "freelance",
+      "question": "If the client cancels halfway through Milestone 2, how much do they owe me?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 12254,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3618
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 4549
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 4066
+        }
+      ],
+      "localAnswerMs": null,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "freelance",
+      "question": "What is the most I could be liable for?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 12205,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3547
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 4588
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 4049
+        }
+      ],
+      "localAnswerMs": null,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "loan",
+      "question": "How long is the battery warranty?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 11272,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3402
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 4266
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3584
+        }
+      ],
+      "localAnswerMs": 3205,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "loan",
+      "question": "How much notice do I need to settle the loan early?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": true,
+      "guardOk": true,
+      "analyzeMs": 10500,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3441
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 3582
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3456
+        }
+      ],
+      "localAnswerMs": 3389,
+      "cloudCalls": 0
+    },
+    {
+      "sample": "loan",
+      "question": "If I pay off the loan early, how much is the penalty?",
+      "ok": true,
+      "mode": "private",
+      "routeLocal": false,
+      "guardOk": true,
+      "analyzeMs": 10704,
+      "steps": [
+        {
+          "step": "minimize",
+          "source": "on_device",
+          "ms": 3381
+        },
+        {
+          "step": "detect",
+          "source": "on_device",
+          "ms": 3614
+        },
+        {
+          "step": "route",
+          "source": "on_device",
+          "ms": 3688
+        }
+      ],
+      "localAnswerMs": null,
+      "cloudCalls": 0
+    }
+  ]
+}
