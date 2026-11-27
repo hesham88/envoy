@@ -10,6 +10,9 @@ export default tseslint.config(
       '**/coverage/**',
       // Third-party OCR engines copied in at build time (scripts/copy-ocr-assets.mjs).
       'apps/*/public/ocr/**',
+      // Gradle's outputs for the Android app (test reports carry their own JS).
+      'android/**/build/**',
+      'android/.gradle/**',
       'research_notes/**',
       'reports/**',
       '.superpowers/**',

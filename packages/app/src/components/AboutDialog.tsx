@@ -10,7 +10,83 @@ const ROWS: [string, string, string][] = [
   ['6 · Restore', 'Plain code', 'Always on this device'],
 ];
 
-export function AboutDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+/** What the Firebase stack is doing in this browser right now. */
+export interface FirebaseStack {
+  deviceStatus: string;
+  appCheck: 'recaptcha' | 'no-script' | 'none';
+  remoteConfigAt: number | null;
+  fastCloudModel: string;
+  cloudModel: string;
+  cloudDefault: 'fast' | 'capable';
+  promptVersion: string;
+}
+
+function StackTable({ stack }: { stack: FirebaseStack }) {
+  const rows: [string, string, string][] = [
+    [
+      'Firebase AI Logic',
+      'Hybrid inference: ONLY_ON_DEVICE for every private step, PREFER_IN_CLOUD only for the reasoning, over tags.',
+      `On-device model: ${stack.deviceStatus}`,
+    ],
+    [
+      'App Check',
+      'reCAPTCHA Enterprise, limited-use tokens on every cloud call; enforced, so only this app can reach Gemini.',
+      stack.appCheck === 'recaptcha'
+        ? 'On in this browser'
+        : stack.appCheck === 'no-script'
+          ? 'Extension pages: token from the extension'
+          : 'Off (no Firebase config here)',
+    ],
+    [
+      'Remote Config',
+      'Chooses the cloud models and the on-device prompt version without a redeploy.',
+      stack.remoteConfigAt
+        ? `Fast: ${stack.fastCloudModel}; careful: ${stack.cloudModel}; default ${stack.cloudDefault}; prompts ${stack.promptVersion} (fetched ${new Date(stack.remoteConfigAt).toLocaleTimeString()})`
+        : 'Using built-in defaults (not fetched yet)',
+    ],
+    [
+      'Hosting',
+      'Serves the app with a strict Content-Security-Policy: the only hosts it can reach are Firebase and reCAPTCHA.',
+      'This page',
+    ],
+    [
+      'Not used, on purpose: Auth, Firestore',
+      'No accounts and no cloud database: nothing you open is stored on a server. History stays encrypted in this browser.',
+      'Zero accounts',
+    ],
+  ];
+  return (
+    <table className="w-full border-collapse text-sm">
+      <caption className="mb-2 text-left font-semibold">The Firebase stack, on purpose</caption>
+      <thead>
+        <tr className="border-b border-line text-left">
+          <th className="py-2 pr-3">Product</th>
+          <th className="py-2 pr-3">What it does in Envoy</th>
+          <th className="py-2">Right now</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(([name, what, now]) => (
+          <tr key={name} className="border-b border-line align-top last:border-b-0">
+            <td className="py-2 pr-3 font-semibold">{name}</td>
+            <td className="py-2 pr-3 text-muted">{what}</td>
+            <td className="py-2 font-mono text-[12.5px]">{now}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+export function AboutDialog({
+  open,
+  onClose,
+  stack,
+}: {
+  open: boolean;
+  onClose: () => void;
+  stack?: FirebaseStack;
+}) {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -74,6 +150,7 @@ export function AboutDialog({ open, onClose }: { open: boolean; onClose: () => v
             ))}
           </tbody>
         </table>
+        {stack && <StackTable stack={stack} />}
         <p className="m-0 text-sm leading-relaxed text-muted">
           <strong className="text-ink">Every private step is checked twice.</strong> An open SDK
           report (firebase-js-sdk #10635) describes "on-device only" requests reaching the cloud in

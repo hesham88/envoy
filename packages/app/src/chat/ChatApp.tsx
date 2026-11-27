@@ -1015,7 +1015,23 @@ export function ChatApp({
         />
       )}
       <LiveRegion message={announcement} />
-      <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <AboutDialog
+        open={aboutOpen}
+        onClose={() => setAboutOpen(false)}
+        stack={
+          runtime.firebase
+            ? {
+                deviceStatus: runtime.status,
+                appCheck: runtime.firebase.appCheck,
+                remoteConfigAt: runtime.firebase.remoteConfigAt,
+                fastCloudModel: runtime.settings.fastCloudModel,
+                cloudModel: runtime.settings.cloudModel,
+                cloudDefault: runtime.settings.cloudDefault,
+                promptVersion: runtime.settings.promptVersion,
+              }
+            : undefined
+        }
+      />
       <NetworkInspector open={ledgerOpen} onClose={() => setLedgerOpen(false)} />
     </div>
   );
