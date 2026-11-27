@@ -8,7 +8,7 @@
  *     (ducked under the voice), keyboard sounds at the recorded typing moments, and effects are mixed
  *     and normalised to -16 LUFS. English subtitles (.srt) come from the narration.
  *
- * Usage: node video/film/build.mjs [--v7] [--draft] [--reuse]   (draft: a missing clip becomes a placeholder
+ * Usage: node video/film/build.mjs [--v7|--v8] [--draft] [--reuse]   (draft: a missing clip becomes a placeholder
  *        card; reuse: keep scenes already composed and only redo pass 2)
  * Output: video/out/envoy-demo.mp4 (+ .srt), or envoy-demo-draft.mp4
  */
@@ -23,7 +23,8 @@ const VIDEO = resolve(HERE, '..');
 const OUT = join(VIDEO, 'out');
 const RAW = join(OUT, 'raw');
 const OV = join(OUT, 'overlays');
-const PARTS = join(OUT, process.argv.includes('--v7') ? 'scenes-v7' : 'scenes');
+const CUT = process.argv.includes('--v8') ? 'v8' : process.argv.includes('--v7') ? 'v7' : '';
+const PARTS = join(OUT, CUT ? `scenes-${CUT}` : 'scenes');
 const SFX = join(VIDEO, 'audio', 'out');
 mkdirSync(PARTS, { recursive: true });
 const draft = process.argv.includes('--draft');
@@ -32,9 +33,9 @@ const reuse = process.argv.includes('--reuse');
 // voice files <id>-flash.wav and captions cap-<id>-flash.png).
 const flash = process.argv.includes('--flash'); // keep scenes already composed (pass 1)
 // --v7: the 26 Nov cut (narration-v7.json, voices in wav7/, out/envoy-demo-v7.mp4); v6 stays as it is.
-const v7 = process.argv.includes('--v7');
-const NARRATION = v7 ? 'narration-v7.json' : 'narration.json';
-const VOICES = v7 ? 'wav7' : 'wav3';
+// --v8: the 27 Nov cut (narration-v8.json, voices in wav8/, out/envoy-demo-v8.mp4).
+const NARRATION = CUT ? `narration-${CUT}.json` : 'narration.json';
+const VOICES = CUT === 'v8' ? 'wav8' : CUT === 'v7' ? 'wav7' : 'wav3';
 const LEAD = 0.45;
 const TAIL = 0.65;
 const FPS = 30;
@@ -115,6 +116,26 @@ function sounds(id) {
     case 'n18-end':
       fx.push(['seal', 0.6]);
       break;
+    // v8: cues at the moments the take itself marked.
+    case 'n14-intercept': {
+      const mk = (n) => local.find((x) => x.name === n)?.at;
+      if (mk('held') != null) fx.push(['block', mk('held') + 0.2]);
+      if (mk('replaced') != null) fx.push(['restore', mk('replaced') + 0.1]);
+      break;
+    }
+    case 'n15-badge': {
+      const face = local.find((x) => x.name === 'face')?.at;
+      if (face != null) fx.push(['tick', face], ['tick', face + 0.42]);
+      break;
+    }
+    case 'n16-android':
+      fx.push(['seal', 7.8], ['restore', 11.5]); // Approve, then the answer (the cut's own times)
+      break;
+    case 'n16r-receipt': {
+      const saved = local.find((x) => x.name === 'saved')?.at;
+      if (saved != null) fx.push(['seal', saved]);
+      break;
+    }
   }
   // Typing inside the private take (the excerpt edit, the second question).
   for (const [a, b] of pairs(take.typing)) {
@@ -142,7 +163,8 @@ for (const l of lines) {
       dur: CHAPTERS[l.id].dur,
       into: CHAPTERS[l.id].into,
     });
-  const dir = SCENES[l.id];
+  // A narration line may carry its own `direction` for one cut (v8 reuses v7 scenes, retimed).
+  const dir = SCENES[l.id] && { ...SCENES[l.id], ...(l.direction ?? {}) };
   if (!dir) throw new Error(`no direction for ${l.id}`);
   const wav = join(VIDEO, VOICES, `${l.id}${l.variant ?? ''}.wav`);
   if (!existsSync(wav)) throw new Error(`missing narration ${wav}`);
@@ -397,7 +419,7 @@ f.push(`[mix]atrim=duration=${total.toFixed(3)},loudnorm=I=-16:TP=-1.5:LRA=11[au
 
 const outFile = join(
   OUT,
-  `envoy-demo${v7 ? '-v7' : ''}${flash ? '-flash' : ''}${draft ? '-draft' : ''}.mp4`,
+  `envoy-demo${CUT ? `-${CUT}` : ''}${flash ? '-flash' : ''}${draft ? '-draft' : ''}.mp4`,
 );
 writeFileSync(join(OUT, 'filter-final.txt'), f.join(';\n'));
 ffmpeg([

@@ -374,6 +374,21 @@ export function Landing() {
             ))}
           </ul>
           <Measured summary={evalSummary} />
+          <p className="mt-5 mb-0 max-w-[72ch] text-[15px] leading-relaxed text-uv-muted">
+            <span className="text-uv-text">Also measured, 27 November:</span> a generated suite of
+            352 cases, each fictional value disguised every way that fits (spaced, encoded,
+            lookalike letters, number words, reversed), blocked 282 of 282 leaks and none of 70
+            harmless texts; it tests the guard against values Envoy already knows. And on a cloud
+            NVIDIA L4 GPU, the same 17 sample questions took a median of 10.6 s in Private mode,
+            against 125 s on our 2018 laptop's CPU.{' '}
+            <a
+              href={src('docs/benchmarks/README.md')}
+              className="text-uv-blue underline underline-offset-4"
+            >
+              Method and logs
+            </a>
+            .
+          </p>
         </Section>
 
         {/* ---------- the Firebase stack ---------- */}
