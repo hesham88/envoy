@@ -30,7 +30,8 @@
 - **Release signing:** read from `ENVOY_UPLOAD_KEYSTORE`, `ENVOY_UPLOAD_KEY_ALIAS`, `ENVOY_UPLOAD_STORE_PASSWORD` and `ENVOY_UPLOAD_KEY_PASSWORD`. Without them the bundle is unsigned, and nothing is in the repo.
 - **`gradlew bundleRelease`** builds `app-release.aab` (30.6 MB).
 - **16 KB pages:** every 64-bit native library (arm64-v8a, x86_64: androidx.graphics.path, datastore, ML Kit OCR) has 16 KB-aligned load segments. The 32-bit ML Kit copies are 4 KB-aligned, which 32-bit devices use. Checked by reading the ELF program headers in the bundle.
-- **Still open (owner decision):** how "Report this answer" reaches the developer (see Risks).
+- **Report this answer** (owner chose an email draft, 27 Nov): on the Answer step it opens a draft to the developer address with the answer as the cloud wrote it (tags only; tested never to include restored details). If there is no email app, the screen says where to write. **Before Play:** decide whether `REPORT_ADDRESS` in `ui/Steps.kt` stays the commit-author address or becomes a dedicated one.
+- **Decision (27 Nov):** the owner chose to skip Play during the contest. The app stays Play-ready for later.
 
 ## Steps
 

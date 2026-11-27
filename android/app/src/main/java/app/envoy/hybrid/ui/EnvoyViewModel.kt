@@ -34,7 +34,8 @@ data class Review(
     val privateMode: Boolean,
 )
 
-data class Answer(val text: String, val spans: List<Restore.Span>, val withheld: List<String>)
+/** The answer: restored text for the person, and [tagged], what the cloud actually wrote (for reports). */
+data class Answer(val text: String, val spans: List<Restore.Span>, val withheld: List<String>, val tagged: String = "")
 
 data class UiState(
     val samples: List<Sample> = emptyList(),
@@ -165,7 +166,7 @@ class EnvoyViewModel(app: Application) : AndroidViewModel(app) {
             val t1 = System.currentTimeMillis()
             val restored = Restore.restore(raw, review.tags)
             step("Real values restored", "This phone", t1)
-            _state.update { it.copy(busy = null, answer = Answer(restored.text, restored.spans, restored.withheld)) }
+            _state.update { it.copy(busy = null, answer = Answer(restored.text, restored.spans, restored.withheld, tagged = raw)) }
         } catch (e: Exception) {
             showError(cloudProblem(e))
         }

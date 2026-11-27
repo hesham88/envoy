@@ -38,3 +38,26 @@ class StepsTest {
         assertEquals("[AMOUNT_2]", text.substring(found[1].first))
     }
 }
+
+class ReportTest {
+    @Test
+    fun `a report carries the answer as the cloud wrote it, never the restored details`() {
+        val a = Answer(
+            text = "No, Karim Fathy cannot raise the rent of EGP 8,500 by 20%.",
+            spans = emptyList(), withheld = emptyList(),
+            tagged = "No, [PERSON] cannot raise the rent of [AMOUNT] by 20%.",
+        )
+        val (subject, body) = reportEmail(a)
+        assertEquals("Envoy: report an AI answer", subject)
+        org.junit.Assert.assertTrue(body.contains("No, [PERSON] cannot raise the rent of [AMOUNT] by 20%."))
+        org.junit.Assert.assertFalse(body.contains("Karim Fathy"))
+        org.junit.Assert.assertFalse(body.contains("8,500"))
+    }
+
+    @Test
+    fun `without the cloud's text, the report says so instead of sending the restored answer`() {
+        val (_, body) = reportEmail(Answer("Karim Fathy", emptyList(), emptyList()))
+        org.junit.Assert.assertFalse(body.contains("Karim Fathy"))
+        org.junit.Assert.assertTrue(body.contains("(not available)"))
+    }
+}

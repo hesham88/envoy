@@ -28,3 +28,19 @@ private val TAG = Regex("""\[([A-Z][A-Z0-9_]*)]""")
 /** Every tag in [text], with its base label: [AMOUNT_2] is an AMOUNT, [PROJECT] a person's own label. */
 fun tagRanges(text: String): List<Pair<IntRange, String>> =
     TAG.findAll(text).map { m -> m.range to m.groupValues[1].replace(Regex("_\\d+$"), "") }.toList()
+
+/** Where "Report this answer" goes: the project's public developer contact (the commit author). */
+const val REPORT_ADDRESS = "hesham1988@gmail.com"
+
+/**
+ * Google Play's AI-content policy: people can report an offensive answer to the developer. The
+ * report carries the answer as the cloud wrote it, with tags, never the details restored on the
+ * phone, so a report can't leak what Envoy kept private.
+ */
+fun reportEmail(a: Answer): Pair<String, String> {
+    val tagged = a.tagged.ifBlank { "(not available)" }
+    return "Envoy: report an AI answer" to
+        "What was wrong with this answer? (optional)\n\n\n" +
+        "The answer as the cloud wrote it (tags, not your details):\n$tagged\n\n" +
+        "Sent from Envoy for Android. Your real details are not included."
+}
