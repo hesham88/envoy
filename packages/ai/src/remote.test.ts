@@ -58,3 +58,33 @@ describe('loadRemoteSettings', () => {
     });
   });
 });
+
+describe('organisation policy pack (Remote Config policy_pack)', () => {
+  it('reads valid rules and drops invalid ones', async () => {
+    const { parsePolicyPack } = await import('./remote');
+    const pack = parsePolicyPack(
+      JSON.stringify({
+        name: 'Nilebridge Logistics',
+        rules: [
+          { label: 'PROJECT', terms: ['Falcon', 'Bluebird'] },
+          { label: 'CLIENT_ID', pattern: String.raw`NB-\d{4}-\d{4}` },
+          { label: 'bad label', terms: ['x'] },
+          { label: 'EMPTY' },
+          'not a rule',
+        ],
+      }),
+    );
+    expect(pack?.name).toBe('Nilebridge Logistics');
+    expect(pack?.rules.map((r) => r.label)).toEqual(['PROJECT', 'CLIENT_ID']);
+  });
+
+  it('ignores a missing, empty or broken pack instead of failing', async () => {
+    const { parsePolicyPack } = await import('./remote');
+    expect(parsePolicyPack('')).toBeUndefined();
+    expect(parsePolicyPack('{not json')).toBeUndefined();
+    expect(parsePolicyPack(JSON.stringify({ rules: [] }))).toBeUndefined();
+    expect(parsePolicyPack(JSON.stringify({ rules: [{ label: 'A', terms: ['ok'] }] }))?.name).toBe(
+      'Your organisation',
+    );
+  });
+});
