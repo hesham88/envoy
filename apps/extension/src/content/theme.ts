@@ -71,7 +71,7 @@ export const THEME_CSS = `
 @keyframes halo-pulse { 30% { box-shadow: 0 0 0 2px ${UV.green}, 0 0 34px 6px color-mix(in srgb, ${UV.green} 60%, transparent); } }
 
 /* ---------- cards (findings, upload) ---------- */
-.card { position: fixed; z-index: 2147483646; display: none; width: 360px; max-width: calc(100vw - 24px); max-height: min(70vh, 560px); overflow: auto;
+.card { position: fixed; z-index: 2147483646; display: none; width: 360px; max-width: calc(100vw - 24px); max-height: min(70vh, 560px); overflow: auto; overflow-x: hidden;
   border-radius: 18px; border: 1px solid ${UV.line}; background: ${UV.panel}; color: ${UV.text}; padding: 14px;
   backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2);
   box-shadow: 0 24px 60px -24px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.03) inset; animation: card-in .28s cubic-bezier(.2,.8,.2,1); }
@@ -85,10 +85,11 @@ export const THEME_CSS = `
 .icon-btn:hover { background: rgba(255,255,255,.06); color: ${UV.text}; }
 
 .list { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
-.item { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px;
+.item { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px;
   border: 1px solid ${UV.line}; background: rgba(255,255,255,.02); animation: item-in .3s ease-out both; }
 @keyframes item-in { from { opacity: 0; transform: translateX(-4px); } }
 .item-kind { color: ${UV.muted}; font-size: 11.5px; }
+.item > :first-child { min-width: 0; overflow-wrap: anywhere; }
 .item-value { display: block; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 210px; }
 .item[data-hidden="true"] .item-value { color: ${UV.muted}; text-decoration: line-through; text-decoration-color: rgba(255,181,71,.6); }
 .tag { display: inline-block; padding: 0 6px; border-radius: 6px; border: 1px solid rgba(61,255,176,.45); background: rgba(61,255,176,.1);
@@ -105,7 +106,7 @@ export const THEME_CSS = `
 .diff { margin-top: 12px; display: grid; gap: 6px; }
 .diff-label { color: ${UV.muted}; font-size: 11.5px; margin-bottom: 3px; }
 .diff-box { max-height: 96px; overflow: auto; padding: 8px 10px; border-radius: 10px; border: 1px solid ${UV.line}; background: rgba(0,0,0,.22);
-  font: 12px/1.55 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-word; }
+  font: 12px/1.55 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; }
 .diff-box.after { border-color: rgba(61,255,176,.35); }
 .raw { color: ${UV.amber}; background: rgba(255,181,71,.12); border-radius: 4px; }
 

@@ -48,6 +48,8 @@ const extra = [
   'Inquilino con DNI 12345678-Z y NIE X1234567L; firmado el 15 de agosto de 2024.',
   'Sécurité sociale 1 84 12 76 451 089 46, tél. 06 12 34 56 78, signé le 1er septembre 2024.',
   'Miete 1.250,50 € im Monat, Kaution 3 750 EUR, unterschrieben am 15. August 2024 (15.08.2024).',
+  // Staff badges: a number the text calls an employee or staff number.
+  'Employee NB-4471-2290, staff no. 55-201-934. Every employee gets 21 days of leave.',
 ];
 const strip = (e) => ({ type: e.type, value: e.value, start: e.start, end: e.end });
 const rules = [...docs.map(([, d]) => d.text), ...extra].map((text) => ({

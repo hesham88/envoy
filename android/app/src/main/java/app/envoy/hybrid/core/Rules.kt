@@ -119,7 +119,7 @@ object Rules {
         Detector(
             EntityType.ACCOUNT, 8,
             Regex(
-                "(?<!\\p{L})(?:(?:bank\\s+)?account|acct|a/c|card|policy|member(?:ship)?|customer|client|reference|ref|invoice|passport|licen[cs]e|national\\s+id|id|ssn|social\\s+security|tax|routing|sort\\s+code|swift|bic|meter|contract|mrn|medical\\s+record|patient|claim|accession|specimen)(?:\\s+(?:number|no\\.?|num|#|id|code))?\\s*(?:is\\s+|:\\s*|=\\s*|#\\s*)?((?:[A-Z]{1,4}[ -]?)?\\d[\\d -]{4,30}\\d)(?![\\p{L}\\p{N}])",
+                "(?<!\\p{L})(?:(?:bank\\s+)?account|acct|a/c|card|policy|member(?:ship)?|customer|client|reference|ref|invoice|passport|licen[cs]e|national\\s+id|id|ssn|social\\s+security|tax|routing|sort\\s+code|swift|bic|meter|contract|mrn|medical\\s+record|patient|claim|accession|specimen|employee|staff|payroll|badge)(?:\\s+(?:number|no\\.?|num|#|id|code))?\\s*(?:is\\s+|:\\s*|=\\s*|#\\s*)?((?:[A-Z]{1,4}[ -]?)?\\d[\\d -]{4,30}\\d)(?![\\p{L}\\p{N}])",
                 setOf(RegexOption.IGNORE_CASE),
             ),
             group = 1,

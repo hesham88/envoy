@@ -33,7 +33,7 @@ export function initUploadUi(
       border: 1px solid rgba(61,255,176,.5); background: ${UV.panel}; color: ${UV.green}; font: 600 12px system-ui, sans-serif; cursor: pointer;
       backdrop-filter: blur(10px); box-shadow: 0 0 18px -6px rgba(61,255,176,.6), 0 6px 22px -8px rgba(0,0,0,.55); }
     .up-btn:hover { filter: brightness(1.1); }
-    .up-card { position: fixed; z-index: 2147483647; display: none; width: 380px; max-width: calc(100vw - 24px); max-height: 74vh; overflow: auto;
+    .up-card { position: fixed; z-index: 2147483647; display: none; width: 380px; max-width: calc(100vw - 24px); max-height: 74vh; overflow: auto; overflow-x: hidden;
       border-radius: 18px; border: 1px solid ${UV.line}; background: ${UV.panel}; color: ${UV.text}; padding: 14px; font: 13px/1.45 system-ui, sans-serif;
       backdrop-filter: blur(16px) saturate(1.2); box-shadow: 0 24px 60px -24px rgba(0,0,0,.7); animation: card-in .28s cubic-bezier(.2,.8,.2,1); }
     .up-card h3 { margin: 0 0 4px; font-size: 14px; font-weight: 650; } .up-muted { color: ${UV.muted}; font-size: 12px; }
