@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Envoy mark (packages/ui/src/Logo.tsx, LOGO_PATHS): a seal-shaped shield carrying a sealed
+     envelope flap and a forward chevron. Strokes only, on a 24 x 24 grid, in the web app's ink. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path android:strokeColor="#F4F2FF" android:strokeWidth="1.9" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M12,2.75 L19.25,5.6 v5.65 c0,4.55 -3.05,8.35 -7.25,9.95 c-4.2,-1.6 -7.25,-5.4 -7.25,-9.95 V5.6 Z" />
+    <path android:strokeColor="#F4F2FF" android:strokeWidth="1.9" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M6.9,7.4 L12,10.9 l5.1,-3.5" />
+    <path android:strokeColor="#3DFFB0" android:strokeWidth="1.9" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M10.4,13.3 L13.4,15.75 L10.4,18.2" />
+</vector>

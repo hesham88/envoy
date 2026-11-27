@@ -114,7 +114,7 @@ const glideTo = (loc) =>
   loc.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 
 // ---------- the live site: Firebase stack and the signed receipt ----------
-if (want('n00d-live') || want('n13-firebase') || want('n16r-receipt')) {
+if (want('n00d-live') || want('n06-chat') || want('n13-firebase') || want('n16r-receipt')) {
   const WORK = scratchDir('envoy-film');
   // A visible window, as in scripts/smoke-hosted.mjs: App Check (reCAPTCHA Enterprise) scores a
   // headless browser as automated and the cloud refuses it (the app says so, in plain words).
@@ -154,6 +154,50 @@ if (want('n00d-live') || want('n13-firebase') || want('n16r-receipt')) {
       });
       await page.close();
     }
+    if (want('n06-chat')) {
+      // The start of Mona's session, re-filmed on the live app (the slogan fix) with the private
+      // take's own framing and actions (record-private.mjs): the lease, Fast, the question, Enter.
+      // Needs --cdp (the model Chrome), so the sidebar says "On-device ready" as in the take.
+      const page = await ctx.newPage();
+      const cdp = await page.context().newCDPSession(page);
+      await cdp.send('Network.clearBrowserCache');
+      await cdp.send('Storage.clearDataForOrigin', {
+        origin: LIVE,
+        storageTypes: 'service_workers,cache_storage',
+      });
+      await page.setViewportSize({ width: W, height: H });
+      await page.goto(`${LIVE}/app?sample=lease`, { waitUntil: 'domcontentloaded' });
+      await page.evaluate(() => document.fonts.ready);
+      await page.getByText('On-device ready').first().waitFor({ timeout: 60000 });
+      await page.getByRole('radio', { name: /^Fast/ }).click();
+      await wait(800);
+      // Choosing Fast scrolled the composer into view: start at the top, on the welcome heading.
+      await page.evaluate(() => {
+        for (const el of document.querySelectorAll('*'))
+          if (el.scrollHeight > el.clientHeight + 40) el.scrollTop = 0;
+        window.scrollTo(0, 0);
+      });
+      await wait(1200);
+      await screencast(page, 'n06-chat', async (mark) => {
+        await wait(2200);
+        await page.locator('#envoy-composer').click();
+        await wait(700);
+        await page.keyboard.press('Control+A');
+        mark('type-start');
+        await page.keyboard.type(
+          "Can my landlord raise my rent 20% this year? What's the most it can go up to?",
+          { delay: 42 },
+        );
+        mark('type-end');
+        await wait(700);
+        mark('send');
+        await page.keyboard.press('Enter');
+        await page.getByText('Privacy flight recorder').first().waitFor({ timeout: 30000 });
+        await wait(2800);
+      });
+      await page.close(); // stops the on-device run this send started
+    }
+
     if (want('n13-firebase')) {
       const page = await ctx.newPage();
       await zoom(page, 1280);
@@ -208,35 +252,14 @@ if (want('n00d-live') || want('n13-firebase') || want('n16r-receipt')) {
         const local = join(WORK, fileName);
         await download.saveAs(local);
         mark('saved');
+        // Checked off screen (the film shows the app only; the README explains the script).
         output = execFileSync('node', [join(REPO, 'scripts/verify-receipt.mjs'), local], {
           encoding: 'utf8',
         });
-        await wait(1600);
-        // The script's real output, typed into a terminal card.
-        await page.setContent(terminalPage());
-        await page.evaluate(() => document.fonts.ready);
-        await page.evaluate(
-          async ([cmd, out]) => {
-            const pre = document.getElementById('out');
-            const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-            pre.textContent = '$ ';
-            for (const ch of cmd) {
-              pre.textContent += ch;
-              await sleep(22);
-            }
-            await sleep(500);
-            pre.textContent += '\n';
-            for (const line of out.split('\n')) {
-              pre.textContent += line + '\n';
-              await sleep(160);
-            }
-          },
-          [`node scripts/verify-receipt.mjs ${fileName}`, onScreen(output)],
-        );
-        mark('verified');
-        await wait(3500);
+        await page.getByRole('button', { name: 'Receipt saved' }).waitFor({ timeout: 10000 });
+        await wait(3400);
       });
-      console.log('verify output:\n' + output);
+      console.log('receipt check: ' + output.split('\n')[0]);
       await page.close();
     }
   } finally {
@@ -244,23 +267,6 @@ if (want('n00d-live') || want('n13-firebase') || want('n16r-receipt')) {
     else await browser.close();
     removeScratch(WORK);
   }
-}
-
-/** The script's summary, then the first lines of the excerpt it checked (the rest is elided). */
-function onScreen(output) {
-  const [summary, ...sent] = output.trimEnd().split('\n\n--- ');
-  if (!sent.length) return summary;
-  const lines = `--- ${sent[0]}`.split('\n');
-  return `${summary}\n\n${lines.slice(0, 5).join('\n')}${lines.length > 5 ? '\n…' : ''}`;
-}
-
-function terminalPage() {
-  return `<!doctype html><meta charset="utf-8"><style>
-  html,body{margin:0;height:100%;background:#0b0a1f;}
-  .term{position:absolute;inset:60px 70px;border:1px solid #34314a;border-radius:18px;background:#12111f;padding:26px 30px;box-shadow:0 20px 60px #0008}
-  .bar{display:flex;gap:8px;margin-bottom:18px}.bar i{width:12px;height:12px;border-radius:50%;background:#34314a;display:block}
-  pre{margin:0;color:#ece9ff;font:500 17px/1.6 "IBM Plex Mono",Consolas,monospace;white-space:pre-wrap}
-  </style><div class="term"><div class="bar"><i></i><i></i><i></i></div><pre id="out"></pre></div>`;
 }
 
 // ---------- the extension on the stand-in chat page ----------

@@ -436,15 +436,22 @@ export function Landing() {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            {/* Until a packaged release is published, this goes to the install guide (load unpacked). */}
+            {/* Published on the Chrome Web Store (27 Nov 2026). */}
             <a
-              href={src('apps/extension/README.md')}
+              href="https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd"
               className="rounded-full bg-uv-blue px-6 py-3 text-[16px] font-semibold text-uv-deep shadow-[0_0_32px_-8px_var(--uv-blue)] hover:brightness-110"
             >
-              Get the extension
+              Add to Chrome
             </a>
             <span className="text-[15px] text-uv-muted">
-              Installs in a minute: load it unpacked in Chrome.
+              Free on the Chrome Web Store. The newest build (paste checks, faces in photos) is on{' '}
+              <a
+                href="https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension"
+                className="text-uv-blue underline underline-offset-4"
+              >
+                GitHub
+              </a>
+              .
             </span>
           </div>
         </Section>

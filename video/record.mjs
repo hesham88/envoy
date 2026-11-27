@@ -304,10 +304,13 @@ await scene('n16-guide', `${SITE}/app?guide=private`, async (p) => {
 
 // 17. Measured: the landing page's results table.
 await scene('n17-measured', `${SITE}/#guard`, async (p) => {
-  await scrollTo(p, 'table', 'center');
-  await wait(800);
-  await smooth(p, (await p.evaluate(() => window.scrollY)) - 170);
-  await wait(8700);
+  // The whole table, then the line under it (the adversarial suite and the GPU run).
+  await scrollTo(p, 'table', 'start');
+  await wait(900);
+  await smooth(p, (await p.evaluate(() => window.scrollY)) - 90);
+  await wait(4800);
+  await smooth(p, (await p.evaluate(() => window.scrollY)) + 230);
+  await wait(5200);
 });
 
 // 18. End card.

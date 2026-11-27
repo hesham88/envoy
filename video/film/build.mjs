@@ -23,7 +23,7 @@ const VIDEO = resolve(HERE, '..');
 const OUT = join(VIDEO, 'out');
 const RAW = join(OUT, 'raw');
 const OV = join(OUT, 'overlays');
-const CUT = process.argv.includes('--v8') ? 'v8' : process.argv.includes('--v7') ? 'v7' : '';
+const CUT = ['v9', 'v8', 'v7'].find((c) => process.argv.includes(`--${c}`)) ?? '';
 const PARTS = join(OUT, CUT ? `scenes-${CUT}` : 'scenes');
 const SFX = join(VIDEO, 'audio', 'out');
 mkdirSync(PARTS, { recursive: true });
@@ -35,7 +35,7 @@ const flash = process.argv.includes('--flash'); // keep scenes already composed 
 // --v7: the 26 Nov cut (narration-v7.json, voices in wav7/, out/envoy-demo-v7.mp4); v6 stays as it is.
 // --v8: the 27 Nov cut (narration-v8.json, voices in wav8/, out/envoy-demo-v8.mp4).
 const NARRATION = CUT ? `narration-${CUT}.json` : 'narration.json';
-const VOICES = CUT === 'v8' ? 'wav8' : CUT === 'v7' ? 'wav7' : 'wav3';
+const VOICES = CUT === 'v9' ? 'wav9' : CUT === 'v8' ? 'wav8' : CUT === 'v7' ? 'wav7' : 'wav3';
 const LEAD = 0.45;
 const TAIL = 0.65;
 const FPS = 30;
@@ -166,9 +166,22 @@ for (const l of lines) {
   // A narration line may carry its own `direction` for one cut (v8 reuses v7 scenes, retimed).
   const dir = SCENES[l.id] && { ...SCENES[l.id], ...(l.direction ?? {}) };
   if (!dir) throw new Error(`no direction for ${l.id}`);
-  const wav = join(VIDEO, VOICES, `${l.id}${l.variant ?? ''}.wav`);
-  if (!existsSync(wav)) throw new Error(`missing narration ${wav}`);
-  const speech = probe(wav);
+  // Narration parts: each its own voice file, placed `at` seconds into the scene, so a line lands
+  // on the moment it describes (v9). A line without parts is one part at LEAD, as before.
+  const voices = (l.parts ?? [{ text: l.text, at: LEAD }]).map((p) => {
+    const wav = p.reuse
+      ? join(VIDEO, p.reuse)
+      : l.parts
+        ? join(VIDEO, VOICES, `${l.id}.${p.key}.wav`)
+        : join(VIDEO, VOICES, `${l.id}${l.variant ?? ''}.wav`);
+    if (!existsSync(wav)) throw new Error(`missing narration ${wav}`);
+    return { wav, text: p.text, at: p.at ?? LEAD, speech: probe(wav) };
+  });
+  for (let i = 1; i < voices.length; i++)
+    if (voices[i].at < voices[i - 1].at + voices[i - 1].speech)
+      throw new Error(`${l.id}: part ${i + 1} starts before part ${i} ends`);
+  const wav = voices[0].wav;
+  const speech = Math.max(...voices.map((v) => v.at + v.speech)) - LEAD;
   const need = LEAD + speech + TAIL;
   let clip = join(RAW, `${l.id}.mp4`);
   let clipLen;
@@ -181,7 +194,7 @@ for (const l of lines) {
   if (dir.full && clip) dur = Math.max(need, clipLen); // the clip's ending matters: play it all
   if (l.id === 'n02-problem') dur = Math.max(need, 12.8); // let the closing line land
   if (l.id === 'n18-end') dur = Math.max(need, 6);
-  scenes.push({ ...l, ...dir, wav, speech, clip, clipLen, dur });
+  scenes.push({ ...l, ...dir, wav, voices, speech, clip, clipLen, dur });
 }
 let t = 0;
 scenes.forEach((s, i) => {
@@ -281,7 +294,8 @@ scenes.forEach((s, i) => {
     }
     // Caption: slides in from its margin, leaves before the cut.
     const capFile = join(OV, `cap-${s.id}${s.variant ?? ''}.png`);
-    if (existsSync(capFile)) {
+    if (L.caption !== 'none' && existsSync(capFile)) {
+      // a frameless scene has no caption, even if an old file is there
       const c = input(capFile);
       const cin = 0.35;
       const ease = `pow(max(0,1-(t-${cin})/0.75),3)`;
@@ -361,12 +375,13 @@ let k = scenes.length;
 const voice = [];
 const fx = [];
 for (const s of scenes) {
-  if (!s.wav) continue;
-  args.push('-i', s.wav);
-  const ms = Math.round((s.start + LEAD) * 1000);
-  f.push(`[${k}:a]aresample=48000,aformat=channel_layouts=stereo,adelay=${ms}|${ms}[n${k}]`);
-  voice.push(`[n${k}]`);
-  k++;
+  for (const v of s.voices ?? []) {
+    args.push('-i', v.wav);
+    const ms = Math.round((s.start + v.at) * 1000);
+    f.push(`[${k}:a]aresample=48000,aformat=channel_layouts=stereo,adelay=${ms}|${ms}[n${k}]`);
+    voice.push(`[n${k}]`);
+    k++;
+  }
 }
 let typeIdx = 0;
 for (const s of scenes) {
@@ -457,12 +472,12 @@ const ts = (x) => {
   const sec = String(Math.floor(ms / 1000) % 60).padStart(2, '0');
   return `${h}:${m}:${sec},${String(ms % 1000).padStart(3, '0')}`;
 };
-const spoken = scenes.filter((s) => s.wav);
+const spoken = scenes.flatMap((s) => (s.voices ?? []).map((v) => ({ ...v, start: s.start })));
 writeFileSync(
   outFile.replace(/\.mp4$/, '.srt'),
   spoken
     .map(
-      (s, i) => `${i + 1}\n${ts(s.start + LEAD)} --> ${ts(s.start + LEAD + s.speech)}\n${s.text}\n`,
+      (v, i) => `${i + 1}\n${ts(v.start + v.at)} --> ${ts(v.start + v.at + v.speech)}\n${v.text}\n`,
     )
     .join('\n'),
 );

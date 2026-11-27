@@ -8,7 +8,11 @@ Envoy in your browser, in three places:
 
 The extension shares its code with the web app: `@envoy/core` (detection, tags, guard), `@envoy/ai` (Firebase AI Logic and the device guard), `@envoy/ui` (design system) and `@envoy/app` (the chat).
 
-## Install (load unpacked)
+## Install
+
+**From the Chrome Web Store:** [Envoy on the Chrome Web Store](https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd) (version 0.1.3).
+
+**The newest build** (0.1.4: paste and send checks on AI chat sites, faces in photos, Office files, more formats) is in [release v0.2.0](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension), or build it yourself and load it unpacked:
 
 ```sh
 npm install
@@ -22,13 +26,13 @@ npm run check:dist -w @envoy/extension   # fails if any App Check token material
 
 ## What it can access, and why
 
-| Permission | Why |
-| --- | --- |
-| `sidePanel` | The Envoy chat. |
-| `contextMenus` | "Ask Envoy about this selection". The selected text goes to the side panel through `chrome.storage.session` and is removed once read. |
-| `storage` | Your own rules and the sites you turned on, kept in `chrome.storage.local` on this computer. |
+| Permission                         | Why                                                                                                                                                  |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sidePanel`                        | The Envoy chat.                                                                                                                                      |
+| `contextMenus`                     | "Ask Envoy about this selection". The selected text goes to the side panel through `chrome.storage.session` and is removed once read.                |
+| `storage`                          | Your own rules and the sites you turned on, kept in `chrome.storage.local` on this computer.                                                         |
 | `scripting` + optional host access | The text-box chip and upload button run **only on sites you switch on**, one origin at a time, after Chrome asks you. No site is enabled by default. |
-| `offscreen` | Runs the on-device model check for text boxes in an extension page, never in the website's own context. |
+| `offscreen`                        | Runs the on-device model check for text boxes in an extension page, never in the website's own context.                                              |
 
 Envoy never touches password, one-time-code, card or bank-account fields, and it writes page text only with `textContent`, never as HTML. There is no telemetry.
 
