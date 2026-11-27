@@ -94,6 +94,38 @@
      "start": 2550,
      "end": 2563
     }
+   ],
+   "names": [
+    {
+     "type": "PERSON",
+     "value": "Karim Fathy",
+     "start": 199,
+     "end": 210
+    },
+    {
+     "type": "PERSON",
+     "value": "Mona Adel",
+     "start": 288,
+     "end": 297
+    },
+    {
+     "type": "PERSON",
+     "value": "Karim Fathy",
+     "start": 2472,
+     "end": 2483
+    },
+    {
+     "type": "PERSON",
+     "value": "Mona Adel",
+     "start": 2499,
+     "end": 2508
+    },
+    {
+     "type": "PERSON",
+     "value": "Sara Nabil",
+     "start": 2532,
+     "end": 2542
+    }
    ]
   },
   {
@@ -152,6 +184,38 @@
      "value": "EGP 3,000",
      "start": 1115,
      "end": 1124
+    }
+   ],
+   "names": [
+    {
+     "type": "PERSON",
+     "value": "Between Ramy Lotfy",
+     "start": 130,
+     "end": 148
+    },
+    {
+     "type": "PERSON",
+     "value": "Nile Ledger Systems",
+     "start": 154,
+     "end": 173
+    },
+    {
+     "type": "PERSON",
+     "value": "Salma Mostafa",
+     "start": 192,
+     "end": 205
+    },
+    {
+     "type": "PERSON",
+     "value": "Annual Performance",
+     "start": 819,
+     "end": 837
+    },
+    {
+     "type": "PERSON",
+     "value": "Intellectual Property",
+     "start": 1154,
+     "end": 1175
     }
    ]
   },
@@ -236,6 +300,38 @@
      "start": 1271,
      "end": 1307
     }
+   ],
+   "names": [
+    {
+     "type": "PERSON",
+     "value": "NILE VALLEY",
+     "start": 0,
+     "end": 11
+    },
+    {
+     "type": "PERSON",
+     "value": "Adel Mansour",
+     "start": 65,
+     "end": 77
+    },
+    {
+     "type": "PERSON",
+     "value": "Dr. Hany Selim",
+     "start": 306,
+     "end": 320
+    },
+    {
+     "type": "PERSON",
+     "value": "Pathologist Comment",
+     "start": 689,
+     "end": 708
+    },
+    {
+     "type": "PERSON",
+     "value": "Repeat Hb",
+     "start": 782,
+     "end": 791
+    }
    ]
   },
   {
@@ -294,6 +390,32 @@
      "value": "EG38 0019 0005 0000 0000 2631 8000 2",
      "start": 737,
      "end": 773
+    }
+   ],
+   "names": [
+    {
+     "type": "PERSON",
+     "value": "Between Bassem Fouad",
+     "start": 90,
+     "end": 110
+    },
+    {
+     "type": "PERSON",
+     "value": "Delta Mobility",
+     "start": 116,
+     "end": 130
+    },
+    {
+     "type": "PERSON",
+     "value": "Mariam Rizk",
+     "start": 147,
+     "end": 158
+    },
+    {
+     "type": "PERSON",
+     "value": "Cancellation Kill",
+     "start": 779,
+     "end": 796
     }
    ]
   },
@@ -366,6 +488,26 @@
      "start": 860,
      "end": 867
     }
+   ],
+   "names": [
+    {
+     "type": "PERSON",
+     "value": "SOLAR SYSTEM PURCHASE AND FINANCING",
+     "start": 0,
+     "end": 35
+    },
+    {
+     "type": "PERSON",
+     "value": "Samer Fawzy",
+     "start": 60,
+     "end": 71
+    },
+    {
+     "type": "PERSON",
+     "value": "Early Prepayment",
+     "start": 598,
+     "end": 614
+    }
    ]
   },
   {
@@ -389,7 +531,8 @@
      "start": 51,
      "end": 65
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "Card 4532 0151 1283 0366 and 4532015112830367 (not Luhn).",
@@ -400,7 +543,8 @@
      "start": 5,
      "end": 24
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "IBAN EG380019000500000000263180002 and DE89 3704 0044 0532 0130 00.",
@@ -417,7 +561,8 @@
      "start": 39,
      "end": 66
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "National ID 29503140101234 and 2950 3140 1012 34.",
@@ -434,7 +579,8 @@
      "start": 31,
      "end": 48
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "Pay EGP 8,500 or USD 1,200.50, or 9,350 pounds.",
@@ -457,7 +603,8 @@
      "start": 34,
      "end": 46
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "Signed 15 August 2024, due March 3, 2025, 01/09/2024, 2024-09-01.",
@@ -486,7 +633,8 @@
      "start": 54,
      "end": 64
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "Vehicle registration: 7ABC123. Parked: AB12 CDE. Le véhicule AB-123-CD.",
@@ -509,7 +657,8 @@
      "start": 61,
      "end": 70
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "api_key = sk-test-51HfakeFAKEfake0000 and policy no. 88-4410-2093.",
@@ -526,7 +675,8 @@
      "start": 53,
      "end": 65
     }
-   ]
+   ],
+   "names": []
   },
   {
    "text": "mona.adel@example.com lives at 14 El Nasr St, Maadi, Cairo.",
@@ -543,7 +693,8 @@
      "start": 31,
      "end": 58
     }
-   ]
+   ],
+   "names": []
   }
  ],
  "guard": {

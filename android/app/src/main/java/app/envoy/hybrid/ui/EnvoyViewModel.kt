@@ -8,6 +8,7 @@ import app.envoy.hybrid.ai.EnvoyAi
 import app.envoy.hybrid.ai.PrivacyViolation
 import app.envoy.hybrid.core.Entity
 import app.envoy.hybrid.core.Guard
+import app.envoy.hybrid.core.Names
 import app.envoy.hybrid.core.Pipeline
 import app.envoy.hybrid.core.Restore
 import app.envoy.hybrid.core.Rules
@@ -122,6 +123,10 @@ class EnvoyViewModel(app: Application) : AndroidViewModel(app) {
                     step("On-device model unavailable: Basic protection", "This phone", t0)
                 }
             }
+            // Names and companies the rules can't know about, in both modes (as on the web).
+            val names = Names.flag(s.doc, entities, s.question)
+            if (names.isNotEmpty()) step("Names found by pattern: ${names.size}", "This phone, no model", System.currentTimeMillis())
+            entities = (entities + names).sortedBy { it.start }
             val tags = Tags.assign(entities)
             val excerpt = Pipeline.outbound(s.doc, ids, entities, tags)
             val leaks = Guard.checkOutbound(excerpt, entities)

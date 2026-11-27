@@ -31,6 +31,23 @@ class ParityTest {
     }
 
     @Test
+    fun `names and companies match the TypeScript engine`() {
+        val cases = fixtures.getJSONArray("rules")
+        var total = 0
+        for (i in 0 until cases.length()) {
+            val c = cases.getJSONObject(i)
+            val text = c.getString("text")
+            val expected = c.getJSONArray("names").let { a ->
+                (0 until a.length()).map { a.getJSONObject(it).let { e -> "${e.getString("type")} ${e.getInt("start")}-${e.getInt("end")} ${e.getString("value")}" } }
+            }
+            val actual = Names.flag(text, Rules.detect(text)).map { "${it.type} ${it.start}-${it.end} ${it.value}" }
+            assertEquals("case $i: ${text.take(60)}", expected, actual)
+            total += expected.size
+        }
+        assertTrue("expected names in the samples, got $total", total > 10)
+    }
+
+    @Test
     fun `the outbound guard catches the same raw values`() {
         val guard = fixtures.getJSONObject("guard")
         val protected = Rules.detect(guard.getString("lease"))
@@ -96,5 +113,16 @@ class PipelineTest {
         assertEquals("7. Rent. The monthly rent is [RENT].", excerpt)
         assertEquals(emptyList<Guard.Leak>(), Guard.checkOutbound(excerpt, entities))
         assertEquals(setOf(0, 2), Pipeline.parseIds("0, 2, 9", 3))
+    }
+
+    @Test
+    fun `Basic protection masks names too (found on the emulator, 27 Nov)`() {
+        val fixtures = JSONObject(javaClass.classLoader!!.getResource("parity.json")!!.readText())
+        val lease = fixtures.getJSONObject("guard").getString("lease")
+        val rules = Rules.detect(lease)
+        val entities = (rules + Names.flag(lease, rules, "Can my landlord raise the rent?")).sortedBy { it.start }
+        val excerpt = Pipeline.outbound(lease, Pipeline.clauses(lease).map { it.id }.toSet(), entities, Tags.assign(entities))
+        for (name in listOf("Karim Fathy", "Mona Adel")) assertTrue("$name leaked", !excerpt.contains(name))
+        assertEquals(emptyList<Guard.Leak>(), Guard.checkOutbound(excerpt, entities))
     }
 }

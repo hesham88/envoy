@@ -49,6 +49,8 @@ const strip = (e) => ({ type: e.type, value: e.value, start: e.start, end: e.end
 const rules = [...docs.map(([, d]) => d.text), ...extra].map((text) => ({
   text,
   entities: core.detectWithRules(text).map(strip),
+  // Names and companies the rules can't know about (Basic protection relies on these).
+  names: core.flagNames(text, core.detectWithRules(text)).map(strip),
 }));
 
 // Outbound guard: the raw values of the lease must be caught however they are written.
