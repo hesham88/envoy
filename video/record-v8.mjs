@@ -114,7 +114,7 @@ const glideTo = (loc) =>
   loc.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 
 // ---------- the live site: Firebase stack and the signed receipt ----------
-if (want('n13-firebase') || want('n16r-receipt')) {
+if (want('n00d-live') || want('n13-firebase') || want('n16r-receipt')) {
   const WORK = scratchDir('envoy-film');
   // A visible window, as in scripts/smoke-hosted.mjs: App Check (reCAPTCHA Enterprise) scores a
   // headless browser as automated and the cloud refuses it (the app says so, in plain words).
@@ -126,6 +126,28 @@ if (want('n13-firebase') || want('n16r-receipt')) {
   });
   try {
     const ctx = browser;
+    if (want('n00d-live')) {
+      // The live site, no sign-in: the landing page, Open Envoy, and the app ready to use.
+      const page = await ctx.newPage();
+      await zoom(page, 1280);
+      await page.goto(LIVE, { waitUntil: 'load' });
+      await page.evaluate(() => document.fonts.ready);
+      await wait(1500);
+      await screencast(page, 'n00d-live', async (mark) => {
+        await wait(1300);
+        const open = page.getByRole('link', { name: 'Open Envoy' }).first();
+        const ob = await open.boundingBox();
+        if (ob) await page.mouse.move(ob.x + ob.width / 2, ob.y + ob.height / 2, { steps: 14 });
+        await wait(300);
+        await open.click();
+        mark('app');
+        await page
+          .getByRole('button', { name: /Can my landlord raise the rent 20% this year?/ })
+          .waitFor();
+        await wait(2600);
+      });
+      await page.close();
+    }
     if (want('n13-firebase')) {
       const page = await ctx.newPage();
       await zoom(page, 1280);

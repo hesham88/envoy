@@ -1,0 +1,90 @@
+[
+  {
+    "id": "n00a-cut",
+    "text": "A whole lease goes in. One clause comes out, and every name and number in it is a tag."
+  },
+  {
+    "id": "n00b-maths",
+    "text": "The cloud writes rent times one point one. This laptop works out the real amount."
+  },
+  {
+    "id": "n00c-photo",
+    "text": "A face, a staff number, a QR code: boxed before the photo leaves, with its location data stripped."
+  },
+  {
+    "id": "n00d-live",
+    "text": "No sign-in. It is live today."
+  },
+  {
+    "id": "n01-open",
+    "text": "This is Envoy, your private AI agent to the cloud. Your device keeps the secrets. The cloud does the thinking.",
+    "reuse": "wav7"
+  },
+  {
+    "id": "n06-chat",
+    "text": "Here is a real session in private mode, on Gemma four, the model behind Gemini Nano four. Mona asks if her landlord can raise the rent twenty percent.",
+    "reuse": "wav7"
+  },
+  {
+    "id": "n07-recorder",
+    "text": "Chrome's built-in model reads her lease, right here on this laptop. The flight recorder shows each step, and where it ran.",
+    "reuse": "wav7"
+  },
+  {
+    "id": "n08-approve",
+    "text": "Before anything leaves, Mona sees exactly what the cloud will see: only the clauses her question needs, every detail a tag. Nothing is sent until she approves.",
+    "reuse": "wav7"
+  },
+  {
+    "id": "n08g-guard",
+    "text": "If a raw detail slips back in, like a bank account number pasted into the excerpt, the guard blocks the send.",
+    "reuse": "wav7"
+  },
+  {
+    "id": "n09-wiretap",
+    "text": "Above, what Mona sees: her real names, IDs and rent. Below, the exact text that leaves. The cloud writes rent times one point one, and Envoy works out the number on her laptop.",
+    "reuse": "wav7",
+    "direction": {
+      "full": false
+    }
+  },
+  {
+    "id": "n10-answer",
+    "text": "Flash-Lite answers fast. Gemini four Hydrogen reasons more carefully. Either way, only tags reach the cloud.",
+    "reuse": "wav7"
+  },
+  {
+    "id": "n11-offline",
+    "text": "Now, switch the network off. What is my monthly rent? Gemma four answers on the device, and nothing is sent.",
+    "reuse": "wav7"
+  },
+  {
+    "id": "n13-firebase",
+    "text": "Firebase, on purpose. AI Logic runs each private step only on the device, and checks that it did. App Check guards every cloud call, and Remote Config picks the models, and even an organisation's masking rules."
+  },
+  {
+    "id": "n14-intercept",
+    "text": "On the AI chat sites you choose, the extension flags a paste with private details, holds the send once, and swaps them for tags."
+  },
+  {
+    "id": "n15-badge",
+    "text": "Upload with Envoy reads a staff badge on the device. The face, the name, the staff number and the QR code are boxed before you press anything."
+  },
+  {
+    "id": "n16-android",
+    "text": "On Android, the same engine runs in Kotlin with Firebase AI Logic. The phone shows what the cloud will see, then puts the real names back."
+  },
+  {
+    "id": "n16r-receipt",
+    "text": "Every answer can come with a receipt, signed in the browser. A script checks the signature, and exactly what left."
+  },
+  {
+    "id": "n17-measured8",
+    "text": "We measured it. On thirty six documents, every planted detail was masked, none leaked, and under a quarter of the text was sent. Two hundred eighty two disguised leaks, all blocked. And on a cloud GPU, about eleven seconds per question."
+  },
+  {
+    "id": "n18-end",
+    "text": "Envoy. Ask the cloud. Keep your secrets.",
+    "reuse": "wav7"
+  }
+]

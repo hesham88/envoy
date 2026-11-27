@@ -27,6 +27,8 @@ video/out/
 video/wav/
 video/wav3/
 video/wav7/
+video/wav8/
+video/.chunks*/
 video/audio/out/
 
 # On-device OCR engines, copied from node_modules at build time (scripts/copy-ocr-assets.mjs)
