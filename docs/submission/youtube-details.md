@@ -2,7 +2,7 @@
 
 Paste-ready details for the v9 upload (27 Nov 2026). The same text lives in [SUBMISSION_KIT.md](../SUBMISSION_KIT.md).
 
-**To do: upload v9** (rendered 27 Nov, 2:57). It replaces v7 (https://www.youtube.com/watch?v=ZO1DbGUI4Mk, 26 Nov), which stays public until v9 is up; v8 was never published. v9 follows Mona across every surface: the problem, the promise (one clause leaves, `{{RENT * 1.10}}` worked out on the laptop, a badge photo boxed with its EXIF gone), her real Private-mode session, what makes Envoy different (the guard, offline answers, a signed receipt), the extension holding a risky paste, her badge photo, the new Android app, the Firebase stack, and the measured results.
+**Done: v9 is public at https://www.youtube.com/watch?v=n7IuGRGjLbU** (27 Nov, 2:57). It replaces v7 (ZO1DbGUI4Mk, 26 Nov); v8 was never published. The website embeds v9, and the README and Devpost link to it.
 
 ### 1. Upload the film
 

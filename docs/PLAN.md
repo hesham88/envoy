@@ -29,6 +29,7 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
   - **Owner notes applied:** no terminal, no crops, wait notes say only "Wait cut", the slogan never split.
   - **Owner uploads it to YouTube.** Then the video ID goes into `demo-video.ts`, the README and the Devpost field.
 - **Fixed while filming (#73):** the paste chip slid under the Upload button; the held card scrolled sideways on short screens; employee, staff, payroll and badge numbers weren't masked (web and Android). Landing: the measured section now cites the adversarial suite and the GPU run.
+- **Demo film v9 published (27 Nov):** https://www.youtube.com/watch?v=n7IuGRGjLbU, embedded on the landing page (`demo-video.ts`) and linked from the README and Devpost; it replaces v7.
 - **Android rework (#75, #76):** three steps (Document → What leaves → Answer) with a sticky action bar, tags as coloured chips and a timeline recorder; the Envoy mark in the top bar and as the adaptive launcher icon.
 - **Chrome Web Store:** 0.1.3 is published (https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd); the landing page says "Add to Chrome". 0.1.4 is packed for the store, waiting for the owner to upload it.
 - **Google Play (FS-T19):** sub-plan in `docs/superpowers/plans/2026-11-27-android-play-store.md`. New personal accounts need a 14-day closed test with 12 testers before production.
