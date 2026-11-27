@@ -25,6 +25,16 @@ This is **Privacy-Conscious Delegation** (after PAPILLON, Li et al., NAACL 2025)
 - **On Android and in the Chrome extension too:** [release v0.2.0](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension) has the extension (0.1.4, install unpacked) and the Android companion app.
 - **Built for:** Firebase #BuildHybridAI 2026. Open source under Apache-2.0.
 
+| Measured                                                                | Result                                                     |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Planted private details masked / raw details sent (36 documents)        | **263 of 263** / **0**                                     |
+| Document text sent to the cloud, Private mode                           | **23.2%**, every detail a tag                              |
+| Generated adversarial suite (352 cases)                                 | **282 of 282** leaks blocked, **0 of 70** harmless blocked |
+| Private details boxed in photos, on the device                          | **203 of 208** (97.6%)                                     |
+| Median time per question on the device (2018 laptop CPU → cloud L4 GPU) | 125 s → **10.6 s**                                         |
+
+Methods and limits: [Measured](#measured) below, [docs/EVAL.md](docs/EVAL.md) and [docs/benchmarks](docs/benchmarks/README.md).
+
 <img src="docs/img/brand/section-promise.png" alt="The promise: ask the cloud, keep your secrets" width="100%">
 
 ## What you see

@@ -118,12 +118,18 @@ if (want('n00d-live') || want('n13-firebase') || want('n16r-receipt')) {
   const WORK = scratchDir('envoy-film');
   // A visible window, as in scripts/smoke-hosted.mjs: App Check (reCAPTCHA Enterprise) scores a
   // headless browser as automated and the cloud refuses it (the app says so, in plain words).
-  const browser = await chromium.launchPersistentContext(join(WORK, 'profile'), {
-    channel: 'chrome',
-    headless: false,
-    acceptDownloads: true,
-    viewport: { width: W, height: H },
-  });
+  // --cdp: film in the model Chrome (CDP 9333), so the live stack shows the on-device model as
+  // available; that Chrome is the person's own, so only our pages are closed afterwards.
+  const viaCdp = process.argv.includes('--cdp');
+  const remote = viaCdp ? await chromium.connectOverCDP('http://127.0.0.1:9333') : null;
+  const browser = remote
+    ? remote.contexts()[0]
+    : await chromium.launchPersistentContext(join(WORK, 'profile'), {
+        channel: 'chrome',
+        headless: false,
+        acceptDownloads: true,
+        viewport: { width: W, height: H },
+      });
   try {
     const ctx = browser;
     if (want('n00d-live')) {
@@ -234,7 +240,8 @@ if (want('n00d-live') || want('n13-firebase') || want('n16r-receipt')) {
       await page.close();
     }
   } finally {
-    await browser.close();
+    if (remote) await remote.close();
+    else await browser.close();
     removeScratch(WORK);
   }
 }

@@ -754,7 +754,9 @@ export function ChatApp({
                 tabIndex={-1}
                 className={`m-0 font-display leading-[1.02] font-[560] text-ink ${panel ? 'text-[2.1rem]' : 'text-[clamp(2.2rem,1.5rem+2.6vw,3.4rem)]'}`}
               >
-                Ask the cloud. Keep your secrets.
+                {/* Each sentence on its own line, never split ("Keep your / secrets."). */}
+                <span className="block whitespace-nowrap">Ask the cloud.</span>{' '}
+                <span className="block whitespace-nowrap">Keep your secrets.</span>
               </h1>
               <p className="m-0 max-w-[56ch] text-[17px] leading-relaxed text-muted">
                 Ask anything, with a document or without. Envoy finds your private details on this
