@@ -312,6 +312,15 @@ function renderCard() {
     );
   } else
     titles.append(
+      ...(heldText !== null
+        ? [
+            el(
+              'p',
+              'card-held',
+              'Envoy held this message before it was sent. Replace the details below, or press Enter again to send it as written.',
+            ),
+          ]
+        : []),
       el(
         'p',
         'card-title',
@@ -598,6 +607,64 @@ document.addEventListener('focusout', () => {
     if (a !== activeField && a !== host && !protectionOn) chip.style.display = 'none';
   }, 120);
 });
+
+// ---------- interception: a paste or a send that carries private details ----------
+//
+// Envoy never changes or blocks text by itself. With Envoy off for a field:
+// - a paste that carries private details makes the chip say so, and one click turns Envoy on;
+// - pressing Enter to send a message that still holds private details is held ONCE: Envoy turns on
+//   for that field and shows what it found. Pressing Enter again sends it exactly as written.
+/** The text whose send was held; a second Enter with the same text sends it as written. */
+let heldText: string | null = null;
+
+function nudge(n: number) {
+  chip.dataset.state = 'found';
+  chipLabel.textContent = `${n} private ${n === 1 ? 'detail' : 'details'} pasted`;
+  chip.title = 'Turn Envoy on to replace them before you send';
+  chip.style.display = '';
+  place();
+}
+
+document.addEventListener(
+  'paste',
+  (e) => {
+    if (!siteOn || !activeField || protectionOn) return;
+    const target = e.target as Node | null;
+    if (!target || (target !== activeField && !activeField.contains(target))) return;
+    const pasted = (e as ClipboardEvent).clipboardData?.getData('text') ?? '';
+    const n = pasted ? scanText(pasted, { custom: customRules }).findings.length : 0;
+    if (n) window.setTimeout(() => nudge(n), 0);
+  },
+  true,
+);
+
+window.addEventListener(
+  'keydown',
+  (e) => {
+    if (!siteOn || !activeField || e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
+    const target = e.target as Node | null;
+    if (!target || (target !== activeField && !activeField.contains(target))) return;
+    const text = getFieldText(activeField);
+    const raw = protectionOn ? rawCount() : scanText(text, { custom: customRules }).findings.length;
+    if (!raw) {
+      heldText = null;
+      return;
+    }
+    if (heldText === text) {
+      heldText = null; // second Enter: the person chose to send it as written
+      return;
+    }
+    heldText = text;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    if (!protectionOn) setProtection(true);
+    else {
+      cardOpen = true;
+      renderCard();
+    }
+  },
+  true,
+);
 
 const upload = initUploadUi(
   shadow,

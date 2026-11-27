@@ -3,6 +3,14 @@ import { getDeviceStatus, type DeviceStatus } from '@envoy/ai';
 import { EnvoySeal, Logo, StatusPill, UvRing } from '@envoy/ui';
 import { gateState } from '../gate';
 
+/** The AI chat and code sites "Protect AI chats" turns Envoy on for. */
+export const AI_CHAT_ORIGINS = [
+  'https://chatgpt.com',
+  'https://claude.ai',
+  'https://gemini.google.com',
+  'https://github.com',
+];
+
 export function PopupApp() {
   const [origin, setOrigin] = useState('');
   const [host, setHost] = useState('');
@@ -37,6 +45,34 @@ export function PopupApp() {
   async function finishOnboarding() {
     setOnboard(-1);
     await chrome.storage.local.set({ envoyOnboarded: true }).catch(() => undefined);
+  }
+
+  /** One permission prompt for the four AI chat sites, then the same per-site switch as below. */
+  async function protectAiChats() {
+    const granted = await new Promise<boolean>((resolve) =>
+      chrome.permissions.request({ origins: AI_CHAT_ORIGINS.map((o) => `${o}/*`) }, (g) =>
+        resolve(!!g),
+      ),
+    );
+    if (!granted) {
+      setNote('Chrome did not grant access to those sites.');
+      return;
+    }
+    const results = await Promise.all(
+      AI_CHAT_ORIGINS.map(
+        (o) =>
+          chrome.runtime.sendMessage({
+            type: 'envoy:set-site',
+            origin: o,
+            enabled: true,
+          }) as Promise<{ ok: boolean } | undefined>,
+      ),
+    );
+    const on = results.filter((r) => r?.ok).length;
+    if (AI_CHAT_ORIGINS.includes(origin) && on) setEnabled(true);
+    setNote(
+      `Envoy is on for ${on} of ${AI_CHAT_ORIGINS.length} AI chat sites. Reload an open chat tab to see it.`,
+    );
   }
 
   async function toggle(next: boolean) {
@@ -192,6 +228,20 @@ export function PopupApp() {
             {note}
           </p>
         )}
+      </section>
+      <section className="mt-3 rounded-card border border-line bg-surface p-3">
+        <h2 className="text-sm font-semibold">AI chats in one step</h2>
+        <p className="mt-1 text-xs text-muted">
+          Turn Envoy on for ChatGPT, Claude, Gemini and GitHub. It flags private details you paste
+          and holds a message that still has them until you choose.
+        </p>
+        <button
+          type="button"
+          className="mt-2 min-h-11 w-full rounded-control border border-line bg-paper px-3 py-2 text-sm font-semibold"
+          onClick={() => void protectAiChats()}
+        >
+          Protect AI chats
+        </button>
       </section>
       <button
         type="button"

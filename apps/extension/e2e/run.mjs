@@ -1,4 +1,4 @@
-/* global console, process, document, window, setTimeout, Buffer, getComputedStyle, createImageBitmap, OffscreenCanvas */
+/* global console, process, document, window, setTimeout, Buffer, getComputedStyle, createImageBitmap, OffscreenCanvas, DataTransfer, ClipboardEvent, Event */
 /**
  * End-to-end test of the REAL built extension in Chrome: the text-box widget (textarea and a rich
  * contenteditable editor), password fields left alone, Upload with Envoy for a text file, a photo
@@ -209,6 +209,50 @@ try {
   await page.goto(`http://127.0.0.1:${PORT}/`);
   await page.waitForTimeout(1500);
   const ui = (sel) => page.locator(`#envoy-field-ui ${sel}`);
+
+  // --- interception with Envoy off: a paste, then a send, that carry private details ---
+  await page.evaluate(() => {
+    window.__enters = 0;
+    document.getElementById('ta').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') window.__enters++;
+    });
+  });
+  await page.focus('#ta');
+  await page.waitForTimeout(300);
+  await page.evaluate((t) => {
+    const ta = document.getElementById('ta');
+    const dt = new DataTransfer();
+    dt.setData('text/plain', t);
+    ta.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true }));
+    ta.value = t;
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+  }, `Email ${RAW.email}, IBAN ${RAW.iban}`);
+  await page.waitForTimeout(400);
+  const pastedChip = await ui('.chip').innerText();
+  check(
+    'interception: a paste with private details is flagged',
+    /pasted/.test(pastedChip),
+    pastedChip,
+  );
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(600);
+  const heldCard = await ui('.card')
+    .innerText()
+    .catch(() => '');
+  check(
+    'interception: Enter with private details is held, and the card says why',
+    (await page.evaluate(() => window.__enters)) === 0 && /held this message/.test(heldCard),
+    `page saw ${await page.evaluate(() => window.__enters)} Enter; card: ${heldCard.slice(0, 80)}`,
+  );
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(300);
+  check(
+    'interception: Enter again sends it as written',
+    (await page.evaluate(() => window.__enters)) === 1,
+  );
+  await ui('.chip').click(); // Envoy off again for the checks below
+  await page.fill('#ta', '');
+  await page.waitForTimeout(300);
 
   // --- textarea ---
   await page.fill('#ta', `Hi, I'm ${RAW.name}, ${RAW.email}, IBAN ${RAW.iban}. Draft a reply?`);
@@ -760,7 +804,15 @@ try {
     !!frame,
     frame
       ? ''
-      : `frames: ${panel.frames().map((f) => f.url()).join(' , ')} text: ${(await panel.locator('body').innerText().catch(() => '')).slice(0, 300)}`,
+      : `frames: ${panel
+          .frames()
+          .map((f) => f.url())
+          .join(' , ')} text: ${(
+          await panel
+            .locator('body')
+            .innerText()
+            .catch(() => '')
+        ).slice(0, 300)}`,
   );
   if (frame)
     check(

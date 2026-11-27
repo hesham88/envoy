@@ -2,13 +2,7 @@
  * The public landing page (/): Envoy under the UV lamp. Marketing, judging and the extension download
  * in one page; the product itself lives at /app.
  */
-import {
-  EnvoySeal,
-  Logo,
-  SecurityFibers,
-  STEP_EMBLEMS,
-  StepEmblem,
-} from '@envoy/ui';
+import { EnvoySeal, Logo, SecurityFibers, STEP_EMBLEMS, StepEmblem } from '@envoy/ui';
 import { StepRelay } from './StepRelay';
 import { UvDemo } from './UvDemo';
 import { DEMO_VIDEO_ID } from './demo-video';
@@ -120,6 +114,40 @@ export const GUARD: [string, string, CodeRef][] = [
   ],
 ];
 
+/** The Firebase stack, each product with what it does in Envoy (FS-T14). Line refs are checked by links.test.ts. */
+export const FIREBASE: [string, string, CodeRef][] = [
+  [
+    'Firebase AI Logic',
+    'Hybrid inference, chosen per step: ONLY_ON_DEVICE for everything private, PREFER_IN_CLOUD only for the reasoning, over tags.',
+    ['packages/ai/src/models.ts', 33, 'modeFor'],
+  ],
+  [
+    'App Check',
+    'reCAPTCHA Enterprise with limited-use tokens on every cloud call, enforced: only Envoy can reach Gemini through this project.',
+    ['packages/ai/src/firebase.ts', 75, 'useLimitedUseAppCheckTokens'],
+  ],
+  [
+    'Remote Config',
+    'Chooses the fast and the careful cloud model and the on-device prompt version, without a redeploy. About shows the live values.',
+    ['packages/ai/src/remote.ts', 25, 'loadRemoteSettings'],
+  ],
+  [
+    'Hosting',
+    'Serves the app with a strict Content-Security-Policy: the only hosts it can reach are Firebase and reCAPTCHA.',
+    ['firebase.json', 37, 'Content-Security-Policy'],
+  ],
+  [
+    'The same SDK on Android',
+    'firebase-ai and firebase-ai-ondevice run the same split on a phone: Gemini Nano for private steps, the cloud over tags.',
+    ['android/app/src/main/java/app/envoy/hybrid/ai/EnvoyAi.kt', 47, 'ONLY_ON_DEVICE'],
+  ],
+  [
+    'Not used, on purpose: Auth and Firestore',
+    'No accounts and no cloud database. Nothing you open is stored on a server; history stays encrypted in your browser.',
+    ['docs/SECURITY.md'],
+  ],
+];
+
 function Section({
   id,
   title,
@@ -186,6 +214,9 @@ export function Landing() {
             </a>
             <a className="hover:text-uv-text" href="#guard">
               The guard
+            </a>
+            <a className="hover:text-uv-text" href="#firebase">
+              Firebase
             </a>
             <a className="hover:text-uv-text" href="#extension">
               Extension
@@ -343,6 +374,23 @@ export function Landing() {
             ))}
           </ul>
           <Measured summary={evalSummary} />
+        </Section>
+
+        {/* ---------- the Firebase stack ---------- */}
+        <Section
+          id="firebase"
+          title="Built on Firebase, on purpose."
+          lede="Each Firebase product here has one job in keeping your details on your device. And two are left out on purpose."
+        >
+          <ul className="m-0 grid list-none gap-px overflow-hidden rounded-[22px] border border-uv-line bg-uv-line p-0 md:grid-cols-2 lg:grid-cols-3">
+            {FIREBASE.map(([title, body, [path, line]]) => (
+              <li key={title} className="bg-uv-dark p-7">
+                <h3 className="m-0 text-[18px] font-semibold text-uv-text">{title}</h3>
+                <p className="mt-2 mb-3 text-[15.5px] leading-relaxed text-uv-muted">{body}</p>
+                <CodeLink path={path} line={line} />
+              </li>
+            ))}
+          </ul>
         </Section>
 
         {/* ---------- extension ---------- */}
