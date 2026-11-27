@@ -2,6 +2,16 @@
 
 What was checked, what was found, and what was fixed. Re-run the checks before each release.
 
+## Last batch (27 November 2026, main `a45a46f`)
+
+- **MediaPipe telemetry:** `@mediapipe/tasks-vision` 1.2.3 POSTs usage logs to `odml.pa.googleapis.com` every 60 s with no off switch. Removed at build (`packages/app/src/build/no-telemetry.ts`: no timer, `flush()` drops its queue, URL removed; the build fails if the pinned bundle changes; the original is kept out of source maps). Both dists contain no reference; a 65 s live run made no such request.
+- **New self-hosted assets:** MediaPipe wasm (14.6 MB) and the BlazeFace model (Apache-2.0, SHA-256 in `packages/app/models/README.md`), copied by `scripts/copy-ocr-assets.mjs`. CSP unchanged; the extension's remote-code check still passes.
+- **Office files:** parsed on the device with limits: 4,000 parts, 10 MB a part and 40 MB in all (measured on the inflated bytes), at most 250x expansion.
+- **Android:** the Firebase Android app is registered; its API key is restricted to `app.envoy.hybrid`, this machine's debug signing key and three APIs (AI Logic, App Check, Installations). `google-services.json` is gitignored and not in the release APK. **To do before judging:** delete the emulator's App Check debug token (registered 27 Nov for filming) with `debugTokens.delete`, and delete the local copy of it.
+- **GitHub release v0.2.0:** the extension zip contains no key (checked: no `.pem`), the APK is the CI debug build (no Firebase config, no tokens).
+- **Guard:** two gaps found by the generated suite and fixed: percent-encoded values (decoded and checked; blocked only when a private value is inside) and values spelled out letter by letter.
+- **GPU benchmark:** run in a separate Google Cloud project on a separate billing account (owner approved), VM capped at 2 hours with automatic deletion, torn down and verified (no instances, disks, addresses or firewall rules left). Envoy's Firebase project stays on the free tier.
+
 ## Extension: no remotely hosted code (26 November 2026, Web Store rejection fixed)
 
 The Chrome Web Store rejected extension 0.1.2 (violation reference "Blue Argon": Manifest V3, "Including remotely hosted code"). The flagged strings were in the bundled Firebase SDK, never executed by Envoy: `@firebase/app`'s Trusted Types script allowlist (`googletagmanager.com/gtag/js`, `apis.google.com/js/api.js`, `google.com/recaptcha/api.js` and `enterprise.js`) and App Check's reCAPTCHA loader. A full scan of the package found more of the same kind: Tesseract.js's and zxing-wasm's CDN defaults (`cdn.jsdelivr.net`, `fastly.jsdelivr.net`), which Envoy always overrides with packaged files.

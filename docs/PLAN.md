@@ -6,6 +6,23 @@ Design: `docs/superpowers/specs/2026-11-22-envoy-design.md` · Current plan: `do
 
 Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/16tr6t9mttMYwaWLdh8rkH) · [mockups](https://claude.ai/artifact/5jsHsbktxxskhCPpm69Pni) · [pitch deck](https://claude.ai/artifact/BF5tb3wC4S2ubRymjDqTv6)
 
+## Status 2026-11-27 (last batch before submission)
+
+- **Landing:** each sentence of the slogan on its own line; "Five steps" is now a step walkthrough (this device, the guard, the cloud; plays only on screen, pause button, reduced motion respected); the guard section describes firebase-js-sdk #10635 as an open report we haven't reproduced ("Every private step is checked twice"); "Built on Firebase, on purpose" (AI Logic, App Check, Remote Config, Hosting, the Android SDK; Auth and Firestore left out on purpose). (#65, #68)
+- **Documents:** .docx/.xlsx/.pptx read on the device, with zip-bomb limits (`packages/core/src/office.ts`). (#66)
+- **Voice:** read aloud with local voices only; dictation only with Chrome's on-device recognition. (#66)
+- **Photos:** faces (MediaPipe BlazeFace, self-hosted; its usage logging removed at build: `packages/app/src/build/no-telemetry.ts`) and licence plates (new PLATE type). Verified under the live CSP and in the extension E2E. (#66, #70)
+- **Android companion (`android/`):** Kotlin + Compose, `firebase-ai` + `firebase-ai-ondevice`; device guard (`checkStatus()` before, `inferenceSource` after); parity tests against the TypeScript engine in CI; emulator: Basic protection and a real App Check-protected cloud answer, values restored. Not yet run on a phone with Gemini Nano. (#67)
+- **GPU benchmark:** median 125 s (laptop CPU) to 10.6 s (cloud L4), 17/17 Private, 0 cloud calls (`docs/benchmarks`). (#67)
+- **Adversarial suite:** 352 generated cases, 282/282 attacks blocked, 0/70 harmless blocked; it found and we fixed URL-encoded and letter-by-letter leaks. (#67)
+- **Signed receipts** (WebCrypto ECDSA P-256; `scripts/verify-receipt.mjs`), **browser-measured request count**, **Firebase stack live in About**. (#67)
+- **Extension:** pastes with private details flagged; Enter on a message that still has them is held once; "Protect AI chats" (ChatGPT, Claude, Gemini, GitHub). E2E 48/48. (#68, #70)
+- **Languages:** Spanish DNI/NIE, French NIR and phones, dates in ES/FR/DE, European amounts (web and Android). (#69)
+- **Enterprise:** organisation policy pack through Remote Config `policy_pack` (client support and tests; no pack published on the live project, owner decision). (#69)
+- **Release:** [v0.2.0-android-extension](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension): extension 0.1.4 (unpacked) and the Android debug APK. The Web Store review stays on 0.1.3.
+- **Checks (27 Nov, main `a45a46f`):** `npm run verify` 534 tests; extension E2E 48/48; hosted smoke 14/14 (live, headful); OCR eval 203/208; Android CI (unit + parity + APK) green.
+- **Next:** video v8, Devpost v2, then a new judging tag after the freeze.
+
 ## Status 2026-11-26 (final batch: `docs/superpowers/plans/2026-11-26-show-the-boundary.md`)
 
 - **Checkpoint:** tag `working-web-extension-2026-11-26` (main `59a32e1`), the working web app + extension before this batch.
