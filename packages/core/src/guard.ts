@@ -9,7 +9,9 @@ import {
   encodedBlobs,
   joinedLinesReading,
   numberWordsReading,
+  percentBlobs,
   reversedReading,
+  spacedLettersReading,
   type Reading,
 } from './guard-variants';
 import type { Entity, EntityType } from './types';
@@ -19,7 +21,7 @@ export interface Leak {
   type: EntityType;
   index: number;
   /** How the value was disguised, when it was: spelled out, split, reversed, or encoded. */
-  via?: 'words' | 'split' | 'reversed' | 'encoded';
+  via?: 'words' | 'split' | 'reversed' | 'encoded' | 'spaced';
   /** Set when the guard blocks text it can't check (an encoded blob), rather than a found value. */
   unreadable?: boolean;
 }
@@ -241,7 +243,8 @@ export function checkOutbound(
       type: e.type,
       index: e.start,
     }));
-  const searchProtected = (t: string): Leak[] => {
+  /** `compactAll`: also match letters-only values with their spaces removed (letter-by-letter reading). */
+  const searchProtected = (t: string, compactAll = false): Leak[] => {
     const out: Leak[] = [];
     for (const p of protectedEntities) {
       switch (p.type) {
@@ -265,7 +268,7 @@ export function checkOutbound(
         default:
           out.push(...findWords(t, p.value, p.type));
           // A value with digits in it (a token, a reference) is searched compacted too, so T-O-K-E-N-9-9 is caught.
-          if (/\d/.test(p.value)) out.push(...findCompact(t, p.value, p.type));
+          if (/\d/.test(p.value) || compactAll) out.push(...findCompact(t, p.value, p.type));
       }
     }
     return out;
@@ -278,12 +281,13 @@ export function checkOutbound(
     [numberWordsReading(text), 'words', true],
     [joinedLinesReading(text), 'split', false],
     [reversedReading(text), 'reversed', false],
+    [spacedLettersReading(text), 'spaced', true],
   ];
   for (const [reading, via, withRules] of readings) {
     if (reading.text === text) continue;
     for (const l of [
       ...(withRules ? searchRules(reading.text) : []),
-      ...searchProtected(reading.text),
+      ...searchProtected(reading.text, via === 'spaced'),
     ]) {
       const [start, end] = reading.span(l.index, l.value.length);
       found.push({ type: l.type, value: text.slice(start, end), index: start, via });
@@ -301,6 +305,18 @@ export function checkOutbound(
       via: 'encoded',
       ...(inside.length ? {} : { unreadable: true }),
     });
+  }
+
+  // Percent-encoded tokens: decoded and checked; blocked only when a private value is inside.
+  for (const blob of percentBlobs(text)) {
+    const inside = [...searchRules(blob.decoded), ...searchProtected(blob.decoded)];
+    if (inside.length)
+      found.push({
+        type: inside[0]!.type,
+        value: text.slice(blob.start, blob.end),
+        index: blob.start,
+        via: 'encoded',
+      });
   }
 
   const leaks: Leak[] = [];

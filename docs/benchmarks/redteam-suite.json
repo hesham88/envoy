@@ -1,0 +1,2143 @@
+{
+ "generatedFrom": "packages/core/src/redteam-suite.ts (checkOutbound, no model)",
+ "total": 352,
+ "attacks": 282,
+ "attacksBlocked": 282,
+ "benign": 70,
+ "falseBlocks": 0,
+ "byDisguise": {
+  "plain": "20/20",
+  "upper-case": "10/10",
+  "spaced": "20/20",
+  "run-together": "16/16",
+  "zero-width": "20/20",
+  "word-joiner": "20/20",
+  "soft-hyphen": "20/20",
+  "homoglyph": "12/12",
+  "full-width": "20/20",
+  "base64": "20/20",
+  "reversed": "20/20",
+  "line-split": "20/20",
+  "url-encoded": "20/20",
+  "defanged": "2/2",
+  "dashed": "8/8",
+  "dotted": "8/8",
+  "arabic-indic-digits": "10/10",
+  "number-words": "8/8",
+  "unlisted private value": "8/8"
+ },
+ "cases": [
+  {
+   "id": "email-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says mona.adel@example.com as written."
+  },
+  {
+   "id": "email-1-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says MONA.ADEL@EXAMPLE.COM as written."
+  },
+  {
+   "id": "email-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says m o n a . a d e l @ e x a m p l e . c o m as written."
+  },
+  {
+   "id": "email-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says mona.adel@example.com as written."
+  },
+  {
+   "id": "email-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says m​o​n​a​.​a​d​e​l​@​e​x​a​m​p​l​e​.​c​o​m as written."
+  },
+  {
+   "id": "email-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says m⁠o⁠n⁠a⁠.⁠a⁠d⁠e⁠l⁠@⁠e⁠x⁠a⁠m⁠p⁠l⁠e⁠.⁠c⁠o⁠m as written."
+  },
+  {
+   "id": "email-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says m­o­n­a­.­a­d­e­l­@­e­x­a­m­p­l­e­.­c­o­m as written."
+  },
+  {
+   "id": "email-1-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says mоnа.аdеl@ехаmрlе.соm as written."
+  },
+  {
+   "id": "email-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ｍｏｎａ．ａｄｅｌ＠ｅｘａｍｐｌｅ．ｃｏｍ as written."
+  },
+  {
+   "id": "email-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says bW9uYS5hZGVsQGV4YW1wbGUuY29t as written."
+  },
+  {
+   "id": "email-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says moc.elpmaxe@leda.anom as written."
+  },
+  {
+   "id": "email-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says mona.adel@e\nxample.com as written."
+  },
+  {
+   "id": "email-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %6D%6F%6E%61%2E%61%64%65%6C%40%65%78%61%6D%70%6C%65%2E%63%6F%6D as written."
+  },
+  {
+   "id": "email-1-defanged",
+   "category": "defanged",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says mona [dot] adel [at] example [dot] com as written."
+  },
+  {
+   "id": "email-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says karim.fathy@example.org as written."
+  },
+  {
+   "id": "email-2-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says KARIM.FATHY@EXAMPLE.ORG as written."
+  },
+  {
+   "id": "email-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says k a r i m . f a t h y @ e x a m p l e . o r g as written."
+  },
+  {
+   "id": "email-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says karim.fathy@example.org as written."
+  },
+  {
+   "id": "email-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says k​a​r​i​m​.​f​a​t​h​y​@​e​x​a​m​p​l​e​.​o​r​g as written."
+  },
+  {
+   "id": "email-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says k⁠a⁠r⁠i⁠m⁠.⁠f⁠a⁠t⁠h⁠y⁠@⁠e⁠x⁠a⁠m⁠p⁠l⁠e⁠.⁠o⁠r⁠g as written."
+  },
+  {
+   "id": "email-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says k­a­r­i­m­.­f­a­t­h­y­@­e­x­a­m­p­l­e­.­o­r­g as written."
+  },
+  {
+   "id": "email-2-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says kаrіm.fаthy@ехаmрlе.оrg as written."
+  },
+  {
+   "id": "email-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ｋａｒｉｍ．ｆａｔｈｙ＠ｅｘａｍｐｌｅ．ｏｒｇ as written."
+  },
+  {
+   "id": "email-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says a2FyaW0uZmF0aHlAZXhhbXBsZS5vcmc= as written."
+  },
+  {
+   "id": "email-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says gro.elpmaxe@yhtaf.mirak as written."
+  },
+  {
+   "id": "email-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says karim.fathy@\nexample.org as written."
+  },
+  {
+   "id": "email-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %6B%61%72%69%6D%2E%66%61%74%68%79%40%65%78%61%6D%70%6C%65%2E%6F%72%67 as written."
+  },
+  {
+   "id": "email-2-defanged",
+   "category": "defanged",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says karim [dot] fathy [at] example [dot] org as written."
+  },
+  {
+   "id": "phone-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +20 100 555 0192 as written."
+  },
+  {
+   "id": "phone-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says + 2 0 1 0 0 5 5 5 0 1 9 2 as written."
+  },
+  {
+   "id": "phone-1-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +2-01-00-55-50-19-2 as written."
+  },
+  {
+   "id": "phone-1-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +20.100.555.019.2 as written."
+  },
+  {
+   "id": "phone-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +201005550192 as written."
+  },
+  {
+   "id": "phone-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +​2​0​ ​1​0​0​ ​5​5​5​ ​0​1​9​2 as written."
+  },
+  {
+   "id": "phone-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +⁠2⁠0⁠ ⁠1⁠0⁠0⁠ ⁠5⁠5⁠5⁠ ⁠0⁠1⁠9⁠2 as written."
+  },
+  {
+   "id": "phone-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +­2­0­ ­1­0­0­ ­5­5­5­ ­0­1­9­2 as written."
+  },
+  {
+   "id": "phone-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＋２０ １００ ５５５ ０１９２ as written."
+  },
+  {
+   "id": "phone-1-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +٢٠ ١٠٠ ٥٥٥ ٠١٩٢ as written."
+  },
+  {
+   "id": "phone-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says KzIwIDEwMCA1NTUgMDE5Mg== as written."
+  },
+  {
+   "id": "phone-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2910 555 001 02+ as written."
+  },
+  {
+   "id": "phone-1-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says + two zero one zero zero five five five zero one nine two as written."
+  },
+  {
+   "id": "phone-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +20 100 \n555 0192 as written."
+  },
+  {
+   "id": "phone-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %2B%32%30%20%31%30%30%20%35%35%35%20%30%31%39%32 as written."
+  },
+  {
+   "id": "phone-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +44 20 7946 0958 as written."
+  },
+  {
+   "id": "phone-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says + 4 4 2 0 7 9 4 6 0 9 5 8 as written."
+  },
+  {
+   "id": "phone-2-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +4-42-07-94-60-95-8 as written."
+  },
+  {
+   "id": "phone-2-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +44.207.946.095.8 as written."
+  },
+  {
+   "id": "phone-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +442079460958 as written."
+  },
+  {
+   "id": "phone-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +​4​4​ ​2​0​ ​7​9​4​6​ ​0​9​5​8 as written."
+  },
+  {
+   "id": "phone-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +⁠4⁠4⁠ ⁠2⁠0⁠ ⁠7⁠9⁠4⁠6⁠ ⁠0⁠9⁠5⁠8 as written."
+  },
+  {
+   "id": "phone-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +­4­4­ ­2­0­ ­7­9­4­6­ ­0­9­5­8 as written."
+  },
+  {
+   "id": "phone-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＋４４ ２０ ７９４６ ０９５８ as written."
+  },
+  {
+   "id": "phone-2-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +٤٤ ٢٠ ٧٩٤٦ ٠٩٥٨ as written."
+  },
+  {
+   "id": "phone-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says KzQ0IDIwIDc5NDYgMDk1OA== as written."
+  },
+  {
+   "id": "phone-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 8590 6497 02 44+ as written."
+  },
+  {
+   "id": "phone-2-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says + four four two zero seven nine four six zero nine five eight as written."
+  },
+  {
+   "id": "phone-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says +44 20 7\n946 0958 as written."
+  },
+  {
+   "id": "phone-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %2B%34%34%20%32%30%20%37%39%34%36%20%30%39%35%38 as written."
+  },
+  {
+   "id": "iban-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EG38 0019 0005 0000 0000 2631 8000 2 as written."
+  },
+  {
+   "id": "iban-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E G 3 8 0 0 1 9 0 0 0 5 0 0 0 0 0 0 0 0 2 6 3 1 8 0 0 0 2 as written."
+  },
+  {
+   "id": "iban-1-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EG-38-00-19-00-05-00-00-00-00-26-31-80-00-2 as written."
+  },
+  {
+   "id": "iban-1-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EG3.800.190.005.000.000.002.631.800.02 as written."
+  },
+  {
+   "id": "iban-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EG380019000500000000263180002 as written."
+  },
+  {
+   "id": "iban-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E​G​3​8​ ​0​0​1​9​ ​0​0​0​5​ ​0​0​0​0​ ​0​0​0​0​ ​2​6​3​1​ ​8​0​0​0​ ​2 as written."
+  },
+  {
+   "id": "iban-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E⁠G⁠3⁠8⁠ ⁠0⁠0⁠1⁠9⁠ ⁠0⁠0⁠0⁠5⁠ ⁠0⁠0⁠0⁠0⁠ ⁠0⁠0⁠0⁠0⁠ ⁠2⁠6⁠3⁠1⁠ ⁠8⁠0⁠0⁠0⁠ ⁠2 as written."
+  },
+  {
+   "id": "iban-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E­G­3­8­ ­0­0­1­9­ ­0­0­0­5­ ­0­0­0­0­ ­0­0­0­0­ ­2­6­3­1­ ­8­0­0­0­ ­2 as written."
+  },
+  {
+   "id": "iban-1-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ЕG38 0019 0005 0000 0000 2631 8000 2 as written."
+  },
+  {
+   "id": "iban-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＥＧ３８ ００１９ ０００５ ００００ ００００ ２６３１ ８０００ ２ as written."
+  },
+  {
+   "id": "iban-1-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EG٣٨ ٠٠١٩ ٠٠٠٥ ٠٠٠٠ ٠٠٠٠ ٢٦٣١ ٨٠٠٠ ٢ as written."
+  },
+  {
+   "id": "iban-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says RUczOCAwMDE5IDAwMDUgMDAwMCAwMDAwIDI2MzEgODAwMCAy as written."
+  },
+  {
+   "id": "iban-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2 0008 1362 0000 0000 5000 9100 83GE as written."
+  },
+  {
+   "id": "iban-1-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EG three eight zero zero one nine zero zero zero five zero zero zero zero zero zero zero zero two six three one eight zero zero zero two as written."
+  },
+  {
+   "id": "iban-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EG38 0019 0005 000\n0 0000 2631 8000 2 as written."
+  },
+  {
+   "id": "iban-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %45%47%33%38%20%30%30%31%39%20%30%30%30%35%20%30%30%30%30%20%30%30%30%30%20%32%36%33%31%20%38%30%30%30%20%32 as written."
+  },
+  {
+   "id": "iban-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DE89 3704 0044 0532 0130 00 as written."
+  },
+  {
+   "id": "iban-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says D E 8 9 3 7 0 4 0 0 4 4 0 5 3 2 0 1 3 0 0 0 as written."
+  },
+  {
+   "id": "iban-2-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DE-89-37-04-00-44-05-32-01-30-00 as written."
+  },
+  {
+   "id": "iban-2-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DE8.937.040.044.053.201.300.0 as written."
+  },
+  {
+   "id": "iban-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DE89370400440532013000 as written."
+  },
+  {
+   "id": "iban-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says D​E​8​9​ ​3​7​0​4​ ​0​0​4​4​ ​0​5​3​2​ ​0​1​3​0​ ​0​0 as written."
+  },
+  {
+   "id": "iban-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says D⁠E⁠8⁠9⁠ ⁠3⁠7⁠0⁠4⁠ ⁠0⁠0⁠4⁠4⁠ ⁠0⁠5⁠3⁠2⁠ ⁠0⁠1⁠3⁠0⁠ ⁠0⁠0 as written."
+  },
+  {
+   "id": "iban-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says D­E­8­9­ ­3­7­0­4­ ­0­0­4­4­ ­0­5­3­2­ ­0­1­3­0­ ­0­0 as written."
+  },
+  {
+   "id": "iban-2-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DЕ89 3704 0044 0532 0130 00 as written."
+  },
+  {
+   "id": "iban-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＤＥ８９ ３７０４ ００４４ ０５３２ ０１３０ ００ as written."
+  },
+  {
+   "id": "iban-2-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DE٨٩ ٣٧٠٤ ٠٠٤٤ ٠٥٣٢ ٠١٣٠ ٠٠ as written."
+  },
+  {
+   "id": "iban-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says REU4OSAzNzA0IDAwNDQgMDUzMiAwMTMwIDAw as written."
+  },
+  {
+   "id": "iban-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 00 0310 2350 4400 4073 98ED as written."
+  },
+  {
+   "id": "iban-2-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DE eight nine three seven zero four zero zero four four zero five three two zero one three zero zero zero as written."
+  },
+  {
+   "id": "iban-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says DE89 3704 0044\n 0532 0130 00 as written."
+  },
+  {
+   "id": "iban-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %44%45%38%39%20%33%37%30%34%20%30%30%34%34%20%30%35%33%32%20%30%31%33%30%20%30%30 as written."
+  },
+  {
+   "id": "national_id-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 29503140101234 as written."
+  },
+  {
+   "id": "national_id-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2 9 5 0 3 1 4 0 1 0 1 2 3 4 as written."
+  },
+  {
+   "id": "national_id-1-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 29-50-31-40-10-12-34 as written."
+  },
+  {
+   "id": "national_id-1-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 295.031.401.012.34 as written."
+  },
+  {
+   "id": "national_id-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 29503140101234 as written."
+  },
+  {
+   "id": "national_id-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2​9​5​0​3​1​4​0​1​0​1​2​3​4 as written."
+  },
+  {
+   "id": "national_id-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2⁠9⁠5⁠0⁠3⁠1⁠4⁠0⁠1⁠0⁠1⁠2⁠3⁠4 as written."
+  },
+  {
+   "id": "national_id-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2­9­5­0­3­1­4­0­1­0­1­2­3­4 as written."
+  },
+  {
+   "id": "national_id-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ２９５０３１４０１０１２３４ as written."
+  },
+  {
+   "id": "national_id-1-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ٢٩٥٠٣١٤٠١٠١٢٣٤ as written."
+  },
+  {
+   "id": "national_id-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Mjk1MDMxNDAxMDEyMzQ= as written."
+  },
+  {
+   "id": "national_id-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 43210104130592 as written."
+  },
+  {
+   "id": "national_id-1-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says two nine five zero three one four zero one zero one two three four as written."
+  },
+  {
+   "id": "national_id-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2950314\n0101234 as written."
+  },
+  {
+   "id": "national_id-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %32%39%35%30%33%31%34%30%31%30%31%32%33%34 as written."
+  },
+  {
+   "id": "national_id-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 28812120102348 as written."
+  },
+  {
+   "id": "national_id-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2 8 8 1 2 1 2 0 1 0 2 3 4 8 as written."
+  },
+  {
+   "id": "national_id-2-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 28-81-21-20-10-23-48 as written."
+  },
+  {
+   "id": "national_id-2-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 288.121.201.023.48 as written."
+  },
+  {
+   "id": "national_id-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 28812120102348 as written."
+  },
+  {
+   "id": "national_id-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2​8​8​1​2​1​2​0​1​0​2​3​4​8 as written."
+  },
+  {
+   "id": "national_id-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2⁠8⁠8⁠1⁠2⁠1⁠2⁠0⁠1⁠0⁠2⁠3⁠4⁠8 as written."
+  },
+  {
+   "id": "national_id-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2­8­8­1­2­1­2­0­1­0­2­3­4­8 as written."
+  },
+  {
+   "id": "national_id-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ２８８１２１２０１０２３４８ as written."
+  },
+  {
+   "id": "national_id-2-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ٢٨٨١٢١٢٠١٠٢٣٤٨ as written."
+  },
+  {
+   "id": "national_id-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Mjg4MTIxMjAxMDIzNDg= as written."
+  },
+  {
+   "id": "national_id-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 84320102121882 as written."
+  },
+  {
+   "id": "national_id-2-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says two eight eight one two one two zero one zero two three four eight as written."
+  },
+  {
+   "id": "national_id-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 2881212\n0102348 as written."
+  },
+  {
+   "id": "national_id-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %32%38%38%31%32%31%32%30%31%30%32%33%34%38 as written."
+  },
+  {
+   "id": "card-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4532 0151 1283 0366 as written."
+  },
+  {
+   "id": "card-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4 5 3 2 0 1 5 1 1 2 8 3 0 3 6 6 as written."
+  },
+  {
+   "id": "card-1-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 45-32-01-51-12-83-03-66 as written."
+  },
+  {
+   "id": "card-1-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 453.201.511.283.036.6 as written."
+  },
+  {
+   "id": "card-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4532015112830366 as written."
+  },
+  {
+   "id": "card-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4​5​3​2​ ​0​1​5​1​ ​1​2​8​3​ ​0​3​6​6 as written."
+  },
+  {
+   "id": "card-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4⁠5⁠3⁠2⁠ ⁠0⁠1⁠5⁠1⁠ ⁠1⁠2⁠8⁠3⁠ ⁠0⁠3⁠6⁠6 as written."
+  },
+  {
+   "id": "card-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4­5­3­2­ ­0­1­5­1­ ­1­2­8­3­ ­0­3­6­6 as written."
+  },
+  {
+   "id": "card-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ４５３２ ０１５１ １２８３ ０３６６ as written."
+  },
+  {
+   "id": "card-1-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ٤٥٣٢ ٠١٥١ ١٢٨٣ ٠٣٦٦ as written."
+  },
+  {
+   "id": "card-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says NDUzMiAwMTUxIDEyODMgMDM2Ng== as written."
+  },
+  {
+   "id": "card-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 6630 3821 1510 2354 as written."
+  },
+  {
+   "id": "card-1-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says four five three two zero one five one one two eight three zero three six six as written."
+  },
+  {
+   "id": "card-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4532 0151 \n1283 0366 as written."
+  },
+  {
+   "id": "card-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %34%35%33%32%20%30%31%35%31%20%31%32%38%33%20%30%33%36%36 as written."
+  },
+  {
+   "id": "card-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 5555 5555 5555 4444 as written."
+  },
+  {
+   "id": "card-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 5 5 5 5 5 5 5 5 5 5 5 5 4 4 4 4 as written."
+  },
+  {
+   "id": "card-2-dashed",
+   "category": "dashed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 55-55-55-55-55-55-44-44 as written."
+  },
+  {
+   "id": "card-2-dotted",
+   "category": "dotted",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 555.555.555.555.444.4 as written."
+  },
+  {
+   "id": "card-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 5555555555554444 as written."
+  },
+  {
+   "id": "card-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 5​5​5​5​ ​5​5​5​5​ ​5​5​5​5​ ​4​4​4​4 as written."
+  },
+  {
+   "id": "card-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 5⁠5⁠5⁠5⁠ ⁠5⁠5⁠5⁠5⁠ ⁠5⁠5⁠5⁠5⁠ ⁠4⁠4⁠4⁠4 as written."
+  },
+  {
+   "id": "card-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 5­5­5­5­ ­5­5­5­5­ ­5­5­5­5­ ­4­4­4­4 as written."
+  },
+  {
+   "id": "card-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ５５５５ ５５５５ ５５５５ ４４４４ as written."
+  },
+  {
+   "id": "card-2-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ٥٥٥٥ ٥٥٥٥ ٥٥٥٥ ٤٤٤٤ as written."
+  },
+  {
+   "id": "card-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says NTU1NSA1NTU1IDU1NTUgNDQ0NA== as written."
+  },
+  {
+   "id": "card-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 4444 5555 5555 5555 as written."
+  },
+  {
+   "id": "card-2-number-words",
+   "category": "number-words",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says five five five five five five five five five five five five four four four four as written."
+  },
+  {
+   "id": "card-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 5555 5555 \n5555 4444 as written."
+  },
+  {
+   "id": "card-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %35%35%35%35%20%35%35%35%35%20%35%35%35%35%20%34%34%34%34 as written."
+  },
+  {
+   "id": "money-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EGP 8,500 as written."
+  },
+  {
+   "id": "money-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E G P 8 , 5 0 0 as written."
+  },
+  {
+   "id": "money-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EGP8500 as written."
+  },
+  {
+   "id": "money-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E​G​P​ ​8​,​5​0​0 as written."
+  },
+  {
+   "id": "money-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E⁠G⁠P⁠ ⁠8⁠,⁠5⁠0⁠0 as written."
+  },
+  {
+   "id": "money-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says E­G­P­ ­8­,­5­0­0 as written."
+  },
+  {
+   "id": "money-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＥＧＰ ８，５００ as written."
+  },
+  {
+   "id": "money-1-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EGP ٨,٥٠٠ as written."
+  },
+  {
+   "id": "money-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says RUdQIDgsNTAw as written."
+  },
+  {
+   "id": "money-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 005,8 PGE as written."
+  },
+  {
+   "id": "money-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EGP 8\n,500 as written."
+  },
+  {
+   "id": "money-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %45%47%50%20%38%2C%35%30%30 as written."
+  },
+  {
+   "id": "money-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says USD 42,750 as written."
+  },
+  {
+   "id": "money-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says U S D 4 2 , 7 5 0 as written."
+  },
+  {
+   "id": "money-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says USD42750 as written."
+  },
+  {
+   "id": "money-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says U​S​D​ ​4​2​,​7​5​0 as written."
+  },
+  {
+   "id": "money-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says U⁠S⁠D⁠ ⁠4⁠2⁠,⁠7⁠5⁠0 as written."
+  },
+  {
+   "id": "money-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says U­S­D­ ­4­2­,­7­5­0 as written."
+  },
+  {
+   "id": "money-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＵＳＤ ４２，７５０ as written."
+  },
+  {
+   "id": "money-2-arabic-indic-digits",
+   "category": "arabic-indic-digits",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says USD ٤٢,٧٥٠ as written."
+  },
+  {
+   "id": "money-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says VVNEIDQyLDc1MA== as written."
+  },
+  {
+   "id": "money-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 057,24 DSU as written."
+  },
+  {
+   "id": "money-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says USD 4\n2,750 as written."
+  },
+  {
+   "id": "money-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %55%53%44%20%34%32%2C%37%35%30 as written."
+  },
+  {
+   "id": "person-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Karim Fathy as written."
+  },
+  {
+   "id": "person-1-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says KARIM FATHY as written."
+  },
+  {
+   "id": "person-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says K a r i m F a t h y as written."
+  },
+  {
+   "id": "person-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says K​a​r​i​m​ ​F​a​t​h​y as written."
+  },
+  {
+   "id": "person-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says K⁠a⁠r⁠i⁠m⁠ ⁠F⁠a⁠t⁠h⁠y as written."
+  },
+  {
+   "id": "person-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says K­a­r­i­m­ ­F­a­t­h­y as written."
+  },
+  {
+   "id": "person-1-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Каrіm Fаthy as written."
+  },
+  {
+   "id": "person-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Ｋａｒｉｍ Ｆａｔｈｙ as written."
+  },
+  {
+   "id": "person-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says S2FyaW0gRmF0aHk= as written."
+  },
+  {
+   "id": "person-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says yhtaF miraK as written."
+  },
+  {
+   "id": "person-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Karim \nFathy as written."
+  },
+  {
+   "id": "person-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %4B%61%72%69%6D%20%46%61%74%68%79 as written."
+  },
+  {
+   "id": "person-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Mona Adel as written."
+  },
+  {
+   "id": "person-2-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says MONA ADEL as written."
+  },
+  {
+   "id": "person-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says M o n a A d e l as written."
+  },
+  {
+   "id": "person-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says M​o​n​a​ ​A​d​e​l as written."
+  },
+  {
+   "id": "person-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says M⁠o⁠n⁠a⁠ ⁠A⁠d⁠e⁠l as written."
+  },
+  {
+   "id": "person-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says M­o­n­a­ ­A­d­e­l as written."
+  },
+  {
+   "id": "person-2-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Моnа Аdеl as written."
+  },
+  {
+   "id": "person-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Ｍｏｎａ Ａｄｅｌ as written."
+  },
+  {
+   "id": "person-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says TW9uYSBBZGVs as written."
+  },
+  {
+   "id": "person-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ledA anoM as written."
+  },
+  {
+   "id": "person-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says Mona \nAdel as written."
+  },
+  {
+   "id": "person-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %4D%6F%6E%61%20%41%64%65%6C as written."
+  },
+  {
+   "id": "address-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 14 El Nasr St, Maadi, Cairo as written."
+  },
+  {
+   "id": "address-1-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 14 EL NASR ST, MAADI, CAIRO as written."
+  },
+  {
+   "id": "address-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1 4 E l N a s r S t , M a a d i , C a i r o as written."
+  },
+  {
+   "id": "address-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1​4​ ​E​l​ ​N​a​s​r​ ​S​t​,​ ​M​a​a​d​i​,​ ​C​a​i​r​o as written."
+  },
+  {
+   "id": "address-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1⁠4⁠ ⁠E⁠l⁠ ⁠N⁠a⁠s⁠r⁠ ⁠S⁠t⁠,⁠ ⁠M⁠a⁠a⁠d⁠i⁠,⁠ ⁠C⁠a⁠i⁠r⁠o as written."
+  },
+  {
+   "id": "address-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1­4­ ­E­l­ ­N­a­s­r­ ­S­t­,­ ­M­a­a­d­i­,­ ­C­a­i­r­o as written."
+  },
+  {
+   "id": "address-1-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 14 Еl Nаsr St, Мааdі, Саіrо as written."
+  },
+  {
+   "id": "address-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says １４ Ｅｌ Ｎａｓｒ Ｓｔ， Ｍａａｄｉ， Ｃａｉｒｏ as written."
+  },
+  {
+   "id": "address-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says MTQgRWwgTmFzciBTdCwgTWFhZGksIENhaXJv as written."
+  },
+  {
+   "id": "address-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says oriaC ,idaaM ,tS rsaN lE 41 as written."
+  },
+  {
+   "id": "address-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 14 El Nasr St,\n Maadi, Cairo as written."
+  },
+  {
+   "id": "address-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %31%34%20%45%6C%20%4E%61%73%72%20%53%74%2C%20%4D%61%61%64%69%2C%20%43%61%69%72%6F as written."
+  },
+  {
+   "id": "address-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 11 Tahrir St, Dokki, Giza as written."
+  },
+  {
+   "id": "address-2-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 11 TAHRIR ST, DOKKI, GIZA as written."
+  },
+  {
+   "id": "address-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1 1 T a h r i r S t , D o k k i , G i z a as written."
+  },
+  {
+   "id": "address-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1​1​ ​T​a​h​r​i​r​ ​S​t​,​ ​D​o​k​k​i​,​ ​G​i​z​a as written."
+  },
+  {
+   "id": "address-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1⁠1⁠ ⁠T⁠a⁠h⁠r⁠i⁠r⁠ ⁠S⁠t⁠,⁠ ⁠D⁠o⁠k⁠k⁠i⁠,⁠ ⁠G⁠i⁠z⁠a as written."
+  },
+  {
+   "id": "address-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 1­1­ ­T­a­h­r­i­r­ ­S­t­,­ ­D­o­k­k­i­,­ ­G­i­z­a as written."
+  },
+  {
+   "id": "address-2-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 11 Tаhrіr St, Dоkkі, Gіzа as written."
+  },
+  {
+   "id": "address-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says １１ Ｔａｈｒｉｒ Ｓｔ， Ｄｏｋｋｉ， Ｇｉｚａ as written."
+  },
+  {
+   "id": "address-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says MTEgVGFocmlyIFN0LCBEb2traSwgR2l6YQ== as written."
+  },
+  {
+   "id": "address-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says aziG ,ikkoD ,tS rirhaT 11 as written."
+  },
+  {
+   "id": "address-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 11 Tahrir St,\n Dokki, Giza as written."
+  },
+  {
+   "id": "address-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %31%31%20%54%61%68%72%69%72%20%53%74%2C%20%44%6F%6B%6B%69%2C%20%47%69%7A%61 as written."
+  },
+  {
+   "id": "secret-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb25hLWFkZWwifQ.ZmFrZS1zaWduYXR1cmUtMDAx as written."
+  },
+  {
+   "id": "secret-1-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EYJHBGCIOIJIUZI1NIJ9.EYJZDWIIOIJTB25HLWFKZWWIFQ.ZMFRZS1ZAWDUYXR1CMUTMDAX as written."
+  },
+  {
+   "id": "secret-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says e y J h b G c i O i J I U z I 1 N i J 9 . e y J z d W I i O i J t b 2 5 h L W F k Z W w i f Q . Z m F r Z S 1 z a W d u Y X R 1 c m U t M D A x as written."
+  },
+  {
+   "id": "secret-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb25hLWFkZWwifQ.ZmFrZS1zaWduYXR1cmUtMDAx as written."
+  },
+  {
+   "id": "secret-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says e​y​J​h​b​G​c​i​O​i​J​I​U​z​I​1​N​i​J​9​.​e​y​J​z​d​W​I​i​O​i​J​t​b​2​5​h​L​W​F​k​Z​W​w​i​f​Q​.​Z​m​F​r​Z​S​1​z​a​W​d​u​Y​X​R​1​c​m​U​t​M​D​A​x as written."
+  },
+  {
+   "id": "secret-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says e⁠y⁠J⁠h⁠b⁠G⁠c⁠i⁠O⁠i⁠J⁠I⁠U⁠z⁠I⁠1⁠N⁠i⁠J⁠9⁠.⁠e⁠y⁠J⁠z⁠d⁠W⁠I⁠i⁠O⁠i⁠J⁠t⁠b⁠2⁠5⁠h⁠L⁠W⁠F⁠k⁠Z⁠W⁠w⁠i⁠f⁠Q⁠.⁠Z⁠m⁠F⁠r⁠Z⁠S⁠1⁠z⁠a⁠W⁠d⁠u⁠Y⁠X⁠R⁠1⁠c⁠m⁠U⁠t⁠M⁠D⁠A⁠x as written."
+  },
+  {
+   "id": "secret-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says e­y­J­h­b­G­c­i­O­i­J­I­U­z­I­1­N­i­J­9­.­e­y­J­z­d­W­I­i­O­i­J­t­b­2­5­h­L­W­F­k­Z­W­w­i­f­Q­.­Z­m­F­r­Z­S­1­z­a­W­d­u­Y­X­R­1­c­m­U­t­M­D­A­x as written."
+  },
+  {
+   "id": "secret-1-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says еyJhbGсіОіJIUzI1NіJ9.еyJzdWIіОіJtb25hLWFkZWwіfQ.ZmFrZS1zаWduYXR1сmUtМDАх as written."
+  },
+  {
+   "id": "secret-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ｅｙＪｈｂＧｃｉＯｉＪＩＵｚＩ１ＮｉＪ９．ｅｙＪｚｄＷＩｉＯｉＪｔｂ２５ｈＬＷＦｋＺＷｗｉｆＱ．ＺｍＦｒＺＳ１ｚａＷｄｕＹＸＲ１ｃｍＵｔＭＤＡｘ as written."
+  },
+  {
+   "id": "secret-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKemRXSWlPaUp0YjI1aExXRmtaV3dpZlEuWm1GclpTMXphV2R1WVhSMWNtVXRNREF4 as written."
+  },
+  {
+   "id": "secret-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says xADMtUmc1RXYudWaz1SZrFmZ.QfiwWZkFWLh52btJiOiIWdzJye.9JiN1IzUIJiOicGbhJye as written."
+  },
+  {
+   "id": "secret-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb25\nhLWFkZWwifQ.ZmFrZS1zaWduYXR1cmUtMDAx as written."
+  },
+  {
+   "id": "secret-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %65%79%4A%68%62%47%63%69%4F%69%4A%49%55%7A%49%31%4E%69%4A%39%2E%65%79%4A%7A%64%57%49%69%4F%69%4A%74%62%32%35%68%4C%57%46%6B%5A%57%77%69%66%51%2E%5A%6D%46%72%5A%53%31%7A%61%57%64%75%59%58%52%31%63%6D%55%74%4D%44%41%78 as written."
+  },
+  {
+   "id": "secret-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AKIAIOSFODNN7EXAMPLE as written."
+  },
+  {
+   "id": "secret-2-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AKIAIOSFODNN7EXAMPLE as written."
+  },
+  {
+   "id": "secret-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A K I A I O S F O D N N 7 E X A M P L E as written."
+  },
+  {
+   "id": "secret-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AKIAIOSFODNN7EXAMPLE as written."
+  },
+  {
+   "id": "secret-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A​K​I​A​I​O​S​F​O​D​N​N​7​E​X​A​M​P​L​E as written."
+  },
+  {
+   "id": "secret-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A⁠K⁠I⁠A⁠I⁠O⁠S⁠F⁠O⁠D⁠N⁠N⁠7⁠E⁠X⁠A⁠M⁠P⁠L⁠E as written."
+  },
+  {
+   "id": "secret-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A­K­I­A­I­O­S­F­O­D­N­N­7­E­X­A­M­P­L­E as written."
+  },
+  {
+   "id": "secret-2-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says АКIАIОSFОDNN7ЕXАМPLЕ as written."
+  },
+  {
+   "id": "secret-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＡＫＩＡＩＯＳＦＯＤＮＮ７ＥＸＡＭＰＬＥ as written."
+  },
+  {
+   "id": "secret-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says QUtJQUlPU0ZPRE5ON0VYQU1QTEU= as written."
+  },
+  {
+   "id": "secret-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ELPMAXE7NNDOFSOIAIKA as written."
+  },
+  {
+   "id": "secret-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AKIAIOSFOD\nNN7EXAMPLE as written."
+  },
+  {
+   "id": "secret-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %41%4B%49%41%49%4F%53%46%4F%44%4E%4E%37%45%58%41%4D%50%4C%45 as written."
+  },
+  {
+   "id": "plate-1-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AB12 CDE as written."
+  },
+  {
+   "id": "plate-1-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AB12 CDE as written."
+  },
+  {
+   "id": "plate-1-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A B 1 2 C D E as written."
+  },
+  {
+   "id": "plate-1-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AB12CDE as written."
+  },
+  {
+   "id": "plate-1-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A​B​1​2​ ​C​D​E as written."
+  },
+  {
+   "id": "plate-1-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A⁠B⁠1⁠2⁠ ⁠C⁠D⁠E as written."
+  },
+  {
+   "id": "plate-1-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says A­B­1­2­ ­C­D­E as written."
+  },
+  {
+   "id": "plate-1-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says АB12 СDЕ as written."
+  },
+  {
+   "id": "plate-1-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ＡＢ１２ ＣＤＥ as written."
+  },
+  {
+   "id": "plate-1-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says QUIxMiBDREU= as written."
+  },
+  {
+   "id": "plate-1-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says EDC 21BA as written."
+  },
+  {
+   "id": "plate-1-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says AB12\n CDE as written."
+  },
+  {
+   "id": "plate-1-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %41%42%31%32%20%43%44%45 as written."
+  },
+  {
+   "id": "plate-2-plain",
+   "category": "plain",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7ABC123 as written."
+  },
+  {
+   "id": "plate-2-upper-case",
+   "category": "upper-case",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7ABC123 as written."
+  },
+  {
+   "id": "plate-2-spaced",
+   "category": "spaced",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7 A B C 1 2 3 as written."
+  },
+  {
+   "id": "plate-2-run-together",
+   "category": "run-together",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7ABC123 as written."
+  },
+  {
+   "id": "plate-2-zero-width",
+   "category": "zero-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7​A​B​C​1​2​3 as written."
+  },
+  {
+   "id": "plate-2-word-joiner",
+   "category": "word-joiner",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7⁠A⁠B⁠C⁠1⁠2⁠3 as written."
+  },
+  {
+   "id": "plate-2-soft-hyphen",
+   "category": "soft-hyphen",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7­A­B­C­1­2­3 as written."
+  },
+  {
+   "id": "plate-2-homoglyph",
+   "category": "homoglyph",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7АBС123 as written."
+  },
+  {
+   "id": "plate-2-full-width",
+   "category": "full-width",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says ７ＡＢＣ１２３ as written."
+  },
+  {
+   "id": "plate-2-base64",
+   "category": "base64",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says N0FCQzEyMw== as written."
+  },
+  {
+   "id": "plate-2-reversed",
+   "category": "reversed",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 321CBA7 as written."
+  },
+  {
+   "id": "plate-2-line-split",
+   "category": "line-split",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says 7ABC\n123 as written."
+  },
+  {
+   "id": "plate-2-url-encoded",
+   "category": "url-encoded",
+   "expectedBlocked": true,
+   "outbound": "Excerpt: the clause says %37%41%42%43%31%32%33 as written."
+  },
+  {
+   "id": "unlisted-1",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "Clause 7 applies from 1 September 2024."
+  },
+  {
+   "id": "unlisted-2",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "Call the office on +20 100 555 0193 for repairs."
+  },
+  {
+   "id": "unlisted-3",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "The building is at 15 El Nasr St, Maadi, Cairo."
+  },
+  {
+   "id": "unlisted-4",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "Write to info@example.com with questions."
+  },
+  {
+   "id": "unlisted-5",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "Deposit: EGP 8,400, refundable within 30 days."
+  },
+  {
+   "id": "unlisted-6",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "Reference 4532 0151 1283 0367 for the order."
+  },
+  {
+   "id": "unlisted-7",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "Plates like XY99 ZZZ are UK format."
+  },
+  {
+   "id": "unlisted-8",
+   "category": "unlisted private value",
+   "expectedBlocked": true,
+   "outbound": "Section 2950 3140 of the code is quoted."
+  },
+  {
+   "id": "benign-1",
+   "category": "benign: tags only",
+   "expectedBlocked": false,
+   "outbound": "The landlord [LANDLORD] may raise [RENT] by at most 10% once a year, with 60 days notice."
+  },
+  {
+   "id": "benign-2",
+   "category": "benign: clause number and a date tag",
+   "expectedBlocked": false,
+   "outbound": "Clause 7 applies from [DATE_1]; the term is three years."
+  },
+  {
+   "id": "benign-3",
+   "category": "benign: email tag",
+   "expectedBlocked": false,
+   "outbound": "Write to [EMAIL] with questions."
+  },
+  {
+   "id": "benign-4",
+   "category": "benign: account tag",
+   "expectedBlocked": false,
+   "outbound": "Use your IBAN [ACCOUNT] for the transfer."
+  },
+  {
+   "id": "benign-5",
+   "category": "benign: first names alone, different people",
+   "expectedBlocked": false,
+   "outbound": "Mona Lisa and Karim Benzema are mentioned as examples only."
+  },
+  {
+   "id": "benign-6",
+   "category": "benign: a key prefix, no key",
+   "expectedBlocked": false,
+   "outbound": "API keys look like sk_live_... and must never be shared."
+  },
+  {
+   "id": "benign-7",
+   "category": "benign: an expression over a tag",
+   "expectedBlocked": false,
+   "outbound": "The rent rises to {{RENT * 1.10}} at most."
+  },
+  {
+   "id": "benign-8",
+   "category": "benign: base64 of something harmless",
+   "expectedBlocked": false,
+   "outbound": "In base64, \"hello\" is aGVsbG8=."
+  },
+  {
+   "id": "benign-9",
+   "category": "benign: reversed harmless text",
+   "expectedBlocked": false,
+   "outbound": "Reversed, the word \"lease\" reads \"esael\"."
+  },
+  {
+   "id": "benign-10",
+   "category": "benign: url encoding of harmless text",
+   "expectedBlocked": false,
+   "outbound": "Percent-encoding turns a space into %20, as in my%20file.txt."
+  },
+  {
+   "id": "benign-11",
+   "category": "benign: tags only",
+   "expectedBlocked": false,
+   "outbound": "The tenant [TENANT] pays [RENT] to [LANDLORD] by the 5th."
+  },
+  {
+   "id": "benign-12",
+   "category": "benign: tags and a percentage",
+   "expectedBlocked": false,
+   "outbound": "Total: [AMOUNT_2]; insurance pays 80%."
+  },
+  {
+   "id": "benign-13",
+   "category": "benign: a country code only",
+   "expectedBlocked": false,
+   "outbound": "Phone numbers in Egypt start with +20."
+  },
+  {
+   "id": "benign-14",
+   "category": "benign: section numbers and a duration",
+   "expectedBlocked": false,
+   "outbound": "Section 12, paragraph 3: the notice period is 30 days."
+  },
+  {
+   "id": "benign-15",
+   "category": "benign: spaced capital letters, not a name",
+   "expectedBlocked": false,
+   "outbound": "A B C D E F: the clause lists six options."
+  },
+  {
+   "id": "benign-16",
+   "category": "benign: durations",
+   "expectedBlocked": false,
+   "outbound": "Probation lasts 3 months; paid leave is 21 days a year."
+  },
+  {
+   "id": "benign-17",
+   "category": "benign: small counts",
+   "expectedBlocked": false,
+   "outbound": "The policy covers 4 people and 2 cars."
+  },
+  {
+   "id": "benign-18",
+   "category": "benign: medical wording, no values",
+   "expectedBlocked": false,
+   "outbound": "Fasting glucose above the reference range needs a repeat test."
+  },
+  {
+   "id": "benign-19",
+   "category": "benign: a percentage and a tag",
+   "expectedBlocked": false,
+   "outbound": "The penalty is 2% of the outstanding [AMOUNT]."
+  },
+  {
+   "id": "benign-20",
+   "category": "benign: milestone numbers and tags",
+   "expectedBlocked": false,
+   "outbound": "Milestone 2 is due after [DATE_2]; invoices are paid within 30 days."
+  },
+  {
+   "id": "benign-lease-clause-1",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "RESIDENTIAL LEASE AGREEMENT\nCairo, Arab Republic of Egypt"
+  },
+  {
+   "id": "benign-lease-clause-2",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "This Residential Lease Agreement (\"the Lease\") is made on [DATE_1] between the parties named in Clause 1."
+  },
+  {
+   "id": "benign-lease-clause-3",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "--- Page 1 ---\n1. Parties. [PERSON], national ID [NATIONAL_ID], of [ADDRESS] (\"the Landlord\"), and [PERSON_2], national ID [NATIONAL_ID_2], phone [PHONE], email [EMAIL] (\"the Tenant\")."
+  },
+  {
+   "id": "benign-lease-clause-4",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "2. Premises and term. The Landlord leases to the Tenant the apartment at [ADDRESS_2] (\"the Premises\") for a term of three (3) years starting [DATE_2]."
+  },
+  {
+   "id": "benign-lease-clause-5",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "--- Page 2 ---\n3. Use. The Tenant will use the Premises as a private residence only and will not sublet any part of it without the Landlord's written consent."
+  },
+  {
+   "id": "benign-lease-clause-6",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "4. Utilities. The Tenant pays for electricity, water and gas as metered. Building service charges are included in the rent."
+  },
+  {
+   "id": "benign-lease-clause-7",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "5. Maintenance. The Landlord is responsible for structural repairs, plumbing and the building's common areas. The Tenant keeps the Premises clean and repairs damage caused by the Tenant or the Tenant's guests."
+  },
+  {
+   "id": "benign-lease-clause-8",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "--- Page 3 ---\n6. Deposit. The Tenant pays a security deposit of [AMOUNT] on signing. The Landlord returns the deposit within 30 days after the Lease ends, less any unpaid rent or the cost of repairing damage beyond normal wear. If the Tenant leaves before the end of the term without the notice required by Clause 10, the Landlord may keep one month's rent from the deposit."
+  },
+  {
+   "id": "benign-lease-clause-9",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "7. Rent. The monthly rent is [AMOUNT_2]. The Landlord may increase the rent once per contract year by no more than 10%, with at least 60 days' written notice to the Tenant."
+  },
+  {
+   "id": "benign-lease-clause-10",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "--- Page 4 ---\n8. Payment. Rent is due on the first day of each month by bank transfer to the Landlord's account [ACCOUNT]. Rent paid more than 10 days late carries a fee of [AMOUNT_3]."
+  },
+  {
+   "id": "benign-lease-clause-11",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "9. Entry. The Landlord may enter the Premises for inspection or repairs with at least 24 hours' notice to the Tenant, except in an emergency."
+  },
+  {
+   "id": "benign-lease-clause-12",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "--- Page 5 ---\n10. Termination. Either party may end the Lease at the end of a contract year with at least 60 days' written notice. The Tenant may end the Lease early with 90 days' written notice, subject to Clause 6."
+  },
+  {
+   "id": "benign-lease-clause-13",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "11. Notices. Notices must be in writing and delivered to the addresses in Clauses 1 and 2, or sent by email to the Tenant at [EMAIL]."
+  },
+  {
+   "id": "benign-lease-clause-14",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "--- Page 6 ---\n12. Governing law and signatures. This Lease is governed by the laws of Egypt. Signed on [DATE_1] by [PERSON] (Landlord) and [PERSON_2] (Tenant), witnessed by [PERSON_3], phone [PHONE_2]."
+  },
+  {
+   "id": "benign-offer-clause-1",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "EMPLOYMENT OFFER AND AGREEMENT\nGiza, Arab Republic of Egypt"
+  },
+  {
+   "id": "benign-offer-clause-2",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "This Employment Agreement is signed on [DATE_1]."
+  },
+  {
+   "id": "benign-offer-clause-3",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "1. Parties. [PERSON], for [PERSON_2] (\"Employer\"), and [PERSON_3], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], residing at [ADDRESS] (\"Employee\")."
+  },
+  {
+   "id": "benign-offer-clause-4",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "2. Compensation. The Employee's gross monthly salary is [AMOUNT], paid on the 25th of each month."
+  },
+  {
+   "id": "benign-offer-clause-5",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "3. Direct Deposit. Salary will be transferred to the Employee's IBAN [ACCOUNT]."
+  },
+  {
+   "id": "benign-offer-clause-6",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "4. Probation. The first ninety (90) days of employment are a probationary period during which either party may end the contract with seven (7) days' written notice."
+  },
+  {
+   "id": "benign-offer-clause-7",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "5. Annual Leave. The Employee receives twenty-one (21) working days of paid annual leave."
+  },
+  {
+   "id": "benign-offer-clause-8",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "6. [PERSON_4] Bonus. At 100% target achievement, the Employee earns an annual bonus equal to 1.8 times the gross monthly salary."
+  },
+  {
+   "id": "benign-offer-clause-9",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "7. Equipment Allowance. The Employer provides a one-time home-office equipment allowance of up to [AMOUNT_2] on submission of original receipts. Any amount above [AMOUNT_2] is paid by the Employee."
+  },
+  {
+   "id": "benign-offer-clause-10",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "8. [PERSON_5]. Inventions made with Company equipment or relating to the Company's business belong to the Company. Works created entirely on the Employee's own time, without Company equipment or confidential data, and unrelated to the Company's products remain the Employee's property."
+  },
+  {
+   "id": "benign-offer-clause-11",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "9. Non-Competition. For six (6) months after termination, the Employee may not work for a direct competitor offering consumer payment gateway or mobile wallet services in Egypt. This does not apply to non-financial software such as healthcare, education or logistics."
+  },
+  {
+   "id": "benign-offer-clause-12",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "10. Termination Without Cause. If the Employer ends this Agreement without cause after the probation period, the Employer shall pay severance equal to two (2) months of gross monthly salary, plus a 60-day notice period."
+  },
+  {
+   "id": "benign-lab-clause-1",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "[PERSON] LABORATORIES\nPatient report and invoice"
+  },
+  {
+   "id": "benign-lab-clause-2",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "1. Patient. [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. MRN: [ACCOUNT]. Accession #[ACCOUNT_2]. Collected on [DATE_1]."
+  },
+  {
+   "id": "benign-lab-clause-3",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "2. Referring Physician. Ordered by [PERSON_3]."
+  },
+  {
+   "id": "benign-lab-clause-4",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "3. Metabolic Panel. Fasting plasma glucose: 114 mg/dL (normal 70–99 mg/dL; impaired fasting glucose, prediabetes range 100–125 mg/dL; provisional diabetes threshold 126 mg/dL or more). HbA1c: 5.9% (normal below 5.7%; prediabetes 5.7%–6.4%)."
+  },
+  {
+   "id": "benign-lab-clause-5",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "4. Vitamin D. Serum 25-OH vitamin D: 14 ng/mL (deficient below 20 ng/mL). Supplement with colecalciferol as prescribed."
+  },
+  {
+   "id": "benign-lab-clause-6",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "5. [PERSON_4]. Glucose values sit in the impaired fasting glucose (prediabetes) range. [PERSON_5]A1c in three (3) months and review diet and physical activity with the referring physician. Schedule a repeat vitamin D blood test in eight (8) weeks."
+  },
+  {
+   "id": "benign-lab-clause-7",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "6. Fees. Metabolic panel [AMOUNT]; vitamin D test [AMOUNT_2]. Total lab fee: [AMOUNT_3]."
+  },
+  {
+   "id": "benign-lab-clause-8",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "7. Insurance. Member ID: [ACCOUNT_3], Policy Plan B. The insurer reimburses 80% of laboratory fees directly; the patient pays a 20% co-payment at the desk. Claim no. [ACCOUNT_4]."
+  },
+  {
+   "id": "benign-lab-clause-9",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "8. Refunds. Overpayments are refunded to the patient's IBAN [ACCOUNT_5] within 14 days."
+  },
+  {
+   "id": "benign-freelance-clause-1",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "This Consulting Agreement is made on [DATE_1]."
+  },
+  {
+   "id": "benign-freelance-clause-2",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "1. Parties. [PERSON], for [PERSON_2] (\"Client\"), and [PERSON_3], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL] (\"Consultant\")."
+  },
+  {
+   "id": "benign-freelance-clause-3",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "2. Scope. The Consultant designs and delivers the Client's mobile design system in three milestones."
+  },
+  {
+   "id": "benign-freelance-clause-4",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "3. Milestone Fees. Milestone 1 (Research) [AMOUNT]; Milestone 2 (Design System Delivery) [AMOUNT_2]; Milestone 3 (Handover) [AMOUNT_3]. Total contract fee: [AMOUNT_4]."
+  },
+  {
+   "id": "benign-freelance-clause-5",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "4. Invoicing. Invoices are submitted on the last business day of each month and must be paid in full within fifteen (15) calendar days of receipt."
+  },
+  {
+   "id": "benign-freelance-clause-6",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "5. Payment Account. The Client pays the Consultant via IBAN [ACCOUNT]."
+  },
+  {
+   "id": "benign-freelance-clause-7",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "6. [PERSON_4] Fee. If the Client cancels an active milestone after work has begun, the Client shall pay 50% of that milestone's fee within 14 days."
+  },
+  {
+   "id": "benign-freelance-clause-8",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "7. Limitation of Liability. Neither party's total liability under this Agreement shall exceed 100% of the total contract fee in Clause 3, and neither party is liable for indirect or consequential damages."
+  },
+  {
+   "id": "benign-freelance-clause-9",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "8. Ownership. The Client owns the final delivered designs once every invoice is paid. The Consultant may show the work in a portfolio after public launch."
+  },
+  {
+   "id": "benign-loan-clause-1",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "1. Borrower. [PERSON_2], national ID [NATIONAL_ID], phone [PHONE], email [EMAIL], address [ADDRESS]. Direct debit IBAN: [ACCOUNT]. Account number [ACCOUNT_2]."
+  },
+  {
+   "id": "benign-loan-clause-2",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "2. Purchase. A 10 kW hybrid solar system with a lithium battery pack, installed at the address above. Total system cost: [AMOUNT], with a down payment of [AMOUNT_2]."
+  },
+  {
+   "id": "benign-loan-clause-3",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "3. Financing. The remaining principal balance of [AMOUNT_3] is repaid in 48 monthly instalments of [AMOUNT_4] on the 5th of each month."
+  },
+  {
+   "id": "benign-loan-clause-4",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "4. [PERSON_3]. The Borrower may settle the full remaining principal at any time on 15 days' written notice, subject to an early-settlement charge of 3% of the prepaid principal."
+  },
+  {
+   "id": "benign-loan-clause-5",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "5. Late Payment. An instalment paid more than 10 days late incurs a late fee of [AMOUNT_5]."
+  },
+  {
+   "id": "benign-loan-clause-6",
+   "category": "benign: masked clause",
+   "expectedBlocked": false,
+   "outbound": "6. Warranty. The hybrid inverter is warranted for five (5) years. The lithium battery pack is covered for ten (10) years or 6,000 charge cycles, whichever comes first."
+  }
+ ]
+}

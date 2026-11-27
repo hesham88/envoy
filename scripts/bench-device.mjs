@@ -70,7 +70,10 @@ try {
         window.__dl = 0;
         LanguageModel.create({
           monitor: (m) => m.addEventListener('downloadprogress', (e) => (window.__dl = e.loaded)),
-        }).then((s) => s.destroy(), (e) => (window.__dlError = String(e)));
+        }).then(
+          (s) => s.destroy(),
+          (e) => (window.__dlError = String(e)),
+        );
       };
       document.body.append(b);
     });
@@ -152,7 +155,10 @@ try {
       );
     }
 
-  const ms = rows.filter((r) => r.ok).map((r) => r.analyzeMs).sort((a, b) => a - b);
+  const ms = rows
+    .filter((r) => r.ok)
+    .map((r) => r.analyzeMs)
+    .sort((a, b) => a - b);
   const median = ms.length ? ms[Math.floor(ms.length / 2)] : null;
   const out = {
     label,
