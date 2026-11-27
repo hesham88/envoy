@@ -44,6 +44,10 @@ const extra = [
   'Vehicle registration: 7ABC123. Parked: AB12 CDE. Le véhicule AB-123-CD.',
   'api_key = sk-test-51HfakeFAKEfake0000 and policy no. 88-4410-2093.',
   'mona.adel@example.com lives at 14 El Nasr St, Maadi, Cairo.',
+  // Spanish, French and German formats (fictional; check letters and keys are valid).
+  'Inquilino con DNI 12345678-Z y NIE X1234567L; firmado el 15 de agosto de 2024.',
+  'Sécurité sociale 1 84 12 76 451 089 46, tél. 06 12 34 56 78, signé le 1er septembre 2024.',
+  'Miete 1.250,50 € im Monat, Kaution 3 750 EUR, unterschrieben am 15. August 2024 (15.08.2024).',
 ];
 const strip = (e) => ({ type: e.type, value: e.value, start: e.start, end: e.end });
 const rules = [...docs.map(([, d]) => d.text), ...extra].map((text) => ({
@@ -73,7 +77,11 @@ const parityPath = resolve(ROOT, 'android/app/src/test/resources/parity.json');
 mkdirSync(dirname(parityPath), { recursive: true });
 writeFileSync(
   parityPath,
-  JSON.stringify({ generatedFrom: '@envoy/core', rules, guard: { lease, cases: guardCases } }, null, 1),
+  JSON.stringify(
+    { generatedFrom: '@envoy/core', rules, guard: { lease, cases: guardCases } },
+    null,
+    1,
+  ),
 );
 
 const samplesPath = resolve(ROOT, 'android/app/src/main/assets/samples.json');
@@ -88,7 +96,13 @@ writeFileSync(
   JSON.stringify(
     docs
       .filter(([k]) => questions[k])
-      .map(([key, d]) => ({ key, title: d.title, notice: d.notice, text: d.text, questions: questions[key] })),
+      .map(([key, d]) => ({
+        key,
+        title: d.title,
+        notice: d.notice,
+        text: d.text,
+        questions: questions[key],
+      })),
     null,
     1,
   ),

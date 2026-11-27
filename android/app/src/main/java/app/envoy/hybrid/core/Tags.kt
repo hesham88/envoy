@@ -12,6 +12,17 @@ object Tags {
         Regex("EGP|L\\.E\\.|\\bLE\\b|pounds?|ج\\.م|جنيه", RegexOption.IGNORE_CASE) to "EGP",
     )
 
+    /** The number in an amount, English or European notation: "8,500.50", "8.500,50", "8 500,50" are all 8500.5. */
+    fun parseAmountNumber(value: String): Double {
+        val m = Regex("\\d{1,3}(?:[.,\\u00a0\\u202f ]\\d{3})+(?:[.,]\\d{1,2})?|\\d+(?:[.,]\\d{1,2})?").find(value)
+            ?: return Double.NaN
+        val s = m.value.replace(Regex("[\\u00a0\\u202f ]"), "")
+        val dec = maxOf(s.lastIndexOf('.'), s.lastIndexOf(','))
+        return if (dec != -1 && s.length - dec - 1 <= 2)
+            "${s.substring(0, dec).replace(Regex("[.,]"), "")}.${s.substring(dec + 1)}".toDouble()
+        else s.replace(Regex("[.,]"), "").toDouble()
+    }
+
     /** A comparison key: the same value written differently gets the same tag (and is caught by the guard). */
     fun canonical(value: String, type: EntityType): String = when (type) {
         EntityType.PHONE -> {
@@ -22,8 +33,7 @@ object Tags {
         }
         EntityType.MONEY -> {
             val currency = CURRENCY_CODES.firstOrNull { it.first.containsMatchIn(value) }?.second ?: ""
-            val num = Regex("(?:\\d{1,3}(?:,\\d{3})+|\\d+)(?:\\.\\d+)?").find(value)?.value ?: ""
-            "$currency:${num.replace(",", "").toDoubleOrNull()?.let(::fmtNumber) ?: ""}"
+            "$currency:${parseAmountNumber(value).takeIf { !it.isNaN() }?.let(::fmtNumber) ?: ""}"
         }
         EntityType.IBAN, EntityType.ACCOUNT, EntityType.NATIONAL_ID, EntityType.CARD, EntityType.SECRET, EntityType.PLATE ->
             value.filter { it.isLetterOrDigit() }.uppercase()
