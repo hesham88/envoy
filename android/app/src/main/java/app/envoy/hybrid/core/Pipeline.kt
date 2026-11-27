@@ -69,10 +69,15 @@ object Pipeline {
             Tags.mask(c.text, inside, tags)
         }
 
+    /** The tags the excerpt actually contains: the only ones the cloud may use. */
+    fun tagsIn(excerpt: String): List<String> = Regex("\\[[A-Z][A-Z0-9_]*]").findAll(excerpt).map { it.value }.distinct().toList()
+
     fun cloudPrompt(question: String, excerpt: String): String = """
         You answer a question about a private document. You see only an excerpt, and every personal
-        detail in it is a tag in square brackets, like [LANDLORD] or [RENT]. Use the tags exactly as
-        written in your answer; never invent real names or numbers. ${Restore.CLOUD_EXPRESSION_INSTRUCTION}
+        detail in it is a tag in square brackets. Use only these tags, exactly as written, and never
+        invent a new one or a real name or number: ${tagsIn(excerpt).joinToString(" ").ifEmpty { "(none)" }}.
+        To say who someone is, write the tag and their role in words ("[PERSON], the landlord").
+        ${Restore.CLOUD_EXPRESSION_INSTRUCTION}
         Answer in plain English, in at most four sentences.
 
         Excerpt:
