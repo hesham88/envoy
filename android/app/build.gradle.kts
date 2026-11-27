@@ -15,14 +15,28 @@ android {
     defaultConfig {
         applicationId = "app.envoy.hybrid"
         minSdk = 26 // firebase-ai-ondevice
-        targetSdk = 35
+        targetSdk = 36 // Google Play: new apps and updates must target Android 16 (from 31 Aug 2026)
         versionCode = 1
         versionName = "0.1.0"
+    }
+
+    // The Play upload key lives outside the repo (docs/superpowers/plans/2026-11-27-android-play-store.md):
+    // ENVOY_UPLOAD_KEYSTORE (path), ENVOY_UPLOAD_KEY_ALIAS, ENVOY_UPLOAD_STORE_PASSWORD and
+    // ENVOY_UPLOAD_KEY_PASSWORD come from the environment. Without them a release build is unsigned.
+    val uploadKeystore = System.getenv("ENVOY_UPLOAD_KEYSTORE")?.let { file(it) }?.takeIf { it.exists() }
+    signingConfigs {
+        if (uploadKeystore != null) create("upload") {
+            storeFile = uploadKeystore
+            keyAlias = System.getenv("ENVOY_UPLOAD_KEY_ALIAS")
+            storePassword = System.getenv("ENVOY_UPLOAD_STORE_PASSWORD")
+            keyPassword = System.getenv("ENVOY_UPLOAD_KEY_PASSWORD")
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (uploadKeystore != null) signingConfig = signingConfigs.getByName("upload")
         }
     }
     compileOptions {
