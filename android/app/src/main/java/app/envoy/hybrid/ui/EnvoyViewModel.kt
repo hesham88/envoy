@@ -87,7 +87,13 @@ class EnvoyViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun setDoc(title: String, text: String) = _state.update { it.copy(docTitle = title, doc = text, review = null, answer = null, error = null) }
-    fun setQuestion(q: String) = _state.update { it.copy(question = q, answer = null) }
+    // A new question needs a new check: the old excerpt was trimmed for the old question.
+    fun setQuestion(q: String) = _state.update { it.copy(question = q, review = null, answer = null) }
+
+    /** Back to step 1 with the same document: the excerpt and answer go, so nothing stale is reused. */
+    fun startOver(keepQuestion: Boolean) = _state.update {
+        it.copy(question = if (keepQuestion) it.question else "", review = null, answer = null, error = null, steps = emptyList())
+    }
     fun showError(msg: String) = _state.update { it.copy(error = msg, busy = null) }
 
     private fun step(name: String, where: String, t0: Long) =
