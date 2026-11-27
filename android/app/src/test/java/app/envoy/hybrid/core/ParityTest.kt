@@ -126,3 +126,15 @@ class PipelineTest {
         assertEquals(emptyList<Guard.Leak>(), Guard.checkOutbound(excerpt, entities))
     }
 }
+
+class CloudProblemTest {
+    @Test
+    fun `cloud failures are explained in plain words, never raw SDK text`() {
+        val appCheck = app.envoy.hybrid.ui.cloudProblem(RuntimeException("wrap", IllegalStateException("App Check token exchange failed: 403")))
+        assertTrue(appCheck.startsWith("App Check didn't accept"))
+        assertTrue(app.envoy.hybrid.ui.cloudProblem(java.net.UnknownHostException("firebasevertexai.googleapis.com")).contains("offline"))
+        val other = app.envoy.hybrid.ui.cloudProblem(IllegalArgumentException("weird"))
+        assertEquals("The cloud didn't answer. Nothing was sent.", other)
+        assertTrue(!other.contains("IllegalArgument"))
+    }
+}
