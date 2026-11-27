@@ -4,7 +4,7 @@ Paste-ready fields and assets for the YouTube upload, the Chrome Web Store listi
 
 ## Envoy YouTube upload
 
-**To do: upload v9** (rendered 27 Nov, 2:57). It replaces v7 (https://www.youtube.com/watch?v=ZO1DbGUI4Mk, 26 Nov), which stays public until v9 is up; v8 was never published. v9 follows Mona across every surface: the problem, the promise (one clause leaves, `{{RENT * 1.10}}` worked out on the laptop, a badge photo boxed with its EXIF gone), her real Private-mode session, what makes Envoy different (the guard, offline answers, a signed receipt), the extension holding a risky paste, her badge photo, the new Android app, the Firebase stack, and the measured results.
+**Done: v9 is public at https://www.youtube.com/watch?v=n7IuGRGjLbU** (27 Nov, 2:57). It replaces v7 (ZO1DbGUI4Mk, 26 Nov); v8 was never published. The website embeds v9, and the README and Devpost link to it.
 
 ### 1. Upload the film
 
@@ -67,7 +67,7 @@ Made for the Firebase #BuildHybridAI 2026 hackathon.
 
 _Details page → Show more_
 
-- **Altered content:** No. The footage is real screen recordings and the voice imitates no real person; the description says the narration is an AI voice. If you would rather be cautious, Yes is also acceptable.
+- **Altered content:** Yes. The footage is real screen recordings, but the sample staff badge shows a realistic portrait of a fictional person made with AI (Meta Muse Image), and the narration is an AI voice (Chatterbox TTS) that imitates no real person. Disclosing it costs nothing, and the description says both.
 - **Video language:** English
 - **Category:** Science & Technology
 - **License:** Standard YouTube License
@@ -153,7 +153,7 @@ _Build → Store listing → Graphic assets_
 - Small promo tile (440×280): `F:\Projects\Envoy-wt\claude\apps\extension\store\promo-tile-440x280.png`
 - Marquee promo tile (1400×560, optional): `F:\Projects\Envoy-wt\claude\apps\extension\store\marquee-1400x560.png`
 
-Screenshots are 1280×800, 24-bit PNG with no transparency, rendered from the real 0.1.2 build. Upload them in this order. Global promo video: https://www.youtube.com/watch?v=ZO1DbGUI4Mk
+Screenshots are 1280×800, 24-bit PNG with no transparency, rendered from the real 0.1.2 build. Upload them in this order. Global promo video: https://www.youtube.com/watch?v=n7IuGRGjLbU
 
 ### 4. Store listing: additional fields
 
@@ -405,7 +405,7 @@ The repository starts on 22 November 2026; no code predates it.
 
 _Page 2: Built with, Try it out, Project media_
 
-- **Demo video URL:** https://www.youtube.com/watch?v=ZO1DbGUI4Mk
+- **Demo video URL:** https://www.youtube.com/watch?v=n7IuGRGjLbU
 
 **Built with (type each, press Enter)**
 

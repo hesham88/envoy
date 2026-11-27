@@ -2,7 +2,7 @@
 
 > **Current, paste-ready version: [SUBMISSION_KIT.md](SUBMISSION_KIT.md)** (v2, 27 Nov 2026). This file is the earlier draft.
 
-The earlier draft of the Devpost entry, kept for the record. Every claim links to evidence in the repo. **Submitted on 24 November 2026**; the demo film is public at https://www.youtube.com/watch?v=ZO1DbGUI4Mk (v7, 26 November; it replaced v6, yvChwFT2770).
+The earlier draft of the Devpost entry, kept for the record. Every claim links to evidence in the repo. **Submitted on 24 November 2026**; the demo film is public at https://www.youtube.com/watch?v=n7IuGRGjLbU (v9, 27 November; it replaced v7, ZO1DbGUI4Mk, and v6, yvChwFT2770).
 
 ## Field checklist
 
@@ -14,7 +14,7 @@ The earlier draft of the Devpost entry, kept for the record. Every claim links t
 | Public GitHub repo, AI Logic imported and called at runtime              | ✅                                                       | `packages/ai/src/firebase.ts` (`getAI`), `models.ts` (`getGenerativeModel`), `pipeline.ts` (`generateContent`) |
 | Open-source licence in the About section                                 | ✅ Apache-2.0                                            | `LICENSE`                                                                                                      |
 | App Check                                                                | ✅ reCAPTCHA Enterprise, limited-use tokens              | `packages/ai/src/firebase.ts`                                                                                  |
-| YouTube video, public, 3:00 or less, English                             | ✅ https://www.youtube.com/watch?v=ZO1DbGUI4Mk           | —                                                                                                              |
+| YouTube video, public, 3:00 or less, English                             | ✅ https://www.youtube.com/watch?v=n7IuGRGjLbU           | —                                                                                                              |
 | Hosted URL                                                               | ✅ https://envoy-hybrid-ai.web.app                       | Firebase Hosting                                                                                               |
 | No real personal data, secrets or third-party branding                   | ✅ Fictional samples; secrets scan in `docs/SECURITY.md` | —                                                                                                              |
 
