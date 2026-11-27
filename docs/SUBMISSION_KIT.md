@@ -452,8 +452,8 @@ https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension
 - Gallery 7: measured, not promised: `F:\Projects\Envoy-wt\claude\docs\submission\gallery-7-measured.jpg`
 - Gallery 8: what you see, and what leaves (the cloud's {{RENT * 1.10}} worked out on the device): `F:\Projects\Envoy-wt\claude\docs\submission\gallery-8-what-leaves.jpg`
 - Gallery 9: a photo masked on the device, one detail kept: `F:\Projects\Envoy-wt\claude\docs\submission\gallery-9-photo-masks.jpg`
-- Gallery 10: Android, what the cloud will see: `F:\Projects\Envoy-wt\claude\docs\submission\android-excerpt.jpg`
-- Gallery 11: Android, the answer with real values restored on the phone: `F:\Projects\Envoy-wt\claude\docs\submission\android-answer.jpg`
+- Gallery 10: Envoy for Android, three steps (document, what leaves, answer): `F:\Projects\Envoy-wt\claude\docs\submission\android-excerpt.jpg`
+- Gallery 11: Android, tags out and names back, with the flight recorder: `F:\Projects\Envoy-wt\claude\docs\submission\android-answer.jpg`
 
 ### 4. Additional info for judges
 
