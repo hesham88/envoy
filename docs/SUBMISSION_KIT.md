@@ -67,7 +67,7 @@ Made for the Firebase #BuildHybridAI 2026 hackathon.
 
 _Details page → Show more_
 
-- **Altered content:** No. The footage is real screen recordings and the voice imitates no real person; the description says the narration is an AI voice. If you would rather be cautious, Yes is also acceptable.
+- **Altered content:** Yes. The footage is real screen recordings, but the sample staff badge shows a realistic portrait of a fictional person made with AI (Meta Muse Image), and the narration is an AI voice (Chatterbox TTS) that imitates no real person. Disclosing it costs nothing, and the description says both.
 - **Video language:** English
 - **Category:** Science & Technology
 - **License:** Standard YouTube License
