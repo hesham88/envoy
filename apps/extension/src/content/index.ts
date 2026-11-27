@@ -185,6 +185,9 @@ const frameWatch = new ResizeObserver(() => {
   place();
   placeUpload();
 });
+// The chip widens when its label grows ("3 private details pasted"): the Upload button sits just
+// left of it, so move the button too, or the chip slides under it.
+new ResizeObserver(() => placeUpload()).observe(chip);
 
 function place() {
   if (!activeField) return;

@@ -773,6 +773,24 @@
     }
    ],
    "names": []
+  },
+  {
+   "text": "Employee NB-4471-2290, staff no. 55-201-934. Every employee gets 21 days of leave.",
+   "entities": [
+    {
+     "type": "ACCOUNT",
+     "value": "NB-4471-2290",
+     "start": 9,
+     "end": 21
+    },
+    {
+     "type": "ACCOUNT",
+     "value": "55-201-934",
+     "start": 33,
+     "end": 43
+    }
+   ],
+   "names": []
   }
  ],
  "guard": {

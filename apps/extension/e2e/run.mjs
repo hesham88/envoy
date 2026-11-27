@@ -236,6 +236,16 @@ try {
     /pasted/.test(pastedChip),
     pastedChip,
   );
+  await page.waitForTimeout(200);
+  const [chipBox, upBox] = await Promise.all([
+    ui('.chip').boundingBox(),
+    ui('.up-btn').boundingBox(),
+  ]);
+  check(
+    'interception: the wider chip never slides under the Upload button',
+    !!chipBox && !!upBox && upBox.x + upBox.width <= chipBox.x + 0.5,
+    JSON.stringify({ chip: chipBox, upload: upBox }),
+  );
   await page.keyboard.press('Enter');
   await page.waitForTimeout(600);
   const heldCard = await ui('.card')

@@ -128,7 +128,7 @@ export const FIREBASE: [string, string, CodeRef][] = [
   ],
   [
     'Remote Config',
-    'Chooses the fast and the careful cloud model and the on-device prompt version, without a redeploy. About shows the live values.',
+    "Chooses the fast and the careful cloud model and the on-device prompt version, and delivers an organisation's masking rules (a policy pack), without a redeploy. About shows the live values.",
     ['packages/ai/src/remote.ts', 67, 'loadRemoteSettings'],
   ],
   [
