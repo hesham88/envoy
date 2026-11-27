@@ -48,12 +48,9 @@ import { CloudPreview } from '../components/review/CloudPreview';
 import { DocumentViewer } from '../components/review/DocumentViewer';
 import { FoundList } from '../components/review/FoundList';
 import { FileReadError, readDocumentFile } from '../lib/readFile';
-import {
-  localDictationStatus,
-  speakLocally,
-  startLocalDictation,
-  voicesReady,
-} from '../lib/voice';
+import { aiRequestsSince } from '../lib/request-counter';
+import { buildReceiptBody, signReceipt } from '../lib/signed-receipt';
+import { localDictationStatus, speakLocally, startLocalDictation, voicesReady } from '../lib/voice';
 import { FlightRecorder } from './FlightRecorder';
 import { HistoryDialog } from './History';
 import { PrivateModeGuide, type ChromePage } from './PrivateModeGuide';
@@ -1018,7 +1015,23 @@ export function ChatApp({
         />
       )}
       <LiveRegion message={announcement} />
-      <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <AboutDialog
+        open={aboutOpen}
+        onClose={() => setAboutOpen(false)}
+        stack={
+          runtime.firebase
+            ? {
+                deviceStatus: runtime.status,
+                appCheck: runtime.firebase.appCheck,
+                remoteConfigAt: runtime.firebase.remoteConfigAt,
+                fastCloudModel: runtime.settings.fastCloudModel,
+                cloudModel: runtime.settings.cloudModel,
+                cloudDefault: runtime.settings.cloudDefault,
+                promptVersion: runtime.settings.promptVersion,
+              }
+            : undefined
+        }
+      />
       <NetworkInspector open={ledgerOpen} onClose={() => setLedgerOpen(false)} />
     </div>
   );
@@ -1107,7 +1120,9 @@ function TurnView({
               handoff={handoff}
             />
           )}
-        {s.phase === 'answered' && s.result && <AnswerBubble session={s} />}
+        {s.phase === 'answered' && s.result && (
+          <AnswerBubble session={s} startedAt={turn.startedAt} />
+        )}
         {s.phase === 'error' && s.error && (
           <p
             role="alert"
@@ -1317,7 +1332,7 @@ function Approval({
   );
 }
 
-function AnswerBubble({ session }: { session: SessionState }) {
+function AnswerBubble({ session, startedAt }: { session: SessionState; startedAt?: number }) {
   const result = session.result!;
   const local = result.source === 'on_device';
   const [copied, setCopied] = useState(false);
@@ -1362,6 +1377,7 @@ function AnswerBubble({ session }: { session: SessionState }) {
             : `${result.receipt.charsSent.toLocaleString()} characters left this device, ${result.receipt.keptTotal} private details stayed.`}
         </span>
         <ReadAloud text={result.text} />
+        <SignedReceiptButton receipt={result.receipt} startedAt={startedAt} />
         <button
           onClick={() =>
             void navigator.clipboard?.writeText(result.text).then(() => setCopied(true))
@@ -1372,6 +1388,56 @@ function AnswerBubble({ session }: { session: SessionState }) {
         </button>
       </div>
     </div>
+  );
+}
+
+/**
+ * Saves a signed privacy receipt (src/lib/signed-receipt.ts): what left the device, tags only,
+ * signed in this browser so any later edit is detectable. Nothing is uploaded.
+ */
+function SignedReceiptButton({
+  receipt,
+  startedAt,
+}: {
+  receipt: NonNullable<SessionState['result']>['receipt'];
+  startedAt?: number;
+}) {
+  const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle');
+  if (typeof crypto === 'undefined' || !crypto.subtle) return null;
+  return (
+    <button
+      type="button"
+      className="rounded-full border border-line px-3 py-1 text-ink hover:border-device/60"
+      title="A JSON file with what left this device, signed in this browser (ECDSA P-256). Check it with scripts/verify-receipt.mjs."
+      onClick={async () => {
+        setState('saving');
+        try {
+          const body = await buildReceiptBody({
+            receipt,
+            network: networkLog.entries.filter((e) => !startedAt || e.at >= startedAt),
+            aiRequests: startedAt ? aiRequestsSince(startedAt) : null,
+          });
+          const signed = await signReceipt(body);
+          const url = URL.createObjectURL(
+            new Blob([JSON.stringify(signed, null, 2)], { type: 'application/json' }),
+          );
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `envoy-receipt-${body.issuedAt.slice(0, 19).replace(/:/g, '-')}.json`;
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          setState('saved');
+        } catch {
+          setState('failed');
+        }
+      }}
+    >
+      {state === 'saved'
+        ? 'Receipt saved'
+        : state === 'failed'
+          ? 'Receipt failed'
+          : 'Save signed receipt'}
+    </button>
   );
 }
 
@@ -1414,7 +1480,9 @@ function DictateButton({ draft, onText }: { draft: string; onText: (text: string
   const stop = useRef<(() => void) | null>(null);
   useEffect(() => {
     let live = true;
-    void localDictationStatus().then((s) => live && setStatus(s === 'unavailable' ? 'none' : 'ready'));
+    void localDictationStatus().then(
+      (s) => live && setStatus(s === 'unavailable' ? 'none' : 'ready'),
+    );
     return () => {
       live = false;
       stop.current?.();

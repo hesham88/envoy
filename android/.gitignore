@@ -1,0 +1,10 @@
+.gradle/
+build/
+app/build/
+local.properties
+*.iml
+.idea/
+.kotlin/
+# Firebase config for this project: never committed (see README.md).
+app/google-services.json
+google-services.json

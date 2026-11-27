@@ -130,6 +130,37 @@ export const numberWordsReading = (text: string): Reading =>
 export const joinedLinesReading = (text: string): Reading =>
   rewrite(text, /(\p{L})[ \t]*\r?\n[ \t]*(?=\p{L})/gu, (m) => m[1]!);
 
+// ---------- letter by letter ----------
+
+/**
+ * Closes up text written one character at a time: "K a r i m F a t h y" -> "KarimFathy",
+ * "E G P 8 , 5 0 0" -> "EGP8,500". Only runs of at least four single characters are touched, so
+ * ordinary words ("a", "I") are left alone.
+ */
+export const spacedLettersReading = (text: string): Reading =>
+  rewrite(text, /(?<!\S)(?:[\p{L}\p{N},.@+-] ){3,}[\p{L}\p{N},.@+-](?!\S)/gu, (m) =>
+    m[0].replace(/ /g, ''),
+  );
+
+// ---------- percent-encoding ----------
+
+/**
+ * Tokens with percent-encoded bytes ("mona%2Eadel%40example%2Ecom"), decoded. Unlike base64 these
+ * are checked, not blocked on sight: a document's own URLs carry %20 and the like.
+ */
+export function percentBlobs(text: string): { start: number; end: number; decoded: string }[] {
+  const out: { start: number; end: number; decoded: string }[] = [];
+  for (const m of text.matchAll(/\S*(?:%[0-9A-Fa-f]{2})\S*/g)) {
+    try {
+      const decoded = decodeURIComponent(m[0]);
+      if (decoded !== m[0]) out.push({ start: m.index, end: m.index + m[0].length, decoded });
+    } catch {
+      // not valid percent-encoding
+    }
+  }
+  return out;
+}
+
 // ---------- reversed ----------
 
 export function reversedReading(text: string): Reading {

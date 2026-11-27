@@ -56,6 +56,8 @@ export interface EnvoyRuntime {
   setFastCloud?: (fast: boolean) => void;
   /** After the cloud step fell back to the device: why (App Check, offline, or the model). */
   diagnoseCloud?: () => Promise<CloudProblem>;
+  /** What the Firebase stack is doing right now, shown in About (FS-T14). */
+  firebase?: { remoteConfigAt: number | null; appCheck: 'recaptcha' | 'no-script' | 'none' };
 }
 
 /** Where the Firebase settings come from: each app reads its own build environment. */
@@ -85,6 +87,7 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
   const [status, setStatus] = useState<EnvoyStatus>('checking');
   const [progress, setProgress] = useState<number | null>(null);
   const [remote, setSettings] = useState<RemoteSettings>(DEFAULT_SETTINGS);
+  const [remoteConfigAt, setRemoteConfigAt] = useState<number | null>(null);
   // The cloud model: the person's saved choice, else Remote Config's default (fast unless changed).
   const [cloudChoice, setCloudChoice] = usePref(PREF_KEYS.cloudModel, CLOUD_CHOICES);
   const fastCloud = (cloudChoice ?? remote.cloudDefault) === 'fast';
@@ -103,9 +106,10 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
   useEffect(() => {
     void refreshStatus();
     if (boot.app) {
-      void loadRemoteSettings(boot.app).then((s) =>
-        setSettings({ ...s, cloudModel: config.cloudModelOverride?.() ?? s.cloudModel }),
-      );
+      void loadRemoteSettings(boot.app).then((s) => {
+        setSettings({ ...s, cloudModel: config.cloudModelOverride?.() ?? s.cloudModel });
+        setRemoteConfigAt(Date.now());
+      });
     }
     return () => {
       if (polling.current) window.clearInterval(polling.current);
@@ -168,6 +172,10 @@ export function useEnvoy(config: EnvoyConfig): EnvoyRuntime {
     refreshStatus,
     warmUp,
     diagnoseCloud: () => diagnoseCloud(boot.appCheck ?? null),
+    firebase: {
+      remoteConfigAt,
+      appCheck: boot.appCheck ? (config.appCheck ?? 'recaptcha') : 'none',
+    },
     cancelPrivate: cancelPrivateSteps,
     fastCloud,
     setFastCloud,
