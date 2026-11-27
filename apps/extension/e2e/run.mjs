@@ -1,4 +1,4 @@
-/* global console, process, document, window, setTimeout, Buffer, getComputedStyle, createImageBitmap, OffscreenCanvas */
+/* global console, process, document, window, setTimeout, Buffer, getComputedStyle, createImageBitmap, OffscreenCanvas, DataTransfer, ClipboardEvent, Event */
 /**
  * End-to-end test of the REAL built extension in Chrome: the text-box widget (textarea and a rich
  * contenteditable editor), password fields left alone, Upload with Envoy for a text file, a photo
