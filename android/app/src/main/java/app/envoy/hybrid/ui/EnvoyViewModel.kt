@@ -161,7 +161,21 @@ class EnvoyViewModel(app: Application) : AndroidViewModel(app) {
             step("Real values restored", "This phone", t1)
             _state.update { it.copy(busy = null, answer = Answer(restored.text, restored.spans, restored.withheld)) }
         } catch (e: Exception) {
-            showError("The cloud didn't answer (${e.javaClass.simpleName}). Nothing else was sent.")
+            showError(cloudProblem(e))
         }
+    }
+}
+
+/** Why the cloud step failed, in plain words (never raw SDK text). Nothing was sent in any case. */
+fun cloudProblem(e: Throwable): String {
+    val trace = generateSequence(e) { it.cause }.joinToString(" ") { "${it.javaClass.name} ${it.message.orEmpty()}" }
+    return when {
+        Regex("(?i)app ?check|attestation|debug token|403").containsMatchIn(trace) ->
+            "App Check didn't accept this copy of the app, so the cloud wasn't asked. A build installed from outside Google Play needs its debug token registered. Nothing was sent."
+        Regex("(?i)UnknownHost|ConnectException|SocketTimeout|offline|network").containsMatchIn(trace) ->
+            "The phone couldn't reach the cloud (offline?). Nothing was sent; try again when you're online."
+        Regex("(?i)quota|429|RESOURCE_EXHAUSTED").containsMatchIn(trace) ->
+            "The cloud model is busy or out of quota right now. Nothing was sent; try again in a minute."
+        else -> "The cloud didn't answer. Nothing was sent."
     }
 }

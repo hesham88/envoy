@@ -122,6 +122,8 @@ const files = {
   'photo.jpg': jpegWithExif(),
   // The sample "phone photo" of a fictional lab bill (scripts/make-sample-photo.mjs).
   'lab-bill.webp': readFileSync(resolve(EXT, '../web/public/samples/lab-bill.webp')),
+  // A fictional staff badge with a portrait (scripts/make-sample-badge.mjs): a face to mask.
+  'staff-badge.webp': readFileSync(resolve(EXT, '../web/public/samples/staff-badge.webp')),
 };
 for (const [n, b] of Object.entries(files)) writeFileSync(join(WORK, n), b);
 
@@ -652,6 +654,21 @@ try {
     'photo masking: the email the person chose to keep stays visible',
     pixels.email > 300,
     JSON.stringify(pixels),
+  );
+
+  // --- a photo with a face: the face detector runs in the extension (under its own CSP) ---
+  let badgeLabels = [];
+  await upload('staff-badge.webp', async () => {
+    await ui('.up-card .up-mask').first().waitFor({ timeout: 90000 });
+    await page.waitForTimeout(2000);
+    badgeLabels = await ui('.up-card .up-mask').evaluateAll((els) =>
+      els.map((el) => el.querySelector('span')?.textContent ?? ''),
+    );
+  });
+  check(
+    'photo masking: a face is boxed, alongside the name, email and phone',
+    badgeLabels.includes('Face') && ['Email', 'Phone'].every((l) => badgeLabels.includes(l)),
+    badgeLabels.join(', '),
   );
 
   // --- Upload with Envoy: PDF ---
