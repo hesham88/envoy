@@ -4,14 +4,14 @@ Paste-ready fields and assets for the YouTube upload, the Chrome Web Store listi
 
 ## Envoy YouTube upload
 
-**To do: upload v8** (rendered 27 Nov, 2:54). It replaces v7 (https://www.youtube.com/watch?v=ZO1DbGUI4Mk, 26 Nov), which stays public until v8 is up. v8 opens with what leaves (the lease cut to one clause, `{{RENT * 1.10}}` worked out on the laptop, a badge photo boxed with its EXIF gone, the live app with no sign-in), keeps v7's real Private-mode take, and adds the Firebase stack, paste interception in the extension, faces, the Android app, a signed receipt and the new measured numbers.
+**To do: upload v9** (rendered 27 Nov, 2:55). It replaces v7 (https://www.youtube.com/watch?v=ZO1DbGUI4Mk, 26 Nov), which stays public until v9 is up; v8 was never published. v9 follows Mona across every surface: the problem, the promise (one clause leaves, `{{RENT * 1.10}}` worked out on the laptop, a badge photo boxed with its EXIF gone), her real Private-mode session, what makes Envoy different (the guard, offline answers, a signed receipt), the extension holding a risky paste, her badge photo, the new Android app, the Firebase stack, and the measured results.
 
 ### 1. Upload the film
 
 _studio.youtube.com → Create → Upload videos_
 
-- Video: `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v8.mp4` (2:54, 1920×1080, 30 fps, -16 LUFS, 110 MB)
-- Subtitles (optional, _Subtitles → Upload file → With timing_): `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v8.srt`
+- Video: `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v9.mp4` (2:55, 1920×1080, 30 fps, -16 LUFS, 106 MB)
+- Subtitles (optional, _Subtitles → Upload file → With timing_): `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v9.srt`
 
 ### 2. Details
 
@@ -42,16 +42,15 @@ Newest extension build and the Android app: https://github.com/hesham88/envoy/re
 Code (Apache-2.0): https://github.com/hesham88/envoy
 
 Chapters
-0:00 What leaves: a lease cut to one clause, the maths on your laptop, a photo boxed
-0:29 A real Private-mode session on Gemma 4 (Gemini Nano 4)
-0:49 You approve what leaves; the guard blocks raw details
-1:07 What you see, what leaves, and the answer
-1:26 Offline: answered on the device
-1:36 Built on Firebase, on purpose
-1:49 The Chrome extension: a paste held before it is sent
-2:02 Faces masked on the device
-2:12 Android, and a signed receipt
-2:35 Measured results
+0:00 Everything you paste into cloud AI leaves your device
+0:20 Envoy: one clause leaves, the maths stays on your laptop, photos boxed
+0:38 A real Private-mode session on Gemma 4 (Gemini Nano 4)
+1:16 The guard, offline answers and a signed receipt
+1:44 The Chrome extension holds a risky paste
+1:57 Faces and IDs boxed in a photo, on the device
+2:07 Envoy for Android
+2:21 Built on Firebase, on purpose
+2:36 Measured results
 
 Measured on 36 test documents with Gemma 4 on 24 Nov 2026: every planted private detail masked, 0 raw details sent after the guard, and under a quarter of the document text sent (masked). A generated suite of 352 cases (27 Nov): 282 of 282 disguised leaks blocked, 0 of 70 harmless texts blocked. On a cloud NVIDIA L4 GPU: a median of 10.6 s per question, against 125 s on our 2018 laptop's CPU. Full results: https://github.com/hesham88/envoy/blob/main/docs/EVAL.md and https://github.com/hesham88/envoy/blob/main/docs/benchmarks/README.md
 
@@ -85,7 +84,7 @@ Envoy, Firebase AI Logic, hybrid inference, Gemini Nano, Gemma 4, Chrome built-i
 
 _Video elements → Add subtitles → Upload file → With timing_
 
-- English subtitles (.srt): `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v8.srt` (The rules accept English or English subtitles; this adds both.)
+- English subtitles (.srt): `F:\Projects\Envoy-wt\claude\video\out\envoy-demo-v9.srt` (The rules accept English or English subtitles; this adds both.)
 
 ### 5. Publish and share the link
 

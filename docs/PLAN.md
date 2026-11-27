@@ -22,10 +22,20 @@ Companion artifacts (owner's claude.ai): [plan doc](https://claude.ai/artifact/1
 - **Release:** [v0.2.0-android-extension](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension): extension 0.1.4 (unpacked) and the Android debug APK. The Chrome Web Store published 0.1.3 on 27 Nov (https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd); 0.1.4 is on GitHub.
 - **Checks (27 Nov, main `a45a46f`):** `npm run verify` 534 tests; extension E2E 48/48; hosted smoke 14/14 (live, headful); OCR eval 203/208; Android CI (unit + parity + APK) green.
 - **Devpost story v2** (#73): `docs/SUBMISSION_KIT.md`, Markdown with tables, images, links, known limits and a Q&A.
-- **Demo film v8 (rendered 27 Nov, 2:54):** `video/out/envoy-demo-v8.mp4` + `.srt` (not committed). A cold open (the lease cut to one clause, `{{RENT * 1.10}}` on the laptop, the badge photo boxed, the live app), v7's Private-mode take reused, then the Firebase stack, paste interception, faces, Android (emulator), a signed receipt checked by `verify-receipt.mjs`, and the new measured numbers. Footage: `video/record-v8.mjs`, `video/record-android.mjs`; build `node video/film/build.mjs --v8`. Checked: Whisper on the final mix matches the script (95% words; the rest is numbers written as digits), -16.3 LUFS. **Owner uploads it to YouTube**; then the video ID goes into `demo-video.ts`, the README and the Devpost field.
+- **Demo film v9 (rendered 27 Nov, 2:55; replaces v8, which the owner reviewed and which was never published):** `video/out/envoy-demo-v9.mp4` + `.srt` (not committed).
+  - **Story:** it follows Mona across every surface: the intro and the problem; the promise (one clause leaves, `{{RENT * 1.10}}` on the laptop, the badge photo boxed); her real Private-mode session on Gemma 4 (approve, then the answer); the edge (the guard, offline answers, a signed receipt shown in the app); the extension holding her paste, her badge photo, the three-step Android app; Firebase on purpose (live stack, on-device model available); the measured results; "Live now, no sign-in".
+  - **Narration:** lines are split into parts and placed on the moments they describe (`video/narration-v9.json`, `build.mjs --v9`).
+  - **Checked:** a sync sheet (one frame per line, 28 lines); Whisper on the mix (95.9% words; the rest are digits); −16.1 LUFS.
+  - **Owner notes applied:** no terminal, no crops, wait notes say only "Wait cut", the slogan never split.
+  - **Owner uploads it to YouTube.** Then the video ID goes into `demo-video.ts`, the README and the Devpost field.
 - **Fixed while filming (#73):** the paste chip slid under the Upload button; the held card scrolled sideways on short screens; employee, staff, payroll and badge numbers weren't masked (web and Android). Landing: the measured section now cites the adversarial suite and the GPU run.
+- **Android rework (#75, #76):** three steps (Document → What leaves → Answer) with a sticky action bar, tags as coloured chips and a timeline recorder; the Envoy mark in the top bar and as the adaptive launcher icon.
+- **Chrome Web Store:** 0.1.3 is published (https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd); the landing page says "Add to Chrome". 0.1.4 is packed for the store, waiting for the owner to upload it.
+- **Google Play (FS-T19):** sub-plan in `docs/superpowers/plans/2026-11-27-android-play-store.md`. New personal accounts need a 14-day closed test with 12 testers before production.
 - **Checks (27 Nov, after the fixes):** `npm run verify` 536 tests; extension E2E 49/49; Android unit and parity tests green.
-- **Next:** the owner uploads v8 and updates Devpost; swap the video ID in; revoke the emulator's App Check debug token after the cut is approved; cut a judging tag after the freeze.
+- **Next:**
+  - The owner reviews and uploads v9, submits extension 0.1.4 to the Web Store (`apps/extension/envoy-extension-0.1.4-store.zip`), and says which Play developer account exists (FS-T19).
+  - Then: swap the video ID in; revoke the emulator's App Check debug token after the film is approved; cut a judging tag after the freeze.
 
 ## Status 2026-11-26 (final batch: `docs/superpowers/plans/2026-11-26-show-the-boundary.md`)
 
