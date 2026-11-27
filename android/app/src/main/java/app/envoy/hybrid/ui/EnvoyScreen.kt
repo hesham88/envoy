@@ -130,7 +130,7 @@ private fun TopBar(s: UiState) = Row(
     Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
     verticalAlignment = Alignment.CenterVertically,
 ) {
-    Image(painterResource(R.drawable.ic_envoy), contentDescription = null, modifier = Modifier.size(30.dp))
+    Image(painterResource(R.drawable.ic_envoy_mark), contentDescription = null, modifier = Modifier.size(30.dp))
     Spacer(Modifier.width(10.dp))
     Text("Envoy", color = Uv.text, fontSize = 24.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
     Spacer(Modifier.weight(1f))

@@ -281,7 +281,7 @@ export const SCENES = {
   },
   'n16-android': {
     full: true,
-    layout: 'wide',
+    layout: 'bleed', // the clip carries its own phone frame and panel (film/phone.mjs)
     where: 'cloud',
     title: 'Android: the same engine, in Kotlin',
     sub: 'firebase-ai + firebase-ai-ondevice; a real App Check-protected answer (emulator)',
@@ -293,7 +293,7 @@ export const SCENES = {
     layout: 'right',
     where: 'you',
     title: 'A receipt you can check',
-    sub: 'Signed in the browser (ECDSA P-256); verify-receipt.mjs checks it',
+    sub: 'Signed in her browser (ECDSA P-256), with a hash of exactly what left',
     move: 'left',
     into: ['slideleft', 0.6],
   },
@@ -323,7 +323,7 @@ export const CHAPTERS = {
   },
   'n14-intercept': {
     title: 'Beyond the app',
-    sub: 'The Chrome extension, and Android',
+    sub: 'Wherever Mona works: the Chrome extension, and Android',
     dur: 2.4,
     into: ['fadeblack', 0.8],
   },

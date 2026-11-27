@@ -27,12 +27,12 @@ const H = 900;
 // leaves appears, glide to the tagged excerpt, Approve, (the cloud's wait, shortened), the answer,
 // glide to the flight recorder.
 const SEGMENTS = [
-  { from: 3.0, to: 5.6, stage: 1 },
-  { from: 8.3, to: 12.5, stage: 2 },
-  { from: 15.2, to: 19.0, stage: 2 },
-  { from: 21.0, to: 23.2, stage: 2 },
-  { from: 26.75, to: 31.4, stage: 3, waitCut: true },
-  { from: 32.6, to: 35.4, stage: 3 },
+  { from: 4.0, to: 6.6, stage: 1 },
+  { from: 10.3, to: 14.5, stage: 2 },
+  { from: 16.2, to: 20.0, stage: 2 },
+  { from: 23.0, to: 25.2, stage: 2 },
+  { from: 28.7, to: 33.4, stage: 3, waitCut: true },
+  { from: 34.6, to: 37.4, stage: 3 },
 ];
 
 // Phone geometry: the 1080x2400 screen at 378x840, in a bezel.
@@ -173,9 +173,9 @@ const at = (rec) => {
   return s ? +(s.start + rec - s.from).toFixed(2) : null;
 };
 const marks = [
-  { name: 'sample', at: at(4.0) },
-  { name: 'leaves', at: at(9.0) },
-  { name: 'approve', at: at(21.1) },
+  { name: 'sample', at: at(5.0) },
+  { name: 'leaves', at: at(11.0) },
+  { name: 'approve', at: at(23.5) },
   { name: 'answer', at: +(w.start + 0.1).toFixed(2) },
 ];
 writeFileSync(join(RAW, 'n16-android.marks.json'), JSON.stringify(marks, null, 1));

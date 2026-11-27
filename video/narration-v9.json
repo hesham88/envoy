@@ -1,0 +1,245 @@
+[
+  {
+    "id": "n01-open",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav7/n01-open.wav",
+        "text": "This is Envoy, your private AI agent to the cloud. Your device keeps the secrets. The cloud does the thinking."
+      }
+    ]
+  },
+  {
+    "id": "n02-problem",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav7/n02-problem.wav",
+        "text": "People paste leases, offer letters and lab results into cloud AI every day. All of it leaves the device, for good."
+      }
+    ]
+  },
+  {
+    "id": "n00a-cut",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "text": "Envoy changes that. Only the clause your question needs leaves, and every detail in it is a tag."
+      }
+    ]
+  },
+  {
+    "id": "n00b-maths",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav8/n00b-maths.wav",
+        "text": "The cloud writes rent times one point one. This laptop works out the real amount."
+      }
+    ]
+  },
+  {
+    "id": "n00c-photo",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav8/n00c-photo.wav",
+        "text": "A face, a staff number, a QR code: boxed before the photo leaves, with its location data stripped."
+      }
+    ]
+  },
+  {
+    "id": "n06-chat",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav7/n06-chat.wav",
+        "text": "Here is a real session in private mode, on Gemma four, the model behind Gemini Nano four. Mona asks if her landlord can raise the rent twenty percent."
+      }
+    ]
+  },
+  {
+    "id": "n07-recorder",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav7/n07-recorder.wav",
+        "text": "Chrome's built-in model reads her lease, right here on this laptop. The flight recorder shows each step, and where it ran."
+      }
+    ]
+  },
+  {
+    "id": "n08-approve",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav7/n08-approve.wav",
+        "text": "Before anything leaves, Mona sees exactly what the cloud will see: only the clauses her question needs, every detail a tag. Nothing is sent until she approves."
+      }
+    ]
+  },
+  {
+    "id": "n10-answer",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav7/n10-answer.wav",
+        "text": "Flash-Lite answers fast. Gemini four Hydrogen reasons more carefully. Either way, only tags reach the cloud."
+      }
+    ]
+  },
+  {
+    "id": "n08g-guard",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav7/n08g-guard.wav",
+        "text": "If a raw detail slips back in, like a bank account number pasted into the excerpt, the guard blocks the send."
+      }
+    ]
+  },
+  {
+    "id": "n11-offline",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.6,
+        "text": "With the network off, Envoy keeps working."
+      },
+      {
+        "key": "b",
+        "at": 4.3,
+        "text": "What is my monthly rent?"
+      },
+      {
+        "key": "c",
+        "at": 8.7,
+        "text": "Gemma four answers on the device, and nothing is sent."
+      }
+    ]
+  },
+  {
+    "id": "n16r-receipt",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "text": "And every answer can come with a receipt, signed in her browser, that anyone can check."
+      }
+    ]
+  },
+  {
+    "id": "n14-intercept",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.3,
+        "text": "When Mona pastes her details into an AI chat, the extension spots them,"
+      },
+      {
+        "key": "b",
+        "at": 4.6,
+        "text": "holds the send once,"
+      },
+      {
+        "key": "c",
+        "at": 7.6,
+        "text": "and swaps them for tags."
+      }
+    ]
+  },
+  {
+    "id": "n15-badge",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.4,
+        "text": "Envoy reads her staff badge photo on the device."
+      },
+      {
+        "key": "b",
+        "at": 3.4,
+        "text": "Her face, name, staff number and QR code are boxed before she presses anything,"
+      },
+      {
+        "key": "c",
+        "at": 8.3,
+        "text": "and its location data is stripped."
+      }
+    ]
+  },
+  {
+    "id": "n16-android",
+    "direction": {
+      "full": false
+    },
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.4,
+        "text": "On her phone, the same three steps."
+      },
+      {
+        "key": "b",
+        "at": 3.4,
+        "text": "Every private detail becomes a tag, right on the phone."
+      },
+      {
+        "key": "c",
+        "at": 10.6,
+        "text": "She approves, and the real names come back on the phone."
+      }
+    ]
+  },
+  {
+    "id": "n13-firebase",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.4,
+        "text": "Under the hood: Firebase, on purpose."
+      },
+      {
+        "key": "b",
+        "at": 3.2,
+        "text": "AI Logic runs each private step only on the device, and checks that it did."
+      },
+      {
+        "key": "c",
+        "at": 7.9,
+        "text": "App Check guards every cloud call, and Remote Config picks the models, and even an organisation's masking rules."
+      }
+    ]
+  },
+  {
+    "id": "n17-measured8",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "reuse": "wav8/n17-measured8.wav",
+        "text": "We measured it. On thirty six documents, every planted detail was masked, none leaked, and under a quarter of the text was sent. Two hundred eighty two disguised leaks, all blocked. And on a cloud GPU, about eleven seconds per question."
+      }
+    ]
+  },
+  {
+    "id": "n18-end",
+    "parts": [
+      {
+        "key": "a",
+        "at": 0.45,
+        "text": "Envoy. Ask the cloud. Keep your secrets. It's live now, with no sign-in."
+      }
+    ]
+  }
+]

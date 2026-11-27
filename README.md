@@ -22,7 +22,7 @@
 This is **Privacy-Conscious Delegation** (after PAPILLON, Li et al., NAACL 2025), built on **Firebase AI Logic hybrid inference**: the on-device model handles everything private, and the cloud model handles the hard reasoning, over tags.
 
 - **Try it:** [envoy-hybrid-ai.web.app](https://envoy-hybrid-ai.web.app) works in any desktop Chrome. With Chrome's on-device model you get Private mode. Without it, Envoy says so, uses Basic protection (local rules), and still never sends a raw detail it can detect.
-- **On Android and in the Chrome extension too:** [release v0.2.0](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension) has the extension (0.1.4, install unpacked) and the Android companion app.
+- **In Chrome and on Android too:** the extension is on the [Chrome Web Store](https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd); [release v0.2.0](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension) has the newest extension build (0.1.4, install unpacked: paste checks on AI chat sites, faces in photos) and the Android companion app.
 - **Built for:** Firebase #BuildHybridAI 2026. Open source under Apache-2.0.
 
 | Measured                                                                | Result                                                     |

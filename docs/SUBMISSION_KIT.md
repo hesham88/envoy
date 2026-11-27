@@ -37,7 +37,8 @@ The Chrome extension flags a paste with private details on the AI chat sites you
 
 Try it live, no sign-in: https://envoy-hybrid-ai.web.app
 Watch a real Private-mode run (recorded on Gemma 4, no setup): https://envoy-hybrid-ai.web.app/app?recorded=1
-Extension and Android app: https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension
+Chrome extension: https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd
+Newest extension build and the Android app: https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension
 Code (Apache-2.0): https://github.com/hesham88/envoy
 
 Chapters
@@ -297,7 +298,7 @@ _Page 2: About the project (Markdown)_
 ```text
 ![Envoy: ask the cloud, keep your secrets](https://raw.githubusercontent.com/hesham88/envoy/main/docs/img/brand/section-promise.png)
 
-**Try it, no sign-in:** [envoy-hybrid-ai.web.app](https://envoy-hybrid-ai.web.app) · [recorded Private-mode run](https://envoy-hybrid-ai.web.app/app?recorded=1) · [code](https://github.com/hesham88/envoy) · [extension 0.1.4 and Android app](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension)
+**Try it, no sign-in:** [envoy-hybrid-ai.web.app](https://envoy-hybrid-ai.web.app) · [recorded Private-mode run](https://envoy-hybrid-ai.web.app/app?recorded=1) · [code](https://github.com/hesham88/envoy) · [Chrome Web Store](https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd) · [newest extension and Android app](https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension)
 
 ## At a glance
 
@@ -431,7 +432,13 @@ https://github.com/hesham88/envoy
 https://envoy-hybrid-ai.web.app
 ```
 
-**"Try it out" link 4** (the extension 0.1.4 and the Android app)
+**"Try it out" link 4** (the Chrome Web Store)
+
+```text
+https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd
+```
+
+**"Try it out" link 5** (the newest extension build and the Android app)
 
 ```text
 https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension
@@ -482,7 +489,7 @@ Before you start (Chrome setup): any desktop Chrome runs this test. Without Chro
 2. Watch the flight recorder: each step says where it ran (this device or the cloud), which model and how long.
 3. Read "What the cloud will see": names, IDs, the IBAN and the rent are tags. Approve to get the answer, with your real numbers put back on your device. Add ?inspect=1 to the address to see the network ledger.
 4. No on-device model on your computer? Open https://envoy-hybrid-ai.web.app/app?recorded=1 to watch a real, recorded Private-mode run on Gemma 4, labelled as a recording, with the real step times.
-5. The Chrome extension and the Android app (optional): https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension. Load the extension unpacked from chrome://extensions, turn it on for a site, paste a message with an email address into its text box, and press Enter: Envoy holds the send once and shows what it found.
+5. The Chrome extension (optional): install it from the Chrome Web Store, https://chrome.google.com/webstore/detail/ekmjefnebmjbeahkadaheapbgpgkabkd, or get the newest build (0.1.4) and the Android app from https://github.com/hesham88/envoy/releases/tag/v0.2.0-android-extension. With the newest build, load the extension unpacked from chrome://extensions, turn it on for a site, paste a message with an email address into its text box, and press Enter: Envoy holds the send once and shows what it found.
 ```
 
 **Open-source license URL**
