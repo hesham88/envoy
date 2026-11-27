@@ -13,7 +13,7 @@ import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CHAPTERS, COLOR, H, LABEL, LAYOUTS, SCENES, W, WAIT_TEXT } from './layout.mjs';
+import { CHAPTERS, COLOR, H, LABEL, LAYOUTS, SCENES, W } from './layout.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, '../..');
@@ -52,7 +52,7 @@ p{margin:0;font:500 23px/1.45 Plex,sans-serif;color:#b9b5d6;text-wrap:pretty}
 .bottom p{font-size:21px;margin-top:6px}
 .wait{position:absolute;padding:14px 18px;border-radius:16px;border:1.5px solid #ffb547;background:rgba(11,10,31,.86);
   box-shadow:0 0 26px -10px #ffb547;font:500 19px/1.4 Plex,sans-serif;color:#ece9ff}
-.wait b{display:block;margin-bottom:4px;font:400 26px/1.1 Fraunces,serif;font-weight:400;color:#ffb547}
+.wait b{display:block;margin-bottom:0;font:400 26px/1.1 Fraunces,serif;font-weight:400;color:#ffb547}
 `;
 const page = (body) =>
   `<!doctype html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${body}</body></html>`;
@@ -157,18 +157,16 @@ for (const [id, s] of captioned) {
 }
 console.log('captions');
 
-// 4. Wait-cut notes with the take's real times (placeholders until the take exists).
+// 4. Wait-cut notes: the label only (the take's real times stay in private-waits.json).
 const waitsFile = join(RAW, 'private-waits.json');
 const waits = existsSync(waitsFile) ? JSON.parse(readFileSync(waitsFile, 'utf8')) : null;
 for (const [id, s] of Object.entries(SCENES)) {
   if (!s.wait) continue;
   const L = LAYOUTS[s.layout];
-  const secs = waits?.[s.wait];
-  const text = secs ? WAIT_TEXT[s.wait](secs) : 'Wait cut: (times from the take)';
   const { left, width } = column(L);
   await shot(
     `wait-${id}`,
-    `<div class="wait" style="left:${left}px;width:${width - 36}px;bottom:${H - (L.y + L.h)}px"><b>Wait cut</b>${esc(text.replace(/^Wait cut: /, ''))}</div>`,
+    `<div class="wait" style="left:${left}px;width:${width - 36}px;bottom:${H - (L.y + L.h)}px"><b>Wait cut</b></div>`, // the label only (owner, 27 Nov): no durations on screen
   );
 }
 console.log('waits', waits ? JSON.stringify(waits) : '(placeholders)');
